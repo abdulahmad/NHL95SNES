@@ -1,14 +1,15 @@
-; Segment bankC1_0000: data the records of DATA8_C08000 point into (the code that reads them is not
-; traced yet): 39 palettes, a run of words, then the first blocks the records point at.
+; Segment bankC1_0000: the start of the sprite objects' data (docs/sprite_objects.md): their palettes,
+; a run of words the records point at, then the tiles of the first frames.
 org $C10000
-DATA8_C10000:						; not traced: 39 palettes of 16 colours (colour 0 black)
+SpritePalettes:						; 39 palettes of 16 colours; a sprite record gives its palette number
 	incbin "../Extracted/segments/bankC1_0000.bin":0..$4E0
-DATA8_C104E0:						; not traced: a run of the word $04E2; records point at words in it
+DATA8_C104E0:						; the word $04E2 again and again; record field +4 points into it (the
+									; code loads it and drops it)
 	incbin "../Extracted/segments/bankC1_0000.bin":$4E0..$533
-DATA8_C10533:						; not traced: a block a DATA8_C08000 record points at
+LogoANHTiles:						; the ANH logo: 4 8x8 + 8 16x16 sprites, packed
 	incbin "../Extracted/segments/bankC1_0000.bin":$533..$94E
-DATA8_C1094E:						; not traced: the next block a record points at
+LogoBOSTiles:						; the BOS logo: 4 8x8 + 8 16x16 sprites, packed
 	incbin "../Extracted/segments/bankC1_0000.bin":$94E..$CFD
-DATA8_C10CFD:						; not traced: the next block a record points at
+LogoBUFTiles:						; the BUF logo: 4 8x8 + 8 16x16 sprites, packed
 	incbin "../Extracted/segments/bankC1_0000.bin":$CFD..$1000
-	incbin "../Extracted/segments/bankC1_1000.bin":0..$B8
+	incbin "../Extracted/segments/bankC1_1000.bin":$0..$B8

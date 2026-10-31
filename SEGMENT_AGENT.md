@@ -121,6 +121,8 @@ bankC1_1000 (org $C110B8) afterwards. <- CURRENT
   tools/disasm65816.py: mvn / mvp operands now in asar's order.
 - 2026-10-31: bankC5_9000 matched (game code, CODE_ names). bankC5_8000 and bankC5_9000 now refer to each other's labels
   (jump table entries, jsr targets), with equates in their stubs. End moved to $C59F78, bankC5_A000 org to $C59F79.
+- 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
+  in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 
 ## ROM map
 
@@ -144,8 +146,8 @@ The first row that is still incbin is the current segment.
 | bankC0_D000 | matched 4716 bytes | $C0D359 | $C0E5C4 | Sample13, Sample32, Sample18 (sound samples, incbin); org moved to $C0D359, end moved +$5C5 (the last sample ends at $C0E5C4) |
 | bankC0_E000 | matched 3267 bytes | $C0E5C5 | $C0F287 | Sample16, Sample17, Sample14 (sound samples, incbin); org moved to $C0E5C5, end moved +$288 (the last sample ends at $C0F287) |
 | bankC0_F000 | matched 3448 bytes | $C0F288 | $C0FFFF | Sample15, Reset, NullInterrupt, NMI, BRKHandler (the vector entry points), $CD fill, ExtHeader, CartHeader, the vectors as label expressions; org moved to $C0F288 |
-| bankC1_0000 | matched 4280 bytes | $C10000 | $C110B7 | data DATA8_C08000's records point into, not traced: DATA8_C10000 (39 palettes), DATA8_C104E0, blocks DATA8_C10533 / C1094E / C10CFD (incbin); end moved +$B8 (the block ends at $C110B7) |
-| bankC1_1000 | incbin <- CURRENT | $C110B8 | $C11FFF | org moved to $C110B8: blocks the records point at |
+| bankC1_0000 | matched 4280 bytes | $C10000 | $C110B7 | SpritePalettes, DATA8_C104E0, sprite frame tiles LogoANHTiles, LogoBOSTiles, LogoBUFTiles (incbin, named by sprite and frame); end moved +$B8 |
+| bankC1_1000 | incbin | $C110B8 | $C11FFF | org moved to $C110B8 |
 | bankC1_2000 | incbin | $C12000 | $C12FFF | |
 | bankC1_3000 | incbin | $C13000 | $C13FFF | |
 | bankC1_4000 | incbin | $C14000 | $C14FFF | |
