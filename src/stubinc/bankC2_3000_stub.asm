@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+TitleGoaliePalette = $C271CF
 
 incsrc "../bankC2_3000.asm"
