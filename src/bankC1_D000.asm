@@ -12,7 +12,7 @@ PadButtonsMap:						; a pad's four buttons (Y, B, X, A) with tape-deck symbols; 
 PadButtonsTiles:					; its tiles (53)
 	dw PadButtonsPalette-PadButtonsTiles-2	; the chunk's length
 	dw 53							; the tile count (not read by the loaders)
-	db $80,$04,$04,$00				; flags (bit 7 packed), two bytes that must match, a zero
+	db $80,$04,$04,$00				; flags (bit 7 packed), the bits per pixel twice (they must match), a zero
 	dw $06A0						; the unpacked size
 	incbin "../Extracted/segments/bankC1_D000.bin":$825..$C54
 PadButtonsPalette:					; its colours (16)
@@ -34,7 +34,7 @@ PlayoffBracketMap:					; the playoff bracket with the Stanley Cup, 100 x 28 tile
 PlayoffBracketTiles:				; its tiles (106)
 	dw PlayoffBracketPalette-PlayoffBracketTiles-2	; the chunk's length
 	dw 106							; the tile count (not read by the loaders)
-	db $80,$04,$04,$00				; flags (bit 7 packed), two bytes that must match, a zero
+	db $80,$04,$04,$00				; flags (bit 7 packed), the bits per pixel twice (they must match), a zero
 	dw $0D40						; the unpacked size
 	incbin "../Extracted/segments/bankC1_E000.bin":$65..$98B
 PlayoffBracketPalette:				; its colours (16)

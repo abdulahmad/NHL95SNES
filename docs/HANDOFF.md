@@ -33,7 +33,7 @@
   end and checks the size; keep the stream as a ROM cut after `dw size, format`.
 - Map sets (MapSetToVRAM to VRAM and CGRAM; $C5881C / $C58812 to a WRAM buffer) are three chunks, each a length word
   (the bytes after it), so the next chunk is at chunk + length + 2: the map (width, height, flags with bit 7 packed, then an
-  LZSS count word and stream), the tiles (tile count word, flags $80, two bytes 4 and 4, a zero, then the LZSS count word and
+  LZSS count word and stream), the tiles (tile count word, flags $80, the bits per pixel twice, a zero, then the LZSS count word and
   stream), the colours (palette count byte, colours per palette word, colour count word, the colours). In bank $C1 from
   $C1BA31: the pause screen (Info / Stats / Options tabs, periods, penalty boxes), the faceoff boxes (4 frames of 12 x 10, as
   94S FaceOffMap), a pad's four buttons with tape-deck symbols ($C373C7, not traced), the playoff bracket with the Stanley
