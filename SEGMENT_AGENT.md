@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_F000 (org $C5F071), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC5_0000 (org $C50000), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -139,6 +139,10 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   UploadSpriteFrame, AnimateSprites, CreateSpriteSharePal); calls to them in the other bank $C5 segments use the names. Twelve
   small routines that nothing traced reaches (six store a setting in SRAM, each after a 00 00) are decoded as code marked "no
   caller found". End moved to $C5F070, bankC5_F000 org to $C5F071.
+- 2026-10-31: bankC5_F000 matched: UnpackStream0 and BuildSpriteOAM (docs/sprite_objects.md), then game code and a zero fill to
+  the end of the bank. UnpackStream0 jumps to its own loop through the bank $85 mirror (jml label-$400000) so that jmp DMAP2
+  runs the mvn it builds in the DMA registers, which jumps back to the loop; those operands are labels. The upper half of bank
+  $C5 ($C5800C-$C5FFFF) is all source. Next: the lower half, bankC5_0000 (org $C50000).
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -290,7 +294,7 @@ The first row that is still incbin is the current segment.
 | bankC4_D000 | incbin | $C4D000 | $C4DFFF | |
 | bankC4_E000 | incbin | $C4E000 | $C4EFFF | |
 | bankC4_F000 | incbin | $C4F000 | $C4FFFF | |
-| bankC5_0000 | incbin | $C50000 | $C50FFF | |
+| bankC5_0000 | incbin <- CURRENT | $C50000 | $C50FFF | |
 | bankC5_1000 | incbin | $C51000 | $C51FFF | |
 | bankC5_2000 | incbin | $C52000 | $C52FFF | |
 | bankC5_3000 | incbin | $C53000 | $C53FFF | |
@@ -305,7 +309,7 @@ The first row that is still incbin is the current segment.
 | bankC5_C000 | matched 4141 bytes | $C5BFE0 | $C5D00C | game code with CODE_ names and their callers, the sort compare table DATA8_C5C0AE, tables read with long addresses (DATA8_ with their readers), three callbacks; out of ROM order, org moved to $C5BFE0, end moved +$D |
 | bankC5_D000 | matched 3922 bytes | $C5D00D | $C5DF5E | game code with CODE_ names and their callers, three return points of indirect calls (pea label-1, then jmp through a pointer); out of ROM order, org moved to $C5D00D, end moved -$A1 |
 | bankC5_E000 | matched 4370 bytes | $C5DF5F | $C5F070 | game code, then the sprite object routines CreateSprite, UploadSpriteFrame, AnimateSprites (with the script command table DATA8_C5EABA), CreateSpriteSharePal; 12 small routines with no caller found are decoded and say so; out of ROM order, org moved to $C5DF5F, end moved +$71 |
-| bankC5_F000 | incbin <- CURRENT | $C5F071 | $C5FFFF | org moved to $C5F071 |
+| bankC5_F000 | matched 3983 bytes | $C5F071 | $C5FFFF | UnpackStream0 (its loop runs through the bank $85 mirror and code built in the DMA registers), BuildSpriteOAM, game code with CODE_ names, the zero fill (padbyte / pad); out of ROM order, org moved to $C5F071 |
 | bankC6_0000 | incbin | $C60000 | $C60FFF | |
 | bankC6_1000 | incbin | $C61000 | $C61FFF | |
 | bankC6_2000 | incbin | $C62000 | $C62FFF | |

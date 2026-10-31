@@ -1690,8 +1690,8 @@ CODE_C58D4A:						; from CODE_C58D4A
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.b $99
 	bne CODE_C58D47
 	lda.w $058F

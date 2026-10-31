@@ -168,8 +168,8 @@ CODE_C5C117:						; from CODE_C5C117, CODE_C5C162, CODE_C5C179, CODE_C5C174, ...
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C5C117
 	lda.w $058D
@@ -927,8 +927,8 @@ CODE_C5C730:						; from CODE_C5C730, CODE_C5C777, CODE_C5C78A, CODE_C5C785, ...
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C5C730
 	lda.w $058D
@@ -1311,8 +1311,8 @@ CODE_C5CA9A:						; from CODE_C5CA7A
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C5CA7A
 	lda.w $058D
@@ -1607,8 +1607,8 @@ CODE_C5CD47:						; from CODE_C5CD47, CODE_C5CD8E
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C5CD47
 	lda.w $058D

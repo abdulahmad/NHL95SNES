@@ -427,8 +427,8 @@ CODE_C593BF:						; from CODE_C593BF
 	sta.b $2A
 	jsr.w CODE_C5945E
 	jsr.w CODE_C59483
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.l $7E23BA
 	bne CODE_C593F2
 	lda.b $7D
@@ -708,8 +708,8 @@ CODE_C59651:						; from CODE_C59651, CODE_C59595, CODE_C5963A
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.b $99
 	asl a
 	tax

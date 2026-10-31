@@ -611,3 +611,5 @@ $C5E665,CreateSprite,,trace,"create a sprite object from record A (docs/sprite_o
 $C5E8A5,UploadSpriteFrame,,trace,"queue the current frame's tiles of object X for VRAM, unpacking them (UnpackStream0) if the frame header says packed",src/bankC5_E000.asm
 $C5E9C7,AnimateSprites,,trace,"the animation tick of all sprite objects: count down, then step the script (bit 7 bytes are commands, dispatched through DATA8_C5EABA)",src/bankC5_E000.asm
 $C5EEF3,CreateSpriteSharePal,,trace,"CreateSprite, but the new object shares the palette slot of the object in Y",src/bankC5_E000.asm
+$C5F071,UnpackStream0,,trace,"unpack a format 0 stream without the 4-byte header into bank $7E (docs/sprite_objects.md): D = the DMA registers; literal runs are copied by an mvn built in the channel 2 registers (run from the bank $85 mirror, jmp DMAP2), copies by mvn $7E,$7E",src/bankC5_F000.asm
+$C5F0D1,BuildSpriteOAM,,trace,"build the OAM entries of all sprite objects: walks the active list, the frame headers and SpritePieces, with an h-flip variant (docs/sprite_objects.md)",src/bankC5_F000.asm

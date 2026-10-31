@@ -1246,7 +1246,7 @@ UploadSpriteFrame:					; queue object X's current frame tiles for VRAM (unpacked
 	sty.b $32
 	lda.b $05,x
 	phb
-	jsr.w $F071
+	jsr.w UnpackStream0
 	plb
 	pei ($08)
 	sty.b $08
@@ -1294,7 +1294,7 @@ CODE_C5E939:						; from CODE_C5E918
 	ldy.b $2E
 	txa
 	phb
-	jsr.w $F071
+	jsr.w UnpackStream0
 	plb
 	lda.w #$007E
 	sta.b $2E
@@ -1859,7 +1859,7 @@ CODE_C5ED06:						; from CODE_C5EE24
 	sty.b $32
 	lda.b $05,x
 	phb
-	jsr.w $F071
+	jsr.w UnpackStream0
 	plb
 	pei ($08)
 	sty.b $08
@@ -1907,7 +1907,7 @@ CODE_C5ED92:						; from CODE_C5ED71
 	ldy.b $2E
 	txa
 	phb
-	jsr.w $F071
+	jsr.w UnpackStream0
 	plb
 	lda.w #$007E
 	sta.b $2E

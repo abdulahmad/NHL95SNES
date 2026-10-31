@@ -184,8 +184,8 @@ CODE_C5D160:						; from CODE_C5D160, CODE_C5D1B1, CODE_C5D1BF
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C5D160
 	lda.w $058D
@@ -454,8 +454,8 @@ CODE_C5D372:						; from CODE_C5D372, CODE_C5D42E
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C5D372
 	lda.w $058D

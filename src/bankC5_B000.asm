@@ -1432,8 +1432,8 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C5F0D1
-	jsl.l $C5F3DB
+	jsl.l BuildSpriteOAM
+	jsl.l CODE_C5F3DB
 	jsl.l $C4CEDB
 	rts
 CODE_C5BBDD:						; a callback: CODE_C5A71A, CODE_C5B0EA pass it to a bankC5_5000 routine
