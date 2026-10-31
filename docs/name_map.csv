@@ -293,3 +293,10 @@ $C145FA,LogoSTLTiles,,render,"tiles of the STL logo (frame header at $C082C3)",s
 $C14893,LogoTBTiles,,render,"tiles of the TB logo (frame header at $C082E6)",src/bankC1_4000.asm
 $C14BEB,LogoTORTiles,,render,"tiles of the TOR logo (frame header at $C08309)",src/bankC1_4000.asm
 $C14E8B,LogoVANTiles,,render,"tiles of the VAN logo (frame header at $C0832C)",src/bankC1_4000.asm
+$C15241,LogoWSHTiles,,render,"tiles of the WSH logo (frame header at $C0834F)",src/bankC1_5000.asm
+$C1543F,LogoWPGTiles,,render,"tiles of the WPG logo (frame header at $C08372)",src/bankC1_5000.asm
+$C15753,LogoASETiles,,render,"tiles of the Eastern all-star logo (frame header at $C08395)",src/bankC1_5000.asm
+$C15B10,LogoASWTiles,,render,"tiles of the Western all-star logo (frame header at $C083B8)",src/bankC1_5000.asm
+$C15EF4,Sprite28Tiles00,,render,"tiles of sprite 28 (an arrow, then a spinning disc) frame 0 (frame header at $C083DB)",src/bankC1_5000.asm
+$C15F6E,Sprite28Tiles01,,render,"tiles of sprite 28 (an arrow, then a spinning disc) frame 1 (frame header at $C083E3)",src/bankC1_5000.asm
+$C15FE5,Sprite28Tiles02,,render,"tiles of sprite 28 (an arrow, then a spinning disc) frame 2 (frame header at $C083EB)",src/bankC1_5000.asm

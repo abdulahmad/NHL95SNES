@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC1_5000 (org $C15241) afterwards. <- CURRENT
+bankC1_6000 (org $C16064) afterwards. <- CURRENT
 
 ## Sources
 
@@ -131,6 +131,8 @@ bankC1_5000 (org $C15241) afterwards. <- CURRENT
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C14077.
 - 2026-10-31: bankC1_4000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C15241.
+- 2026-10-31: bankC1_5000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
+  in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C16064.
 
 ## ROM map
 
@@ -159,8 +161,8 @@ The first row that is still incbin is the current segment.
 | bankC1_2000 | matched 4022 bytes | $C1211C | $C130D1 | sprite frame tiles LogoFLATiles, LogoHFDTiles, LogoLATiles, LogoMTLTiles ... LogoNJTiles (incbin, named by sprite and frame); org moved to $C1211C, end moved +$D2 |
 | bankC1_3000 | matched 4005 bytes | $C130D2 | $C14076 | sprite frame tiles LogoNYITiles, LogoNYRTiles, LogoOTWTiles, LogoPHITiles ... LogoPITTiles (incbin, named by sprite and frame); org moved to $C130D2, end moved +$77 |
 | bankC1_4000 | matched 4554 bytes | $C14077 | $C15240 | sprite frame tiles LogoQUETiles, LogoSJTiles, LogoSTLTiles, LogoTBTiles ... LogoVANTiles (incbin, named by sprite and frame); org moved to $C14077, end moved +$241 |
-| bankC1_5000 | incbin | $C15241 | $C15FFF | org moved to $C15241 |
-| bankC1_6000 | incbin | $C16000 | $C16FFF | |
+| bankC1_5000 | matched 3619 bytes | $C15241 | $C16063 | sprite frame tiles LogoWSHTiles, LogoWPGTiles, LogoASETiles, LogoASWTiles ... Sprite28Tiles02 (incbin, named by sprite and frame); org moved to $C15241, end moved +$64 |
+| bankC1_6000 | incbin | $C16064 | $C16FFF | org moved to $C16064 |
 | bankC1_7000 | incbin | $C17000 | $C17FFF | |
 | bankC1_8000 | incbin | $C18000 | $C18FFF | |
 | bankC1_9000 | incbin | $C19000 | $C19FFF | |
