@@ -233,7 +233,7 @@ CODE_C590DA:						; called from other segments
 	ldx.w #$00C0
 	jsl.l SetNMIHook
 	jsl.l $C5E50E
-	jsr.w $C0BE
+	jsr.w CODE_C5C0BE
 	lda.w #$0008
 	sta.b $18
 	lda.w #$008C

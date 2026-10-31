@@ -602,3 +602,5 @@ $C5B670,DATA8_C5B670,,new,"not traced: a table read by CODE_C5B631 (in bankC5_B0
 $C5BB6C,DATA8_C5BB6C,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
 $C5BB9C,DATA8_C5BB9C,,new,"not traced: a table read by CODE_C5BB91 (in bankC5_B000)",src/bankC5_B000.asm
 $C5BEDD,DATA8_C5BEDD,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
+$C5C0AE,DATA8_C5C0AE,,new,"the compare routines of the sort in CODE_C5C029 (one per sort key) (in bankC5_C000)",src/bankC5_C000.asm
+$C5C655,DATA8_C5C655,,new,"not traced: data between routines (in bankC5_C000)",src/bankC5_C000.asm

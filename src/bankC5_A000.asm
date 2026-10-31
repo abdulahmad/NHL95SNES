@@ -71,7 +71,7 @@ CODE_C59FDA:						; from CODE_C59F79
 	jsr.w CODE_C5A083
 	tsb.w $04F9
 CODE_C5A040:						; from CODE_C59F79
-	jsr.w $C6B7
+	jsr.w CODE_C5C6B7
 	jsr.w CODE_C5B67A
 	jsr.w $5EC7
 	ldy.w #$0015
@@ -1797,7 +1797,7 @@ CODE_C5AF71:						; from CODE_C5AF11
 	jsl.l $C5E50E
 	lda.w #$FFFA
 	sta.w $04C2
-	jsr.w $C0BE
+	jsr.w CODE_C5C0BE
 	sep #$20
 	lda.b #$17
 	sta.l TM

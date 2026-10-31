@@ -194,8 +194,8 @@ CODE_C5B17A:						; called from other segments
 	jsl.l $C5E37E
 	stz.b $83
 CODE_C5B1AF:						; called from other segments
-	jsr.w $C029
-	jsr.w $BFE0
+	jsr.w CODE_C5C029
+	jsr.w CODE_C5BFE0
 	stz.b $69
 	lda.w #CODE_C5BE72
 	ldx.w #$000D
