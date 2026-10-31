@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_7000 (org $C07ECB). <- CURRENT
+bankC0_8000. <- CURRENT
 
 ## Sources
 
@@ -93,6 +93,8 @@ bankC0_7000 (org $C07ECB). <- CURRENT
   org to $C06E6D.
 - 2026-10-31: stub headers rewrapped (comments only) so `tools/check_comments.py` passes on all of src. bankC0_6000 matched: the
   Vancouver photo set. End moved to $C07ECA, bankC0_7000 org to $C07ECB.
+- 2026-10-31: bankC0_7000 matched: TeamSongs and DefaultSongs (94S names: six songs per home team, $FF picks a default at
+  random), a sound list, then the $CD fill to $C08000. The lower half of bank $C0 is all source; bankC0_8000 is code.
 
 ## ROM map
 
@@ -107,8 +109,8 @@ The first row that is still incbin is the current segment.
 | bankC0_4000 | matched 5994 bytes | $C04642 | $C05DAB | DigitFontTiles, LinePieceTiles (packed), BG3ScrollHDMA1/2, MainScreenHDMA, BlueColours(Hook), DarkBlueColours(Hook) (code), BackdropColour, BitMaskTable (94S), PhotoPalettesTB, PlayerPhotosTB; untraced tables keep DATA8_ names; org moved to $C04642, end moved +$DAC (the Tampa Bay photos end at $C05DAB) |
 | bankC0_5000 | matched 4289 bytes | $C05DAC | $C06E6C | PhotoPalettesTOR, PlayerPhotosTOR (Toronto's photo set); org moved to $C05DAC, end moved +$E6D (the set ends at $C06E6C) |
 | bankC0_6000 | matched 4190 bytes | $C06E6D | $C07ECA | PhotoPalettesVAN, PlayerPhotosVAN (Vancouver's photo set); org moved to $C06E6D, end moved +$ECB (the set ends at $C07ECA) |
-| bankC0_7000 | incbin <- CURRENT | $C07ECB | $C07FFF | org moved to $C07ECB: song tables read by the sound code in bank $CF, a sound list, then $CD fill to the end of the bank's lower half |
-| bankC0_8000 | incbin | $C08000 | $C08FFF | |
+| bankC0_7000 | matched 309 bytes | $C07ECB | $C07FFF | TeamSongs, DefaultSongs (94S names), DATA8_C07F7B (a sound list), $CD fill (padbyte / pad) to the end of the lower half; org moved to $C07ECB |
+| bankC0_8000 | incbin <- CURRENT | $C08000 | $C08FFF | |
 | bankC0_9000 | incbin | $C09000 | $C09FFF | |
 | bankC0_A000 | incbin | $C0A000 | $C0AFFF | |
 | bankC0_B000 | incbin | $C0B000 | $C0BFFF | |

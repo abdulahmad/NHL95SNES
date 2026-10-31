@@ -105,3 +105,6 @@ $C05DAC,PhotoPalettesTOR,,render,"Toronto: 16 colours for each of its 6 player p
 $C05E6C,PlayerPhotosTOR,,render,"Toronto: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each",src/bankC0_5000.asm
 $C06E6D,PhotoPalettesVAN,,render,"Vancouver: 16 colours for each of its 6 player photos; entry 23 of the per-team photo table at $C35EAB (black jerseys with gold when rendered)",src/bankC0_6000.asm
 $C06F2D,PlayerPhotosVAN,,render,"Vancouver: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each",src/bankC0_6000.asm
+$C07ECB,TeamSongs,,94S,"94S TeamSongs by purpose: six songs per team, $FF none (94S: long pointers, $FFFFFFFF none); $CF0427 copies the six of team $17C9 into a list at $7E:50D4 and has $CF0162 load it; 94S slot meanings not checked for 95",src/bankC0_7000.asm
+$C07F73,DefaultSongs,,94S,"94S DefaultSongs by purpose: $CF044F replaces each $FF of TeamSongs with one of these 7, picked by the random routine $C58CCD (A = 7); an $FF follows them",src/bankC0_7000.asm
+$C07F7B,DATA8_C07F7B,,new,"a sound number list ($FF ends) that $C4B0AA passes to $CF0134; the screen is not traced",src/bankC0_7000.asm
