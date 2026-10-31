@@ -108,7 +108,7 @@ $C06F2D,PlayerPhotosVAN,,render,"Vancouver: 6 player photos, packed format 2 ($1
 $C07ECB,TeamSongs,,94S,"94S TeamSongs by purpose: six songs per team, $FF none (94S: long pointers, $FFFFFFFF none); $CF0427 copies the six of team $17C9 into a list at $7E:50D4 and has $CF0162 load it; 94S slot meanings not checked for 95",src/bankC0_7000.asm
 $C07F73,DefaultSongs,,94S,"94S DefaultSongs by purpose: $CF044F replaces each $FF of TeamSongs with one of these 7, picked by the random routine $C58CCD (A = 7); an $FF follows them",src/bankC0_7000.asm
 $C07F7B,DATA8_C07F7B,,new,"a sound number list ($FF ends) that $C4B0AA passes to $CF0134; the screen is not traced",src/bankC0_7000.asm
-$C08000,DATA8_C08000,,new,"not traced: 35-byte records with $80xx pointers into the block and long pointers into bank $C1, then a list of record addresses (from $C0879C)",src/bankC0_8000.asm
+$C08000,DATA8_C08000,,new,"the sprite objects (docs/sprite_objects.md): header with the record list and palette pointer, 27-byte records, frame headers into bank $C1; read by $C5E665 and its helpers",src/bankC0_8000.asm
 $C087F2,TiledBackMap,,render,"map set for the map unpacker $C58527 (length word, width $20, height $1C, flags $8C: LZSS; $0700 bytes): a 16 x 3 block of tiles repeated; $C4D68C, $C4D7C7, $C4E1EE, $C55980, $C5916A send it to VRAM $5800",src/bankC0_8000.asm
 $C08939,DATA8_C08939,,new,"not traced: a set with the same length word ($01D5) but width byte $30, which $C58527 would reject; then 7 bytes",src/bankC0_8000.asm
 $C08B17,DATA8_C08B17,,new,"not traced: 16 colours, magenta then blues",src/bankC0_8000.asm

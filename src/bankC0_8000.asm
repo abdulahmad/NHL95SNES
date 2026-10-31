@@ -2,8 +2,8 @@
 ; the pad waits, RandomWord, the screen on / off routines and the 8 and 16 x 8 bit multiplies (as in 94S's
 ; engine bank). The data before the engine is not traced to a use, except TiledBackMap.
 org $C08000
-DATA8_C08000:						; not traced: 35 byte records that point into each other and into bank
-									; $C1, then a list of the record addresses
+DATA8_C08000:						; the sprite objects: header, 27 byte records, frame headers into bank
+									; $C1 (docs/sprite_objects.md); not split up yet
 	incbin "../Extracted/segments/bankC0_8000.bin":0..$7F2
 TiledBackMap:						; tilemap of a 16 x 3 block of tiles repeated over the screen, LZSS
 									; packed; screen set-ups have the map unpacker send it to VRAM

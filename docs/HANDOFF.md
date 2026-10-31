@@ -81,7 +81,7 @@
   entries), carry M/X through calls, size jump tables against the decoded code, and skip the 6 inline parameter bytes after
   calls to SetBGMapRegs and SetupHDMA. Several routines end in brk traps (the map unpacker's unhandled header forms).
 - asar: write a branch to a label, never to a number (bcc $C090D2 assembled the low byte as the offset); pei is `pei ($nn)`.
-- bankC0_8000: DATA8_C08000 (35-byte records), DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
+- bankC0_8000: DATA8_C08000 (the sprite objects, see docs/sprite_objects.md), DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
   its pattern (94S MenuBackMap may be the same job: not checked). TransfersReady, DMAEnShadow, QueueBusy are named from the
   NMI code only. Mul8S's A-positive / X-negative path multiplies A by -A (tya where 94S has txa): that is in the ROM.
 - bankC0_4000: DATA8_C0491A, DATA8_C04AA9, DATA8_C04CAB, DATA8_C04CB7, DATA8_C04CBF, DATA8_C04CC3 are not traced to a purpose.
