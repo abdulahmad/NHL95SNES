@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+TeamNameBarsMap = $C1E9B2
 
 incsrc "../bankC1_D000.asm"

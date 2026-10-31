@@ -556,4 +556,10 @@ $C1CF9B,PauseScreenPalette,,render,"map set chunk 3: 2 palettes of 16 colours",s
 $C1CFE2,FaceOffMap,,render+94S,"map set chunk 1 (32 x 40 word map, LZSS, $0A00 bytes): the faceoff box, 4 frames of 12 x 10 tiles of the referee dropping the puck (the 12 x 10 box of 94S FaceOffMap); $C43CA2 and $C5583E load the set through $C5881C",src/bankC1_C000.asm
 $C1D1BD,FaceOffTiles,,render+94S,"map set chunk 2: 78 4bpp tiles, LZSS ($09C0 bytes)",src/bankC1_C000.asm
 $C1D751,FaceOffPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC1_C000.asm
-$C1D778,PadButtonsMap,,render,"map set (map, tiles, colours): a pad's four buttons (Y, B, X, A) with tape-deck symbols; $C373C7 loads it through $C5881C; what it is shown for is not traced (Unsure); label only so far (bankC1_D000 is incbin)",src/bankC1_D000.asm
+$C1D778,PadButtonsMap,,render,"map set chunk 1 (32 x 7 word map, LZSS, $01C0 bytes): a pad's four buttons (Y, B, X, A) with tape-deck symbols; $C373C7 loads the set through $C5881C; what it is shown for is not traced (Unsure)",src/bankC1_D000.asm
+$C1D81B,PadButtonsTiles,,render,"map set chunk 2: 53 4bpp tiles, LZSS ($06A0 bytes)",src/bankC1_D000.asm
+$C1DC54,PadButtonsPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC1_D000.asm
+$C1DC7B,PlayoffBracketMap,,render+94S,"map set chunk 1 (100 x 28 word map, LZSS, $15E0 bytes): the playoff bracket with the Stanley Cup in the middle (94S PlayoffBracketMap, the bracket graphics); $C40494 unpacks the set to unpackbuf through $C58812",src/bankC1_D000.asm
+$C1E05B,PlayoffBracketTiles,,render,"map set chunk 2: 106 4bpp tiles, LZSS ($0D40 bytes): the bracket lines and the cup",src/bankC1_D000.asm
+$C1E98B,PlayoffBracketPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC1_D000.asm
+$C1E9B2,TeamNameBarsMap,,render,"map set (map, tiles, colours): the city names of the 26 teams on bars in team colours, 12 x 2 tiles each; $C404F5 unpacks it to unpackbuf through $C58812 just after the playoff bracket (probably the bracket slots, as 94S fills them with TeamBlockPalettes; not traced); label only so far (bankC1_E000 is incbin)",src/bankC1_E000.asm
