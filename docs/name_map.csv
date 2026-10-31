@@ -593,3 +593,12 @@ $C5A354,DATA8_C5A354,,new,"a word pointing at CODE_C5A359, followed by jmp CODE_
 $C5A81B,DATA8_C5A81B,,new,"jump table (3 routines) in bankC5_A000",src/bankC5_A000.asm
 $C5AC73,DATA8_C5AC73,,new,"jump table (6 routines) in bankC5_A000",src/bankC5_A000.asm
 $C5AE40,DATA8_C5AE40,,new,"8 bytes FF FE FC F8 F0 E0 C0 80 (left masks?) between routines; no reader found",src/bankC5_A000.asm
+$C5B1FE,DATA8_C5B1FE,,new,"not traced: a table read by CODE_C5B1AF (in bankC5_B000)",src/bankC5_B000.asm
+$C5B35D,DATA8_C5B35D,,new,"not traced: a table read by CODE_C5B346 (in bankC5_B000)",src/bankC5_B000.asm
+$C5B363,DATA8_C5B363,,new,"not traced: a table read by CODE_C5B346 (in bankC5_B000)",src/bankC5_B000.asm
+$C5B56C,DATA8_C5B56C,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
+$C5B66A,DATA8_C5B66A,,new,"not traced: a table read by CODE_C5B631 (in bankC5_B000)",src/bankC5_B000.asm
+$C5B670,DATA8_C5B670,,new,"not traced: a table read by CODE_C5B631 (in bankC5_B000)",src/bankC5_B000.asm
+$C5BB6C,DATA8_C5BB6C,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
+$C5BB9C,DATA8_C5BB9C,,new,"not traced: a table read by CODE_C5BB91 (in bankC5_B000)",src/bankC5_B000.asm
+$C5BEDD,DATA8_C5BEDD,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm

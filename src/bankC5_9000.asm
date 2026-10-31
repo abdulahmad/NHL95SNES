@@ -590,7 +590,7 @@ CODE_C5951B:						; from CODE_C593B8
 	jsl.l $C5E596
 	ldx.b $75
 	jsl.l $C5E596
-	jsr.w $BBC0
+	jsr.w CODE_C5BBC0
 	lda.w #$0003
 	sta.b $1E
 	inc.b $20
@@ -647,7 +647,7 @@ CODE_C59595:						; from CODE_C59588
 	sta.w $04C6
 	jsl.l $C4CEDB
 	jsr.w CODE_C5A50B
-	jsr.w $BBC0
+	jsr.w CODE_C5BBC0
 	lda.w #$0005
 	sta.w $18DE
 	lda.w #$0008
@@ -1210,7 +1210,7 @@ CODE_C59AB0:						; from CODE_C59A22, CODE_C59A90
 	asl a
 	adc.b $A1
 	adc.w #$0019
-	jsr.w $B67A
+	jsr.w CODE_C5B67A
 	jmp.w $5EC7
 CODE_C59ABF:						; from CODE_C599C4
 	lda.w #$0007
@@ -1702,7 +1702,7 @@ CODE_C59EB0:						; from CODE_C59EB0
 	asl a
 	adc.b $A1
 	adc.w #$0019
-	jsr.w $B67A
+	jsr.w CODE_C5B67A
 	jsr.w $5EC7
 	ldx.w #$04F5
 	jsl.l $C4BC1A
