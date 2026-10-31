@@ -720,7 +720,7 @@ DATA8_C5967A:						; jump table: the routine for each index
 	dw CODE_C59930,CODE_C59767,$AC07,$A816
 	dw $A5B0,$A623,$A66E,$A773
 	dw $AB16,$AB27
-CODE_C59696:						; called from other segments
+CODE_C59696:						; from DATA8_C5967A
 	lda.w $058F
 	beq CODE_C5969C
 	rts
@@ -804,9 +804,9 @@ CODE_C596DB:						; from CODE_C596D3
 	jsr.w CODE_C5909D
 	lda.w #$0011
 	jmp.w CODE_C5909D
-CODE_C59767:						; from CODE_C59768
+CODE_C59767:						; from DATA8_C5967A, CODE_C59768
 	rts
-CODE_C59768:						; called from other segments
+CODE_C59768:						; from DATA8_C5967A
 	lda.w $058F
 	beq CODE_C59778
 	cmp.w #$0014
@@ -1000,7 +1000,7 @@ DATA8_C598FA:						; not reached by the traced code (data or unused code)
 	db $51,$52,$53,$54,$55,$56,$57,$58,$59,$5A,$3D,$61,$62,$63,$64,$65
 	db $66,$67,$68,$69,$6A,$6B,$6C,$6D,$6E,$6F,$70,$71,$72,$73,$74,$75
 	db $76,$77,$78,$79,$7A,$3D
-CODE_C59930:						; called from other segments
+CODE_C59930:						; from DATA8_C5967A
 	jsr.w CODE_C59938
 	jsl.l $C4C2AA
 	rts
@@ -1574,7 +1574,7 @@ CODE_C59DA5:						; from CODE_C59DA5
 	rol a
 	and.w #$001F
 	rts
-CODE_C59DAF:						; called from other segments
+CODE_C59DAF:						; from DATA8_C5967A
 	jsr.w CODE_C59DBE
 	lda.b $26
 	lsr a
@@ -1731,7 +1731,7 @@ DATA8_C59EF2:						; jump table: the routine for each index
 	dw CODE_C59F02,CODE_C59F1D,CODE_C59F37,CODE_C59F51
 DATA8_C59EFA:						; jump table: the routine for each index
 	dw CODE_C59F10,CODE_C59F2A,CODE_C59F44,CODE_C59F51
-CODE_C59F02:						; called from other segments
+CODE_C59F02:						; from DATA8_C59EF2
 	lda.b $7F
 	dec a
 	bpl CODE_C59F0A
@@ -1741,14 +1741,14 @@ CODE_C59F0A:						; from CODE_C59F02, CODE_C59F10
 	jmp.w CODE_C5A291
 DATA8_C59F0F:						; not reached by the traced code (data or unused code)
 	db $60
-CODE_C59F10:						; called from other segments
+CODE_C59F10:						; from DATA8_C59EFA
 	lda.b $7F
 	inc a
 	cmp.w #$0006
 	bcc CODE_C59F0A
 	lda.w #$0000
 	bra CODE_C59F0A
-CODE_C59F1D:						; called from other segments
+CODE_C59F1D:						; from DATA8_C59EF2
 	lda.b $81
 	dec a
 	bpl CODE_C59F25
@@ -1756,14 +1756,14 @@ CODE_C59F1D:						; called from other segments
 CODE_C59F25:						; from CODE_C59F1D, CODE_C59F2A
 	sta.b $81
 	jmp.w CODE_C5A2B4
-CODE_C59F2A:						; called from other segments
+CODE_C59F2A:						; from DATA8_C59EFA
 	lda.b $81
 	inc a
 	cmp.w #$0010
 	bcc CODE_C59F25
 	lda.w #$0000
 	bra CODE_C59F25
-CODE_C59F37:						; called from other segments
+CODE_C59F37:						; from DATA8_C59EF2
 	lda.b $83
 	dec a
 	bpl CODE_C59F3F
@@ -1771,14 +1771,14 @@ CODE_C59F37:						; called from other segments
 CODE_C59F3F:						; from CODE_C59F37, CODE_C59F44
 	sta.b $83
 	jmp.w CODE_C5A2D3
-CODE_C59F44:						; called from other segments
+CODE_C59F44:						; from DATA8_C59EFA
 	lda.b $83
 	inc a
 	cmp.w #$0064
 	bcc CODE_C59F3F
 	lda.w #$0000
 	bra CODE_C59F3F
-CODE_C59F51:						; called from other segments
+CODE_C59F51:						; from DATA8_C59EF2, DATA8_C59EFA
 	lda.b $85
 	bne CODE_C59F5D
 	lda.w #$0001

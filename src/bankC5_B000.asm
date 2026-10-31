@@ -645,7 +645,7 @@ CODE_C5B558:						; from CODE_C5B02B
 	jmp (DATA8_C5B56C,x)
 DATA8_C5B56C:						; jump table: the routine for each index
 	dw CODE_C5B59E,CODE_C5B572,CODE_C5B588
-CODE_C5B572:						; called from other segments
+CODE_C5B572:						; from DATA8_C5B56C
 	lda.w $000A,y
 	sta.b $A1
 	lda.b $7F
@@ -657,7 +657,7 @@ CODE_C5B579:						; from CODE_C5B579
 	lda.w $0000,x
 	bne CODE_C5B579
 	bra CODE_C5B5B2
-CODE_C5B588:						; called from other segments
+CODE_C5B588:						; from DATA8_C5B56C
 	lda.w $000C,y
 	sta.b $A1
 	lda.b $7F
@@ -669,7 +669,7 @@ CODE_C5B58F:						; from CODE_C5B58F
 	lda.w $0000,x
 	bne CODE_C5B58F
 	bra CODE_C5B5B2
-CODE_C5B59E:						; called from other segments
+CODE_C5B59E:						; from DATA8_C5B56C
 	lda.w $0008,y
 	sta.b $A1
 	lda.b $7F
@@ -1391,28 +1391,28 @@ CODE_C5BB46:						; from CODE_C5B983
 DATA8_C5BB6C:						; jump table: the routine for each index
 	dw CODE_C5BB91,CODE_C5BB8E,CODE_C5BB8B,CODE_C5BB88
 	dw CODE_C5BB85,CODE_C5BB82,CODE_C5BB7F,CODE_C5BB7C
-CODE_C5BB7C:						; called from other segments
+CODE_C5BB7C:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB7F:						; called from other segments
+CODE_C5BB7F:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB82:						; called from other segments
+CODE_C5BB82:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB85:						; called from other segments
+CODE_C5BB85:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB88:						; called from other segments
+CODE_C5BB88:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB8B:						; called from other segments
+CODE_C5BB8B:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB8E:						; called from other segments
+CODE_C5BB8E:						; from DATA8_C5BB6C
 	lsr a
 	ror.b $2C
-CODE_C5BB91:						; called from other segments
+CODE_C5BB91:						; from DATA8_C5BB6C
 	lda.b $30
 	asl a
 	tax
@@ -1846,7 +1846,7 @@ CODE_C5BEC6:						; from CODE_C5BEB3
 DATA8_C5BEDD:						; jump table: the routine for each index
 	dw CODE_C5BEED,CODE_C5BF1D,CODE_C5BF26,CODE_C5BF50
 	dw CODE_C5BF7A,CODE_C5BF83,CODE_C5BF8C,CODE_C5BFB6
-CODE_C5BEED:						; called from other segments
+CODE_C5BEED:						; from DATA8_C5BEDD
 	phy
 	lda.w $0004,y
 	jsr.w CODE_C5B67A
@@ -1869,11 +1869,11 @@ CODE_C5BEED:						; called from other segments
 	jsr.w $5ECA
 	ply
 	rts
-CODE_C5BF1D:						; called from other segments
+CODE_C5BF1D:						; from DATA8_C5BEDD
 	lda.w $000A,y
 	jsr.w CODE_C5B67A
 	jmp.w $5EC7
-CODE_C5BF26:						; called from other segments
+CODE_C5BF26:						; from DATA8_C5BEDD
 	lda.w $0010,y
 	jsr.w CODE_C5B67A
 	sta.b $34
@@ -1893,7 +1893,7 @@ CODE_C5BF26:						; called from other segments
 	lda.b $34
 	and.w #$000F
 	jmp.w $5ECA
-CODE_C5BF50:						; called from other segments
+CODE_C5BF50:						; from DATA8_C5BEDD
 	lda.w $0012,y
 	jsr.w CODE_C5B67A
 	sta.b $34
@@ -1913,15 +1913,15 @@ CODE_C5BF50:						; called from other segments
 	lda.b $34
 	and.w #$000F
 	jmp.w $5ECA
-CODE_C5BF7A:						; called from other segments
+CODE_C5BF7A:						; from DATA8_C5BEDD
 	lda.w $0014,y
 	jsr.w CODE_C5B67A
 	jmp.w $5EC7
-CODE_C5BF83:						; called from other segments
+CODE_C5BF83:						; from DATA8_C5BEDD
 	lda.w $0016,y
 	jsr.w CODE_C5B67A
 	jmp.w $5EC7
-CODE_C5BF8C:						; called from other segments
+CODE_C5BF8C:						; from DATA8_C5BEDD
 	lda.w $001A,y
 	jsr.w CODE_C5B67A
 	sta.b $34
@@ -1941,7 +1941,7 @@ CODE_C5BF8C:						; called from other segments
 	lda.b $34
 	and.w #$000F
 	jmp.w $5ECA
-CODE_C5BFB6:						; called from other segments
+CODE_C5BFB6:						; from DATA8_C5BEDD
 	lda.w $0030,y
 	jsr.w CODE_C5B67A
 	sta.b $34

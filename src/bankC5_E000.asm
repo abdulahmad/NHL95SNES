@@ -868,28 +868,28 @@ CODE_C5E611:						; from CODE_C5E5DD
 CODE_C5E626:						; from CODE_C5E611
 	dec.w $1B02
 	rtl
-CODE_C5E62A:						; called from other segments
+CODE_C5E62A:						; from DATA8_C5E655
 	lda.w $1AE4
 	sta.w $1AE2
-CODE_C5E630:						; called from other segments
+CODE_C5E630:						; from DATA8_C5E655
 	lda.w $1AE6
 	sta.w $1AE4
-CODE_C5E636:						; called from other segments
+CODE_C5E636:						; from DATA8_C5E655
 	lda.w $1AE8
 	sta.w $1AE6
-CODE_C5E63C:						; called from other segments
+CODE_C5E63C:						; from DATA8_C5E655
 	lda.w $1AEA
 	sta.w $1AE8
-CODE_C5E642:						; called from other segments
+CODE_C5E642:						; from DATA8_C5E655
 	lda.w $1AEC
 	sta.w $1AEA
-CODE_C5E648:						; called from other segments
+CODE_C5E648:						; from DATA8_C5E655
 	lda.w $1AEE
 	sta.w $1AEC
-CODE_C5E64E:						; called from other segments
+CODE_C5E64E:						; from DATA8_C5E655
 	lda.w $1AF0
 	sta.w $1AEE
-CODE_C5E654:						; called from other segments
+CODE_C5E654:						; from DATA8_C5E655
 	rts
 DATA8_C5E655:						; jump table: the routine for each index
 	dw CODE_C5E62A,CODE_C5E630,CODE_C5E636,CODE_C5E63C
@@ -1523,17 +1523,17 @@ DATA8_C5EABA:						; jump table: the routine for each index
 	dw CODE_C5EC5D,CODE_C5EC68,CODE_C5EC73,CODE_C5EC08
 	dw CODE_C5EAF6,CODE_C5EAF6,CODE_C5EAF6,CODE_C5EC7E
 	dw CODE_C5EC89,CODE_C5EBD6
-CODE_C5EAF6:						; from CODE_C5EB33, CODE_C5EC31, CODE_C5EC2E and other segments
+CODE_C5EAF6:						; from DATA8_C5EABA, CODE_C5EB33, CODE_C5EC31, CODE_C5EC2E
 	tyx
 	dec.b $30,x
 	ldy.b $9F
 	clc
 	jmp.w CODE_C5E9EA
-CODE_C5EAFF:						; called from other segments
+CODE_C5EAFF:						; from DATA8_C5EABA
 	tyx
 	stz.w $0030,x
 	jmp.w CODE_C5E9F6
-CODE_C5EB06:						; called from other segments
+CODE_C5EB06:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.w $0030,y
 	dec a
@@ -1541,7 +1541,7 @@ CODE_C5EB06:						; called from other segments
 	sta.w $0030,y
 	tyx
 	jmp.w CODE_C5E9F6
-CODE_C5EB15:						; called from other segments
+CODE_C5EB15:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.b $01,x
 	and.w #$00FF
@@ -1556,9 +1556,9 @@ CODE_C5EB15:						; called from other segments
 	stz.b $30,x
 	stz.b $0E,x
 	jmp.w CODE_C5E9F6
-CODE_C5EB33:						; called from other segments
+CODE_C5EB33:						; from DATA8_C5EABA
 	jmp.w CODE_C5EAF6
-CODE_C5EB36:						; called from other segments
+CODE_C5EB36:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.b $01,x
 	tyx
@@ -1566,7 +1566,7 @@ CODE_C5EB36:						; called from other segments
 	inc.b $30,x
 	inc.b $30,x
 	jmp.w CODE_C5E9F6
-CODE_C5EB44:						; called from other segments
+CODE_C5EB44:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.b $01,x
 	tyx
@@ -1574,7 +1574,7 @@ CODE_C5EB44:						; called from other segments
 	inc.b $30,x
 	inc.b $30,x
 	jmp.w CODE_C5E9F6
-CODE_C5EB52:						; called from other segments
+CODE_C5EB52:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.b $01,x
 	and.w #$00FF
@@ -1627,13 +1627,13 @@ CODE_C5EBA5:						; from CODE_C5EB88
 	sta.b $28,x
 	ldx.b $38
 	bra CODE_C5EB7F
-CODE_C5EBAE:						; called from other segments
+CODE_C5EBAE:						; from DATA8_C5EABA
 	tyx
 	jsr.w CODE_C5E596
 	ldy.b $9F
 	clc
 	jmp.w CODE_C5E9EA
-CODE_C5EBB8:						; called from other segments
+CODE_C5EBB8:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.b $01,x
 	and.w #$00FF
@@ -1649,7 +1649,7 @@ CODE_C5EBC6:						; from CODE_C5EBB8
 	tyx
 	inc.b $30,x
 	jmp.w CODE_C5E9F6
-CODE_C5EBD6:						; called from other segments
+CODE_C5EBD6:						; from DATA8_C5EABA
 	phy
 	ldx.b $A1
 	lda.b $01,x
@@ -1657,7 +1657,7 @@ CODE_C5EBD6:						; called from other segments
 	tyx
 	inc.b $30,x
 	jmp.w CODE_C5E9F6
-CODE_C5EBE2:						; called from other segments
+CODE_C5EBE2:						; from DATA8_C5EABA
 	phy
 	ldx.b $A1
 	lda.b $01,x
@@ -1667,30 +1667,30 @@ CODE_C5EBE2:						; called from other segments
 	tyx
 	inc.b $30,x
 	jmp.w CODE_C5E9F6
-CODE_C5EBF2:						; called from other segments
+CODE_C5EBF2:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	eor.w #$4000
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EBFD:						; called from other segments
+CODE_C5EBFD:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	eor.w #$8000
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC08:						; called from other segments
+CODE_C5EC08:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	eor.w #$C000
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC13:						; called from other segments
+CODE_C5EC13:						; from DATA8_C5EABA
 	tyx
 	ldy.b $9F
 	clc
 	jmp.w CODE_C5E9EA
-CODE_C5EC1A:						; called from other segments
+CODE_C5EC1A:						; from DATA8_C5EABA
 	ldx.b $A1
 	lda.b $01,x
 	and.w #$00FF
@@ -1703,9 +1703,9 @@ CODE_C5EC1A:						; called from other segments
 	jmp.w CODE_C5E9F6
 CODE_C5EC2E:						; from CODE_C5EC1A
 	jmp.w CODE_C5EAF6
-CODE_C5EC31:						; called from other segments
+CODE_C5EC31:						; from DATA8_C5EABA
 	jmp.w CODE_C5EAF6
-CODE_C5EC34:						; called from other segments
+CODE_C5EC34:						; from DATA8_C5EABA
 	lda.w $0020,y
 	sta.w $001E,y
 	asl a
@@ -1720,37 +1720,37 @@ CODE_C5EC34:						; called from other segments
 	ora.w #$4000
 	sta.b $22,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC52:						; called from other segments
+CODE_C5EC52:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	ora.w #$4000
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC5D:						; called from other segments
+CODE_C5EC5D:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	and.w #$BFFF
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC68:						; called from other segments
+CODE_C5EC68:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	ora.w #$8000
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC73:						; called from other segments
+CODE_C5EC73:						; from DATA8_C5EABA
 	tyx
 	lda.b $36,x
 	and.w #$7FFF
 	sta.b $36,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC7E:						; called from other segments
+CODE_C5EC7E:						; from DATA8_C5EABA
 	tyx
 	lda.b $22,x
 	and.w #$BFFF
 	sta.b $22,x
 	jmp.w CODE_C5E9F6
-CODE_C5EC89:						; called from other segments
+CODE_C5EC89:						; from DATA8_C5EABA
 	lda.w $0022,y
 	bit.w #$4000
 	beq CODE_C5EC97

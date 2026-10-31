@@ -1749,7 +1749,7 @@ CODE_C58DE0:						; from CODE_C58DC1
 	jmp.w CODE_C593B1
 DATA8_C58DF0:						; jump table: the routine for each index
 	dw CODE_C59052,CODE_C58DF6,CODE_C58E71
-CODE_C58DF6:						; called from other segments
+CODE_C58DF6:						; from DATA8_C58DF0
 	lda.w $4692
 	and.w #$00FF
 	cmp.w #$0010
@@ -1804,7 +1804,7 @@ CODE_C58E6B:						; from CODE_C58E3A
 	sta.w $469E
 	rep #$20
 	rts
-CODE_C58E71:						; called from other segments
+CODE_C58E71:						; from DATA8_C58DF0
 	sep #$20
 	lda.w $4692
 	dec a

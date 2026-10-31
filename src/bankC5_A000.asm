@@ -950,7 +950,7 @@ CODE_C5A816:						; called from other segments
 	jmp (DATA8_C5A81B,x)
 DATA8_C5A81B:						; jump table: the routine for each index
 	dw CODE_C5A821,CODE_C5A95A,CODE_C5A9FB
-CODE_C5A821:						; called from other segments
+CODE_C5A821:						; from DATA8_C5A81B
 	lda.w $058F
 	beq CODE_C5A831
 	cmp.w #$0014
@@ -1109,7 +1109,7 @@ CODE_C5A952:						; from CODE_C5A93B
 	lda.w #$0004
 	sta.b $89
 	rts
-CODE_C5A95A:						; called from other segments
+CODE_C5A95A:						; from DATA8_C5A81B
 	jsr.w CODE_C5A95D
 CODE_C5A95D:						; from CODE_C5A95A
 	dec.w $04C2
@@ -1187,7 +1187,7 @@ CODE_C5A9F5:						; from CODE_C5A9D3
 	sta.w $4695
 	rep #$20
 	rts
-CODE_C5A9FB:						; called from other segments
+CODE_C5A9FB:						; from DATA8_C5A81B
 	jsr.w CODE_C5A9FE
 CODE_C5A9FE:						; from CODE_C5A9FB
 	inc.w $04C2
@@ -1503,7 +1503,7 @@ CODE_C5ACA3:						; from CODE_C5AC4F, CODE_C5AC67
 	lda.w #$0000
 	sta.b $9F
 	bra CODE_C5AC84
-CODE_C5ACAA:						; called from other segments
+CODE_C5ACAA:						; from DATA8_C5AC73
 	jsl.l FadeOutWait
 	jsl.l $C4CEDB
 	lda.w $1864
@@ -1652,7 +1652,7 @@ CODE_C5ADE3:						; from CODE_C5ADD8
 	rts
 DATA8_C5AE40:						; not traced: data between routines
 	db $FF,$FE,$FC,$F8,$F0,$E0,$C0,$80
-CODE_C5AE48:						; from CODE_C5AF6E and other segments
+CODE_C5AE48:						; from DATA8_C5AC73, CODE_C5AF6E
 	stz.b $9F
 	lda.w $1864
 	cmp.w #$0003
