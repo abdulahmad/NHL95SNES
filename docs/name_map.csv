@@ -653,3 +653,19 @@ $C5528C,DATA8_C5528C,,new,"not traced: a table read by CODE_C5525F (in bankC5_50
 $C55294,DATA8_C55294,,new,"not traced: a table read by CODE_C55256 (in bankC5_5000)",src/bankC5_5000.asm
 $C5529C,DATA8_C5529C,,new,"not traced: a table read by CODE_C5524B (in bankC5_5000)",src/bankC5_5000.asm
 $C55D6B,DATA8_C55D6B,,new,"jump table: the routine for each index (code in bankC5_6000 uses it) (in bankC5_5000)",src/bankC5_5000.asm
+$C561DB,DATA8_C561DB,,new,"the day names, 3 letters each, read by CODE_C56168 (in bankC5_6000)",src/bankC5_6000.asm
+$C561F0,DATA8_C561F0,,new,"a word per month: its name (bank $C5), read by CODE_C56168 (in bankC5_6000)",src/bankC5_6000.asm
+$C566DE,DATA8_C566DE,,new,"jump table: the routine for each index (in bankC5_6000)",src/bankC5_6000.asm
+$C56989,DATA8_C56989,,new,"not traced: a table read by CODE_C568B3 (in bankC5_6000)",src/bankC5_6000.asm
+$C56208,MonthJanuary,,new,"the month name January, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56210,MonthFebruary,,new,"the month name February, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56219,MonthMarch,,new,"the month name March, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C5621F,MonthApril,,new,"the month name April, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56225,MonthMay,,new,"the month name May, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56229,MonthJune,,new,"the month name June, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C5622E,MonthJuly,,new,"the month name July, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56233,MonthAugust,,new,"the month name August, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C5623A,MonthSeptember,,new,"the month name September, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56244,MonthOctober,,new,"the month name October, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C5624C,MonthNovember,,new,"the month name November, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C56255,MonthDecember,,new,"the month name December, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm

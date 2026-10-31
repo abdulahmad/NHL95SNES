@@ -1023,7 +1023,7 @@ CODE_C51911:						; from CODE_C518B6
 	lda.w #$000D
 	jsr.w CODE_C55F22
 	ldx.w #$04F5
-	jsr.w $6262
+	jsr.w CODE_C56262
 	jsl.l $C4C47E
 	txa
 	ldx.w #$007E

@@ -1312,7 +1312,7 @@ CODE_C5AAF0:						; from CODE_C5A89D, CODE_C5A8B0, CODE_C5ACBE
 	ldy.w #$0080
 	jsl.l CODE_C58B11
 	lda.b $7F
-	jsr.w $6168
+	jsr.w CODE_C56168
 	lda.w #$0030
 	sta.b $CF
 	ldx.w #$04F5

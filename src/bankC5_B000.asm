@@ -813,7 +813,7 @@ CODE_C5B693:						; from CODE_C5B67E
 	plx
 	stx.b $9F
 	rts
-CODE_C5B6A1:						; a callback: CODE_C5B049 passes it to a list routine in bankC5_5000
+CODE_C5B6A1:						; a callback: CODE_C5B049 passes it to CODE_C55ABC
 	lda.w #$000A
 	sta.b $CF
 	lda.b $6F
@@ -1436,7 +1436,7 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	jsl.l CODE_C5F3DB
 	jsl.l $C4CEDB
 	rts
-CODE_C5BBDD:						; a callback: CODE_C5A71A, CODE_C5B0EA pass it to a bankC5_5000 routine
+CODE_C5BBDD:						; a callback: CODE_C5A71A, CODE_C5B0EA pass it to CODE_C55ABC
 	lda.w #$000C
 	sta.b $CF
 	lda.b $7F
@@ -1791,7 +1791,7 @@ CODE_C5BE56:						; from CODE_C5BE56
 	ora.b $9F
 	sta.b $9F
 	jmp.w CODE_C5B67A
-CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to a list routine in bankC5_5000
+CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	lda.w #$000A
 	sta.b $CF
 	lda.b $6F

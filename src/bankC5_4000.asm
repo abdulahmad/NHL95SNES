@@ -68,9 +68,9 @@ CODE_C54070:						; from CODE_C5404A, CODE_C5454E and other segments
 	sty.b $81
 	jsl.l CODE_C58C36
 	lda.b $6B
-	jsr.w $6104
+	jsr.w CODE_C56104
 	jsl.l $C4C3AE
-	jsr.w $6262
+	jsr.w CODE_C56262
 	lda.b $7F
 	clc
 	adc.w #$0027

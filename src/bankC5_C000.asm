@@ -400,7 +400,7 @@ CODE_C5C344:						; from CODE_C5C305
 	jsr.w CODE_C5D85D
 	jsl.l $C4C2AA
 	rts
-CODE_C5C34C:						; a callback: CODE_C5C32D passes it to a list routine in bankC5_5000
+CODE_C5C34C:						; a callback: CODE_C5C32D passes it to CODE_C55ABC
 	ldx.b $6F
 	stx.b $65
 	lda.w $364E,x
@@ -1128,7 +1128,7 @@ CODE_C5C90A:						; from CODE_C5C90A
 	jsr.w CODE_C5D85D
 	jsl.l $C4C2AA
 	rts
-CODE_C5C926:						; a callback: CODE_C5C90A passes it to a list routine in bankC5_5000
+CODE_C5C926:						; a callback: CODE_C5C90A passes it to CODE_C55ABC
 	lda.w #$0010
 	sta.l $7E24DC
 	ldy.w #$3207
@@ -1480,7 +1480,7 @@ CODE_C5CC19:						; from CODE_C5CC19
 	jsl.l $C4CEDB
 	stz.b $85
 	rts
-CODE_C5CC4D:						; a callback: CODE_C5CC19 passes it to a routine in bankC5_D000
+CODE_C5CC4D:						; a callback: CODE_C5CC19 passes it to CODE_C5D8E7
 	ldy.b $87
 	lda.w #$0010
 	sta.l $7E24DC
