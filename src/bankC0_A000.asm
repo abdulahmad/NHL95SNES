@@ -6,7 +6,7 @@ asstab:								; the assignment routines, by assignment number (as 94S asstab; t
 									; first is an rtl); the code calls one through a long call patched in RAM
 	dd $C4883F,CODE_C4332A,CODE_C4313E,CODE_C4348E
 	dd CODE_C43590,CODE_C43099,CODE_C42F62,$C48A71
-	dd $C47122,$C45A47,CODE_C5474A,$C47B3F
+	dd $C47122,CODE_C45A47,CODE_C5474A,$C47B3F
 	dd CODE_C545C7,$C47D2E,$C47F4C,$C488BB
 	dd $C49B59,CODE_C42DB8,CODE_C42B25,$C498A1
 	dd $C4A4B3,$C49DFB,CODE_C4375B,CODE_C4376F

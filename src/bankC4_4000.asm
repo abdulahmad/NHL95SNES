@@ -1270,7 +1270,7 @@ CODE_C44A02:						; from CODE_C449D3
 	pei ($87)
 	pei ($8B)
 	jsl.l $C47AB4
-	jsl.l $C453C1
+	jsl.l CODE_C453C1
 	pla
 	sta.b $8B
 	pla

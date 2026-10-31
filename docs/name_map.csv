@@ -700,3 +700,7 @@ $C43530,DATA8_C43530,,new,"an rtl no traced code reaches (in bankC4_3000)",src/b
 $C436DC,DATA8_C436DC,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
 $C436DD,DATA8_C436DD,,new,"not traced: a table read by CODE_C4366D (in bankC4_3000)",src/bankC4_3000.asm
 $C44CDD,DATA8_C44CDD,,new,"not traced: a table read by CODE_C44D4D, CODE_C44D62 (in bankC4_4000)",src/bankC4_4000.asm
+$C45519,DATA8_C45519,,new,"not traced: a table read by CODE_C45413 (in bankC4_5000)",src/bankC4_5000.asm
+$C45ACD,DATA8_C45ACD,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
+$C45ADD,DATA8_C45ADD,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
+$C45C7D,DATA8_C45C7D,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm

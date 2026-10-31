@@ -1386,7 +1386,7 @@ CODE_C51C58:						; called from other segments
 CODE_C51C86:						; from CODE_C51C58
 	ldx.b $6F
 	lda.w #$24FA
-	jml.l $C457B5
+	jml.l CODE_C457B5
 CODE_C51C8F:						; from CODE_C51C58, CODE_C51C90
 	rtl
 CODE_C51C90:						; from CODE_C51C58
@@ -1406,10 +1406,10 @@ CODE_C51C90:						; from CODE_C51C58
 CODE_C51CB1:						; from CODE_C51C90
 	ldx.b $6F
 	lda.w #$24FA
-	jml.l $C457B5
+	jml.l CODE_C457B5
 CODE_C51CBA:						; from CODE_C51C58, CODE_C51C90
 	lda.w #$2524
-	jml.l $C457B5
+	jml.l CODE_C457B5
 CODE_C51CC1:						; asstab entry 27: an assignment routine
 	stz.w $14E5
 	lda.w $189C

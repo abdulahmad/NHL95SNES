@@ -417,7 +417,7 @@ CODE_C503E0:						; from CODE_C503D8
 CODE_C503EC:						; from CODE_C503E0
 	stx.w $0664
 CODE_C503EF:						; from CODE_C503E0
-	jsl.l $C457DD
+	jsl.l CODE_C457DD
 	lda.w $0CE0,x
 	sec
 	sbc.w $05A2

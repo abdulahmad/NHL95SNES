@@ -29,7 +29,7 @@ CODE_C54008:						; from CODE_C53FFA
 CODE_C54020:						; from CODE_C54008
 	lda.w #$1958
 CODE_C54023:						; from CODE_C54008
-	jsl.l $C457B5
+	jsl.l CODE_C457B5
 	stz.w $0A00,x
 	stz.w $0CE0,x
 	lda.w $0D60,x
@@ -814,7 +814,7 @@ CODE_C5466F:						; from CODE_C5465B
 	bne CODE_C5467A
 	lda.w #$121E
 CODE_C5467A:						; from CODE_C5466F
-	jsl.l $C457B5
+	jsl.l CODE_C457B5
 	lda.w #$0001
 	sta.w $1080,x
 	lda.w $0C40,x
@@ -845,7 +845,7 @@ CODE_C546A6:						; from CODE_C54693
 	ora.w #$0800
 	sta.w $08E0,x
 	lda.w #$18BE
-	jsl.l $C457B5
+	jsl.l CODE_C457B5
 	lda.w #$0064
 	sta.w $0AE0,x
 	sta.w $1000,x
@@ -888,7 +888,7 @@ CODE_C54706:						; from CODE_C5462C, CODE_C54653, CODE_C5465B
 	sta.b $65
 	lda.w #$342A
 	sta.b $63
-	jml.l $C45950
+	jml.l CODE_C45950
 CODE_C5472B:						; from CODE_C54613
 	lda.w $0D60,x
 	and.w #$EFFF
@@ -936,7 +936,7 @@ CODE_C5476F:						; from CODE_C5474A
 	sta.w $0C40,x
 	sta.w $1000,x
 	lda.w #$18EC
-	jml.l $C457C7
+	jml.l CODE_C457C7
 CODE_C5479D:						; from CODE_C5474A
 	rtl
 CODE_C5479E:						; from CODE_C5474A

@@ -181,7 +181,7 @@ CODE_C42B18:						; from CODE_C42DC6, CODE_C42C47 and other segments
 	lda.w $1000,x
 	bne CODE_C42B24
 	lda.w #$1F6C
-	jsl.l $C457B5
+	jsl.l CODE_C457B5
 CODE_C42B24:						; from CODE_C42B18
 	rtl
 CODE_C42B25:						; called from other segments
@@ -314,14 +314,14 @@ CODE_C42C34:						; from CODE_C42C1A
 	sta.b $65
 	lda.w #$883F
 	sta.b $63
-	jsl.l $C45950
-	jmp.w $5529
+	jsl.l CODE_C45950
+	jmp.w CODE_C45529
 CODE_C42C47:						; from CODE_C42C66
 	jsl.l CODE_C42B18
 	jmp.w CODE_C436FD
 CODE_C42C4E:						; from CODE_C42C1A
 	jsl.l $C4702E
-	jmp.w $5529
+	jmp.w CODE_C45529
 CODE_C42C55:						; from CODE_C42C11
 	jsl.l $C37EBF
 	lda.b $7F
@@ -413,8 +413,8 @@ CODE_C42CFF:						; from CODE_C42CB8, CODE_C42CF2
 	sta.b $65
 	lda.w #$883F
 	sta.b $63
-	jsl.l $C45950
-	jmp.w $5529
+	jsl.l CODE_C45950
+	jmp.w CODE_C45529
 CODE_C42D10:						; called from other segments
 	lda.w $1000,x
 	beq CODE_C42D16
@@ -481,7 +481,7 @@ CODE_C42D38:						; from CODE_C42D16
 	sta.w $09C0,x
 	lda.w #$21BC
 	sta.w $1000,x
-	jml.l $C457B5
+	jml.l CODE_C457B5
 CODE_C42D98:						; from CODE_C431E9 and other segments
 	lda.w $10F5
 	and.w #$2000
@@ -601,10 +601,10 @@ CODE_C42E8B:						; from CODE_C42E67
 	sta.b $65
 	lda.w #CODE_C42E9A
 	sta.b $63
-	jml.l $C45950
+	jml.l CODE_C45950
 CODE_C42E99:						; from CODE_C42E23
 	rtl
-CODE_C42E9A:						; called from other segments
+CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to CODE_C45950
 	lda.b $7F
 	and.w #$00FF
 	bit.w #$0080
@@ -826,7 +826,7 @@ CODE_C4306A:						; from CODE_C43053
 	sta.b $65
 	lda.w #$342A
 	sta.b $63
-	jml.l $C45950
+	jml.l CODE_C45950
 DATA8_C43078:						; an rtl no traced code reaches
 	db $6B
 DATA8_C43079:						; not traced: a table read by CODE_C43021
@@ -914,4 +914,4 @@ CODE_C43131:						; from CODE_C430EB, CODE_C4311C
 	sta.b $65
 	lda.w #$883F
 	sta.b $63
-	jmp.w $5950
+	jmp.w CODE_C45950

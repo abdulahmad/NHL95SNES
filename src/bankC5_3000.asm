@@ -1076,7 +1076,7 @@ CODE_C53882:						; from CODE_C537DE
 	pei ($65)
 	pei ($67)
 	pei ($69)
-	jsl.l $C45606
+	jsl.l CODE_C45606
 	pla
 	sta.b $69
 	pla
