@@ -1,0 +1,13 @@
+output/
+Extracted/
+# Only the retail ROM in lst/ is committed (temporary, for convenience: ROMs leave the repo later). No other dumps, no patches.
+/*.sfc
+/*.smc
+/*.bin
+lst/*
+!lst/nhl95snes.sfc
+*.ips
+*.bps
+*.log
+__pycache__/
+tools/bin/
