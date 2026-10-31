@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC1_0000. <- CURRENT
+bankC1_1000 (org $C110B8). <- CURRENT
 
 ## Sources
 
@@ -110,6 +110,9 @@ bankC1_0000. <- CURRENT
 - 2026-10-31: bankC0_F000 matched: Sample15, the reset / NMI / COP / BRK entry points, the fill, the extended header and the
   vectors. CartHeader is back as source (the bankC0_E000 commit had replaced this file with an incbin when it moved the org).
   Bank $C0 is all source.
+- 2026-10-31: bankC1_0000 matched as data: 39 palettes, a word run and the first blocks the DATA8_C08000 records point at
+  (their reader is not traced, so the blocks keep DATA8_ names and stay incbin). End moved to $C110B7, bankC1_1000 org to
+  $C110B8.
 
 ## ROM map
 
@@ -133,8 +136,8 @@ The first row that is still incbin is the current segment.
 | bankC0_D000 | matched 4716 bytes | $C0D359 | $C0E5C4 | Sample13, Sample32, Sample18 (sound samples, incbin); org moved to $C0D359, end moved +$5C5 (the last sample ends at $C0E5C4) |
 | bankC0_E000 | matched 3267 bytes | $C0E5C5 | $C0F287 | Sample16, Sample17, Sample14 (sound samples, incbin); org moved to $C0E5C5, end moved +$288 (the last sample ends at $C0F287) |
 | bankC0_F000 | matched 3448 bytes | $C0F288 | $C0FFFF | Sample15, Reset, NullInterrupt, NMI, BRKHandler (the vector entry points), $CD fill, ExtHeader, CartHeader, the vectors as label expressions; org moved to $C0F288 |
-| bankC1_0000 | incbin <- CURRENT | $C10000 | $C10FFF | |
-| bankC1_1000 | incbin | $C11000 | $C11FFF | |
+| bankC1_0000 | matched 4280 bytes | $C10000 | $C110B7 | data DATA8_C08000's records point into, not traced: DATA8_C10000 (39 palettes), DATA8_C104E0, blocks DATA8_C10533 / C1094E / C10CFD (incbin); end moved +$B8 (the block ends at $C110B7) |
+| bankC1_1000 | incbin <- CURRENT | $C110B8 | $C11FFF | org moved to $C110B8: blocks the records point at |
 | bankC1_2000 | incbin | $C12000 | $C12FFF | |
 | bankC1_3000 | incbin | $C13000 | $C13FFF | |
 | bankC1_4000 | incbin | $C14000 | $C14FFF | |

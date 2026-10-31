@@ -243,3 +243,8 @@ $C0FD17,NullInterrupt,,new,"rti; the COP and ABORT vectors",src/bankC0_F000.asm
 $C0FD18,NMI,,94S,"NMI vector: jml NMI_Fast",src/bankC0_F000.asm
 $C0FD1C,BRKHandler,,new,"BRK vector: cop #$00 (the COP vector returns past it), then $CD fill",src/bankC0_F000.asm
 $C0FFB0,ExtHeader,,new,"extended cartridge header: maker 69, game code ANHE",src/bankC0_F000.asm
+$C10000,DATA8_C10000,,new,"not traced: 39 palettes of 16 colours",src/bankC1_0000.asm
+$C104E0,DATA8_C104E0,,new,"not traced: the word $04E2 repeated; DATA8_C08000 records point at words in it",src/bankC1_0000.asm
+$C10533,DATA8_C10533,,new,"not traced: block a DATA8_C08000 record points at (record offset 30)",src/bankC1_0000.asm
+$C1094E,DATA8_C1094E,,new,"not traced: block a record points at (offset 32)",src/bankC1_0000.asm
+$C10CFD,DATA8_C10CFD,,new,"not traced: block a record points at (offset 32)",src/bankC1_0000.asm
