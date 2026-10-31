@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+CenterIceTiles = $C2792B
 
 incsrc "../bankC2_7000.asm"

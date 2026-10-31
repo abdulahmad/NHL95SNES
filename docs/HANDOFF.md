@@ -14,11 +14,13 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC2_7000 (org
-  $C27000) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all source: the sprite data, TeamNicknameTiles, and
-  the map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2 to $C26FFF: the end
-  of the team name bars' set, then the title screen's sets (TitlePlayers, TitleGoalie, TitleLogo, to $C2792A). Onboarding:
-  McMarkis.
+- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC2_8000 (org
+  $C2792B) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all source: the sprite data, TeamNicknameTiles, and
+  the map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2 to $C2792A: the end
+  of the team name bars' set, then the title screen's sets (TitlePlayers, TitleGoalie, TitleLogo). Ahead in bank $C2 (rendered,
+  not yet written): CenterIceTiles (format 4, to $C2ADC9), 28 centre ice palettes at $C2ADCA, then map sets: the Visual Concepts
+  credit $C2B14A, the High Score Productions credit $C2BB69, the ref windows $C2CC6E (94S RefsMap, 7 x 8 tiles per entry), and
+  other data from $C2DF3B. Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte
   BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54,
   20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2,
@@ -87,6 +89,8 @@
   replay controls, but its loader ($C373C7, bank $C3) is not traced, so the name only says what it shows.
 - TeamNameBarsMap: the city name bars of the 26 teams (12 x 2 tiles each) are unpacked right after the playoff bracket
   (from bank $C4), so they probably fill the bracket's slots (94S colours its slots with TeamBlockPalettes); not traced.
+- CenterIceTiles: named as 94S's centre ice logos (the home team's logo on ice blue goes to VRAM in the game screen setup,
+  with its colours to palette 3); where the map puts it on the rink is not traced.
 - bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
   named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
