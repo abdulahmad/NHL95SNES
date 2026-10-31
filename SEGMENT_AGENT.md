@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_6000 (org $C06E6D). <- CURRENT
+bankC0_7000 (org $C07ECB). <- CURRENT
 
 ## Sources
 
@@ -91,6 +91,8 @@ bankC0_6000 (org $C06E6D). <- CURRENT
   photos. End moved to $C05DAB, bankC0_5000 org to $C05DAC.
 - 2026-10-31: bankC0_5000 matched: the Toronto photo set (PhotoPalettesTOR, PlayerPhotosTOR). End moved to $C06E6C, bankC0_6000
   org to $C06E6D.
+- 2026-10-31: stub headers rewrapped (comments only) so `tools/check_comments.py` passes on all of src. bankC0_6000 matched: the
+  Vancouver photo set. End moved to $C07ECA, bankC0_7000 org to $C07ECB.
 
 ## ROM map
 
@@ -104,8 +106,8 @@ The first row that is still incbin is the current segment.
 | bankC0_3000 | matched 2377 bytes | $C03CF9 | $C04641 | WonCheckTiles (packed), WonCheckPalette, AwayUniformPalettes / HomeUniformPalettes (94S names; one interleaved table, 64 bytes per team); org moved to $C03CF9, end moved +$642 (a packed set starts at $C04642) |
 | bankC0_4000 | matched 5994 bytes | $C04642 | $C05DAB | DigitFontTiles, LinePieceTiles (packed), BG3ScrollHDMA1/2, MainScreenHDMA, BlueColours(Hook), DarkBlueColours(Hook) (code), BackdropColour, BitMaskTable (94S), PhotoPalettesTB, PlayerPhotosTB; untraced tables keep DATA8_ names; org moved to $C04642, end moved +$DAC (the Tampa Bay photos end at $C05DAB) |
 | bankC0_5000 | matched 4289 bytes | $C05DAC | $C06E6C | PhotoPalettesTOR, PlayerPhotosTOR (Toronto's photo set); org moved to $C05DAC, end moved +$E6D (the set ends at $C06E6C) |
-| bankC0_6000 | incbin <- CURRENT | $C06E6D | $C06FFF | org moved to $C06E6D: starts with the Vancouver photo set (entry 23 of the photo table at $C35EAB) |
-| bankC0_7000 | incbin | $C07000 | $C07FFF | |
+| bankC0_6000 | matched 4190 bytes | $C06E6D | $C07ECA | PhotoPalettesVAN, PlayerPhotosVAN (Vancouver's photo set); org moved to $C06E6D, end moved +$ECB (the set ends at $C07ECA) |
+| bankC0_7000 | incbin <- CURRENT | $C07ECB | $C07FFF | org moved to $C07ECB: song tables read by the sound code in bank $CF, a sound list, then $CD fill to the end of the bank's lower half |
 | bankC0_8000 | incbin | $C08000 | $C08FFF | |
 | bankC0_9000 | incbin | $C09000 | $C09FFF | |
 | bankC0_A000 | incbin | $C0A000 | $C0AFFF | |

@@ -8,9 +8,9 @@
   SoundRAMClear), bankC0_1000 ($C00F49-$C01A38: SoundDriver, SMSG 3.07w, as SPC700) and bankC0_2000 ($C01A39-$C03CF8: the
   text routine's three fonts), bankC0_3000 ($C03CF9-$C04641: WonCheckTiles, WonCheckPalette, Away/HomeUniformPalettes),
   bankC0_4000 ($C04642-$C05DAB: tile sets, HDMA tables, colour hooks, BitMaskTable, the Tampa Bay photos), bankC0_5000
-  ($C05DAC-$C06E6C: the Toronto photos).
+  ($C05DAC-$C06E6C: the Toronto photos), bankC0_6000 ($C06E6D-$C07ECA: the Vancouver photos).
   `CartHeader` in bankC0_F000. The other segments are incbin.
-- Next: segment bankC0_6000, org moved to $C06E6D (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC0_7000, org moved to $C07ECB (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -33,8 +33,8 @@
   $C4C4D7, $C4C502. Fonts: BoldFontGlyphs, ItalicFontGlyphs, ThinFontGlyphs.
 - Player photos: the table at $C35EAB has a long pointer (dd) per team in team order to the team's photo set: 6 palettes of
   16 colours, then the 6 photos packed (format 2, $1B00 bytes: 48 x 48 linear 4bpp each). In bank $C0: TB at $C04CE7, TOR
-  $C05DAC, VAN $C06E6D; the others are in banks $CD-$CE. bankC0_6000 starts with Vancouver's set (its end: unpack95 on
-  $C06F2D, the photos after the 6 palettes).
+  $C05DAC, VAN $C06E6D; the others are in banks $CD-$CE. bankC0_7000 starts after Vancouver's set with the song tables
+  ($CF0427 reads $C07ECB + home team * 6, $FF picks from $C07F73) and the list at $C07F7B ($C4B0AA).
 - NMI frame hook: $C08D73 stores A (address) and X (bank) at $049B; the NMI at $C08B45 calls it with M 16, X 8; $C08D64 puts the
   default back. `src/inc/snes_regs.asm` (94S's) has the register names. Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
 
@@ -47,6 +47,7 @@
   `--entry ADDR:M:X` for the routines you work on. It also writes `xref.txt` (every long operand into the ROM).
 - Windows: `python3` must be a real Python (not the Store alias). `tools/verify_segment.sh` normalises the asar path, because
   Windows cannot start a relative program path written with forward slashes.
+- `tools/check_comments.py` with no arguments checks all of src and is clean; keep it so.
 
 ## Unsure
 
