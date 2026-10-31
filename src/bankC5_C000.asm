@@ -14,7 +14,7 @@ CODE_C5BFF7:						; from CODE_C5C00F
 	ldx.w $3E4E,y
 	lda.w $000C,x
 	tax
-	lda.l $C40EDA,x
+	lda.l DATA8_C40EDA,x
 	and.w #$00FF
 	cmp.b $9F
 	beq CODE_C5C00F
@@ -875,7 +875,7 @@ CODE_C5C6E3:						; from CODE_C5C6CA
 	clc
 	adc.l $7E24DC
 	tax
-	lda.l $C57309,x
+	lda.l DATA8_C57309,x
 	tyx
 	jsl.l Mul8U
 	clc

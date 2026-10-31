@@ -681,3 +681,10 @@ $C40EF4,DATA8_C40EF4,,new,"not traced: a table read by CODE_C4081B (in bankC4_00
 $C40F94,DATA8_C40F94,,new,"not traced: a table read by CODE_C408C4, CODE_C4090B (in bankC4_0000)",src/bankC4_0000.asm
 $C40F95,DATA8_C40F95,,new,"not traced: a table read by CODE_C408DB, CODE_C40919 (in bankC4_0000)",src/bankC4_0000.asm
 $C40FF8,DATA8_C40FF8,,new,"not traced: a table read by CODE_C403C2 (in bankC4_0000)",src/bankC4_0000.asm
+$C41006,DATA8_C41006,,new,"not traced: a table read by CODE_C407B4 (in bankC4_1000)",src/bankC4_1000.asm
+$C4103E,DATA8_C4103E,,new,"not traced: a table read by CODE_C407EE (in bankC4_1000)",src/bankC4_1000.asm
+$C41076,DATA8_C41076,,new,"not traced: a table read by CODE_C407B4 (in bankC4_1000)",src/bankC4_1000.asm
+$C410AE,DATA8_C410AE,,new,"not traced: a table read by CODE_C407EE (in bankC4_1000)",src/bankC4_1000.asm
+$C410E6,DATA8_C410E6,,new,"not traced: a table read by CODE_C409C0 (in bankC4_1000)",src/bankC4_1000.asm
+$C41166,DATA8_C41166,,new,"not traced: a table read by CODE_C40322, CODE_C400AC (in bankC4_1000)",src/bankC4_1000.asm
+$C41E48,DATA8_C41E48,,new,"not traced: a table read by CODE_C4A2A3 (in bankC4_1000)",src/bankC4_1000.asm

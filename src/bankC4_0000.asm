@@ -86,7 +86,7 @@ CODE_C400AC:						; from CODE_C40054
 	lda.w $3D52
 	asl a
 	tax
-	lda.l $C41166,x
+	lda.l DATA8_C41166,x
 	tay
 	asl a
 	tax
@@ -366,7 +366,7 @@ CODE_C40322:						; from CODE_C4004A, CODE_C4061C
 	lda.w $3D52
 	asl a
 	tax
-	lda.l $C41166,x
+	lda.l DATA8_C41166,x
 	tax
 	lda.l $307865,x
 	tay
@@ -920,14 +920,14 @@ CODE_C407B4:						; from CODE_C407A4
 	stx.w $3D54
 	ldy.w $3D52
 	jsr.w CODE_C4081B
-	lda.l $C41006,x
+	lda.l DATA8_C41006,x
 	adc.b $9F
 	sec
 	sbc.w $04C0
 	sta.b $9F
 	clc
 	lda.b $A1
-	adc.l $C41076,x
+	adc.l DATA8_C41076,x
 	sta.b $A1
 	ldx.w #$3D4E
 	jsr.w CODE_C40840
@@ -944,14 +944,14 @@ CODE_C407EE:						; from CODE_C407B4
 	stx.w $3D5C
 	ldy.w $3D5A
 	jsr.w CODE_C4081B
-	lda.l $C4103E,x
+	lda.l DATA8_C4103E,x
 	adc.b $9F
 	sec
 	sbc.w $04C0
 	sta.b $9F
 	clc
 	lda.b $A1
-	adc.l $C410AE,x
+	adc.l DATA8_C410AE,x
 	sta.b $A1
 	ldx.w #$3D56
 	jsr.w CODE_C40840
@@ -1191,7 +1191,7 @@ CODE_C409BD:						; from CODE_C409BD
 	tay
 	lda.b $A3
 	sta.w $3D5E,y
-	lda.l $C410E6,x
+	lda.l DATA8_C410E6,x
 	sta.w $2C64,y
 	tay
 	lda.b $A3
