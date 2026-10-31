@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_B000 (org $C0B5BF). <- CURRENT
+bankC0_C000 (org $C0C1CB). <- CURRENT
 
 ## Sources
 
@@ -103,6 +103,7 @@ bankC0_B000 (org $C0B5BF). <- CURRENT
 - 2026-10-31: bankC0_A000 matched: asstab and asspuckc_postab (the 93S tables, same shape and nearly the same values), more game
   tables, then the first sound samples (12-byte header + BRR, found by the end flags). End moved to $C0B5BE, bankC0_B000 org to
   $C0B5BF.
+- 2026-10-31: bankC0_B000 matched: Sample22, Sample01. End moved to $C0C1CA, bankC0_C000 org to $C0C1CB.
 
 ## ROM map
 
@@ -121,8 +122,8 @@ The first row that is still incbin is the current segment.
 | bankC0_8000 | matched 4101 bytes | $C08000 | $C09004 | data (DATA8_C08000, TiledBackMap, DATA8_C08939, DATA8_C08B17), then the engine as in 94S: InitHooks, NullHook, NMI_Fast, NMI_HookReturn, NMI_Tick, NMI_FrameHookReturn, BCDTable, IRQ, IRQ_Fast, IRQOff, SetIRQ, Clear/SetFrameHook, Clear/SetNMIHook, WaitFrame(s), WaitDMAQueue, WaitNoButtons, JoyDirIndex, RandomWord, BlankScreen, forceblack, ScreenOn, ResetPPURegs, Mul8U/XS/S, Mul16x8U/XS/S, Mul16x8HiU; first RAM names in src/ram95s.asm; end moved +5 (Mul16x8Hi_Zero) |
 | bankC0_9000 | matched 2591 bytes | $C09005 | $C09A23 | Mul16x8HiXS, Mul16x8HiS, Mul16S, Mul16XS, Mul16U, Div16S, Div32x32U, Div32S, Div32U, Div_8Bits, Div16U, Div_Overflow, Div16x8U, DivX8U, DivX8S (94S); then game code with auto names (CODE_C092B3 .. CODE_C099F4, cross references on each label); org moved to $C09005, end moved -$5DC (tables start at $C09A24) |
 | bankC0_A000 | matched 7067 bytes | $C09A24 | $C0B5BE | asstab, asspuckc_postab (93S names), BitMaskTable2, untraced tables (DATA8_), then Sample19, Sample20, Sample21 (sound samples, incbin); org moved to $C09A24, end moved +$5BF (Sample21 ends at $C0B5BE) |
-| bankC0_B000 | incbin <- CURRENT | $C0B5BF | $C0BFFF | org moved to $C0B5BF: sound samples to the reset code at $C0FD0E |
-| bankC0_C000 | incbin | $C0C000 | $C0CFFF | |
+| bankC0_B000 | matched 3084 bytes | $C0B5BF | $C0C1CA | Sample22, Sample01 (sound samples, incbin); org moved to $C0B5BF, end moved +$1CB (the last sample ends at $C0C1CA) |
+| bankC0_C000 | incbin <- CURRENT | $C0C1CB | $C0CFFF | org moved to $C0C1CB |
 | bankC0_D000 | incbin | $C0D000 | $C0DFFF | |
 | bankC0_E000 | incbin | $C0E000 | $C0EFFF | |
 | bankC0_F000 | incbin (cartridge header is source) | $C0F000 | $C0FFFF | |

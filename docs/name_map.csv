@@ -228,3 +228,5 @@ $C09C44,DATA8_C09C44,,new,"16 bytes, one per d-pad bit pattern; not traced",src/
 $C09C54,Sample19,,new,"sound sample 19 of the sample list at $CF05DD: 12-byte header, BRR blocks",src/bankC0_A000.asm
 $C0A2AB,Sample20,,new,"sound sample 20 of the sample list at $CF05DD",src/bankC0_A000.asm
 $C0A965,Sample21,,new,"sound sample 21 of the sample list at $CF05DD",src/bankC0_A000.asm
+$C0B5BF,Sample22,,new,"sound sample 22 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0BE79",src/bankC0_B000.asm
+$C0BE7A,Sample01,,new,"sound sample 1 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0C1CA",src/bankC0_B000.asm
