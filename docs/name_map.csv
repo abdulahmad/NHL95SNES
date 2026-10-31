@@ -1,1 +1,42 @@
 address,name,auto_name,source,note,file
+$C00000,TeamPalettes,,render,"28 rows of 16 colours in team order (ANH..WSH, then the two all-star teams), packed format 2 ($0380 bytes); $C4D77F and $C590F0 unpack it to $7F:D80A; $C5A4B9 / $C5A4E2 queue row (team $17C9 / $17CB) to CGRAM palettes 2 / 3",src/bankC0_0000.asm
+$C0027E,ArrowFontTiles,,render,"96 4bpp tiles, packed format 4: a two colour font for ASCII $20-$7F with arrows at ^ _ ~ and $7F; $C5521E loads it to VRAM $4A00 through $C58A65; the screen that uses it is not traced yet",src/bankC0_0000.asm
+$C0083D,GradientBarTiles,,render,"18 4bpp tiles, packed format 2: bars shaded dark to light; unpacked at $C401B7 / $C4D864 / $C559CC / $C59119 and queued for VRAM",src/bankC0_0000.asm
+$C00976,MeterFontTiles,,render,"128 4bpp tiles, packed format 6: meter bars in three colours, a PwrPlay label, box corners, then ASCII $20-$7F; $C521EB and $C55826 load it to VRAM $4800 through $C58A65",src/bankC0_0000.asm
+$C00EE5,UnusedPalette,,new,"16 colours after MeterFontTiles; no 16-bit operand or pointer in the ROM is $0EE5",src/bankC0_0000.asm
+$C00F05,SoundRAMClear,,code,"SPC700 program at sound RAM $0020 as IPL upload blocks; $CF001A sends it through $CF004B, then the sound driver stream at $C00F49",src/bankC0_0000.asm
+$C00F09,.code,,new,SoundRAMClear: the block's bytes,src/bankC0_0000.asm
+$C00F09,.start,,new,SoundRAMClear: entry (sound RAM $0020),src/bankC0_0000.asm
+$C00F21,.loop,,new,SoundRAMClear: page clear loop (sound RAM $0038; the store's high byte is the page),src/bankC0_0000.asm
+$C00F45,.end,,new,SoundRAMClear: end block (length 0 and the start address),src/bankC0_0000.asm
+$FFC0,SPC_IPLROM,,new,sound CPU boot ROM entry (SoundRAMClear pcall target),src/inc/spc_regs.asm
+$F1,SPC_CONTROL,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$F2,SPC_DSPADDR,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$F3,SPC_DSPDATA,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$F4,SPC_PORT0,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$F5,SPC_PORT1,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$F6,SPC_PORT2,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$F7,SPC_PORT3,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$FA,SPC_T0TARGET,,94S,sound CPU register (94S SoundDriver),src/inc/spc_regs.asm
+$0C,DSP_MVOLL,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$1C,DSP_MVOLR,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$2C,DSP_EVOLL,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$3C,DSP_EVOLR,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$4C,DSP_KON,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$5C,DSP_KOF,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$6C,DSP_FLG,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$0D,DSP_EFB,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$2D,DSP_PMON,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$3D,DSP_NON,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$4D,DSP_EON,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$5D,DSP_DIR,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$6D,DSP_ESA,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$7D,DSP_EDL,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$0F,DSP_C0,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$1F,DSP_C1,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$2F,DSP_C2,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$3F,DSP_C3,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$4F,DSP_C4,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$5F,DSP_C5,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$6F,DSP_C6,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$7F,DSP_C7,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm

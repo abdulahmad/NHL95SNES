@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_0000. <- CURRENT
+bankC0_1000 (org $C00F49). <- CURRENT
 
 ## Sources
 
@@ -72,6 +72,10 @@ bankC0_0000. <- CURRENT
 - 2026-10-31: `tools/disasm65816.py`, the NHL94SNES quick-pass disassembler ported to HiROM (bank $C0-$CF file mapping, system
   banks only above $8000, vectors in bank $00, run bank kept per instruction, `--codemap` optional, `xref.txt` of long operands).
   `tools/verify_segment.sh` runs asar on Windows too.
+- 2026-10-31: bankC0_0000 matched (data only). Four packed sets (TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles):
+  header as dw, stream as a ROM cut; their ends come from `tools/unpack95.py`, a model of the bank $C5 unpacker. UnusedPalette.
+  SoundRAMClear as `arch spc700` source; SPC and DSP register names (94S) in `src/inc/spc_regs.asm`. End moved to $C00F48,
+  bankC0_1000 org to $C00F49.
 
 ## ROM map
 
@@ -79,8 +83,8 @@ The first row that is still incbin is the current segment.
 
 | File | Status | Org | End | Note |
 |---|---|---|---|---|
-| bankC0_0000 | incbin <- CURRENT | $C00000 | $C00FFF | |
-| bankC0_1000 | incbin | $C01000 | $C01FFF | |
+| bankC0_0000 | matched 3913 bytes | $C00000 | $C00F48 | TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles (packed for the bank $C5 unpacker: size, format, ROM cut), UnusedPalette, SoundRAMClear (SPC700 source); end moved -$B7 (the sound driver's upload blocks start at $C00F49) |
+| bankC0_1000 | incbin <- CURRENT | $C00F49 | $C01FFF | org moved to $C00F49: starts with the sound driver (SMSG 3.07w) upload blocks, which end at $C01A39 |
 | bankC0_2000 | incbin | $C02000 | $C02FFF | |
 | bankC0_3000 | incbin | $C03000 | $C03FFF | |
 | bankC0_4000 | incbin | $C04000 | $C04FFF | |
