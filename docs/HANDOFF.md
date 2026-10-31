@@ -14,8 +14,9 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC1_1000
-  (org $C110B8) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC1_B000
+  (org $C1BA31) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is source to $C1BA30 (sprite data, then
+  TeamNicknameTiles). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte
   BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54,
   20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2,
@@ -29,6 +30,13 @@
   $1000 buffer and queues it for VRAM at Y). Header: size word, format word (0, 2, 4, 6, 8: the jump table at $C58219), stream.
   `python3 tools/unpack95.py lst/nhl95snes.sfc ADDR...` (a model of the five formats; format 8 not yet seen) gives the exact
   end and checks the size; keep the stream as a ROM cut after `dw size, format`.
+- Map sets (MapSetToVRAM to VRAM and CGRAM; $C5881C / $C58812 to a WRAM buffer) are three chunks, each a length word
+  (the bytes after it), so the next chunk is at chunk + length + 2: the map (width, height, flags with bit 7 packed, then an
+  LZSS count word and stream), the tiles (tile count word, flags $80, two bytes 4 and 4, a zero, then the LZSS count word and
+  stream), the colours (palette count byte, colours per palette word, colour count word, the colours). In bank $C1 from
+  $C1BA31: the pause screen (Info / Stats / Options tabs, periods, penalty boxes), the faceoff boxes (4 frames of 12 x 10, as
+  94S FaceOffMap), a pad's four buttons with tape-deck symbols ($C373C7, not traced), the playoff bracket with the Stanley
+  Cup (100 x 28), and the city name bars of the 26 teams (12 x 52, it ends in bank $C2 at $C20AB8).
 - Transfer queues are separate stacks: $00 VRAM, $04 CGRAM (the $C4CC5x loop writes CGADD and DMAs to CGDATA). A record is
   pushed as size, destination, bank, source while $06 is decremented (busy).
 - Sound: $CF001A sends SoundRAMClear ($C00F05), then the sound driver upload blocks at $C00F49 (SMSG 3.07w Jason Andersen / John

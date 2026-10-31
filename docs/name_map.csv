@@ -549,3 +549,4 @@ $C085D3,SpriteScript_C085D3,,new,"animation script",src/bankC0_8000.asm
 $C085D8,SpriteScript_C085D8,,new,"animation script",src/bankC0_8000.asm
 $C08634,SpriteScript_C08634,,new,"animation script",src/bankC0_8000.asm
 $C0863B,SpriteScript_C0863B,,new,"animation script",src/bankC0_8000.asm
+$C19B68,TeamNicknameTiles,,render,"560 4bpp tiles, packed format 0 ($4600 bytes): the 28 team nicknames (94S team order, then All Stars E and W) in yellow dot-matrix letters, 10 x 2 tiles each; the screen setup at $C5519F unpacks them to a heap block",src/bankC1_A000.asm

@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC1_A000 (org $C19B68) afterwards. <- CURRENT
+bankC1_B000 (org $C1BA31) afterwards. <- CURRENT
 
 ## Sources
 
@@ -143,6 +143,8 @@ bankC1_A000 (org $C19B68) afterwards. <- CURRENT
   in 94S team order, then the EA intro, NHL and NHLPA logos and others); SpritePieces as source. Next org $C19B68.
 - 2026-10-31: SpriteObjects (was DATA8_C08000) is source in bankC0_8000: the header, the records, frame lists, frame headers and
   scripts, with the bank $C1 labels (the pieces offset as label - SpritePieces, the frame count as a label difference).
+- 2026-10-31: bankC1_A000 matched: TeamNicknameTiles (rendered: the 28 team nicknames in dot-matrix letters, a set for
+  Decompress), the whole of it, so the end moved to $C1BA30. Next org $C1BA31 (map sets: map, tiles and colours).
 
 ## ROM map
 
@@ -176,8 +178,8 @@ The first row that is still incbin is the current segment.
 | bankC1_7000 | matched 3836 bytes | $C17138 | $C18033 | sprite frame tiles SkaterTiles02, SkaterTiles03, SkaterTiles04, SkaterTiles05 ... EASportsTiles (incbin, named by sprite and frame); org moved to $C17138, end moved +$34 |
 | bankC1_8000 | matched 4176 bytes | $C18034 | $C19083 | sprite frame tiles EALogoETiles, EALogoATiles, SportsWordTiles, ElectronicWordTiles ... BlackBoxTiles (incbin, named by sprite and frame); org moved to $C18034, end moved +$84 |
 | bankC1_9000 | matched 2788 bytes | $C19084 | $C19B67 | sprite frame tiles NHLShieldTiles, NHLPATiles and SpritePieces (incbin, named by sprite and frame); org moved to $C19084, end moved -$498 |
-| bankC1_A000 | incbin | $C19B68 | $C1AFFF | org moved to $C19B68 |
-| bankC1_B000 | incbin | $C1B000 | $C1BFFF | |
+| bankC1_A000 | matched 7881 bytes | $C19B68 | $C1BA30 | TeamNicknameTiles (packed format 0, incbin after its header); org moved to $C19B68, end moved +$A31 |
+| bankC1_B000 | incbin | $C1BA31 | $C1BFFF | org moved to $C1BA31 |
 | bankC1_C000 | incbin | $C1C000 | $C1CFFF | |
 | bankC1_D000 | incbin | $C1D000 | $C1DFFF | |
 | bankC1_E000 | incbin | $C1E000 | $C1EFFF | |
