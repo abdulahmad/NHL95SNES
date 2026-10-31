@@ -699,3 +699,4 @@ $C433C3,DATA8_C433C3,,new,"an rtl no traced code reaches (in bankC4_3000)",src/b
 $C43530,DATA8_C43530,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
 $C436DC,DATA8_C436DC,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
 $C436DD,DATA8_C436DD,,new,"not traced: a table read by CODE_C4366D (in bankC4_3000)",src/bankC4_3000.asm
+$C44CDD,DATA8_C44CDD,,new,"not traced: a table read by CODE_C44D4D, CODE_C44D62 (in bankC4_4000)",src/bankC4_4000.asm
