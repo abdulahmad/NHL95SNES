@@ -1482,7 +1482,7 @@ CODE_C52BD5:						; from CODE_C52BC5
 	sta.w $184C,y
 	jmp.w CODE_C5404A
 CODE_C52BE2:						; from CODE_C52B5D
-	jml.l $C42D10
+	jml.l CODE_C42D10
 CODE_C52BE6:						; from CODE_C52B5D, CODE_C52C5E
 	ldy.w #$0000
 	cpx.w #$000C

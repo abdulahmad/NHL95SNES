@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_2000 (org $C42030), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_3000 (org $C4313E), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -172,6 +172,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   (DATA8_C57810), and two callbacks of CODE_C55ABC, one pushed with pea and pulled into A (its pea operands are labels). Bank
   $C5 is all source. The code-first track goes on with bank $C4 (bank $C3 starts with the team database): next bankC4_0000 (org
   $C40000).
+- 2026-10-31: bankC4_2000 matched: the rest of the data run, then game code. asstab long pointers (dd / dl in source) are now
+  trusted seeds; a long pointer set with lda #bank, sta / lda #low, sta and handed to the routine at $C45950 is code, otherwise
+  data read through it: both get labels (label>>16 for the bank). End moved to $C4313D, bankC4_3000 org to $C4313E.
 - 2026-10-31: bankC4_1000 matched: data only (no code reaches it). The tables get DATA8_ labels where code reads them with a
   long address, and bankC4_0000 / bankC5_C000 use those labels now. From DATA8_C41E48 the data looks like animation lists (8
   word pointers, one per direction, to frame / value pairs ending with a negative word): not traced yet. End moved to $C4202F,
@@ -317,8 +320,8 @@ The first row that is still incbin is the current segment.
 | bankC3_F000 | incbin | $C3F000 | $C3FFFF | |
 | bankC4_0000 | matched 4102 bytes | $C40000 | $C41005 | game code with CODE_ names and their callers, jump tables DATA8_C400FE / C40130, then data tables (DATA8_ with their readers); out of ROM order, end moved +$6 |
 | bankC4_1000 | matched 4138 bytes | $C41006 | $C4202F | data tables (not traced), DATA8_ labels where code reads them with long addresses; from DATA8_C41E48 they look like animation lists (word pointers per direction to frame / value pairs); out of ROM order, org moved to $C41006, end moved +$30 |
-| bankC4_2000 | incbin <- CURRENT | $C42030 | $C42FFF | org moved to $C42030 |
-| bankC4_3000 | incbin | $C43000 | $C43FFF | |
+| bankC4_2000 | matched 4366 bytes | $C42030 | $C4313D | more data tables (not traced), then game code with CODE_ names: asstab routines, one routine passed as a long pointer (lda #bank / #low) to the routine at $C45950; out of ROM order, org moved to $C42030, end moved +$13E |
+| bankC4_3000 | incbin <- CURRENT | $C4313E | $C43FFF | org moved to $C4313E |
 | bankC4_4000 | incbin | $C44000 | $C44FFF | |
 | bankC4_5000 | incbin | $C45000 | $C45FFF | |
 | bankC4_6000 | incbin | $C46000 | $C46FFF | |

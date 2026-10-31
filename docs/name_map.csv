@@ -688,3 +688,8 @@ $C410AE,DATA8_C410AE,,new,"not traced: a table read by CODE_C407EE (in bankC4_10
 $C410E6,DATA8_C410E6,,new,"not traced: a table read by CODE_C409C0 (in bankC4_1000)",src/bankC4_1000.asm
 $C41166,DATA8_C41166,,new,"not traced: a table read by CODE_C40322, CODE_C400AC (in bankC4_1000)",src/bankC4_1000.asm
 $C41E48,DATA8_C41E48,,new,"not traced: a table read by CODE_C4A2A3 (in bankC4_1000)",src/bankC4_1000.asm
+$C42030,DATA8_C42030,,new,"not traced: more of the data from bankC4_1000 (pointer tables, lists) (in bankC4_2000)",src/bankC4_2000.asm
+$C42DC5,DATA8_C42DC5,,new,"an rtl no traced code reaches (in bankC4_2000)",src/bankC4_2000.asm
+$C43078,DATA8_C43078,,new,"an rtl no traced code reaches (in bankC4_2000)",src/bankC4_2000.asm
+$C43079,DATA8_C43079,,new,"not traced: a table read by CODE_C43021 (in bankC4_2000)",src/bankC4_2000.asm
+$C4311B,DATA8_C4311B,,new,"an rtl no traced code reaches (in bankC4_2000)",src/bankC4_2000.asm

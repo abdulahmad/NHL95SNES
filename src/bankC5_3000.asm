@@ -1604,7 +1604,7 @@ CODE_C53CD3:						; from CODE_C53CBD
 	lda.w $10F5
 	bit.w #$2000
 	beq CODE_C53CEF
-	jsl.l $C42DA2
+	jsl.l CODE_C42DA2
 	beq CODE_C53CE9
 	lda.w $0436,y
 	sta.w $07D0
