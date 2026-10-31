@@ -81,9 +81,9 @@ CODE_C59052:						; called from other segments
 	sta.b $18
 	lda.b $08,x
 	sta.b $1A
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	lda.w $17C9
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $9B
 	jsr.w CODE_C5A4B9
 CODE_C59073:						; from CODE_C59052
@@ -95,9 +95,9 @@ CODE_C59073:						; from CODE_C59052
 	sta.b $18
 	lda.b $08,x
 	sta.b $1A
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	lda.w $17CB
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $9D
 	lda.w #$0001
 	sta.b $38,x
@@ -232,14 +232,14 @@ CODE_C590DA:						; called from other segments
 	lda.w #$4A65
 	ldx.w #$00C0
 	jsl.l SetNMIHook
-	jsl.l $C5E50E
+	jsl.l CODE_C5E50E
 	jsr.w CODE_C5C0BE
 	lda.w #$0008
 	sta.b $18
 	lda.w #$008C
 	sta.b $1A
 	lda.w #$001C
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $63
 	jsr.w CODE_C59217
 	lda.w #$00D7
@@ -247,7 +247,7 @@ CODE_C590DA:						; called from other segments
 	lda.w #$00D0
 	sta.b $1A
 	lda.w #$0020
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	jsr.w CODE_C592A9
 	jsl.l $C4CEDB
 	lda.w #$C000
@@ -263,18 +263,18 @@ CODE_C59217:						; from CODE_C590DA
 	lda.w #$0079
 	sta.b $1A
 	lda.w #$001C
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $73
 	lda.w #$0001
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	lda.w #$00C4
 	sta.b $1A
 	lda.w #$001C
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $75
 	inc.b $38,x
 	lda.w #$0002
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	rts
 DATA8_C59249:						; not reached by the traced code (data or unused code)
 	db $00,$00,$AD,$06,$19,$8F,$45,$60,$30,$D0,$23,$AD,$08,$19,$D0,$1E
@@ -288,7 +288,7 @@ CODE_C592A9:						; from CODE_C590DA
 	beq CODE_C592B4
 	dec a
 	beq CODE_C592B4
-	jsr.w $E41D
+	jsr.w CODE_C5E41D
 CODE_C592B4:						; from CODE_C592A9
 	lda.w $1864
 	cmp.w #$0003
@@ -420,7 +420,7 @@ CODE_C593BF:						; from CODE_C593BF
 	jsl.l $C36CBF
 	jsl.l $C4CEDB
 	inc.b $26
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -460,19 +460,19 @@ CODE_C59412:						; from CODE_C593F5
 	jsl.l $CF039E
 	jsl.l FadeOutWait
 	jsl.l forceblack
-	jsl.l $C5E50E
+	jsl.l CODE_C5E50E
 	lda.w #$0040
 	sta.b $20
 	lda.w #$0044
 	sta.b $1E
 	lda.w #$001D
-	jsl.l $C5EEF3
+	jsl.l CreateSpriteSharePal
 	lda.w #$0081
 	sta.w $17CD
-	jsl.l $C5EE6C
+	jsl.l CODE_C5EE6C
 	lda.w #$0080
 	sta.w $17CF
-	jsl.l $C5EE6C
+	jsl.l CODE_C5EE6C
 	lda.w #$FFFF
 	sta.b $0A,x
 	stz.b $20
@@ -585,11 +585,11 @@ CODE_C5951A:						; from CODE_C594C6, CODE_C594F2, CODE_C594EA, CODE_C59502
 	rts
 CODE_C5951B:						; from CODE_C593B8
 	ldx.b $63
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $73
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $75
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	jsr.w CODE_C5BBC0
 	lda.w #$0003
 	sta.b $1E
@@ -602,7 +602,7 @@ CODE_C5951B:						; from CODE_C593B8
 CODE_C59544:						; from CODE_C59544
 	phy
 	lda.w #$001D
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	ply
 	stx.b $73,y
 	lda.b $1A
@@ -610,7 +610,7 @@ CODE_C59544:						; from CODE_C59544
 	sta.b $1A
 	tya
 	lsr a
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	dey
 	dey
 	bpl CODE_C59544
@@ -703,7 +703,7 @@ CODE_C59651:						; from CODE_C59651, CODE_C59595, CODE_C5963A
 	jsl.l $C4CEDB
 	jsl.l $C36C2D
 	inc.b $26
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -1455,7 +1455,7 @@ CODE_C59C1F:						; from CODE_C59C0A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $A5
-	jsr.w $E447
+	jsr.w CODE_C5E447
 	jmp.w CODE_C59D39
 CODE_C59CC1:						; from CODE_C59C0A
 	lda.w $0529
@@ -1668,7 +1668,7 @@ CODE_C59E65:						; from CODE_C59E43
 	jsl.l $C4CEDB
 	ldx.b $63
 	lda.w #$0003
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	lda.b $36,x
 	and.w #$BFFF
 	sta.b $36,x

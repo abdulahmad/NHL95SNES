@@ -1447,7 +1447,7 @@ CODE_C58B48:						; called from other segments
 	jsl.l FadeOutWait
 	jsl.l $C4CEDB
 	jsl.l $C4C530
-	jsl.l $C5E50E
+	jsl.l CODE_C5E50E
 	pea.w $7E80
 	plb
 	sep #$20
@@ -1513,7 +1513,7 @@ CODE_C58BD0:						; from CODE_C58BD0
 CODE_C58BE4:						; called from other segments
 	jsl.l $C4CEDB
 	jsl.l $C4C530
-	jsl.l $C5E50E
+	jsl.l CODE_C5E50E
 	jsr.w SetBGMapRegs
 	db $58,$51,$5C,$5C,$02,$43		; inline parameters
 	pea.w $7E80
@@ -1685,7 +1685,7 @@ CODE_C58D4A:						; from CODE_C58D4A
 	inc.b $26
 	ldx.b $99
 	jsr (DATA8_C58DF0,x)
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00

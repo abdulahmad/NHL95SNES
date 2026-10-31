@@ -14,7 +14,7 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC5_E000, org $C5DF5F: code banks ($C3-$C5) first, approved by the project lead; then bankC3_0000 (org
+- Next: segment bankC5_F000, org $C5F071: code banks ($C3-$C5) first, approved by the project lead; then bankC3_0000 (org
   $C30000) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all source: the sprite data, TeamNicknameTiles, and
   the map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2 is all source: the
   end of the team name bars' set, the title screen's sets (TitlePlayers, TitleGoalie, TitleLogo), CenterIceTiles and
@@ -81,12 +81,13 @@
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
   the setup code. The last pair of uniform palettes (after the all-star teams) is not traced. The team order is 94S's (the
   sprite logos render WSH before WPG).
-- Sprite objects (`docs/sprite_objects.md`): SpriteObjects in bankC0_8000 is source (header, SpriteRecordList, 41
-  records <Name>Sprite, frame lists, frame headers <Name>Frame[NN], animation scripts), pointing at bank $C1: SpritePalettes,
-  the frame tiles <Name>Tiles[NN] (incbin) and SpritePieces (source). The records were rendered: 0-27 the team logos in
-  94S team order (WSH before WPG, then ASE, ASW), 28 not known (an arrow, then a spinning disc), 29 a pad and 1-5, 30 a
-  skater, then the EA intro pieces, a box, the NHL and NHLPA logos. Readers in bank $C5: $C5E665 (create), $C5EEF3,
-  $C5E8A5 (frame to VRAM), $C5F071 (format 0 without a header), $C5F0D1 (OAM), $C5E9C7 (scripts, commands at $C5EAAF).
+- Sprite objects (`docs/sprite_objects.md`): SpriteObjects in bankC0_8000 is source (header, SpriteRecordList, 41 records
+  <Name>Sprite, frame lists, frame headers <Name>Frame[NN], animation scripts), pointing at bank $C1: SpritePalettes, the frame
+  tiles <Name>Tiles[NN] (incbin) and SpritePieces (source). The records were rendered: 0-27 the team logos in 94S team order
+  (WSH before WPG, then ASE, ASW), 28 not known (an arrow, then a spinning disc), 29 a pad and 1-5, 30 a skater, then the EA
+  intro pieces, a box, the NHL and NHLPA logos. Readers in bank $C5 (CreateSprite, CreateSpriteSharePal, UploadSpriteFrame and
+  AnimateSprites are source in bankC5_E000): $C5E665 (create), $C5EEF3, $C5E8A5 (frame to VRAM), $C5F071 (format 0 without a
+  header), $C5F0D1 (OAM), $C5E9C7 (scripts, commands at $C5EAAF).
 - PadButtonsMap: a map set of a pad's four buttons with tape-deck symbols (rewind, fast forward, play); it may be the
   replay controls, but its loader ($C373C7, bank $C3) is not traced, so the name only says what it shows.
 - TeamNameBarsMap: the city name bars of the 26 teams (12 x 2 tiles each) are unpacked right after the playoff bracket

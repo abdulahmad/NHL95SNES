@@ -2,7 +2,16 @@
 ;	on its own for checking against the ROM (tools/verify_segment.sh bankC5_E000). The org is in the segment
 ;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+CODE_C58CCD = $C58CCD
+CODE_C5A3C1 = $C5A3C1
+CODE_C5A46A = $C5A46A
+CODE_C5B983 = $C5B983
+CODE_C5BBC0 = $C5BBC0
+CODE_C5D7E9 = $C5D7E9
+FadeOutWait = $C58A99
 
 incsrc "../bankC5_E000.asm"

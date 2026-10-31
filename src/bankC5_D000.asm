@@ -179,7 +179,7 @@ CODE_C5D160:						; from CODE_C5D160, CODE_C5D1B1, CODE_C5D1BF
 	wai
 	jsl.l $C37065
 	inc.b $26
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -230,16 +230,16 @@ CODE_C5D1C5:						; from CODE_C5D0F5
 CODE_C5D1D2:						; from CODE_C5D1D2
 	phy
 	ldx.b $73,y
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ply
 	dey
 	dey
 	bpl CODE_C5D1D2
 	lda.w #$001C
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $63
 	lda.w #$0003
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	rts
 CODE_C5D1EF:						; from CODE_C5D156
 	stz.b $65
@@ -449,7 +449,7 @@ CODE_C5D372:						; from CODE_C5D372, CODE_C5D42E
 	wai
 	jsl.l $C37065
 	inc.b $26
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -591,7 +591,7 @@ CODE_C5D485:						; from CODE_C5D44C
 	jsl.l $C4C2AA
 	ldx.b $63
 	lda.w #$0003
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	lda.w #$0010
 	sta.b $05,x
 	lda.b $65
@@ -650,7 +650,7 @@ CODE_C5D539:						; from CODE_C5D52E
 	jsr.w CODE_C5D5A5
 	ldx.b $63
 	lda.w #$0000
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	stz.b $67
 	jsr.w CODE_C5D54B
 	rts
@@ -1251,15 +1251,15 @@ CODE_C5D8E7:						; called from other segments
 	lda.w #$0010
 	sta.b $18
 	lda.w #$001C
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $8B
 	lda.w #$0001
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	lda.w #$001C
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $8D
 	lda.w #$0002
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	lda.b $77
 	sta.b $91
 	lda.b $73
@@ -1930,14 +1930,14 @@ CODE_C5DEBC:						; from CODE_C5DEB4
 	tyx
 	lda.w $0008,y
 	sta.w $0034,y
-	jsr.w $E123
+	jsr.w CODE_C5E123
 	tya
 	clc
 	adc.w #$0016
 	tax
 	lda.w $000A,y
 	sta.w $001E,y
-	jsr.w $E123
+	jsr.w CODE_C5E123
 	lda.w $0024,y
 	sta.w $0020,y
 	lda.w $000E,y
@@ -1982,7 +1982,7 @@ CODE_C5DEBC:						; from CODE_C5DEB4
 	tay
 	adc.w #$001A
 	tax
-	jsr.w $DF5F
+	jsr.w CODE_C5DF5F
 	lda.w #$2DC9
 	sta.b $38
 	lda.b $01,s
@@ -1990,7 +1990,7 @@ CODE_C5DEBC:						; from CODE_C5DEB4
 	tax
 	adc.w #$0016
 	tay
-	jsr.w $DF5F
+	jsr.w CODE_C5DF5F
 	ply
 CODE_C5DF50:						; from CODE_C5DEAD, CODE_C5DEB4
 	clc

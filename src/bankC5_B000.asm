@@ -13,9 +13,9 @@ CODE_C5AFB6:						; called from other segments
 	pea.w $0000
 CODE_C5AFCC:						; called from other segments
 	ldx.b $77
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $79
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
 	jsl.l $C4C530
@@ -191,7 +191,7 @@ CODE_C5B17A:						; called from other segments
 	jsl.l $C4BB5A
 	jsl.l $C4CEDB
 	stz.b $7F
-	jsl.l $C5E37E
+	jsl.l CODE_C5E37E
 	stz.b $83
 CODE_C5B1AF:						; called from other segments
 	jsr.w CODE_C5C029
@@ -1427,7 +1427,7 @@ CODE_C5BBBC:						; called from other segments
 	rtl
 CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	inc.b $26
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -1568,11 +1568,11 @@ CODE_C5BCD9:						; from CODE_C5B0EA and other segments
 	sta.b $1A
 CODE_C5BCE3:						; from CODE_C5B7F1
 	ldx.b $9B
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	stz.b $9B
 	jsr.w CODE_C5A4B9
 	lda.w $17C9
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $9B
 	lda.w #$0001
 	sta.b $26

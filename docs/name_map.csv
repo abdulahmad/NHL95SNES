@@ -604,3 +604,10 @@ $C5BB9C,DATA8_C5BB9C,,new,"not traced: a table read by CODE_C5BB91 (in bankC5_B0
 $C5BEDD,DATA8_C5BEDD,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
 $C5C0AE,DATA8_C5C0AE,,new,"the compare routines of the sort in CODE_C5C029 (one per sort key) (in bankC5_C000)",src/bankC5_C000.asm
 $C5C655,DATA8_C5C655,,new,"not traced: data between routines (in bankC5_C000)",src/bankC5_C000.asm
+$C5E499,DATA8_C5E499,,new,"not traced: data between routines (in bankC5_E000)",src/bankC5_E000.asm
+$C5E655,DATA8_C5E655,,new,"jump table: the routine for each index (in bankC5_E000)",src/bankC5_E000.asm
+$C5EABA,DATA8_C5EABA,,new,"jump table: the routine for each index (in bankC5_E000)",src/bankC5_E000.asm
+$C5E665,CreateSprite,,trace,"create a sprite object from record A (docs/sprite_objects.md): record pointer from SpriteRecordList, carry clear on success, X = the object; about 45 jsl callers",src/bankC5_E000.asm
+$C5E8A5,UploadSpriteFrame,,trace,"queue the current frame's tiles of object X for VRAM, unpacking them (UnpackStream0) if the frame header says packed",src/bankC5_E000.asm
+$C5E9C7,AnimateSprites,,trace,"the animation tick of all sprite objects: count down, then step the script (bit 7 bytes are commands, dispatched through DATA8_C5EABA)",src/bankC5_E000.asm
+$C5EEF3,CreateSpriteSharePal,,trace,"CreateSprite, but the new object shares the palette slot of the object in Y",src/bankC5_E000.asm

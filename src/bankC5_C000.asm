@@ -135,12 +135,12 @@ CODE_C5C0BE:						; called from other segments
 	ldx.w #$5184
 	jsl.l $C387D8
 	lda.w $17C9
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $9B
 	lda.w #$0040
 	sta.b $18
 	lda.w $17CB
-	jsl.l $C5E665
+	jsl.l CreateSprite
 	stx.b $9D
 	inc.b $38,x
 	jsr.w CODE_C5A46A
@@ -163,7 +163,7 @@ CODE_C5C117:						; from CODE_C5C117, CODE_C5C162, CODE_C5C179, CODE_C5C174, ...
 	asl a
 	adc.w #$0076
 	sta.b $08,x
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -275,12 +275,12 @@ CODE_C5C214:						; called from other segments
 	ldx.w #$5115
 	jsl.l $C387D8
 	ldx.b $9B
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	stz.b $9B
 	ldx.b $73
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $75
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $9D
 	lda.w #$00D0
 	sta.b $05,x
@@ -288,7 +288,7 @@ CODE_C5C214:						; called from other segments
 	sta.b $08,x
 	ldx.b $63
 	lda.w #$0003
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	jsl.l $C4C530
 	jsl.l $C4BAF6
 	lda.w #$53AB
@@ -922,7 +922,7 @@ CODE_C5C730:						; from CODE_C5C730, CODE_C5C777, CODE_C5C78A, CODE_C5C785, ...
 	asl a
 	adc.w #$0076
 	sta.b $08,x
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -1046,11 +1046,11 @@ CODE_C5C826:						; from CODE_C5C722
 	ldx.w #$5115
 	jsl.l $C387D8
 	ldx.b $9B
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $73
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $75
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $9D
 	lda.w #$00D0
 	sta.b $05,x
@@ -1058,7 +1058,7 @@ CODE_C5C826:						; from CODE_C5C722
 	sta.b $08,x
 	ldx.b $63
 	lda.w #$0003
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	jsl.l $C4C530
 	jsl.l $C4BAF6
 	lda.w #$53D5
@@ -1306,7 +1306,7 @@ CODE_C5CA97:						; from CODE_C5CA7A
 	adc.w #$008E
 CODE_C5CA9A:						; from CODE_C5CA7A
 	sta.b $08,x
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -1387,16 +1387,16 @@ CODE_C5CB36:						; from CODE_C5CA6C
 	sta.w $04C6
 	jsl.l $C4CEDB
 	ldx.b $9B
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $9D
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $73
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $75
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	ldx.b $63
 	lda.w #$0003
-	jsl.l $C5ECBD
+	jsl.l CODE_C5ECBD
 	jsl.l $C4C530
 	jsl.l $C4BAF6
 	lda.w #$56F2
@@ -1602,7 +1602,7 @@ CODE_C5CD47:						; from CODE_C5CD47, CODE_C5CD8E
 	wai
 	jsl.l $C36C2D
 	inc.b $26
-	jsl.l $C5E9C7
+	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -1650,10 +1650,10 @@ CODE_C5CDA1:						; from CODE_C5CD90
 	lda.w #$012C
 	sta.b $05,x
 	ldx.b $8B
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	stz.b $8B
 	ldx.b $8D
-	jsl.l $C5E596
+	jsl.l CODE_C5E596
 	stz.b $8D
 	jsl.l $C4C530
 	jsl.l $C4BAF6
