@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+HighScoreMap = $C2BB69
 
 incsrc "../bankC2_A000.asm"

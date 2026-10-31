@@ -571,3 +571,7 @@ $C2334F,TitleGoalieTiles,,render,"map set chunk 2: 677 4bpp tiles, LZSS ($54A0 b
 $C27487,TitleLogoTiles,,render+94S,"map set chunk 2: 176 2bpp tiles, LZSS ($0B00 bytes); 94S TitleLogoTiles: the title logo pieces with the (R) mark",src/bankC2_7000.asm
 $C2790C,TitleLogoPalette,,render,"map set chunk 3: 3 palettes of 4 colours",src/bankC2_7000.asm
 $C2792B,CenterIceTiles,,render+94S+code,"672 4bpp tiles, packed format 4 ($5400 bytes): the centre ice logos of the 28 teams in team order (WSH before WPG, then the Eastern and Western all-stars), 6 x 4 tiles each on ice blue; $C52135 unpacks them and queues team $17C9's (home) $300 bytes to VRAM $2080 with its colours from $C2ADCA to CGRAM palette 3, as 94S CenterIceTiles<team> (the home team's logo); also $C557C4",src/bankC2_8000.asm
+$C2ADCA,CenterIcePalettes,,code+render,"28 x 16 colours in team order for CenterIceTiles; $C5216F queues team $17C9's (home) 32 bytes to CGRAM palette 3",src/bankC2_A000.asm
+$C2B14A,VisualConceptsMap,,render,"map set chunk 1 (32 x 12 word map, LZSS, $0300 bytes): the developer credit VISUAL CONCEPTS ... PRESENT; the screen setup at $C4B98E loads it (BG map $5900) and HighScoreMap (BG map $5000)",src/bankC2_A000.asm
+$C2B27C,VisualConceptsTiles,,render,"map set chunk 2: 101 4bpp tiles, LZSS ($0CA0 bytes)",src/bankC2_A000.asm
+$C2BB22,VisualConceptsPalette,,render,"map set chunk 3: 2 palettes of 16 colours",src/bankC2_A000.asm

@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC2_A000 (org $C2A000) afterwards. <- CURRENT
+bankC2_B000 (org $C2BB69) afterwards. <- CURRENT
 
 ## Sources
 
@@ -174,6 +174,9 @@ bankC2_A000 (org $C2A000) afterwards. <- CURRENT
 - 2026-10-31: bankC2_8000 matched: CenterIceTiles' header and the start of its stream (format 4, 672 tiles; the stream
   ends at $C2ADC9 in bankC2_A000). Next org $C29000.
 - 2026-10-31: bankC2_9000 matched: the middle of CenterIceTiles' stream. Next org $C2A000.
+- 2026-10-31: bankC2_A000 matched: the end of CenterIceTiles, CenterIcePalettes (16 colours per team, as source), and the
+  Visual Concepts credit's map set (VisualConcepts*; one screen shows it with the High Score Productions credit). Next
+  org $C2BB69.
 
 ## ROM map
 
@@ -223,8 +226,8 @@ The first row that is still incbin is the current segment.
 | bankC2_7000 | matched 2347 bytes | $C27000 | $C2792A | the rest of TitleGoalieTiles' stream, TitleGoaliePalette, TitleLogoMap/Tiles/Palette (map set chunks: headers and colours as source, the LZSS streams incbin); end moved -$6D5 |
 | bankC2_8000 | matched 5845 bytes | $C2792B | $C28FFF | CenterIceTiles (packed format 4: header as source, the start of the stream incbin); org moved to $C2792B |
 | bankC2_9000 | matched 4096 bytes | $C29000 | $C29FFF | the middle of CenterIceTiles' stream (incbin) |
-| bankC2_A000 | incbin | $C2A000 | $C2AFFF | |
-| bankC2_B000 | incbin | $C2B000 | $C2BFFF | |
+| bankC2_A000 | matched 7017 bytes | $C2A000 | $C2BB68 | the rest of CenterIceTiles' stream, CenterIcePalettes (source), VisualConceptsMap/Tiles/Palette (a map set: headers and colours as source, the LZSS streams incbin); end moved +$B69 |
+| bankC2_B000 | incbin | $C2BB69 | $C2BFFF | org moved to $C2BB69 (HighScoreMap) |
 | bankC2_C000 | incbin | $C2C000 | $C2CFFF | |
 | bankC2_D000 | incbin | $C2D000 | $C2DFFF | |
 | bankC2_E000 | incbin | $C2E000 | $C2EFFF | |
