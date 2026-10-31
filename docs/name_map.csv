@@ -101,3 +101,5 @@ $C04CC3,DATA8_C04CC3,,new,"4 bytes picked by $83 at $C5BFEB",src/bankC0_4000.asm
 $C04CC7,BitMaskTable,,94S,"the 16 single-bit words, as 94S BitMaskTable (93S); $C50C08 ORs one into the save RAM flags at $30:6051",src/bankC0_4000.asm
 $C04CE7,PhotoPalettesTB,,render,"Tampa Bay: 16 colours for each of its 6 player photos (94S has one PhotoPaletteTB per team); entry 21 of the per-team photo table at $C35EAB (read 1-based as $C35EA7 + 4n at $C52EDD)",src/bankC0_4000.asm
 $C04DA7,PlayerPhotosTB,,render,"Tampa Bay: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each (94S keeps one packed photo per Card<NNN>)",src/bankC0_4000.asm
+$C05DAC,PhotoPalettesTOR,,render,"Toronto: 16 colours for each of its 6 player photos; entry 22 of the per-team photo table at $C35EAB (blue and white jerseys when rendered)",src/bankC0_5000.asm
+$C05E6C,PlayerPhotosTOR,,render,"Toronto: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each",src/bankC0_5000.asm
