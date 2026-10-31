@@ -1495,7 +1495,7 @@ CODE_C52BF1:						; from CODE_C52BE6
 CODE_C52BFA:						; from CODE_C52B4E
 	lda.w $1000,x
 	bne CODE_C52B98
-	jsl.l $C4837C
+	jsl.l CODE_C4837C
 	lda.w $0A20,x
 	bne CODE_C52C0D
 	lda.w $1060,x

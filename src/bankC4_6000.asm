@@ -1213,7 +1213,7 @@ DATA8_C4693F:						; not traced: a table read by CODE_C46075, CODE_C4615F, CODE_
 CODE_C4694F:						; from CODE_C470E7 and other segments
 	lda.w $0A20,x
 	bne CODE_C46957
-	jmp.w $86FD
+	jmp.w CODE_C486FD
 CODE_C46957:						; from CODE_C4694F
 	lda.w $0C80,x
 	cmp.w #$2082

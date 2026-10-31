@@ -709,3 +709,5 @@ $C4693F,DATA8_C4693F,,new,"not traced: a table read by CODE_C46075, CODE_C4615F,
 $C46B26,DATA8_C46B26,,new,"not traced: a table read by CODE_C46A53 (in bankC4_6000)",src/bankC4_6000.asm
 $C46DB0,DATA8_C46DB0,,new,"jump table: the routine for each index (in bankC4_6000)",src/bankC4_6000.asm
 $C46F93,DATA8_C46F93,,new,"jump table: the routine for each index (in bankC4_6000)",src/bankC4_6000.asm
+$C48B47,DATA8_C48B47,,new,"not traced: data between routines (in bankC4_8000)",src/bankC4_8000.asm
+$C4883F,rtss,,94S,"an rtl that asstab entry 0 points at (no assignment); 94S rtss is the same (entry 0 is 0 in the 94 and the 95 Genesis order); also passed as a long pointer to CODE_C45950",src/bankC4_8000.asm

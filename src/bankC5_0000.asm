@@ -287,7 +287,7 @@ CODE_C502B1:						; from CODE_C50269
 	sbc.b $9B
 	sta.w $18C2
 	bpl CODE_C502BF
-	jsl.l $C486C7
+	jsl.l CODE_C486C7
 	bra CODE_C502EB
 CODE_C502BF:						; from CODE_C502B1
 	sta.b $34
@@ -371,9 +371,9 @@ CODE_C50364:						; from CODE_C5033D and other segments
 	clc
 	adc.w #$0018
 	sta.w $07BC
-	jsl.l $C487EB
+	jsl.l CODE_C487EB
 	jsl.l CODE_C54B1B
-	jsl.l $C48241
+	jsl.l CODE_C48241
 	jsl.l CODE_C47787
 CODE_C50392:						; from CODE_C50364
 	rtl
@@ -1197,7 +1197,7 @@ CODE_C50A64:						; from CODE_C50A54
 	dec.b $87
 	bpl CODE_C50A54
 CODE_C50A6C:						; from CODE_C50AC3
-	jsl.l $C4818C
+	jsl.l CODE_C4818C
 	lda.l $7E24CA
 	clc
 	adc.w #$03E8
@@ -1237,7 +1237,7 @@ CODE_C50AC3:						; from CODE_C50A14, CODE_C50A36
 	lda.w $1864
 	beq CODE_C50A6C
 CODE_C50AD0:						; from CODE_C50AC3
-	jsl.l $C486C7
+	jsl.l CODE_C486C7
 	lda.w #$0002
 	sta.b $7F
 	jml.l CODE_C093DD

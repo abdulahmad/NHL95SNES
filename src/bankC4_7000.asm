@@ -206,7 +206,7 @@ CODE_C471E2:						; from CODE_C47177 and other segments
 CODE_C471ED:						; from CODE_C471A7
 	jmp.w CODE_C45950
 CODE_C471F0:						; called from other segments
-	jsl.l $C47FB5
+	jsl.l CODE_C47FB5
 	jsl.l CODE_C4724D
 	jsl.l CODE_C4740D
 	jml.l $C38C4A
@@ -818,7 +818,7 @@ CODE_C4769A:						; from CODE_C4768A
 	jsl.l CODE_C513F4
 	bra CODE_C4770C
 CODE_C476E1:						; from CODE_C4753F
-	jsl.l $C4866D
+	jsl.l CODE_C4866D
 CODE_C476E5:						; from CODE_C47560
 	lda.w #$0000
 	sta.b ($63)
@@ -1199,7 +1199,7 @@ CODE_C479EC:						; from CODE_C479B1
 	inc.b $63
 	bra CODE_C4799B
 CODE_C479FB:						; from CODE_C4797A
-	jsl.l $C4818C
+	jsl.l CODE_C4818C
 CODE_C479FF:						; from CODE_C4799B
 	ldy.b $6B
 	lda.w $12C7,y
@@ -1556,7 +1556,7 @@ CODE_C47CB6:						; from CODE_C47C8C
 	sty.b $6B
 	stx.b $6F
 	jsl.l CODE_C44F20
-	jsl.l $C480B5
+	jsl.l CODE_C480B5
 	beq CODE_C47D0B
 	lda.w $18B0
 	bpl CODE_C47D0B
@@ -1571,7 +1571,7 @@ CODE_C47CB6:						; from CODE_C47C8C
 CODE_C47D0A:						; from CODE_C47C8C, CODE_C47CB6
 	rtl
 CODE_C47D0B:						; from CODE_C47CB6
-	jsl.l $C48199
+	jsl.l CODE_C48199
 	lda.b $7F
 	cmp.w #$0005
 	bcs CODE_C47D1F

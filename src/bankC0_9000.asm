@@ -443,7 +443,7 @@ CODE_C09336:						; called from CODE_C092F0, CODE_C0930C
 	stz.w $189E
 	stz.w $18A2
 	pei ($6B)
-	jsl.l $C4818C
+	jsl.l CODE_C4818C
 	stz.w $10F1
 	lda.b $6B
 	beq CODE_C0934F
@@ -474,7 +474,7 @@ CODE_C09366:						; loop
 CODE_C0937C:						; from CODE_C09366
 	sty.w $18B6
 CODE_C0937F:						; from CODE_C09366
-	jsl.l $C4866D
+	jsl.l CODE_C4866D
 	lda.b $6B
 	beq CODE_C093B2
 	lda.w $18A0
@@ -735,7 +735,7 @@ CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C095
 	lda.w $24C0
 	sta.b $87
 	jsl.l CODE_C528D4
-	jsl.l $C48A41
+	jsl.l CODE_C48A41
 	lda.b $7F
 	dec a
 	sta.b $83
@@ -849,7 +849,7 @@ CODE_C096AF:						; loop
 CODE_C096C0:						; called from CODE_C0951F
 	lda.w $1878
 	bne CODE_C096F7
-	jsl.l $C48A41
+	jsl.l CODE_C48A41
 	lda.w #$0000
 	sta.b $69
 	lda.w #$188C
@@ -892,7 +892,7 @@ CODE_C096F7:						; from CODE_C096C0
 	jsl.l CODE_C5362E
 	lda.b $7F
 	sta.w $187C
-	jsl.l $C48A41
+	jsl.l CODE_C48A41
 	lda.w $187C
 	sec
 	sbc.b $7F
@@ -1128,7 +1128,7 @@ CODE_C09956:						; from CODE_C09943
 	sta.b $7F
 	sta.b r1
 	stz.b r2
-	jsl.l $C48A41
+	jsl.l CODE_C48A41
 	lda.b r1
 	cmp.b $7F
 	bpl CODE_C09977

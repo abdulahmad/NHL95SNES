@@ -317,7 +317,7 @@ CODE_C451BF:						; from CODE_C45147
 	cmp.w #$8000
 	ror a
 	sta.w $09C0,x
-	jsl.l $C4824A
+	jsl.l CODE_C4824A
 	lda.w #$0004
 	sta.w $1141
 	lda.w #$0016
@@ -648,7 +648,7 @@ CODE_C45476:						; from CODE_C45413, CODE_C4546A
 	sec
 	sbc.w $0FA0,x
 	bmi CODE_C454D4
-	jsl.l $C48199
+	jsl.l CODE_C48199
 	lda.b $7F
 	cmp.w #$0001
 	bcs CODE_C454D3
@@ -664,7 +664,7 @@ CODE_C45476:						; from CODE_C45413, CODE_C4546A
 CODE_C454D3:						; from CODE_C45476
 	rtl
 CODE_C454D4:						; from CODE_C45476
-	jsl.l $C48199
+	jsl.l CODE_C48199
 	lda.b $7F
 	cmp.w #$0001
 	bcs CODE_C454F7
@@ -678,7 +678,7 @@ CODE_C454D4:						; from CODE_C45476
 	sta.b $7F
 	jsl.l CODE_C4789D
 CODE_C454F7:						; from CODE_C454D4
-	jsl.l $C480B5
+	jsl.l CODE_C480B5
 	beq CODE_C45516
 	lda.w $18B0
 	bpl CODE_C45516
@@ -953,7 +953,7 @@ CODE_C456F8:						; from CODE_C456B5
 	lda.w #$22B2
 CODE_C4574C:						; from CODE_C456F8
 	jsl.l CODE_C457B5
-	jsl.l $C480B5
+	jsl.l CODE_C480B5
 	beq CODE_C45771
 	lda.w $18B0
 	bpl CODE_C45771
@@ -966,7 +966,7 @@ CODE_C4574C:						; from CODE_C456F8
 	jsl.l CODE_C4789D
 	bra CODE_C45792
 CODE_C45771:						; from CODE_C4574C
-	jsl.l $C48199
+	jsl.l CODE_C48199
 	lda.b $7F
 	cmp.w #$0001
 	bcs CODE_C45792

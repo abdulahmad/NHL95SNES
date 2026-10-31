@@ -1207,7 +1207,7 @@ CODE_C51AE9:						; from CODE_C51ADA
 	sta.w $18C0
 	lda.w #$0384
 	sta.w $18C2
-	jml.l $C4818C
+	jml.l CODE_C4818C
 CODE_C51AFF:						; called from other segments
 	lda.w #$000D
 	jsl.l $CF040B
@@ -1329,7 +1329,7 @@ CODE_C51BFF:						; from CODE_C51BB6
 CODE_C51C04:						; from CODE_C51BB6, CODE_C51BF2
 	sty.b $6B
 	ldx.b $6F
-	jsl.l $C4843B
+	jsl.l CODE_C4843B
 CODE_C51C0C:						; from CODE_C51BB6, CODE_C51BF2
 	lda.w $12FF
 	and.w #$FFFB
@@ -1451,7 +1451,7 @@ CODE_C51D16:						; from CODE_C51D02
 	beq CODE_C51D22
 	jml.l CODE_C47323
 CODE_C51D22:						; from CODE_C51D16
-	jsl.l $C48840
+	jsl.l CODE_C48840
 	lda.w #$FFFF
 	sta.w $0AE0,x
 	sta.w $0B00,x

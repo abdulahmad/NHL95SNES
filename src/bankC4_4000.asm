@@ -363,7 +363,7 @@ CODE_C4428D:						; from CODE_C44279
 	ldx.w #$001C
 	stx.b $6F
 CODE_C442AA:						; from CODE_C4428D
-	jsl.l $C486C7
+	jsl.l CODE_C486C7
 	stz.w $18AE
 	stz.w $18AC
 	rtl
@@ -560,7 +560,7 @@ CODE_C44428:						; from CODE_C4430E, CODE_C443E4, CODE_C4439E
 	bne CODE_C44444
 	lda.w $05A0
 	bpl CODE_C44444
-	jsl.l $C486C7
+	jsl.l CODE_C486C7
 	stz.w $18AE
 	stz.w $18AC
 CODE_C44444:						; from CODE_C44428
@@ -1742,7 +1742,7 @@ CODE_C44E0A:						; called from other segments
 	ldy.b $6B
 	cpy.w $05A0
 	beq CODE_C44E1B
-	jsl.l $C486C7
+	jsl.l CODE_C486C7
 	stz.w $18AE
 	stz.w $18AC
 CODE_C44E1B:						; from CODE_C44E0A

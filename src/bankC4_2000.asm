@@ -208,7 +208,7 @@ CODE_C42B42:						; from CODE_C42B25
 CODE_C42B59:						; from CODE_C42B42
 	rtl
 CODE_C42B5A:						; from CODE_C42B42
-	jml.l $C48A71
+	jml.l CODE_C48A71
 CODE_C42B5E:						; from CODE_C42B42
 	lda.w $0AE0,x
 	sec
@@ -537,7 +537,7 @@ CODE_C42DF5:						; from CODE_C42DCD
 	lda.w #$0000
 CODE_C42E08:						; from CODE_C42DF5
 	sta.w $0AE0,x
-	jsl.l $C4837C
+	jsl.l CODE_C4837C
 	lda.w $18AE
 	beq CODE_C42E33
 	lda.w $0896,x
