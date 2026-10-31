@@ -277,3 +277,8 @@ $C1142F,LogoCHITiles,,render,"tiles of the CHI logo (frame header at $C08093)",s
 $C117A4,LogoDALTiles,,render,"tiles of the DAL logo (frame header at $C080B6)",src/bankC1_1000.asm
 $C11AE8,LogoDETTiles,,render,"tiles of the DET logo (frame header at $C080D9)",src/bankC1_1000.asm
 $C11D6B,LogoEDMTiles,,render,"tiles of the EDM logo (frame header at $C080FC)",src/bankC1_1000.asm
+$C1211C,LogoFLATiles,,render,"tiles of the FLA logo (frame header at $C0811F)",src/bankC1_2000.asm
+$C1245A,LogoHFDTiles,,render,"tiles of the HFD logo (frame header at $C08142)",src/bankC1_2000.asm
+$C1279B,LogoLATiles,,render,"tiles of the LA logo (frame header at $C08165)",src/bankC1_2000.asm
+$C12A79,LogoMTLTiles,,render,"tiles of the MTL logo (frame header at $C08188)",src/bankC1_2000.asm
+$C12D44,LogoNJTiles,,render,"tiles of the NJ logo (frame header at $C081AB)",src/bankC1_2000.asm

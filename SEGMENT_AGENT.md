@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC1_2000 (org $C1211C) afterwards. <- CURRENT
+bankC1_3000 (org $C130D2) afterwards. <- CURRENT
 
 ## Sources
 
@@ -125,6 +125,8 @@ bankC1_2000 (org $C1211C) afterwards. <- CURRENT
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C1211C.
+- 2026-10-31: bankC1_2000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
+  in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C130D2.
 
 ## ROM map
 
@@ -150,8 +152,8 @@ The first row that is still incbin is the current segment.
 | bankC0_F000 | matched 3448 bytes | $C0F288 | $C0FFFF | Sample15, Reset, NullInterrupt, NMI, BRKHandler (the vector entry points), $CD fill, ExtHeader, CartHeader, the vectors as label expressions; org moved to $C0F288 |
 | bankC1_0000 | matched 4280 bytes | $C10000 | $C110B7 | SpritePalettes, DATA8_C104E0, sprite frame tiles LogoANHTiles, LogoBOSTiles, LogoBUFTiles (incbin, named by sprite and frame); end moved +$B8 |
 | bankC1_1000 | matched 4196 bytes | $C110B8 | $C1211B | sprite frame tiles LogoCGYTiles, LogoCHITiles, LogoDALTiles, LogoDETTiles ... LogoEDMTiles (incbin, named by sprite and frame); org moved to $C110B8, end moved +$11C |
-| bankC1_2000 | incbin | $C1211C | $C12FFF | org moved to $C1211C |
-| bankC1_3000 | incbin | $C13000 | $C13FFF | |
+| bankC1_2000 | matched 4022 bytes | $C1211C | $C130D1 | sprite frame tiles LogoFLATiles, LogoHFDTiles, LogoLATiles, LogoMTLTiles ... LogoNJTiles (incbin, named by sprite and frame); org moved to $C1211C, end moved +$D2 |
+| bankC1_3000 | incbin | $C130D2 | $C13FFF | org moved to $C130D2 |
 | bankC1_4000 | incbin | $C14000 | $C14FFF | |
 | bankC1_5000 | incbin | $C15000 | $C15FFF | |
 | bankC1_6000 | incbin | $C16000 | $C16FFF | |
