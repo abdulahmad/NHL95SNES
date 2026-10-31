@@ -146,7 +146,7 @@ CODE_C5C0BE:						; called from other segments
 	jsr.w CODE_C5A46A
 	jmp.w CODE_C5A3C1
 CODE_C5C109:						; called from other segments
-	jsl.l $C406DD
+	jsl.l CODE_C406DD
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C1F6
 	stz.w fadestep
@@ -905,7 +905,7 @@ CODE_C5C717:						; from CODE_C5C70F
 CODE_C5C721:						; from CODE_C5C717
 	rts
 CODE_C5C722:						; called from other segments
-	jsl.l $C406DD
+	jsl.l CODE_C406DD
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C826
 	stz.w fadestep
@@ -1283,7 +1283,7 @@ CODE_C5CA59:						; from CODE_C5CA32
 	sta.l $306A56,x
 	bra CODE_C5CA2A
 CODE_C5CA6C:						; from CODE_C5CD7F and other segments
-	jsl.l $C406DD
+	jsl.l CODE_C406DD
 	jsl.l FadeOutWait
 	jsr.w CODE_C5CB36
 	stz.w fadestep

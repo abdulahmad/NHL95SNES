@@ -305,7 +305,7 @@ CODE_C5E192:						; from CODE_C5E1EB
 	pei ($0C)
 	pei ($0E)
 	phb
-	jsl.l $C40A6D
+	jsl.l CODE_C40A6D
 	plb
 	pla
 	sta.b $0E

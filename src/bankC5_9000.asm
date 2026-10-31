@@ -696,7 +696,7 @@ CODE_C5963A:						; from CODE_C59588
 	bra CODE_C59651
 CODE_C59643:						; from CODE_C596D3
 	jsl.l FadeOutWait
-	jsl.l $C406A8
+	jsl.l CODE_C406A8
 	jsr.w CODE_C5A09B
 	stz.w fadestep
 CODE_C59651:						; from CODE_C59651, CODE_C59595, CODE_C5963A

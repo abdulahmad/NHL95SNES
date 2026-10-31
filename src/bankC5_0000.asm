@@ -1337,7 +1337,7 @@ CODE_C50BB9:						; from CODE_C50BB9
 	lda.w $1864
 	cmp.w #$0003
 	bne CODE_C50BCB
-	jml.l $C40296
+	jml.l CODE_C40296
 CODE_C50BCB:						; from CODE_C50BB9
 	lda.l $306050
 	inc a
@@ -1456,7 +1456,7 @@ CODE_C50BF9:						; from CODE_C50BEC
 	lda.w $0004,y
 	jsr.w CODE_C5E20B
 	plb
-	jsl.l $C40A6D
+	jsl.l CODE_C40A6D
 CODE_C50D02:						; from CODE_C50BF9
 	rts
 CODE_C50D03:						; no caller found (not traced)
@@ -1697,7 +1697,7 @@ CODE_C50EC2:						; from CODE_C50E9B
 CODE_C50ED7:						; from CODE_C50E9B, CODE_C50EC2
 	rts
 CODE_C50ED8:						; no caller found (not traced)
-	jsl.l $C4075F
+	jsl.l CODE_C4075F
 	lda.b $83
 	sta.w $07F2
 	asl a

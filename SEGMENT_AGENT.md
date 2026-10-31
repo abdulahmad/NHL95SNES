@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_0000 (org $C40000), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_1000 (org $C41006), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -172,6 +172,10 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   (DATA8_C57810), and two callbacks of CODE_C55ABC, one pushed with pea and pulled into A (its pea operands are labels). Bank
   $C5 is all source. The code-first track goes on with bank $C4 (bank $C3 starts with the team database): next bankC4_0000 (org
   $C40000).
+- 2026-10-31: bankC4_0000 matched: game code, then the start of a run of data tables that goes on to about $C42D10. Bank $C4 has
+  data between its code, so the seeds now come only from calls in decoded code (the bank $C5 segments, bank $C0) and raw matches
+  in banks not decoded yet, plus a whole-bank descent from those (c4trust) whose seeds are dropped if they land inside a decoded
+  instruction; jump tables of 40 or more entries are treated as misdecodes. End moved to $C41005, bankC4_1000 org to $C41006.
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -307,8 +311,8 @@ The first row that is still incbin is the current segment.
 | bankC3_D000 | incbin | $C3D000 | $C3DFFF | |
 | bankC3_E000 | incbin | $C3E000 | $C3EFFF | |
 | bankC3_F000 | incbin | $C3F000 | $C3FFFF | |
-| bankC4_0000 | incbin <- CURRENT | $C40000 | $C40FFF | |
-| bankC4_1000 | incbin | $C41000 | $C41FFF | |
+| bankC4_0000 | matched 4102 bytes | $C40000 | $C41005 | game code with CODE_ names and their callers, jump tables DATA8_C400FE / C40130, then data tables (DATA8_ with their readers); out of ROM order, end moved +$6 |
+| bankC4_1000 | incbin <- CURRENT | $C41006 | $C41FFF | org moved to $C41006 |
 | bankC4_2000 | incbin | $C42000 | $C42FFF | |
 | bankC4_3000 | incbin | $C43000 | $C43FFF | |
 | bankC4_4000 | incbin | $C44000 | $C44FFF | |

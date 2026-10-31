@@ -1,3 +1,3 @@
-; Segment bankC4_1000: not yet disassembled.
-org $C41000
-	incbin "../Extracted/segments/bankC4_1000.bin"
+; Segment bankC4_1000: not yet disassembled. It starts where bankC4_0000 ends.
+org $C41006
+	incbin "../Extracted/segments/bankC4_1000.bin":$6..$1000

@@ -568,7 +568,7 @@ CODE_C515A1:						; from CODE_C51586
 	beq CODE_C515AF
 	jmp.w CODE_C51659
 CODE_C515AF:						; from CODE_C515A1
-	jsl.l $C40A02
+	jsl.l CODE_C40A02
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -677,7 +677,7 @@ CODE_C51668:						; from CODE_C5154E and other segments
 	ora.w $24C6
 	bne CODE_C5167D
 CODE_C51672:						; from CODE_C51668
-	jsl.l $C4075F
+	jsl.l CODE_C4075F
 	lda.b $83
 	sta.w $07F2
 	bmi CODE_C51667
@@ -707,7 +707,7 @@ CODE_C516AA:						; from CODE_C51680 and other segments
 	ora.w $24C6
 	bne CODE_C516BF
 CODE_C516B4:						; from CODE_C516AA
-	jsl.l $C4075F
+	jsl.l CODE_C4075F
 	lda.b $83
 	sta.w $07F2
 	bmi CODE_C516A6
@@ -822,7 +822,7 @@ CODE_C5177C:						; from CODE_C51766
 	sta.w $07D6
 	lda.w $07D4
 	pha
-	jsl.l $C4075F
+	jsl.l CODE_C4075F
 	lda.w #$2400
 	sta.w $07D2
 	lda.b $01,s

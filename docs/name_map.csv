@@ -673,3 +673,11 @@ $C570E8,DATA8_C570E8,,new,"jump table: the routine for each index (in bankC5_700
 $C57309,DATA8_C57309,,new,"not traced: a table read by CODE_C5729E (in bankC5_7000)",src/bankC5_7000.asm
 $C57810,DATA8_C57810,,new,"the routines CODE_C577F7 jumps to through a pointer, by index (in bankC5_7000)",src/bankC5_7000.asm
 $C57DCD,DATA8_C57DCD,,new,"jump table: the routine for each index (in bankC5_7000)",src/bankC5_7000.asm
+$C400FE,DATA8_C400FE,,new,"jump table: the routine for each index (in bankC4_0000)",src/bankC4_0000.asm
+$C40130,DATA8_C40130,,new,"jump table: the routine for each index (in bankC4_0000)",src/bankC4_0000.asm
+$C40D76,DATA8_C40D76,,new,"not traced: a table read by CODE_C40CF2 (in bankC4_0000)",src/bankC4_0000.asm
+$C40EDA,DATA8_C40EDA,,new,"not traced: a table read by CODE_C40E4A, CODE_C40E3A, CODE_C40E17 (in bankC4_0000)",src/bankC4_0000.asm
+$C40EF4,DATA8_C40EF4,,new,"not traced: a table read by CODE_C4081B (in bankC4_0000)",src/bankC4_0000.asm
+$C40F94,DATA8_C40F94,,new,"not traced: a table read by CODE_C408C4, CODE_C4090B (in bankC4_0000)",src/bankC4_0000.asm
+$C40F95,DATA8_C40F95,,new,"not traced: a table read by CODE_C408DB, CODE_C40919 (in bankC4_0000)",src/bankC4_0000.asm
+$C40FF8,DATA8_C40FF8,,new,"not traced: a table read by CODE_C403C2 (in bankC4_0000)",src/bankC4_0000.asm

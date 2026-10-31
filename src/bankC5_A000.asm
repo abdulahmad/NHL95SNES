@@ -613,7 +613,7 @@ CODE_C5A51C:						; from CODE_C5A633, CODE_C5A5EB, CODE_C5A7C5, CODE_C5AB1C, ...
 	tax
 	lda.l $C35F60,x
 	bne CODE_C5A556
-	jsl.l $C40D96
+	jsl.l CODE_C40D96
 	inc.w $1864
 CODE_C5A556:						; from CODE_C5A51C
 	ldx.b $9B
@@ -1509,7 +1509,7 @@ CODE_C5ACAA:						; from DATA8_C5AC73
 	lda.w $1864
 	cmp.w #$0003
 	bne CODE_C5ACBE
-	jml.l $C40000
+	jml.l CODE_C40000
 CODE_C5ACBE:						; from CODE_C5ACAA
 	lda.w #$3CF9
 	ldx.w #$00C0
@@ -1657,7 +1657,7 @@ CODE_C5AE48:						; from DATA8_C5AC73, CODE_C5AF6E
 	lda.w $1864
 	cmp.w #$0003
 	bne CODE_C5AE56
-	jml.l $C401E5
+	jml.l CODE_C401E5
 CODE_C5AE56:						; from CODE_C5AE48
 	lda.l $306050
 	and.w #$00FF
@@ -1679,7 +1679,7 @@ CODE_C5AE56:						; from CODE_C5AE48
 	tax
 	lda.l $C35F60,x
 	bne CODE_C5AE8D
-	jsl.l $C40D96
+	jsl.l CODE_C40D96
 	inc.w $1864
 	jmp.w CODE_C5ADDC
 CODE_C5AE8D:						; from CODE_C5AE56
@@ -1767,7 +1767,7 @@ CODE_C5AF11:						; from CODE_C5AF11
 	lda.w $1864
 	cmp.w #$0003
 	bne CODE_C5AF50
-	jml.l $C40296
+	jml.l CODE_C40296
 CODE_C5AF50:						; from CODE_C5AF11
 	jsr.w CODE_C5DDF0
 	jsr.w CODE_C5E17C
