@@ -26,6 +26,8 @@ or rename-only change must not change a single byte. Never commit `Extracted/`, 
 
 - Every defined symbol has a comment on its line. Every file starts with a short header. Only write what you checked in the code.
 - No IDA names (`loc_`, `sub_`), no hard-coded ROM or RAM addresses in comments.
+- `python3 tools/check_comments.py` checks width, column, paragraph length and doubled `;` markers. It must print
+  `comment layout OK` for the files you touched.
 
 ## 5. Commits
 
@@ -34,5 +36,6 @@ or rename-only change must not change a single byte. Never commit `Extracted/`, 
 ## Checklist
 
 - [ ] `./build.sh` matches and `tools/verify_segment.sh` matches for the segments touched
+- [ ] `python3 tools/check_comments.py` is clean for the files you touched
 - [ ] new symbols have comments, new constants replace the numbers they stand for
 - [ ] names follow the lineage; renames are in `docs/name_map.csv`
