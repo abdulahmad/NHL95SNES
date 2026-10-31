@@ -272,3 +272,8 @@ $C10000,SpritePalettes,DATA8_C10000,render,"39 palettes of 16 colours for the sp
 $C10533,LogoANHTiles,DATA8_C10533,render,"tiles of the ANH logo (frame header at $C08005)",src/bankC1_0000.asm
 $C1094E,LogoBOSTiles,DATA8_C1094E,render,"tiles of the BOS logo (frame header at $C0802A)",src/bankC1_0000.asm
 $C10CFD,LogoBUFTiles,DATA8_C10CFD,render,"tiles of the BUF logo (frame header at $C0804D)",src/bankC1_0000.asm
+$C110B8,LogoCGYTiles,,render,"tiles of the CGY logo (frame header at $C08070)",src/bankC1_1000.asm
+$C1142F,LogoCHITiles,,render,"tiles of the CHI logo (frame header at $C08093)",src/bankC1_1000.asm
+$C117A4,LogoDALTiles,,render,"tiles of the DAL logo (frame header at $C080B6)",src/bankC1_1000.asm
+$C11AE8,LogoDETTiles,,render,"tiles of the DET logo (frame header at $C080D9)",src/bankC1_1000.asm
+$C11D6B,LogoEDMTiles,,render,"tiles of the EDM logo (frame header at $C080FC)",src/bankC1_1000.asm
