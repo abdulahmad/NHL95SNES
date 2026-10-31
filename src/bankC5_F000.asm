@@ -134,11 +134,11 @@ CODE_C5F140:						; from CODE_C5F22B
 	sta.b $A1
 	lda.b $02,x
 	tax
-	lda.l $C19660,x
+	lda.l SpritePieces,x
 	adc.b $12
 	sta.b $0A
 	clc
-	lda.l $C19662,x
+	lda.l SpritePieces+2,x
 	adc.b $14
 	sta.b $0C
 	dec.b $9F
@@ -147,7 +147,7 @@ CODE_C5F16D:						; from CODE_C5F1B6
 	pei ($A3)
 	ldy.w #$0000
 	clc
-	lda.l $C19664,x
+	lda.l SpritePieces+4,x
 	and.w #$00FF
 	adc.b $0A
 	bpl CODE_C5F187
@@ -159,7 +159,7 @@ CODE_C5F187:						; from CODE_C5F16D
 	cmp.w #$0100
 	bcs CODE_C5F1A1
 	sta.b $2C
-	lda.l $C19665,x
+	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
 	bpl CODE_C5F1A4
@@ -194,7 +194,7 @@ CODE_C5F1C2:						; from CODE_C5F218
 	pei ($A5)
 	ldy.w #$0002
 	clc
-	lda.l $C19664,x
+	lda.l SpritePieces+4,x
 	and.w #$00FF
 	adc.b $0A
 	bpl CODE_C5F1DC
@@ -206,7 +206,7 @@ CODE_C5F1DC:						; from CODE_C5F1C2
 	cmp.w #$0100
 	bcs CODE_C5F1F6
 	sta.b $2C
-	lda.l $C19665,x
+	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
 	bpl CODE_C5F1F9
@@ -292,12 +292,12 @@ CODE_C5F258:						; from CODE_C5F34B
 	tax
 	sec
 	lda.b $12
-	sbc.l $C19660,x
+	sbc.l SpritePieces,x
 	sec
 	sbc.w #$0007
 	sta.b $0A
 	clc
-	lda.l $C19662,x
+	lda.l SpritePieces+2,x
 	adc.b $14
 	sta.b $0C
 	dec.b $9F
@@ -306,7 +306,7 @@ CODE_C5F28A:						; from CODE_C5F2D6
 	pei ($A3)
 	ldy.w #$0000
 	sec
-	lda.l $C19664,x
+	lda.l SpritePieces+4,x
 	and.w #$00FF
 	eor.w #$FFFF
 	adc.b $0A
@@ -319,7 +319,7 @@ CODE_C5F2A7:						; from CODE_C5F28A
 	cmp.w #$0100
 	bcs CODE_C5F2C1
 	sta.b $2C
-	lda.l $C19665,x
+	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
 	bpl CODE_C5F2C4
@@ -358,7 +358,7 @@ CODE_C5F2EA:						; from CODE_C5F343
 	pei ($A5)
 	ldy.w #$0002
 	sec
-	lda.l $C19664,x
+	lda.l SpritePieces+4,x
 	and.w #$00FF
 	eor.w #$FFFF
 	adc.b $0A
@@ -371,7 +371,7 @@ CODE_C5F307:						; from CODE_C5F2EA
 	cmp.w #$0100
 	bcs CODE_C5F321
 	sta.b $2C
-	lda.l $C19665,x
+	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
 	bpl CODE_C5F324

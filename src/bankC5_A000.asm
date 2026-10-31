@@ -1278,12 +1278,12 @@ CODE_C5AA94:						; from CODE_C5A8EE, CODE_C5A93B
 	asl a
 	tax
 	phx
-	lda.l $C5B35D,x
+	lda.l DATA8_C5B35D,x
 	adc.b $D3
 	ldy.w #$01C0
 	jsl.l CODE_C58B11
 	plx
-	lda.l $C5B363,x
+	lda.l DATA8_C5B363,x
 	tay
 	lda.b $8D
 	and.w #$00FF

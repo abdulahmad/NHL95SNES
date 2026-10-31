@@ -3,10 +3,10 @@
 org $C5BFE0
 CODE_C5BFE0:						; called from other segments
 	ldx.b $83
-	lda.l $C04CBF,x
+	lda.l DATA8_C04CBF,x
 	and.w #$00FF
 	sta.b $9F
-	lda.l $C04CC3,x
+	lda.l DATA8_C04CC3,x
 	and.w #$00FF
 	sta.b $67
 	ldy.w #$0032
@@ -441,7 +441,7 @@ CODE_C5C367:						; from CODE_C5C35D
 	lda.l $C30000,x
 	and.w #$00FF
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	ldy.b $6D
@@ -565,7 +565,7 @@ CODE_C5C478:						; from CODE_C5C467, CODE_C5C453
 	jsr.w CODE_C5D821
 	sty.b $65
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	lda.w #$0010
@@ -856,7 +856,7 @@ CODE_C5C6CA:						; from CODE_C5C6FD
 	sta.b $0A
 	asl a
 	tax
-	lda.l $C09C24,x
+	lda.l BitMaskTable2,x
 	bit.b $9F
 	beq CODE_C5C6FD
 	lda.b $0A
@@ -1198,7 +1198,7 @@ CODE_C5C9A0:						; from CODE_C5C976
 CODE_C5C9AC:						; from CODE_C5C976
 	and.w #$007F
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	lda.w #$0010
@@ -1542,7 +1542,7 @@ CODE_C5CCB6:						; from CODE_C5CC8D
 CODE_C5CCC2:						; from CODE_C5CC8D
 	and.w #$007F
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	lda.w #$0010

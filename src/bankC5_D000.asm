@@ -61,7 +61,7 @@ CODE_C5D070:						; from CODE_C5D018
 	beq CODE_C5D08B
 	lda.b ($A1)
 	sta.b $34
-	jsl.l $C091F3
+	jsl.l Div16U
 	lda.b $2C
 	clc
 	adc.b ($A1)
@@ -1117,21 +1117,21 @@ CODE_C5D85D:						; called from other segments
 	lda.w #$0070
 	sta.b $CF
 	ldx.b $7F
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	ldx.w #$04F5
 	ldy.w #$0006
 	jsl.l $C4BC08
 	ldx.b $83
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	ldx.w #$04F5
 	ldy.w #$0007
 	jsl.l $C4BC08
 	ldx.b $81
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	ldx.w #$04F5
@@ -1142,7 +1142,7 @@ CODE_C5D85D:						; called from other segments
 	adc.b $83
 	adc.b $81
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w $5EC7
 	ldx.w #$04F5

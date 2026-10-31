@@ -315,7 +315,7 @@ CODE_C592D7:						; from CODE_C592B4
 	lda.w $1864
 	asl a
 	tax
-	lda.l $C592FA,x
+	lda.l DATA8_C592FA,x
 	jsl.l CODE_C59308
 	rts
 DATA8_C592FA:						; not reached by the traced code (data or unused code)
@@ -891,7 +891,7 @@ CODE_C59803:						; from CODE_C597EE, CODE_C597FE
 CODE_C5980A:						; from CODE_C59778
 	sep #$30
 	ldx.b $97
-	lda.l $C598FA,x
+	lda.l DATA8_C598FA,x
 	ldy.b $6F
 	beq CODE_C5981A
 	lda.l $C59915,x
@@ -1300,7 +1300,7 @@ CODE_C59B56:						; from CODE_C59B3E
 	sta.b $34
 	lda.w #$000D
 	sta.b $30
-	jsl.l $C091F3
+	jsl.l Div16U
 	clc
 	lda.b $2C
 	adc.w #$1CF8

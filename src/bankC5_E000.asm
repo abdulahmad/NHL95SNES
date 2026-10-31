@@ -12,7 +12,7 @@ CODE_C5DF5F:						; called from other segments
 	lda.b $09
 	and.w #$FF00
 	ldx.w #$0099
-	jsl.l $C0906C
+	jsl.l Mul16U
 	sec
 	lda.b $0A
 	sbc.b $36
@@ -25,7 +25,7 @@ CODE_C5DF5F:						; called from other segments
 	sta.b $30
 	lda.b $0A
 	sta.b $34
-	jsl.l $C09257
+	jsl.l Div16x8U
 	sta.w $DB90
 	sta.w $DB8E
 	sta.w $DB8C
@@ -85,7 +85,7 @@ CODE_C5DFDF:						; from CODE_C5DFD8
 	bra CODE_C5E01D
 CODE_C5E00C:						; from CODE_C5DFDF
 	ldx.w #$00C0
-	jsl.l $C0906C
+	jsl.l Mul16U
 	lda.b $A5
 	sec
 	sbc.b $36
@@ -114,7 +114,7 @@ CODE_C5E01D:						; from CODE_C5DFDF
 	bra CODE_C5E05F
 CODE_C5E04E:						; from CODE_C5E01D
 	ldx.w #$00C0
-	jsl.l $C0906C
+	jsl.l Mul16U
 	lda.b $A5
 	sec
 	sbc.b $36
@@ -353,7 +353,7 @@ CODE_C5E20B:						; from CODE_C5E192 and other segments
 	pla
 	phx
 	ldx.w #$0083
-	jsl.l $C0906C
+	jsl.l Mul16U
 	plx
 	ply
 	clc
@@ -1105,7 +1105,7 @@ CODE_C5E7EE:						; from CODE_C5E7A4
 	lda.b $16,x
 	asl a
 	tax
-	lda.l $C04AA9,x
+	lda.l DATA8_C04AA9,x
 	asl a
 	asl a
 	asl a
@@ -1196,7 +1196,7 @@ CODE_C5E888:						; from CODE_C5E86F
 	sta.w $0018,y
 	asl a
 	tax
-	lda.l $C04AA9,x
+	lda.l DATA8_C04AA9,x
 	asl a
 	asl a
 	asl a
@@ -1476,7 +1476,7 @@ CODE_C5EA72:						; from CODE_C5EA43
 	asl a
 	txy
 	tax
-	lda.l $C04AA9,x
+	lda.l DATA8_C04AA9,x
 	asl a
 	asl a
 	asl a
@@ -2253,7 +2253,7 @@ CODE_C5F00E:						; from CODE_C5EFC4
 	lda.b $16,x
 	asl a
 	tax
-	lda.l $C04AA9,x
+	lda.l DATA8_C04AA9,x
 	asl a
 	asl a
 	asl a

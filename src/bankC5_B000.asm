@@ -215,7 +215,7 @@ CODE_C5B1AF:						; called from other segments
 	lda.b $83
 	asl a
 	tax
-	lda.l $C04CB7,x
+	lda.l DATA8_C04CB7,x
 	tax
 	ldy.w #$0013
 	jsl.l $C4BCA4
@@ -600,7 +600,7 @@ CODE_C5B4F7:						; from CODE_C5B4C2
 	plx
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	stz.b $32
 	pla
@@ -609,7 +609,7 @@ CODE_C5B4F7:						; from CODE_C5B4C2
 	sta.b $30
 	beq CODE_C5B533
 	phy
-	jsl.l $C09113
+	jsl.l Div32x32U
 	ply
 	lda.b $2C
 CODE_C5B533:						; from CODE_C5B4F7
@@ -807,7 +807,7 @@ CODE_C5B67E:						; from CODE_C5B67E
 	bra CODE_C5B67E
 CODE_C5B693:						; from CODE_C5B67E
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	ora.b $9F
 	plx
@@ -1169,7 +1169,7 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	sta.w $000C,y
 	phy
 	ldx.w #$0083
-	jsl.l $C0906C
+	jsl.l Mul16U
 	ply
 	lda.w #$000C
 	jsr.w CODE_C5BB46
@@ -1273,14 +1273,14 @@ CODE_C5BA1A:						; from CODE_C5BA1A
 	ldx.w $000E,y
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	phy
 	stz.b $32
 	lda.w $002C,y
 	sta.b $30
 	beq CODE_C5BA94
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BA94:						; from CODE_C5BA1A
 	ply
@@ -1288,14 +1288,14 @@ CODE_C5BA94:						; from CODE_C5BA1A
 	ldx.w $002A,y
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	phy
 	stz.b $32
 	lda.w $002C,y
 	sta.b $30
 	beq CODE_C5BAB4
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BAB4:						; from CODE_C5BA94
 	ply
@@ -1306,14 +1306,14 @@ CODE_C5BAB4:						; from CODE_C5BA94
 	tax
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	phy
 	stz.b $32
 	lda.w $002E,y
 	sta.b $30
 	beq CODE_C5BAD9
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BAD9:						; from CODE_C5BAB4
 	ply
@@ -1322,14 +1322,14 @@ CODE_C5BAD9:						; from CODE_C5BAB4
 	ldx.w $000E,y
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	phy
 	stz.b $32
 	lda.w $0018,y
 	sta.b $30
 	beq CODE_C5BAFA
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BAFA:						; from CODE_C5BAD9
 	ply
@@ -1337,14 +1337,14 @@ CODE_C5BAFA:						; from CODE_C5BAD9
 	ldx.w $0018,y
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	phy
 	stz.b $32
 	lda.w $002C,y
 	sta.b $30
 	beq CODE_C5BB1A
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BB1A:						; from CODE_C5BAFA
 	ply
@@ -1352,14 +1352,14 @@ CODE_C5BB1A:						; from CODE_C5BAFA
 	ldx.w $002E,y
 	lda.w #$0064
 	phy
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	ply
 	phy
 	stz.b $32
 	lda.w $002C,y
 	sta.b $30
 	beq CODE_C5BB3A
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BB3A:						; from CODE_C5BB1A
 	ply
@@ -1491,14 +1491,14 @@ CODE_C5BBE9:						; from CODE_C5BBDD
 	lda.b $05,s
 	tax
 	lda.w #$0064
-	jsl.l $C08F5E
+	jsl.l Mul16x8U
 	stz.b $32
 	clc
 	lda.b $05,s
 	adc.b $01,s
 	sta.b $30
 	beq CODE_C5BC62
-	jsl.l $C09113
+	jsl.l Div32x32U
 	lda.b $2C
 CODE_C5BC62:						; from CODE_C5BBE9
 	jsr.w CODE_C5B67A
@@ -1615,7 +1615,7 @@ CODE_C5BD43:						; from CODE_C5BD30
 	and.w #$007F
 	sta.b $9F
 	tax
-	lda.l $C08C76,x
+	lda.l BCDTable,x
 	and.w #$00FF
 	rts
 CODE_C5BD52:						; called from other segments

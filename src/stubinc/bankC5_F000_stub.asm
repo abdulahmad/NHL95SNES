@@ -6,5 +6,6 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+SpritePieces = $C19660
 
 incsrc "../bankC5_F000.asm"
