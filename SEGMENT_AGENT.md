@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC2_F000 (org $C2F4AA) afterwards. <- CURRENT
+bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
 
@@ -183,6 +183,8 @@ bankC2_F000 (org $C2F4AA) afterwards. <- CURRENT
   bank is sound samples 9-12 (the sample list's entries are 4 bytes: a long pointer and a zero). Next org $C2DF3B.
 - 2026-10-31: bankC2_D000 matched: Sample09 (it ends where Sample10 starts). Next org $C2E51D.
 - 2026-10-31: bankC2_E000 matched: Sample10 (it ends where Sample11 starts). Next org $C2F4AA.
+- 2026-10-31: bankC2_F000 matched: Sample11, Sample12, then zeros to the end (padbyte / pad). Bank $C2 is all source.
+  Next org $C30000.
 
 ## ROM map
 
@@ -237,7 +239,7 @@ The first row that is still incbin is the current segment.
 | bankC2_C000 | matched 4813 bytes | $C2CC6E | $C2DF3A | RefsMap, RefTiles, RefPalette (a map set: headers and colours as source, the LZSS streams incbin); org moved to $C2CC6E, end moved +$F3B |
 | bankC2_D000 | matched 1506 bytes | $C2DF3B | $C2E51C | Sample09 (incbin); org moved to $C2DF3B, end moved +$51D |
 | bankC2_E000 | matched 3981 bytes | $C2E51D | $C2F4A9 | Sample10 (incbin); org moved to $C2E51D, end moved +$4AA |
-| bankC2_F000 | incbin | $C2F4AA | $C2FFFF | org moved to $C2F4AA (Sample11) |
+| bankC2_F000 | matched 2902 bytes | $C2F4AA | $C2FFFF | Sample11, Sample12 (incbin), the zero fill (padbyte / pad); org moved to $C2F4AA |
 | bankC3_0000 | incbin | $C30000 | $C30FFF | |
 | bankC3_1000 | incbin | $C31000 | $C31FFF | |
 | bankC3_2000 | incbin | $C32000 | $C32FFF | |
