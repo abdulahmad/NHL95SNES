@@ -617,3 +617,9 @@ $C50A00,DATA8_C50A00,,new,"not traced: data between routines (in bankC5_0000)",s
 $C510AF,DATA8_C510AF,,new,"not traced: a table read by CODE_C51012 (in bankC5_0000)",src/bankC5_0000.asm
 $C510CF,DATA8_C510CF,,new,"not traced: a table read by CODE_C50FDC (in bankC5_0000)",src/bankC5_0000.asm
 $C50000,Opening,,94S,"the cold start: Reset_Fast ends with jml Opening, as in 94S (Reset_Fast, then jml Opening); sets DB, the hooks from InitHooks, NMITIMEN, then the game",src/bankC5_0000.asm
+$C5110A,DATA8_C5110A,,new,"not traced: a table read by CODE_C510F6 (in bankC5_1000)",src/bankC5_1000.asm
+$C51112,DATA8_C51112,,new,"not traced: a table read by CODE_C510F6 (in bankC5_1000)",src/bankC5_1000.asm
+$C511B7,DATA8_C511B7,,new,"not traced: data between routines (in bankC5_1000)",src/bankC5_1000.asm
+$C51271,DATA8_C51271,,new,"not traced: data between routines (in bankC5_1000)",src/bankC5_1000.asm
+$C5195D,DATA8_C5195D,,new,"not traced: data between routines (in bankC5_1000)",src/bankC5_1000.asm
+$C51C52,DATA8_C51C52,,new,"not traced: data between routines (in bankC5_1000)",src/bankC5_1000.asm

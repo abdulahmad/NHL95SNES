@@ -2,7 +2,10 @@
 ;	on its own for checking against the ROM (tools/verify_segment.sh bankC0_A000). The org is in the segment
 ;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+CODE_C51CC1 = $C51CC1
 
 incsrc "../bankC0_A000.asm"

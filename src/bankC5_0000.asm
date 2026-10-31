@@ -296,7 +296,7 @@ CODE_C502BF:						; from CODE_C502B1
 	jsl.l Div16x8U
 	lda.b $2C
 	sta.b $7F
-	jsl.l $C516C2
+	jsl.l CODE_C516C2
 	ldx.w #$007E
 	lda.b $67
 	ldy.w #$5B23
@@ -362,7 +362,7 @@ CODE_C50351:						; from CODE_C50351
 CODE_C50364:						; from CODE_C5033D and other segments
 	jsl.l $C471F0
 	jsl.l $C371AB
-	jsl.l $C51801
+	jsl.l CODE_C51801
 	lda.w $07BC
 	sec
 	sbc.b $9B
@@ -1293,7 +1293,7 @@ CODE_C50B3D:						; from CODE_C50AFF, CODE_C50B2F
 CODE_C50B5A:						; from CODE_C50B3D
 	jsr.w CODE_C5DD47
 CODE_C50B5D:						; from CODE_C50B3D
-	jsl.l $C51523
+	jsl.l CODE_C51523
 	lda.w $114B
 	cmp.w #$0004
 	beq CODE_C50B7C
@@ -1688,7 +1688,7 @@ CODE_C50E9B:						; from CODE_C502E0, CODE_C502E8
 CODE_C50EC2:						; from CODE_C50E9B
 	sta.w $1151
 	rep #$28
-	jsl.l $C51397
+	jsl.l CODE_C51397
 	lda.w $14E3
 	clc
 	adc.w #$FFFD
@@ -1712,7 +1712,7 @@ CODE_C50EE4:						; from CODE_C50EFF
 	sta.w $2488,x
 	bit.w #$0004
 	bne CODE_C50EFF
-	jsl.l $C511B8
+	jsl.l CODE_C511B8
 CODE_C50EFF:						; from CODE_C50EE4
 	dec.b $63
 	dec.b $63

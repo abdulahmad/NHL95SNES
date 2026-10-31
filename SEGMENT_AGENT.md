@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_1000 (org $C510F6), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC5_2000 (org $C52008), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -146,6 +146,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
 - 2026-10-31: bankC5_0000 matched: Opening (Reset_Fast ends with jml to it, as 94S Reset_Fast ends with jml Opening, the cold
   start), then game code. Long operands and jsl targets anywhere in the full build now come out as their labels (from the asar
   symbol file), e.g. InitHooks, asstab and the bank $C0 math routines. End moved to $C510F5, bankC5_1000 org to $C510F6.
+- 2026-10-31: bankC5_1000 matched (game code, CODE_ names). asstab (bankC0_A000) points at three bank $C5 routines; entry 27
+  (CODE_C51CC1) is here and the table uses its label now. The routines are not named from 94S by index: 95 Genesis reorders
+  asstab, so the SNES order is not known. End moved to $C52007, bankC5_2000 org to $C52008.
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -298,8 +301,8 @@ The first row that is still incbin is the current segment.
 | bankC4_E000 | incbin | $C4E000 | $C4EFFF | |
 | bankC4_F000 | incbin | $C4F000 | $C4FFFF | |
 | bankC5_0000 | matched 4342 bytes | $C50000 | $C510F5 | Opening (the cold start Reset_Fast jumps to, 94S name), game code with CODE_ names and their callers, tables read with long addresses (DATA8_ with their readers); five small routines with no caller found are decoded and say so; out of ROM order, end moved +$F6 |
-| bankC5_1000 | incbin <- CURRENT | $C510F6 | $C51FFF | org moved to $C510F6 |
-| bankC5_2000 | incbin | $C52000 | $C52FFF | |
+| bankC5_1000 | matched 3858 bytes | $C510F6 | $C52007 | game code with CODE_ names and their callers, asstab entry 27 (CODE_C51CC1), tables read with long addresses (DATA8_ with their readers); seven small routines with no caller found are decoded and say so; out of ROM order, org moved to $C510F6, end moved +$8 |
+| bankC5_2000 | incbin <- CURRENT | $C52008 | $C52FFF | org moved to $C52008 |
 | bankC5_3000 | incbin | $C53000 | $C53FFF | |
 | bankC5_4000 | incbin | $C54000 | $C54FFF | |
 | bankC5_5000 | incbin | $C55000 | $C55FFF | |
