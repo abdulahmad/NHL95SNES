@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC2_8000 (org $C2792B) afterwards. <- CURRENT
+bankC2_9000 (org $C29000) afterwards. <- CURRENT
 
 ## Sources
 
@@ -171,6 +171,8 @@ bankC2_8000 (org $C2792B) afterwards. <- CURRENT
 - 2026-10-31: bankC2_7000 matched: the end of the title goalie's set, then the title logo's set (2bpp: EA SPORTS presents
   NHL '95, 94S TitleLogoTiles). The packed set after it is CenterIceTiles (rendered: the 28 teams' centre ice logos; the
   game screen setup sends the home team's to VRAM); bankC2_8000 starts there. Next org $C2792B.
+- 2026-10-31: bankC2_8000 matched: CenterIceTiles' header and the start of its stream (format 4, 672 tiles; the stream
+  ends at $C2ADC9 in bankC2_A000). Next org $C29000.
 
 ## ROM map
 
@@ -218,7 +220,7 @@ The first row that is still incbin is the current segment.
 | bankC2_5000 | matched 4096 bytes | $C25000 | $C25FFF | the middle of TitleGoalieTiles' LZSS stream (incbin) |
 | bankC2_6000 | matched 4096 bytes | $C26000 | $C26FFF | the middle of TitleGoalieTiles' LZSS stream (incbin) |
 | bankC2_7000 | matched 2347 bytes | $C27000 | $C2792A | the rest of TitleGoalieTiles' stream, TitleGoaliePalette, TitleLogoMap/Tiles/Palette (map set chunks: headers and colours as source, the LZSS streams incbin); end moved -$6D5 |
-| bankC2_8000 | incbin | $C2792B | $C28FFF | org moved to $C2792B (CenterIceTiles) |
+| bankC2_8000 | matched 5845 bytes | $C2792B | $C28FFF | CenterIceTiles (packed format 4: header as source, the start of the stream incbin); org moved to $C2792B |
 | bankC2_9000 | incbin | $C29000 | $C29FFF | |
 | bankC2_A000 | incbin | $C2A000 | $C2AFFF | |
 | bankC2_B000 | incbin | $C2B000 | $C2BFFF | |
