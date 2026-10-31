@@ -660,8 +660,8 @@ CODE_C515AF:						; from CODE_C515A1
 	sta.b $81
 	pla
 	sta.b $7F
-	jsl.l $C558CC
-	jsl.l $C5589E
+	jsl.l CODE_C558CC
+	jsl.l CODE_C5589E
 	jsl.l $CF03D0
 CODE_C51659:						; from CODE_C515A1
 	stz.b $5D
@@ -1009,7 +1009,7 @@ CODE_C51911:						; from CODE_C518B6
 	lda.w $0000,x
 	and.w #$00FF
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$0020
 	sta.w $04F5,x
 	txa
@@ -1021,7 +1021,7 @@ CODE_C51911:						; from CODE_C518B6
 	adc.w #$0008
 	tax
 	lda.w #$000D
-	jsr.w $5F22
+	jsr.w CODE_C55F22
 	ldx.w #$04F5
 	jsr.w $6262
 	jsl.l $C4C47E

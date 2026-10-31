@@ -155,7 +155,7 @@ CODE_C5C117:						; from CODE_C5C117, CODE_C5C162, CODE_C5C179, CODE_C5C174, ...
 	wai
 	jsl.l $C36C2D
 	inc.b $26
-	jsr.w $5BE8
+	jsr.w CODE_C55BE8
 	ldx.b $63
 	lda.b $85
 	asl a
@@ -194,7 +194,7 @@ CODE_C5C162:						; from CODE_C5C15A
 	sta.b $85
 	bra CODE_C5C117
 CODE_C5C174:						; from CODE_C5C162
-	jsr.w $5CE6
+	jsr.w CODE_C55CE6
 	bra CODE_C5C117
 CODE_C5C179:						; from CODE_C5C162
 	bit.w #$0400
@@ -209,7 +209,7 @@ CODE_C5C179:						; from CODE_C5C162
 	inc.b $85
 	bra CODE_C5C117
 CODE_C5C190:						; from CODE_C5C179
-	jsr.w $5C58
+	jsr.w CODE_C55C58
 	jmp.w CODE_C5C117
 CODE_C5C196:						; from CODE_C5C179
 	bit.w #$8000
@@ -256,7 +256,7 @@ CODE_C5C1E4:						; from CODE_C5C1DB
 CODE_C5C1E6:						; from CODE_C5C1B1, CODE_C5C1D2, CODE_C5C1C5, CODE_C5C1DB, ...
 	jsr.w CODE_C5C4FC
 	jsr.w CODE_C5D85D
-	jsr.w $5C12
+	jsr.w CODE_C55C12
 	jsl.l $C4C2AA
 CODE_C5C1F3:						; from CODE_C5C196
 	jmp.w CODE_C5C117
@@ -394,7 +394,7 @@ CODE_C5C32D:						; from CODE_C5C305, CODE_C5C32D
 	lda.w #CODE_C5C34C
 	ldx.w #$0008
 	ldy.w #$000E
-	jsr.w $5ABC
+	jsr.w CODE_C55ABC
 	stz.b $85
 CODE_C5C344:						; from CODE_C5C305
 	jsr.w CODE_C5D85D
@@ -443,7 +443,7 @@ CODE_C5C367:						; from CODE_C5C35D
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l $C4BC08
@@ -455,7 +455,7 @@ CODE_C5C367:						; from CODE_C5C35D
 	sta.b $CF
 	jsl.l $C4C3BA
 	lda.w #$000C
-	jsl.l $C55F8A
+	jsl.l CODE_C55F8A
 	ldy.b $6D
 	jsl.l $C4BC08
 	plx
@@ -558,7 +558,7 @@ CODE_C5C478:						; from CODE_C5C467, CODE_C5C453
 	sta.b $CF
 	ldx.w #$04F5
 	lda.w #$000C
-	jsl.l $C55F8A
+	jsl.l CODE_C55F8A
 	ldy.b $6D
 	jsl.l $C4BC08
 	ldy.b $65
@@ -567,7 +567,7 @@ CODE_C5C478:						; from CODE_C5C467, CODE_C5C453
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$0010
 	sta.b $CF
 	ldy.b $6D
@@ -596,7 +596,7 @@ CODE_C5C4D7:						; from CODE_C5C4C7
 	sty.w $24DC
 	jsr.w CODE_C5C6B7
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$00C8
 	sta.b $CF
 	lda.w #$00F0
@@ -914,7 +914,7 @@ CODE_C5C730:						; from CODE_C5C730, CODE_C5C777, CODE_C5C78A, CODE_C5C785, ...
 	wai
 	jsl.l $C36C2D
 	inc.b $26
-	jsr.w $5BE8
+	jsr.w CODE_C55BE8
 	ldx.b $63
 	lda.b $85
 	asl a
@@ -948,7 +948,7 @@ CODE_C5C777:						; from CODE_C5C76F
 	sta.b $85
 	bra CODE_C5C730
 CODE_C5C785:						; from CODE_C5C777
-	jsr.w $5CE6
+	jsr.w CODE_C55CE6
 	bra CODE_C5C730
 CODE_C5C78A:						; from CODE_C5C777
 	bit.w #$0400
@@ -963,7 +963,7 @@ CODE_C5C78A:						; from CODE_C5C777
 	inc.b $85
 	bra CODE_C5C730
 CODE_C5C7A1:						; from CODE_C5C78A
-	jsr.w $5C58
+	jsr.w CODE_C55C58
 	jmp.w CODE_C5C730
 CODE_C5C7A7:						; from CODE_C5C78A
 	bit.w #$8000
@@ -1028,7 +1028,7 @@ CODE_C5C814:						; from CODE_C5C7FF
 	sta.b ($9F)
 CODE_C5C819:						; from CODE_C5C7FF
 	jsr.w CODE_C5D85D
-	jsr.w $5C12
+	jsr.w CODE_C55C12
 	jsl.l $C4C2AA
 CODE_C5C823:						; from CODE_C5C7CB, CODE_C5C7E0, CODE_C5C7F3
 	jmp.w CODE_C5C730
@@ -1124,7 +1124,7 @@ CODE_C5C90A:						; from CODE_C5C90A
 	lda.w #CODE_C5C926
 	ldx.w #$0008
 	ldy.w #$000E
-	jsr.w $5ABC
+	jsr.w CODE_C55ABC
 	jsr.w CODE_C5D85D
 	jsl.l $C4C2AA
 	rts
@@ -1200,7 +1200,7 @@ CODE_C5C9AC:						; from CODE_C5C976
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$04F5
@@ -1217,7 +1217,7 @@ CODE_C5C9AC:						; from CODE_C5C976
 	adc.w #$331F
 	tax
 	lda.w #$000C
-	jsl.l $C55F8A
+	jsl.l CODE_C55F8A
 	ldy.b $6D
 	jsl.l $C4BC08
 	lda.b $6F
@@ -1237,7 +1237,7 @@ CODE_C5C9AC:						; from CODE_C5C976
 	sta.w $04FB
 	jsr.w CODE_C5C6B7
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$00C8
 	sta.b $CF
 	lda.w #$00F0
@@ -1544,7 +1544,7 @@ CODE_C5CCC2:						; from CODE_C5CC8D
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$04F5
@@ -1562,7 +1562,7 @@ CODE_C5CCC2:						; from CODE_C5CC8D
 	adc.w #$0118
 	tax
 	lda.w #$000C
-	jsl.l $C55F8A
+	jsl.l CODE_C55F8A
 	ldy.b $6D
 	jsl.l $C4BC08
 	lda.b $91
@@ -1583,7 +1583,7 @@ CODE_C5CCC2:						; from CODE_C5CC8D
 	sta.w $04FB
 	jsr.w CODE_C5C6B7
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$00C8
 	sta.b $CF
 	lda.w #$00F0
@@ -1780,7 +1780,7 @@ CODE_C5CECD:						; from CODE_C5CECD, CODE_C5CEFD
 	adc.w #$0118
 	tax
 	lda.w #$000C
-	jsl.l $C55F8A
+	jsl.l CODE_C55F8A
 	ldy.b $6D
 	jsl.l $C4BC08
 	inc.b $6D

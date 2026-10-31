@@ -296,7 +296,7 @@ CODE_C5D22F:						; from CODE_C5D21A
 CODE_C5D26D:						; from CODE_C5D2A8
 	pha
 	inc a
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$003D
 	sta.w $04F5,x
 	lda.w #$0014
@@ -1119,21 +1119,21 @@ CODE_C5D85D:						; called from other segments
 	ldx.b $7F
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0006
 	jsl.l $C4BC08
 	ldx.b $83
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0007
 	jsl.l $C4BC08
 	ldx.b $81
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0008
 	jsl.l $C4BC08
@@ -1144,7 +1144,7 @@ CODE_C5D85D:						; called from other segments
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0009
 	jsl.l $C4BC08
@@ -1392,7 +1392,7 @@ CODE_C5DAD4:						; from CODE_C5DACC
 	clc
 	adc.b $05,s
 	sta.b $6D
-	jsr.w $5D73
+	jsr.w CODE_C55D73
 	pea.w CODE_C5DAE2-1
 	jmp ($008F)
 CODE_C5DAE2:						; from CODE_C5DAD4
@@ -1441,7 +1441,7 @@ CODE_C5DB22:						; from CODE_C5DB1A
 	clc
 	adc.b $6F,x
 	sta.b $6D
-	jsr.w $5D73
+	jsr.w CODE_C55D73
 	pea.w CODE_C5DB30-1
 	jmp ($008F)
 CODE_C5DB30:						; from CODE_C5DB22
@@ -1539,7 +1539,7 @@ CODE_C5DBD2:						; from CODE_C5DBCA
 	clc
 	adc.b $6F,x
 	sta.b $6D
-	jsr.w $5D73
+	jsr.w CODE_C55D73
 	pea.w CODE_C5DBE0-1
 	jmp ($008F)
 CODE_C5DBE0:						; from CODE_C5DBD2

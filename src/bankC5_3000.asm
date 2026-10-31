@@ -1253,14 +1253,14 @@ CODE_C539D7:						; called from other segments
 	jsl.l QueueVRAMDMALen
 	lda.w $12AD
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	jsr.w CODE_C53A90
 	ldy.w #$5B38
 	jsl.l QueueVRAMDMALen
 	lda.w $12AB
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	jsr.w CODE_C53A90
 	ldy.w #$5B3C

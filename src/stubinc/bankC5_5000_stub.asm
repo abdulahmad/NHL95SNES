@@ -2,7 +2,39 @@
 ;	on its own for checking against the ROM (tools/verify_segment.sh bankC5_5000). The org is in the segment
 ;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+AnimateSprites = $C5E9C7
+BCDTable = $C08C76
+BuildSpriteOAM = $C5F0D1
+CODE_C534E8 = $C534E8
+CODE_C53A29 = $C53A29
+CODE_C53ABC = $C53ABC
+CODE_C5852B = $C5852B
+CODE_C5881C = $C5881C
+CODE_C589B0 = $C589B0
+CODE_C589E4 = $C589E4
+CODE_C5A4B9 = $C5A4B9
+CODE_C5A4E2 = $C5A4E2
+CODE_C5E50E = $C5E50E
+CODE_C5ECBD = $C5ECBD
+CODE_C5EE9B = $C5EE9B
+CODE_C5F368 = $C5F368
+CODE_C5F3DB = $C5F3DB
+ClearNMIHook = $C08D64
+CreateSprite = $C5E665
+Decompress = $C581E1
+DecompressLZSS = $C58458
+DecompressToVRAM = $C58A65
+DivX8U = $C0927A
+FadeOutWait = $C58A99
+Mul8U = $C08ED9
+ScreenOn = $C08E99
+SetNMIHook = $C08D73
+SetupHDMA = $C58AA5
+UploadSpriteFrame = $C5E8A5
+forceblack = $C08E93
 
 incsrc "../bankC5_5000.asm"

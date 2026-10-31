@@ -23,7 +23,7 @@ CODE_C5800C:						; called from other segments
 	ldx.b $6F
 	lda.w $3654,x
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	lda.w #$6220
 	sta.w $04F5,x
 	inx

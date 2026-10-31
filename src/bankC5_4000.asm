@@ -1808,9 +1808,9 @@ CODE_C54E82:						; from CODE_C54E6D
 	jsl.l $CF03D0
 	dec.w $18F8
 CODE_C54E9A:						; from CODE_C54E6D
-	jsr.w $503C
+	jsr.w CODE_C5503C
 	ldx.w #$0002
-	jsr.w $4F94
+	jsr.w CODE_C54F94
 	lda.w #$0001
 	sta.w $059E
 CODE_C54EA9:						; from CODE_C54EC9
@@ -1838,7 +1838,7 @@ CODE_C54EC9:						; from CODE_C54EAC
 	jsl.l CODE_C5F3DB
 	lda.w $058F
 	bne CODE_C54EA9
-	jsr.w $4F05
+	jsr.w CODE_C54F05
 	lda.w $058D
 	bit.w #$3000
 	beq CODE_C54EA9
@@ -1848,4 +1848,4 @@ CODE_C54EC9:						; from CODE_C54EAC
 	stz.b $22
 	ldx.w $18F0
 	jsl.l CODE_C5E596
-	jmp.w $5513
+	jmp.w CODE_C55513

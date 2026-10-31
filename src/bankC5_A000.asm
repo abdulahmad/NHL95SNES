@@ -73,12 +73,12 @@ CODE_C59FDA:						; from CODE_C59F79
 CODE_C5A040:						; from CODE_C59F79
 	jsr.w CODE_C5C6B7
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldy.w #$0015
 	jsr.w CODE_C5A05A
 	lda.b $87
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldy.w #$0016
 CODE_C5A05A:						; from CODE_C5A040
 	lda.w $04F9
@@ -658,7 +658,7 @@ CODE_C5A599:						; from CODE_C5AC4F, CODE_C5AC67
 	sta.b $08,x
 	rts
 CODE_C5A5B0:						; called from other segments
-	jsr.w $5BE8
+	jsr.w CODE_C55BE8
 	lda.w $058F
 	beq CODE_C5A5C3
 	cmp.w #$0014
@@ -671,11 +671,11 @@ CODE_C5A5C3:						; from CODE_C5A5B0
 	bne CODE_C5A5EB
 	bit.w #$0800
 	beq CODE_C5A5D3
-	jmp.w $5CE6
+	jmp.w CODE_C55CE6
 CODE_C5A5D3:						; from CODE_C5A5C3
 	bit.w #$0400
 	beq CODE_C5A5DB
-	jmp.w $5C58
+	jmp.w CODE_C55C58
 CODE_C5A5DB:						; from CODE_C5A5D3
 	bit.w #$0200
 	bne CODE_C5A5FE
@@ -750,7 +750,7 @@ CODE_C5A668:						; from CODE_C5A65F
 	sta.w $17C9
 	jmp.w CODE_C5B7F1
 CODE_C5A66E:						; called from other segments
-	jsr.w $5BE8
+	jsr.w CODE_C55BE8
 	lda.w $058F
 	beq CODE_C5A681
 	cmp.w #$0014
@@ -767,11 +767,11 @@ CODE_C5A681:						; from CODE_C5A66E
 	bne CODE_C5A6D9
 	bit.w #$0400
 	beq CODE_C5A69B
-	jmp.w $5C58
+	jmp.w CODE_C55C58
 CODE_C5A69B:						; from CODE_C5A681
 	bit.w #$0800
 	beq CODE_C5A6A3
-	jmp.w $5CE6
+	jmp.w CODE_C55CE6
 CODE_C5A6A3:						; from CODE_C5A69B
 	bit.w #$3000
 	bne CODE_C5A6A9
@@ -834,7 +834,7 @@ CODE_C5A71A:						; from CODE_C5A6E5
 	lda.w #CODE_C5BBDD
 	ldx.w #$000C
 	ldy.w #$000B
-	jsr.w $5ABC
+	jsr.w CODE_C55ABC
 	jsl.l $C4C2AA
 	rts
 CODE_C5A72D:						; from CODE_C5A6CA
@@ -868,7 +868,7 @@ CODE_C5A73F:						; from CODE_C5A72D
 	jsl.l $C4CEDB
 	rts
 CODE_C5A773:						; called from other segments
-	jsr.w $5BE8
+	jsr.w CODE_C55BE8
 	lda.w $058F
 	beq CODE_C5A786
 	cmp.w #$0014
@@ -1793,7 +1793,7 @@ CODE_C5AF71:						; from CODE_C5AF11
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	wai
-	jsr.w $5951
+	jsr.w CODE_C55951
 	jsl.l CODE_C5E50E
 	lda.w #$FFFA
 	sta.w $04C2

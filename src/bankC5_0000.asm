@@ -1578,8 +1578,8 @@ CODE_C50D29:						; from CODE_C5032B and other segments
 	sta.b $81
 	pla
 	sta.b $7F
-	jsl.l $C558CC
-	jsl.l $C5589E
+	jsl.l CODE_C558CC
+	jsl.l CODE_C5589E
 	pla
 	sta.w $2CF5
 	bne CODE_C50DDD

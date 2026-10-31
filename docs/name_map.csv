@@ -640,3 +640,16 @@ $C54194,DATA8_C54194,,new,"not traced: a table read by CODE_C54171 (in bankC5_40
 $C54897,DATA8_C54897,,new,"not traced: data between routines (in bankC5_4000)",src/bankC5_4000.asm
 $C5491C,DATA8_C5491C,,new,"not traced: data between routines (in bankC5_4000)",src/bankC5_4000.asm
 $C54D3A,DATA8_C54D3A,,new,"jump table: the routine for each index (in bankC5_4000)",src/bankC5_4000.asm
+$C55002,DATA8_C55002,,new,"not traced: a table read by CODE_C54FB9 (in bankC5_5000)",src/bankC5_5000.asm
+$C5500A,DATA8_C5500A,,new,"not traced: a table read by CODE_C54FA9 (in bankC5_5000)",src/bankC5_5000.asm
+$C55012,DATA8_C55012,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C55018,DATA8_C55018,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C5501C,DATA8_C5501C,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C55026,DATA8_C55026,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C5502C,DATA8_C5502C,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C55038,DATA8_C55038,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C55245,DATA8_C55245,,new,"not traced: a table read by CODE_C550E2 (in bankC5_5000)",src/bankC5_5000.asm
+$C5528C,DATA8_C5528C,,new,"not traced: a table read by CODE_C5525F (in bankC5_5000)",src/bankC5_5000.asm
+$C55294,DATA8_C55294,,new,"not traced: a table read by CODE_C55256 (in bankC5_5000)",src/bankC5_5000.asm
+$C5529C,DATA8_C5529C,,new,"not traced: a table read by CODE_C5524B (in bankC5_5000)",src/bankC5_5000.asm
+$C55D6B,DATA8_C55D6B,,new,"jump table: the routine for each index (code in bankC5_6000 uses it) (in bankC5_5000)",src/bankC5_5000.asm

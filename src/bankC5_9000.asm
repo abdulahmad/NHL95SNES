@@ -1211,7 +1211,7 @@ CODE_C59AB0:						; from CODE_C59A22, CODE_C59A90
 	adc.b $A1
 	adc.w #$0019
 	jsr.w CODE_C5B67A
-	jmp.w $5EC7
+	jmp.w CODE_C55EC7
 CODE_C59ABF:						; from CODE_C599C4
 	lda.w #$0007
 	jsr.w CODE_C59978
@@ -1703,7 +1703,7 @@ CODE_C59EB0:						; from CODE_C59EB0
 	adc.b $A1
 	adc.w #$0019
 	jsr.w CODE_C5B67A
-	jsr.w $5EC7
+	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	jsl.l $C4BC1A
 	ply

@@ -667,7 +667,7 @@ CODE_C5E49A:						; called from other segments
 	jsl.l $C4CEDB
 	stz.w DMAEnShadow
 	jsl.l CODE_C5E50E
-	jsr.w $5951
+	jsr.w CODE_C55951
 	stz.b $26
 	jsr.w CODE_C5BBC0
 	stz.b $CF
