@@ -66,9 +66,12 @@
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
   the setup code. The last pair of uniform palettes (after the all-star teams) is not traced.
-- Bank $C1: no code reads it directly. The 35-byte records at DATA8_C08000 hold long pointers into it (at record offsets 30
-  and 32 a rising series: $C10533, $C1094E, $C10CFD, $C110B8, $C1142F ... $C15F6E; more at other offsets). Many blocks start
-  00 00 8x 00 00 nn (an unknown pixel or run format). Naming bank $C1 needs the code that reads the records (banks $C3-$C5).
+- Bank $C1 and DATA8_C08000 are the sprite-object system (see `docs/sprite_objects.md`): DATA8_C08000 starts with a
+  header (dw $87A0, the list of 41 records; dl $C10000, 39 palettes), then 27-byte records (frame list, animation script,
+  VRAM need, palette, frame count) and 8-byte frame headers pointing into bank $C1. The $C1 frames are format-0 streams
+  (UnpackFormat0's rules without the 4-byte header) or raw tiles; $C19660 is the piece table. Readers: $C5E665 (create a
+  sprite from a record), $C5EEF3, $C5E8A5 (frame tiles to VRAM), $C5F071 (the bank $C1 decoder), $C5F0D1 (OAM), $C5E9C7
+  (scripts). Records 0-27 look like the team logos (index = team): not rendered yet, so not named.
 - bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
   named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
