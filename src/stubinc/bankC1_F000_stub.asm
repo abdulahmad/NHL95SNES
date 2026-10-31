@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+TeamNameBarsPalette = $C20A91
 
 incsrc "../bankC1_F000.asm"

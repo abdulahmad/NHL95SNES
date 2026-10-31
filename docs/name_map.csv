@@ -563,4 +563,4 @@ $C1DC7B,PlayoffBracketMap,,render+94S,"map set chunk 1 (100 x 28 word map, LZSS,
 $C1E05B,PlayoffBracketTiles,,render,"map set chunk 2: 106 4bpp tiles, LZSS ($0D40 bytes): the bracket lines and the cup",src/bankC1_D000.asm
 $C1E98B,PlayoffBracketPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC1_D000.asm
 $C1E9B2,TeamNameBarsMap,,render,"map set chunk 1 (12 x 52 word map, LZSS, $04E0 bytes): the city names of the 26 teams on bars in team colours, 12 x 2 tiles each; $C404F5 unpacks the set to unpackbuf through $C58812 just after the playoff bracket (probably the bracket slots, as 94S colours them with TeamBlockPalettes; not traced)",src/bankC1_E000.asm
-$C1EE6B,TeamNameBarsTiles,,render,"map set chunk 2: 460 4bpp tiles, LZSS ($3980 bytes); it runs into bank $C2 (the colours chunk is at $C20A91); label only so far (bankC1_F000 is incbin)",src/bankC1_F000.asm
+$C1EE6B,TeamNameBarsTiles,,render,"map set chunk 2: 460 4bpp tiles, LZSS ($3980 bytes); the stream runs on into bank $C2 up to TeamNameBarsPalette",src/bankC1_F000.asm
