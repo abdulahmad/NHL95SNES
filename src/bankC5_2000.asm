@@ -233,8 +233,8 @@ CODE_C52195:						; from CODE_C52195
 	lda.w #$4708
 	ldx.w #$00C0
 	jsl.l Decompress
-	jsl.l $C539D7
-	jmp.w $3A29
+	jsl.l CODE_C539D7
+	jmp.w CODE_C53A29
 CODE_C52227:						; called from other segments
 	jsl.l forceblack
 	lda.w #$03E7
@@ -261,7 +261,7 @@ CODE_C52251:						; from CODE_C52251
 	bpl CODE_C52251
 CODE_C5225E:						; from CODE_C52227
 	stz.w $2CF5
-	jmp.w $39D7
+	jmp.w CODE_C539D7
 CODE_C52264:						; called from other segments
 	stz.w $2CF5
 	ldx.b $6F
@@ -1453,11 +1453,11 @@ CODE_C52B9F:						; from CODE_C52B45
 CODE_C52BA3:						; from CODE_C52B5D
 	jml.l $C45610
 CODE_C52BA7:						; from CODE_C52B5D
-	jml.l $C537C4
+	jml.l CODE_C537C4
 CODE_C52BAB:						; from CODE_C52B5D
-	jml.l $C53921
+	jml.l CODE_C53921
 CODE_C52BAF:						; from CODE_C52B5D
-	jml.l $C53903
+	jml.l CODE_C53903
 CODE_C52BB3:						; from CODE_C52B5D, CODE_C52C5A
 	lda.w $05CC,x
 	bit.w #$0001
@@ -1491,7 +1491,7 @@ CODE_C52BE6:						; from CODE_C52B5D, CODE_C52C5E
 CODE_C52BF1:						; from CODE_C52BE6
 	lda.w $17C1,y
 	beq CODE_C52BC4
-	jml.l $C538FE
+	jml.l CODE_C538FE
 CODE_C52BFA:						; from CODE_C52B4E
 	lda.w $1000,x
 	bne CODE_C52B98
@@ -1531,7 +1531,7 @@ CODE_C52C45:						; from CODE_C52C0D
 CODE_C52C4E:						; from CODE_C52C0D
 	jml.l $C49DC7
 CODE_C52C52:						; from CODE_C52C5E
-	jml.l $C537C4
+	jml.l CODE_C537C4
 CODE_C52C56:						; from CODE_C52C0D
 	jml.l $C49858
 CODE_C52C5A:						; from CODE_C52C0D
@@ -1565,7 +1565,7 @@ CODE_C52C72:						; from CODE_C52C5E
 	inc.w $0672
 	lda.w #$7FFF
 	sta.w $0674
-	jml.l $C53776
+	jml.l CODE_C53776
 CODE_C52CA3:						; called from other segments
 	jsr.w CODE_C52CC1
 	rtl
@@ -1602,7 +1602,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	cpx.w #$0002
 	bne CODE_C52CF0
 CODE_C52CEB:						; from CODE_C52CD0, CODE_C52CF0
-	jsr.w $31C7
+	jsr.w CODE_C531C7
 	bra CODE_C52D69
 CODE_C52CF0:						; from CODE_C52CD0
 	ldx.w $1872
@@ -1625,7 +1625,7 @@ CODE_C52CF0:						; from CODE_C52CD0
 	pla
 	and.w #$000F
 	sta.w $0006,y
-	jsr.w $3167
+	jsr.w CODE_C53167
 	plx
 	lda.l $C30000,x
 	sta.b $0E
@@ -1725,19 +1725,19 @@ CODE_C52D9D:						; from CODE_C52D9D
 CODE_C52DC7:						; from CODE_C52DC7
 	sep #$20
 	lda.w $006D,y
-	jsr.w $308D
+	jsr.w CODE_C5308D
 	sta.w $006D,y
 	lda.w $006E,y
-	jsr.w $308D
+	jsr.w CODE_C5308D
 	sta.w $006E,y
 	lda.w $006F,y
-	jsr.w $30A0
+	jsr.w CODE_C530A0
 	sta.w $006F,y
 	lda.w $0070,y
-	jsr.w $30A0
+	jsr.w CODE_C530A0
 	sta.w $0070,y
 	lda.w $0071,y
-	jsr.w $30A0
+	jsr.w CODE_C530A0
 	sta.w $0071,y
 	rep #$20
 	tya
@@ -1764,7 +1764,7 @@ CODE_C52E1F:						; from CODE_C52EF0
 	phx
 	lda.l $C2FFFE,x
 	pha
-	jsr.w $3106
+	jsr.w CODE_C53106
 	lda.b $01,s
 	tax
 	clc

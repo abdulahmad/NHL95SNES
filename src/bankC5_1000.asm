@@ -1130,7 +1130,7 @@ CODE_C51A42:						; from CODE_C51A33
 	lda.w $1511,y
 	bpl CODE_C51A3C
 	sty.b $8F
-	jsl.l $C538FE
+	jsl.l CODE_C538FE
 CODE_C51A4D:						; from CODE_C51A3C
 	rts
 CODE_C51A4E:						; from CODE_C51A13, CODE_C51A61
@@ -1180,7 +1180,7 @@ CODE_C51AAF:						; from CODE_C51AA6
 	bra CODE_C51ABE
 CODE_C51AB8:						; from CODE_C51AA6
 	sty.b $8F
-	jsl.l $C538FE
+	jsl.l CODE_C538FE
 CODE_C51ABE:						; from CODE_C51A7A, CODE_C51AAF
 	plx
 	ldy.w $18B4

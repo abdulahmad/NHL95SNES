@@ -55,7 +55,7 @@ CODE_C5008D:						; from CODE_C50056
 	jsl.l $C54E27
 	jsr.w CODE_C52CC1
 	jsl.l $C4E12C
-	jsr.w $3984
+	jsr.w CODE_C53984
 CODE_C5009B:						; called from other segments
 	jsl.l FadeOutWait
 	ldx.w #$059E
@@ -82,19 +82,19 @@ CODE_C500B1:						; from CODE_C500B1
 	lda.w #$0020
 	tsb.w $10F1
 CODE_C500D2:						; from CODE_C500B1
-	jsl.l $C53574
-	jsl.l $C535BF
-	jsl.l $C5362C
+	jsl.l CODE_C53574
+	jsl.l CODE_C535BF
+	jsl.l CODE_C5362C
 	lda.w #$007F
 	sta.w $07E2
 	stz.w $07E0
 	lda.w #$0010
 	trb.w $10F5
 	stz.b $6B
-	jsl.l $C532C5
+	jsl.l CODE_C532C5
 	lda.w #$0002
 	sta.b $6B
-	jsl.l $C532C5
+	jsl.l CODE_C532C5
 	lda.w $1870
 	sta.w $17C1
 	sta.w $17C3
@@ -157,7 +157,7 @@ CODE_C50176:						; from CODE_C5016D
 	sta.b $6B
 	jsl.l $C54AEF
 	jsl.l CODE_C52227
-	jsl.l $C53535
+	jsl.l CODE_C53535
 	jsl.l $C3718D
 	lda.w #$FFFF
 	sta.w $0591
@@ -445,7 +445,7 @@ CODE_C50427:						; from CODE_C5040E
 	cmp.w #$0000
 	bmi CODE_C50434
 	asl.b $7F
-	jsl.l $C53616
+	jsl.l CODE_C53616
 CODE_C50434:						; from CODE_C5040E, CODE_C50427
 	lda.w $06B4,x
 	beq CODE_C50445
@@ -981,7 +981,7 @@ CODE_C50851:						; from CODE_C5081F
 	lda.l $C09A25,x
 	sta.w $1852
 	ldx.b $B7
-	jsl.l $C53616
+	jsl.l CODE_C53616
 	jsl.l $001850
 CODE_C50874:						; from CODE_C50851
 	lda.w $0A20,x
@@ -1280,7 +1280,7 @@ CODE_C50B2F:						; from CODE_C50AFF
 	lda.w #$0004
 	sta.w $114B
 CODE_C50B3D:						; from CODE_C50AFF, CODE_C50B2F
-	jsl.l $C53535
+	jsl.l CODE_C53535
 	lda.w $114B
 	cmp.w #$0004
 	bne CODE_C50B5D

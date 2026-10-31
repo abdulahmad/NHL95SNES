@@ -399,7 +399,7 @@ CODE_C092B3:						; called from $C50087; the first game routine after the math
 	stz.w $186C
 	jsl.l $C54E27
 	jsl.l CODE_C52CA3
-	jsl.l $C53980
+	jsl.l CODE_C53980
 	stz.b $6B
 	jsr.w CODE_C09681
 	lda.w #$0002
@@ -584,7 +584,7 @@ CODE_C09418:						; from CODE_C09401
 	sta.b $7F
 CODE_C09465:						; from CODE_C093DD, CODE_C093E8, CODE_C093F5
 	jml.l $C478C3
-	jsl.l $C53ABC
+	jsl.l CODE_C53ABC
 	lda.w #$0001
 	sta.b $7F
 	lda.b $6B
@@ -889,7 +889,7 @@ CODE_C096F7:						; from CODE_C096C0
 	jsl.l WaitFrame
 	lda.w #$0007
 	sta.w $04CB
-	jsl.l $C5362E
+	jsl.l CODE_C5362E
 	lda.b $7F
 	sta.w $187C
 	jsl.l $C48A41
