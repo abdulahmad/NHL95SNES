@@ -11,10 +11,13 @@
   ($C05DAC-$C06E6C: the Toronto photos), bankC0_6000 ($C06E6D-$C07ECA: the Vancouver photos),
   bankC0_7000 ($C07ECB-$C07FFF: TeamSongs, DefaultSongs, a sound list, fill), bankC0_8000 ($C08000-$C09004: data, then the
   engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies), bankC0_9000 ($C09005-$C09A23: the rest of
-  the math, then game code with CODE_ names).
+  the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21).
   `CartHeader` in bankC0_F000. The other segments are incbin.
-- Next: segment bankC0_A000, org $C09A24: a table of long pointers (dd) into banks $C4/$C5 read at $C5085C, then tables read
-  at $C43DC4, $C570BB, $C5703C, $C45B51, $C51BBC, $C50F53, $C21062 (lda.l), then what looks like packed data near $C09F80. (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC0_B000, org $C0B5BF. From $C09C54 to the reset code at $C0FD0E bank $C0 is sound samples, back to back:
+  the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte BRR blocks up to
+  the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54, 20 $C0A2AB,
+  21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2, 14 $C0EC5E,
+  15 $C0F288 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -61,6 +64,8 @@
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
   the setup code. The last pair of uniform palettes (after the all-star teams) is not traced.
+- bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
+  named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
   (CODE_C099F4). Its RAM ($1878-$18B6, $0806, $2364, ...) is not named yet. There is a brk at $C09419.
 - asar: write a branch to a label, never to a number (bcc $C090D2 assembled the low byte as the offset); pei is `pei ($nn)`.

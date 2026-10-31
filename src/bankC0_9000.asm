@@ -1094,9 +1094,9 @@ CODE_C09910:						; called from CODE_C098C9
 	lda.w $1884
 	inc a
 	sta.b $6F
-	lda.w #$00C0
+	lda.w #DATA8_C09BC4>>16
 	sta.b $79
-	lda.w #$9BC4
+	lda.w #DATA8_C09BC4
 	sta.b $77
 	lda.w #$0008
 	sta.b $83

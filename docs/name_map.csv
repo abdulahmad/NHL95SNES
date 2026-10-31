@@ -212,3 +212,19 @@ $C0967D,DATA8_C0967D,,new,"not traced: 4 bytes after CODE_C09678",src/bankC0_900
 $C098CE,DATA8_C098CE,,new,"not traced: records CODE_C09855 walks through a long pointer ($FFFF ends)",src/bankC0_9000.asm
 $2C,r0,,94S,"RAM; math result as 94S r0 (the divides' quotient)",src/ram95s.asm
 $30,r1,,94S,"RAM; math operand as 94S r1 (the divisor)",src/ram95s.asm
+$C09A24,asstab,,93S,"29 long pointers by assignment number as 94S asstab (first entry an rtl); $C5085C reads ($0644,x * 4), patches $1851-$1853 and calls $001850",src/bankC0_A000.asm
+$C09A98,asspuckc_postab,,93S,"10 (x, y) pairs as 94S asspuckc_postab (one value 246 where 94S has 240); $C42E55 points at it",src/bankC0_A000.asm
+$C09AC0,DATA8_C09AC0,,new,"not traced; $C5449B points at it",src/bankC0_A000.asm
+$C09B2A,DATA8_C09B2A,,new,"0-6 in an order; $C48130, $C54371",src/bankC0_A000.asm
+$C09B31,DATA8_C09B31,,new,"0-6 in an order; $C54394",src/bankC0_A000.asm
+$C09B38,DATA8_C09B38,,new,"0-6 in an order; $C54383",src/bankC0_A000.asm
+$C09B3F,DATA8_C09B3F,,new,"read as words at $C43DC4, $C43DE4, $C540E3",src/bankC0_A000.asm
+$C09B54,DATA8_C09B54,,new,"records; $C51131, $C570BB, $C57762",src/bankC0_A000.asm
+$C09B94,DATA8_C09B94,,new,"records; $C5703C, $C57A3C",src/bankC0_A000.asm
+$C09BC4,DATA8_C09BC4,,new,"16 rising 32-bit values; $C45B51 ..., CODE_C09910 stores a long pointer to it",src/bankC0_A000.asm
+$C09C04,DATA8_C09C04,,new,"8 (x, y) steps of length 250 around a circle; $C42D63, $C51BBC, $C4A19A",src/bankC0_A000.asm
+$C09C24,BitMaskTable2,,new,"the 16 single-bit words again (BitMaskTable is at $C04CC7); $C50F53, $C571FB, $C5C6CE",src/bankC0_A000.asm
+$C09C44,DATA8_C09C44,,new,"16 bytes, one per d-pad bit pattern; not traced",src/bankC0_A000.asm
+$C09C54,Sample19,,new,"sound sample 19 of the sample list at $CF05DD: 12-byte header, BRR blocks",src/bankC0_A000.asm
+$C0A2AB,Sample20,,new,"sound sample 20 of the sample list at $CF05DD",src/bankC0_A000.asm
+$C0A965,Sample21,,new,"sound sample 21 of the sample list at $CF05DD",src/bankC0_A000.asm

@@ -12,5 +12,6 @@ Mul16x8HiU_Pre = $C08FCE
 Mul16x8HiU_Go = $C08FD8
 Mul16x8Hi_Zero = $C09001
 ScreenOn = $C08E99
+DATA8_C09BC4 = $C09BC4
 
 incsrc "../bankC0_9000.asm"
