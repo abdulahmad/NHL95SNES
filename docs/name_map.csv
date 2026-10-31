@@ -1,5 +1,5 @@
 address,name,auto_name,source,note,file
-$C00000,TeamPalettes,,render,"28 rows of 16 colours in team order (ANH..WSH, then the two all-star teams), packed format 2 ($0380 bytes); $C4D77F and $C590F0 unpack it to $7F:D80A; $C5A4B9 / $C5A4E2 queue row (team $17C9 / $17CB) to CGRAM palettes 2 / 3",src/bankC0_0000.asm
+$C00000,TeamPalettes,,render,"28 rows of 16 colours in team order (Anaheim first, the two all-star teams last), packed format 2 ($0380 bytes); $C4D77F and $C590F0 unpack it to $7F:D80A; $C5A4B9 / $C5A4E2 queue row (team $17C9 / $17CB) to CGRAM palettes 2 / 3",src/bankC0_0000.asm
 $C0027E,ArrowFontTiles,,render,"96 4bpp tiles, packed format 4: a two colour font for ASCII $20-$7F with arrows at ^ _ ~ and $7F; $C5521E loads it to VRAM $4A00 through $C58A65; the screen that uses it is not traced yet",src/bankC0_0000.asm
 $C0083D,GradientBarTiles,,render,"18 4bpp tiles, packed format 2: bars shaded dark to light; unpacked at $C401B7 / $C4D864 / $C559CC / $C59119 and queued for VRAM",src/bankC0_0000.asm
 $C00976,MeterFontTiles,,render,"128 4bpp tiles, packed format 6: meter bars in three colours, a PwrPlay label, box corners, then ASCII $20-$7F; $C521EB and $C55826 load it to VRAM $4800 through $C58A65",src/bankC0_0000.asm
@@ -82,3 +82,22 @@ $C03CF9,WonCheckTiles,,render,"48 4bpp tiles, packed format 2 ($0600 bytes): a W
 $C03EE2,WonCheckPalette,,code,"16 colours; $C5ACED queues them to CGRAM $70 (palette 7) with WonCheckTiles",src/bankC0_3000.asm
 $C03F02,AwayUniformPalettes,,94S,"94S AwayUniformPalettes by purpose (dark jersey colours per team); here interleaved with HomeUniformPalettes, 64 bytes per team, 28 teams then one more pair; $C520C2 / $C55799 add team $17CB * 64 and queue CGRAM palette 3",src/bankC0_3000.asm
 $C03F22,HomeUniformPalettes,,94S,"94S HomeUniformPalettes by purpose (white jersey colours per team); 64 bytes per team; $C520AF / $C55786 add team $17C9 * 64 and queue CGRAM palette 4",src/bankC0_3000.asm
+$C04642,DigitFontTiles,,render,"15 4bpp tiles, packed format 2 ($01E0): 0-9 and D L C R X (the glyphs of 94S SPFsmallfont); $C5211F / $C556C9 unpack them and queue them for VRAM $6360",src/bankC0_4000.asm
+$C04708,LinePieceTiles,,render,"63 4bpp tiles, packed format 6 ($07E0): straight and diagonal line pieces and corners; $C52216 unpacks them to $7F:D02A, then $C539D7 builds a screen",src/bankC0_4000.asm
+$C048E2,BG3ScrollHDMA1,,code,"28 bytes: indirect HDMA table (count, RAM address) for BG3VOFS; $C5ABC4 copies it to $7E:468C, HDMA channel 5 mode $42 (set by $C5AD1B through $C58AA5)",src/bankC0_4000.asm
+$C048FE,BG3ScrollHDMA2,,code,"the same for another screen ($C5AD3B copies 28 bytes, which end inside the short table after it)",src/bankC0_4000.asm
+$C0491A,DATA8_C0491A,,new,"not traced: a 0 then 5-byte records up to MainScreenHDMA",src/bankC0_4000.asm
+$C04A35,MainScreenHDMA,,code,"indirect HDMA table for TM; $C5AD08 sets channel 6 (mode $40, B-bus $2C, indirect bank $7E: values at $7E:364E-$3652)",src/bankC0_4000.asm
+$C04A45,BlueColours,,code,"8 colours BlueColoursHook sends to CGRAM $11",src/bankC0_4000.asm
+$C04A55,DarkBlueColours,,code,"8 colours DarkBlueColoursHook sends to CGRAM $11",src/bankC0_4000.asm
+$C04A65,BlueColoursHook,,code,"NMI frame hook ($C4016B sets it through $C08D73, the frame hook setter): DMA BlueColours to CGRAM $11",src/bankC0_4000.asm
+$C04A87,DarkBlueColoursHook,,code,"NMI frame hook ($C4044B sets it): DMA DarkBlueColours to CGRAM $11",src/bankC0_4000.asm
+$C04AA9,DATA8_C04AA9,,new,"256 words, entry n = (n / 8) * $20 + (n & 7) * 2; read at $C5E7F2, $C5E897, $C5EA77, $C5F012",src/bankC0_4000.asm
+$C04CA9,BackdropColour,,code,"1 colour ($7F98) that $C52091 / $C5576A queue to CGRAM colour 0",src/bankC0_4000.asm
+$C04CAB,DATA8_C04CAB,,new,"6 words, not traced",src/bankC0_4000.asm
+$C04CB7,DATA8_C04CB7,,new,"4 words picked by $83 * 2 at $C5B1E1 and passed in X to the text routine $C4BCA4",src/bankC0_4000.asm
+$C04CBF,DATA8_C04CBF,,new,"4 bytes picked by $83 at $C5BFE2",src/bankC0_4000.asm
+$C04CC3,DATA8_C04CC3,,new,"4 bytes picked by $83 at $C5BFEB",src/bankC0_4000.asm
+$C04CC7,BitMaskTable,,94S,"the 16 single-bit words, as 94S BitMaskTable (93S); $C50C08 ORs one into the save RAM flags at $30:6051",src/bankC0_4000.asm
+$C04CE7,PhotoPalettesTB,,render,"Tampa Bay: 16 colours for each of its 6 player photos (94S has one PhotoPaletteTB per team); entry 21 of the per-team photo table at $C35EAB (read 1-based as $C35EA7 + 4n at $C52EDD)",src/bankC0_4000.asm
+$C04DA7,PlayerPhotosTB,,render,"Tampa Bay: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each (94S keeps one packed photo per Card<NNN>)",src/bankC0_4000.asm

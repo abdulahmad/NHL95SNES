@@ -6,9 +6,10 @@
   all 256 segments built on their own from their stubs).
 - Source: bankC0_0000 (data, $C00000-$C00F48: TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles, UnusedPalette,
   SoundRAMClear), bankC0_1000 ($C00F49-$C01A38: SoundDriver, SMSG 3.07w, as SPC700) and bankC0_2000 ($C01A39-$C03CF8: the
-  text routine's three fonts), bankC0_3000 ($C03CF9-$C04641: WonCheckTiles, WonCheckPalette, Away/HomeUniformPalettes).
+  text routine's three fonts), bankC0_3000 ($C03CF9-$C04641: WonCheckTiles, WonCheckPalette, Away/HomeUniformPalettes),
+  bankC0_4000 ($C04642-$C05DAB: tile sets, HDMA tables, colour hooks, BitMaskTable, the Tampa Bay photos).
   `CartHeader` in bankC0_F000. The other segments are incbin.
-- Next: segment bankC0_4000, org moved to $C04642 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC0_5000, org moved to $C05DAC (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -29,8 +30,11 @@
 - Text routine $C4BE34: font address in $0C (bank $C0), flags in $0E (bit 0: 64 byte glyphs, bit 1: lowercase codes use the
   second set at glyph $2B, bit 2: another per-character table); glyph = character - '0'; per-character bytes at $C4C48B, $C4C4B6,
   $C4C4D7, $C4C502. Fonts: BoldFontGlyphs, ItalicFontGlyphs, ThinFontGlyphs.
-- bankC0_4000 starts at $C04642 with a packed set (size $01E0, format 2; $C5211F / $C556C9 unpack it); `tools/unpack95.py`
-  gives its end. Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
+- Player photos: the table at $C35EAB has a long pointer (dd) per team in team order to the team's photo set: 6 palettes of
+  16 colours, then the 6 photos packed (format 2, $1B00 bytes: 48 x 48 linear 4bpp each). In bank $C0: TB at $C04CE7, TOR
+  $C05DAC, VAN $C06E6D; the others are in banks $CD-$CE. bankC0_5000 starts with Toronto's set.
+- NMI frame hook: $C08D73 stores A (address) and X (bank) at $049B; the NMI at $C08B45 calls it with M 16, X 8; $C08D64 puts the
+  default back. `src/inc/snes_regs.asm` (94S's) has the register names. Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
 
 ## Setup notes
 
@@ -50,6 +54,8 @@
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
   the setup code. The last pair of uniform palettes (after the all-star teams) is not traced.
+- bankC0_4000: DATA8_C0491A, DATA8_C04AA9, DATA8_C04CAB, DATA8_C04CB7, DATA8_C04CBF, DATA8_C04CC3 are not traced to a purpose.
+  DigitFontTiles and LinePieceTiles are named from the rendered tiles; BG3ScrollHDMA1/2 from the HDMA set-up.
 - WonCheckTiles / WonCheckPalette: named from the rendered tiles; the screen is not traced.
 - Fonts: named from their rendered glyphs; the screens that draw with them are not traced. The meaning of flag $4000 is not
   traced.

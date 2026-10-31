@@ -10,7 +10,8 @@
 - Every segment also builds on its own from its stub (`src/stubinc/<segment>_stub.asm`) and is checked against its ROM range.
 - Trial: the cartridge header at the end of bank $C0 is source (`CartHeader` in `src/bankC0_F000.asm`).
 - Segments bankC0_0000 (data: team palettes, packed tile sets, the sound RAM clear program) bankC0_1000 (the SMSG sound driver as
-  SPC700) bankC0_2000 (the text fonts) and bankC0_3000 (uniform palettes) are source; the queue is in SEGMENT_AGENT.md.
+  SPC700) bankC0_2000 (the text fonts), bankC0_3000 (uniform palettes) and bankC0_4000 (tables, two colour hooks, the Tampa Bay photos) are
+  source; the queue is in SEGMENT_AGENT.md.
 
 **AI agent or new contributor: start with [START_HERE.md](START_HERE.md).**
 

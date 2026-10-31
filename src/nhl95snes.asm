@@ -4,6 +4,7 @@
 
 hirom
 
+incsrc "inc/snes_regs.asm"
 incsrc "inc/spc_regs.asm"
 
 incsrc "bankC0_0000.asm"

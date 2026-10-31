@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_4000 (org $C04642). <- CURRENT
+bankC0_5000 (org $C05DAC). <- CURRENT
 
 ## Sources
 
@@ -86,6 +86,9 @@ bankC0_4000 (org $C04642). <- CURRENT
 - 2026-10-31: bankC0_3000 matched: WonCheckTiles and WonCheckPalette, then the uniform palettes, named AwayUniformPalettes and
   HomeUniformPalettes after the two bases the code adds team * 64 to (94S keeps two tables; here they interleave). End moved to
   $C04641, bankC0_4000 org to $C04642.
+- 2026-10-31: bankC0_4000 matched: two packed tile sets, HDMA tables, two NMI colour hooks (the first code in source; the SNES
+  register names copied from 94S into `src/inc/snes_regs.asm`), small tables (BitMaskTable from 94S), then the Tampa Bay player
+  photos. End moved to $C05DAB, bankC0_5000 org to $C05DAC.
 
 ## ROM map
 
@@ -97,8 +100,8 @@ The first row that is still incbin is the current segment.
 | bankC0_1000 | matched 2800 bytes | $C00F49 | $C01A38 | SoundDriver (SMSG 3.07w) as `arch spc700` source: init block (.init, .dspregs, .tcallvectors, .version), main block (.mainloop, .command, .tick, .commands, .events, .bootrom, pitch and sine tables); driver internals keep auto labels (.lXXXX); org moved to $C00F49, end moved -$5C7 (a font starts at $C01A39) |
 | bankC0_2000 | matched 8896 bytes | $C01A39 | $C03CF8 | BoldFontGlyphs, ItalicFontGlyphs, ThinFontGlyphs (the text routine's fonts, incbin; ThinFontGlyphs starts inside ItalicFontGlyphs' lowercase set); org moved to $C01A39, end moved +$CF9 (a packed set starts at $C03CF9) |
 | bankC0_3000 | matched 2377 bytes | $C03CF9 | $C04641 | WonCheckTiles (packed), WonCheckPalette, AwayUniformPalettes / HomeUniformPalettes (94S names; one interleaved table, 64 bytes per team); org moved to $C03CF9, end moved +$642 (a packed set starts at $C04642) |
-| bankC0_4000 | incbin <- CURRENT | $C04642 | $C04FFF | org moved to $C04642: starts with a packed set (size $01E0, format 2) that $C5211F / $C556C9 unpack |
-| bankC0_5000 | incbin | $C05000 | $C05FFF | |
+| bankC0_4000 | matched 5994 bytes | $C04642 | $C05DAB | DigitFontTiles, LinePieceTiles (packed), BG3ScrollHDMA1/2, MainScreenHDMA, BlueColours(Hook), DarkBlueColours(Hook) (code), BackdropColour, BitMaskTable (94S), PhotoPalettesTB, PlayerPhotosTB; untraced tables keep DATA8_ names; org moved to $C04642, end moved +$DAC (the Tampa Bay photos end at $C05DAB) |
+| bankC0_5000 | incbin <- CURRENT | $C05DAC | $C05FFF | org moved to $C05DAC: starts with the Toronto photo palettes and photos (entry 22 of the photo table at $C35EAB) |
 | bankC0_6000 | incbin | $C06000 | $C06FFF | |
 | bankC0_7000 | incbin | $C07000 | $C07FFF | |
 | bankC0_8000 | incbin | $C08000 | $C08FFF | |
