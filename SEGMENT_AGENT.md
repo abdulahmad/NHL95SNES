@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_C000 (org $C0C1CB). <- CURRENT
+bankC0_D000 (org $C0D359). <- CURRENT
 
 ## Sources
 
@@ -104,6 +104,7 @@ bankC0_C000 (org $C0C1CB). <- CURRENT
   tables, then the first sound samples (12-byte header + BRR, found by the end flags). End moved to $C0B5BE, bankC0_B000 org to
   $C0B5BF.
 - 2026-10-31: bankC0_B000 matched: Sample22, Sample01. End moved to $C0C1CA, bankC0_C000 org to $C0C1CB.
+- 2026-10-31: bankC0_C000 matched: Sample00. End moved to $C0D358, bankC0_D000 org to $C0D359.
 
 ## ROM map
 
@@ -123,8 +124,8 @@ The first row that is still incbin is the current segment.
 | bankC0_9000 | matched 2591 bytes | $C09005 | $C09A23 | Mul16x8HiXS, Mul16x8HiS, Mul16S, Mul16XS, Mul16U, Div16S, Div32x32U, Div32S, Div32U, Div_8Bits, Div16U, Div_Overflow, Div16x8U, DivX8U, DivX8S (94S); then game code with auto names (CODE_C092B3 .. CODE_C099F4, cross references on each label); org moved to $C09005, end moved -$5DC (tables start at $C09A24) |
 | bankC0_A000 | matched 7067 bytes | $C09A24 | $C0B5BE | asstab, asspuckc_postab (93S names), BitMaskTable2, untraced tables (DATA8_), then Sample19, Sample20, Sample21 (sound samples, incbin); org moved to $C09A24, end moved +$5BF (Sample21 ends at $C0B5BE) |
 | bankC0_B000 | matched 3084 bytes | $C0B5BF | $C0C1CA | Sample22, Sample01 (sound samples, incbin); org moved to $C0B5BF, end moved +$1CB (the last sample ends at $C0C1CA) |
-| bankC0_C000 | incbin <- CURRENT | $C0C1CB | $C0CFFF | org moved to $C0C1CB |
-| bankC0_D000 | incbin | $C0D000 | $C0DFFF | |
+| bankC0_C000 | matched 4494 bytes | $C0C1CB | $C0D358 | Sample00 (sound samples, incbin); org moved to $C0C1CB, end moved +$359 (the last sample ends at $C0D358) |
+| bankC0_D000 | incbin <- CURRENT | $C0D359 | $C0DFFF | org moved to $C0D359 |
 | bankC0_E000 | incbin | $C0E000 | $C0EFFF | |
 | bankC0_F000 | incbin (cartridge header is source) | $C0F000 | $C0FFFF | |
 | bankC1_0000 | incbin | $C10000 | $C10FFF | |
