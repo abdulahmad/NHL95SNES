@@ -397,7 +397,7 @@ CODE_C092B3:						; called from $C50087; the first game routine after the math
 	lda.w $186C
 	pha
 	stz.w $186C
-	jsl.l $C54E27
+	jsl.l CODE_C54E27
 	jsl.l CODE_C52CA3
 	jsl.l CODE_C53980
 	stz.b $6B

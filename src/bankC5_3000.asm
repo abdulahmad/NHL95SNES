@@ -318,7 +318,7 @@ CODE_C532C5:						; called from other segments
 	pei ($67)
 	phx
 	phy
-	jsl.l $C54E59
+	jsl.l CODE_C54E59
 	pei ($6F)
 	lda.w #$2DC9
 	ldx.b $6B
@@ -1967,10 +1967,10 @@ CODE_C53F8D:						; called from other segments
 	pei ($6F)
 	pei ($71)
 	stz.b $6B
-	jsl.l $C53FE5
+	jsl.l CODE_C53FE5
 	lda.w #$0002
 	sta.b $6B
-	jsl.l $C53FE5
+	jsl.l CODE_C53FE5
 	pla
 	sta.b $71
 	pla

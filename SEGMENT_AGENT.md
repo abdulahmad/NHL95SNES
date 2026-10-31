@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_4000 (org $C53FE5), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC5_5000 (org $C54F05), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -156,6 +156,10 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
 - 2026-10-31: bankC5_3000 matched (game code, CODE_ names). Seven routines have no reference anywhere in the ROM (no jsl, jml or
   pointer through any bank $C5 mirror); their bytes are code, so they are decoded and marked "no caller found". End moved to
   $C53FE4, bankC5_4000 org to $C53FE5.
+- 2026-10-31: bankC5_4000 matched (game code, CODE_ names): asstab entries 10 and 12 (CODE_C5474A, CODE_C545C7) are seeds and
+  the table uses their labels. Jump tables in the lower half point below $8000, so the table sizer now takes targets in the
+  scanned range or known as code from the whole-bank descent (it used to stop at any target below $8000). End moved to $C54F04,
+  bankC5_5000 org to $C54F05.
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -311,8 +315,8 @@ The first row that is still incbin is the current segment.
 | bankC5_1000 | matched 3858 bytes | $C510F6 | $C52007 | game code with CODE_ names and their callers, asstab entry 27 (CODE_C51CC1), tables read with long addresses (DATA8_ with their readers); seven small routines with no caller found are decoded and say so; out of ROM order, org moved to $C510F6, end moved +$8 |
 | bankC5_2000 | matched 4229 bytes | $C52008 | $C5308C | game code with CODE_ names and their callers, three continuations stored in a pointer that CODE_C52898 jumps back through, records between code (DATA8_), tables read with long addresses; out of ROM order, org moved to $C52008, end moved +$8D |
 | bankC5_3000 | matched 3928 bytes | $C5308D | $C53FE4 | game code with CODE_ names and their callers, tables read with long addresses (DATA8_ with their readers); seven routines with no caller found are decoded and say so; out of ROM order, org moved to $C5308D, end moved -$1B |
-| bankC5_4000 | incbin <- CURRENT | $C53FE5 | $C54FFF | org moved to $C53FE5 |
-| bankC5_5000 | incbin | $C55000 | $C55FFF | |
+| bankC5_4000 | matched 3872 bytes | $C53FE5 | $C54F04 | game code with CODE_ names and their callers, asstab entries 10 and 12, the jump table DATA8_C54D3A, tables read with long addresses (DATA8_ with their readers); out of ROM order, org moved to $C53FE5, end moved -$FB |
+| bankC5_5000 | incbin <- CURRENT | $C54F05 | $C55FFF | org moved to $C54F05 |
 | bankC5_6000 | incbin | $C56000 | $C56FFF | |
 | bankC5_7000 | incbin | $C57000 | $C5800B | end moved +$C (a routine ends at $C5800B) |
 | bankC5_8000 | matched 4044 bytes | $C5800C | $C58FD7 | Reset_Fast, SetBGMapRegs, Decompress (DecompressFormats, UnpackFormat0-8), DecompressLZSS, MapSetToVRAM, QueueVRAMDMALen, DecompressToVRAM, FadeOutWait, SetupHDMA, game code (CODE_); out of ROM order; org moved to $C5800C, end moved -$28 (first boundary no branch crosses) |

@@ -635,3 +635,8 @@ $C5362B,DATA8_C5362B,,new,"not traced: data between routines (in bankC5_3000)",s
 $C5362D,DATA8_C5362D,,new,"not traced: data between routines (in bankC5_3000)",src/bankC5_3000.asm
 $C53A61,DATA8_C53A61,,new,"not traced: data between routines (in bankC5_3000)",src/bankC5_3000.asm
 $C53C3F,DATA8_C53C3F,,new,"not traced: data between routines (in bankC5_3000)",src/bankC5_3000.asm
+$C5410E,DATA8_C5410E,,new,"not traced: a table read by CODE_C540C3 (in bankC5_4000)",src/bankC5_4000.asm
+$C54194,DATA8_C54194,,new,"not traced: a table read by CODE_C54171 (in bankC5_4000)",src/bankC5_4000.asm
+$C54897,DATA8_C54897,,new,"not traced: data between routines (in bankC5_4000)",src/bankC5_4000.asm
+$C5491C,DATA8_C5491C,,new,"not traced: data between routines (in bankC5_4000)",src/bankC5_4000.asm
+$C54D3A,DATA8_C54D3A,,new,"jump table: the routine for each index (in bankC5_4000)",src/bankC5_4000.asm

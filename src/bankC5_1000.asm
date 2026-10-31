@@ -508,7 +508,7 @@ CODE_C514F3:						; from CODE_C514E4
 	sta.b $7F
 	rtl
 CODE_C51523:						; called from other segments
-	jsl.l $C54DDF
+	jsl.l CODE_C54DDF
 	lda.w #$0000
 	ldy.w #$001E
 CODE_C5152D:						; from CODE_C5152D
@@ -599,7 +599,7 @@ CODE_C515AF:						; from CODE_C515A1
 	pei ($79)
 	pei ($7B)
 	pei ($7D)
-	jsl.l $C54E6D
+	jsl.l CODE_C54E6D
 	pla
 	sta.b $7D
 	pla
@@ -900,7 +900,7 @@ CODE_C51825:						; called from other segments
 	lda.w #$FFFF
 	sta.w $184C
 	sta.w $184E
-	jsl.l $C54BAF
+	jsl.l CODE_C54BAF
 	lda.w $2038
 	sec
 	sbc.w #$0006
@@ -1535,8 +1535,8 @@ CODE_C51DE2:						; from CODE_C51DDA
 	bne CODE_C51DEA
 	jmp.w CODE_C51E80
 CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DE2
-	jsl.l $C547CB
-	jsl.l $C541D3
+	jsl.l CODE_C547CB
+	jsl.l CODE_C541D3
 	jml.l CODE_C5111A
 CODE_C51DF6:						; from CODE_C51D7B and other segments
 	lda.w $186E
@@ -1573,7 +1573,7 @@ CODE_C51E1F:						; from CODE_C51DF6, CODE_C51E0C
 CODE_C51E37:						; from CODE_C51E1F
 	lda.w #$FFFF
 	sta.w $184C,y
-	jsl.l $C5404A
+	jsl.l CODE_C5404A
 	ply
 	sty.b $6B
 	ldx.b $6F
@@ -1672,7 +1672,7 @@ CODE_C51EEF:						; from CODE_C51ED8
 	ora.w #$FF00
 	sta.w $0AE0,y
 	ldx.b $6F
-	jmp.w $4070
+	jmp.w CODE_C54070
 CODE_C51F08:						; from CODE_C51ED8
 	lda.b $6F
 	clc
@@ -1700,9 +1700,9 @@ CODE_C51F2F:						; from CODE_C51F1C
 	bit.w #$0008
 	beq CODE_C51F44
 	stz.b $87
-	jsl.l $C54DA4
+	jsl.l CODE_C54DA4
 	bmi CODE_C51F44
-	jsl.l $C54070
+	jsl.l CODE_C54070
 CODE_C51F44:						; from CODE_C51F2F
 	plx
 	stx.b $6F

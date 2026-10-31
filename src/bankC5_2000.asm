@@ -1449,7 +1449,7 @@ CODE_C52B98:						; from CODE_C52B5D, CODE_C52BFA
 CODE_C52B9B:						; from CODE_C52B0D
 	jml.l CODE_C51C58
 CODE_C52B9F:						; from CODE_C52B45
-	jml.l $C54541
+	jml.l CODE_C54541
 CODE_C52BA3:						; from CODE_C52B5D
 	jml.l $C45610
 CODE_C52BA7:						; from CODE_C52B5D
@@ -1480,7 +1480,7 @@ CODE_C52BD5:						; from CODE_C52BC5
 	bpl CODE_C52BC4
 	lda.b $8F
 	sta.w $184C,y
-	jmp.w $404A
+	jmp.w CODE_C5404A
 CODE_C52BE2:						; from CODE_C52B5D
 	jml.l $C42D10
 CODE_C52BE6:						; from CODE_C52B5D, CODE_C52C5E

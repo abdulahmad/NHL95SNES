@@ -52,7 +52,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segment
 	jsl.l CODE_C092B3
 	bra CODE_C50056
 CODE_C5008D:						; from CODE_C50056
-	jsl.l $C54E27
+	jsl.l CODE_C54E27
 	jsr.w CODE_C52CC1
 	jsl.l $C4E12C
 	jsr.w CODE_C53984
@@ -152,10 +152,10 @@ CODE_C5016D:						; from CODE_C50B5D, CODE_C50161 and other segments
 	tcs
 CODE_C50176:						; from CODE_C5016D
 	stz.b $6B
-	jsl.l $C54AEF
+	jsl.l CODE_C54AEF
 	lda.w #$0002
 	sta.b $6B
-	jsl.l $C54AEF
+	jsl.l CODE_C54AEF
 	jsl.l CODE_C52227
 	jsl.l CODE_C53535
 	jsl.l $C3718D
@@ -372,7 +372,7 @@ CODE_C50364:						; from CODE_C5033D and other segments
 	adc.w #$0018
 	sta.w $07BC
 	jsl.l $C487EB
-	jsl.l $C54B1B
+	jsl.l CODE_C54B1B
 	jsl.l $C48241
 	jsl.l $C47787
 CODE_C50392:						; from CODE_C50364
@@ -1517,7 +1517,7 @@ CODE_C50D29:						; from CODE_C5032B and other segments
 	pei ($79)
 	pei ($7B)
 	pei ($7D)
-	jsl.l $C54E6D
+	jsl.l CODE_C54E6D
 	pla
 	sta.b $7D
 	pla
