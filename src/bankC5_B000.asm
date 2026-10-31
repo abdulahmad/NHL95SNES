@@ -38,9 +38,9 @@ CODE_C5B008:						; from CODE_C5B008
 	lda.b $9F
 	dec a
 	sta.b $9F
-	jsr.w $D7CD
-	jsr.w $D7E9
-	jsr.w $D804
+	jsr.w CODE_C5D7CD
+	jsr.w CODE_C5D7E9
+	jsr.w CODE_C5D804
 	beq CODE_C5B008
 	lda.w #$0010
 	jsl.l $C4C547
@@ -622,8 +622,8 @@ CODE_C5B53D:						; from CODE_C5B4C2
 	cmp.w #$026A
 	bcc CODE_C5B54E
 	phy
-	jsr.w $D7CD
-	jsr.w $D7E9
+	jsr.w CODE_C5D7CD
+	jsr.w CODE_C5D7E9
 	cmp.w #$0001
 	ply
 	rts
@@ -836,13 +836,13 @@ CODE_C5B6A1:						; a callback: CODE_C5B049 passes it to a list routine in bankC
 	jmp.w CODE_C5B76D
 CODE_C5B6D0:						; from CODE_C5B6A1
 	phx
-	jsr.w $D7CD
-	jsr.w $D7E9
+	jsr.w CODE_C5D7CD
+	jsr.w CODE_C5D7E9
 	ldx.w #$0000
 	stx.b $A1
 CODE_C5B6DC:						; from CODE_C5B6F6
 	phx
-	jsr.w $D804
+	jsr.w CODE_C5D804
 	plx
 	cmp.w #$0000
 	beq CODE_C5B706
@@ -868,7 +868,7 @@ CODE_C5B707:						; from CODE_C5B707
 	cpx.w #$0007
 	beq CODE_C5B714
 	phx
-	jsr.w $D804
+	jsr.w CODE_C5D804
 	plx
 	inx
 	bra CODE_C5B707
@@ -882,7 +882,7 @@ CODE_C5B715:						; from CODE_C5B6F6
 	phx
 CODE_C5B71F:						; from CODE_C5B739
 	phx
-	jsr.w $D804
+	jsr.w CODE_C5D804
 	plx
 	cmp.w #$0000
 	beq CODE_C5B74D
@@ -912,7 +912,7 @@ CODE_C5B74D:						; from CODE_C5B71F, CODE_C5B74D
 	cmp.w #$0009
 	beq CODE_C5B75E
 	phx
-	jsr.w $D804
+	jsr.w CODE_C5D804
 	plx
 	inx
 	bra CODE_C5B74D

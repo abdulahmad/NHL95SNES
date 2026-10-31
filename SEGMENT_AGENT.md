@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_D000 (org $C5D00D), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC5_E000 (org $C5DF5F), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -132,6 +132,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
 - 2026-10-31: bankC5_C000 matched (game code, CODE_ names). A sort (CODE_C5C029) jumps through $9F to one of 7 compare routines
   from DATA8_C5C0AE, written as a jump table; three more callbacks (two passed to the list routine in bankC5_5000, one to a
   routine in bankC5_D000). End moved to $C5D00C, bankC5_D000 org to $C5D00D.
+- 2026-10-31: bankC5_D000 matched (game code, CODE_ names). Some calls push a return address (pea label-1) and jump through a
+  direct page pointer; the decoder now follows the return point, and the pea operands are labels. End moved to $C5DF5E,
+  bankC5_E000 org to $C5DF5F.
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -296,8 +299,8 @@ The first row that is still incbin is the current segment.
 | bankC5_A000 | matched 4157 bytes | $C59F79 | $C5AFB5 | game code with CODE_ names and their callers, jump tables DATA8_C5A81B / C5AC73, tables read with long addresses (DATA8_ with their readers); out of ROM order; org moved to $C59F79, end moved -$4A (first boundary no branch crosses) |
 | bankC5_B000 | matched 4138 bytes | $C5AFB6 | $C5BFDF | game code with CODE_ names and their callers, jump tables DATA8_C5B56C / C5BB6C / C5BEDD, tables read with long addresses (DATA8_ with their readers), three callbacks passed to a list routine; out of ROM order, org moved to $C5AFB6, end moved -$20 |
 | bankC5_C000 | matched 4141 bytes | $C5BFE0 | $C5D00C | game code with CODE_ names and their callers, the sort compare table DATA8_C5C0AE, tables read with long addresses (DATA8_ with their readers), three callbacks; out of ROM order, org moved to $C5BFE0, end moved +$D |
-| bankC5_D000 | incbin <- CURRENT | $C5D00D | $C5DFFF | org moved to $C5D00D |
-| bankC5_E000 | incbin | $C5E000 | $C5EFFF | |
+| bankC5_D000 | matched 3922 bytes | $C5D00D | $C5DF5E | game code with CODE_ names and their callers, three return points of indirect calls (pea label-1, then jmp through a pointer); out of ROM order, org moved to $C5D00D, end moved -$A1 |
+| bankC5_E000 | incbin <- CURRENT | $C5DF5F | $C5EFFF | org moved to $C5DF5F |
 | bankC5_F000 | incbin | $C5F000 | $C5FFFF | |
 | bankC6_0000 | incbin | $C60000 | $C60FFF | |
 | bankC6_1000 | incbin | $C61000 | $C61FFF | |

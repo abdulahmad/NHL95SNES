@@ -1754,8 +1754,8 @@ CODE_C5AF11:						; from CODE_C5AF11
 	bne CODE_C5AF11
 	plb
 	jsr.w $E49A
-	jsr.w $DD47
-	jsr.w $DE9B
+	jsr.w CODE_C5DD47
+	jsr.w CODE_C5DE9B
 	jsl.l $C4C530
 	lda.w #$0001
 	sta.w $190E
@@ -1769,7 +1769,7 @@ CODE_C5AF11:						; from CODE_C5AF11
 	bne CODE_C5AF50
 	jml.l $C40296
 CODE_C5AF50:						; from CODE_C5AF11
-	jsr.w $DDF0
+	jsr.w CODE_C5DDF0
 	jsr.w $E17C
 	lda.l $306050
 	inc a

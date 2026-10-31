@@ -455,7 +455,7 @@ CODE_C59412:						; from CODE_C593F5
 	dey
 	dey
 	bpl CODE_C593F5
-	jsr.w $D0F5
+	jsr.w CODE_C5D0F5
 	lda.w $1864
 	jsl.l $CF039E
 	jsl.l FadeOutWait
