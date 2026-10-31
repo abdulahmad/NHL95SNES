@@ -69,6 +69,9 @@ bankC0_0000. <- CURRENT
 
 - 2026-10-31: bootstrap. 256 incbin segments, a stub per segment, prebuild ROM check (SHA-1/CRC32/size), extractor, asar build, segment and
   full verify (MATCH). Trial: `CartHeader` (cartridge header) as source in bankC0_F000.
+- 2026-10-31: `tools/disasm65816.py`, the NHL94SNES quick-pass disassembler ported to HiROM (bank $C0-$CF file mapping, system
+  banks only above $8000, vectors in bank $00, run bank kept per instruction, `--codemap` optional, `xref.txt` of long operands).
+  `tools/verify_segment.sh` runs asar on Windows too.
 
 ## ROM map
 

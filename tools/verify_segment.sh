@@ -8,7 +8,7 @@ python3 tools/prebuild.py >/dev/null || exit 1
 ASAR=asar; [ -x tools/bin/asar ] && ASAR=tools/bin/asar
 python3 - "$ASAR" "$1" <<'PY'
 import re, sys, glob, os, subprocess
-asar, arg = sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else ''
+asar, arg = os.path.normpath(sys.argv[1]), sys.argv[2] if len(sys.argv) > 2 else ''  # normpath: Windows only starts a relative path written with backslashes
 ROM = 'lst/nhl95snes.sfc'; FULL = 'output/nhl95snes.sfc'
 def org(f):
     m = re.search(r'^\s*org\s+\$([0-9A-Fa-f]{6})', open(f).read(), re.M)
