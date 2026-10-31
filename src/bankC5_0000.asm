@@ -360,7 +360,7 @@ CODE_C50351:						; from CODE_C50351
 	sta.b $2A
 	jml.l CODE_C52295
 CODE_C50364:						; from CODE_C5033D and other segments
-	jsl.l $C471F0
+	jsl.l CODE_C471F0
 	jsl.l $C371AB
 	jsl.l CODE_C51801
 	lda.w $07BC
@@ -374,7 +374,7 @@ CODE_C50364:						; from CODE_C5033D and other segments
 	jsl.l $C487EB
 	jsl.l CODE_C54B1B
 	jsl.l $C48241
-	jsl.l $C47787
+	jsl.l CODE_C47787
 CODE_C50392:						; from CODE_C50364
 	rtl
 CODE_C50393:						; from CODE_C5033D and other segments
@@ -1222,12 +1222,12 @@ CODE_C50AA8:						; from CODE_C50A6C
 	jsl.l $C380D1
 	lda.w #$0004
 	sta.b $7F
-	jsl.l $C478C3
+	jsl.l CODE_C478C3
 	lda.b $38
 	beq CODE_C50AC2
 	lda.w #$0032
 	sta.b $7F
-	jsl.l $C478C3
+	jsl.l CODE_C478C3
 CODE_C50AC2:						; from CODE_C50AA8
 	rtl
 CODE_C50AC3:						; from CODE_C50A14, CODE_C50A36

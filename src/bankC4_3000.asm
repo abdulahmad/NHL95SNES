@@ -1342,7 +1342,7 @@ CODE_C43C4E:						; from CODE_C43C34
 	sta.w $2026
 	lda.w #$005C
 	sta.w $201E
-	jsl.l $C47F7A
+	jsl.l CODE_C47F7A
 	lda.w $18BE
 	beq CODE_C43C74
 	jmp.w CODE_C43F0D

@@ -583,7 +583,7 @@ CODE_C09418:						; from CODE_C09401
 	lda.w #$0010
 	sta.b $7F
 CODE_C09465:						; from CODE_C093DD, CODE_C093E8, CODE_C093F5
-	jml.l $C478C3
+	jml.l CODE_C478C3
 	jsl.l CODE_C53ABC
 	lda.w #$0001
 	sta.b $7F

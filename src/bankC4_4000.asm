@@ -1033,7 +1033,7 @@ CODE_C447EF:						; from CODE_C447D2
 	pla
 	lda.w #$0008
 	sta.b $7F
-	jmp.w $78C3
+	jmp.w CODE_C478C3
 CODE_C44817:						; from CODE_C4401D and other segments
 	lda.w $0D60,x
 	bit.w #$8000
@@ -1269,7 +1269,7 @@ CODE_C44A02:						; from CODE_C449D3
 	pei ($83)
 	pei ($87)
 	pei ($8B)
-	jsl.l $C47AB4
+	jsl.l CODE_C47AB4
 	jsl.l CODE_C453C1
 	pla
 	sta.b $8B

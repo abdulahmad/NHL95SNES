@@ -320,7 +320,7 @@ CODE_C42C47:						; from CODE_C42C66
 	jsl.l CODE_C42B18
 	jmp.w CODE_C436FD
 CODE_C42C4E:						; from CODE_C42C1A
-	jsl.l $C4702E
+	jsl.l CODE_C4702E
 	jmp.w CODE_C45529
 CODE_C42C55:						; from CODE_C42C11
 	jsl.l $C37EBF

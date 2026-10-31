@@ -1449,7 +1449,7 @@ CODE_C51D16:						; from CODE_C51D02
 	lda.w $10F1
 	bit.w #$0008
 	beq CODE_C51D22
-	jml.l $C47323
+	jml.l CODE_C47323
 CODE_C51D22:						; from CODE_C51D16
 	jsl.l $C48840
 	lda.w #$FFFF

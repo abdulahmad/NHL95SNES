@@ -330,16 +330,16 @@ CODE_C451BF:						; from CODE_C45147
 CODE_C4520C:						; from CODE_C451BF
 	lda.w $0A20,x
 	bne CODE_C45214
-	jmp.w $78C3
+	jmp.w CODE_C478C3
 CODE_C45214:						; from CODE_C4520C
 	lda.w $186C
 	bne CODE_C4521C
-	jmp.w $78C3
+	jmp.w CODE_C478C3
 CODE_C4521C:						; from CODE_C45214
 	lda.w #$0014
 	sta.b $7F
-	jsl.l $C478C3
-	jmp.w $7323
+	jsl.l CODE_C478C3
+	jmp.w CODE_C47323
 CODE_C45228:						; from CODE_C45147, CODE_C45144
 	ldy.b $6B
 	lda.w $0C80,y
@@ -565,7 +565,7 @@ CODE_C453E6:						; from CODE_C453C1 and other segments
 	beq CODE_C453E3
 	cmp.w #$2082
 	bne CODE_C453FD
-	jmp.w $7C8C
+	jmp.w CODE_C47C8C
 CODE_C453FD:						; from CODE_C453E6
 	lda.w $0C80,x
 	cmp.w #$21BC
@@ -660,7 +660,7 @@ CODE_C45476:						; from CODE_C45413, CODE_C4546A
 	clc
 	adc.w #$0018
 	sta.b $7F
-	jmp.w $789D
+	jmp.w CODE_C4789D
 CODE_C454D3:						; from CODE_C45476
 	rtl
 CODE_C454D4:						; from CODE_C45476
@@ -676,7 +676,7 @@ CODE_C454D4:						; from CODE_C45476
 	clc
 	adc.w #$001C
 	sta.b $7F
-	jsl.l $C4789D
+	jsl.l CODE_C4789D
 CODE_C454F7:						; from CODE_C454D4
 	jsl.l $C480B5
 	beq CODE_C45516
@@ -688,7 +688,7 @@ CODE_C454F7:						; from CODE_C454D4
 	sta.w $18B6
 	lda.w #$0024
 	sta.b $7F
-	jsl.l $C4789D
+	jsl.l CODE_C4789D
 CODE_C45516:						; from CODE_C454F7
 	jmp.w CODE_C44F20
 DATA8_C45519:						; not traced: a table read by CODE_C45413
@@ -963,7 +963,7 @@ CODE_C4574C:						; from CODE_C456F8
 	sta.w $18B6
 	lda.w #$0024
 	sta.b $7F
-	jsl.l $C4789D
+	jsl.l CODE_C4789D
 	bra CODE_C45792
 CODE_C45771:						; from CODE_C4574C
 	jsl.l $C48199
@@ -978,7 +978,7 @@ CODE_C45771:						; from CODE_C4574C
 	lda.w #$0020
 	sta.b $7F
 CODE_C4578E:						; from CODE_C45771
-	jsl.l $C4789D
+	jsl.l CODE_C4789D
 CODE_C45792:						; from CODE_C4574C, CODE_C45771
 	ldx.b $6B
 	ldy.b $6F
