@@ -6,6 +6,7 @@ hirom
 
 incsrc "inc/snes_regs.asm"
 incsrc "inc/spc_regs.asm"
+incsrc "ram95s.asm"
 
 incsrc "bankC0_0000.asm"
 incsrc "bankC0_1000.asm"

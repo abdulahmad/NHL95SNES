@@ -49,7 +49,7 @@ BlueColours:						; 8 blues that BlueColoursHook sends
 	dw $7C00,$7400,$7000,$6C00,$7000,$6C00,$6800,$6000
 DarkBlueColours:					; 8 darker blues that DarkBlueColoursHook sends
 	dw $3C00,$3800,$3800,$3400,$3800,$3400,$3400,$3000
-BlueColoursHook:					; frame hook (NMI): BlueColours to CGRAM colours $11 on
+BlueColoursHook:					; NMI hook (SetNMIHook): BlueColours to CGRAM colours $11 on
 	lda.w #DMA_CGRAM				; M 16, X 8 as the NMI calls hooks
 	sta.w DMAP0
 	lda.w #BlueColours
@@ -63,7 +63,7 @@ BlueColoursHook:					; frame hook (NMI): BlueColours to CGRAM colours $11 on
 	ldx.b #MDMAEN_CH0
 	stx.w MDMAEN
 	rtl
-DarkBlueColoursHook:				; frame hook (NMI): DarkBlueColours to CGRAM colours $11 on
+DarkBlueColoursHook:				; NMI hook: DarkBlueColours to CGRAM colours $11 on
 	lda.w #DMA_CGRAM				; M 16, X 8 as the NMI calls hooks
 	sta.w DMAP0
 	lda.w #DarkBlueColours

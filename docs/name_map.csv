@@ -90,8 +90,8 @@ $C0491A,DATA8_C0491A,,new,"not traced: a 0 then 5-byte records up to MainScreenH
 $C04A35,MainScreenHDMA,,code,"indirect HDMA table for TM; $C5AD08 sets channel 6 (mode $40, B-bus $2C, indirect bank $7E: values at $7E:364E-$3652)",src/bankC0_4000.asm
 $C04A45,BlueColours,,code,"8 colours BlueColoursHook sends to CGRAM $11",src/bankC0_4000.asm
 $C04A55,DarkBlueColours,,code,"8 colours DarkBlueColoursHook sends to CGRAM $11",src/bankC0_4000.asm
-$C04A65,BlueColoursHook,,code,"NMI frame hook ($C4016B sets it through $C08D73, the frame hook setter): DMA BlueColours to CGRAM $11",src/bankC0_4000.asm
-$C04A87,DarkBlueColoursHook,,code,"NMI frame hook ($C4044B sets it): DMA DarkBlueColours to CGRAM $11",src/bankC0_4000.asm
+$C04A65,BlueColoursHook,,code,"NMI hook ($C4016B sets it through SetNMIHook): DMA BlueColours to CGRAM $11",src/bankC0_4000.asm
+$C04A87,DarkBlueColoursHook,,code,"NMI hook ($C4044B sets it through SetNMIHook): DMA DarkBlueColours to CGRAM $11",src/bankC0_4000.asm
 $C04AA9,DATA8_C04AA9,,new,"256 words, entry n = (n / 8) * $20 + (n & 7) * 2; read at $C5E7F2, $C5E897, $C5EA77, $C5F012",src/bankC0_4000.asm
 $C04CA9,BackdropColour,,code,"1 colour ($7F98) that $C52091 / $C5576A queue to CGRAM colour 0",src/bankC0_4000.asm
 $C04CAB,DATA8_C04CAB,,new,"6 words, not traced",src/bankC0_4000.asm
@@ -108,3 +108,77 @@ $C06F2D,PlayerPhotosVAN,,render,"Vancouver: 6 player photos, packed format 2 ($1
 $C07ECB,TeamSongs,,94S,"94S TeamSongs by purpose: six songs per team, $FF none (94S: long pointers, $FFFFFFFF none); $CF0427 copies the six of team $17C9 into a list at $7E:50D4 and has $CF0162 load it; 94S slot meanings not checked for 95",src/bankC0_7000.asm
 $C07F73,DefaultSongs,,94S,"94S DefaultSongs by purpose: $CF044F replaces each $FF of TeamSongs with one of these 7, picked by the random routine $C58CCD (A = 7); an $FF follows them",src/bankC0_7000.asm
 $C07F7B,DATA8_C07F7B,,new,"a sound number list ($FF ends) that $C4B0AA passes to $CF0134; the screen is not traced",src/bankC0_7000.asm
+$C08000,DATA8_C08000,,new,"not traced: 35-byte records with $80xx pointers into the block and long pointers into bank $C1, then a list of record addresses (from $C0879C)",src/bankC0_8000.asm
+$C087F2,TiledBackMap,,render,"map set for the map unpacker $C58527 (length word, width $20, height $1C, flags $8C: LZSS; $0700 bytes): a 16 x 3 block of tiles repeated; $C4D68C, $C4D7C7, $C4E1EE, $C55980, $C5916A send it to VRAM $5800",src/bankC0_8000.asm
+$C08939,DATA8_C08939,,new,"not traced: a set with the same length word ($01D5) but width byte $30, which $C58527 would reject; then 7 bytes",src/bankC0_8000.asm
+$C08B17,DATA8_C08B17,,new,"not traced: 16 colours, magenta then blues",src/bankC0_8000.asm
+$C08B37,InitHooks,,94S,"same layout and seed as 94S InitHooks; $C5000A reads it",src/bankC0_8000.asm
+$C08B44,NullHook,,94S,"rtl; the default frame and NMI hook",src/bankC0_8000.asm
+$C08B45,NMI_Fast,,94S,"NMI: save the registers; nothing more while NMISkip is set, else the NMI hook",src/bankC0_8000.asm
+$C08B82,NMI_HookReturn,,94S,"NMI after the hook: IRQ timers, BG scroll, the queued transfers, DMA enables",src/bankC0_8000.asm
+$C08BFC,NMI_Tick,,new,"Vcount + 1, the fade, FrameCount, then the frame hook",src/bankC0_8000.asm
+$C08C64,NMI_FrameHookReturn,,94S,"NMI after the frame hook: pads and sound, then restore and rti",src/bankC0_8000.asm
+$C08CDA,IRQ,,new,"IRQ entry: jml IRQ_Fast (the IRQ vector points to RAM)",src/bankC0_8000.asm
+$C08CDE,IRQ_Fast,,94S,"IRQ: save the registers, acknowledge TIMEUP and run the IRQ hook",src/bankC0_8000.asm
+$C08CF5,IRQ_HookReturn,,94S,"IRQ: restore the registers and rti (where the IRQ hooks return)",src/bankC0_8000.asm
+$C08CFC,IRQOff,,94S,"turn the IRQ off, the NMI and pad reading on",src/bankC0_8000.asm
+$C08D16,SetIRQ,,94S,"turn on an IRQ at line Y with the routine at X:A",src/bankC0_8000.asm
+$C08D49,IRQHook_Off,,94S,"rtl; the IRQ hook when the raster IRQ is off",src/bankC0_8000.asm
+$C08D4A,ClearFrameHook,,94S,"set the frame hook back to the empty routine",src/bankC0_8000.asm
+$C08D59,SetFrameHook,,94S,"run the routine at X:A as the frame hook from the next NMI",src/bankC0_8000.asm
+$C08D64,ClearNMIHook,,94S,"set the NMI hook back to the empty routine",src/bankC0_8000.asm
+$C08D73,SetNMIHook,,new,"run the routine at X:A as the NMI hook from the next NMI; 94S has this code as the local ClearNMIHook.t1",src/bankC0_8000.asm
+$C08D7E,WaitFrame,,94S,"wait for the next frame (FrameCount changes)",src/bankC0_8000.asm
+$C08D89,WaitFrames_Inc,,94S,"WaitFrames with Y + 1 first",src/bankC0_8000.asm
+$C08D8A,WaitFrames,,94S,"wait X frames, Y counting the rounds of 65536",src/bankC0_8000.asm
+$C08D92,WaitDMAQueue,,94S,"wait until the DMA queue is empty (DMAQueueHead = DMAQueueTail)",src/bankC0_8000.asm
+$C08DF3,WaitNoButtons,,94S,"wait until no button is held on pad 1",src/bankC0_8000.asm
+$C08E29,JoyDirIndex_Hi,,94S,"JoyDirIndex of the high byte of A",src/bankC0_8000.asm
+$C08E2A,JoyDirIndex,,94S,"X = 2 * JoyDirTable[the d-pad bits A & $F]",src/bankC0_8000.asm
+$C08E48,RandomWord,,94S,"A = a random word: the sum of two 16-bit shift-register generators",src/bankC0_8000.asm
+$C08E74,BlankScreen,,94S,"wait a frame, the default hooks, IRQ off, fade out, HDMA off",src/bankC0_8000.asm
+$C08E93,forceblack,,94S,"BlankScreen, then ResetPPURegs",src/bankC0_8000.asm
+$C08E99,ScreenOn,,94S,"fade the screen in (fadestep 0)",src/bankC0_8000.asm
+$C08E9D,ResetPPURegs,,94S,"reset the scroll copies and the window and colour math registers",src/bankC0_8000.asm
+$C08ED9,Mul8U,,94S,"A * X, 8 by 8 bits, unsigned, into A",src/bankC0_8000.asm
+$C08EEC,Mul8XS,,94S,"A * X, 8 by 8 bits, X signed, into A",src/bankC0_8000.asm
+$C08F09,Mul8S,,94S,"A * X, 8 by 8 bits, both signed, into A",src/bankC0_8000.asm
+$C08F5B,Mul16x8U_Pre,,94S,"Mul16x8U from its second step, with Y saved",src/bankC0_8000.asm
+$C08F5E,Mul16x8U,,94S,"X (16 bits) * A (8 bits) into r2, unsigned",src/bankC0_8000.asm
+$C08F8F,Mul16x8_Zero,,94S,"product 0 into r2",src/bankC0_8000.asm
+$C08F95,Mul16x8XS,,94S,"X (16 bits) * A (8 bits) into r2, X signed",src/bankC0_8000.asm
+$C08FB7,Mul16x8S,,94S,"X (16 bits) * A (8 bits) into r2, both signed",src/bankC0_8000.asm
+$C08FCE,Mul16x8HiU_Pre,,94S,"Mul16x8HiU from its second step, with Y saved",src/bankC0_8000.asm
+$C08FD1,Mul16x8HiU,,94S,"X * A (low byte) / 256 into r2+1, unsigned",src/bankC0_8000.asm
+$C09001,Mul16x8Hi_Zero,,94S,"the zero result of the Mul16x8Hi forms: r2+1 = 0, pull Y",src/bankC0_8000.asm
+$C08C76,BCDTable,,94S,"0-99 in BCD; $C53D4E and $C553F5 read it",src/bankC0_8000.asm
+$C08E38,JoyDirTable,,94S,"16 bytes: direction index per d-pad pattern",src/bankC0_8000.asm
+$06,QueueBusy,,new,"RAM; negative while a transfer record is pushed; the NMI skips the queued transfers then",src/ram95s.asm
+$34,r2,,94S,"RAM; math result as 94S r2 (Mul16x8 forms)",src/ram95s.asm
+$40,r3,,94S,"RAM; work word as 94S r3 (the pad waits keep their mask here)",src/ram95s.asm
+$4A,NMISkip,,94S,"RAM; nonzero: the NMI only restores and returns; the NMI sets it while it runs",src/ram95s.asm
+$4C,DMAQueueHead,,94S,"RAM; WaitDMAQueue waits for it to equal DMAQueueTail",src/ram95s.asm
+$4E,DMAQueueTail,,94S,"RAM; see DMAQueueHead",src/ram95s.asm
+$5D,Vcount,,94S,"RAM; 32-bit frame counter, +1 per NMI",src/ram95s.asm
+$C1,PadRaw1,,94S,"RAM; pad 1 held ($C36D3A reads JOY1L into it)",src/ram95s.asm
+$C3,PadRaw2,,94S,"RAM; pad 2 held (JOY2L)",src/ram95s.asm
+$0490,DMAEnShadow,,new,"RAM; word the NMI writes to MDMAEN/HDMAEN",src/ram95s.asm
+$0492,brightness,,94S,"RAM; 0-15; the NMI fades it and writes it to INIDISP",src/ram95s.asm
+$0494,FrameCount,,94S,"RAM; +1 per NMI unless FrameCountHold",src/ram95s.asm
+$0496,TransfersReady,,new,"RAM; nonzero: the NMI calls $C4C58B (the queued transfers)",src/ram95s.asm
+$0498,FrameHookNext,,94S,"RAM; SetFrameHook stores X:A here",src/ram95s.asm
+$049B,NMIHookNext,,94S,"RAM; SetNMIHook stores X:A here",src/ram95s.asm
+$04A5,FrameCountHold,,94S,"RAM; nonzero: no FrameCount count",src/ram95s.asm
+$04A7,FrameHook,,94S,"RAM; the NMI calls [FrameHook] after the fade",src/ram95s.asm
+$04AA,NMIHook,,94S,"RAM; the NMI calls [NMIHook] first",src/ram95s.asm
+$04AD,IRQHook,,94S,"RAM; IRQ_Fast calls [IRQHook]",src/ram95s.asm
+$04B0,seed,,94S,"RAM; RandomWord's two generators",src/ram95s.asm
+$04B8,IRQVTime,,94S,"RAM; to VTIMEL each NMI",src/ram95s.asm
+$04BA,IRQHTime,,94S,"RAM; to HTIMEL each NMI",src/ram95s.asm
+$04BC,BG1HScroll,,94S,"RAM; the NMI writes the six words to BG1HOFS..BG3VOFS",src/ram95s.asm
+$04BE,BG1VScroll,,94S,"RAM; ",src/ram95s.asm
+$04C0,BG2HScroll,,94S,"RAM; ",src/ram95s.asm
+$04C2,BG2VScroll,,94S,"RAM; ",src/ram95s.asm
+$04C4,BG3HScroll,,94S,"RAM; ",src/ram95s.asm
+$04C6,BG3VScroll,,94S,"RAM; ",src/ram95s.asm
+$059A,fadestep,,94S,"RAM; a delay counting down to a fade in, or $FFFF to fade out",src/ram95s.asm

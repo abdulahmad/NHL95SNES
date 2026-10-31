@@ -9,10 +9,11 @@
   text routine's three fonts), bankC0_3000 ($C03CF9-$C04641: WonCheckTiles, WonCheckPalette, Away/HomeUniformPalettes),
   bankC0_4000 ($C04642-$C05DAB: tile sets, HDMA tables, colour hooks, BitMaskTable, the Tampa Bay photos), bankC0_5000
   ($C05DAC-$C06E6C: the Toronto photos), bankC0_6000 ($C06E6D-$C07ECA: the Vancouver photos),
-  bankC0_7000 ($C07ECB-$C07FFF: TeamSongs, DefaultSongs, a sound list, fill). The lower half of bank $C0 is all source.
+  bankC0_7000 ($C07ECB-$C07FFF: TeamSongs, DefaultSongs, a sound list, fill), bankC0_8000 ($C08000-$C09004: data, then the
+  engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies).
   `CartHeader` in bankC0_F000. The other segments are incbin.
-- Next: segment bankC0_8000 (code: the upper half of bank $C0 holds engine code, e.g. the NMI at $C08B45 and the frame hook
-  setters at $C08D59 / $C08D73) (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC0_9000, org $C09005. Its first routine looks like 94S Mul16x8HiXS; the 94S order goes on Mul16x8HiS,
+  Mul16S ... (compare with NHL94SNES src/banks/b80_engine.asm and src/routines/snes). (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -36,8 +37,9 @@
 - Player photos: the table at $C35EAB has a long pointer (dd) per team in team order to the team's photo set: 6 palettes of
   16 colours, then the 6 photos packed (format 2, $1B00 bytes: 48 x 48 linear 4bpp each). In bank $C0: TB at $C04CE7, TOR
   $C05DAC, VAN $C06E6D; the other 23 sets are in banks $CD-$CE.
-- NMI frame hook: $C08D73 stores A (address) and X (bank) at $049B; the NMI at $C08B45 calls it with M 16, X 8; $C08D64 puts the
-  default back. `src/inc/snes_regs.asm` (94S's) has the register names. Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
+- The engine in bank $C0 is 94S's bank $80 engine rebuilt: match routines to 94S by code (src/routines/snes there) and take
+  the names; RAM names go in `src/ram95s.asm`. Hooks: SetNMIHook / SetFrameHook take X:A; the NMI calls NMIHook first, then
+  FrameHook, both with M 16, X 8. Code still in incbin segments is called by number (jsl.l $C4C58B ...). Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
 
 ## Setup notes
 
@@ -58,6 +60,9 @@
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
   the setup code. The last pair of uniform palettes (after the all-star teams) is not traced.
+- bankC0_8000: DATA8_C08000 (35-byte records), DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
+  its pattern (94S MenuBackMap may be the same job: not checked). TransfersReady, DMAEnShadow, QueueBusy are named from the
+  NMI code only. Mul8S's A-positive / X-negative path multiplies A by -A (tya where 94S has txa): that is in the ROM.
 - bankC0_4000: DATA8_C0491A, DATA8_C04AA9, DATA8_C04CAB, DATA8_C04CB7, DATA8_C04CBF, DATA8_C04CC3 are not traced to a purpose.
   DigitFontTiles and LinePieceTiles are named from the rendered tiles; BG3ScrollHDMA1/2 from the HDMA set-up.
 - WonCheckTiles / WonCheckPalette: named from the rendered tiles; the screen is not traced.
