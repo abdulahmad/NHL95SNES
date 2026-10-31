@@ -337,3 +337,9 @@ $C169C4,PadNumbersTiles04,,render,"tiles of a controller, then the numbers 1 to 
 $C16A32,PadNumbersTiles05,,render,"tiles of a controller, then the numbers 1 to 5 frame 5 (frame header at $C0858F)",src/bankC1_6000.asm
 $C16ABA,SkaterTiles00,,render,"tiles of a skating player frame 0 (frame header at $C085DD)",src/bankC1_6000.asm
 $C16DBF,SkaterTiles01,,render,"tiles of a skating player frame 1 (frame header at $C085E5)",src/bankC1_6000.asm
+$C17138,SkaterTiles02,,render,"tiles of a skating player frame 2 (frame header at $C085ED)",src/bankC1_7000.asm
+$C1747A,SkaterTiles03,,render,"tiles of a skating player frame 3 (frame header at $C085F5)",src/bankC1_7000.asm
+$C177F8,SkaterTiles04,,render,"tiles of a skating player frame 4 (frame header at $C085FD)",src/bankC1_7000.asm
+$C17B65,SkaterTiles05,,render,"tiles of a skating player frame 5 (frame header at $C08605)",src/bankC1_7000.asm
+$C17E9F,RedDotTiles,,render,"tiles of a small red dot (frame header at $C08642)",src/bankC1_7000.asm
+$C17ED1,EASportsTiles,,render,"tiles of the EA SPORTS logo (frame header at $C08665)",src/bankC1_7000.asm
