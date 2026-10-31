@@ -266,3 +266,5 @@ $C58A65,DecompressToVRAM,,code,"Decompress A:X into a $1000 byte heap block and 
 $C58A99,FadeOutWait,,code,"fadestep = $FFFF, then wait until the screen is black (94S FadeOut, WaitFadeOut)",src/bankC5_8000.asm
 $C58AA5,SetupHDMA,,code,"HDMA channel X from the 6 bytes after the jsl: DMAP, BBAD, source, indirect bank",src/bankC5_8000.asm
 $7E50DC,unpackbuf,,94S,"RAM; Decompress output buffer as 94S unpackbuf (here $7E:50DC); DecompressUnpackbuf sets it as the destination",src/ram95s.asm
+$C5967A,DATA8_C5967A,,new,"jump table (14 routines) in bankC5_9000",src/bankC5_9000.asm
+$C598FA,DATA8_C598FA,,new,"not reached by the traced code: starts with the bytes of ABCDEFGH (a character table?)",src/bankC5_9000.asm

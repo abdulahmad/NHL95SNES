@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_9000 (org $C58FD8), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC1_1000 (org $C110B8) afterwards. <- CURRENT
 
 ## Sources
@@ -119,6 +119,8 @@ bankC1_1000 (org $C110B8) afterwards. <- CURRENT
   unpackers, the transfer queue helpers, HDMA set-up, then game code. Decoded by recursive descent (M/X carried through
   calls, jump tables sized against the decoded code, the inline parameters of SetBGMapRegs and SetupHDMA kept as db).
   tools/disasm65816.py: mvn / mvp operands now in asar's order.
+- 2026-10-31: bankC5_9000 matched (game code, CODE_ names). bankC5_8000 and bankC5_9000 now refer to each other's labels
+  (jump table entries, jsr targets), with equates in their stubs. End moved to $C59F78, bankC5_A000 org to $C59F79.
 
 ## ROM map
 
@@ -215,8 +217,8 @@ The first row that is still incbin is the current segment.
 | bankC5_6000 | incbin | $C56000 | $C56FFF | |
 | bankC5_7000 | incbin | $C57000 | $C5800B | end moved +$C (a routine ends at $C5800B) |
 | bankC5_8000 | matched 4044 bytes | $C5800C | $C58FD7 | Reset_Fast, SetBGMapRegs, Decompress (DecompressFormats, UnpackFormat0-8), DecompressLZSS, MapSetToVRAM, QueueVRAMDMALen, DecompressToVRAM, FadeOutWait, SetupHDMA, game code (CODE_); out of ROM order; org moved to $C5800C, end moved -$28 (first boundary no branch crosses) |
-| bankC5_9000 | incbin <- CURRENT | $C58FD8 | $C59FFF | org moved to $C58FD8 |
-| bankC5_A000 | incbin | $C5A000 | $C5AFFF | |
+| bankC5_9000 | matched 4001 bytes | $C58FD8 | $C59F78 | game code with CODE_ names and their callers, jump tables DATA8_C5967A / C59EF2 / C59EFA, untraced data; out of ROM order; org moved to $C58FD8, end moved -$87 (first boundary no branch crosses) |
+| bankC5_A000 | incbin <- CURRENT | $C59F79 | $C5AFFF | org moved to $C59F79 |
 | bankC5_B000 | incbin | $C5B000 | $C5BFFF | |
 | bankC5_C000 | incbin | $C5C000 | $C5CFFF | |
 | bankC5_D000 | incbin | $C5D000 | $C5DFFF | |

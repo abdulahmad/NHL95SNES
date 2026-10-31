@@ -1182,7 +1182,7 @@ CODE_C58934:						; from CODE_C58903
 	ldx.b $36
 	ldy.b $2C
 	rts
-DATA8_C58942:						; not traced: data between routines
+DATA8_C58942:						; not reached by the traced code (data or unused code)
 	db $DF,$22
 CODE_C58944:						; called from other segments
 	phx
@@ -1668,7 +1668,7 @@ CODE_C58D05:						; from CODE_C58D05
 	beq CODE_C58D05
 	rtl
 CODE_C58D32:						; called from other segments
-	jsr.w $90DA
+	jsr.w CODE_C590DA
 	lda.w $23BA
 	beq CODE_C58D3E
 	jsl.l $C36B83
@@ -1717,12 +1717,12 @@ CODE_C58D96:						; from CODE_C58D89
 CODE_C58DA0:						; from CODE_C58D96
 	bit.w #$0200
 	beq CODE_C58DAA
-	jsr.w $8FD8
+	jsr.w CODE_C58FD8
 	bra CODE_C58DC1
 CODE_C58DAA:						; from CODE_C58DA0
 	bit.w #$0100
 	beq CODE_C58DB4
-	jsr.w $9012
+	jsr.w CODE_C59012
 	bra CODE_C58DC1
 CODE_C58DB4:						; from CODE_C58DAA
 	bit.w #$3000
@@ -1739,16 +1739,16 @@ CODE_C58DC1:						; from CODE_C58D89, CODE_C58D96, CODE_C58DA0, CODE_C58DAA, ...
 	sta.w $23BC
 	jmp.w CODE_C58D47
 DATA8_C58DD0:						; jump table: the routine for each index
-	dw $93B1,$939D,$9588,$CA6C
-	dw $C109,$C722,$9643,$ABA1
+	dw CODE_C593B1,CODE_C5939D,CODE_C59588,$CA6C
+	dw $C109,$C722,CODE_C59643,$ABA1
 CODE_C58DE0:						; from CODE_C58DC1
 	lda.w #$0001
 	sta.l $7E23BA
 	stz.w $1904
 	stz.w $1864
-	jmp.w $93B1
+	jmp.w CODE_C593B1
 DATA8_C58DF0:						; jump table: the routine for each index
-	dw $9052,CODE_C58DF6,CODE_C58E71
+	dw CODE_C59052,CODE_C58DF6,CODE_C58E71
 CODE_C58DF6:						; called from other segments
 	lda.w $4692
 	and.w #$00FF
@@ -1866,7 +1866,7 @@ CODE_C58EE0:						; from CODE_C58D89
 	and.w #$FFFE
 	sta.b $22,x
 CODE_C58EF2:						; from CODE_C58EE0
-	jsr.w $909A
+	jsr.w CODE_C5909A
 	lda.w $010E
 	dec a
 	dec a
@@ -1890,7 +1890,7 @@ CODE_C58F02:						; from CODE_C58EF2
 	bra CODE_C58F75
 CODE_C58F22:						; from CODE_C58F02
 	sta.b $08,x
-	jsr.w $90B8
+	jsr.w CODE_C590B8
 CODE_C58F27:						; from CODE_C58EE0
 	rts
 CODE_C58F28:						; from CODE_C58D96
@@ -1911,7 +1911,7 @@ CODE_C58F32:						; from CODE_C58F28
 	and.w #$FFFE
 	sta.b $22,x
 CODE_C58F47:						; from CODE_C58F32
-	jsr.w $909A
+	jsr.w CODE_C5909A
 	lda.w $010E
 	inc a
 	inc a
@@ -1978,6 +1978,6 @@ CODE_C58FCD:						; from CODE_C58F75
 	rts
 CODE_C58FD2:						; from CODE_C58F57
 	sta.b $08,x
-	jsr.w $90B8
+	jsr.w CODE_C590B8
 CODE_C58FD7:						; from CODE_C58F28
 	rts
