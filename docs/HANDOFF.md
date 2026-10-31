@@ -14,9 +14,9 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC1_C000
-  (org $C1CFE2) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is source to $C1CFE1 (sprite data,
-  TeamNicknameTiles, the pause screen's map set). Onboarding: McMarkis.
+- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC1_D000
+  (org $C1D778) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is source to $C1D777 (sprite data,
+  TeamNicknameTiles, the pause screen and faceoff map sets). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte
   BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54,
   20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2,
@@ -81,6 +81,8 @@
   94S team order (WSH before WPG, then ASE, ASW), 28 not known (an arrow, then a spinning disc), 29 a pad and 1-5, 30 a
   skater, then the EA intro pieces, a box, the NHL and NHLPA logos. Readers in bank $C5: $C5E665 (create), $C5EEF3,
   $C5E8A5 (frame to VRAM), $C5F071 (format 0 without a header), $C5F0D1 (OAM), $C5E9C7 (scripts, commands at $C5EAAF).
+- PadButtonsMap: a map set of a pad's four buttons with tape-deck symbols (rewind, fast forward, play); it may be the
+  replay controls, but its loader ($C373C7, bank $C3) is not traced, so the name only says what it shows.
 - bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
   named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap

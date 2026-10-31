@@ -553,4 +553,7 @@ $C19B68,TeamNicknameTiles,,render,"560 4bpp tiles, packed format 0 ($4600 bytes)
 $C1BA31,PauseScreenMap,,render+genesis,"map set chunk 1 (32 x 35 word map, LZSS, $08C0 bytes); rendered: the Info / Stats / Options tabs, the periods, both penalty boxes and dot-matrix digits, the three tab pause menu of 95 Genesis pause95.asm; $C5509D loads the set through $C5881C into a heap block",src/bankC1_B000.asm
 $C1BE61,PauseScreenTiles,,render,"map set chunk 2: 272 4bpp tiles, LZSS ($2200 bytes)",src/bankC1_B000.asm
 $C1CF9B,PauseScreenPalette,,render,"map set chunk 3: 2 palettes of 16 colours",src/bankC1_B000.asm
-$C1CFE2,FaceOffMap,,render+94S,"map set (map, tiles, colours) of the faceoff box: 4 frames of 12 x 10 tiles, the referee dropping the puck (the 12 x 10 box of 94S FaceOffMap); $C43CA2 and $C5583E load it through $C5881C; label only so far (bankC1_C000 is incbin)",src/bankC1_C000.asm
+$C1CFE2,FaceOffMap,,render+94S,"map set chunk 1 (32 x 40 word map, LZSS, $0A00 bytes): the faceoff box, 4 frames of 12 x 10 tiles of the referee dropping the puck (the 12 x 10 box of 94S FaceOffMap); $C43CA2 and $C5583E load the set through $C5881C",src/bankC1_C000.asm
+$C1D1BD,FaceOffTiles,,render+94S,"map set chunk 2: 78 4bpp tiles, LZSS ($09C0 bytes)",src/bankC1_C000.asm
+$C1D751,FaceOffPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC1_C000.asm
+$C1D778,PadButtonsMap,,render,"map set (map, tiles, colours): a pad's four buttons (Y, B, X, A) with tape-deck symbols; $C373C7 loads it through $C5881C; what it is shown for is not traced (Unsure); label only so far (bankC1_D000 is incbin)",src/bankC1_D000.asm

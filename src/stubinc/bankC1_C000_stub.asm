@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+PadButtonsMap = $C1D778
 
 incsrc "../bankC1_C000.asm"
