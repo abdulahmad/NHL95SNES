@@ -577,4 +577,7 @@ $C2B27C,VisualConceptsTiles,,render,"map set chunk 2: 101 4bpp tiles, LZSS ($0CA
 $C2BB22,VisualConceptsPalette,,render,"map set chunk 3: 2 palettes of 16 colours",src/bankC2_A000.asm
 $C2BD15,HighScoreTiles,,render,"map set chunk 2: 153 4bpp tiles, LZSS ($1320 bytes)",src/bankC2_B000.asm
 $C2CBA7,HighScorePalette,,render,"map set chunk 3: 6 palettes of 16 colours",src/bankC2_B000.asm
-$C2CC6E,RefsMap,,render+94S+code,"map set (map, tiles, colours): the ref windows, 7 x 8 tiles per entry, 7 to a row (49 x 24), 20 referee signals and a small one, as 94S RefsMap (7 x 8 tiles per entry); $C52187 loads it to unpackbuf through $C58812 and copies the map words + $3420 into a map buffer at $7F:C6FA; also $C5553A; label only so far (bankC2_C000 is incbin)",src/bankC2_C000.asm
+$C2CC6E,RefsMap,,render+94S+code,"map set chunk 1 (49 x 24 word map, LZSS, $0930 bytes): the ref windows, 7 x 8 tiles per entry, 7 to a row, 20 referee signals and a small one, as 94S RefsMap (7 x 8 tiles per entry); $C52187 loads the set to unpackbuf through $C58812 and copies the map words + $3420 into a map buffer at $7F:C6FA; also $C5553A",src/bankC2_C000.asm
+$C2CF40,RefTiles,,render+94S,"map set chunk 2: 197 4bpp tiles, LZSS ($18A0 bytes); 94S RefTiles: the ref window tiles",src/bankC2_C000.asm
+$C2DF14,RefPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC2_C000.asm
+$C2DF3B,Sample09,,new,"sound sample 9 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2E51C; label only so far (bankC2_D000 is incbin)",src/bankC2_D000.asm

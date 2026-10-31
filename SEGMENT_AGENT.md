@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC2_C000 (org $C2CC6E) afterwards. <- CURRENT
+bankC2_D000 (org $C2DF3B) afterwards. <- CURRENT
 
 ## Sources
 
@@ -179,6 +179,8 @@ bankC2_C000 (org $C2CC6E) afterwards. <- CURRENT
   org $C2BB69.
 - 2026-10-31: bankC2_B000 matched: the High Score Productions credit's map set (HighScore*, 6 palettes). Next org
   $C2CC6E.
+- 2026-10-31: bankC2_C000 matched: the ref windows' map set (RefsMap, RefTiles: 94S names; RefPalette). The rest of the
+  bank is sound samples 9-12 (the sample list's entries are 4 bytes: a long pointer and a zero). Next org $C2DF3B.
 
 ## ROM map
 
@@ -230,8 +232,8 @@ The first row that is still incbin is the current segment.
 | bankC2_9000 | matched 4096 bytes | $C29000 | $C29FFF | the middle of CenterIceTiles' stream (incbin) |
 | bankC2_A000 | matched 7017 bytes | $C2A000 | $C2BB68 | the rest of CenterIceTiles' stream, CenterIcePalettes (source), VisualConceptsMap/Tiles/Palette (a map set: headers and colours as source, the LZSS streams incbin); end moved +$B69 |
 | bankC2_B000 | matched 4357 bytes | $C2BB69 | $C2CC6D | HighScoreMap/Tiles/Palette (a map set: headers and colours as source, the LZSS streams incbin); org moved to $C2BB69, end moved +$C6E |
-| bankC2_C000 | incbin | $C2CC6E | $C2CFFF | org moved to $C2CC6E (RefsMap) |
-| bankC2_D000 | incbin | $C2D000 | $C2DFFF | |
+| bankC2_C000 | matched 4813 bytes | $C2CC6E | $C2DF3A | RefsMap, RefTiles, RefPalette (a map set: headers and colours as source, the LZSS streams incbin); org moved to $C2CC6E, end moved +$F3B |
+| bankC2_D000 | incbin | $C2DF3B | $C2DFFF | org moved to $C2DF3B (Sample09) |
 | bankC2_E000 | incbin | $C2E000 | $C2EFFF | |
 | bankC2_F000 | incbin | $C2F000 | $C2FFFF | |
 | bankC3_0000 | incbin | $C30000 | $C30FFF | |

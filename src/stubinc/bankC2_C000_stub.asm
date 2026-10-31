@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+Sample09 = $C2DF3B
 
 incsrc "../bankC2_C000.asm"
