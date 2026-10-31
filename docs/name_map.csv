@@ -234,3 +234,6 @@ $C0C1CB,Sample00,,new,"sound sample 0 of the sample list at $CF05DD: 12-byte hea
 $C0D359,Sample13,,new,"sound sample 13 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0D42A",src/bankC0_D000.asm
 $C0D42B,Sample32,,new,"sound sample 32 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0DE05",src/bankC0_D000.asm
 $C0DE06,Sample18,,new,"sound sample 18 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0E5C4",src/bankC0_D000.asm
+$C0E5C5,Sample16,,new,"sound sample 16 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0EAA1",src/bankC0_E000.asm
+$C0EAA2,Sample17,,new,"sound sample 17 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0EC5D",src/bankC0_E000.asm
+$C0EC5E,Sample14,,new,"sound sample 14 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0F287",src/bankC0_E000.asm
