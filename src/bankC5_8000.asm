@@ -180,7 +180,7 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	lda.w #$6BAB
 	sta.w $18FE
 	inc.w $1906
-	jml.l $C50000
+	jml.l Opening
 SetBGMapRegs:						; BG1SC, BG2SC, BG3SC, BG4SC, BG12NBA, ...
 	phb
 	phk

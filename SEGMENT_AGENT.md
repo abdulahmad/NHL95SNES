@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_0000 (org $C50000), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC5_1000 (org $C510F6), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -143,6 +143,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   the end of the bank. UnpackStream0 jumps to its own loop through the bank $85 mirror (jml label-$400000) so that jmp DMAP2
   runs the mvn it builds in the DMA registers, which jumps back to the loop; those operands are labels. The upper half of bank
   $C5 ($C5800C-$C5FFFF) is all source. Next: the lower half, bankC5_0000 (org $C50000).
+- 2026-10-31: bankC5_0000 matched: Opening (Reset_Fast ends with jml to it, as 94S Reset_Fast ends with jml Opening, the cold
+  start), then game code. Long operands and jsl targets anywhere in the full build now come out as their labels (from the asar
+  symbol file), e.g. InitHooks, asstab and the bank $C0 math routines. End moved to $C510F5, bankC5_1000 org to $C510F6.
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -294,8 +297,8 @@ The first row that is still incbin is the current segment.
 | bankC4_D000 | incbin | $C4D000 | $C4DFFF | |
 | bankC4_E000 | incbin | $C4E000 | $C4EFFF | |
 | bankC4_F000 | incbin | $C4F000 | $C4FFFF | |
-| bankC5_0000 | incbin <- CURRENT | $C50000 | $C50FFF | |
-| bankC5_1000 | incbin | $C51000 | $C51FFF | |
+| bankC5_0000 | matched 4342 bytes | $C50000 | $C510F5 | Opening (the cold start Reset_Fast jumps to, 94S name), game code with CODE_ names and their callers, tables read with long addresses (DATA8_ with their readers); five small routines with no caller found are decoded and say so; out of ROM order, end moved +$F6 |
+| bankC5_1000 | incbin <- CURRENT | $C510F6 | $C51FFF | org moved to $C510F6 |
 | bankC5_2000 | incbin | $C52000 | $C52FFF | |
 | bankC5_3000 | incbin | $C53000 | $C53FFF | |
 | bankC5_4000 | incbin | $C54000 | $C54FFF | |

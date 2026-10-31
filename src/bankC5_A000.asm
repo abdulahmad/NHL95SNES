@@ -1450,7 +1450,7 @@ CODE_C5AC36:						; from CODE_C5AC17
 	jsl.l FadeOutWait
 	lda.w #$0002
 	sta.w $1864
-	jmp.w $0056
+	jmp.w CODE_C50056
 CODE_C5AC43:						; from CODE_C5AC17
 	jsr.w CODE_C5AC7F
 	dec.b $97

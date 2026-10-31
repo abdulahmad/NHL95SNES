@@ -613,3 +613,7 @@ $C5E9C7,AnimateSprites,,trace,"the animation tick of all sprite objects: count d
 $C5EEF3,CreateSpriteSharePal,,trace,"CreateSprite, but the new object shares the palette slot of the object in Y",src/bankC5_E000.asm
 $C5F071,UnpackStream0,,trace,"unpack a format 0 stream without the 4-byte header into bank $7E (docs/sprite_objects.md): D = the DMA registers; literal runs are copied by an mvn built in the channel 2 registers (run from the bank $85 mirror, jmp DMAP2), copies by mvn $7E,$7E",src/bankC5_F000.asm
 $C5F0D1,BuildSpriteOAM,,trace,"build the OAM entries of all sprite objects: walks the active list, the frame headers and SpritePieces, with an h-flip variant (docs/sprite_objects.md)",src/bankC5_F000.asm
+$C50A00,DATA8_C50A00,,new,"not traced: data between routines (in bankC5_0000)",src/bankC5_0000.asm
+$C510AF,DATA8_C510AF,,new,"not traced: a table read by CODE_C51012 (in bankC5_0000)",src/bankC5_0000.asm
+$C510CF,DATA8_C510CF,,new,"not traced: a table read by CODE_C50FDC (in bankC5_0000)",src/bankC5_0000.asm
+$C50000,Opening,,94S,"the cold start: Reset_Fast ends with jml Opening, as in 94S (Reset_Fast, then jml Opening); sets DB, the hooks from InitHooks, NMITIMEN, then the game",src/bankC5_0000.asm
