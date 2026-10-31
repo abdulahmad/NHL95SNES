@@ -1577,7 +1577,7 @@ CODE_C48C9D:						; from CODE_C48C8B
 	bpl CODE_C48C8B
 	lda.w #$0001
 	sta.w $07EE
-	jsl.l $C49FBD
+	jsl.l CODE_C49FBD
 	lda.w $05A0
 	bmi CODE_C48CCC
 CODE_C48CB4:						; from CODE_C48CE7, CODE_C48C62, CODE_C48CB7

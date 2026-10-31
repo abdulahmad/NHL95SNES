@@ -174,8 +174,8 @@ CODE_C4944A:						; from CODE_C4942F
 	lda.w $09C0,y
 	sta.w $09DC
 CODE_C4945D:						; from CODE_C49408
-	jsl.l $C4AE9C
-	jsl.l $C4AED5
+	jsl.l CODE_C4AE9C
+	jsl.l CODE_C4AED5
 	lda.w $10F3
 	bne CODE_C494D1
 	lda.w $05A0
@@ -382,7 +382,7 @@ CODE_C495F8:						; from CODE_C495E8
 	lda.w $04B0
 	and.w #$0003
 	bne CODE_C49620
-	jmp.w $A4AB
+	jmp.w CODE_C4A4AB
 CODE_C49620:						; from CODE_C495F8
 	lda.w #$0020
 	sec
@@ -1014,7 +1014,7 @@ CODE_C49B59:						; called from other segments
 	bmi CODE_C49B74
 CODE_C49B63:						; from CODE_C49B59
 	jmp.w CODE_C4370C
-DATA8_C49B66:						; not traced: data between routines
+DATA8_C49B66:						; an rtl no traced code reaches
 	db $6B
 CODE_C49B67:						; from CODE_C49B74
 	jsl.l CODE_C42B18
@@ -1340,7 +1340,7 @@ CODE_C49E15:						; from CODE_C49DFB
 	lda.w #$7FFF
 	sta.w $0674
 	bra CODE_C49E91
-DATA8_C49E41:						; not traced: data between routines
+DATA8_C49E41:						; an rtl no traced code reaches
 	db $6B
 CODE_C49E42:						; from CODE_C49E15
 	ldy.b $6B

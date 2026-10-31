@@ -560,7 +560,7 @@ CODE_C42E33:						; from CODE_C42E08, CODE_C42E23
 	lda.w $0644,x
 	cmp.w #$0011
 	bne CODE_C42E47
-	jsl.l $C49FBD
+	jsl.l CODE_C49FBD
 CODE_C42E47:						; from CODE_C42DF5, CODE_C42E33
 	lda.w #$0006
 	clc

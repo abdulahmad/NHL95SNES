@@ -731,7 +731,7 @@ CODE_C4459D:						; from CODE_C44583
 CODE_C445A3:						; from CODE_C44583
 	jmp.w CODE_C442B5
 CODE_C445A6:						; from CODE_C445A9
-	jmp.w $AA65
+	jmp.w CODE_C4AA65
 CODE_C445A9:						; from CODE_C4455B
 	stz.b $83
 	lda.w $08B2
@@ -757,7 +757,7 @@ CODE_C445A9:						; from CODE_C4455B
 	cmp.w #$FFEF
 	bpl CODE_C445A6
 CODE_C445DD:						; from CODE_C445A9
-	jsl.l $C4A967
+	jsl.l CODE_C4A967
 	stz.w $18AE
 	stz.w $18AC
 	lda.w #$000C
@@ -1535,7 +1535,7 @@ CODE_C44C22:						; from CODE_C44BF1
 	lda.b $83
 	cmp.b $7F
 	bcc CODE_C44C2E
-	jsl.l $C4AD26
+	jsl.l CODE_C4AD26
 	bra CODE_C44C86
 CODE_C44C2E:						; from CODE_C44BD7, CODE_C44BF1, CODE_C44C22, CODE_C44B7E
 	lda.w $0A20,y
@@ -1577,7 +1577,7 @@ CODE_C44C5D:						; from CODE_C44C46
 	ldx.b $6F
 	cmp.w #$0091
 	bcs CODE_C44C86
-	jsl.l $C4A6B1
+	jsl.l CODE_C4A6B1
 CODE_C44C86:						; from CODE_C44C22, CODE_C44C46, CODE_C44C5D, CODE_C44CB1
 	pla
 	sta.b $99
@@ -1625,7 +1625,7 @@ CODE_C44CB1:						; from CODE_C44C2E, CODE_C44DC4, CODE_C44E07
 	bmi CODE_C44C86
 	cmp.w #$000B
 	bpl CODE_C44C86
-	jsl.l $C4A782
+	jsl.l CODE_C4A782
 	bra CODE_C44C86
 DATA8_C44CDD:						; not traced: a table read by CODE_C44D4D, CODE_C44D62
 	db $00,$00,$01,$00,$01,$00,$02,$00,$03,$00,$03,$00,$04,$00,$05,$00
@@ -1735,7 +1735,7 @@ CODE_C44DFD:						; from CODE_C44DC7
 	lda.b $83
 	cmp.b $7F
 	bcc CODE_C44E07
-	jsl.l $C4AD26
+	jsl.l CODE_C4AD26
 CODE_C44E07:						; from CODE_C44DFD
 	jmp.w CODE_C44CB1
 CODE_C44E0A:						; called from other segments
@@ -1804,7 +1804,7 @@ CODE_C44E99:						; from CODE_C44E84
 	ldy.b $6B
 	lda.w $0A20,y
 	bne CODE_C44EC0
-	jsl.l $C4A967
+	jsl.l CODE_C4A967
 	ldy.b $6B
 	lda.w #$008C
 	sta.w $0B60,y
