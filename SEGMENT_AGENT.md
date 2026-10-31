@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC1_B000 (org $C1BA31) afterwards. <- CURRENT
+bankC1_C000 (org $C1CFE2) afterwards. <- CURRENT
 
 ## Sources
 
@@ -145,6 +145,8 @@ bankC1_B000 (org $C1BA31) afterwards. <- CURRENT
   scripts, with the bank $C1 labels (the pieces offset as label - SpritePieces, the frame count as a label difference).
 - 2026-10-31: bankC1_A000 matched: TeamNicknameTiles (rendered: the 28 team nicknames in dot-matrix letters, a set for
   Decompress), the whole of it, so the end moved to $C1BA30. Next org $C1BA31 (map sets: map, tiles and colours).
+- 2026-10-31: bankC1_B000 matched: the pause screen's map set (rendered: the Info / Stats / Options tabs, periods and penalty
+  boxes) as PauseScreenMap, PauseScreenTiles and PauseScreenPalette, the chunk lengths as label differences. Next org $C1CFE2.
 
 ## ROM map
 
@@ -179,8 +181,8 @@ The first row that is still incbin is the current segment.
 | bankC1_8000 | matched 4176 bytes | $C18034 | $C19083 | sprite frame tiles EALogoETiles, EALogoATiles, SportsWordTiles, ElectronicWordTiles ... BlackBoxTiles (incbin, named by sprite and frame); org moved to $C18034, end moved +$84 |
 | bankC1_9000 | matched 2788 bytes | $C19084 | $C19B67 | sprite frame tiles NHLShieldTiles, NHLPATiles and SpritePieces (incbin, named by sprite and frame); org moved to $C19084, end moved -$498 |
 | bankC1_A000 | matched 7881 bytes | $C19B68 | $C1BA30 | TeamNicknameTiles (packed format 0, incbin after its header); org moved to $C19B68, end moved +$A31 |
-| bankC1_B000 | incbin | $C1BA31 | $C1BFFF | org moved to $C1BA31 |
-| bankC1_C000 | incbin | $C1C000 | $C1CFFF | |
+| bankC1_B000 | matched 5553 bytes | $C1BA31 | $C1CFE1 | PauseScreenMap, PauseScreenTiles, PauseScreenPalette (a map set: headers and colours as source, the LZSS streams incbin); org moved to $C1BA31, end moved +$FE2 |
+| bankC1_C000 | incbin | $C1CFE2 | $C1CFFF | org moved to $C1CFE2 (FaceOffMap) |
 | bankC1_D000 | incbin | $C1D000 | $C1DFFF | |
 | bankC1_E000 | incbin | $C1E000 | $C1EFFF | |
 | bankC1_F000 | incbin | $C1F000 | $C1FFFF | |

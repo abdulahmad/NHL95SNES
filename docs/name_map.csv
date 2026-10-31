@@ -550,3 +550,7 @@ $C085D8,SpriteScript_C085D8,,new,"animation script",src/bankC0_8000.asm
 $C08634,SpriteScript_C08634,,new,"animation script",src/bankC0_8000.asm
 $C0863B,SpriteScript_C0863B,,new,"animation script",src/bankC0_8000.asm
 $C19B68,TeamNicknameTiles,,render,"560 4bpp tiles, packed format 0 ($4600 bytes): the 28 team nicknames (94S team order, then All Stars E and W) in yellow dot-matrix letters, 10 x 2 tiles each; the screen setup at $C5519F unpacks them to a heap block",src/bankC1_A000.asm
+$C1BA31,PauseScreenMap,,render+genesis,"map set chunk 1 (32 x 35 word map, LZSS, $08C0 bytes); rendered: the Info / Stats / Options tabs, the periods, both penalty boxes and dot-matrix digits, the three tab pause menu of 95 Genesis pause95.asm; $C5509D loads the set through $C5881C into a heap block",src/bankC1_B000.asm
+$C1BE61,PauseScreenTiles,,render,"map set chunk 2: 272 4bpp tiles, LZSS ($2200 bytes)",src/bankC1_B000.asm
+$C1CF9B,PauseScreenPalette,,render,"map set chunk 3: 2 palettes of 16 colours",src/bankC1_B000.asm
+$C1CFE2,FaceOffMap,,render+94S,"map set (map, tiles, colours) of the faceoff box: 4 frames of 12 x 10 tiles, the referee dropping the puck (the 12 x 10 box of 94S FaceOffMap); $C43CA2 and $C5583E load it through $C5881C; label only so far (bankC1_C000 is incbin)",src/bankC1_C000.asm

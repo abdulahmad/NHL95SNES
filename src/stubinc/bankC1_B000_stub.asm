@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+FaceOffMap = $C1CFE2
 
 incsrc "../bankC1_B000.asm"
