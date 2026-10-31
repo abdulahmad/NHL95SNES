@@ -711,7 +711,7 @@ CODE_C54568:						; from CODE_C5454E
 	beq CODE_C54596
 	lda.w $1000,x
 	bne CODE_C54596
-	jml.l $C4694F
+	jml.l CODE_C4694F
 CODE_C54596:						; from CODE_C54568
 	rtl
 CODE_C54597:						; from CODE_C54568

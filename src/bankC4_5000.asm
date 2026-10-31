@@ -1211,7 +1211,7 @@ CODE_C4595F:						; from CODE_C45950
 	sta.b $81
 	lda.b $83
 	sta.b $85
-	jsl.l $C46BF6
+	jsl.l CODE_C46BF6
 	lda.w $09A0,x
 	xba
 	and.w #$00FF
@@ -1313,7 +1313,7 @@ CODE_C45A08:						; from CODE_C459FD
 CODE_C45A3E:						; from CODE_C45950, CODE_C45A08
 	lda.w $0B80,x
 	sta.b $7F
-	jml.l $C4694F
+	jml.l CODE_C4694F
 CODE_C45A47:						; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
@@ -1380,13 +1380,13 @@ CODE_C45ABE:						; from CODE_C45A71 and other segments
 CODE_C45ACA:						; from CODE_C45ABE
 	jmp (DATA8_C45ACD,x)
 DATA8_C45ACD:						; jump table: the routine for each index
-	dw CODE_C45AED,CODE_C45D0F,CODE_C45EE5,$6075
-	dw $624F,$63E3,$65C1,$6755
+	dw CODE_C45AED,CODE_C45D0F,CODE_C45EE5,CODE_C46075
+	dw CODE_C4624F,CODE_C463E3,CODE_C465C1,CODE_C46755
 DATA8_C45ADD:						; jump table: the routine for each index
-	dw CODE_C45BB4,CODE_C45DF8,$5FAC,$615F
-	dw $6317,$64CE,$6689,$683F
+	dw CODE_C45BB4,CODE_C45DF8,CODE_C45FAC,CODE_C4615F
+	dw CODE_C46317,CODE_C464CE,CODE_C46689,CODE_C4683F
 CODE_C45AED:						; from DATA8_C45ACD
-	lda.l $C4693F,x
+	lda.l DATA8_C4693F,x
 	sta.b $83
 	ldx.b $B7
 	lda.w $0BE0,x
@@ -1483,7 +1483,7 @@ CODE_C45BAF:						; from CODE_C45B87
 CODE_C45BB3:						; from CODE_C45B87
 	rtl
 CODE_C45BB4:						; from DATA8_C45ADD
-	lda.l $C4693F,x
+	lda.l DATA8_C4693F,x
 	sta.b $83
 	ldx.b $B7
 	lda.w $0BE0,x
@@ -1685,9 +1685,9 @@ CODE_C45D05:						; from DATA8_C45C7D
 	sbc.b $34
 	rts
 CODE_C45D0F:						; from DATA8_C45ACD
-	lda.l $C4692F,x
+	lda.l DATA8_C4692F,x
 	sta.b $7F
-	lda.l $C4693F,x
+	lda.l DATA8_C4693F,x
 	sta.b $83
 	ldx.b $B7
 	lda.w $0BE0,x
@@ -1800,9 +1800,9 @@ CODE_C45DF3:						; from CODE_C45DCB
 CODE_C45DF7:						; from CODE_C45DCB
 	rtl
 CODE_C45DF8:						; from DATA8_C45ADD
-	lda.l $C4692F,x
+	lda.l DATA8_C4692F,x
 	sta.b $7F
-	lda.l $C4693F,x
+	lda.l DATA8_C4693F,x
 	sta.b $83
 	ldx.b $B7
 	lda.w $0BE0,x
@@ -1919,7 +1919,7 @@ CODE_C45EE0:						; from CODE_C45EB8
 CODE_C45EE4:						; from CODE_C45EB8
 	rtl
 CODE_C45EE5:						; from DATA8_C45ACD
-	lda.l $C4692F,x
+	lda.l DATA8_C4692F,x
 	sta.b $7F
 	ldx.b $B7
 	lda.w $0C00,x

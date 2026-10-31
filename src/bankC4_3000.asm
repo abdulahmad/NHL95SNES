@@ -716,7 +716,7 @@ CODE_C436FD:						; from CODE_C43350, CODE_C43154, CODE_C434A4, ...
 	bpl CODE_C4370B
 	lda.w #$0008
 	sta.b $7F
-	jml.l $C4694F
+	jml.l CODE_C4694F
 CODE_C4370B:						; from CODE_C436FD
 	rtl
 CODE_C4370C:						; from CODE_C43769, CODE_C437F7 and other segments

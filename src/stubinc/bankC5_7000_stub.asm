@@ -45,6 +45,5 @@ DivX8U = $C0927A
 FadeOutWait = $C58A99
 Mul16x8U = $C08F5E
 Mul8U = $C08ED9
-Opening = $C50000
 
 incsrc "../bankC5_7000.asm"

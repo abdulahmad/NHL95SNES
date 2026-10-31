@@ -704,3 +704,8 @@ $C45519,DATA8_C45519,,new,"not traced: a table read by CODE_C45413 (in bankC4_50
 $C45ACD,DATA8_C45ACD,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
 $C45ADD,DATA8_C45ADD,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
 $C45C7D,DATA8_C45C7D,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
+$C4692F,DATA8_C4692F,,new,"not traced: a table read by CODE_C45FAC, CODE_C46075, CODE_C4615F, ... (in bankC4_6000)",src/bankC4_6000.asm
+$C4693F,DATA8_C4693F,,new,"not traced: a table read by CODE_C46075, CODE_C4615F, CODE_C4624F, ... (in bankC4_6000)",src/bankC4_6000.asm
+$C46B26,DATA8_C46B26,,new,"not traced: a table read by CODE_C46A53 (in bankC4_6000)",src/bankC4_6000.asm
+$C46DB0,DATA8_C46DB0,,new,"jump table: the routine for each index (in bankC4_6000)",src/bankC4_6000.asm
+$C46F93,DATA8_C46F93,,new,"jump table: the routine for each index (in bankC4_6000)",src/bankC4_6000.asm

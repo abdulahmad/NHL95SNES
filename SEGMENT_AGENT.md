@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_6000 (org $C45FAC), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_7000 (org $C4702E), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -172,6 +172,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   (DATA8_C57810), and two callbacks of CODE_C55ABC, one pushed with pea and pulled into A (its pea operands are labels). Bank
   $C5 is all source. The code-first track goes on with bank $C4 (bank $C3 starts with the team database): next bankC4_0000 (org
   $C40000).
+- 2026-10-31: bankC4_6000 matched (game code, CODE_ names), with two 13-entry jump tables whose unused entries are $0000; such
+  entries now stay $0000 (DATA8_C570E8 in bankC5_7000 had one written as Opening; fixed). End moved to $C4702D, bankC4_7000 org
+  to $C4702E.
 - 2026-10-31: bankC4_5000 matched (game code, CODE_ names), with three jump tables and CODE_C45950, the routine the long routine
   pointers (lda #bank, lda #low) are handed to; the notes of those routines name it now. End moved to $C45FAB, bankC4_6000 org
   to $C45FAC.
@@ -333,8 +336,8 @@ The first row that is still incbin is the current segment.
 | bankC4_3000 | matched 3722 bytes | $C4313E | $C43FC7 | game code with CODE_ names and their callers, asstab routines, a routine passed as a long pointer, a table read through a long pointer; out of ROM order, org moved to $C4313E, end moved -$38 |
 | bankC4_4000 | matched 3928 bytes | $C43FC8 | $C44F1F | game code with CODE_ names and their callers, tables read with long addresses (DATA8_ with their readers); out of ROM order, org moved to $C43FC8, end moved -$E0 |
 | bankC4_5000 | matched 4236 bytes | $C44F20 | $C45FAB | game code with CODE_ names and their callers, jump tables DATA8_C45ACD / C45ADD / C45C7D, CODE_C45950 (takes the long routine pointers); out of ROM order, org moved to $C44F20, end moved -$54 |
-| bankC4_6000 | incbin <- CURRENT | $C45FAC | $C46FFF | org moved to $C45FAC |
-| bankC4_7000 | incbin | $C47000 | $C47FFF | |
+| bankC4_6000 | matched 4226 bytes | $C45FAC | $C4702D | game code with CODE_ names and their callers, jump tables DATA8_C46DB0 / C46F93 (unused indexes are $0000), tables read with long addresses; out of ROM order, org moved to $C45FAC, end moved +$2E |
+| bankC4_7000 | incbin <- CURRENT | $C4702E | $C47FFF | org moved to $C4702E |
 | bankC4_8000 | incbin | $C48000 | $C48FFF | |
 | bankC4_9000 | incbin | $C49000 | $C49FFF | |
 | bankC4_A000 | incbin | $C4A000 | $C4AFFF | |

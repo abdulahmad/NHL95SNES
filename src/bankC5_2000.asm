@@ -1443,7 +1443,7 @@ CODE_C52B5D:						; from CODE_C52B4E
 	lda.b $83
 	bit.w #$0080
 	bne CODE_C52BE2
-	jml.l $C4694F
+	jml.l CODE_C4694F
 CODE_C52B98:						; from CODE_C52B5D, CODE_C52BFA
 	jmp.w CODE_C52C5E
 CODE_C52B9B:						; from CODE_C52B0D
@@ -1465,7 +1465,7 @@ CODE_C52BB3:						; from CODE_C52B5D, CODE_C52C5A
 	and.w #$0002
 	bne CODE_C52BC4
 CODE_C52BC0:						; from CODE_C52BB3
-	jml.l $C4694F
+	jml.l CODE_C4694F
 CODE_C52BC4:						; from CODE_C52BC5, CODE_C52BD5, CODE_C52BFA, CODE_C52BF1, ...
 	rtl
 CODE_C52BC5:						; from CODE_C52B4E
@@ -1519,7 +1519,7 @@ CODE_C52C0D:						; from CODE_C52BFA
 	lda.b $83
 	bit.w #$0080
 	bne CODE_C52C56
-	jml.l $C4694F
+	jml.l CODE_C4694F
 CODE_C52C3D:						; from CODE_C52C0D
 	jml.l $C4A0C1
 CODE_C52C41:						; from CODE_C52C0D

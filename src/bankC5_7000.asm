@@ -198,7 +198,7 @@ CODE_C570E5:						; from CODE_C570CC
 	jmp.w CODE_C5705E
 DATA8_C570E8:						; jump table: the routine for each index
 	dw CODE_C570F4,CODE_C57149,CODE_C57187,CODE_C5719B
-	dw Opening,CODE_C571B4
+	dw $0000,CODE_C571B4
 CODE_C570F4:						; from DATA8_C570E8
 	lda.b $7F
 	asl a
