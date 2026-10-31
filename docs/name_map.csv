@@ -581,4 +581,5 @@ $C2CC6E,RefsMap,,render+94S+code,"map set chunk 1 (49 x 24 word map, LZSS, $0930
 $C2CF40,RefTiles,,render+94S,"map set chunk 2: 197 4bpp tiles, LZSS ($18A0 bytes); 94S RefTiles: the ref window tiles",src/bankC2_C000.asm
 $C2DF14,RefPalette,,render,"map set chunk 3: 1 palette of 16 colours",src/bankC2_C000.asm
 $C2DF3B,Sample09,,new,"sound sample 9 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2E51C",src/bankC2_D000.asm
-$C2E51D,Sample10,,new,"sound sample 10 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2F4A9; label only so far (bankC2_E000 is incbin)",src/bankC2_E000.asm
+$C2E51D,Sample10,,new,"sound sample 10 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2F4A9",src/bankC2_E000.asm
+$C2F4AA,Sample11,,new,"sound sample 11 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2FC5F; label only so far (bankC2_F000 is incbin)",src/bankC2_F000.asm
