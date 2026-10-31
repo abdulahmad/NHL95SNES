@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+RefsMap = $C2CC6E
 
 incsrc "../bankC2_B000.asm"

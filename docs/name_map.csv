@@ -575,3 +575,6 @@ $C2ADCA,CenterIcePalettes,,code+render,"28 x 16 colours in team order for Center
 $C2B14A,VisualConceptsMap,,render,"map set chunk 1 (32 x 12 word map, LZSS, $0300 bytes): the developer credit VISUAL CONCEPTS ... PRESENT; the screen setup at $C4B98E loads it (BG map $5900) and HighScoreMap (BG map $5000)",src/bankC2_A000.asm
 $C2B27C,VisualConceptsTiles,,render,"map set chunk 2: 101 4bpp tiles, LZSS ($0CA0 bytes)",src/bankC2_A000.asm
 $C2BB22,VisualConceptsPalette,,render,"map set chunk 3: 2 palettes of 16 colours",src/bankC2_A000.asm
+$C2BD15,HighScoreTiles,,render,"map set chunk 2: 153 4bpp tiles, LZSS ($1320 bytes)",src/bankC2_B000.asm
+$C2CBA7,HighScorePalette,,render,"map set chunk 3: 6 palettes of 16 colours",src/bankC2_B000.asm
+$C2CC6E,RefsMap,,render+94S+code,"map set (map, tiles, colours): the ref windows, 7 x 8 tiles per entry, 7 to a row (49 x 24), 20 referee signals and a small one, as 94S RefsMap (7 x 8 tiles per entry); $C52187 loads it to unpackbuf through $C58812 and copies the map words + $3420 into a map buffer at $7F:C6FA; also $C5553A; label only so far (bankC2_C000 is incbin)",src/bankC2_C000.asm
