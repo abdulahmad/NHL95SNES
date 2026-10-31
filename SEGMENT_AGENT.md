@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_D000 (org $C0D359). <- CURRENT
+bankC0_E000 (org $C0E5C5). <- CURRENT
 
 ## Sources
 
@@ -105,6 +105,7 @@ bankC0_D000 (org $C0D359). <- CURRENT
   $C0B5BF.
 - 2026-10-31: bankC0_B000 matched: Sample22, Sample01. End moved to $C0C1CA, bankC0_C000 org to $C0C1CB.
 - 2026-10-31: bankC0_C000 matched: Sample00. End moved to $C0D358, bankC0_D000 org to $C0D359.
+- 2026-10-31: bankC0_D000 matched: Sample13, Sample32, Sample18. End moved to $C0E5C4, bankC0_E000 org to $C0E5C5.
 
 ## ROM map
 
@@ -125,8 +126,8 @@ The first row that is still incbin is the current segment.
 | bankC0_A000 | matched 7067 bytes | $C09A24 | $C0B5BE | asstab, asspuckc_postab (93S names), BitMaskTable2, untraced tables (DATA8_), then Sample19, Sample20, Sample21 (sound samples, incbin); org moved to $C09A24, end moved +$5BF (Sample21 ends at $C0B5BE) |
 | bankC0_B000 | matched 3084 bytes | $C0B5BF | $C0C1CA | Sample22, Sample01 (sound samples, incbin); org moved to $C0B5BF, end moved +$1CB (the last sample ends at $C0C1CA) |
 | bankC0_C000 | matched 4494 bytes | $C0C1CB | $C0D358 | Sample00 (sound samples, incbin); org moved to $C0C1CB, end moved +$359 (the last sample ends at $C0D358) |
-| bankC0_D000 | incbin <- CURRENT | $C0D359 | $C0DFFF | org moved to $C0D359 |
-| bankC0_E000 | incbin | $C0E000 | $C0EFFF | |
+| bankC0_D000 | matched 4716 bytes | $C0D359 | $C0E5C4 | Sample13, Sample32, Sample18 (sound samples, incbin); org moved to $C0D359, end moved +$5C5 (the last sample ends at $C0E5C4) |
+| bankC0_E000 | incbin <- CURRENT | $C0E5C5 | $C0EFFF | org moved to $C0E5C5 |
 | bankC0_F000 | incbin (cartridge header is source) | $C0F000 | $C0FFFF | |
 | bankC1_0000 | incbin | $C10000 | $C10FFF | |
 | bankC1_1000 | incbin | $C11000 | $C11FFF | |
