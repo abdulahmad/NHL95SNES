@@ -287,3 +287,9 @@ $C13448,LogoNYRTiles,,render,"tiles of the NYR logo (frame header at $C081F1)",s
 $C13790,LogoOTWTiles,,render,"tiles of the OTW logo (frame header at $C08214)",src/bankC1_3000.asm
 $C13B1D,LogoPHITiles,,render,"tiles of the PHI logo (frame header at $C08237)",src/bankC1_3000.asm
 $C13DE8,LogoPITTiles,,render,"tiles of the PIT logo (frame header at $C0825A)",src/bankC1_3000.asm
+$C14077,LogoQUETiles,,render,"tiles of the QUE logo (frame header at $C0827D)",src/bankC1_4000.asm
+$C1431E,LogoSJTiles,,render,"tiles of the SJ logo (frame header at $C082A0)",src/bankC1_4000.asm
+$C145FA,LogoSTLTiles,,render,"tiles of the STL logo (frame header at $C082C3)",src/bankC1_4000.asm
+$C14893,LogoTBTiles,,render,"tiles of the TB logo (frame header at $C082E6)",src/bankC1_4000.asm
+$C14BEB,LogoTORTiles,,render,"tiles of the TOR logo (frame header at $C08309)",src/bankC1_4000.asm
+$C14E8B,LogoVANTiles,,render,"tiles of the VAN logo (frame header at $C0832C)",src/bankC1_4000.asm
