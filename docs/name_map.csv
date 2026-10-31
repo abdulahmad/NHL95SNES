@@ -349,3 +349,65 @@ $C187B2,SportsWordTiles,,render,"tiles of part of the word SPORTS (frame header 
 $C18C05,ElectronicWordTiles,,render,"tiles of part of the words ELECTRONIC ARTS (frame header at $C086F1)",src/bankC1_8000.asm
 $C18E05,ItsInTheTiles,,render,"tiles of the words It's in the (frame header at $C08714)",src/bankC1_8000.asm
 $C18FD3,BlackBoxTiles,,render,"tiles of a black box with a white frame (frame header at $C08737)",src/bankC1_8000.asm
+$C19084,NHLShieldTiles,,render,"tiles of the NHL shield (frame header at $C0875A)",src/bankC1_9000.asm
+$C1946B,NHLPATiles,,render,"tiles of the NHLPA logo (frame header at $C0877D)",src/bankC1_9000.asm
+$C19660,SpritePieces,,render,"the sprite piece table: per frame x/y origin, then x/y per sprite",src/bankC1_9000.asm
+$C19660,LogoANHPieces,,render,"piece entry of the frame at $C08005",src/bankC1_9000.asm
+$C1967C,LogoBOSPieces,,render,"piece entry of the frame at $C0802A",src/bankC1_9000.asm
+$C19698,LogoCGYPieces,,render,"piece entry of the frame at $C08070",src/bankC1_9000.asm
+$C196B2,LogoCHIPieces,,render,"piece entry of the frame at $C08093",src/bankC1_9000.asm
+$C196CC,LogoDALPieces,,render,"piece entry of the frame at $C080B6",src/bankC1_9000.asm
+$C196EE,LogoDETPieces,,render,"piece entry of the frame at $C080D9",src/bankC1_9000.asm
+$C19710,LogoEDMPieces,,render,"piece entry of the frame at $C080FC",src/bankC1_9000.asm
+$C19726,LogoFLAPieces,,render,"piece entry of the frame at $C0811F",src/bankC1_9000.asm
+$C19740,LogoHFDPieces,,render,"piece entry of the frame at $C08142",src/bankC1_9000.asm
+$C19756,LogoLAPieces,,render,"piece entry of the frame at $C08165",src/bankC1_9000.asm
+$C1976C,LogoMTLPieces,,render,"piece entry of the frame at $C08188",src/bankC1_9000.asm
+$C19784,LogoNJPieces,,render,"piece entry of the frame at $C081AB",src/bankC1_9000.asm
+$C197A0,LogoNYIPieces,,render,"piece entry of the frame at $C081CE",src/bankC1_9000.asm
+$C197BC,LogoOTWPieces,,render,"piece entry of the frame at $C08214",src/bankC1_9000.asm
+$C197DA,LogoPHIPieces,,render,"piece entry of the frame at $C08237",src/bankC1_9000.asm
+$C197F4,LogoPITPieces,,render,"piece entry of the frame at $C0825A",src/bankC1_9000.asm
+$C1980E,LogoQUEPieces,,render,"piece entry of the frame at $C0827D",src/bankC1_9000.asm
+$C19828,LogoSJPieces,,render,"piece entry of the frame at $C082A0",src/bankC1_9000.asm
+$C19844,LogoSTLPieces,,render,"piece entry of the frame at $C082C3",src/bankC1_9000.asm
+$C1985A,LogoTBPieces,,render,"piece entry of the frame at $C082E6",src/bankC1_9000.asm
+$C19874,LogoTORPieces,,render,"piece entry of the frame at $C08309",src/bankC1_9000.asm
+$C19890,LogoVANPieces,,render,"piece entry of the frame at $C0832C",src/bankC1_9000.asm
+$C198AE,LogoWSHPieces,,render,"piece entry of the frame at $C0834F",src/bankC1_9000.asm
+$C198C4,LogoWPGPieces,,render,"piece entry of the frame at $C08372",src/bankC1_9000.asm
+$C198DE,LogoASEPieces,,render,"piece entry of the frame at $C08395",src/bankC1_9000.asm
+$C19900,Sprite28Pieces00,,render,"piece entry of the frame at $C083DB",src/bankC1_9000.asm
+$C19906,Sprite28Pieces01,,render,"piece entry of the frame at $C083E3",src/bankC1_9000.asm
+$C1990C,Sprite28Pieces02,,render,"piece entry of the frame at $C083EB",src/bankC1_9000.asm
+$C19912,Sprite28Pieces05,,render,"piece entry of the frame at $C08403",src/bankC1_9000.asm
+$C19918,Sprite28Pieces07,,render,"piece entry of the frame at $C08413",src/bankC1_9000.asm
+$C1991E,Sprite28Pieces08,,render,"piece entry of the frame at $C0841B",src/bankC1_9000.asm
+$C19924,Sprite28Pieces09,,render,"piece entry of the frame at $C08423",src/bankC1_9000.asm
+$C1992C,Sprite28Pieces10,,render,"piece entry of the frame at $C0842B",src/bankC1_9000.asm
+$C19934,Sprite28Pieces14,,render,"piece entry of the frame at $C0844B",src/bankC1_9000.asm
+$C1993A,Sprite28Pieces17,,render,"piece entry of the frame at $C08463",src/bankC1_9000.asm
+$C19940,Sprite28Pieces19,,render,"piece entry of the frame at $C08473",src/bankC1_9000.asm
+$C19946,Sprite28Pieces20,,render,"piece entry of the frame at $C0847B",src/bankC1_9000.asm
+$C1994C,Sprite28Pieces30,,render,"piece entry of the frame at $C084CB",src/bankC1_9000.asm
+$C19954,PadNumbersPieces00,,render,"piece entry of the frame at $C08567",src/bankC1_9000.asm
+$C1995C,PadNumbersPieces01,,render,"piece entry of the frame at $C0856F",src/bankC1_9000.asm
+$C19966,PadNumbersPieces02,,render,"piece entry of the frame at $C08577",src/bankC1_9000.asm
+$C1996E,PadNumbersPieces03,,render,"piece entry of the frame at $C0857F",src/bankC1_9000.asm
+$C19978,PadNumbersPieces04,,render,"piece entry of the frame at $C08587",src/bankC1_9000.asm
+$C1997E,SkaterPieces00,,render,"piece entry of the frame at $C085DD",src/bankC1_9000.asm
+$C1999C,SkaterPieces01,,render,"piece entry of the frame at $C085E5",src/bankC1_9000.asm
+$C199BC,SkaterPieces02,,render,"piece entry of the frame at $C085ED",src/bankC1_9000.asm
+$C199DE,SkaterPieces03,,render,"piece entry of the frame at $C085F5",src/bankC1_9000.asm
+$C19A06,SkaterPieces04,,render,"piece entry of the frame at $C085FD",src/bankC1_9000.asm
+$C19A24,SkaterPieces05,,render,"piece entry of the frame at $C08605",src/bankC1_9000.asm
+$C19A40,RedDotPieces,,render,"piece entry of the frame at $C08642",src/bankC1_9000.asm
+$C19A48,EASportsPieces,,render,"piece entry of the frame at $C08665",src/bankC1_9000.asm
+$C19A58,EALogoEPieces,,render,"piece entry of the frame at $C08688",src/bankC1_9000.asm
+$C19A8C,EALogoAPieces,,render,"piece entry of the frame at $C086AB",src/bankC1_9000.asm
+$C19AB6,SportsWordPieces,,render,"piece entry of the frame at $C086CE",src/bankC1_9000.asm
+$C19AE0,ElectronicWordPieces,,render,"piece entry of the frame at $C086F1",src/bankC1_9000.asm
+$C19AF6,ItsInThePieces,,render,"piece entry of the frame at $C08714",src/bankC1_9000.asm
+$C19B08,BlackBoxPieces,,render,"piece entry of the frame at $C08737",src/bankC1_9000.asm
+$C19B2C,NHLShieldPieces,,render,"piece entry of the frame at $C0875A",src/bankC1_9000.asm
+$C19B48,NHLPAPieces,,render,"piece entry of the frame at $C0877D",src/bankC1_9000.asm
