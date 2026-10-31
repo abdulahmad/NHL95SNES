@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC2_4000 (org $C24000) afterwards. <- CURRENT
+bankC2_5000 (org $C25000) afterwards. <- CURRENT
 
 ## Sources
 
@@ -165,6 +165,7 @@ bankC2_4000 (org $C24000) afterwards. <- CURRENT
   Next org $C2334F.
 - 2026-10-31: bankC2_3000 matched: TitleGoalieTiles' header and the start of its stream (677 tiles, 16000 bytes of LZSS
   that run on to $C271CE, where bankC2_7000 has the TitleGoaliePalette label). Next org $C24000.
+- 2026-10-31: bankC2_4000 matched: the middle of TitleGoalieTiles' stream. Next org $C25000.
 
 ## ROM map
 
@@ -208,7 +209,7 @@ The first row that is still incbin is the current segment.
 | bankC2_1000 | matched 7845 bytes | $C20DE6 | $C22C8A | TitlePlayersTiles (the tiles chunk of a map set: header as source, the LZSS stream incbin); org moved to $C20DE6, end moved +$C8B |
 | bankC2_2000 | matched 1732 bytes | $C22C8B | $C2334E | TitlePlayersPalette, TitleGoalieMap (map set chunks: headers and colours as source, the LZSS stream incbin); org moved to $C22C8B, end moved +$34F |
 | bankC2_3000 | matched 3249 bytes | $C2334F | $C23FFF | TitleGoalieTiles (the tiles chunk of a map set: header as source, the start of the LZSS stream incbin); org moved to $C2334F |
-| bankC2_4000 | incbin | $C24000 | $C24FFF | |
+| bankC2_4000 | matched 4096 bytes | $C24000 | $C24FFF | the middle of TitleGoalieTiles' LZSS stream (incbin) |
 | bankC2_5000 | incbin | $C25000 | $C25FFF | |
 | bankC2_6000 | incbin | $C26000 | $C26FFF | |
 | bankC2_7000 | incbin | $C27000 | $C27FFF | the TitleGoaliePalette label at $C271CF |
