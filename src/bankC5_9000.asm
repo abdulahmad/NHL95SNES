@@ -85,7 +85,7 @@ CODE_C59052:						; called from other segments
 	lda.w $17C9
 	jsl.l $C5E665
 	stx.b $9B
-	jsr.w $A4B9
+	jsr.w CODE_C5A4B9
 CODE_C59073:						; from CODE_C59052
 	ldx.b $9D
 	lda.w $17CB
@@ -101,7 +101,7 @@ CODE_C59073:						; from CODE_C59052
 	stx.b $9D
 	lda.w #$0001
 	sta.b $38,x
-	jsr.w $A4E2
+	jsr.w CODE_C5A4E2
 CODE_C59099:						; from CODE_C59073
 	rts
 CODE_C5909A:						; called from other segments
@@ -187,7 +187,7 @@ CODE_C590DA:						; called from other segments
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $42,$12,$8C,$46,$7E,$7E		; inline parameters
-	jsr.w $ABC4
+	jsr.w CODE_C5ABC4
 	lda.w #$0400
 	sta.b $A1
 	lda.w #$5800
@@ -303,7 +303,7 @@ CODE_C592B4:						; from CODE_C592A9
 CODE_C592CD:						; from CODE_C592B4
 	sta.w $17CB
 	sta.l $306043
-	jsr.w $A3C1
+	jsr.w CODE_C5A3C1
 CODE_C592D7:						; from CODE_C592B4
 	clc
 	lda.w #$0480
@@ -646,7 +646,7 @@ CODE_C59595:						; from CODE_C59588
 	lda.w #$FFFF
 	sta.w $04C6
 	jsl.l $C4CEDB
-	jsr.w $A50B
+	jsr.w CODE_C5A50B
 	jsr.w $BBC0
 	lda.w #$0005
 	sta.w $18DE
@@ -692,12 +692,12 @@ CODE_C59595:						; from CODE_C59588
 	bra CODE_C59651
 CODE_C5963A:						; from CODE_C59588
 	jsl.l FadeOutWait
-	jsr.w $A51C
+	jsr.w CODE_C5A51C
 	bra CODE_C59651
 CODE_C59643:						; from CODE_C596D3
 	jsl.l FadeOutWait
 	jsl.l $C406A8
-	jsr.w $A09B
+	jsr.w CODE_C5A09B
 	stz.w fadestep
 CODE_C59651:						; from CODE_C59651, CODE_C59595, CODE_C5963A
 	jsl.l $C4CEDB
@@ -740,7 +740,7 @@ CODE_C596AF:						; from CODE_C5969C, CODE_C5988C
 	lda.w #$000F
 	jsr.w CODE_C590BB
 CODE_C596BD:						; from CODE_C596C0
-	jmp.w $A164
+	jmp.w CODE_C5A164
 CODE_C596C0:						; from CODE_C5969C
 	lda.w #$0001
 	sta.b $97
@@ -792,10 +792,10 @@ CODE_C596DB:						; from CODE_C596D3
 	stz.b $97
 	lda.w #$0078
 	sta.b $CF
-	jsr.w $A291
-	jsr.w $A2B4
-	jsr.w $A2D3
-	jsr.w $A2EC
+	jsr.w CODE_C5A291
+	jsr.w CODE_C5A2B4
+	jsr.w CODE_C5A2D3
+	jsr.w CODE_C5A2EC
 	lda.w #$0005
 	sta.w fadestep
 	lda.w #$000B
@@ -837,7 +837,7 @@ CODE_C597A1:						; from CODE_C59778
 CODE_C597A9:						; from CODE_C597A1
 	rts
 CODE_C597AA:						; from CODE_C59778
-	jsr.w $A17B
+	jsr.w CODE_C5A17B
 	clc
 	lda.b $97
 	adc.w #$0009
@@ -845,9 +845,9 @@ CODE_C597AA:						; from CODE_C59778
 	bcc CODE_C597CE
 	sbc.w #$001B
 	sta.b $97
-	jmp.w $A20D
+	jmp.w CODE_C5A20D
 CODE_C597C0:						; from CODE_C59778
-	jsr.w $A17B
+	jsr.w CODE_C5A17B
 	sec
 	lda.b $97
 	sbc.w #$0009
@@ -856,15 +856,15 @@ CODE_C597C0:						; from CODE_C59778
 CODE_C597CE:						; from CODE_C597C0, CODE_C597AA, CODE_C597D3, CODE_C597DF
 	sta.b $97
 CODE_C597D0:						; from CODE_C597D3, CODE_C597DF
-	jmp.w $A20D
+	jmp.w CODE_C5A20D
 CODE_C597D3:						; from CODE_C59778
-	jsr.w $A17B
+	jsr.w CODE_C5A17B
 	dec.b $97
 	bpl CODE_C597D0
 	lda.w #$001A
 	bra CODE_C597CE
 CODE_C597DF:						; from CODE_C59778
-	jsr.w $A17B
+	jsr.w CODE_C5A17B
 	lda.b $97
 	inc a
 	cmp.w #$001B
@@ -1149,7 +1149,7 @@ CODE_C59A22:						; from CODE_C599F8
 CODE_C59A40:						; from CODE_C59A22
 	ldx.w #$04F5
 	jsl.l $C4BC1A
-	jmp.w $9F79
+	jmp.w CODE_C59F79
 DATA8_C59A4A:						; not reached by the traced code (data or unused code)
 	db $60
 CODE_C59A4B:						; from CODE_C59B0A, CODE_C599D4
@@ -1203,7 +1203,7 @@ CODE_C59A90:						; from CODE_C59A5C
 CODE_C59AA6:						; from CODE_C59A90
 	ldx.w #$04F5
 	jsl.l $C4BC1A
-	jmp.w $9F79
+	jmp.w CODE_C59F79
 CODE_C59AB0:						; from CODE_C59A22, CODE_C59A90
 	sta.b $A1
 	asl a
@@ -1397,61 +1397,61 @@ CODE_C59C0A:						; from CODE_C59C00
 	jmp.w CODE_C59CC1
 CODE_C59C1F:						; from CODE_C59C0A
 	lda.w $0529
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $81
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $052D
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0527
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0533
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $052F
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $85
 	sta.b $A3
 	jsr.w CODE_C59D51
 	lda.w $053D
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	lsr a
 	sta.b $A3
 	jsr.w CODE_C59D4B
 	lda.w $053B
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0535
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0531
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $26
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $052B
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0539
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0537
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $A5
@@ -1459,7 +1459,7 @@ CODE_C59C1F:						; from CODE_C59C0A
 	jmp.w CODE_C59D39
 CODE_C59CC1:						; from CODE_C59C0A
 	lda.w $0529
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $81
@@ -1468,15 +1468,15 @@ CODE_C59CC1:						; from CODE_C59C0A
 	stz.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0527
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $052D
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $052B
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.b $85
@@ -1488,19 +1488,19 @@ CODE_C59CC1:						; from CODE_C59C0A
 	jsr.w CODE_C59D48
 	jsr.w CODE_C59D48
 	lda.w $052F
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0531
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0533
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 	lda.w $0535
-	jsr.w $A07A
+	jsr.w CODE_C5A07A
 	sta.b $A3
 	jsr.w CODE_C59D48
 CODE_C59D39:						; from CODE_C599B9, CODE_C59AED, CODE_C59B3E, CODE_C59C1F
@@ -1713,7 +1713,7 @@ CODE_C59EB0:						; from CODE_C59EB0
 	inx
 	cpx.b $9F
 	bcc CODE_C59EB0
-	jsr.w $9F79
+	jsr.w CODE_C59F79
 	lda.w #$0008
 CODE_C59EDA:						; from CODE_C59EDA
 	pha
@@ -1738,7 +1738,7 @@ CODE_C59F02:						; called from other segments
 	lda.w #$0005
 CODE_C59F0A:						; from CODE_C59F02, CODE_C59F10
 	sta.b $7F
-	jmp.w $A291
+	jmp.w CODE_C5A291
 DATA8_C59F0F:						; not reached by the traced code (data or unused code)
 	db $60
 CODE_C59F10:						; called from other segments
@@ -1755,7 +1755,7 @@ CODE_C59F1D:						; called from other segments
 	lda.w #$000F
 CODE_C59F25:						; from CODE_C59F1D, CODE_C59F2A
 	sta.b $81
-	jmp.w $A2B4
+	jmp.w CODE_C5A2B4
 CODE_C59F2A:						; called from other segments
 	lda.b $81
 	inc a
@@ -1770,7 +1770,7 @@ CODE_C59F37:						; called from other segments
 	lda.w #$0063
 CODE_C59F3F:						; from CODE_C59F37, CODE_C59F44
 	sta.b $83
-	jmp.w $A2D3
+	jmp.w CODE_C5A2D3
 CODE_C59F44:						; called from other segments
 	lda.b $83
 	inc a
@@ -1783,10 +1783,10 @@ CODE_C59F51:						; called from other segments
 	bne CODE_C59F5D
 	lda.w #$0001
 	sta.b $85
-	jmp.w $A2EC
+	jmp.w CODE_C5A2EC
 CODE_C59F5D:						; from CODE_C59F51
 	stz.b $85
-	jmp.w $A2EC
+	jmp.w CODE_C5A2EC
 CODE_C59F62:						; from CODE_C59DBB
 	ldx.b $63
 	lda.w #$0073

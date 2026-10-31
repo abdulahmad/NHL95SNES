@@ -584,3 +584,12 @@ $C2DF3B,Sample09,,new,"sound sample 9 of the sample list at $CF05DD: 12-byte hea
 $C2E51D,Sample10,,new,"sound sample 10 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2F4A9",src/bankC2_E000.asm
 $C2F4AA,Sample11,,new,"sound sample 11 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2FC5F",src/bankC2_F000.asm
 $C2FC60,Sample12,,new,"sound sample 12 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C2FF4D; zeros follow to the end of the bank",src/bankC2_F000.asm
+$C5A08B,DATA8_C5A08B,,new,"a byte table read by CODE_C5A07A (0, 0, 1, 1, 2, 2, 3, ...)",src/bankC5_A000.asm
+$C5A1D7,DATA8_C5A1D7,,new,"a word table read by CODE_C5A17B and CODE_C5A1A5 (added to $D3 as a map offset)",src/bankC5_A000.asm
+$C5A225,DATA8_C5A225,,new,"a word table read by CODE_C5A20D",src/bankC5_A000.asm
+$C5A25B,DATA8_C5A25B,,new,"a word table read by CODE_C5A20D",src/bankC5_A000.asm
+$C5A2A8,DATA8_C5A2A8,,new,"a word table read by CODE_C5A291",src/bankC5_A000.asm
+$C5A354,DATA8_C5A354,,new,"a word pointing at CODE_C5A359, followed by jmp CODE_C5A3C1; DATA8_C5A3BF, DATA8_C5A3FD and DATA8_C5A468 have the same form; their reader is not traced",src/bankC5_A000.asm
+$C5A81B,DATA8_C5A81B,,new,"jump table (3 routines) in bankC5_A000",src/bankC5_A000.asm
+$C5AC73,DATA8_C5AC73,,new,"jump table (6 routines) in bankC5_A000",src/bankC5_A000.asm
+$C5AE40,DATA8_C5AE40,,new,"8 bytes FF FE FC F8 F0 E0 C0 80 (left masks?) between routines; no reader found",src/bankC5_A000.asm
