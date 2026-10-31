@@ -139,16 +139,16 @@ DATA8_C55002:						; not traced: a table read by CODE_C54FB9
 DATA8_C5500A:						; not traced: a table read by CODE_C54FA9
 	db $E1,$5C,$EF,$5C,$FD,$5C,$21,$5D
 DATA8_C55012:						; jump table: the routine for each index
-	dw CODE_C56E6A,CODE_C56C6A,$7C34
+	dw CODE_C56E6A,CODE_C56C6A,CODE_C57C34
 DATA8_C55018:						; jump table: the routine for each index
-	dw $7329,CODE_C56B80
+	dw CODE_C57329,CODE_C56B80
 DATA8_C5501C:						; jump table: the routine for each index
-	dw CODE_C56E6A,CODE_C56C6A,CODE_C56993,$7C34
-	dw $7A7D
+	dw CODE_C56E6A,CODE_C56C6A,CODE_C56993,CODE_C57C34
+	dw CODE_C57A7D
 DATA8_C55026:						; jump table: the routine for each index
 	dw CODE_C56293,CODE_C56368,CODE_C5649F
 DATA8_C5502C:						; jump table: the routine for each index
-	dw $7329,$7361,$78B0,CODE_C56E55
+	dw CODE_C57329,CODE_C57361,CODE_C578B0,CODE_C56E55
 	dw CODE_C56B90,CODE_C56B80
 DATA8_C55038:						; jump table: the routine for each index
 	dw CODE_C56B7B,CODE_C56B8C

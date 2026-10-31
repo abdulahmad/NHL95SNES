@@ -2,7 +2,49 @@
 ;	on its own for checking against the ROM (tools/verify_segment.sh bankC5_7000). The org is in the segment
 ;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+AnimateSprites = $C5E9C7
+BitMaskTable2 = $C09C24
+BuildSpriteOAM = $C5F0D1
+CODE_C53ABC = $C53ABC
+CODE_C541D3 = $C541D3
+CODE_C54F37 = $C54F37
+CODE_C55513 = $C55513
+CODE_C558D7 = $C558D7
+CODE_C55951 = $C55951
+CODE_C55A09 = $C55A09
+CODE_C55ABC = $C55ABC
+CODE_C55BE8 = $C55BE8
+CODE_C55C12 = $C55C12
+CODE_C55C58 = $C55C58
+CODE_C55CE6 = $C55CE6
+CODE_C55D73 = $C55D73
+CODE_C55E57 = $C55E57
+CODE_C55EC7 = $C55EC7
+CODE_C55ECA = $C55ECA
+CODE_C56009 = $C56009
+CODE_C5605D = $C5605D
+CODE_C56168 = $C56168
+CODE_C5800C = $C5800C
+CODE_C580AB = $C580AB
+CODE_C580B7 = $C580B7
+CODE_C58B11 = $C58B11
+CODE_C5B67A = $C5B67A
+CODE_C5BBC0 = $C5BBC0
+CODE_C5D2B4 = $C5D2B4
+CODE_C5D6F5 = $C5D6F5
+CODE_C5E596 = $C5E596
+CODE_C5F3DB = $C5F3DB
+DATA8_C09B54 = $C09B54
+DATA8_C09B94 = $C09B94
+Div16x8U = $C09257
+DivX8U = $C0927A
+FadeOutWait = $C58A99
+Mul16x8U = $C08F5E
+Mul8U = $C08ED9
+Opening = $C50000
 
 incsrc "../bankC5_7000.asm"

@@ -1709,7 +1709,7 @@ CODE_C56E6A:						; called from other segments
 	ldx.w #$5135
 	jsl.l $C387D8
 CODE_C56E94:						; from CODE_C56F50
-	jsr.w $6F5C
+	jsr.w CODE_C56F5C
 	lda.w #$00D0
 	sta.b $18
 	lda.w #$0028

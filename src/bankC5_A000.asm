@@ -1761,7 +1761,7 @@ CODE_C5AF11:						; from CODE_C5AF11
 	sta.w $190E
 	stz.w $1910
 	jsl.l CODE_C5E50E
-	jsr.w $7A7D
+	jsr.w CODE_C57A7D
 	stz.w $190E
 	jsl.l $C4C574
 	lda.w $1864

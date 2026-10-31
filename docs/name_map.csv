@@ -669,3 +669,7 @@ $C5623A,MonthSeptember,,new,"the month name September, 0-terminated; DATA8_C561F
 $C56244,MonthOctober,,new,"the month name October, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
 $C5624C,MonthNovember,,new,"the month name November, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
 $C56255,MonthDecember,,new,"the month name December, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
+$C570E8,DATA8_C570E8,,new,"jump table: the routine for each index (in bankC5_7000)",src/bankC5_7000.asm
+$C57309,DATA8_C57309,,new,"not traced: a table read by CODE_C5729E (in bankC5_7000)",src/bankC5_7000.asm
+$C57810,DATA8_C57810,,new,"the routines CODE_C577F7 jumps to through a pointer, by index (in bankC5_7000)",src/bankC5_7000.asm
+$C57DCD,DATA8_C57DCD,,new,"jump table: the routine for each index (in bankC5_7000)",src/bankC5_7000.asm

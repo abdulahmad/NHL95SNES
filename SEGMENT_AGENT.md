@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC5_7000 (org $C56F5C), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_0000 (org $C40000), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -168,6 +168,10 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   last, after ldx / ldy), two jump tables, and the day and month names written as text (MonthJanuary ... MonthDecember). The
   callback comments of bankC5_B000 / C000 now name CODE_C55ABC and CODE_C5D8E7. End moved to $C56F5B, bankC5_7000 org to
   $C56F5C.
+- 2026-10-31: bankC5_7000 matched: game code, a jump table read with a long address and jumped to through a pointer
+  (DATA8_C57810), and two callbacks of CODE_C55ABC, one pushed with pea and pulled into A (its pea operands are labels). Bank
+  $C5 is all source. The code-first track goes on with bank $C4 (bank $C3 starts with the team database): next bankC4_0000 (org
+  $C40000).
 - 2026-10-31: bankC1_0000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C110B8.
 - 2026-10-31: bankC1_1000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
@@ -303,7 +307,7 @@ The first row that is still incbin is the current segment.
 | bankC3_D000 | incbin | $C3D000 | $C3DFFF | |
 | bankC3_E000 | incbin | $C3E000 | $C3EFFF | |
 | bankC3_F000 | incbin | $C3F000 | $C3FFFF | |
-| bankC4_0000 | incbin | $C40000 | $C40FFF | |
+| bankC4_0000 | incbin <- CURRENT | $C40000 | $C40FFF | |
 | bankC4_1000 | incbin | $C41000 | $C41FFF | |
 | bankC4_2000 | incbin | $C42000 | $C42FFF | |
 | bankC4_3000 | incbin | $C43000 | $C43FFF | |
@@ -326,7 +330,7 @@ The first row that is still incbin is the current segment.
 | bankC5_4000 | matched 3872 bytes | $C53FE5 | $C54F04 | game code with CODE_ names and their callers, asstab entries 10 and 12, the jump table DATA8_C54D3A, tables read with long addresses (DATA8_ with their readers); out of ROM order, org moved to $C53FE5, end moved -$FB |
 | bankC5_5000 | matched 4352 bytes | $C54F05 | $C56004 | game code with CODE_ names and their callers, seven jump tables (six picked by a menu state, DATA8_C55012-C55038; DATA8_C55D6B used by bankC5_6000), tables read with long addresses; out of ROM order, org moved to $C54F05, end moved +$5 |
 | bankC5_6000 | matched 3927 bytes | $C56005 | $C56F5B | game code with CODE_ names and their callers, jump tables DATA8_C566DE / C570E8, four callbacks of CODE_C55ABC, the day and month names (text), tables read with long addresses; out of ROM order, org moved to $C56005, end moved -$A4 |
-| bankC5_7000 | incbin <- CURRENT | $C56F5C | $C57FFF | org moved to $C56F5C |
+| bankC5_7000 | matched 4272 bytes | $C56F5C | $C5800B | game code with CODE_ names and their callers, jump tables DATA8_C570E8 / C57810 / C57DCD, two callbacks of CODE_C55ABC (one pushed with pea); out of ROM order, org moved to $C56F5C |
 | bankC5_8000 | matched 4044 bytes | $C5800C | $C58FD7 | Reset_Fast, SetBGMapRegs, Decompress (DecompressFormats, UnpackFormat0-8), DecompressLZSS, MapSetToVRAM, QueueVRAMDMALen, DecompressToVRAM, FadeOutWait, SetupHDMA, game code (CODE_); out of ROM order; org moved to $C5800C, end moved -$28 (first boundary no branch crosses) |
 | bankC5_9000 | matched 4001 bytes | $C58FD8 | $C59F78 | game code with CODE_ names and their callers, jump tables DATA8_C5967A / C59EF2 / C59EFA, untraced data; out of ROM order; org moved to $C58FD8, end moved -$87 (first boundary no branch crosses) |
 | bankC5_A000 | matched 4157 bytes | $C59F79 | $C5AFB5 | game code with CODE_ names and their callers, jump tables DATA8_C5A81B / C5AC73, tables read with long addresses (DATA8_ with their readers); out of ROM order; org moved to $C59F79, end moved -$4A (first boundary no branch crosses) |
