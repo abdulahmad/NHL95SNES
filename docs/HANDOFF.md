@@ -10,10 +10,11 @@
   bankC0_4000 ($C04642-$C05DAB: tile sets, HDMA tables, colour hooks, BitMaskTable, the Tampa Bay photos), bankC0_5000
   ($C05DAC-$C06E6C: the Toronto photos), bankC0_6000 ($C06E6D-$C07ECA: the Vancouver photos),
   bankC0_7000 ($C07ECB-$C07FFF: TeamSongs, DefaultSongs, a sound list, fill), bankC0_8000 ($C08000-$C09004: data, then the
-  engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies).
+  engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies), bankC0_9000 ($C09005-$C09A23: the rest of
+  the math, then game code with CODE_ names).
   `CartHeader` in bankC0_F000. The other segments are incbin.
-- Next: segment bankC0_9000, org $C09005. Its first routine looks like 94S Mul16x8HiXS; the 94S order goes on Mul16x8HiS,
-  Mul16S ... (compare with NHL94SNES src/banks/b80_engine.asm and src/routines/snes). (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC0_A000, org $C09A24: a table of long pointers (dd) into banks $C4/$C5 read at $C5085C, then tables read
+  at $C43DC4, $C570BB, $C5703C, $C45B51, $C51BBC, $C50F53, $C21062 (lda.l), then what looks like packed data near $C09F80. (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -60,6 +61,9 @@
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
   the setup code. The last pair of uniform palettes (after the all-star teams) is not traced.
+- bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
+  (CODE_C099F4). Its RAM ($1878-$18B6, $0806, $2364, ...) is not named yet. There is a brk at $C09419.
+- asar: write a branch to a label, never to a number (bcc $C090D2 assembled the low byte as the offset); pei is `pei ($nn)`.
 - bankC0_8000: DATA8_C08000 (35-byte records), DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
   its pattern (94S MenuBackMap may be the same job: not checked). TransfersReady, DMAEnShadow, QueueBusy are named from the
   NMI code only. Mul8S's A-positive / X-negative path multiplies A by -A (tya where 94S has txa): that is in the ROM.

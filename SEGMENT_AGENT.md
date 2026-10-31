@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_9000 (org $C09005). <- CURRENT
+bankC0_A000 (org $C09A24). <- CURRENT
 
 ## Sources
 
@@ -98,6 +98,8 @@ bankC0_9000 (org $C09005). <- CURRENT
 - 2026-10-31: bankC0_8000 matched: the start of the engine is 94S's bank $80 engine rebuilt (same InitHooks and seed, same
   hooks, waits, RandomWord and multiplies), so the 94S names and RAM names apply (src/ram95s.asm started). The data in front
   of it is mostly not traced. End moved to $C09004, bankC0_9000 org to $C09005.
+- 2026-10-31: bankC0_9000 matched: the rest of 94S's math (94S names; 95S has no MulFrac8 / MulFrac16), then 95S game code with
+  CODE_ names and cross-reference comments (callers from the code banks only). End moved to $C09A23, bankC0_A000 org to $C09A24.
 
 ## ROM map
 
@@ -114,8 +116,8 @@ The first row that is still incbin is the current segment.
 | bankC0_6000 | matched 4190 bytes | $C06E6D | $C07ECA | PhotoPalettesVAN, PlayerPhotosVAN (Vancouver's photo set); org moved to $C06E6D, end moved +$ECB (the set ends at $C07ECA) |
 | bankC0_7000 | matched 309 bytes | $C07ECB | $C07FFF | TeamSongs, DefaultSongs (94S names), DATA8_C07F7B (a sound list), $CD fill (padbyte / pad) to the end of the lower half; org moved to $C07ECB |
 | bankC0_8000 | matched 4101 bytes | $C08000 | $C09004 | data (DATA8_C08000, TiledBackMap, DATA8_C08939, DATA8_C08B17), then the engine as in 94S: InitHooks, NullHook, NMI_Fast, NMI_HookReturn, NMI_Tick, NMI_FrameHookReturn, BCDTable, IRQ, IRQ_Fast, IRQOff, SetIRQ, Clear/SetFrameHook, Clear/SetNMIHook, WaitFrame(s), WaitDMAQueue, WaitNoButtons, JoyDirIndex, RandomWord, BlankScreen, forceblack, ScreenOn, ResetPPURegs, Mul8U/XS/S, Mul16x8U/XS/S, Mul16x8HiU; first RAM names in src/ram95s.asm; end moved +5 (Mul16x8Hi_Zero) |
-| bankC0_9000 | incbin <- CURRENT | $C09005 | $C09FFF | org moved to $C09005 (after Mul16x8Hi_Zero) |
-| bankC0_A000 | incbin | $C0A000 | $C0AFFF | |
+| bankC0_9000 | matched 2591 bytes | $C09005 | $C09A23 | Mul16x8HiXS, Mul16x8HiS, Mul16S, Mul16XS, Mul16U, Div16S, Div32x32U, Div32S, Div32U, Div_8Bits, Div16U, Div_Overflow, Div16x8U, DivX8U, DivX8S (94S); then game code with auto names (CODE_C092B3 .. CODE_C099F4, cross references on each label); org moved to $C09005, end moved -$5DC (tables start at $C09A24) |
+| bankC0_A000 | incbin <- CURRENT | $C09A24 | $C0AFFF | org moved to $C09A24: starts with a table of long pointers into banks $C4/$C5 (read at $C5085C) and more tables |
 | bankC0_B000 | incbin | $C0B000 | $C0BFFF | |
 | bankC0_C000 | incbin | $C0C000 | $C0CFFF | |
 | bankC0_D000 | incbin | $C0D000 | $C0DFFF | |

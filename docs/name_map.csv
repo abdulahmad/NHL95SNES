@@ -182,3 +182,33 @@ $04C2,BG2VScroll,,94S,"RAM; ",src/ram95s.asm
 $04C4,BG3HScroll,,94S,"RAM; ",src/ram95s.asm
 $04C6,BG3VScroll,,94S,"RAM; ",src/ram95s.asm
 $059A,fadestep,,94S,"RAM; a delay counting down to a fade in, or $FFFF to fade out",src/ram95s.asm
+$C08FA6,Mul16x8XS_negres,,94S,"entry inside Mul16x8XS (negate r2); Mul16XS jumps to it",src/bankC0_8000.asm
+$C09005,Mul16x8HiXS,,94S,"X * A (low byte) / 256 into r2+1, X signed",src/bankC0_9000.asm
+$C0901E,Mul16x8HiS,,94S,"X * A / 256 into r2+1, both signed",src/bankC0_9000.asm
+$C09035,Mul16S,,94S,"A * X into r2 (4 bytes), both signed",src/bankC0_9000.asm
+$C0904D,Mul16_Zero,,94S,"product 0 into r2",src/bankC0_9000.asm
+$C09053,Mul16XS,,94S,"A * X into r2 (4 bytes), X signed",src/bankC0_9000.asm
+$C09069,Mul16U_Pre,,94S,"Mul16U from its second step, with Y saved",src/bankC0_9000.asm
+$C0906C,Mul16U,,94S,"A * X into r2 (4 bytes), unsigned",src/bankC0_9000.asm
+$C090E0,Div16S,,94S,"r2 / r1 into r0, signed",src/bankC0_9000.asm
+$C09113,Div32x32U,,94S,"r2 (4 bytes) / r1 (4 bytes) into r0, remainder in r2, unsigned",src/bankC0_9000.asm
+$C09145,Div32S,,94S,"r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit",src/bankC0_9000.asm
+$C09188,Div32U,,94S,"r2 (4 bytes) / r1 into r0, unsigned; $7FFF if it does not fit",src/bankC0_9000.asm
+$C091D8,Div_8Bits,,94S,"r2+1 (with r2) / r1 when the quotient fits in 8 bits",src/bankC0_9000.asm
+$C091F3,Div16U,,94S,"r2 / r1 into r0, unsigned",src/bankC0_9000.asm
+$C09206,Div_Overflow,,94S,"quotient $7FFF",src/bankC0_9000.asm
+$C09257,Div16x8U,,94S,"r2 / r1 (8 bits) into r0 with the hardware divider; $7FFF when r1 is 0",src/bankC0_9000.asm
+$C0927A,DivX8U,,94S,"X / A (8 bits) into A with the hardware divider",src/bankC0_9000.asm
+$C09290,DivX8S,,94S,"X / A (8 bits) into A, X signed",src/bankC0_9000.asm
+$C09009,Mul16x8HiXS_TestX,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C09012,Mul16x8HiXS_Neg,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C09057,Mul16XS_TestX,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C09062,Mul16XS_Neg,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C09075,Mul16U_Go,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C091F5,Div16U_Go,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C09210,Div32U_ByteDivisor,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C09259,Div16x8U_Go,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
+$C0967D,DATA8_C0967D,,new,"not traced: 4 bytes after CODE_C09678",src/bankC0_9000.asm
+$C098CE,DATA8_C098CE,,new,"not traced: records CODE_C09855 walks through a long pointer ($FFFF ends)",src/bankC0_9000.asm
+$2C,r0,,94S,"RAM; math result as 94S r0 (the divides' quotient)",src/ram95s.asm
+$30,r1,,94S,"RAM; math operand as 94S r1 (the divisor)",src/ram95s.asm

@@ -596,6 +596,7 @@ Mul16x8XS_neg:						; entry used by the routines after it
 	inc a
 Mul16x8XS_mul:						; entry used by the routines after it
 	jsl.l Mul16x8U_Pre
+Mul16x8XS_negres:					; entry used by the routines after it
 	lda.w #$0000
 	sec
 	sbc.b r2

@@ -3,7 +3,9 @@
 
 ; direct page
 QueueBusy			=	$06			; negative while a routine pushes a record onto a transfer queue
-r2					=	$34			; math result (Mul16x8 forms: 3 bytes)
+r0					=	$2C			; math result (divides: the quotient)
+r1					=	$30			; math operand (divides: the divisor, 4 bytes)
+r2					=	$34			; math result (multiplies) and dividend (divides), 4 bytes
 r3					=	$40			; work word (the pad waits keep their button mask here)
 NMISkip				=	$4A			; nonzero while the NMI runs: a nested NMI only restores and returns
 DMAQueueHead		=	$4C			; WaitDMAQueue waits until it equals DMAQueueTail
