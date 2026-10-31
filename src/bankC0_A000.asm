@@ -4,14 +4,14 @@
 org $C09A24
 asstab:								; the assignment routines, by assignment number (as 94S asstab; the
 									; first is an rtl); the code calls one through a long call patched in RAM
-	dd $C4883F,$C4332A,$C4313E,$C4348E
-	dd $C43590,CODE_C43099,CODE_C42F62,$C48A71
+	dd $C4883F,CODE_C4332A,CODE_C4313E,CODE_C4348E
+	dd CODE_C43590,CODE_C43099,CODE_C42F62,$C48A71
 	dd $C47122,$C45A47,CODE_C5474A,$C47B3F
 	dd CODE_C545C7,$C47D2E,$C47F4C,$C488BB
 	dd $C49B59,CODE_C42DB8,CODE_C42B25,$C498A1
-	dd $C4A4B3,$C49DFB,$C4375B,$C4376F
+	dd $C4A4B3,$C49DFB,CODE_C4375B,CODE_C4376F
 	dd $C493CA,$C4A65D,$C49595,CODE_C51CC1
-	dd $C43826
+	dd CODE_C43826
 asspuckc_postab:					; 10 positions (x, y) as 94S asspuckc_postab
 	dw -100,-20
 	dw 100,-20

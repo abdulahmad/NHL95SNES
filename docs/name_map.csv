@@ -693,3 +693,9 @@ $C42DC5,DATA8_C42DC5,,new,"an rtl no traced code reaches (in bankC4_2000)",src/b
 $C43078,DATA8_C43078,,new,"an rtl no traced code reaches (in bankC4_2000)",src/bankC4_2000.asm
 $C43079,DATA8_C43079,,new,"not traced: a table read by CODE_C43021 (in bankC4_2000)",src/bankC4_2000.asm
 $C4311B,DATA8_C4311B,,new,"an rtl no traced code reaches (in bankC4_2000)",src/bankC4_2000.asm
+$C432A0,DATA8_C432A0,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
+$C43345,DATA8_C43345,,new,"not traced: data between routines (in bankC4_3000)",src/bankC4_3000.asm
+$C433C3,DATA8_C433C3,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
+$C43530,DATA8_C43530,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
+$C436DC,DATA8_C436DC,,new,"an rtl no traced code reaches (in bankC4_3000)",src/bankC4_3000.asm
+$C436DD,DATA8_C436DD,,new,"not traced: a table read by CODE_C4366D (in bankC4_3000)",src/bankC4_3000.asm

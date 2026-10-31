@@ -744,7 +744,7 @@ CODE_C545D2:						; from CODE_C545C7
 	lda.w $0D60,x
 	bit.w #$4000
 	beq CODE_C545E2
-	jml.l $C4370C
+	jml.l CODE_C4370C
 CODE_C545E2:						; from CODE_C545D2
 	bit.w #$0002
 	beq CODE_C54613
@@ -955,7 +955,7 @@ CODE_C5479E:						; from CODE_C5474A
 	and.w #$F7FF
 	sta.w $08E0,x
 CODE_C547C7:						; from CODE_C5479E
-	jml.l $C4370C
+	jml.l CODE_C4370C
 CODE_C547CB:						; from CODE_C54982 and other segments
 	pei ($7F)
 	pei ($81)
@@ -1193,7 +1193,7 @@ CODE_C549BA:						; from CODE_C549A8
 	stz.w $0AE0,x
 	lda.w #$000C
 	sta.b $7F
-	jml.l $C4373E
+	jml.l CODE_C4373E
 CODE_C549EA:						; from CODE_C549A8, CODE_C549BA
 	rtl
 CODE_C549EB:						; from CODE_C549BA

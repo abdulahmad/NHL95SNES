@@ -1450,7 +1450,7 @@ CODE_C53B91:						; from CODE_C53B81
 	bne CODE_C53BB2
 	lda.w #$0012
 	sta.b $7F
-	jsl.l $C43734
+	jsl.l CODE_C43734
 CODE_C53BB2:						; from CODE_C53B91
 	ldx.b $6F
 	lda.w $0D40,x
@@ -1527,7 +1527,7 @@ CODE_C53C20:						; from CODE_C53B91 and other segments
 	lda.b [$63],y
 	and.w #$00FF
 	sta.b $7F
-	jml.l $C4373E
+	jml.l CODE_C4373E
 CODE_C53C3E:						; from CODE_C53C20
 	rtl
 DATA8_C53C3F:						; not traced: data between routines
@@ -1573,7 +1573,7 @@ CODE_C53C75:						; from CODE_C53C5C
 	cmp.w #$FFFE
 	bne CODE_C53CA0
 CODE_C53C96:						; from CODE_C53C75
-	jsl.l $C43734
+	jsl.l CODE_C43734
 	stz.w $1000,x
 	stz.w $0C80,x
 CODE_C53CA0:						; from CODE_C53C75

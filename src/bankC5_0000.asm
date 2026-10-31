@@ -181,7 +181,7 @@ CODE_C501BC:						; from CODE_C501AC
 	stx.b $6F
 	lda.w #$001B
 	sta.b $7F
-	jsl.l $C4373E
+	jsl.l CODE_C4373E
 	jsl.l CODE_C5897B
 	lda.w #$0400
 	tsb.w $10F5
@@ -1162,7 +1162,7 @@ CODE_C50A14:						; called from other segments
 	stx.b $6F
 	lda.w #$0018
 	sta.b $7F
-	jsl.l $C43734
+	jsl.l CODE_C43734
 	lda.w #$0007
 	jsl.l $CF040B
 	stz.b $38
@@ -1187,7 +1187,7 @@ CODE_C50A54:						; from CODE_C50A36, CODE_C50A64
 	lda.w $0A20,x
 	beq CODE_C50A64
 	bmi CODE_C50A64
-	jsl.l $C43734
+	jsl.l CODE_C43734
 	lda.w #$0008
 	sta.b $7F
 CODE_C50A64:						; from CODE_C50A54

@@ -204,7 +204,7 @@ CODE_C42B42:						; from CODE_C42B25
 	sta.b $7F
 	lda.w $14F9,x
 	bpl CODE_C42B59
-	jmp.w $3734
+	jmp.w CODE_C43734
 CODE_C42B59:						; from CODE_C42B42
 	rtl
 CODE_C42B5A:						; from CODE_C42B42
@@ -259,9 +259,9 @@ CODE_C42B9E:						; from CODE_C42B74
 	sta.w $0D60,x
 	lda.w #$0012
 	sta.b $7F
-	jsl.l $C43734
+	jsl.l CODE_C43734
 	ldx.b $B7
-	jmp.w $370C
+	jmp.w CODE_C4370C
 CODE_C42BD7:						; from CODE_C42B8E, CODE_C42B9E
 	lda.w #$0002
 	sta.b $83
@@ -318,7 +318,7 @@ CODE_C42C34:						; from CODE_C42C1A
 	jmp.w $5529
 CODE_C42C47:						; from CODE_C42C66
 	jsl.l CODE_C42B18
-	jmp.w $36FD
+	jmp.w CODE_C436FD
 CODE_C42C4E:						; from CODE_C42C1A
 	jsl.l $C4702E
 	jmp.w $5529
@@ -505,12 +505,12 @@ CODE_C42DB8:						; called from other segments
 	lda.w $14F9,x
 	bmi CODE_C42DCD
 CODE_C42DC2:						; from CODE_C42DB8
-	jmp.w $370C
+	jmp.w CODE_C4370C
 DATA8_C42DC5:						; an rtl no traced code reaches
 	db $6B
 CODE_C42DC6:						; from CODE_C42DCD
 	jsl.l CODE_C42B18
-	jmp.w $36FD
+	jmp.w CODE_C436FD
 CODE_C42DCD:						; from CODE_C42DB8
 	lda.w $10F3
 	bne CODE_C42DC6
@@ -552,7 +552,7 @@ CODE_C42E23:						; from CODE_C42E08
 	bpl CODE_C42E33
 	lda.w #$0010
 	sta.b $7F
-	jsl.l $C4373E
+	jsl.l CODE_C4373E
 	bra CODE_C42E99
 CODE_C42E33:						; from CODE_C42E08, CODE_C42E23
 	jsl.l CODE_C5492E
@@ -706,15 +706,15 @@ CODE_C42F62:						; called from other segments
 	beq CODE_C42F88
 	lda.w #$0005
 	sta.b $7F
-	jmp.w $373E
+	jmp.w CODE_C4373E
 CODE_C42F7C:						; from CODE_C42F88
 	rtl
 CODE_C42F7D:						; from CODE_C42F88
-	jmp.w $36FD
+	jmp.w CODE_C436FD
 CODE_C42F80:						; from CODE_C42F62
 	lda.w #$0011
 	sta.b $7F
-	jmp.w $3734
+	jmp.w CODE_C43734
 CODE_C42F88:						; from CODE_C42F62
 	lda.w $10F3
 	bne CODE_C42F7D
@@ -840,11 +840,11 @@ CODE_C43099:						; called from other segments
 	bne CODE_C430B2
 	lda.w #$0006
 	sta.b $7F
-	jmp.w $373E
+	jmp.w CODE_C4373E
 CODE_C430AE:						; from CODE_C430B2
 	rtl
 CODE_C430AF:						; from CODE_C430B2
-	jmp.w $36FD
+	jmp.w CODE_C436FD
 CODE_C430B2:						; from CODE_C43099
 	lda.w $10F3
 	bne CODE_C430AF

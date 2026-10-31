@@ -1527,7 +1527,7 @@ CODE_C52C41:						; from CODE_C52C0D
 CODE_C52C45:						; from CODE_C52C0D
 	lda.w #$0014
 	sta.b $7F
-	jml.l $C43734
+	jml.l CODE_C43734
 CODE_C52C4E:						; from CODE_C52C0D
 	jml.l $C49DC7
 CODE_C52C52:						; from CODE_C52C5E

@@ -1345,7 +1345,7 @@ CODE_C51C0C:						; from CODE_C51BB6, CODE_C51BF2
 	stz.w $1080,x
 	lda.w #$0018
 	sta.b $7F
-	jml.l $C4373E
+	jml.l CODE_C4373E
 CODE_C51C39:						; from CODE_C51BB6, CODE_C51BF2
 	pha
 	lda.w #$0006
@@ -1629,7 +1629,7 @@ CODE_C51E81:						; no caller found (not traced)
 	lda.w #$001C
 	sta.b $7F
 	ldx.b $6F
-	jml.l $C4373E
+	jml.l CODE_C4373E
 CODE_C51EB8:						; from CODE_C51E81 and other segments
 	lda.b $6F
 	clc
