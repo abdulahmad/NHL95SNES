@@ -53,7 +53,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segment
 	bra CODE_C50056
 CODE_C5008D:						; from CODE_C50056
 	jsl.l $C54E27
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	jsl.l $C4E12C
 	jsr.w $3984
 CODE_C5009B:						; called from other segments
@@ -125,7 +125,7 @@ CODE_C50139:						; from CODE_C50124, CODE_C50131
 	dex
 	dex
 	bpl CODE_C50124
-	jsl.l $C52037
+	jsl.l CODE_C52037
 	stz.w $17D1
 	ldx.w #$0008
 CODE_C5014C:						; from CODE_C5014C
@@ -156,7 +156,7 @@ CODE_C50176:						; from CODE_C5016D
 	lda.w #$0002
 	sta.b $6B
 	jsl.l $C54AEF
-	jsl.l $C52227
+	jsl.l CODE_C52227
 	jsl.l $C53535
 	jsl.l $C3718D
 	lda.w #$FFFF
@@ -349,7 +349,7 @@ CODE_C5033D:						; from CODE_C50308 and other segments
 	jsl.l $C382B7
 	jsl.l CODE_C50364
 	jsl.l CODE_C50393
-	jsl.l $C529D7
+	jsl.l CODE_C529D7
 	jsl.l $C371F9
 CODE_C50351:						; from CODE_C50351
 	lda.w TransfersReady
@@ -358,7 +358,7 @@ CODE_C50351:						; from CODE_C50351
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jml.l $C52295
+	jml.l CODE_C52295
 CODE_C50364:						; from CODE_C5033D and other segments
 	jsl.l $C471F0
 	jsl.l $C371AB
@@ -968,7 +968,7 @@ CODE_C5081F:						; from CODE_C50810
 	iny
 	iny
 	sty.b $8F
-	jsl.l $C52AF8
+	jsl.l CODE_C52AF8
 CODE_C50851:						; from CODE_C5081F
 	lda.w $1000,x
 	bne CODE_C50874
@@ -1259,8 +1259,8 @@ CODE_C50AFF:						; from CODE_C50AF1
 	iny
 	cpy.w #$0068
 	bcc CODE_C50AF1
-	jsl.l $C5226A
-	jsl.l $C52295
+	jsl.l CODE_C5226A
+	jsl.l CODE_C52295
 	inc.w $114B
 	lda.w $114B
 	cmp.w #$0003
@@ -1486,7 +1486,7 @@ CODE_C50D24:						; from CODE_C50E42 and other segments
 CODE_C50D29:						; from CODE_C5032B and other segments
 	lda.w $2CF5
 	pha
-	jsl.l $C5226A
+	jsl.l CODE_C5226A
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1583,7 +1583,7 @@ CODE_C50D29:						; from CODE_C5032B and other segments
 	pla
 	sta.w $2CF5
 	bne CODE_C50DDD
-	jsl.l $C52264
+	jsl.l CODE_C52264
 CODE_C50DDD:						; from CODE_C50D29
 	stz.b $5D
 	stz.w $07C6

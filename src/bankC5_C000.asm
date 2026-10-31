@@ -329,7 +329,7 @@ CODE_C5C214:						; called from other segments
 	pha
 	lda.w #$0002
 	sta.w $1864
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	pla
 	sta.w $1864
 	ldx.w #$3207
@@ -1099,7 +1099,7 @@ CODE_C5C826:						; from CODE_C5C722
 	pha
 	lda.w #$0002
 	sta.w $1864
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	pla
 	sta.w $1864
 	ldx.w #$3207
@@ -1438,7 +1438,7 @@ CODE_C5CB36:						; from CODE_C5CA6C
 	pha
 	lda.w #$0002
 	sta.w $1864
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	pla
 	sta.w $1864
 	lda.w $2DCB

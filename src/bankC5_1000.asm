@@ -42,7 +42,7 @@ CODE_C51136:						; from CODE_C51136
 	sta.b $63
 	dec.b $7F
 	bpl CODE_C51136
-	jsl.l $C528D3
+	jsl.l CODE_C528D3
 	ldy.b $6B
 	lda.w $12AB,y
 	sta.b $7F
@@ -859,7 +859,7 @@ CODE_C517DB:						; from CODE_C517CA
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l $C52295
+	jsl.l CODE_C52295
 	lda.b $5D
 CODE_C517F1:						; from CODE_C517F1
 	cmp.b $5D
@@ -877,7 +877,7 @@ CODE_C51801:						; called from other segments
 	lda.w $10F3
 	ora.w $114D
 	bne CODE_C51810
-	jsl.l $C52284
+	jsl.l CODE_C52284
 	jmp.w CODE_C50A14
 CODE_C51810:						; from CODE_C51801
 	rtl
@@ -890,7 +890,7 @@ CODE_C51812:						; no caller found (not traced)
 	sta.b $83
 	lda.w $24C0
 	sta.b $87
-	jml.l $C528D4
+	jml.l CODE_C528D4
 CODE_C51825:						; called from other segments
 	pei ($6D)
 	pei ($6B)
@@ -1066,7 +1066,7 @@ CODE_C51999:						; called from other segments
 	bcc CODE_C519CC
 	lda.w #$0003
 CODE_C519CC:						; from CODE_C51999
-	jsl.l $C52008
+	jsl.l CODE_C52008
 	ply
 	plx
 CODE_C519D2:						; from CODE_C51999
@@ -1482,7 +1482,7 @@ CODE_C51D42:						; from CODE_C51D37
 	beq CODE_C51D7B
 	lda.w #$0040
 	tsb.w $10F5
-	jsl.l $C52264
+	jsl.l CODE_C52264
 CODE_C51D7B:						; from CODE_C51D42
 	lda.w $234C
 	bne CODE_C51D90

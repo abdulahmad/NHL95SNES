@@ -820,7 +820,7 @@ CODE_C5A6E5:						; from CODE_C5A6CA, CODE_C5A6D5
 	jsl.l CODE_C58B11
 	jsl.l $C4C2AA
 	jsr.w CODE_C5BCD9
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	lda.w $2DCB
 	sta.b $67
 	lda.b $7F

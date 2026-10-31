@@ -1953,7 +1953,7 @@ CODE_C5DEBC:						; from CODE_C5DEB4
 	pea.w $7F7E
 	plb
 	jsl.l $C4C536
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	ldy.w #$2DC9
 	jsl.l $C4EFD8
 	ldy.w #$3207

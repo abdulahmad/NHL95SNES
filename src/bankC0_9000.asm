@@ -398,7 +398,7 @@ CODE_C092B3:						; called from $C50087; the first game routine after the math
 	pha
 	stz.w $186C
 	jsl.l $C54E27
-	jsl.l $C52CA3
+	jsl.l CODE_C52CA3
 	jsl.l $C53980
 	stz.b $6B
 	jsr.w CODE_C09681
@@ -671,7 +671,7 @@ CODE_C09529:						; called from CODE_C0948C
 	sta.b $83
 	lda.w $24C0
 	sta.b $87
-	jsl.l $C528D4
+	jsl.l CODE_C528D4
 	lda.w #$0800
 	sta.w $07D2
 	lda.w #$000E
@@ -687,7 +687,7 @@ CODE_C09551:						; called from CODE_C0958F
 	sta.b $83
 	lda.w $24C0
 	sta.b $87
-	jsl.l $C528D4
+	jsl.l CODE_C528D4
 	lda.w #$0800
 	sta.w $07D2
 	lda.w #$000E
@@ -734,7 +734,7 @@ CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C095
 	sta.b $83
 	lda.w $24C0
 	sta.b $87
-	jsl.l $C528D4
+	jsl.l CODE_C528D4
 	jsl.l $C48A41
 	lda.b $7F
 	dec a
@@ -880,7 +880,7 @@ CODE_C096F7:						; from CODE_C096C0
 	sta.b $83
 	lda.w $24C0
 	sta.b $87
-	jsl.l $C528D4
+	jsl.l CODE_C528D4
 	ldx.w #$0001
 	ldy.w #$0001
 	lda.w $249C
@@ -1030,7 +1030,7 @@ CODE_C09855:						; called from CODE_C0979B, CODE_C097DD, CODE_C097EF, CODE_C097
 	sta.b $83
 	lda.w $24C0
 	sta.b $87
-	jsl.l $C528D4
+	jsl.l CODE_C528D4
 	lda.w #$0011
 	sta.w $07D4
 	lda.w #$0002

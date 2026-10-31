@@ -153,7 +153,7 @@ CODE_C5B0EA:						; called from other segments
 	lda.w #$0002
 	sta.w $1864
 	stz.w $17C9
-	jsr.w $2CC1
+	jsr.w CODE_C52CC1
 	sec
 	lda.w $2DC9
 	sbc.w $2DCB
