@@ -343,3 +343,9 @@ $C177F8,SkaterTiles04,,render,"tiles of a skating player frame 4 (frame header a
 $C17B65,SkaterTiles05,,render,"tiles of a skating player frame 5 (frame header at $C08605)",src/bankC1_7000.asm
 $C17E9F,RedDotTiles,,render,"tiles of a small red dot (frame header at $C08642)",src/bankC1_7000.asm
 $C17ED1,EASportsTiles,,render,"tiles of the EA SPORTS logo (frame header at $C08665)",src/bankC1_7000.asm
+$C18034,EALogoETiles,,render,"tiles of the big E of the EA logo (frame header at $C08688)",src/bankC1_8000.asm
+$C18359,EALogoATiles,,render,"tiles of the big A of the EA logo (frame header at $C086AB)",src/bankC1_8000.asm
+$C187B2,SportsWordTiles,,render,"tiles of part of the word SPORTS (frame header at $C086CE)",src/bankC1_8000.asm
+$C18C05,ElectronicWordTiles,,render,"tiles of part of the words ELECTRONIC ARTS (frame header at $C086F1)",src/bankC1_8000.asm
+$C18E05,ItsInTheTiles,,render,"tiles of the words It's in the (frame header at $C08714)",src/bankC1_8000.asm
+$C18FD3,BlackBoxTiles,,render,"tiles of a black box with a white frame (frame header at $C08737)",src/bankC1_8000.asm
