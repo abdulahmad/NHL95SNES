@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+TitlePlayersPalette = $C22C8B
 
 incsrc "../bankC2_1000.asm"

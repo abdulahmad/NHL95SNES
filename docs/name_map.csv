@@ -565,4 +565,5 @@ $C1E98B,PlayoffBracketPalette,,render,"map set chunk 3: 1 palette of 16 colours"
 $C1E9B2,TeamNameBarsMap,,render,"map set chunk 1 (12 x 52 word map, LZSS, $04E0 bytes): the city names of the 26 teams on bars in team colours, 12 x 2 tiles each; $C404F5 unpacks the set to unpackbuf through $C58812 just after the playoff bracket (probably the bracket slots, as 94S colours them with TeamBlockPalettes; not traced)",src/bankC1_E000.asm
 $C1EE6B,TeamNameBarsTiles,,render,"map set chunk 2: 460 4bpp tiles, LZSS ($3980 bytes); the stream runs on into bank $C2 up to TeamNameBarsPalette",src/bankC1_F000.asm
 $C20AB8,TitlePlayersMap,,render+code,"map set chunk 1 (32 x 20 word map, LZSS, $0500 bytes): three players, the title screen's BG1 (the setup at $C4D213 loads it with TitleGoalieMap on BG2 and TitleLogoMap on BG3, mode 1); $C4D2F2 and $C4D452 load it too",src/bankC2_0000.asm
-$C20DE6,TitlePlayersTiles,,render,"map set chunk 2: 316 4bpp tiles, LZSS ($2780 bytes); label only so far (bankC2_1000 is incbin)",src/bankC2_1000.asm
+$C20DE6,TitlePlayersTiles,,render,"map set chunk 2: 316 4bpp tiles, LZSS ($2780 bytes)",src/bankC2_1000.asm
+$C22C8B,TitlePlayersPalette,,render,"map set chunk 3: 1 palette of 16 colours; label only so far (bankC2_2000 is incbin)",src/bankC2_2000.asm
