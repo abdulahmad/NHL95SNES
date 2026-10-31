@@ -237,3 +237,9 @@ $C0DE06,Sample18,,new,"sound sample 18 of the sample list at $CF05DD: 12-byte he
 $C0E5C5,Sample16,,new,"sound sample 16 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0EAA1",src/bankC0_E000.asm
 $C0EAA2,Sample17,,new,"sound sample 17 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0EC5D",src/bankC0_E000.asm
 $C0EC5E,Sample14,,new,"sound sample 14 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C0F287",src/bankC0_E000.asm
+$C0F288,Sample15,,new,"sound sample 15 of the sample list at $CF05DD; ends at $C0FD0D",src/bankC0_F000.asm
+$C0FD0E,Reset,,94S,"reset vector (runs at $00:FD0E): sei, native mode, rep #$39, jml $C580C6 (94S Reset jumps to Reset_Fast)",src/bankC0_F000.asm
+$C0FD17,NullInterrupt,,new,"rti; the COP and ABORT vectors",src/bankC0_F000.asm
+$C0FD18,NMI,,94S,"NMI vector: jml NMI_Fast",src/bankC0_F000.asm
+$C0FD1C,BRKHandler,,new,"BRK vector: cop #$00 (the COP vector returns past it), then $CD fill",src/bankC0_F000.asm
+$C0FFB0,ExtHeader,,new,"extended cartridge header: maker 69, game code ANHE",src/bankC0_F000.asm

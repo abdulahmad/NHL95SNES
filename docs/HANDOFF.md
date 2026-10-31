@@ -11,14 +11,14 @@
   ($C05DAC-$C06E6C: the Toronto photos), bankC0_6000 ($C06E6D-$C07ECA: the Vancouver photos),
   bankC0_7000 ($C07ECB-$C07FFF: TeamSongs, DefaultSongs, a sound list, fill), bankC0_8000 ($C08000-$C09004: data, then the
   engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies), bankC0_9000 ($C09005-$C09A23: the rest of
-  the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21) and the sound samples after
-  it (see the ROM map).
-  `CartHeader` in bankC0_F000. The other segments are incbin.
-- Next: segment bankC0_F000, org $C0F288. From $C09C54 to the reset code at $C0FD0E bank $C0 is sound samples, back to back:
-  the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte BRR blocks up to
-  the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54, 20 $C0A2AB,
-  21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2, 14 $C0EC5E,
-  15 $C0F288 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+  the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
+  the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
+  The other segments are incbin.
+- Next: segment bankC1_0000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Sound samples: the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte
+  BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54,
+  20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2,
+  14 $C0EC5E, 15 $C0F288; the others are in banks $C2, $C3, $C4 and $CF.
 
 ## Notes for the next segments
 

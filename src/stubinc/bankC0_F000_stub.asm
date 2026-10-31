@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+NMI_Fast = $C08B45
 
 incsrc "../bankC0_F000.asm"
