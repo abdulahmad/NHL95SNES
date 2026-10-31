@@ -11,6 +11,7 @@ SPC_PORT1 = $F5						; port 1
 SPC_PORT2 = $F6						; port 2
 SPC_PORT3 = $F7						; port 3
 SPC_T0TARGET = $FA					; timer 0 divider
+SPC_T0OUT = $FD						; timer 0 count since the last read
 SPC_IPLROM = $FFC0					; boot ROM: receives the next upload from the CPU
 ; DSP registers
 DSP_MVOLL = $0C						; main volume left
@@ -27,6 +28,7 @@ DSP_EON = $4D						; echo on
 DSP_DIR = $5D						; sample directory page
 DSP_ESA = $6D						; echo buffer page
 DSP_EDL = $7D						; echo delay
+DSP_ENDX = $7C						; voices that reached the end of their sample
 DSP_C0 = $0F						; echo filter coefficient 0
 DSP_C1 = $1F						; echo filter coefficient 1
 DSP_C2 = $2F						; echo filter coefficient 2

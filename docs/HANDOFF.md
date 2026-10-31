@@ -4,9 +4,10 @@
 
 - Full build MATCH (SHA-1 `0b939f267377801d2c805b05c06a7ee6c880c5fc`, 1,048,576 bytes); `tools/verify_all.sh` MATCH (full build and
   all 256 segments built on their own from their stubs).
-- bankC0_0000 is source (data only, $C00000-$C00F48): TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles (packed),
-  UnusedPalette, SoundRAMClear (SPC700). The other segments are incbin; `CartHeader` in `src/bankC0_F000.asm` is source.
-- Next: segment bankC0_1000, org moved to $C00F49 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Source: bankC0_0000 (data, $C00000-$C00F48: TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles, UnusedPalette,
+  SoundRAMClear) and bankC0_1000 ($C00F49-$C01A38: SoundDriver, SMSG 3.07w, as SPC700). `CartHeader` in bankC0_F000. The other
+  segments are incbin.
+- Next: segment bankC0_2000, org moved to $C01A39 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -20,7 +21,12 @@
   pushed as size, destination, bank, source while $06 is decremented (busy).
 - Sound: $CF001A sends SoundRAMClear ($C00F05), then the sound driver upload blocks at $C00F49 (SMSG 3.07w Jason Andersen / John
   Schappert 8/17/1994: $D8 bytes at sound RAM $1000, $0A0C bytes at $0120, start $1000) through the IPL upload routine at
-  $CF004B (94S calls the same job SPCUpload; 94S SoundDriver is the program it sends). bankC0_1000 starts with those blocks.
+  $CF004B (94S calls the same job SPCUpload). Driver protocol: command 1-$20 on port 3, arguments on ports 0-2, status on
+  port 2 (bit 7 busy); commands can also be queued in spcQueue. `python3 tools/spc700dis.py lst/nhl95snes.sfc C00F49 --entry ..`
+  disassembles the whole upload; the entries are the tcall vectors, .commands and .events (only 4 events; the words after them are
+  code).
+- bankC0_2000 starts at $C01A39 with 4bpp font tiles ('0' first, planes 2-3 empty) read by the text routine at $C4BE34
+  (glyph = character - '0'; per-character tables at $C4C48B / $C4C4D7 / $C4C502). Their end is not found yet.
 
 ## Setup notes
 
@@ -38,3 +44,6 @@
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.
 - GradientBarTiles: rendered bars; where they are drawn (VRAM $0640 from $C4D864, $0010 from $C59119) is not traced.
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
+- SoundDriver: the 32 command and 4 event handlers and the 16 tcall routines keep auto labels; naming them needs the CPU side
+  (bank $CF) traced. .l0481 has no static reference (a patched call may reach it). Sound RAM buffers ($F000-$FE03, $FF00)
+  stay numbers.

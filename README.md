@@ -9,7 +9,8 @@
 - Bootstrapped: the whole cartridge is 256 segments of 4 KB, each an `incbin` of its ROM bytes, and the build is byte-identical to the retail ROM.
 - Every segment also builds on its own from its stub (`src/stubinc/<segment>_stub.asm`) and is checked against its ROM range.
 - Trial: the cartridge header at the end of bank $C0 is source (`CartHeader` in `src/bankC0_F000.asm`).
-- Segment bankC0_0000 (data: team palettes, packed tile sets, the sound RAM clear program) is source; the queue is in SEGMENT_AGENT.md.
+- Segments bankC0_0000 (data: team palettes, packed tile sets, the sound RAM clear program) and bankC0_1000 (the SMSG sound driver as
+  SPC700) are source; the queue is in SEGMENT_AGENT.md.
 
 **AI agent or new contributor: start with [START_HERE.md](START_HERE.md).**
 

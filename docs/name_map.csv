@@ -40,3 +40,38 @@ $4F,DSP_C4,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
 $5F,DSP_C5,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
 $6F,DSP_C6,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
 $7F,DSP_C7,,94S,DSP register (94S SoundDriver),src/inc/spc_regs.asm
+$C00F49,SoundDriver,,code,"the sound driver SMSG 3.07w (Jason Andersen / John Schappert, 8/17/1994) as IPL upload blocks; $CF001A sends it through $CF004B after SoundRAMClear; 94S SoundDriver is the program its SPCUpload sends, but this is a different driver",src/bankC0_1000.asm
+$C00F4D,.init,,code,"sound RAM $1000; the start address of the stream: stack, ports, DSP set up from .dspregs/.dspvalues, tcall vectors copied, ready $7F on port 3, then .mainloop",src/bankC0_1000.asm
+$C00FC3,.dspregs,,code,"sound RAM $1076; DSP registers set at init (read with Y from 8 down to 1)",src/bankC0_1000.asm
+$C00FCB,.dspvalues,,code,"sound RAM $107E; their values",src/bankC0_1000.asm
+$C00FD3,.tcallvectors,,code,"sound RAM $1086; 16 words copied to $FFC0: the tcall 15..0 handlers",src/bankC0_1000.asm
+$C00FF3,.version,,code,"sound RAM $10A6; the string SMSG 3.07w Jason Andersen/John Schappert 8/17/1994, no terminator",src/bankC0_1000.asm
+$C01029,.mainloop,,code,"sound RAM $0120; port 2 status, then .poll",src/bankC0_1000.asm
+$C0102E,.poll,,code,"sound RAM $0125; timer 0 count: run .tick that many times; else a command on port 3",src/bankC0_1000.asm
+$C01039,.ticks,,code,"sound RAM $0130; calls .tick once per timer 0 count",src/bankC0_1000.asm
+$C01045,.command,,code,"sound RAM $013C; command 1-$20 on port 3, arguments on ports 0-2, through .commands",src/bankC0_1000.asm
+$C01077,.cmdcall,,code,"sound RAM $016E; call whose operand .command sets from .commands",src/bankC0_1000.asm
+$C0107C,.tick,,code,"sound RAM $0173; per timer tick: voice end flags, voice timers, one queued command, the sequencer",src/bankC0_1000.asm
+$C010EE,.queuecall,,code,"sound RAM $01E5; call whose operand the queue code sets from .commands",src/bankC0_1000.asm
+$C01144,.eventcall,,code,"sound RAM $023B; call whose operand the sequencer sets from .events",src/bankC0_1000.asm
+$C013FC,.commands,,code,"sound RAM $04F3; 32 words: handlers of commands 1-$20 (the code reads it as .commands-2 + command * 2)",src/bankC0_1000.asm
+$C0143C,.events,,code,"sound RAM $0533; 4 words: handlers of music events $80-$83",src/bankC0_1000.asm
+$C01444,.bootrom,,code,"sound RAM $053B; command 27: boot ROM on and jump to it, so the CPU can upload again",src/bankC0_1000.asm
+$C019CD,.voicebits,,code,"sound RAM $0AC4; 8 bytes: the bit of each voice",src/bankC0_1000.asm
+$C019D5,.voiceregs,,code,"sound RAM $0ACC; 8 bytes: the DSP register base of each voice",src/bankC0_1000.asm
+$C019DD,.pitchlo,,code,"sound RAM $0AD4; 12 bytes: low bytes of the semitone pitch table",src/bankC0_1000.asm
+$C019E9,.pitchhi,,code,"sound RAM $0AE0; 12 bytes: high bytes ($2C82 to $5405)",src/bankC0_1000.asm
+$C019F5,.sine,,code,"sound RAM $0AEC; 64 signed bytes: one sine period",src/bankC0_1000.asm
+$00,spcQueueWrite,,code,"sound CPU RAM; write index of spcQueue (the queueing code at $06DD)",src/bankC0_1000.asm
+$01,spcQueueRead,,code,"sound CPU RAM; read index of spcQueue (.tick)",src/bankC0_1000.asm
+$0D,spcArg0,,code,"sound CPU RAM; port 0 when a command came",src/bankC0_1000.asm
+$0E,spcArg1,,code,"sound CPU RAM; port 1 when a command came",src/bankC0_1000.asm
+$0F,spcArg2,,code,"sound CPU RAM; port 2 when a command came",src/bankC0_1000.asm
+$10,spcCmdIndex,,code,"sound CPU RAM; command number * 2",src/bankC0_1000.asm
+$18,spcControl,,code,"sound CPU RAM; value .command writes to SPC_CONTROL; init sets $20",src/bankC0_1000.asm
+$19,spcENDX,,code,"sound CPU RAM; DSP_ENDX read at the last tick",src/bankC0_1000.asm
+$20,spcStatus,,code,"sound CPU RAM; sent on port 2: bit 7 busy, bit 6 in .ticks",src/bankC0_1000.asm
+$FF80,spcQueue,,code,"sound CPU RAM; 64-byte ring of 4-byte queued commands (arguments, then command); RAM under the boot ROM",src/bankC0_1000.asm
+$FFC0,spcTcallVectors,,code,"sound CPU RAM; the tcall vectors in RAM (boot ROM off)",src/bankC0_1000.asm
+$FD,SPC_T0OUT,,new,"sound CPU timer 0 counter",src/inc/spc_regs.asm
+$7C,DSP_ENDX,,new,"DSP register: voices at the end of their sample",src/inc/spc_regs.asm

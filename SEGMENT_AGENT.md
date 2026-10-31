@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_1000 (org $C00F49). <- CURRENT
+bankC0_2000 (org $C01A39). <- CURRENT
 
 ## Sources
 
@@ -76,6 +76,10 @@ bankC0_1000 (org $C00F49). <- CURRENT
   header as dw, stream as a ROM cut; their ends come from `tools/unpack95.py`, a model of the bank $C5 unpacker. UnusedPalette.
   SoundRAMClear as `arch spc700` source; SPC and DSP register names (94S) in `src/inc/spc_regs.asm`. End moved to $C00F48,
   bankC0_1000 org to $C00F49.
+- 2026-10-31: bankC0_1000 matched: SoundDriver, the whole SMSG 3.07w upload (init block at sound RAM $1000, main block at $0120)
+  as `arch spc700` source from `tools/spc700dis.py` (94S's, ported: HiROM, whole upload streams). Entries: the tcall vectors,
+  the command and event tables. Named: the init, the command loop, the tick, the dispatch calls, the tables; internals keep
+  .lXXXX labels with cross-reference comments. End moved to $C01A38, bankC0_2000 org to $C01A39.
 
 ## ROM map
 
@@ -84,8 +88,8 @@ The first row that is still incbin is the current segment.
 | File | Status | Org | End | Note |
 |---|---|---|---|---|
 | bankC0_0000 | matched 3913 bytes | $C00000 | $C00F48 | TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles (packed for the bank $C5 unpacker: size, format, ROM cut), UnusedPalette, SoundRAMClear (SPC700 source); end moved -$B7 (the sound driver's upload blocks start at $C00F49) |
-| bankC0_1000 | incbin <- CURRENT | $C00F49 | $C01FFF | org moved to $C00F49: starts with the sound driver (SMSG 3.07w) upload blocks, which end at $C01A39 |
-| bankC0_2000 | incbin | $C02000 | $C02FFF | |
+| bankC0_1000 | matched 2800 bytes | $C00F49 | $C01A38 | SoundDriver (SMSG 3.07w) as `arch spc700` source: init block (.init, .dspregs, .tcallvectors, .version), main block (.mainloop, .command, .tick, .commands, .events, .bootrom, pitch and sine tables); driver internals keep auto labels (.lXXXX); org moved to $C00F49, end moved -$5C7 (a font starts at $C01A39) |
+| bankC0_2000 | incbin <- CURRENT | $C01A39 | $C02FFF | org moved to $C01A39: starts with 4bpp font tiles ('0' first) that the proportional text routine at $C4BE34 reads |
 | bankC0_3000 | incbin | $C03000 | $C03FFF | |
 | bankC0_4000 | incbin | $C04000 | $C04FFF | |
 | bankC0_5000 | incbin | $C05000 | $C05FFF | |
