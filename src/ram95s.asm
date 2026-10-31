@@ -35,3 +35,6 @@ BG2VScroll			=	$04C2		; BG2 vertical scroll
 BG3HScroll			=	$04C4		; BG3 horizontal scroll
 BG3VScroll			=	$04C6		; BG3 vertical scroll
 fadestep			=	$059A		; fade: a delay counting down to a fade in, or $FFFF to fade out (NMI)
+
+; work RAM, long addresses
+unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)

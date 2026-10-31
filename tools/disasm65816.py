@@ -165,7 +165,7 @@ for sg in range(NB*BANK//SEG):
                 t=(a&0xFF0000)|((a+n+(val-(256 if n==2 else 65536) if val>(127 if n==2 else 32767) else val))&0xFFFF)
                 to=off(t)
                 s=f'{mn} CODE_{at(to):06X}' if to in ins and to in entries and not(to//BANK==0 and to>=HDR) else 'db '+','.join(f'${c:02X}' for c in rom[o:o+n])+f' ; {mn} ${t:06X}'
-            elif mode=='bm': s=f'{mn} ${rom[o+2]:02X},${rom[o+1]:02X}'
+            elif mode=='bm': s=f'{mn} ${rom[o+1]:02X},${rom[o+2]:02X}'  # asar writes the operands in this order
             else: s=FMT[mode].format(m=mn,v=val)
             L.append(f'\t{s}\t\t; ${a:06X}: '+' '.join(f'{c:02X}' for c in rom[o:o+n])+(' ; crosses into the next segment: move its org past this instruction' if o+n>end else '')); o+=n; stats[0]+=n
         else:

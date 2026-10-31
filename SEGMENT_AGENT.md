@@ -30,7 +30,8 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC1_1000 (org $C110B8). <- CURRENT
+bankC5_9000 (org $C58FD8), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC1_1000 (org $C110B8) afterwards. <- CURRENT
 
 ## Sources
 
@@ -113,6 +114,11 @@ bankC1_1000 (org $C110B8). <- CURRENT
 - 2026-10-31: bankC1_0000 matched as data: 39 palettes, a word run and the first blocks the DATA8_C08000 records point at
   (their reader is not traced, so the blocks keep DATA8_ names and stay incbin). End moved to $C110B7, bankC1_1000 org to
   $C110B8.
+- 2026-10-31: code banks first (approved): bank $C1 cannot be named until the code that reads it is traced. bankC5_8000
+  matched out of ROM order: the reset, Decompress and its formats (as tools/unpack95.py models them), the LZSS and map set
+  unpackers, the transfer queue helpers, HDMA set-up, then game code. Decoded by recursive descent (M/X carried through
+  calls, jump tables sized against the decoded code, the inline parameters of SetBGMapRegs and SetupHDMA kept as db).
+  tools/disasm65816.py: mvn / mvp operands now in asar's order.
 
 ## ROM map
 
@@ -207,9 +213,9 @@ The first row that is still incbin is the current segment.
 | bankC5_4000 | incbin | $C54000 | $C54FFF | |
 | bankC5_5000 | incbin | $C55000 | $C55FFF | |
 | bankC5_6000 | incbin | $C56000 | $C56FFF | |
-| bankC5_7000 | incbin | $C57000 | $C57FFF | |
-| bankC5_8000 | incbin | $C58000 | $C58FFF | |
-| bankC5_9000 | incbin | $C59000 | $C59FFF | |
+| bankC5_7000 | incbin | $C57000 | $C5800B | end moved +$C (a routine ends at $C5800B) |
+| bankC5_8000 | matched 4044 bytes | $C5800C | $C58FD7 | Reset_Fast, SetBGMapRegs, Decompress (DecompressFormats, UnpackFormat0-8), DecompressLZSS, MapSetToVRAM, QueueVRAMDMALen, DecompressToVRAM, FadeOutWait, SetupHDMA, game code (CODE_); out of ROM order; org moved to $C5800C, end moved -$28 (first boundary no branch crosses) |
+| bankC5_9000 | incbin <- CURRENT | $C58FD8 | $C59FFF | org moved to $C58FD8 |
 | bankC5_A000 | incbin | $C5A000 | $C5AFFF | |
 | bankC5_B000 | incbin | $C5B000 | $C5BFFF | |
 | bankC5_C000 | incbin | $C5C000 | $C5CFFF | |

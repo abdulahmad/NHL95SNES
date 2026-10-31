@@ -248,3 +248,21 @@ $C104E0,DATA8_C104E0,,new,"not traced: the word $04E2 repeated; DATA8_C08000 rec
 $C10533,DATA8_C10533,,new,"not traced: block a DATA8_C08000 record points at (record offset 30)",src/bankC1_0000.asm
 $C1094E,DATA8_C1094E,,new,"not traced: block a record points at (offset 32)",src/bankC1_0000.asm
 $C10CFD,DATA8_C10CFD,,new,"not traced: block a record points at (offset 32)",src/bankC1_0000.asm
+$C580C6,Reset_Fast,,94S,"the rest of the reset: CPU and PPU registers, RAM, the hooks, then the game",src/bankC5_8000.asm
+$C5819C,SetBGMapRegs,,code,"BG1SC, BG2SC, BG3SC, BG4SC, BG12NBA, BG34NBA from the 6 bytes after the jsr",src/bankC5_8000.asm
+$C581D7,DecompressUnpackbuf,,code,"Decompress A:X into unpackbuf",src/bankC5_8000.asm
+$C581E1,Decompress,,94S,"unpack the set at X:A (size word, format word, stream) to [$2C]",src/bankC5_8000.asm
+$C58219,DecompressFormats,,code,"the format routines, by format word (0, 2, 4, 6, 8)",src/bankC5_8000.asm
+$C58223,UnpackFormat0,,code,"format 0: literal runs and copies from an absolute output offset",src/bankC5_8000.asm
+$C58272,UnpackFormat2,,code,"format 2: literal runs and copies from up to 10 bits back",src/bankC5_8000.asm
+$C582CD,UnpackFormat4,,code,"format 4: literal runs and copies from up to 11 bits back",src/bankC5_8000.asm
+$C58329,UnpackFormat6,,code,"format 6: a flag byte per 8 runs or copies, up to 11 bits back",src/bankC5_8000.asm
+$C583C0,UnpackFormat8,,code,"format 8: a flag byte per 8 runs or copies, up to 12 bits back",src/bankC5_8000.asm
+$C58458,DecompressLZSS,,code,"LZSS (4 KB ring) from [$2C] to the WRAM port at X:A; a count word first",src/bankC5_8000.asm
+$C58527,MapSetToVRAM,,code,"the map set at X:A to VRAM at $9F (map words + $A1), its colours to CGRAM",src/bankC5_8000.asm
+$C58A15,QueueVRAMDMALen,,code,"queue a DMA to VRAM at Y of the bytes at X:A after their length byte",src/bankC5_8000.asm
+$C58A63,ZeroFillWord,,code,"the zero word the VRAM clears DMA from (fixed source)",src/bankC5_8000.asm
+$C58A65,DecompressToVRAM,,code,"Decompress A:X into a $1000 byte heap block and queue it to VRAM at Y",src/bankC5_8000.asm
+$C58A99,FadeOutWait,,code,"fadestep = $FFFF, then wait until the screen is black (94S FadeOut, WaitFadeOut)",src/bankC5_8000.asm
+$C58AA5,SetupHDMA,,code,"HDMA channel X from the 6 bytes after the jsl: DMAP, BBAD, source, indirect bank",src/bankC5_8000.asm
+$7E50DC,unpackbuf,,94S,"RAM; Decompress output buffer as 94S unpackbuf (here $7E:50DC); DecompressUnpackbuf sets it as the destination",src/ram95s.asm

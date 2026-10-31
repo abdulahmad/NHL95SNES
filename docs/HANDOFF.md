@@ -14,7 +14,8 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC1_1000, org $C110B8 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+- Next: segment bankC5_9000, org $C58FD8: code banks ($C3-$C5) first, approved by the project lead; then bankC1_1000
+  (org $C110B8) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 long pointers) gives their starts; each is a 12-byte header, then 9-byte
   BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index, start): 19 $C09C54,
   20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5, 17 $C0EAA2,
@@ -72,6 +73,10 @@
   named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
   (CODE_C099F4). Its RAM ($1878-$18B6, $0806, $2364, ...) is not named yet. There is a brk at $C09419.
+- asar: mvn / mvp take the operands in byte order, destination bank first (`mvn $7E,$C0` copies from $C0 to $7E).
+- Code banks: decode by recursive descent from the jsl targets in code banks (not from raw byte scans, which give false
+  entries), carry M/X through calls, size jump tables against the decoded code, and skip the 6 inline parameter bytes after
+  calls to SetBGMapRegs and SetupHDMA. Several routines end in brk traps (the map unpacker's unhandled header forms).
 - asar: write a branch to a label, never to a number (bcc $C090D2 assembled the low byte as the offset); pei is `pei ($nn)`.
 - bankC0_8000: DATA8_C08000 (35-byte records), DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
   its pattern (94S MenuBackMap may be the same job: not checked). TransfersReady, DMAEnShadow, QueueBusy are named from the
