@@ -14,12 +14,12 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC2_D000 (org
-  $C2DF3B) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all source: the sprite data, TeamNicknameTiles, and
-  the map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2 to $C2DF3A: the end
+- Next: segment bankC5_A000, org $C59F79: code banks ($C3-$C5) first, approved by the project lead; then bankC2_E000 (org
+  $C2E51D) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all source: the sprite data, TeamNicknameTiles, and
+  the map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2 to $C2E51C: the end
   of the team name bars' set, the title screen's sets (TitlePlayers, TitleGoalie, TitleLogo), CenterIceTiles and
-  CenterIcePalettes, the Visual Concepts and High Score Productions credits, the ref windows (94S RefsMap). The rest of bank $C2
-  is sound samples 9-12 ($C2DF3B, $C2E51D, $C2F4AA, $C2FC60; the last ends at $C2FF4D), then zeros. Onboarding: McMarkis.
+  CenterIcePalettes, the Visual Concepts and High Score Productions credits, the ref windows (94S RefsMap), Sample09. The rest
+  of bank $C2 is sound samples 10-12 ($C2E51D, $C2F4AA, $C2FC60; the last ends at $C2FF4D), then zeros. Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
