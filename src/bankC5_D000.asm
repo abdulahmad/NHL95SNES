@@ -280,7 +280,7 @@ CODE_C5D22F:						; from CODE_C5D21A
 	and.w #$FFFE
 	sta.w $0022,y
 	lda.w #$542B
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	lda.w #$00A8
 	sta.b $CF
 	lda.w #$00F0
@@ -291,7 +291,7 @@ CODE_C5D22F:						; from CODE_C5D21A
 	lda.l $C3585C,x
 	tax
 	ldy.w #$0009
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	lda.w #$0000
 CODE_C5D26D:						; from CODE_C5D2A8
 	pha
@@ -306,7 +306,7 @@ CODE_C5D26D:						; from CODE_C5D2A8
 	adc.w #$0006
 	tay
 	ldx.w #$04F5
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	lda.b $01,s
 	jsr.w CODE_C5D2B4
 	cpx.w #$0000
@@ -318,7 +318,7 @@ CODE_C5D26D:						; from CODE_C5D2A8
 	adc.w #$0006
 	tay
 	ldx.w #$04F5
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 CODE_C5D2A8:						; from CODE_C5D26D
 	pla
 	inc a
@@ -573,7 +573,7 @@ CODE_C5D44C:						; from CODE_C5D44C
 	lda.w #$0020
 	sta.b $CF
 	ldx.w #$04F5
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 CODE_C5D485:						; from CODE_C5D44C
 	lda.b $D3
 	clc
@@ -584,10 +584,10 @@ CODE_C5D485:						; from CODE_C5D44C
 	sta.b $CF
 	ldx.w #$4F40
 	ldy.w #$0019
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	ldx.w #$4F4A
 	ldy.w #$001A
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	jsl.l $C4C2AA
 	ldx.b $63
 	lda.w #$0003
@@ -620,19 +620,19 @@ CODE_C5D4D5:						; from CODE_C5D36F
 	lda.w #$001A
 	ldy.w #$000F
 	ldx.w #$490D
-	jsl.l $C4BC2C
+	jsl.l CODE_C4BC2C
 	lda.w #$001A
 	ldy.w #$0012
 	ldx.w #$4914
-	jsl.l $C4BC2C
+	jsl.l CODE_C4BC2C
 	lda.w #$001A
 	ldy.w #$0015
 	ldx.w #$4922
-	jsl.l $C4BC2C
+	jsl.l CODE_C4BC2C
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$543D
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	ldx.w #$0000
 	stx.b $69
 	cpx.w #$000C
@@ -717,7 +717,7 @@ CODE_C5D5A5:						; from CODE_C5D539, CODE_C5D427
 	tay
 	ldx.w #$04F5
 	lda.w #$000A
-	jsl.l $C4BC68
+	jsl.l CODE_C4BC68
 	rts
 CODE_C5D5CD:						; called from other segments
 	lda.w $1864
@@ -1122,21 +1122,21 @@ CODE_C5D85D:						; called from other segments
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0006
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	ldx.b $83
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0007
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	ldx.b $81
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0008
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	lda.b $7F
 	clc
 	adc.b $83
@@ -1147,7 +1147,7 @@ CODE_C5D85D:						; called from other segments
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0009
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	rts
 CODE_C5D8E7:						; called from other segments
 	sta.b $8F

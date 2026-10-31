@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_B000 (org $C4B00F), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_C000 (org $C4BF47), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -175,6 +175,10 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
 - 2026-10-31: bankC4_6000 matched (game code, CODE_ names), with two 13-entry jump tables whose unused entries are $0000; such
   entries now stay $0000 (DATA8_C570E8 in bankC5_7000 had one written as Opening; fixed). End moved to $C4702D, bankC4_7000 org
   to $C4702E.
+- 2026-10-31: bankC4_B000 matched (game code, CODE_ names). Routines are passed as X:A long pointers (lda #low, ldx #bank, in
+  either order, then jsl / jmp / bra) to SetNMIHook and the task starters CODE_C4B743 / CODE_C4B763, and tasks keep their next
+  routine in field 2 (lda #routine, sta $0002,x): all are seeds now, and the immediates are labels (31 here). End moved to
+  $C4BF46, bankC4_C000 org to $C4BF47.
 - 2026-10-31: bankC4_A000 matched (game code, CODE_ names), with asstab routines and a table read with long addresses. End moved
   to $C4B00E, bankC4_B000 org to $C4B00F.
 - 2026-10-31: bankC4_9000 matched (game code, CODE_ names), with asstab routines and a few tables read with long addresses. End
@@ -349,8 +353,8 @@ The first row that is still incbin is the current segment.
 | bankC4_8000 | matched 4931 bytes | $C47FB5 | $C492F7 | game code with CODE_ names and their callers, rtss (asstab entry 0, 94S name), asstab routines; out of ROM order, org moved to $C47FB5, end moved +$2F8 |
 | bankC4_9000 | matched 3269 bytes | $C492F8 | $C49FBC | game code with CODE_ names and their callers, asstab routines, tables read with long addresses; out of ROM order, org moved to $C492F8, end moved -$43 |
 | bankC4_A000 | matched 4178 bytes | $C49FBD | $C4B00E | game code with CODE_ names and their callers, asstab routines, tables read with long addresses; out of ROM order, org moved to $C49FBD, end moved +$F |
-| bankC4_B000 | incbin <- CURRENT | $C4B00F | $C4BFFF | org moved to $C4B00F |
-| bankC4_C000 | incbin | $C4C000 | $C4CFFF | |
+| bankC4_B000 | matched 3896 bytes | $C4B00F | $C4BF46 | game code with CODE_ names and their callers: a task system (routine pointers in X:A, the next routine in field 2), print entry points; uncalled entries say so; out of ROM order, org moved to $C4B00F, end moved -$B9 |
+| bankC4_C000 | incbin <- CURRENT | $C4BF47 | $C4CFFF | org moved to $C4BF47 |
 | bankC4_D000 | incbin | $C4D000 | $C4DFFF | |
 | bankC4_E000 | incbin | $C4E000 | $C4EFFF | |
 | bankC4_F000 | incbin | $C4F000 | $C4FFFF | |

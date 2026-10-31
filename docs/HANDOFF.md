@@ -47,6 +47,10 @@
 - asstab (bankC0_A000) holds long pointers to the assignment routines: the bank $C5 ones are $C51CC1 (entry 27, source),
   $C545C7 (12) and $C5474A (10), source in bankC5_4000. 95 Genesis reorders asstab ("in a new order"),
   so the SNES entries are not named from 94S by index.
+- Code pointers set with immediates (seeds for the code banks): lda #bank, sta $65 / lda #low, sta $63 then a call to
+  CODE_C45950 (a routine; otherwise data read through [$63]); lda #low with ldx #bank (either order) then jsl / jmp / bra
+  to SetNMIHook, SetFrameHook or the task starters CODE_C4B743 / CODE_C4B763; and lda #routine, sta $0002,x (a task's next
+  routine, same bank). The pipeline writes these immediates as labels (label>>16 for the bank).
 - Transfer queues are separate stacks: $00 VRAM, $04 CGRAM (the $C4CC5x loop writes CGADD and DMAs to CGDATA). A record is
   pushed as size, destination, bank, source while $06 is decremented (busy).
 - Sound: $CF001A sends SoundRAMClear ($C00F05), then the sound driver upload blocks at $C00F49 (SMSG 3.07w Jason Andersen / John

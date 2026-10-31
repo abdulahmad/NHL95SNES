@@ -675,7 +675,7 @@ CODE_C5E49A:						; called from other segments
 	sta.b $D1
 	ldx.w #$4692
 	ldy.w #$000C
-	jsl.l $C4BCA4
+	jsl.l CODE_C4BCA4
 	jsl.l $C4C2AA
 	stz.w fadestep
 	lda.w #$000F

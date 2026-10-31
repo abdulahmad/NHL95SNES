@@ -1229,7 +1229,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	lda.w #$4A65
 	ldx.w #$00C0
 	jsl.l SetNMIHook
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	lda.w #$8000
 	sta.w DMAEnShadow
 	lda.w #$001F
@@ -1290,7 +1290,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	jsl.l $C4CEDB
 	jsr.w CODE_C55951
 	pla
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	lda.w #$0040
 	sta.b $18
 	sta.b $1A
@@ -1317,7 +1317,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	lda.l $C3585C,x
 	tax
 	ldy.w #$000C
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	lda.w #$00A0
 	sta.b $CF
 	lda.w #$00E8
@@ -1328,7 +1328,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	lda.l $C3585C,x
 	tax
 	ldy.w #$000C
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	rts
 CODE_C55AB8:						; called from other segments
 	jsr.w CODE_C55ABC
@@ -1709,7 +1709,7 @@ CODE_C55D8A:						; from DATA8_C55D6B
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l $C4BBF1
+	jsl.l CODE_C4BBF1
 	rts
 CODE_C55DAC:						; from DATA8_C55D6B
 	ldx.b $65
@@ -1739,7 +1739,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	jsr.w CODE_C55ECA
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l $C4BBF1
+	jsl.l CODE_C4BBF1
 	rts
 CODE_C55DEF:						; from DATA8_C55D6B
 	ldx.b $65
@@ -1774,7 +1774,7 @@ CODE_C55E2A:						; from CODE_C55DEF
 	sta.w $04F5,x
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l $C4BBF1
+	jsl.l CODE_C4BBF1
 	rts
 CODE_C55E3D:						; from DATA8_C55D6B
 	ldx.b $65
@@ -1786,7 +1786,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	jsr.w CODE_C5605D
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l $C4BBF1
+	jsl.l CODE_C4BBF1
 	rts
 CODE_C55E57:						; called from other segments
 	jsl.l $C4CEDB
@@ -1834,7 +1834,7 @@ CODE_C55E65:						; from CODE_C55E57
 	lda.l $C3585C,x
 	tax
 	ldy.w #$0009
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	jsl.l $C4C2AA
 	jsl.l $C4CEDB
 	rts

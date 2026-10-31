@@ -63,7 +63,7 @@ CODE_C5800C:						; called from other segments
 	ldx.w #$04F5
 	ldy.b $6D
 CODE_C58091:						; from CODE_C5800C
-	jsl.l $C4BBF1
+	jsl.l CODE_C4BBF1
 	lda.b $D1
 	sta.b $CF
 	rts
@@ -81,7 +81,7 @@ CODE_C580A8:						; from CODE_C5809C
 	rts
 CODE_C580AB:						; called from other segments
 	ldy.w #$0006
-	jsl.l $C4BBE5
+	jsl.l CODE_C4BBE5
 	lda.b $D1
 	sta.b $CF
 	rts
@@ -1952,7 +1952,7 @@ CODE_C58F75:						; from CODE_C58F02
 	lda.l $C30002,x
 	tax
 	ldy.w $010E
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	plx
 	lda.w #$0094
 	sta.b $CF
@@ -1969,10 +1969,10 @@ CODE_C58F75:						; from CODE_C58F02
 	lda.w $1864
 	cmp.w #$0007
 	bne CODE_C58FC9
-	jsl.l $C4BCBC
+	jsl.l CODE_C4BCBC
 	bra CODE_C58FCD
 CODE_C58FC9:						; from CODE_C58F75
-	jsl.l $C4BCA4
+	jsl.l CODE_C4BCA4
 CODE_C58FCD:						; from CODE_C58F75
 	jsl.l $C4C2AA
 	rts

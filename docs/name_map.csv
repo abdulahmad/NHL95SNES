@@ -723,3 +723,5 @@ $C4A5FD,DATA8_C4A5FD,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A0
 $C4A615,DATA8_C4A615,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A000)",src/bankC4_A000.asm
 $C4A62D,DATA8_C4A62D,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A000)",src/bankC4_A000.asm
 $C4A645,DATA8_C4A645,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A000)",src/bankC4_A000.asm
+$C4B35D,DATA8_C4B35D,,new,"not traced: a table read by CODE_C4B32D (in bankC4_B000)",src/bankC4_B000.asm
+$C4BAD6,DATA8_C4BAD6,,new,"not traced: data between routines (in bankC4_B000)",src/bankC4_B000.asm

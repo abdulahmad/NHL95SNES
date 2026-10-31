@@ -1780,11 +1780,11 @@ CODE_C4AED5:						; called from other segments
 	stz.b $67
 	lda.w #$0002
 	sta.b $6B
-	jsl.l $C4B00F
+	jsl.l CODE_C4B00F
 	stz.b $6B
 	lda.w #$0002
 	sta.b $67
-	jsl.l $C4B00F
+	jsl.l CODE_C4B00F
 	lda.w #$0058
 	sta.b $7F
 	lda.w $08B2

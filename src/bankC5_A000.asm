@@ -90,7 +90,7 @@ CODE_C5A05A:						; from CODE_C5A040
 	lda.w #$2020
 	sta.w $04F5
 	ldx.w #$04F6
-	jsl.l $C4BC1A
+	jsl.l CODE_C4BC1A
 	rts
 CODE_C5A07A:						; from CODE_C59F79, CODE_C59FDA, CODE_C5A083 and other segments
 	tax
@@ -124,9 +124,9 @@ CODE_C5A09B:						; called from other segments
 	ldx.b $75
 	jsl.l CODE_C5E596
 	jsl.l $C4C530
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	lda.w #$5714
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	sec
 	lda.b $CF
 	sbc.w #$0008
@@ -136,15 +136,15 @@ CODE_C5A09B:						; called from other segments
 	lda.w #$001A
 	ldy.w #$000C
 	ldx.w #$490D
-	jsl.l $C4BC2C
+	jsl.l CODE_C4BC2C
 	lda.w #$001A
 	ldy.w #$000F
 	ldx.w #$4914
-	jsl.l $C4BC2C
+	jsl.l CODE_C4BC2C
 	lda.w #$001A
 	ldy.w #$0012
 	ldx.w #$491B
-	jsl.l $C4BC2C
+	jsl.l CODE_C4BC2C
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$3E3E
@@ -159,12 +159,12 @@ CODE_C5A09B:						; called from other segments
 	lda.w #$000F
 	ldy.w #$0008
 	ldx.w #$04F5
-	jsl.l $C4BC46
+	jsl.l CODE_C4BC46
 	stz.w $04FD
 	lda.w #$000F
 	ldy.w #$0006
 	ldx.w #$04F5
-	jsl.l $C4BC46
+	jsl.l CODE_C4BC46
 	jsl.l $C4C2AA
 	lda.w #$0006
 	sta.b $71
@@ -272,7 +272,7 @@ CODE_C5A291:						; called from other segments
 	lda.l DATA8_C5A2A8,x
 	tax
 	ldy.w #$0008
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	rts
 DATA8_C5A2A8:						; not traced: a table read by CODE_C5A291
 	db $B8,$49,$BD,$49,$C7,$49,$D7,$49,$D2,$49,$E0,$49
@@ -288,7 +288,7 @@ CODE_C5A2B4:						; called from other segments
 	jsr.w CODE_C5A321
 	ldx.w #$04F6
 	ldy.w #$000B
-	jsl.l $C4BC9E
+	jsl.l CODE_C4BC9E
 	rts
 CODE_C5A2D3:						; called from other segments
 	lda.w #$000E
@@ -298,7 +298,7 @@ CODE_C5A2D3:						; called from other segments
 	jsr.w CODE_C5A321
 	ldx.w #$04F7
 	ldy.w #$000E
-	jsl.l $C4BC9E
+	jsl.l CODE_C4BC9E
 	rts
 CODE_C5A2EC:						; called from other segments
 	lda.w #$0011
@@ -309,7 +309,7 @@ CODE_C5A2EC:						; called from other segments
 	ldx.w #$49E9
 CODE_C5A2FC:						; from CODE_C5A2EC
 	ldy.w #$0011
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	rts
 CODE_C5A304:						; from CODE_C5A291, CODE_C5A2B4, CODE_C5A2D3, CODE_C5A2EC
 	xba
@@ -519,7 +519,7 @@ CODE_C5A48F:						; from CODE_C5A4A5
 	tax
 	lda.l $C3585C,x
 	tax
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	jsl.l $C4C2AA
 	pla
 	sta.b $D1
@@ -622,9 +622,9 @@ CODE_C5A556:						; from CODE_C5A51C
 	jsl.l CODE_C5E596
 	jsr.w CODE_C5A50B
 	jsl.l $C4C530
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	lda.w #$56A4
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	clc
 	lda.b $D3
 	adc.w #$0240
@@ -861,10 +861,10 @@ CODE_C5A73F:						; from CODE_C5A72D
 	sta.b $CF
 	ldy.w #$0009
 	plx
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	ldy.w #$0018
 	plx
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	jsl.l $C4CEDB
 	rts
 CODE_C5A773:						; called from other segments
@@ -1292,7 +1292,7 @@ CODE_C5AA94:						; from CODE_C5A8EE, CODE_C5A93B
 	lda.l $C3585C,x
 	tax
 	phy
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	lda.b $8E
 	and.w #$00FF
 	asl a
@@ -1302,7 +1302,7 @@ CODE_C5AA94:						; from CODE_C5A8EE, CODE_C5A93B
 	pla
 	adc.w #$0003
 	tay
-	jsl.l $C4BCAA
+	jsl.l CODE_C4BCAA
 	jsl.l $C4C2AA
 	rts
 CODE_C5AAF0:						; from CODE_C5A89D, CODE_C5A8B0, CODE_C5ACBE
@@ -1317,7 +1317,7 @@ CODE_C5AAF0:						; from CODE_C5A89D, CODE_C5A8B0, CODE_C5ACBE
 	sta.b $CF
 	ldx.w #$04F5
 	ldy.w #$0005
-	jsl.l $C4BC9E
+	jsl.l CODE_C4BC9E
 	jsl.l $C4C2AA
 	rts
 CODE_C5AB16:						; called from other segments
@@ -1593,9 +1593,9 @@ CODE_C5ACBE:						; from CODE_C5ACAA
 	lda.w #$002D
 	sta.b $05,x
 	jsl.l $C4C530
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	lda.w #$568E
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	jsl.l $C4CEDB
 	lda.l $306050
 	and.w #$00FF
@@ -1630,17 +1630,17 @@ CODE_C5ADE3:						; from CODE_C5ADD8
 	sta.b $CF
 	ldx.w #$47A1
 	ldy.w #$0008
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	ldy.w #$000A
 	ldx.w #$47AB
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$006E
 	sta.b $CF
 	ldy.w #$000E
 	ldx.w #$47B3
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	jsl.l $C4C2AA
 	ldx.b $63
 	lda.w #$0064

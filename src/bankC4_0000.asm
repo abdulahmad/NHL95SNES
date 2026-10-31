@@ -648,13 +648,13 @@ CODE_C40547:						; from CODE_C40547
 	sta.b $32
 	rep #$20
 	pld
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	ldx.w #$4777
 	ldy.w #$0001
 	stz.b $CF
 	lda.w #$0100
 	sta.b $D1
-	jsl.l $C4BBE5
+	jsl.l CODE_C4BBE5
 	jsl.l $C4C2AA
 	jsl.l $C4CEDB
 	lda.l $30604D
@@ -678,7 +678,7 @@ CODE_C405AE:						; from CODE_C405C7
 CODE_C405C7:						; from CODE_C405AE
 	jsl.l $C4C3BA
 	ldy.b $9F
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	dec.b $9F
 	bpl CODE_C405AE
 	lda.w #$0080
@@ -691,7 +691,7 @@ CODE_C405E2:						; from CODE_C405E2
 	jsl.l CODE_C55EC3
 	ldy.b $9F
 	ldx.w #$04F5
-	jsl.l $C4BC08
+	jsl.l CODE_C4BC08
 	inc.b $9F
 	lda.b $A1
 	inc a
@@ -699,7 +699,7 @@ CODE_C405E2:						; from CODE_C405E2
 	bcc CODE_C405E2
 	ldy.b $9F
 	ldx.w #$4781
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 CODE_C40604:						; from CODE_C40547
 	ldx.w #$001C
 CODE_C40607:						; from CODE_C4061C
@@ -851,9 +851,9 @@ CODE_C406EA:						; from CODE_C406AB
 	stz.b $9D
 	jsl.l CODE_C5A507
 	jsl.l $C4C530
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	pla
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	ldx.b $63
 	lda.w #$FF80
 	sta.b $05,x

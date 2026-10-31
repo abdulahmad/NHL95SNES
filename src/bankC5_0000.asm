@@ -20,8 +20,8 @@ CODE_C5000A:						; from CODE_C5000A
 	jsl.l forceblack
 	jsl.l $C36F3D
 	jsl.l $CF0000
-	jsl.l $C4B09F
-	jsl.l $C4B97E
+	jsl.l CODE_C4B09F
+	jsl.l CODE_C4B97E
 	jsl.l $C4D657
 	jsl.l $C4D193
 	jsl.l forceblack

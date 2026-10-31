@@ -225,9 +225,9 @@ CODE_C590DA:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4BAF6
+	jsl.l CODE_C4BAF6
 	lda.w #$56CE
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	jsl.l $C4CEDB
 	lda.w #$4A65
 	ldx.w #$00C0
@@ -345,7 +345,7 @@ CODE_C5932B:						; from CODE_C5936B
 	sta.b $CF
 	lda.l $C30002,x
 	tax
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	plx
 	phx
 	lda.w #$0094
@@ -364,10 +364,10 @@ CODE_C5932B:						; from CODE_C5936B
 	lda.w $1864
 	cmp.w #$0007
 	bne CODE_C59367
-	jsl.l $C4BCBC
+	jsl.l CODE_C4BCBC
 	bra CODE_C5936B
 CODE_C59367:						; from CODE_C5932B
-	jsl.l $C4BCA4
+	jsl.l CODE_C4BCA4
 CODE_C5936B:						; from CODE_C5932B
 	plx
 	ply
@@ -625,7 +625,7 @@ CODE_C59544:						; from CODE_C59544
 	ldy.w #$0340
 	jsl.l CODE_C58B11
 	lda.w #$57FC
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	lda.w #$0005
 	sta.w fadestep
 	rts
@@ -654,31 +654,31 @@ CODE_C59595:						; from CODE_C59588
 	sta.b $CF
 	ldy.w #$0010
 	ldx.w #$479B
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	lda.w #$005C
 	sta.b $CF
 	ldy.w #$0010
 	ldx.w #$4724
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	ldy.w #$0011
 	ldx.w #$4735
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	ldy.w #$0012
 	ldx.w #$4743
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	ldy.w #$0013
 	ldx.w #$4753
-	jsl.l $C4BBFC
+	jsl.l CODE_C4BBFC
 	lda.w #$0009
 	sta.w $18DE
 	lda.w #$0032
 	sta.b $CF
 	ldy.w #$0015
 	ldx.w #$4764
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	ldy.w #$0018
 	ldx.w #$476E
-	jsl.l $C4BC26
+	jsl.l CODE_C4BC26
 	ldx.b $63
 	lda.w #$0028
 	sta.b $05,x
@@ -776,12 +776,12 @@ CODE_C596DB:						; from CODE_C596D3
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
 	lda.w #$5746
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$04F5
 	ldy.w #$0002
-	jsl.l $C4BDCA
+	jsl.l CODE_C4BDCA
 	jsl.l $C4C2AA
 	stz.b $7F
 	stz.b $85
@@ -906,7 +906,7 @@ CODE_C59824:						; from CODE_C5981A, CODE_C59803
 	lda.w #$000F
 	ldy.b $71
 	ldx.w #$04F5
-	jsl.l $C4BC46
+	jsl.l CODE_C4BC46
 	jsl.l $C4CEDB
 	rts
 CODE_C59837:						; from CODE_C59778
@@ -928,7 +928,7 @@ CODE_C5983C:						; from CODE_C59837
 	mvn $7E,$7E
 	ldy.b $71
 	ldx.w #$4673
-	jsl.l $C4BC9E
+	jsl.l CODE_C4BC9E
 	jsl.l $C4C2AA
 	lda.w #$3E3E
 	sta.w $04F5
@@ -956,7 +956,7 @@ CODE_C5988C:						; from CODE_C5983C
 	mvn $7E,$7E
 	ldy.b $71
 	ldx.w #$467D
-	jsl.l $C4BC9E
+	jsl.l CODE_C4BC9E
 	ldy.w #$0200
 	clc
 	lda.b $D3
@@ -964,7 +964,7 @@ CODE_C5988C:						; from CODE_C5983C
 	jsl.l CODE_C58B11
 	jsl.l $C4CEDB
 	lda.w #$56DC
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	inc.b $99
 	jmp.w CODE_C596AF
 CODE_C598C9:						; from CODE_C5983C, CODE_C5988C
@@ -1148,7 +1148,7 @@ CODE_C59A22:						; from CODE_C599F8
 	iny
 CODE_C59A40:						; from CODE_C59A22
 	ldx.w #$04F5
-	jsl.l $C4BC1A
+	jsl.l CODE_C4BC1A
 	jmp.w CODE_C59F79
 DATA8_C59A4A:						; not reached by the traced code (data or unused code)
 	db $60
@@ -1202,7 +1202,7 @@ CODE_C59A90:						; from CODE_C59A5C
 	iny
 CODE_C59AA6:						; from CODE_C59A90
 	ldx.w #$04F5
-	jsl.l $C4BC1A
+	jsl.l CODE_C4BC1A
 	jmp.w CODE_C59F79
 CODE_C59AB0:						; from CODE_C59A22, CODE_C59A90
 	sta.b $A1
@@ -1664,7 +1664,7 @@ CODE_C59E43:						; from CODE_C59DCE
 	beq CODE_C59E65
 	lda.w #$57AE
 CODE_C59E65:						; from CODE_C59E43
-	jsl.l $C4BB5A
+	jsl.l CODE_C4BB5A
 	jsl.l $C4CEDB
 	ldx.b $63
 	lda.w #$0003
@@ -1705,7 +1705,7 @@ CODE_C59EB0:						; from CODE_C59EB0
 	jsr.w CODE_C5B67A
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
-	jsl.l $C4BC1A
+	jsl.l CODE_C4BC1A
 	ply
 	plx
 	iny
