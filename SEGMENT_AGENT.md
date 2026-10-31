@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC2_0000 (org $C20000) afterwards. <- CURRENT
+bankC2_1000 (org $C20DE6) afterwards. <- CURRENT
 
 ## Sources
 
@@ -156,6 +156,9 @@ bankC2_0000 (org $C20000) afterwards. <- CURRENT
   org $C1EE6B.
 - 2026-10-31: bankC1_F000 matched: TeamNameBarsTiles, the tiles chunk of the team name bars' map set; its stream runs on
   into bank $C2, where bankC2_0000 has the TeamNameBarsPalette label. Bank $C1 is all source. Next org $C20000.
+- 2026-10-31: bankC2_0000 matched: the end of the team name bars' set (TeamNameBarsPalette), then the map chunk of the
+  title screen's first set (TitlePlayersMap). The setup at $C4D213 loads three sets in mode 1: TitlePlayers on BG1,
+  TitleGoalie on BG2, TitleLogo (2bpp: EA SPORTS presents NHL '95) on BG3. Next org $C20DE6.
 
 ## ROM map
 
@@ -195,8 +198,8 @@ The first row that is still incbin is the current segment.
 | bankC1_D000 | matched 4666 bytes | $C1D778 | $C1E9B1 | PadButtonsMap/Tiles/Palette, PlayoffBracketMap/Tiles/Palette (map sets: headers and colours as source, the LZSS streams incbin); org moved to $C1D778, end moved +$9B2 |
 | bankC1_E000 | matched 1209 bytes | $C1E9B2 | $C1EE6A | TeamNameBarsMap (the map chunk of a map set: header as source, the LZSS stream incbin); org moved to $C1E9B2, end moved -$195 |
 | bankC1_F000 | matched 4501 bytes | $C1EE6B | $C1FFFF | TeamNameBarsTiles (the tiles chunk of a map set: header as source, the LZSS stream incbin, it runs on into bank $C2); org moved to $C1EE6B |
-| bankC2_0000 | incbin | $C20000 | $C20FFF | the TeamNameBarsPalette label at $C20A91 |
-| bankC2_1000 | incbin | $C21000 | $C21FFF | |
+| bankC2_0000 | matched 3558 bytes | $C20000 | $C20DE5 | the rest of TeamNameBarsTiles' stream, TeamNameBarsPalette, TitlePlayersMap (map set chunks: headers and colours as source, the LZSS streams incbin); end moved -$21A |
+| bankC2_1000 | incbin | $C20DE6 | $C21FFF | org moved to $C20DE6 (TitlePlayersTiles) |
 | bankC2_2000 | incbin | $C22000 | $C22FFF | |
 | bankC2_3000 | incbin | $C23000 | $C23FFF | |
 | bankC2_4000 | incbin | $C24000 | $C24FFF | |

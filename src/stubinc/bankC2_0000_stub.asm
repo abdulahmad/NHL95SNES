@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+TitlePlayersTiles = $C20DE6
 
 incsrc "../bankC2_0000.asm"
