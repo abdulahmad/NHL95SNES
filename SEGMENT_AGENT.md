@@ -141,6 +141,8 @@ bankC1_A000 (org $C19B68) afterwards. <- CURRENT
   in 94S team order, then the EA intro, NHL and NHLPA logos and others). Next org $C19084.
 - 2026-10-31: bankC1_9000 matched: sprite frame tiles named by sprite and frame (the records were rendered: team logos 0-27
   in 94S team order, then the EA intro, NHL and NHLPA logos and others); SpritePieces as source. Next org $C19B68.
+- 2026-10-31: SpriteObjects (was DATA8_C08000) is source in bankC0_8000: the header, the records, frame lists, frame headers and
+  scripts, with the bank $C1 labels (the pieces offset as label - SpritePieces, the frame count as a label difference).
 
 ## ROM map
 
@@ -156,7 +158,7 @@ The first row that is still incbin is the current segment.
 | bankC0_5000 | matched 4289 bytes | $C05DAC | $C06E6C | PhotoPalettesTOR, PlayerPhotosTOR (Toronto's photo set); org moved to $C05DAC, end moved +$E6D (the set ends at $C06E6C) |
 | bankC0_6000 | matched 4190 bytes | $C06E6D | $C07ECA | PhotoPalettesVAN, PlayerPhotosVAN (Vancouver's photo set); org moved to $C06E6D, end moved +$ECB (the set ends at $C07ECA) |
 | bankC0_7000 | matched 309 bytes | $C07ECB | $C07FFF | TeamSongs, DefaultSongs (94S names), DATA8_C07F7B (a sound list), $CD fill (padbyte / pad) to the end of the lower half; org moved to $C07ECB |
-| bankC0_8000 | matched 4101 bytes | $C08000 | $C09004 | data (DATA8_C08000, TiledBackMap, DATA8_C08939, DATA8_C08B17), then the engine as in 94S: InitHooks, NullHook, NMI_Fast, NMI_HookReturn, NMI_Tick, NMI_FrameHookReturn, BCDTable, IRQ, IRQ_Fast, IRQOff, SetIRQ, Clear/SetFrameHook, Clear/SetNMIHook, WaitFrame(s), WaitDMAQueue, WaitNoButtons, JoyDirIndex, RandomWord, BlankScreen, forceblack, ScreenOn, ResetPPURegs, Mul8U/XS/S, Mul16x8U/XS/S, Mul16x8HiU; first RAM names in src/ram95s.asm; end moved +5 (Mul16x8Hi_Zero) |
+| bankC0_8000 | matched 4101 bytes | $C08000 | $C09004 | data (SpriteObjects, TiledBackMap, DATA8_C08939, DATA8_C08B17), then the engine as in 94S: InitHooks, NullHook, NMI_Fast, NMI_HookReturn, NMI_Tick, NMI_FrameHookReturn, BCDTable, IRQ, IRQ_Fast, IRQOff, SetIRQ, Clear/SetFrameHook, Clear/SetNMIHook, WaitFrame(s), WaitDMAQueue, WaitNoButtons, JoyDirIndex, RandomWord, BlankScreen, forceblack, ScreenOn, ResetPPURegs, Mul8U/XS/S, Mul16x8U/XS/S, Mul16x8HiU; first RAM names in src/ram95s.asm; end moved +5 (Mul16x8Hi_Zero) |
 | bankC0_9000 | matched 2591 bytes | $C09005 | $C09A23 | Mul16x8HiXS, Mul16x8HiS, Mul16S, Mul16XS, Mul16U, Div16S, Div32x32U, Div32S, Div32U, Div_8Bits, Div16U, Div_Overflow, Div16x8U, DivX8U, DivX8S (94S); then game code with auto names (CODE_C092B3 .. CODE_C099F4, cross references on each label); org moved to $C09005, end moved -$5DC (tables start at $C09A24) |
 | bankC0_A000 | matched 7067 bytes | $C09A24 | $C0B5BE | asstab, asspuckc_postab (93S names), BitMaskTable2, untraced tables (DATA8_), then Sample19, Sample20, Sample21 (sound samples, incbin); org moved to $C09A24, end moved +$5BF (Sample21 ends at $C0B5BE) |
 | bankC0_B000 | matched 3084 bytes | $C0B5BF | $C0C1CA | Sample22, Sample01 (sound samples, incbin); org moved to $C0B5BF, end moved +$1CB (the last sample ends at $C0C1CA) |

@@ -65,13 +65,14 @@
 - GradientBarTiles: rendered bars; where they are drawn (VRAM $0640 from $C4D864, $0010 from $C59119) is not traced.
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
 - Home / away: $17C9 = home, $17CB = away is read from the jersey colours they get (white for $17C9, as 94S home), not from
-  the setup code. The last pair of uniform palettes (after the all-star teams) is not traced.
-- Bank $C1 and DATA8_C08000 are the sprite-object system (see `docs/sprite_objects.md`): DATA8_C08000 starts with a
-  header (dw $87A0, the list of 41 records; dl $C10000, 39 palettes), then 27-byte records (frame list, animation script,
-  VRAM need, palette, frame count) and 8-byte frame headers pointing into bank $C1. The $C1 frames are format-0 streams
-  (UnpackFormat0's rules without the 4-byte header) or raw tiles; $C19660 is the piece table. Readers: $C5E665 (create a
-  sprite from a record), $C5EEF3, $C5E8A5 (frame tiles to VRAM), $C5F071 (the bank $C1 decoder), $C5F0D1 (OAM), $C5E9C7
-  (scripts). Records 0-27 look like the team logos (index = team): not rendered yet, so not named.
+  the setup code. The last pair of uniform palettes (after the all-star teams) is not traced. The team order is 94S's (the
+  sprite logos render WSH before WPG).
+- Sprite objects (`docs/sprite_objects.md`): SpriteObjects in bankC0_8000 is source (header, SpriteRecordList, 41
+  records <Name>Sprite, frame lists, frame headers <Name>Frame[NN], animation scripts), pointing at bank $C1: SpritePalettes,
+  the frame tiles <Name>Tiles[NN] (incbin) and SpritePieces (source). The records were rendered: 0-27 the team logos in
+  94S team order (WSH before WPG, then ASE, ASW), 28 not known (an arrow, then a spinning disc), 29 a pad and 1-5, 30 a
+  skater, then the EA intro pieces, a box, the NHL and NHLPA logos. Readers in bank $C5: $C5E665 (create), $C5EEF3,
+  $C5E8A5 (frame to VRAM), $C5F071 (format 0 without a header), $C5F0D1 (OAM), $C5E9C7 (scripts, commands at $C5EAAF).
 - bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
   named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
@@ -81,7 +82,7 @@
   entries), carry M/X through calls, size jump tables against the decoded code, and skip the 6 inline parameter bytes after
   calls to SetBGMapRegs and SetupHDMA. Several routines end in brk traps (the map unpacker's unhandled header forms).
 - asar: write a branch to a label, never to a number (bcc $C090D2 assembled the low byte as the offset); pei is `pei ($nn)`.
-- bankC0_8000: DATA8_C08000 (the sprite objects, see docs/sprite_objects.md), DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
+- bankC0_8000: DATA8_C08939 and DATA8_C08B17 have no reader found. TiledBackMap is named from
   its pattern (94S MenuBackMap may be the same job: not checked). TransfersReady, DMAEnShadow, QueueBusy are named from the
   NMI code only. Mul8S's A-positive / X-negative path multiplies A by -A (tya where 94S has txa): that is in the ROM.
 - bankC0_4000: DATA8_C0491A, DATA8_C04AA9, DATA8_C04CAB, DATA8_C04CB7, DATA8_C04CBF, DATA8_C04CC3 are not traced to a purpose.

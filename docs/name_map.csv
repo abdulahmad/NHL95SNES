@@ -411,3 +411,141 @@ $C19AF6,ItsInThePieces,,render,"piece entry of the frame at $C08714",src/bankC1_
 $C19B08,BlackBoxPieces,,render,"piece entry of the frame at $C08737",src/bankC1_9000.asm
 $C19B2C,NHLShieldPieces,,render,"piece entry of the frame at $C0875A",src/bankC1_9000.asm
 $C19B48,NHLPAPieces,,render,"piece entry of the frame at $C0877D",src/bankC1_9000.asm
+$C08000,SpriteObjects,DATA8_C08000,code,"the sprite objects: header (record list, palettes), records, frame lists, frame headers, scripts (docs/sprite_objects.md)",src/bankC0_8000.asm
+$C087A0,SpriteRecordList,,code,"41 record addresses by sprite number; the team logos first by team",src/bankC0_8000.asm
+$C0800D,LogoANHSprite,,render,"sprite record 0: the ANH logo",src/bankC0_8000.asm
+$C08032,LogoBOSSprite,,render,"sprite record 1: the BOS logo",src/bankC0_8000.asm
+$C08055,LogoBUFSprite,,render,"sprite record 2: the BUF logo",src/bankC0_8000.asm
+$C08078,LogoCGYSprite,,render,"sprite record 3: the CGY logo",src/bankC0_8000.asm
+$C0809B,LogoCHISprite,,render,"sprite record 4: the CHI logo",src/bankC0_8000.asm
+$C080BE,LogoDALSprite,,render,"sprite record 5: the DAL logo",src/bankC0_8000.asm
+$C080E1,LogoDETSprite,,render,"sprite record 6: the DET logo",src/bankC0_8000.asm
+$C08104,LogoEDMSprite,,render,"sprite record 7: the EDM logo",src/bankC0_8000.asm
+$C08127,LogoFLASprite,,render,"sprite record 8: the FLA logo",src/bankC0_8000.asm
+$C0814A,LogoHFDSprite,,render,"sprite record 9: the HFD logo",src/bankC0_8000.asm
+$C0816D,LogoLASprite,,render,"sprite record 10: the LA logo",src/bankC0_8000.asm
+$C08190,LogoMTLSprite,,render,"sprite record 11: the MTL logo",src/bankC0_8000.asm
+$C081B3,LogoNJSprite,,render,"sprite record 12: the NJ logo",src/bankC0_8000.asm
+$C081D6,LogoNYISprite,,render,"sprite record 13: the NYI logo",src/bankC0_8000.asm
+$C081F9,LogoNYRSprite,,render,"sprite record 14: the NYR logo",src/bankC0_8000.asm
+$C0821C,LogoOTWSprite,,render,"sprite record 15: the OTW logo",src/bankC0_8000.asm
+$C0823F,LogoPHISprite,,render,"sprite record 16: the PHI logo",src/bankC0_8000.asm
+$C08262,LogoPITSprite,,render,"sprite record 17: the PIT logo",src/bankC0_8000.asm
+$C08285,LogoQUESprite,,render,"sprite record 18: the QUE logo",src/bankC0_8000.asm
+$C082A8,LogoSJSprite,,render,"sprite record 19: the SJ logo",src/bankC0_8000.asm
+$C082CB,LogoSTLSprite,,render,"sprite record 20: the STL logo",src/bankC0_8000.asm
+$C082EE,LogoTBSprite,,render,"sprite record 21: the TB logo",src/bankC0_8000.asm
+$C08311,LogoTORSprite,,render,"sprite record 22: the TOR logo",src/bankC0_8000.asm
+$C08334,LogoVANSprite,,render,"sprite record 23: the VAN logo",src/bankC0_8000.asm
+$C08357,LogoWSHSprite,,render,"sprite record 24: the WSH logo",src/bankC0_8000.asm
+$C0837A,LogoWPGSprite,,render,"sprite record 25: the WPG logo",src/bankC0_8000.asm
+$C0839D,LogoASESprite,,render,"sprite record 26: the Eastern all-star logo",src/bankC0_8000.asm
+$C083C0,LogoASWSprite,,render,"sprite record 27: the Western all-star logo",src/bankC0_8000.asm
+$C084DB,Sprite28Sprite,,render,"sprite record 28: sprite 28 (an arrow, then a spinning disc)",src/bankC0_8000.asm
+$C08597,PadNumbersSprite,,render,"sprite record 29: a controller, then the numbers 1 to 5",src/bankC0_8000.asm
+$C0860D,SkaterSprite,,render,"sprite record 30: a skating player",src/bankC0_8000.asm
+$C0864A,RedDotSprite,,render,"sprite record 31: a small red dot",src/bankC0_8000.asm
+$C0866D,EASportsSprite,,render,"sprite record 32: the EA SPORTS logo",src/bankC0_8000.asm
+$C08690,EALogoESprite,,render,"sprite record 33: the big E of the EA logo",src/bankC0_8000.asm
+$C086B3,EALogoASprite,,render,"sprite record 34: the big A of the EA logo",src/bankC0_8000.asm
+$C086D6,SportsWordSprite,,render,"sprite record 35: part of the word SPORTS",src/bankC0_8000.asm
+$C086F9,ElectronicWordSprite,,render,"sprite record 36: part of the words ELECTRONIC ARTS",src/bankC0_8000.asm
+$C0871C,ItsInTheSprite,,render,"sprite record 37: the words It's in the",src/bankC0_8000.asm
+$C0873F,BlackBoxSprite,,render,"sprite record 38: a black box with a white frame",src/bankC0_8000.asm
+$C08762,NHLShieldSprite,,render,"sprite record 39: the NHL shield",src/bankC0_8000.asm
+$C08785,NHLPASprite,,render,"sprite record 40: the NHLPA logo",src/bankC0_8000.asm
+$C08005,LogoANHFrame,,render,"frame header",src/bankC0_8000.asm
+$C0802A,LogoBOSFrame,,render,"frame header",src/bankC0_8000.asm
+$C0804D,LogoBUFFrame,,render,"frame header",src/bankC0_8000.asm
+$C08070,LogoCGYFrame,,render,"frame header",src/bankC0_8000.asm
+$C08093,LogoCHIFrame,,render,"frame header",src/bankC0_8000.asm
+$C080B6,LogoDALFrame,,render,"frame header",src/bankC0_8000.asm
+$C080D9,LogoDETFrame,,render,"frame header",src/bankC0_8000.asm
+$C080FC,LogoEDMFrame,,render,"frame header",src/bankC0_8000.asm
+$C0811F,LogoFLAFrame,,render,"frame header",src/bankC0_8000.asm
+$C08142,LogoHFDFrame,,render,"frame header",src/bankC0_8000.asm
+$C08165,LogoLAFrame,,render,"frame header",src/bankC0_8000.asm
+$C08188,LogoMTLFrame,,render,"frame header",src/bankC0_8000.asm
+$C081AB,LogoNJFrame,,render,"frame header",src/bankC0_8000.asm
+$C081CE,LogoNYIFrame,,render,"frame header",src/bankC0_8000.asm
+$C081F1,LogoNYRFrame,,render,"frame header",src/bankC0_8000.asm
+$C08214,LogoOTWFrame,,render,"frame header",src/bankC0_8000.asm
+$C08237,LogoPHIFrame,,render,"frame header",src/bankC0_8000.asm
+$C0825A,LogoPITFrame,,render,"frame header",src/bankC0_8000.asm
+$C0827D,LogoQUEFrame,,render,"frame header",src/bankC0_8000.asm
+$C082A0,LogoSJFrame,,render,"frame header",src/bankC0_8000.asm
+$C082C3,LogoSTLFrame,,render,"frame header",src/bankC0_8000.asm
+$C082E6,LogoTBFrame,,render,"frame header",src/bankC0_8000.asm
+$C08309,LogoTORFrame,,render,"frame header",src/bankC0_8000.asm
+$C0832C,LogoVANFrame,,render,"frame header",src/bankC0_8000.asm
+$C0834F,LogoWSHFrame,,render,"frame header",src/bankC0_8000.asm
+$C08372,LogoWPGFrame,,render,"frame header",src/bankC0_8000.asm
+$C08395,LogoASEFrame,,render,"frame header",src/bankC0_8000.asm
+$C083B8,LogoASWFrame,,render,"frame header",src/bankC0_8000.asm
+$C083DB,Sprite28Frame00,,render,"frame header",src/bankC0_8000.asm
+$C083E3,Sprite28Frame01,,render,"frame header",src/bankC0_8000.asm
+$C083EB,Sprite28Frame02,,render,"frame header",src/bankC0_8000.asm
+$C083F3,Sprite28Frame03,,render,"frame header",src/bankC0_8000.asm
+$C083FB,Sprite28Frame04,,render,"frame header",src/bankC0_8000.asm
+$C08403,Sprite28Frame05,,render,"frame header",src/bankC0_8000.asm
+$C0840B,Sprite28Frame06,,render,"frame header",src/bankC0_8000.asm
+$C08413,Sprite28Frame07,,render,"frame header",src/bankC0_8000.asm
+$C0841B,Sprite28Frame08,,render,"frame header",src/bankC0_8000.asm
+$C08423,Sprite28Frame09,,render,"frame header",src/bankC0_8000.asm
+$C0842B,Sprite28Frame10,,render,"frame header",src/bankC0_8000.asm
+$C08433,Sprite28Frame11,,render,"frame header",src/bankC0_8000.asm
+$C0843B,Sprite28Frame12,,render,"frame header",src/bankC0_8000.asm
+$C08443,Sprite28Frame13,,render,"frame header",src/bankC0_8000.asm
+$C0844B,Sprite28Frame14,,render,"frame header",src/bankC0_8000.asm
+$C08453,Sprite28Frame15,,render,"frame header",src/bankC0_8000.asm
+$C0845B,Sprite28Frame16,,render,"frame header",src/bankC0_8000.asm
+$C08463,Sprite28Frame17,,render,"frame header",src/bankC0_8000.asm
+$C0846B,Sprite28Frame18,,render,"frame header",src/bankC0_8000.asm
+$C08473,Sprite28Frame19,,render,"frame header",src/bankC0_8000.asm
+$C0847B,Sprite28Frame20,,render,"frame header",src/bankC0_8000.asm
+$C08483,Sprite28Frame21,,render,"frame header",src/bankC0_8000.asm
+$C0848B,Sprite28Frame22,,render,"frame header",src/bankC0_8000.asm
+$C08493,Sprite28Frame23,,render,"frame header",src/bankC0_8000.asm
+$C0849B,Sprite28Frame24,,render,"frame header",src/bankC0_8000.asm
+$C084A3,Sprite28Frame25,,render,"frame header",src/bankC0_8000.asm
+$C084AB,Sprite28Frame26,,render,"frame header",src/bankC0_8000.asm
+$C084B3,Sprite28Frame27,,render,"frame header",src/bankC0_8000.asm
+$C084BB,Sprite28Frame28,,render,"frame header",src/bankC0_8000.asm
+$C084C3,Sprite28Frame29,,render,"frame header",src/bankC0_8000.asm
+$C084CB,Sprite28Frame30,,render,"frame header",src/bankC0_8000.asm
+$C084D3,Sprite28Frame31,,render,"frame header",src/bankC0_8000.asm
+$C08567,PadNumbersFrame00,,render,"frame header",src/bankC0_8000.asm
+$C0856F,PadNumbersFrame01,,render,"frame header",src/bankC0_8000.asm
+$C08577,PadNumbersFrame02,,render,"frame header",src/bankC0_8000.asm
+$C0857F,PadNumbersFrame03,,render,"frame header",src/bankC0_8000.asm
+$C08587,PadNumbersFrame04,,render,"frame header",src/bankC0_8000.asm
+$C0858F,PadNumbersFrame05,,render,"frame header",src/bankC0_8000.asm
+$C085DD,SkaterFrame00,,render,"frame header",src/bankC0_8000.asm
+$C085E5,SkaterFrame01,,render,"frame header",src/bankC0_8000.asm
+$C085ED,SkaterFrame02,,render,"frame header",src/bankC0_8000.asm
+$C085F5,SkaterFrame03,,render,"frame header",src/bankC0_8000.asm
+$C085FD,SkaterFrame04,,render,"frame header",src/bankC0_8000.asm
+$C08605,SkaterFrame05,,render,"frame header",src/bankC0_8000.asm
+$C08642,RedDotFrame,,render,"frame header",src/bankC0_8000.asm
+$C08665,EASportsFrame,,render,"frame header",src/bankC0_8000.asm
+$C08688,EALogoEFrame,,render,"frame header",src/bankC0_8000.asm
+$C086AB,EALogoAFrame,,render,"frame header",src/bankC0_8000.asm
+$C086CE,SportsWordFrame,,render,"frame header",src/bankC0_8000.asm
+$C086F1,ElectronicWordFrame,,render,"frame header",src/bankC0_8000.asm
+$C08714,ItsInTheFrame,,render,"frame header",src/bankC0_8000.asm
+$C08737,BlackBoxFrame,,render,"frame header",src/bankC0_8000.asm
+$C0875A,NHLShieldFrame,,render,"frame header",src/bankC0_8000.asm
+$C0877D,NHLPAFrame,,render,"frame header",src/bankC0_8000.asm
+$C08028,OneFrameScript,,new,"animation script",src/bankC0_8000.asm
+$C0853E,SpriteScript_C0853E,,new,"animation script",src/bankC0_8000.asm
+$C08551,SpriteScript_C08551,,new,"animation script",src/bankC0_8000.asm
+$C08553,SpriteScript_C08553,,new,"animation script",src/bankC0_8000.asm
+$C08563,SpriteScript_C08563,,new,"animation script",src/bankC0_8000.asm
+$C08565,SpriteScript_C08565,,new,"animation script",src/bankC0_8000.asm
+$C085C4,SpriteScript_C085C4,,new,"animation script",src/bankC0_8000.asm
+$C085C9,SpriteScript_C085C9,,new,"animation script",src/bankC0_8000.asm
+$C085CE,SpriteScript_C085CE,,new,"animation script",src/bankC0_8000.asm
+$C085D3,SpriteScript_C085D3,,new,"animation script",src/bankC0_8000.asm
+$C085D8,SpriteScript_C085D8,,new,"animation script",src/bankC0_8000.asm
+$C08634,SpriteScript_C08634,,new,"animation script",src/bankC0_8000.asm
+$C0863B,SpriteScript_C0863B,,new,"animation script",src/bankC0_8000.asm
