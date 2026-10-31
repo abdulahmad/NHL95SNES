@@ -5,9 +5,9 @@
 - Full build MATCH (SHA-1 `0b939f267377801d2c805b05c06a7ee6c880c5fc`, 1,048,576 bytes); `tools/verify_all.sh` MATCH (full build and
   all 256 segments built on their own from their stubs).
 - Source: bankC0_0000 (data, $C00000-$C00F48: TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles, UnusedPalette,
-  SoundRAMClear) and bankC0_1000 ($C00F49-$C01A38: SoundDriver, SMSG 3.07w, as SPC700). `CartHeader` in bankC0_F000. The other
-  segments are incbin.
-- Next: segment bankC0_2000, org moved to $C01A39 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
+  SoundRAMClear), bankC0_1000 ($C00F49-$C01A38: SoundDriver, SMSG 3.07w, as SPC700) and bankC0_2000 ($C01A39-$C03CF8: the
+  text routine's three fonts). `CartHeader` in bankC0_F000. The other segments are incbin.
+- Next: segment bankC0_3000, org moved to $C03CF9 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Onboarding: McMarkis.
 
 ## Notes for the next segments
 
@@ -25,8 +25,10 @@
   port 2 (bit 7 busy); commands can also be queued in spcQueue. `python3 tools/spc700dis.py lst/nhl95snes.sfc C00F49 --entry ..`
   disassembles the whole upload; the entries are the tcall vectors, .commands and .events (only 4 events; the words after them are
   code).
-- bankC0_2000 starts at $C01A39 with 4bpp font tiles ('0' first, planes 2-3 empty) read by the text routine at $C4BE34
-  (glyph = character - '0'; per-character tables at $C4C48B / $C4C4D7 / $C4C502). Their end is not found yet.
+- Text routine $C4BE34: font address in $0C (bank $C0), flags in $0E (bit 0: 64 byte glyphs, bit 1: lowercase codes use the
+  second set at glyph $2B, bit 2: another per-character table); glyph = character - '0'; per-character bytes at $C4C48B, $C4C4B6,
+  $C4C4D7, $C4C502. Fonts: BoldFontGlyphs, ItalicFontGlyphs, ThinFontGlyphs.
+- bankC0_3000 starts at $C03CF9 with a packed set (size $0600, format 2; $C5ACBE unpacks it); `tools/unpack95.py` gives its end.
 
 ## Setup notes
 
@@ -44,6 +46,8 @@
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.
 - GradientBarTiles: rendered bars; where they are drawn (VRAM $0640 from $C4D864, $0010 from $C59119) is not traced.
 - UnusedPalette: no operand or pointer in the ROM is $0EE5; a computed address could still reach it.
+- Fonts: named from their rendered glyphs; the screens that draw with them are not traced. The meaning of flag $4000 is not
+  traced.
 - SoundDriver: the 32 command and 4 event handlers and the 16 tcall routines keep auto labels; naming them needs the CPU side
   (bank $CF) traced. .l0481 has no static reference (a patched call may reach it). Sound RAM buffers ($F000-$FE03, $FF00)
   stay numbers.

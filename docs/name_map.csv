@@ -75,3 +75,6 @@ $FF80,spcQueue,,code,"sound CPU RAM; 64-byte ring of 4-byte queued commands (arg
 $FFC0,spcTcallVectors,,code,"sound CPU RAM; the tcall vectors in RAM (boot ROM off)",src/bankC0_1000.asm
 $FD,SPC_T0OUT,,new,"sound CPU timer 0 counter",src/inc/spc_regs.asm
 $7C,DSP_ENDX,,new,"DSP register: voices at the end of their sample",src/inc/spc_regs.asm
+$C01A39,BoldFontGlyphs,,render,"46 glyphs of 16 x 8 (32 bytes, 2bpp rows): 0-9, punctuation, A-Z; the text routine $C4BE34 gets it in $0C from $C4BC59, $C4BCD4, $C4BCF6, $C4BD16, $C4BE1A (flags $0E = 0 or $4000: 32 byte glyphs, lowercase codes as capitals)",src/bankC0_2000.asm
+$C01FF9,ItalicFontGlyphs,,render,"16 x 16 glyphs (64 bytes): 0-9, punctuation, A-Z (glyphs $00-$2A), the same set again for lowercase codes ($2B-$55); callers $C4BC37, $C4BD40, $C4BD7A, $C4BD99 with flags $0003 / $4003; its glyphs from $49 lie under ThinFontGlyphs",src/bankC0_2000.asm
+$C03239,ThinFontGlyphs,,render,"16 x 16 thin capitals; caller $C4BD57 with flags $0005 (64 byte glyphs, its own per-character table); glyphs $0D-$10 punctuation, $11-$2A A-Z; glyphs $00-$0C are ItalicFontGlyphs' $49-$55; ends where a packed set starts ($C03CF9, $C5ACBE)",src/bankC0_2000.asm

@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC0_2000 (org $C01A39). <- CURRENT
+bankC0_3000 (org $C03CF9). <- CURRENT
 
 ## Sources
 
@@ -80,6 +80,9 @@ bankC0_2000 (org $C01A39). <- CURRENT
   as `arch spc700` source from `tools/spc700dis.py` (94S's, ported: HiROM, whole upload streams). Entries: the tcall vectors,
   the command and event tables. Named: the init, the command loop, the tick, the dispatch calls, the tables; internals keep
   .lXXXX labels with cross-reference comments. End moved to $C01A38, bankC0_2000 org to $C01A39.
+- 2026-10-31: bankC0_2000 matched: the three fonts of the text routine at $C4BE34 (font in $0C, flags in $0E), ends found from
+  the font addresses the callers pass ($1A39, $1FF9, $3239) and the packed set at $C03CF9. Glyph data stays incbin. End moved
+  to $C03CF8 (two segments' worth, one unit of data), bankC0_3000 org to $C03CF9.
 
 ## ROM map
 
@@ -89,8 +92,8 @@ The first row that is still incbin is the current segment.
 |---|---|---|---|---|
 | bankC0_0000 | matched 3913 bytes | $C00000 | $C00F48 | TeamPalettes, ArrowFontTiles, GradientBarTiles, MeterFontTiles (packed for the bank $C5 unpacker: size, format, ROM cut), UnusedPalette, SoundRAMClear (SPC700 source); end moved -$B7 (the sound driver's upload blocks start at $C00F49) |
 | bankC0_1000 | matched 2800 bytes | $C00F49 | $C01A38 | SoundDriver (SMSG 3.07w) as `arch spc700` source: init block (.init, .dspregs, .tcallvectors, .version), main block (.mainloop, .command, .tick, .commands, .events, .bootrom, pitch and sine tables); driver internals keep auto labels (.lXXXX); org moved to $C00F49, end moved -$5C7 (a font starts at $C01A39) |
-| bankC0_2000 | incbin <- CURRENT | $C01A39 | $C02FFF | org moved to $C01A39: starts with 4bpp font tiles ('0' first) that the proportional text routine at $C4BE34 reads |
-| bankC0_3000 | incbin | $C03000 | $C03FFF | |
+| bankC0_2000 | matched 8896 bytes | $C01A39 | $C03CF8 | BoldFontGlyphs, ItalicFontGlyphs, ThinFontGlyphs (the text routine's fonts, incbin; ThinFontGlyphs starts inside ItalicFontGlyphs' lowercase set); org moved to $C01A39, end moved +$CF9 (a packed set starts at $C03CF9) |
+| bankC0_3000 | incbin <- CURRENT | $C03CF9 | $C03FFF | org moved to $C03CF9: starts with a packed set (size $0600, format 2) that $C5ACBE unpacks |
 | bankC0_4000 | incbin | $C04000 | $C04FFF | |
 | bankC0_5000 | incbin | $C05000 | $C05FFF | |
 | bankC0_6000 | incbin | $C06000 | $C06FFF | |
