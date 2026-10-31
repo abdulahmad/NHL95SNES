@@ -282,3 +282,8 @@ $C1245A,LogoHFDTiles,,render,"tiles of the HFD logo (frame header at $C08142)",s
 $C1279B,LogoLATiles,,render,"tiles of the LA logo (frame header at $C08165)",src/bankC1_2000.asm
 $C12A79,LogoMTLTiles,,render,"tiles of the MTL logo (frame header at $C08188)",src/bankC1_2000.asm
 $C12D44,LogoNJTiles,,render,"tiles of the NJ logo (frame header at $C081AB)",src/bankC1_2000.asm
+$C130D2,LogoNYITiles,,render,"tiles of the NYI logo (frame header at $C081CE)",src/bankC1_3000.asm
+$C13448,LogoNYRTiles,,render,"tiles of the NYR logo (frame header at $C081F1)",src/bankC1_3000.asm
+$C13790,LogoOTWTiles,,render,"tiles of the OTW logo (frame header at $C08214)",src/bankC1_3000.asm
+$C13B1D,LogoPHITiles,,render,"tiles of the PHI logo (frame header at $C08237)",src/bankC1_3000.asm
+$C13DE8,LogoPITTiles,,render,"tiles of the PIT logo (frame header at $C0825A)",src/bankC1_3000.asm
