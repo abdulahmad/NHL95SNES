@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+TitleGoalieTiles = $C2334F
 
 incsrc "../bankC2_2000.asm"
