@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4702E
 CODE_C4702E:						; called from other segments
-	jsl.l $C495BB
+	jsl.l CODE_C495BB
 	lda.w $0B00,x
 	sec
 	sbc.b $9B

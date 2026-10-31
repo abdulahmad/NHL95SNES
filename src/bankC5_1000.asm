@@ -1421,7 +1421,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 CODE_C51CD2:						; from CODE_C51CC1
 	lda.w #$FFFF
 	sta.w $05A0
-	jsl.l $C493E1
+	jsl.l CODE_C493E1
 	lda.w $0D60,x
 	bit.w #$0002
 	bne CODE_C51CE7

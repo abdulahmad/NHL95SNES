@@ -1208,9 +1208,9 @@ CODE_C48985:						; from CODE_C4896D
 	cmp.w #$0046
 	bcc CODE_C48956
 CODE_C4898F:						; from CODE_C4893B
-	jsr.w $937C
+	jsr.w CODE_C4937C
 	jsl.l $C37F6D
-	jsl.l $C4933E
+	jsl.l CODE_C4933E
 	asl.w $0E00,x
 	jsl.l CODE_C489A5
 	lsr.w $0E00,x
@@ -1413,7 +1413,7 @@ CODE_C48B32:						; from CODE_C48B1D
 	sta.b $83
 CODE_C48B43:						; from CODE_C48B32
 	jml.l CODE_C45950
-DATA8_C48B47:						; not traced: data between routines
+DATA8_C48B47:						; an rtl no traced code reaches
 	db $6B
 CODE_C48B48:						; from CODE_C48AF5
 	lda.w $10F3
@@ -1736,9 +1736,9 @@ CODE_C48E06:						; from CODE_C48DEE
 CODE_C48E15:						; from CODE_C48DEE
 	cpx.w $05A0
 	beq CODE_C48E27
-	jsr.w $937C
+	jsr.w CODE_C4937C
 	jsl.l $C37F6D
-	jsl.l $C4933E
+	jsl.l CODE_C4933E
 	bra CODE_C48E3A
 CODE_C48E27:						; from CODE_C48E15
 	lda.w $14F9,x
@@ -1748,7 +1748,7 @@ CODE_C48E27:						; from CODE_C48E15
 	asl a
 	asl a
 	sta.b $7F
-	jsl.l $C4933E
+	jsl.l CODE_C4933E
 CODE_C48E3A:						; from CODE_C48E15, CODE_C48E27
 	lda.w $0896,x
 	cmp.w #$FEF5
@@ -1760,7 +1760,7 @@ CODE_C48E47:						; from CODE_C48E68
 	sta.b $7F
 	lda.w $08B2
 	sta.b $83
-	jsl.l $C492F8
+	jsl.l CODE_C492F8
 	lda.b $83
 	cmp.w #$FFD2
 	bmi CODE_C48E90
@@ -1862,7 +1862,7 @@ CODE_C48F1C:						; from CODE_C48F0D
 	adc.w $0830
 	sta.b $7F
 CODE_C48F22:						; from CODE_C48EDD, CODE_C48EFD
-	jsl.l $C492F8
+	jsl.l CODE_C492F8
 	pei ($83)
 	pei ($7F)
 CODE_C48F2A:						; from CODE_C48E47
@@ -2159,7 +2159,7 @@ CODE_C4917B:						; from CODE_C49165
 CODE_C4918A:						; from CODE_C48C41, CODE_C48E8D, CODE_C48FAA, CODE_C49165, ...
 	lda.w $14F9,x
 	bmi CODE_C49192
-	jmp.w $932B
+	jmp.w CODE_C4932B
 CODE_C49192:						; from CODE_C4918A
 	ldy.w $05A0
 	bmi CODE_C491DD

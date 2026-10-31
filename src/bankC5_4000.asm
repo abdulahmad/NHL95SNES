@@ -1163,7 +1163,7 @@ CODE_C54982:						; from CODE_C54966
 	jsl.l CODE_C547CB
 	jsl.l CODE_C541D3
 	jsl.l CODE_C5111A
-	jml.l $C4981D
+	jml.l CODE_C4981D
 CODE_C549A7:						; from CODE_C5492E, CODE_C54948, CODE_C54966, CODE_C54982
 	rtl
 CODE_C549A8:						; from CODE_C545D2 and other segments

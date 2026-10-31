@@ -430,7 +430,7 @@ CODE_C44325:						; from CODE_C4431B
 	inc a
 	sta.w $08DE
 	sta.b $7F
-	jsl.l $C49572
+	jsl.l CODE_C49572
 	lda.w $09BC
 	ldy.w $09DC
 	jsl.l $C38778
@@ -796,7 +796,7 @@ CODE_C44621:						; from CODE_C4460B
 	sec
 	sbc.w #$1000
 	sta.w $08DE
-	jmp.w $9572
+	jmp.w CODE_C49572
 CODE_C44645:						; from CODE_C44457
 	lda.w $08DE
 	bit.w #$8000

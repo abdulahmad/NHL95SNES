@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_9000 (org $C492F8), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_A000 (org $C49FBD), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -175,6 +175,8 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
 - 2026-10-31: bankC4_6000 matched (game code, CODE_ names), with two 13-entry jump tables whose unused entries are $0000; such
   entries now stay $0000 (DATA8_C570E8 in bankC5_7000 had one written as Opening; fixed). End moved to $C4702D, bankC4_7000 org
   to $C4702E.
+- 2026-10-31: bankC4_9000 matched (game code, CODE_ names), with asstab routines and a few tables read with long addresses. End
+  moved to $C49FBC, bankC4_A000 org to $C49FBD.
 - 2026-10-31: bankC4_8000 matched (game code, CODE_ names). asstab entry 0 is an rtl here; it takes the 94S name rtss (entry 0
   is the empty assignment in both the 94 and the 95 Genesis order). End moved to $C492F7, bankC4_9000 org to $C492F8.
 - 2026-10-31: bankC4_7000 matched (game code, CODE_ names), with asstab routines (asstab uses their labels now). End moved to
@@ -343,8 +345,8 @@ The first row that is still incbin is the current segment.
 | bankC4_6000 | matched 4226 bytes | $C45FAC | $C4702D | game code with CODE_ names and their callers, jump tables DATA8_C46DB0 / C46F93 (unused indexes are $0000), tables read with long addresses; out of ROM order, org moved to $C45FAC, end moved +$2E |
 | bankC4_7000 | matched 3975 bytes | $C4702E | $C47FB4 | game code with CODE_ names and their callers, asstab routines; out of ROM order, org moved to $C4702E, end moved -$4B |
 | bankC4_8000 | matched 4931 bytes | $C47FB5 | $C492F7 | game code with CODE_ names and their callers, rtss (asstab entry 0, 94S name), asstab routines; out of ROM order, org moved to $C47FB5, end moved +$2F8 |
-| bankC4_9000 | incbin <- CURRENT | $C492F8 | $C49FFF | org moved to $C492F8 |
-| bankC4_A000 | incbin | $C4A000 | $C4AFFF | |
+| bankC4_9000 | matched 3269 bytes | $C492F8 | $C49FBC | game code with CODE_ names and their callers, asstab routines, tables read with long addresses; out of ROM order, org moved to $C492F8, end moved -$43 |
+| bankC4_A000 | incbin <- CURRENT | $C49FBD | $C4AFFF | org moved to $C49FBD |
 | bankC4_B000 | incbin | $C4B000 | $C4BFFF | |
 | bankC4_C000 | incbin | $C4C000 | $C4CFFF | |
 | bankC4_D000 | incbin | $C4D000 | $C4DFFF | |

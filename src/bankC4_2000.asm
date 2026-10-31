@@ -348,7 +348,7 @@ CODE_C42C66:						; from CODE_C42B5E, CODE_C42BD7, CODE_C42C55
 	bpl CODE_C42C1A
 	stz.w $0B20,x
 CODE_C42C90:						; from CODE_C42C66
-	jsl.l $C495BB
+	jsl.l CODE_C495BB
 	pei ($83)
 	lda.b $7F
 	pha
@@ -556,7 +556,7 @@ CODE_C42E23:						; from CODE_C42E08
 	bra CODE_C42E99
 CODE_C42E33:						; from CODE_C42E08, CODE_C42E23
 	jsl.l CODE_C5492E
-	jsl.l $C495E8
+	jsl.l CODE_C495E8
 	lda.w $0644,x
 	cmp.w #$0011
 	bne CODE_C42E47

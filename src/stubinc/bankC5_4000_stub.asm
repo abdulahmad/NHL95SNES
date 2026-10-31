@@ -6,6 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+CODE_C4981D = $C4981D
 CODE_C4694F = $C4694F
 CODE_C457B5 = $C457B5
 CODE_C457C7 = $C457C7
