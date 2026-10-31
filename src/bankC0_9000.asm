@@ -565,15 +565,15 @@ CODE_C09418:						; from CODE_C09401
 	ldx.w #$0010
 	ldy.w #$0004
 	lda.w #$5850
-	jsl.l $C58C36
+	jsl.l CODE_C58C36
 	pla
 	ldx.w #$007E
 	ldy.w #$5871
-	jsl.l $C58A15
+	jsl.l QueueVRAMDMALen
 	lda.w #$5F17
 	ldx.w #$00C3
 	ldy.w #$5891
-	jsl.l $C58A15
+	jsl.l QueueVRAMDMALen
 	pla
 	sta.b $67
 	pla

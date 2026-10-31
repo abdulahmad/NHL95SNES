@@ -9,7 +9,7 @@ Reset:								; reset vector: native mode, decimal off, 16-bit A and index, then
 	clc
 	xce
 	rep #$39						; 16-bit A and index, decimal and carry clear
-	jml.l $C580C6
+	jml.l Reset_Fast
 NullInterrupt:						; the COP and ABORT vectors: return at once
 	rti
 NMI:								; NMI vector: jml NMI_Fast

@@ -4,6 +4,7 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+Reset_Fast = $C580C6
 NMI_Fast = $C08B45
 
 incsrc "../bankC0_F000.asm"

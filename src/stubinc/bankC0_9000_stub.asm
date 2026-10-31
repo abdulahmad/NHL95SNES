@@ -6,6 +6,8 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+CODE_C58C36 = $C58C36
+QueueVRAMDMALen = $C58A15
 Mul16x8XS_negres = $C08FA6
 WaitFrame = $C08D7E
 Mul16x8HiU_Pre = $C08FCE
