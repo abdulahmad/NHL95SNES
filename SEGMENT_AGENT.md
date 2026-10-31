@@ -31,7 +31,7 @@ Work in small steps: every change is built and checked byte for byte against the
 ## Current segment
 
 bankC5_A000 (org $C59F79), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC1_E000 (org $C1E9B2) afterwards. <- CURRENT
+bankC1_F000 (org $C1EE6B) afterwards. <- CURRENT
 
 ## Sources
 
@@ -151,6 +151,9 @@ bankC1_E000 (org $C1E9B2) afterwards. <- CURRENT
   as 94S FaceOffMap) as FaceOffMap, FaceOffTiles and FaceOffPalette. Next org $C1D778.
 - 2026-10-31: bankC1_D000 matched: two map sets, a pad's four buttons with tape-deck symbols (PadButtons*, not traced) and
   the playoff bracket with the Stanley Cup (PlayoffBracket*, 94S PlayoffBracketMap). Next org $C1E9B2.
+- 2026-10-31: bankC1_E000 matched: the map chunk of the team name bars' map set (TeamNameBarsMap; rendered: the city names
+  of the 26 teams on bars in team colours). Its tiles chunk runs on into bank $C2, so bankC1_F000 starts with it. Next
+  org $C1EE6B.
 
 ## ROM map
 
@@ -188,8 +191,8 @@ The first row that is still incbin is the current segment.
 | bankC1_B000 | matched 5553 bytes | $C1BA31 | $C1CFE1 | PauseScreenMap, PauseScreenTiles, PauseScreenPalette (a map set: headers and colours as source, the LZSS streams incbin); org moved to $C1BA31, end moved +$FE2 |
 | bankC1_C000 | matched 1942 bytes | $C1CFE2 | $C1D777 | FaceOffMap, FaceOffTiles, FaceOffPalette (a map set: headers and colours as source, the LZSS streams incbin); org moved to $C1CFE2, end moved +$778 |
 | bankC1_D000 | matched 4666 bytes | $C1D778 | $C1E9B1 | PadButtonsMap/Tiles/Palette, PlayoffBracketMap/Tiles/Palette (map sets: headers and colours as source, the LZSS streams incbin); org moved to $C1D778, end moved +$9B2 |
-| bankC1_E000 | incbin | $C1E9B2 | $C1EFFF | org moved to $C1E9B2 (TeamNameBarsMap) |
-| bankC1_F000 | incbin | $C1F000 | $C1FFFF | |
+| bankC1_E000 | matched 1209 bytes | $C1E9B2 | $C1EE6A | TeamNameBarsMap (the map chunk of a map set: header as source, the LZSS stream incbin); org moved to $C1E9B2, end moved -$195 |
+| bankC1_F000 | incbin | $C1EE6B | $C1FFFF | org moved to $C1EE6B (TeamNameBarsTiles) |
 | bankC2_0000 | incbin | $C20000 | $C20FFF | |
 | bankC2_1000 | incbin | $C21000 | $C21FFF | |
 | bankC2_2000 | incbin | $C22000 | $C22FFF | |
