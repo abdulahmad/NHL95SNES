@@ -4683,7 +4683,7 @@ $C4B01C,.1,CODE_C4B01C,new,"branch target only used in ClearOffsidesIfAllPlayers
 $C4B026,.2,CODE_C4B026,new,"branch target only used in ClearOffsidesIfAllPlayers",src/bankC4_B000.asm
 $C4B03F,.3,CODE_C4B03F,new,"branch target only used in ClearOffsidesIfAllPlayers",src/bankC4_B000.asm
 $C4B04E,.4,CODE_C4B04E,new,"branch target only used in ClearOffsidesIfAllPlayers",src/bankC4_B000.asm
-$C4B1C9,.loop,CODE_C4B1C9,new,"branch target only used in CODE_C4B09F",src/bankC4_B000.asm
+$C4B1C9,.loop,CODE_C4B1C9,new,"branch target only used in IntroSequence",src/bankC4_B000.asm
 $C4B1E3,.rts,CODE_C4B1E3,new,"branch target only used in CODE_C4B1D6",src/bankC4_B000.asm
 $C4B1EF,.1,CODE_C4B1EF,new,"branch target only used in CODE_C4B1E4",src/bankC4_B000.asm
 $C4B211,.1,CODE_C4B211,new,"branch target only used in CODE_C4B206",src/bankC4_B000.asm
@@ -4724,7 +4724,7 @@ $C4B8DF,.loop,CODE_C4B8DF,new,"branch target only used in CODE_C4B8D1",src/bankC
 $C4B946,.1,CODE_C4B946,new,"branch target only used in CODE_C4B93A",src/bankC4_B000.asm
 $C4B953,.2,CODE_C4B953,new,"branch target only used in CODE_C4B93A",src/bankC4_B000.asm
 $C4B974,.loop,CODE_C4B974,new,"branch target only used in CODE_C4B970",src/bankC4_B000.asm
-$C4BA56,.loop,CODE_C4BA56,new,"branch target only used in CODE_C4B97E",src/bankC4_B000.asm
+$C4BA56,.loop,CODE_C4BA56,new,"branch target only used in DeveloperCredits",src/bankC4_B000.asm
 $C4BB2C,.1,CODE_C4BB2C,new,"branch target only used in CODE_C4BAF6",src/bankC4_B000.asm
 $C4BB47,.loop,CODE_C4BB47,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
 $C4BB54,.1,CODE_C4BB54,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
@@ -4913,7 +4913,7 @@ $C4D0C1,.4,CODE_C4D0C1,new,"branch target only used in CODE_C4D05B",src/bankC4_D
 $C4D0DE,.1,CODE_C4D0DE,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
 $C4D0ED,.2,CODE_C4D0ED,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
 $C4D0F0,.3,CODE_C4D0F0,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
-$C4D33F,.loop,CODE_C4D33F,new,"branch target only used in CODE_C4D193",src/bankC4_D000.asm
+$C4D33F,.loop,CODE_C4D33F,new,"branch target only used in TitleScreen",src/bankC4_D000.asm
 $C4D45E,.1,CODE_C4D45E,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
 $C4D465,.2,CODE_C4D465,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
 $C4D46D,.3,CODE_C4D46D,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
@@ -4925,9 +4925,9 @@ $C4D641,.1,CODE_C4D641,new,"branch target only used in CODE_C4D636",src/bankC4_D
 $C4D648,.2,CODE_C4D648,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
 $C4D650,.3,CODE_C4D650,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
 $C4D656,.rts,CODE_C4D656,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
-$C4D73A,.loop,CODE_C4D73A,new,"branch target only used in CODE_C4D657",src/bankC4_D000.asm
-$C4D75D,.1,CODE_C4D75D,new,"branch target only used in CODE_C4D657",src/bankC4_D000.asm
-$C4D76B,.2,CODE_C4D76B,new,"branch target only used in CODE_C4D657",src/bankC4_D000.asm
+$C4D73A,.loop,CODE_C4D73A,new,"branch target only used in CopyrightScreen",src/bankC4_D000.asm
+$C4D75D,.1,CODE_C4D75D,new,"branch target only used in CopyrightScreen",src/bankC4_D000.asm
+$C4D76B,.2,CODE_C4D76B,new,"branch target only used in CopyrightScreen",src/bankC4_D000.asm
 $C4D8CE,.loop,CODE_C4D8CE,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
 $C4D908,.1,CODE_C4D908,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
 $C4D915,.2,CODE_C4D915,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
@@ -7150,3 +7150,7 @@ $C58DE0,StartDemo,CODE_C58DE0,code,"GameSetUp after 360 ($168) frames with no ke
 $C59588,StartSeason,CODE_C59588,code,"DATA8_C58DD0 entry 2; the save RAM words at $306050 / $306051; the texts $C3479B-$C3476E; state 13 is CODE_C5AB27",src/bankC5_9000.asm
 $C5AE48,MenuPlayGames,CODE_C5AE48,genesis+purpose,"same job as 95G MenuPlayGames (the Play Games item of the season menu); SeasonMenuJumps entry 0",src/bankC5_A000.asm
 $C5ADE3,NoGameSelected,CODE_C5ADE3,code,"prints $C347A1 / $C347AB / $C347B3; reached through CODE_C5ADD8; sets $99 = 12",src/bankC5_A000.asm
+$C4B09F,IntroSequence,CODE_C4B09F,94S+purpose,"same job as 94S IntroSequence (the power-on animation before the title); Opening calls it first, as 94S; 95 builds it from sprite records 33 on (the EA pieces) with tasks (CODE_C4B743)",src/bankC4_B000.asm
+$C4B97E,DeveloperCredits,CODE_C4B97E,code,"Opening calls it after IntroSequence; the two map sets of bank $C2; CODE_C4B8D1 fades the colours (VisualConceptsPalette+7)",src/bankC4_B000.asm
+$C4D657,CopyrightScreen,CODE_C4D657,code,"Opening calls it after DeveloperCredits; the page at $C354F9 (NHL '95, 1994 Electronic Arts, licensed by Nintendo, the NHL and NHLPA notices); the sound list DATA8_CF05D4",src/bankC4_D000.asm
+$C4D193,TitleScreen,CODE_C4D193,94S+purpose,"same job as 94S TitleScreen; Opening calls it after CopyrightScreen; the three title map sets of bank $C2",src/bankC4_D000.asm

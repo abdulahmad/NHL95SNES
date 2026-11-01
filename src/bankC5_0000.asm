@@ -20,10 +20,10 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	jsl.l forceblack
 	jsl.l CODE_C36F3D
 	jsl.l CODE_CF0000
-	jsl.l CODE_C4B09F
-	jsl.l CODE_C4B97E
-	jsl.l CODE_C4D657
-	jsl.l CODE_C4D193
+	jsl.l IntroSequence
+	jsl.l DeveloperCredits
+	jsl.l CopyrightScreen
+	jsl.l TitleScreen
 	jsl.l forceblack
 	jsl.l CODE_C36C2C
 	jsl.l CODE_C370AC

@@ -762,7 +762,7 @@ DATA8_C4C502:						; not traced: a table read by CODE_C4BEA6
 	db $86,$85,$86,$86,$87,$86,$86,$86,$86,$86,$83,$83,$88,$83,$85,$83
 	db $83,$88,$87,$88,$87,$86,$86,$88,$87,$83,$86,$87,$87,$88,$87,$88
 	db $87,$88,$88,$87,$87,$87,$88,$88,$87,$87,$87,$02,$03,$01
-CODE_C4C530:						; from CODE_C4D193 and other segments
+CODE_C4C530:						; from TitleScreen and other segments
 	lda.w #$50DC
 	sta.w $18E0
 CODE_C4C536:						; called from other segments
@@ -808,7 +808,7 @@ CODE_C4C56A:						; from CODE_C4C31D and other segments
 	inc a
 	sta.b $08
 	rtl
-CODE_C4C574:						; from CODE_C4D193 and other segments
+CODE_C4C574:						; from TitleScreen and other segments
 	lda.w #$FFFF
 	sta.b QueueBusy
 	lda.w #$03FF

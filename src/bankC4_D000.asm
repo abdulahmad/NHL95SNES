@@ -146,7 +146,8 @@ DATA8_C4D10A:						; not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_
 	db $5F,$52,$6A,$52,$02,$74,$52,$80,$52,$04,$89,$52,$97,$52,$A4,$52
 	db $B2,$52,$02,$C0,$52,$CF,$52,$02,$DB,$52,$EA,$52,$03,$F3,$52,$FF
 	db $52,$09,$53,$02,$F3,$52,$13,$53,$00
-CODE_C4D193:						; called from other segments
+TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayersMap, run by
+									; tasks
 	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	jsl.l CODE_C4C574
@@ -649,7 +650,7 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	stx.b $00
 	stz.b QueueBusy
 	rts
-CODE_C4D636:						; from CODE_C4D193
+CODE_C4D636:						; from TitleScreen
 	stx.b tmp1
 	sta.b tmp0
 	clc
@@ -674,7 +675,8 @@ CODE_C4D636:						; from CODE_C4D193
 	inx
 .rts:								; return
 	rts
-CODE_C4D657:						; called from other segments
+CopyrightScreen:					; the copyright and licence page at start, with logo sprites: a sound at
+									; frame 60; from frame 195 a key pressed leaves, else frame 1200 does
 	jsl.l CODE_C4C574
 	jsl.l CODE_C4C530
 	stz.w DMAEnShadow

@@ -64,7 +64,9 @@ CODE_C4B05E:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.w TM
 	rep #$20
 	rtl
-CODE_C4B09F:						; called from other segments
+IntroSequence:						; the power-on animation: the EA Sports logo from its sprites
+									; (EALogoESprite, EALogoASprite, SportsWordSprite, ElectronicWordSprite
+									; ...), run by tasks until they end
 	jsl.l Multi5Bios
 	jsl.l CODE_C36C2D
 	ldx.w #DATA8_C07F7B>>16
@@ -169,7 +171,7 @@ CODE_C4B09F:						; called from other segments
 	lda.w $2D9D
 	beq .loop
 	jml.l ClearNMIHook
-CODE_C4B1D6:						; from CODE_C4B09F
+CODE_C4B1D6:						; from IntroSequence
 	and.w #$F0C0
 	cmp.w #$F0C0
 	bne .rts
@@ -246,7 +248,7 @@ CODE_C4B272:						; a task routine: stored as the next routine of a task
 	trb.b $85
 CODE_C4B27F:						; from CODE_C4B1E4, CODE_C4B206, CODE_C4B228, CODE_C4B247, ...
 	rtl
-CODE_C4B280:						; from CODE_C4B09F, CODE_C4B10D
+CODE_C4B280:						; from IntroSequence, CODE_C4B10D
 	bit.b $81
 	bpl .1
 	sec
@@ -794,7 +796,7 @@ CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.w $0002,x
 CODE_C4B6EA:						; a task routine: stored as the next routine of a task
 	rtl
-CODE_C4B6EB:						; from CODE_C4B09F, CODE_C4B743, CODE_C4B97E and other segments
+CODE_C4B6EB:						; from IntroSequence, CODE_C4B743, DeveloperCredits and other segments
 	ldx.w #$0000
 	lda.w #$2CF7
 	clc
@@ -825,12 +827,12 @@ CODE_C4B6EB:						; from CODE_C4B09F, CODE_C4B743, CODE_C4B97E and other segment
 	sta.w $2D9F
 	stz.w $2D9D
 	rtl
-CODE_C4B738:						; from CODE_C4B10D, CODE_C4B97E and other segments
+CODE_C4B738:						; from CODE_C4B10D, DeveloperCredits and other segments
 	lda.w #CODE_C4B828
 	ldx.w #CODE_C4B828>>16
 	ldy.w #$F000
 	bra CODE_C4B763
-CODE_C4B743:						; from CODE_C4B10D, CODE_C4B97E and other segments
+CODE_C4B743:						; from CODE_C4B10D, DeveloperCredits and other segments
 	pha
 	phx
 	phy
@@ -908,7 +910,7 @@ CODE_C4B79E:						; from CODE_C4B2DC, CODE_C4B32D
 	sta.w $2D6F,x
 	stx.w $2D83
 	rtl
-CODE_C4B7D4:						; from CODE_C4B09F, CODE_C4B97E and other segments
+CODE_C4B7D4:						; from IntroSequence, DeveloperCredits and other segments
 	ldx.w $2D85
 .loop:								; loop: d1 = X, $0008,x + 1, $1853 = $0004,x, $1851 = $0002,x, ...
 	stx.b d1
@@ -971,7 +973,7 @@ CODE_C4B84C:						; called from other segments
 	lda.w #$0010
 	sta.b d3
 	pla
-CODE_C4B853:						; from CODE_C4B97E, CODE_C4BA75 and other segments
+CODE_C4B853:						; from DeveloperCredits, CODE_C4BA75 and other segments
 	sta.b $77
 	stx.b $79
 	dec.b QueueBusy
@@ -1051,7 +1053,7 @@ CODE_C4B8AC:						; from CODE_C4BA75 and other segments
 	dex
 	bne .loop
 	rtl
-CODE_C4B8D1:						; from CODE_C4B97E and other segments
+CODE_C4B8D1:						; from DeveloperCredits and other segments
 	sta.b a4
 	stx.b $75
 	lda.b d3
@@ -1149,7 +1151,7 @@ CODE_C4B955:						; from CODE_C4B871, CODE_C4B8AC, CODE_C4B8D1
 	adc.b $77
 	sta.b $6D
 	rts
-CODE_C4B970:						; from CODE_C4B97E and other segments
+CODE_C4B970:						; from DeveloperCredits and other segments
 	tax
 	tya
 	ldy.b d3
@@ -1160,7 +1162,8 @@ CODE_C4B970:						; from CODE_C4B97E and other segments
 	dey
 	bne .loop
 	rtl
-CODE_C4B97E:						; called from other segments
+DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISUAL CONCEPTS
+									; PRESENT (HighScoreMap, VisualConceptsMap), faded in and out by tasks
 	jsl.l CODE_C4B6EB
 	jsl.l CODE_C58BE4
 	jsl.l ResetPPURegs
