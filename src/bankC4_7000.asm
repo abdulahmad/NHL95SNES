@@ -1056,25 +1056,25 @@ AddPenalty2:						; from AddPenalty and other segments
 	lda.b d0
 	cmp.w #$000E
 	bne .2
-.2:									; A - $000E, if the result < 0 go to .4, A = $7E24CA, A + $00C8, ...
+.2:									; A - $000E, if the result < 0 go to .4, A = Crowdlevel, A + $00C8, ...
 	sec
 	sbc.w #$000E
 	bmi .4
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$00C8
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$002D
 	sta.b crowdhold
 	lda.w pfteam,x
 	beq .4
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	sec
 	sbc.w #$00C8
 	bcs .3
 	lda.w #$0000
-.3:									; $7E24CA = A
-	sta.l $7E24CA
+.3:									; Crowdlevel = A
+	sta.l Crowdlevel
 .4:									; a1 = PenBuf, d1 = $001F
 	lda.w #PenBuf
 	sta.b a1

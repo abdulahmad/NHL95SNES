@@ -905,11 +905,11 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sta.w recsfx
 	sta.w recsfx2
 	stz.w $2346
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	cmp.w #$0258
 	bcc .2
 	lda.w #$0258
-	sta.l $7E24CA
+	sta.l Crowdlevel
 .2:									; call FadeOutWait, fadestep = $001E, call WaitTransfers, ...
 	jsl.l FadeOutWait
 	lda.w #$001E

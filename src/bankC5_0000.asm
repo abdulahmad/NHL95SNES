@@ -1205,12 +1205,12 @@ clockcont_0:						; called from other segments
 	stx.b a3
 	dec.b d2
 	bpl .loop
-.3:									; call ClearPenaltyBuffer, A = $7E24CA, A + $03E8, $7E24CA = A, ...
+.3:									; call ClearPenaltyBuffer, A = Crowdlevel, A + $03E8, Crowdlevel = A, ...
 	jsl.l ClearPenaltyBuffer
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$03E8
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
 	lda.w #$0040
@@ -1220,7 +1220,7 @@ clockcont_0:						; called from other segments
 	cmp.w tmscore+2
 	bmi .4
 	lda.w #$0000
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$0003
 	sta.w cheercnt
 	lda.b Vcount

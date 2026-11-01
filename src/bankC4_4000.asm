@@ -331,10 +331,10 @@ wallcollb:							; from WallStraightEdges, WallCornerNormal and other segments
 	stx.b a3
 	plx
 	stx.b a3
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$0258
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$005A
 	sta.b crowdhold
 	lda.w CwdExciteLvl
@@ -763,10 +763,10 @@ checkgoal:							; from checkwallcoll and other segments
 	stz.w onetimer
 	lda.w #$000C
 	jsl.l StartSound
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$012C
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
 	lda.w CwdExciteLvl
@@ -1787,13 +1787,13 @@ puckglue:							; give player a2 puck possession and update possession statistic
 	trb.w sflags3
 	beq .4
 	ldy.b a1
-	lda.w $12B3,y
+	lda.w tmfowon,y
 	inc a
-	sta.w $12B3,y
-	lda.l $7E24CA
+	sta.w tmfowon,y
+	lda.l Crowdlevel
 	clc
 	adc.w #$00C8
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$0014
 	sta.b crowdhold
 .4:									; if gmclock is not 0 go to .5, ...
@@ -1803,9 +1803,9 @@ puckglue:							; give player a2 puck possession and update possession statistic
 	cmp.w passReceiverPlayerNum
 	bne .5
 	ldy.b a1
-	lda.w $12DB,y
+	lda.w tmpasscomp,y
 	inc a
-	sta.w $12DB,y
+	sta.w tmpasscomp,y
 .5:									; A = $000C, Y = a2, if position,y is not 0 go to .6, ...
 	lda.w #$000C
 	trb.w sflags
@@ -1829,7 +1829,7 @@ puckglue:							; give player a2 puck possession and update possession statistic
 	lda.w passpad,y
 	sta.b d4
 	bmi .7
-	jsl.l CODE_C5376A
+	jsl.l AssignPadIfFree
 	bra .8
 .7:									; call PuckCarrierPad
 	jsl.l PuckCarrierPad

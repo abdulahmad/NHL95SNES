@@ -249,11 +249,11 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	jmp.w CollisionSfx
 .28:								; go to .34
 	jmp.w .34
-.29:								; A = $7E24CA, A + $012C, $7E24CA = A, crowdhold = $002D, ...
-	lda.l $7E24CA
+.29:								; A = Crowdlevel, A + $012C, Crowdlevel = A, crowdhold = $002D, ...
+	lda.l Crowdlevel
 	clc
 	adc.w #$012C
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$002D
 	sta.b crowdhold
 	lda.w puckc
@@ -355,11 +355,11 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w #$0004
 	jsl.l StartSound
 	rtl
-.36:								; A = $7E24CA, A + $0258, $7E24CA = A, crowdhold = $002D, ...
-	lda.l $7E24CA
+.36:								; A = Crowdlevel, A + $0258, Crowdlevel = A, crowdhold = $002D, ...
+	lda.l Crowdlevel
 	clc
 	adc.w #$0258
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$002D
 	sta.b crowdhold
 	rtl

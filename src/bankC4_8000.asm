@@ -117,7 +117,7 @@ UpdateCoincidentalPenalty:			; tick a coincidental penalty and advance or finish
 	bit.w #$0800
 	bne .1
 	jmp.w UpdatePenaltyListEntry
-.1:									; if a $1000 bit set go to .2, tmpdst,y = $1000, go to
+.1:									; if a $1000 bit set go to .2, tmpdst,y = $1000, ...
 									; RemovePlayerFromList
 	bit.w #$1000
 	bne .2
@@ -341,10 +341,10 @@ setInjuryType:						; called from other segments
 	lda.w pflags,y
 	ora.w #$1000
 	sta.w pflags,y
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$012C
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
 	lda.w #$000A
@@ -1708,12 +1708,12 @@ GoalieUpdateState:					; update goalie animation, puck holding, saves and comput
 	adc.w #$000A
 	bmi .27
 	sta.w CwdExciteLvl
-.27:								; pfalock,x = $0096, A + $7E24CA, $7E24CA = A, crowdhold = $001E, ...
+.27:								; pfalock,x = $0096, Crowdlevel + A, crowdhold = $001E, ...
 	lda.w #$0096
 	sta.w pfalock,x
 	clc
-	adc.l $7E24CA
-	sta.l $7E24CA
+	adc.l Crowdlevel
+	sta.l Crowdlevel
 	lda.w #$001E
 	sta.b crowdhold
 	rtl
@@ -2134,10 +2134,10 @@ GoalieUpdateState:					; update goalie animation, puck holding, saves and comput
 	lda.b [a1],y
 	sta.w pfalock,x
 	jsl.l SetSPAFromA
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$0096
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$001E
 	sta.b crowdhold
 .76:								; d0 = [a0], A = pucky, A - $0102, if the result >= 0 go to .77, ...

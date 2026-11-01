@@ -260,7 +260,7 @@ updatecrowdf:						; decay the crowd hold and sound level
 	lda.w $48BA,x
 	and.w #$00FF
 	tax
-	lda.w $24CA
+	lda.w Crowdlevel&$FFFF
 	cmp.w #$0481
 	bcc .4
 	lda.w #$0480
@@ -269,8 +269,8 @@ updatecrowdf:						; decay the crowd hold and sound level
 	sbc.w impactstep
 	bpl .5
 	lda.w #$0000
-.5:									; $24CA = A, A / 2, A / 2, A / 2, ...
-	sta.w $24CA
+.5:									; Crowdlevel = A, A / 2, A / 2, A / 2, ...
+	sta.w Crowdlevel&$FFFF
 	lsr a
 	lsr a
 	lsr a
@@ -431,7 +431,7 @@ updatereplay:						; called from other segments
 	asl a
 	ora.w $05B6
 	sta.b WMDATA&$FF
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	sta.b WMDATA&$FF
 	lda.l $7E24CB
 	sta.b WMDATA&$FF
@@ -460,12 +460,12 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	bit.w pausepad
 	bpl .1
 	stz.w pausepad
-.1:									; $2CDF = $48, $2CE1 = 0, $7E24CA = $0000, A = $0800, ...
+.1:									; $2CDF = $48, $2CE1 = 0, Crowdlevel = $0000, A = $0800, ...
 	lda.b $48
 	sta.w $2CDF
 	stz.w $2CE1
 	lda.w #$0000
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$0800
 	tsb.w sflags
 	jsl.l ClrHor
@@ -1455,7 +1455,7 @@ adda43:								; from adda4 and other segments
 	lsr a
 	sta.w $05B8
 	lda.b $80
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.b $80
 	sta.l $7E24CB
 	lda.b $80
@@ -1650,7 +1650,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lsr a
 	sta.w $05B8
 	lda.l WMDATA
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.l WMDATA
 	sta.l $7E24CB
 	lda.l WMDATA

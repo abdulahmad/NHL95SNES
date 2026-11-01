@@ -515,7 +515,7 @@ dopass_count:						; from dopass and other segments
 	sta.b d4
 	lda.w passReceiverPlayerNum
 	sta.b d0
-	jsl.l CODE_C5376A
+	jsl.l AssignPadIfFree
 	lda.w playerpad,x
 	bmi .rtl
 	jsl.l findpc
@@ -998,11 +998,11 @@ puckgoalie:							; called from other segments
 	lda.w #$000A
 	jsl.l StartSound
 	bra .11
-.10:								; A = $7E24CA, A + $0258, $7E24CA = A, crowdhold = $003C
-	lda.l $7E24CA
+.10:								; A = Crowdlevel, A + $0258, Crowdlevel = A, crowdhold = $003C
+	lda.l Crowdlevel
 	clc
 	adc.w #$0258
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
 .11:								; if puckc < 0 go to .12, A / 2
@@ -1353,22 +1353,22 @@ Goal:								; called from other segments
 	beq .16
 	lda.w #$0004
 	jsl.l StartBenchCheer
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	sec
 	sbc.w #$0300
 	bpl .15
 	lda.w #$0000
-.15:								; $7E24CA = A, go to .17
-	sta.l $7E24CA
+.15:								; Crowdlevel = A, go to .17
+	sta.l Crowdlevel
 	bra .17
-.16:								; A + 1, A + 1, call StartBenchCheer, A = $7E24CA, ...
+.16:								; A + 1, A + 1, call StartBenchCheer, A = Crowdlevel, ...
 	inc a
 	inc a
 	jsl.l StartBenchCheer
-	lda.l $7E24CA
+	lda.l Crowdlevel
 	clc
 	adc.w #$01F4
-	sta.l $7E24CA
+	sta.l Crowdlevel
 	lda.w #$0078
 	sta.b crowdhold
 	lda.w #$0003

@@ -5205,7 +5205,7 @@ $C5375B,.4,CODE_C5375B,new,"branch target only used in PuckCarrierPad",src/bankC
 $C5375D,.5,CODE_C5375D,new,"branch target only used in PuckCarrierPad",src/bankC5_3000.asm
 $C53764,.6,CODE_C53764,new,"branch target only used in PuckCarrierPad",src/bankC5_3000.asm
 $C53769,.rtl,CODE_C53769,new,"branch target only used in PuckCarrierPad",src/bankC5_3000.asm
-$C53775,.rtl,CODE_C53775,new,"branch target only used in CODE_C5376A",src/bankC5_3000.asm
+$C53775,.rtl,CODE_C53775,new,"branch target only used in AssignPadIfFree",src/bankC5_3000.asm
 $C537A8,.1,CODE_C537A8,new,"branch target only used in AssignPadPlayer",src/bankC5_3000.asm
 $C537C3,.rtl,CODE_C537C3,new,"branch target only used in AssignPadPlayer",src/bankC5_3000.asm
 $C537F8,.1,CODE_C537F8,new,"branch target only used in CODE_C537DE",src/bankC5_3000.asm
@@ -7943,3 +7943,7 @@ $C4AD04,AssignTeamSkaters,CODE_C4AD04,code,"from the code; Goal calls it",src/ba
 $C4AD25,GoalReturn,CODE_C4AD25,code,"the rtl after AssignTeamSkaters, the target of Goal's branch",src/bankC4_A000.asm
 $C4AF74,OffsidesReturn,CODE_C4AF74,code,"the rtl reached from ChkOffsides, ChkOffsides_other and ClearOffsidesIfAllPlayers",src/bankC4_A000.asm
 $C4AF75,OffsidesNextPlayer,CODE_C4AF75,code,"from the code",src/bankC4_A000.asm
+$C5376A,AssignPadIfFree,CODE_C5376A,94S+code,"the same instructions as 94S AssignPadIfFree (playerpad,y test, AssignPadPlayer); puckglue calls it where 94S puckglue does",src/bankC5_3000.asm
+$12B3,tmfowon,,94S+code,"RAM: 94S puckglue side by side (inc tmfowon,y for the team winning a face off); between tmscore and tmline at tmline's offset from 94S",src/ram95s.asm
+$12DB,tmpasscomp,,94S+code,"RAM: 94S puckglue side by side (inc tmpasscomp,y when the pass receiver gets the puck); tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$24CA,Crowdlevel,,94S+code,"RAM: 94S puckglue side by side (Crowdlevel + $C8 and crowdhold 20 after a face off win); updatecrowdf reads and lowers it as in 94S; a long address as in 94S, so the two absolute operands read Crowdlevel&$FFFF",src/ram95s.asm

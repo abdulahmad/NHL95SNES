@@ -243,6 +243,7 @@ tmsort				=	$1283		; first object index of the team
 tmPerShots			=	$1287		; shots by period: + period * 4 + team * 2 (ChkShotStat)
 tmPerGoals			=	$129B		; goals by period: + period * 4 + team * 2 (Goal)
 tmscore				=	$12AB		; score
+tmfowon				=	$12B3		; per team: face offs won (puckglue)
 tmline				=	$12B7		; current line
 tmtouch1			=	$12BB		; pnum of the last touch
 tmtouch2			=	$12BF		; second last touch
@@ -252,6 +253,7 @@ tmgoalie			=	$12CB		; home and away goalie (words): low byte = goalie 0/1, $FFxx
 tmnear				=	$12CF		; nearest distance to the puck this frame, per team (updateplayers)
 tmnearpl			=	$12D3		; the team's player nearest the puck (updateplayers, assnearest)
 tmchecks			=	$12D7		; per team: body checks (FallDown)
+tmpasscomp			=	$12DB		; per team: completed passes (puckglue)
 tmpassatt			=	$12DF		; per team: pass attempts (dopass_count)
 tmBreakaways		=	$12E3		; per team: breakaways (StartBreakaway)
 tmBreakawayGoals	=	$12E7		; per team: breakaway goals (Goal)
@@ -357,4 +359,5 @@ tickerstart			=	$24C8		; TickerNum kept by Intermission; Intermission_tick stops
 sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set
 
 ; work RAM, long addresses
+Crowdlevel			=	$7E24CA		; crowd noise level: the play raises it, updatecrowdf lets it fade
 unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)
