@@ -281,13 +281,13 @@ CODE_C5E17C:						; called from other segments
 	lda.w $0000,y
 	bne .1
 	lda.w $0002,y
-	jsr.w CODE_C5E20B
+	jsr.w AddTeamSeasonStats
 	tya
 	clc
 	adc.w #$0016
 	tax
 	lda.w $0004,y
-	jsr.w CODE_C5E20B
+	jsr.w AddTeamSeasonStats
 	lda.b $0E
 	asl a
 	tax
@@ -342,7 +342,9 @@ CODE_C5E17C:						; called from other segments
 	lda.b $0C
 	sta.l $306051
 	rts
-CODE_C5E20B:						; from CODE_C5E17C and other segments
+AddTeamSeasonStats:					; adds team A's game totals (the table at Y) to its season record in save
+									; RAM: the record read (BuildTeamSeasonRecord), each field plus the game
+									; value written back
 	phy
 	phx
 	pha
@@ -359,91 +361,93 @@ CODE_C5E20B:						; from CODE_C5E17C and other segments
 	clc
 	lda.l $7E000E,x
 	adc.w $000C,y
-	jsr.w CODE_C5E2B0
+	jsr.w PutTeamStat12
 	clc
 	lda.l $7E0018,x
 	adc.w $000E,y
-	jsr.w CODE_C5E2A6
+	jsr.w PutTeamStat13
 	clc
 	lda.l $7E001C,x
 	adc.w $0010,y
-	jsr.w CODE_C5E29C
+	jsr.w PutTeamStat14
 	clc
 	lda.l $7E001E,x
 	adc.w $0012,y
-	jsr.w CODE_C5E2BA
+	jsr.w PutTeamStat11
 	clc
 	lda.l $7E0020,x
 	adc.w $0014,y
-	jsr.w CODE_C5E2BA
+	jsr.w PutTeamStat11
 	clc
 	lda.l $7E0022,x
 	adc.w $0016,y
-	jsr.w CODE_C5E2BA
+	jsr.w PutTeamStat11
 	clc
 	lda.l $7E0024,x
 	adc.w $0018,y
-	jsr.w CODE_C5E2BA
+	jsr.w PutTeamStat11
 	clc
 	lda.l $7E0026,x
 	adc.w $001A,y
-	jsr.w CODE_C5E2BA
+	jsr.w PutTeamStat11
 	clc
 	lda.l $7E0028,x
 	adc.w $001C,y
-	jsr.w CODE_C5E2BA
+	jsr.w PutTeamStat11
 	clc
 	lda.l $7E002A,x
 	adc.w $001E,y
-	jsr.w CODE_C5E2B0
+	jsr.w PutTeamStat12
 	clc
 	lda.l $7E002E,x
 	adc.w $0020,y
-	jsr.w CODE_C5E29C
+	jsr.w PutTeamStat14
 	ply
 	rts
-CODE_C5E29C:						; from CODE_C5E20B
+PutTeamStat14:						; writes A as the next 14-bit team stat, X kept
 	stx.b tmp2
 	sta.b tmp1
-	jsr.w CODE_C5E2C4
+	jsr.w WriteTeamStatBits14
 	ldx.b tmp2
 	rts
-CODE_C5E2A6:						; from CODE_C5E20B
+PutTeamStat13:						; writes A as the next 13-bit team stat, X kept
 	stx.b tmp2
 	sta.b tmp1
-	jsr.w CODE_C5E2C7
+	jsr.w WriteTeamStatBits13
 	ldx.b tmp2
 	rts
-CODE_C5E2B0:						; from CODE_C5E20B
+PutTeamStat12:						; writes A as the next 12-bit team stat, X kept
 	stx.b tmp2
 	sta.b tmp1
-	jsr.w CODE_C5E2CA
+	jsr.w WriteTeamStatBits12
 	ldx.b tmp2
 	rts
-CODE_C5E2BA:						; from CODE_C5E20B
+PutTeamStat11:						; writes A as the next 11-bit team stat (WriteTeamStatBits11), X kept
 	stx.b tmp2
 	sta.b tmp1
-	jsr.w CODE_C5E2CD
+	jsr.w WriteTeamStatBits11
 	ldx.b tmp2
 	rts
-CODE_C5E2C4:						; from CODE_C5E29C
-	jsr.w CODE_C5E2EB
-CODE_C5E2C7:						; from CODE_C5E2A6
-	jsr.w CODE_C5E2EB
-CODE_C5E2CA:						; from CODE_C5E2B0
-	jsr.w CODE_C5E2EB
-CODE_C5E2CD:						; from CODE_C5E2BA
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-	jsr.w CODE_C5E2EB
-CODE_C5E2EB:						; from CODE_C5E2CA, CODE_C5E2CD, CODE_C5E2C7, CODE_C5E2C4
+WriteTeamStatBits14:				; writes the low 14 bits of tmp1 from bit r2 on
+	jsr.w WriteTeamStatBit
+WriteTeamStatBits13:				; writes the low 13 bits of tmp1 from bit r2 on
+	jsr.w WriteTeamStatBit
+WriteTeamStatBits12:				; writes the low 12 bits of tmp1 from bit r2 on
+	jsr.w WriteTeamStatBit
+WriteTeamStatBits11:				; writes the low 11 bits of tmp1 from bit r2 on (WriteTeamStatBit 11
+									; times)
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+	jsr.w WriteTeamStatBit
+WriteTeamStatBit:					; writes bit 0 of tmp1 to bit r2 of the team stats bit stream at $306E43;
+									; tmp1 / 2, r2 + 1
 	lsr.b tmp1
 	bcs .1
 	lda.b r2
@@ -643,8 +647,8 @@ CODE_C5E474:						; called from other segments
 	lda.w #$026A
 	sta.b $A5
 	ldy.w #$0000
-.loop:								; loop: call CODE_C5D7E9, if A = $0000 go to .1, push Y, A = $A5, ...
-	jsr.w CODE_C5D7E9
+.loop:								; loop: call NextSaveBits3, if A = $0000 go to .1, push Y, A = $A5, ...
+	jsr.w NextSaveBits3
 	cmp.w #$0000
 	beq .1
 	phy

@@ -1459,13 +1459,13 @@ CODE_C50BEC:						; from PeriodOver
 	jsr.w CODE_C5DE1F
 	tyx
 	lda.w $0002,y
-	jsr.w CODE_C5E20B
+	jsr.w AddTeamSeasonStats
 	tya
 	clc
 	adc.w #$0016
 	tax
 	lda.w $0004,y
-	jsr.w CODE_C5E20B
+	jsr.w AddTeamSeasonStats
 	plb
 	jsl.l CODE_C40A6D
 .rts:								; return

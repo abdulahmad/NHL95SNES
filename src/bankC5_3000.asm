@@ -229,13 +229,13 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-.4:									; if $003A,y < $026A go to .5, push Y, call CODE_C5D7CD, ...
+.4:									; if $003A,y < $026A go to .5, push Y, call CreatedPlayerBits, ...
 	lda.w $003A,y
 	cmp.w #$026A
 	bcc .5
 	phy
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	ply
 	cmp.w #$0000
 	bne .7
@@ -266,13 +266,13 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-.8:									; if $003A,y < $026A go to .9, push Y, call CODE_C5D7CD, ...
+.8:									; if $003A,y < $026A go to .9, push Y, call CreatedPlayerBits, ...
 	lda.w $003A,y
 	cmp.w #$026A
 	bcc .9
 	phy
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	ply
 	cmp.w #$0003
 	bcc .11

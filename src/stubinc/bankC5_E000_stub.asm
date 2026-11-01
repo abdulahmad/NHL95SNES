@@ -22,7 +22,7 @@ CODE_C5A3C1 = $C5A3C1
 CODE_C5A46A = $C5A46A
 BuildTeamSeasonRecord = $C5B983
 RefreshSprites = $C5BBC0
-CODE_C5D7E9 = $C5D7E9
+NextSaveBits3 = $C5D7E9
 FadeOutWait = $C58A99
 
 incsrc "../bankC5_E000.asm"

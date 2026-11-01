@@ -1913,12 +1913,12 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	lda.b $03,s
 	tay
 	lda.w $003A,y
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	stz.b $0C
 	pei ($A5)
-.19:								; call CODE_C5D804, X = $A5, if A = $0000 go to .22, ...
-	jsr.w CODE_C5D804
+.19:								; call NextSaveBits5, X = $A5, if A = $0000 go to .22, ...
+	jsr.w NextSaveBits5
 	ldx.b $A5
 	cmp.w #$0000
 	beq .22
@@ -1951,7 +1951,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	cmp.w #$0007
 	beq .23
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	inx
 	bra .loop6
@@ -1965,8 +1965,8 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	inx
 	stx.b $A5
 	phx
-.25:								; call CODE_C5D804, X = $A5, if A = $0000 go to .loop7, ...
-	jsr.w CODE_C5D804
+.25:								; call NextSaveBits5, X = $A5, if A = $0000 go to .loop7, ...
+	jsr.w NextSaveBits5
 	ldx.b $A5
 	cmp.w #$0000
 	beq .loop7
@@ -1990,28 +1990,28 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	cmp.w #$000A
 	bcc .25
 	bra .28
-.loop7:								; loop: A = X, A - $01,s, if A = $0009 go to .28, call CODE_C5D804, ...
+.loop7:								; loop: A = X, A - $01,s, if A = $0009 go to .28, call NextSaveBits5, ...
 	txa
 	sec
 	sbc.b $01,s
 	cmp.w #$0009
 	beq .28
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	ldx.b $A5
 	inx
 	stx.b $A5
 	bra .loop7
-.28:								; pull X, pull A, $A5 = A, call CODE_C5D821, ...
+.28:								; pull X, pull A, $A5 = A, call NextSaveBits7, ...
 	plx
 	pla
 	sta.b $A5
-	jsr.w CODE_C5D821
+	jsr.w NextSaveBits7
 	ldx.b $A5
 	sta.w $0110,x
 	lda.w #$0006
 	sta.b $0A
-.loop8:								; loop: call CODE_C5D83F, A 8-bit, X = $A5, X + 1, ...
-	jsr.w CODE_C5D83F
+.loop8:								; loop: call NextSaveBits8, A 8-bit, X = $A5, X + 1, ...
+	jsr.w NextSaveBits8
 	sep #$20
 	ldx.b $A5
 	inx

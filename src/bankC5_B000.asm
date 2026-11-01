@@ -36,13 +36,13 @@ DrawLeagueLeaders:					; draws the League Leaders page for the current category 
 	jsl.l PrintBoldLeft
 	lda.w #$027E
 	sta.b tmp0
-.loop:								; loop: A = tmp0, A - 1, tmp0 = A, call CODE_C5D7CD, ...
+.loop:								; loop: A = tmp0, A - 1, tmp0 = A, call CreatedPlayerBits, ...
 	lda.b tmp0
 	dec a
 	sta.b tmp0
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
-	jsr.w CODE_C5D804
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
+	jsr.w NextSaveBits5
 	beq .loop
 	lda.w #$0010
 	jsl.l AllocClearWorkBuf
@@ -632,8 +632,8 @@ CODE_C5B53D:						; from FillLeaderEntry
 	cmp.w #$026A
 	bcc .1
 	phy
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	cmp.w #$0001
 	ply
 	rts
@@ -847,15 +847,15 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	cmp.w #$026A
 	bcs .1
 	jmp.w .12
-.1:									; push X, call CODE_C5D7CD, call CODE_C5D7E9, tmp1 = $0000
+.1:									; push X, call CreatedPlayerBits, call NextSaveBits3, tmp1 = $0000
 	phx
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	ldx.w #$0000
 	stx.b tmp1
-.2:									; push X, call CODE_C5D804, pull X, if A = $0000 go to .5, ...
+.2:									; push X, call NextSaveBits5, pull X, if A = $0000 go to .5, ...
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	cmp.w #$0000
 	beq .5
@@ -877,11 +877,11 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	bra .7
 .5:									; push X
 	phx
-.loop:								; loop: if X = $0007 go to .6, push X, call CODE_C5D804, pull X, ...
+.loop:								; loop: if X = $0007 go to .6, push X, call NextSaveBits5, pull X, ...
 	cpx.w #$0007
 	beq .6
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	inx
 	bra .loop
@@ -893,9 +893,9 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	stz.b tmp1
 	inx
 	phx
-.8:									; push X, call CODE_C5D804, pull X, if A = $0000 go to .loop2, ...
+.8:									; push X, call NextSaveBits5, pull X, if A = $0000 go to .loop2, ...
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	cmp.w #$0000
 	beq .loop2
@@ -925,7 +925,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	cmp.w #$0009
 	beq .11
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	inx
 	bra .loop2

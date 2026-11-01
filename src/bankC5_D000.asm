@@ -998,7 +998,8 @@ CODE_C5D794:						; called from other segments
 .3:									; A = Y, return
 	tya
 	rts
-CODE_C5D7CD:						; called from other segments
+CreatedPlayerBits:					; Y = A = the bit offset of created player A's record ($9C bits each, from
+									; player $26A)
 	sec
 	sbc.w #$026A
 	tay
@@ -1020,7 +1021,7 @@ CODE_C5D7CD:						; called from other segments
 	ply
 	tay
 	rts
-CODE_C5D7E9:						; called from other segments
+NextSaveBits3:						; A = the 3 bits at bit Y of the save RAM bit array at $307162; Y + 3
 	tya
 	lsr a
 	lsr a
@@ -1041,7 +1042,7 @@ CODE_C5D7E9:						; called from other segments
 	rol a
 	and.w #$0007
 	rts
-CODE_C5D804:						; called from other segments
+NextSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $307162; Y + 5
 	tya
 	lsr a
 	lsr a
@@ -1064,7 +1065,7 @@ CODE_C5D804:						; called from other segments
 	rol a
 	and.w #$001F
 	rts
-CODE_C5D821:						; called from other segments
+NextSaveBits7:						; A = the 7 bits at bit Y of the save RAM bit array at $307162; Y + 7
 	tya
 	lsr a
 	lsr a
@@ -1086,7 +1087,7 @@ CODE_C5D821:						; called from other segments
 	rol a
 	and.w #$007F
 	rts
-CODE_C5D83F:						; called from other segments
+NextSaveBits8:						; A = the 8 bits at bit Y of the save RAM bit array at $307162; Y + 8
 	tya
 	lsr a
 	lsr a

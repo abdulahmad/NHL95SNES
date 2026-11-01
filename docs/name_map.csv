@@ -6743,10 +6743,10 @@ $C5D798,.loop,CODE_C5D798,new,"branch target only used in CODE_C5D794",src/bankC
 $C5D7A8,.1,CODE_C5D7A8,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
 $C5D7C2,.2,CODE_C5D7C2,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
 $C5D7CB,.3,CODE_C5D7CB,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
-$C5D7FB,.loop,CODE_C5D7FB,new,"branch target only used in CODE_C5D7E9",src/bankC5_D000.asm
-$C5D818,.loop,CODE_C5D818,new,"branch target only used in CODE_C5D804",src/bankC5_D000.asm
-$C5D836,.loop,CODE_C5D836,new,"branch target only used in CODE_C5D821",src/bankC5_D000.asm
-$C5D854,.loop,CODE_C5D854,new,"branch target only used in CODE_C5D83F",src/bankC5_D000.asm
+$C5D7FB,.loop,CODE_C5D7FB,new,"branch target only used in NextSaveBits3",src/bankC5_D000.asm
+$C5D818,.loop,CODE_C5D818,new,"branch target only used in NextSaveBits5",src/bankC5_D000.asm
+$C5D836,.loop,CODE_C5D836,new,"branch target only used in NextSaveBits7",src/bankC5_D000.asm
+$C5D854,.loop,CODE_C5D854,new,"branch target only used in NextSaveBits8",src/bankC5_D000.asm
 $C5DA25,.1,CODE_C5DA25,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
 $C5DA2A,.2,CODE_C5DA2A,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
 $C5DA50,.3,CODE_C5DA50,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
@@ -6806,7 +6806,7 @@ $C5E0FB,.loop2,CODE_C5E0FB,new,"branch target only used in CODE_C5E0DF",src/bank
 $C5E192,.loop,CODE_C5E192,new,"branch target only used in CODE_C5E17C",src/bankC5_E000.asm
 $C5E1EB,.1,CODE_C5E1EB,new,"branch target only used in CODE_C5E17C",src/bankC5_E000.asm
 $C5E1FF,.loop2,CODE_C5E1FF,new,"branch target only used in CODE_C5E17C",src/bankC5_E000.asm
-$C5E314,.1,CODE_C5E314,new,"branch target only used in CODE_C5E2EB",src/bankC5_E000.asm
+$C5E314,.1,CODE_C5E314,new,"branch target only used in WriteTeamStatBit",src/bankC5_E000.asm
 $C5E34D,.loop,CODE_C5E34D,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
 $C5E36F,.1,CODE_C5E36F,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
 $C5E38C,.loop,CODE_C5E38C,new,"branch target only used in CODE_C5E37E",src/bankC5_E000.asm
@@ -7712,3 +7712,18 @@ $C55F8A,FitNameToWorkBuf,CODE_C55F8A,code,"from the code: AllocWorkBuf A + 2, th
 $C55F98,UnpackFitName,CODE_C55F98,code,"from the code: UnpackText, then the same length test, initial and cut as FitName",src/bankC5_5000.asm
 $C55D73,ClearTextRow,CODE_C55D73,code,"from the code: $6D * 64 + $D3, 32 words of 0; the scrolling list routines call it",src/bankC5_5000.asm
 $C55EC3,BCDTextLong,CODE_C55EC3,code,"jsr BCDText, rtl",src/bankC5_5000.asm
+$C5E20B,AddTeamSeasonStats,CODE_C5E20B,genesis+purpose,"95 Genesis AddTeamSeasonStats's job (the game totals into the team's record in SRTeamStats); the field widths written match BuildTeamSeasonRecord's reads (12, 13, 14, six of 11, 12, 14 bits)",src/bankC5_E000.asm
+$C5E2EB,WriteTeamStatBit,CODE_C5E2EB,code,"from the code: as WriteSaveBit, on $306E43 with the bit pointer r2",src/bankC5_E000.asm
+$C5E2CD,WriteTeamStatBits11,CODE_C5E2CD,code,"from the code: ten calls, then falls into WriteTeamStatBit",src/bankC5_E000.asm
+$C5E2CA,WriteTeamStatBits12,CODE_C5E2CA,code,"from the code: one call, then falls into WriteTeamStatBits11",src/bankC5_E000.asm
+$C5E2C7,WriteTeamStatBits13,CODE_C5E2C7,code,"from the code: one call, then falls into WriteTeamStatBits12",src/bankC5_E000.asm
+$C5E2C4,WriteTeamStatBits14,CODE_C5E2C4,code,"from the code: one call, then falls into WriteTeamStatBits13",src/bankC5_E000.asm
+$C5E2BA,PutTeamStat11,CODE_C5E2BA,code,"from the code: X to tmp2, A to tmp1, the writer, X back",src/bankC5_E000.asm
+$C5E2B0,PutTeamStat12,CODE_C5E2B0,code,"from the code: as PutTeamStat11 with WriteTeamStatBits12",src/bankC5_E000.asm
+$C5E2A6,PutTeamStat13,CODE_C5E2A6,code,"from the code: as PutTeamStat11 with WriteTeamStatBits13",src/bankC5_E000.asm
+$C5E29C,PutTeamStat14,CODE_C5E29C,code,"from the code: as PutTeamStat11 with WriteTeamStatBits14",src/bankC5_E000.asm
+$C5D7E9,NextSaveBits3,CODE_C5D7E9,code,"from the code: byte Y / 8 shifted by Y and 7, 3 bits; the read side of WriteSaveBits3",src/bankC5_D000.asm
+$C5D804,NextSaveBits5,CODE_C5D804,code,"from the code: as NextSaveBits3 with 5 bits",src/bankC5_D000.asm
+$C5D821,NextSaveBits7,CODE_C5D821,code,"from the code: as NextSaveBits3 with 7 bits",src/bankC5_D000.asm
+$C5D83F,NextSaveBits8,CODE_C5D83F,code,"from the code: as NextSaveBits3 with 8 bits",src/bankC5_D000.asm
+$C5D7CD,CreatedPlayerBits,CODE_C5D7CD,code,"from the code: (A - $26A) * $9C by shifts and adds; the slot stride of SaveCreatedPlayer",src/bankC5_D000.asm

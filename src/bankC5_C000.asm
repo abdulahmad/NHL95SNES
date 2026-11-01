@@ -473,14 +473,14 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	cpy.w #$0008
 	bne .loop
 	jmp.w .15
-.4:									; call CODE_C5D7CD, call CODE_C5D7E9, $A5 = $0000
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+.4:									; call CreatedPlayerBits, call NextSaveBits3, $A5 = $0000
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	ldx.w #$0000
 	stx.b $A5
-.5:									; push X, call CODE_C5D804, pull X, if A = $0000 go to .8, ...
+.5:									; push X, call NextSaveBits5, pull X, if A = $0000 go to .8, ...
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	cmp.w #$0000
 	beq .8
@@ -502,11 +502,11 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	bra .10
 .8:									; push X
 	phx
-.loop2:								; loop: if X = $0007 go to .9, push X, call CODE_C5D804, pull X, ...
+.loop2:								; loop: if X = $0007 go to .9, push X, call NextSaveBits5, pull X, ...
 	cpx.w #$0007
 	beq .9
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	inx
 	bra .loop2
@@ -518,9 +518,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	stz.b $A5
 	inx
 	phx
-.11:								; push X, call CODE_C5D804, pull X, if A = $0000 go to .loop3, ...
+.11:								; push X, call NextSaveBits5, pull X, if A = $0000 go to .loop3, ...
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	cmp.w #$0000
 	beq .loop3
@@ -550,7 +550,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	cmp.w #$0009
 	beq .14
 	phx
-	jsr.w CODE_C5D804
+	jsr.w NextSaveBits5
 	plx
 	inx
 	bra .loop3
@@ -565,7 +565,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	ldy.b $65
-	jsr.w CODE_C5D821
+	jsr.w NextSaveBits7
 	sty.b $65
 	tax
 	lda.l BCDTable,x
@@ -578,9 +578,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	jsl.l PrintBoldLeftStr
 	ldy.b $65
 	ldx.w #$0001
-.loop4:								; loop: push X, call CODE_C5D83F, pull X, A 8-bit, ...
+.loop4:								; loop: push X, call NextSaveBits8, pull X, A 8-bit, ...
 	phx
-	jsr.w CODE_C5D83F
+	jsr.w NextSaveBits8
 	plx
 	sep #$20
 	sta.w mesarea,x
@@ -637,9 +637,9 @@ CODE_C5C4FC:						; from DrawFreeAgentsPage, SignFreeAgents
 	sta.b tmp0
 	ldx.b a3
 	bra .8
-.4:									; call CODE_C5D7CD, call CODE_C5D7E9, tmp0 = A, X = a3, ...
-	jsr.w CODE_C5D7CD
-	jsr.w CODE_C5D7E9
+.4:									; call CreatedPlayerBits, call NextSaveBits3, tmp0 = A, X = a3, ...
+	jsr.w CreatedPlayerBits
+	jsr.w NextSaveBits3
 	sta.b tmp0
 	ldx.b a3
 	cmp.w #$0000
@@ -724,16 +724,16 @@ CODE_C5C58A:						; from SignFreeAgents
 	ora.w #$0FE0
 	ora.w $17CB
 	sta.l $306A56,x
-.4:									; if tmp0 < $026A go to .5, call CODE_C5D7CD, A = Y, A + $005D, ...
+.4:									; if tmp0 < $026A go to .5, call CreatedPlayerBits, A = Y, A + $005D, ...
 	lda.b tmp0
 	cmp.w #$026A
 	bcc .5
-	jsr.w CODE_C5D7CD
+	jsr.w CreatedPlayerBits
 	tya
 	clc
 	adc.w #$005D
 	tay
-	jsr.w CODE_C5D821
+	jsr.w NextSaveBits7
 	bra .loop
 .5:									; A * 2, A + $0038, X = A, A = $C30000,x, ...
 	asl a
