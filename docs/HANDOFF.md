@@ -15,7 +15,7 @@
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   Bank $C6: frame source and placement tables, raw frame tiles and VezinaPic. Banks $C7 / $C8: raw frame tiles, then
   SelkePic / ConnSmythePic (award pictures). The remaining segments in banks $C9-$CF are incbin.
-- Next: segment bankC9_E000, org $C9E04B (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C8 are all source (the code banks $C4
+- Next: segment bankC9_F000, org $C9F14B (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C8 are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
