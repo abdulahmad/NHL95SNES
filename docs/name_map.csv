@@ -5991,9 +5991,9 @@ $C57111,.2,CODE_C57111,new,"branch target only used in CODE_C570F4",src/bankC5_7
 $C5711B,.3,CODE_C5711B,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
 $C57131,.4,CODE_C57131,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
 $C5713B,.5,CODE_C5713B,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
-$C57153,.1,CODE_C57153,new,"branch target only used in CODE_C57149",src/bankC5_7000.asm
-$C57162,.2,CODE_C57162,new,"branch target only used in CODE_C57149",src/bankC5_7000.asm
-$C57177,.3,CODE_C57177,new,"branch target only used in CODE_C57149",src/bankC5_7000.asm
+$C57153,.1,CODE_C57153,new,"branch target only used in AttribEnergy",src/bankC5_7000.asm
+$C57162,.2,CODE_C57162,new,"branch target only used in AttribEnergy",src/bankC5_7000.asm
+$C57177,.3,CODE_C57177,new,"branch target only used in AttribEnergy",src/bankC5_7000.asm
 $C571E1,.1,CODE_C571E1,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
 $C571F7,.2,CODE_C571F7,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
 $C57206,.3,CODE_C57206,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
@@ -7441,3 +7441,4 @@ $C38824,FillPlayerAssignments,CODE_C38824,code,"stores X in puckc and calls the 
 $C57329,PauseReplay,CODE_C57329,94S+purpose,"same job as 94S PauseReplay, side by side: d7 kept, vcountmark+2 = Vcount+2 - 2, ReplayMode, d7 / timestep back; 95 skips ReplayMode when $17D1 is set and jumps to Pausemode_menu_resume; the first item of the pause menu's Options tab",src/bankC5_7000.asm
 $C53F8D,resetplstuff,CODE_C53F8D,94S+code,"the same code as 94S resetplstuff: the d0-d2 / a0-a4 words saved, .t1 for a2 = 0 and 2, the words back",src/bankC5_3000.asm
 $C53FE5,ResetTeamPlayers,CODE_C53FE5,code,"the body 94S keeps as resetplstuff's local .t1, the same code side by side (tmflags, tmsort, pf2aip, pflags, SetSPAFromA, impact, nopuck, pfnc / pfrev / pfalock); 95 also clears bit $0800 of $08E0,x when $0FC0,x is set",src/bankC5_4000.asm
+$C57149,AttribEnergy,CODE_C57149,94S+purpose,"same job as 94S AttribEnergy (energy word / 40, at most 100, printed): the energy from the team's tmpde block, OptLine 2 gives $1000, Div16x8U by $28, cap $64, then BinToBCD / BCDText / PrintBoldCentredStr",src/bankC5_7000.asm

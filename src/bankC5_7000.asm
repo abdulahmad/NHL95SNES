@@ -197,7 +197,7 @@ CODE_C570CC:						; from CODE_C5705E
 .1:									; go to CODE_C5705E
 	jmp.w CODE_C5705E
 DATA8_C570E8:						; jump table: the routine for each index
-	dw CODE_C570F4,CODE_C57149,CODE_C57187,CODE_C5719B
+	dw CODE_C570F4,AttribEnergy,CODE_C57187,CODE_C5719B
 	dw $0000,CODE_C571B4
 CODE_C570F4:						; from DATA8_C570E8
 	lda.b d0
@@ -242,7 +242,8 @@ CODE_C570F4:						; from DATA8_C570E8
 	ldy.b $6D
 	jsl.l PrintBoldCentred
 	rts
-CODE_C57149:						; from DATA8_C570E8
+AttribEnergy:						; prints the energy of roster player d0 of team a2 as a percentage: the
+									; energy / 40, at most 100 ($1000 when line changes are automatic)
 	lda.b d0
 	asl a
 	ldx.b a2
