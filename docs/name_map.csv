@@ -1815,3 +1815,10 @@ $C8C8B9,DATA8_C8C8B9,,new,"raw frame tiles for transfer index $1BE; pose not tra
 $C8CB19,DATA8_C8CB19,,new,"raw frame tiles for transfer index $1BF; pose not traced",src/bankC8_C000.asm
 $C8CD19,DATA8_C8CD19,,new,"raw frame tiles for transfer index $1C0; pose not traced",src/bankC8_C000.asm
 $C8CF19,DATA8_C8CF19,,new,"raw frame tiles for transfer index $1C1; pose not traced",src/bankC8_C000.asm
+$C8D199,DATA8_C8D199,,new,"raw frame tiles for transfer index $1C2; pose not traced",src/bankC8_D000.asm
+$C8D419,DATA8_C8D419,,new,"raw frame tiles for transfer index $1C3; pose not traced",src/bankC8_D000.asm
+$C8D699,DATA8_C8D699,,new,"raw frame tiles for transfer index $1C4; pose not traced",src/bankC8_D000.asm
+$C8D8B9,DATA8_C8D8B9,,new,"raw frame tiles for transfer index $1C5; pose not traced",src/bankC8_D000.asm
+$C8DAD9,DATA8_C8DAD9,,new,"raw frame tiles for transfer index $1C6; pose not traced",src/bankC8_D000.asm
+$C8DCD9,DATA8_C8DCD9,,new,"raw frame tiles for transfer index $1C7; pose not traced",src/bankC8_D000.asm
+$C8DED9,DATA8_C8DED9,,new,"raw frame tiles for transfer index $1C8; pose not traced",src/bankC8_D000.asm
