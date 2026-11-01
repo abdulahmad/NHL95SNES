@@ -2051,3 +2051,11 @@ $CADBB9,DATA8_CADBB9,,new,"raw frame tiles for transfer index $2C4; pose not tra
 $CADCB9,DATA8_CADCB9,,new,"raw frame tiles for transfer index $2C5; pose not traced",src/bankCA_D000.asm
 $CADE39,DATA8_CADE39,,new,"raw frame tiles for transfer index $2C6; pose not traced",src/bankCA_D000.asm
 $CADFB9,DATA8_CADFB9,,new,"raw frame tiles for transfer index $2C7; pose not traced",src/bankCA_D000.asm
+$CAE139,DATA8_CAE139,,new,"raw frame tiles for transfer index $2C8; pose not traced",src/bankCA_E000.asm
+$CAE2B9,DATA8_CAE2B9,,new,"raw frame tiles for transfer index $2C9; pose not traced",src/bankCA_E000.asm
+$CAE3B9,DATA8_CAE3B9,,new,"raw frame tiles for transfer index $2CA; pose not traced",src/bankCA_E000.asm
+$CAE4B9,DATA8_CAE4B9,,new,"raw frame tiles for transfer index $2CB; pose not traced",src/bankCA_E000.asm
+$CAE6B9,DATA8_CAE6B9,,new,"raw frame tiles for transfer index $2CC; pose not traced",src/bankCA_E000.asm
+$CAE939,DATA8_CAE939,,new,"raw frame tiles for transfer index $2CD; pose not traced",src/bankCA_E000.asm
+$CAEBB9,DATA8_CAEBB9,,new,"raw frame tiles for transfer index $2CE; pose not traced",src/bankCA_E000.asm
+$CAEE39,DATA8_CAEE39,,new,"raw frame tiles for transfer index $2CF; pose not traced",src/bankCA_E000.asm
