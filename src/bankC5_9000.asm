@@ -86,7 +86,7 @@ CODE_C59052:						; called from other segments
 	jsl.l CreateSprite
 	stx.b d7
 	jsr.w CODE_C5A4B9
-.1:									; X = $9D, A = $17CB, if A = $24,x go to .rts, $18 = $05,x, ...
+.1:									; X = $9D, if $17CB = $24,x go to .rts, $18 = $05,x, $1A = $08,x, ...
 	ldx.b $9D
 	lda.w $17CB
 	cmp.b $24,x
@@ -289,7 +289,7 @@ CODE_C592A9:						; from CODE_C590DA
 	dec a
 	beq .1
 	jsr.w CODE_C5E41D
-.1:									; A = $1864, if A is not $0003 go to .3, A = $17CB, ...
+.1:									; if $1864 is not $0003 go to .3, if $17CB is not $17C9 go to .3, ...
 	lda.w $1864
 	cmp.w #$0003
 	bne .3
@@ -508,25 +508,25 @@ CODE_C59483:						; from CODE_C593B8
 	beq .1
 	ldx.b a4
 	jsr.w CODE_C594C6
-.1:									; A = PadRaw2, if A = $0567 go to .2, X = $75, call CODE_C594C6
+.1:									; if PadRaw2 = $0567 go to .2, X = $75, call CODE_C594C6
 	lda.w PadRaw2
 	cmp.w $0567
 	beq .2
 	ldx.b $75
 	jsr.w CODE_C594C6
-.2:									; A = $00C5, if A = $0569 go to .3, X = $77, call CODE_C594C6
+.2:									; if $00C5 = $0569 go to .3, X = $77, call CODE_C594C6
 	lda.w $00C5
 	cmp.w $0569
 	beq .3
 	ldx.b $77
 	jsr.w CODE_C594C6
-.3:									; A = $00C7, if A = $056B go to .4, X = $79, call CODE_C594C6
+.3:									; if $00C7 = $056B go to .4, X = $79, call CODE_C594C6
 	lda.w $00C7
 	cmp.w $056B
 	beq .4
 	ldx.b $79
 	jsr.w CODE_C594C6
-.4:									; A = $00C9, if A = $056D go to .rts, X = $7B, go to CODE_C594C6
+.4:									; if $00C9 = $056D go to .rts, X = $7B, go to CODE_C594C6
 	lda.w $00C9
 	cmp.w $056D
 	beq .rts
@@ -559,7 +559,7 @@ CODE_C594C6:						; from CODE_C59483, CODE_C59483, ...
 .4:									; $05,x = A, return
 	sta.b $05,x
 	rts
-.5:									; if $0200 bits clear go to .rts, A = $05,x, if A < $0081 go to .6, ...
+.5:									; if $0200 bits clear go to .rts, if $05,x < $0081 go to .6, d1 - 1, ...
 	bit.w #$0200
 	beq .rts
 	lda.b $05,x
@@ -567,7 +567,7 @@ CODE_C594C6:						; from CODE_C59483, CODE_C59483, ...
 	bcc .6
 	dec.b d1
 	bra .7
-.6:									; A = $85, if A >= $81 go to .rts, A = $05,x
+.6:									; if $85 >= $81 go to .rts, A = $05,x
 	lda.b $85
 	cmp.b $81
 	bcs .rts

@@ -72,7 +72,7 @@ CODE_C45FAC:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Xvel,x = A
+.4:									; pull A, if carry clear go to .5, Xvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -184,7 +184,7 @@ CODE_C46075:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -304,7 +304,7 @@ CODE_C4615F:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -406,7 +406,7 @@ CODE_C4624F:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Yvel,x = A
+.4:									; pull A, if carry clear go to .5, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -506,7 +506,7 @@ CODE_C46317:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Yvel,x = A
+.4:									; pull A, if carry clear go to .5, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -619,7 +619,7 @@ CODE_C463E3:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -740,7 +740,7 @@ CODE_C464CE:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -842,7 +842,7 @@ CODE_C465C1:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Xvel,x = A
+.4:									; pull A, if carry clear go to .5, Xvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -942,7 +942,7 @@ CODE_C46689:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Xvel,x = A
+.4:									; pull A, if carry clear go to .5, Xvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1054,7 +1054,7 @@ CODE_C46755:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1174,7 +1174,7 @@ CODE_C4683F:						; called from other segments
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1214,7 +1214,7 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	lda.w position,x
 	bne .1
 	jmp.w goalieacc
-.1:									; A = SPA,x, if A = $2082 go to .rtl, d1 = $1958, ...
+.1:									; if SPA,x = $2082 go to .rtl, d1 = $1958, if pfrev,x = 0 go to .2, ...
 	lda.w SPA,x
 	cmp.w #$2082
 	beq .rtl
@@ -1285,7 +1285,7 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	lda.b d2
 	eor.w #$0004
 	sta.b d2
-.7:									; if pfrev,x is not 0 go to .8, if d3 >= 0 go to .11, A = d2, ...
+.7:									; if pfrev,x is not 0 go to .8, if d3 >= 0 go to .11, ...
 	lda.w pfrev,x
 	bne .8
 	lda.b d3
@@ -1428,7 +1428,7 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	jsl.l SetSPA
 	lda.w #$0001
 	sta.w pf2aip,x
-.18:								; A = d3, if A < $0003 go to .rtl2, go to revplayeracc
+.18:								; if d3 < $0003 go to .rtl2, go to revplayeracc
 	lda.b d3
 	cmp.w #$0003
 	bcc .rtl2
@@ -1607,7 +1607,7 @@ CODE_C46C99:						; from CODE_C46BF6
 	cmp.w #$FEF2
 	bmi .rts
 	bra CODE_C46CE3
-.1:									; A = $3E, if minus go to .3, if $44 < 0 go to .rts, A = p0, ...
+.1:									; if $3E - $FEF2 < 0 go to .3, if $44 < 0 go to .rts, ...
 	lda.b $3E
 	cmp.w #$FEF2
 	bmi .3
@@ -1622,7 +1622,7 @@ CODE_C46C99:						; from CODE_C46BF6
 	sta.b d1
 .rts:								; return
 	rts
-.2:									; if plus go to .rts2, d1 = $42
+.2:									; if A - Xpos,y >= 0 go to .rts2, d1 = $42
 	cmp.w Xpos,y
 	bpl .rts2
 	lda.b $42
@@ -1694,7 +1694,7 @@ CODE_C46D36:						; from CODE_C46CE3, CODE_C46D7D, CODE_C46CF5
 	lda.w #$FFCA
 	sta.b d0
 	rts
-.1:									; if plus go to CODE_C46D4F, d0 = $0036
+.1:									; if A - $0036 >= 0 go to CODE_C46D4F, d0 = $0036
 	cmp.w #$0036
 	bpl CODE_C46D4F
 	lda.w #$0036
@@ -1780,32 +1780,32 @@ CODE_C46DCA:						; from CODE_C46BF6
 	bpl .4
 .rts:								; return
 	rts
-.1:									; if minus go to .5, tmp1 = $0002, go to .5
+.1:									; if Y - $42 < 0 go to .5, tmp1 = $0002, go to .5
 	cpy.b $42
 	bmi .5
 	lda.w #$0002
 	sta.b tmp1
 	bra .5
-.2:									; if minus go to .6, A = tmp1, A or $0004, tmp1 = A, ...
+.2:									; if Y - $002C < 0 go to .6, A = tmp1, A or $0004, tmp1 = A, ...
 	cpy.w #$002C
 	bmi .6
 	lda.b tmp1
 	ora.w #$0004
 	sta.b tmp1
 	bra .6
-.3:									; if plus go to .4, tmp1 = $0008
+.3:									; if Y - r3 >= 0 go to .4, tmp1 = $0008
 	cpy.b r3
 	bpl .4
 	lda.w #$0008
 	sta.b tmp1
-.4:									; if minus go to .1, tmp0 = $0002, if plus go to .rts
+.4:									; if X - $42 < 0 go to .1, tmp0 = $0002, if Y - $42 >= 0 go to .rts
 	cpx.b $42
 	bmi .1
 	lda.w #$0002
 	sta.b tmp0
 	cpy.b $42
 	bpl .rts
-.5:									; X = p0, Y = p1, if minus go to .2, A = tmp0, ...
+.5:									; X = p0, Y = p1, if p0 - $002C < 0 go to .2, A = tmp0, ...
 	ldx.b p0
 	ldy.b p1
 	cpx.w #$002C
@@ -1815,7 +1815,7 @@ CODE_C46DCA:						; from CODE_C46BF6
 	sta.b tmp0
 	cpy.w #$002C
 	bpl .rts
-.6:									; if plus go to .8, A = tmp0, A or $0010, tmp0 = A, ...
+.6:									; if X - $FFD4 >= 0 go to .8, A = tmp0, A or $0010, tmp0 = A, ...
 	cpx.w #$FFD4
 	bpl .8
 	lda.b tmp0
@@ -1826,7 +1826,7 @@ CODE_C46DCA:						; from CODE_C46BF6
 .7:									; tmp2 + 1, return
 	inc.b tmp2
 	rts
-.8:									; if plus go to .7, A = tmp1, A or $0010, tmp1 = A, ...
+.8:									; if Y - $FFD4 >= 0 go to .7, A = tmp1, A or $0010, tmp1 = A, ...
 	cpy.w #$FFD4
 	bpl .7
 	lda.b tmp1
@@ -1899,7 +1899,7 @@ CODE_C46EBE:						; from CODE_C46E4B
 	cmp.w #$FEF2
 	bmi .rts
 	bra CODE_C46EF1
-.1:									; A = $3E, if plus go to .rts, go to CODE_C46F0A
+.1:									; if $3E - $FEF2 >= 0 go to .rts, go to CODE_C46F0A
 	lda.b $3E
 	cmp.w #$FEF2
 	bpl .rts
@@ -1951,7 +1951,7 @@ CODE_C46F1B:						; from CODE_C46EF1, CODE_C46F60, CODE_C46F0A
 	lda.w #$FFDA
 	sta.b d0
 	rts
-.1:									; if plus go to CODE_C46F34, d0 = $0026
+.1:									; if A - $0026 >= 0 go to CODE_C46F34, d0 = $0026
 	cmp.w #$0026
 	bpl CODE_C46F34
 	lda.w #$0026
@@ -2033,32 +2033,32 @@ CODE_C46FAD:						; from CODE_C46E4B
 	bpl .4
 .rts:								; return
 	rts
-.1:									; if minus go to .5, tmp1 = $0002, go to .5
+.1:									; if Y - $42 < 0 go to .5, tmp1 = $0002, go to .5
 	cpy.b $42
 	bmi .5
 	lda.w #$0002
 	sta.b tmp1
 	bra .5
-.2:									; if minus go to .6, A = tmp1, A or $0004, tmp1 = A, ...
+.2:									; if Y - $0024 < 0 go to .6, A = tmp1, A or $0004, tmp1 = A, ...
 	cpy.w #$0024
 	bmi .6
 	lda.b tmp1
 	ora.w #$0004
 	sta.b tmp1
 	bra .6
-.3:									; if plus go to .4, tmp1 = $0008
+.3:									; if Y - r3 >= 0 go to .4, tmp1 = $0008
 	cpy.b r3
 	bpl .4
 	lda.w #$0008
 	sta.b tmp1
-.4:									; if minus go to .1, tmp0 = $0002, if plus go to .rts
+.4:									; if X - $42 < 0 go to .1, tmp0 = $0002, if Y - $42 >= 0 go to .rts
 	cpx.b $42
 	bmi .1
 	lda.w #$0002
 	sta.b tmp0
 	cpy.b $42
 	bpl .rts
-.5:									; X = p0, Y = p1, if minus go to .2, A = tmp0, ...
+.5:									; X = p0, Y = p1, if p0 - $0024 < 0 go to .2, A = tmp0, ...
 	ldx.b p0
 	ldy.b p1
 	cpx.w #$0024
@@ -2068,7 +2068,7 @@ CODE_C46FAD:						; from CODE_C46E4B
 	sta.b tmp0
 	cpy.w #$0024
 	bpl .rts
-.6:									; if plus go to .8, A = tmp0, A or $0010, tmp0 = A, ...
+.6:									; if X - $FFDC >= 0 go to .8, A = tmp0, A or $0010, tmp0 = A, ...
 	cpx.w #$FFDC
 	bpl .8
 	lda.b tmp0
@@ -2079,7 +2079,7 @@ CODE_C46FAD:						; from CODE_C46E4B
 .7:									; tmp2 + 1, return
 	inc.b tmp2
 	rts
-.8:									; if plus go to .7, A = tmp1, A or $0010, tmp1 = A, ...
+.8:									; if Y - $FFDC >= 0 go to .7, A = tmp1, A or $0010, tmp1 = A, ...
 	cpy.w #$FFDC
 	bpl .7
 	lda.b tmp1

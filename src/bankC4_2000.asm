@@ -262,7 +262,7 @@ assnearest:							; called from other segments
 	jsl.l CODE_C43734
 	ldx.b curobj
 	jmp.w assexit
-.8:									; d1 = $0002, A = d2, if A >= $00E2 go to .9, d1 = 0, ...
+.8:									; d1 = $0002, if d2 >= $00E2 go to .9, d1 = 0, if position,x = 0 go to .16
 	lda.w #$0002
 	sta.b d1
 	lda.b d2
@@ -322,7 +322,7 @@ assnearest:							; called from other segments
 .14:								; call skatetopuck, go to check4check
 	jsl.l skatetopuck
 	jmp.w check4check
-.15:								; call CODE_C37EBF, A = d0, if A >= $0002 go to .16, temp3,x = $00F0
+.15:								; call CODE_C37EBF, if d0 >= $0002 go to .16, temp3,x = $00F0
 	jsl.l CODE_C37EBF
 	lda.b d0
 	cmp.w #$0002
@@ -547,14 +547,14 @@ CODE_C42DCD:						; from CODE_C42DB8
 	sec
 	sbc.b d0
 	sta.b d0
-.3:									; if plus go to .4, d0 = $0010, call assreplace, go to .rtl
+.3:									; if A - $0096 >= 0 go to .4, d0 = $0010, call assreplace, go to .rtl
 	cmp.w #$0096
 	bpl .4
 	lda.w #$0010
 	sta.b d0
 	jsl.l assreplace
 	bra .rtl
-.4:									; call CODE_C5492E, call chk4shot, A = asscur,x, ...
+.4:									; call CODE_C5492E, call chk4shot, if asscur,x is not $0011 go to .5, ...
 	jsl.l CODE_C5492E
 	jsl.l chk4shot
 	lda.w asscur,x
@@ -645,7 +645,7 @@ CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .4
 	ora.w #$FF00
-.4:									; A + Xpos,y, A - d2, if minus go to .6, if plus go to .6, ...
+.4:									; A + Xpos,y, A - d2, if A - $FFEB < 0 go to .6, ...
 	clc
 	adc.w Xpos,y
 	sec
@@ -659,7 +659,7 @@ CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .5
 	ora.w #$FF00
-.5:									; A + Ypos,y, A - d3, if minus go to .6, if plus go to .6, ...
+.5:									; A + Ypos,y, A - d3, if A - $FFEB < 0 go to .6, ...
 	clc
 	adc.w Ypos,y
 	sec
@@ -777,7 +777,7 @@ asscentero:							; called from other segments
 	bmi .8
 	lda.w #$0018
 	sta.b d2
-.8:									; A = d2, if A is not temp5,x go to .9, A = $04B2, if A >= $0200 go to .10
+.8:									; if d2 is not temp5,x go to .9, if $04B2 >= $0200 go to .10
 	lda.b d2
 	cmp.w temp5,x
 	bne .9

@@ -229,7 +229,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-.4:									; A = $003A,y, if A < $026A go to .5, push Y, call CODE_C5D7CD, ...
+.4:									; if $003A,y < $026A go to .5, push Y, call CODE_C5D7CD, ...
 	lda.w $003A,y
 	cmp.w #$026A
 	bcc .5
@@ -266,7 +266,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-.8:									; A = $003A,y, if A < $026A go to .9, push Y, call CODE_C5D7CD, ...
+.8:									; if $003A,y < $026A go to .9, push Y, call CODE_C5D7CD, ...
 	lda.w $003A,y
 	cmp.w #$026A
 	bcc .9
@@ -510,12 +510,12 @@ CODE_C533EF:						; from CODE_C533E1 and other segments
 	sta.w $0005,y
 	lda.b #$A0
 	sta.w QueueBusy,y
-.loop:								; loop: A = $0119,x, X + 1, if A is not $20 go to .loop
+.loop:								; loop: A = $0119,x, X + 1, if $0119,x is not $20 go to .loop
 	lda.w $0119,x
 	inx
 	cmp.b #$20
 	bne .loop
-.loop2:								; loop: X + 1, Y + 1, A = $0118,x, if A is not $3D go to .2, ...
+.loop2:								; loop: X + 1, Y + 1, if $0118,x is not $3D go to .2, A = $2E
 	inx
 	iny
 	lda.w $0118,x
@@ -645,7 +645,7 @@ CODE_C53535:						; called from other segments
 	lda.w #$0025
 	sta.w $1151
 	bra .2
-.1:									; $1151 = tmp0, A = gsp, if A is not $0003 go to .2, ...
+.1:									; $1151 = tmp0, if gsp is not $0003 go to .2, ...
 	lda.b tmp0
 	sta.w $1151
 	lda.w gsp
@@ -867,7 +867,7 @@ CODE_C53651:						; called from other segments
 	dex
 	bpl .loop5
 	ldx.w #$0008
-.loop5:								; loop: A = $1525,x, if A is not $0002 go to .8, d4 = X, push X, ...
+.loop5:								; loop: if $1525,x is not $0002 go to .8, d4 = X, push X, ...
 	lda.w $1525,x
 	cmp.w #$0002
 	bne .8
@@ -958,7 +958,7 @@ AssignPadPlayer:					; from PuckCarrierPad, CODE_C5376A, PadTakePosition, ...
 	bne .1
 	lda.w #$0000
 	sta.w goalieflags,y
-.1:									; Y = d0, if Y >= $0018 go to .rtl, A = pflags,y, A or $0008, ...
+.1:									; if d0 >= $0018 go to .rtl, A = pflags,y, A or $0008, pflags,y = A, ...
 	ldy.b d0
 	cpy.w #$0018
 	bcs .rtl
@@ -996,7 +996,7 @@ CODE_C537DE:						; no caller found (not traced)
 	cmp.w #$0028
 	bcs .1
 	jmp.w CODE_C53882
-.1:									; if playerpad,y < 0 go to .2, Y = A, A = $1525,y, ...
+.1:									; if playerpad,y < 0 go to .2, Y = A, ...
 	lda.w playerpad,y
 	bmi .2
 	tay
@@ -1038,12 +1038,12 @@ CODE_C53813:						; from findpc, CODE_C537DE
 	and.w #$1000
 	ora.w pfalock,x
 	bne .4
-.2:									; if playerpad,x < 0 go to .3, if A is not d4 go to .4
+.2:									; if playerpad,x < 0 go to .3, if playerpad,x is not d4 go to .4
 	lda.w playerpad,x
 	bmi .3
 	cmp.b d4
 	bne .4
-.3:									; r3 = 0, A = $05E4,x, if A >= d2 go to .4, d3 = X, ...
+.3:									; r3 = 0, if $05E4,x >= d2 go to .4, d3 = X, d2 = A
 	stz.b r3
 	lda.w $05E4,x
 	cmp.b d2
@@ -1182,7 +1182,7 @@ PadTakePosition:					; from CODE_C538FE, PassPadToTeammate, CODE_C53903, ...
 .1:									; d0 = $0005
 	lda.w #$0005
 	sta.b d0
-.loop:								; loop: A = position,x, if A = d1 go to .2, X + 1, X + 1, ...
+.loop:								; loop: if position,x = d1 go to .2, X + 1, X + 1, d0 - 1, ...
 	lda.w position,x
 	cmp.b d1
 	beq .2
@@ -1346,7 +1346,7 @@ CODE_C53ABC:						; called from other segments
 	dex
 	bpl .loop
 	rtl
-.1:									; A = $0002, if A is not cont1team,x go to .rtl, a2 = A
+.1:									; if $0002 is not cont1team,x go to .rtl, a2 = A
 	lda.w #$0002
 	cmp.w cont1team,x
 	bne .rtl
@@ -1390,7 +1390,7 @@ CODE_C53AF8:						; from ResetBench and other segments
 	sbc.b d1
 	sta.w PBnum
 	bra .4
-.3:									; A = PBnum, A - d1, PBnum = A, A = tmpdst,y, ...
+.3:									; A = PBnum, A - d1, PBnum = A, if tmpdst,y = $FFFD go to .4, ...
 	lda.w PBnum
 	sec
 	sbc.b d1
@@ -1438,7 +1438,7 @@ CODE_C53B51:						; called from other segments
 	bit.w #$0080
 	beq .1
 	ora.w #$FF00
-.1:									; d0 = A, position,x = A, if minus go to .4, call Setplass, ...
+.1:									; d0 = A, position,x = A, if A - $0000 < 0 go to .4, call Setplass, ...
 	sta.b d0
 	sta.w position,x
 	cmp.w #$0000

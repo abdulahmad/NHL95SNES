@@ -19,7 +19,7 @@ PresidentsPicPalette:				; its colours (16)
 	dw $0010,$0010					; colours per palette and total colours
 	dw $7C00,$0000,$5AD6,$6F7B,$35AD,$4A52,$35B2,$252D
 	dw $6318,$1129,$1089,$0084,$2529,$6F7F,$7FFF,$0000
-.end:								; end of the picture
+.end:								; continue
 StanleyCupMap:						; the Stanley Cup (rendered), 8 x 14 tiles; CODE_C4DFD6 loads it
 	dw StanleyCupTiles-StanleyCupMap-2	; map chunk length
 	db $08,$0E						; width and height in tiles
@@ -38,6 +38,6 @@ StanleyCupPalette:					; its colours (16)
 	dw $0010,$0010					; colours per palette and total colours
 	dw $27E0,$3529,$1084,$5A52,$2CE7,$1000,$2484,$6ED6
 	dw $5A52,$49AD,$49B2,$2529,$7F7B,$0000,$5AD6,$6F7B
-.end:								; end of the map set
+.end:								; continue
 	padbyte $00						; unused to the end of the bank
 	pad $CF0000

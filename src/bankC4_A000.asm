@@ -19,7 +19,7 @@ chk4pass:							; called from other segments
 	clc
 	adc.w #$0006
 	sta.b d0
-.2:									; if position,x = 0 go to .3, A = $0830, if minus go to .3, ...
+.2:									; if position,x = 0 go to .3, if $0830 - $FFD7 < 0 go to .3, ...
 	lda.w position,x
 	beq .3
 	lda.w $0830
@@ -75,7 +75,7 @@ chk4pass:							; called from other segments
 	sbc.w #$005C
 	eor.b tmp0
 	bmi .rtl
-.6:									; A = d0, if plus go to .7, A = d0, A - d1, ...
+.6:									; if d0 - $005C >= 0 go to .7, A = d0, A - d1, d0 = A, ...
 	lda.b d0
 	cmp.w #$005C
 	bpl .7
@@ -100,7 +100,7 @@ chk4pass:							; called from other segments
 	cpx.w #$000C
 	bcs .loop
 	ldy.w #$000C
-.loop:								; loop: A = d2, if A < $05E4,y go to .8, A = puckdir,y, A - $0004, ...
+.loop:								; loop: if d2 < $05E4,y go to .8, A = puckdir,y, A - $0004, ...
 	lda.b d2
 	cmp.w $05E4,y
 	bcc .8
@@ -550,7 +550,7 @@ DumpInTarget:						; from assdumpin and other segments
 	lda.w #$0008
 	sta.w dumpintarget
 	rtl
-.3:									; A = Ypos,x, if plus go to .5, passdir = $0000, ...
+.3:									; if Ypos,x - $005C >= 0 go to .5, passdir = $0000, ...
 	lda.w Ypos,x
 	cmp.w #$005C
 	bpl .5
@@ -611,7 +611,7 @@ assdumpin:							; called from other segments
 	jmp.w CompShoot
 .2:									; go to assexit
 	jmp.w assexit
-.3:									; Y = $0000, A = passdir, if A = facedir,x go to .4, Y + 1, ...
+.3:									; Y = $0000, if passdir = facedir,x go to .4, Y + 1, A - 1, ...
 	ldy.w #$0000
 	lda.w passdir
 	cmp.w facedir,x
@@ -888,7 +888,7 @@ puckgoalie:							; called from other segments
 	bit.w #$0010
 	beq .1
 	jmp.w .rtl
-.1:									; d2 = 0, A = puckz, if plus go to .2, d2 + 1, ...
+.1:									; d2 = 0, if puckz - $0008 >= 0 go to .2, d2 + 1, d2 + 1
 	stz.b d2
 	lda.w puckz
 	cmp.w #$0008
@@ -953,7 +953,7 @@ puckgoalie:							; called from other segments
 	lda.b d2
 	eor.w #$0002
 	sta.b d2
-.5:									; A = frame,y, A - $0286, if A >= $0018 go to .6, A = puckz, ...
+.5:									; A = frame,y, A - $0286, if A >= $0018 go to .6, ...
 	lda.w frame,y
 	sec
 	sbc.w #$0286
@@ -1118,7 +1118,7 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	lda.w gmclock
 	beq .2
 	jmp.w .rtl
-.2:									; push X, a3 = $07EA
+.2:									; push X, a3 = $07EA, a2 = 0, A = $0002
 	pei ($67)
 	pei ($69)
 	pei ($6B)
@@ -1595,7 +1595,7 @@ puckstick:							; from puckbody and other segments
 	ldy.w puckc
 	bpl .2
 	jmp.w .5
-.2:									; A = pfteam,y, Y = a2, if A = pfteam,y go to .rtl, A = d0, ...
+.2:									; A = pfteam,y, Y = a2, if pfteam,y = pfteam,y go to .rtl, ...
 	lda.w pfteam,y
 	ldy.b a2
 	cmp.w pfteam,y
@@ -1826,7 +1826,7 @@ ChkOffsides_blue:					; from CODE_C4AED5
 	bpl .3
 	lda.w lastplayer
 	asl a
-.3:									; if plus go to .4, if a2 = 0 go to .5, go to CODE_C4AF74
+.3:									; if A - $000C >= 0 go to .4, if a2 = 0 go to .5, go to CODE_C4AF74
 	cmp.w #$000C
 	bpl .4
 	lda.b a2
@@ -1903,7 +1903,7 @@ ChkOffsides_other:					; from CODE_C4AED5
 	bpl .5
 	lda.w lastplayer
 	asl a
-.5:									; if plus go to .6, if a2 = 0 go to .7, go to CODE_C4AF74
+.5:									; if A - $000C >= 0 go to .6, if a2 = 0 go to .7, go to CODE_C4AF74
 	cmp.w #$000C
 	bpl .6
 	lda.b a2

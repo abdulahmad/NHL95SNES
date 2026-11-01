@@ -116,7 +116,7 @@ Mul16U_Go:							; entry used by the routines after it
 	bcc .1
 	inc.b r2+3
 	clc
-.1:									; add the partial products
+.1:									; A = r1, A + r2, r2 = A, A = r1+2, ...
 	lda.b r1
 	adc.b r2
 	sta.b r2
@@ -131,7 +131,7 @@ Div16S:								; r2 / r1 into r0, signed
 	lda.b r2
 	bmi .dividendneg
 	jmp.w Div16U
-.divneg:							; divisor negative
+.divneg:							; A xor $FFFF, A + 1, r1 = A, if r2 >= 0 go to .negate, ...
 	eor.w #$FFFF
 	inc a
 	sta.b r1
@@ -142,11 +142,11 @@ Div16S:								; r2 / r1 into r0, signed
 	sbc.b r2
 	sta.b r2
 	jmp.w Div16U
-.dividendneg:						; dividend negative
+.dividendneg:						; A xor $FFFF, A + 1, r2 = A
 	eor.w #$FFFF
 	inc a
 	sta.b r2
-.negate:							; one of them negative: negate the quotient
+.negate:							; call Div16U, A = $0000, A - r0, r0 = A, ...
 	jsl.l Div16U
 	lda.w #$0000
 	sec
@@ -161,12 +161,12 @@ Div32x32U:							; r2 (4 bytes) / r1 (4 bytes) into r0, remainder in r2, unsigne
 	ldy.w #$0000
 	lda.b r1+2
 	bmi .loop
-.norm:								; shift the divisor up to bit 31
+.norm:								; Y + 1, r1 * 2, if the result >= 0 go to .norm
 	iny
 	asl.b r1
 	rol.b r1+2
 	bpl .norm
-.loop:								; one quotient bit
+.loop:								; loop: A = r2, A - r1, X = A, A = r2+2, ...
 	lda.b r2
 	sec
 	sbc.b r1
@@ -176,7 +176,7 @@ Div32x32U:							; r2 (4 bytes) / r1 (4 bytes) into r0, remainder in r2, unsigne
 	bcc .bit
 	stx.b r2
 	sta.b r2+2
-.bit:								; the bit into r0
+.bit:								; r1+2 / 2, Y - 1, if the result >= 0 go to .loop, pull Y, ...
 	rol.b r0
 	rol.b r0+2
 	lsr.b r1+2
@@ -192,7 +192,7 @@ Div32S:								; r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit
 	lda.b r2+2
 	bmi .dividendneg
 	jmp.w Div32U
-.divneg:							; divisor negative
+.divneg:							; A xor $FFFF, A + 1, r1 = A, if r2+2 >= 0 go to .negate, ...
 	eor.w #$FFFF
 	inc a
 	sta.b r1
@@ -206,7 +206,7 @@ Div32S:								; r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit
 	sbc.b r2+2
 	sta.b r2+2
 	jmp.w Div32U
-.dividendneg:						; dividend negative
+.dividendneg:						; A = $0000, A - r2, r2 = A, A = $0000, ...
 	lda.w #$0000
 	sec
 	sbc.b r2
@@ -214,7 +214,7 @@ Div32S:								; r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit
 	lda.w #$0000
 	sbc.b r2+2
 	sta.b r2+2
-.negate:							; one of them negative: negate the quotient
+.negate:							; call Div32U, A = $0000, A - r0, r0 = A, ...
 	jsl.l Div32U
 	lda.w #$0000
 	sec
@@ -228,26 +228,26 @@ Div32U:								; r2 (4 bytes) / r1 into r0, unsigned; $7FFF if it does not fit
 	cmp.b r1+1
 	bcc .go
 	jmp.w Div_Overflow
-.go:								; 16 quotient bits
+.go:								; A 16-bit, A = r2+2, X = $0010
 	rep #$20
 	lda.b r2+2
 	ldx.w #$0010
-.loop:								; one quotient bit
+.loop:								; loop: r2 * 2, if carry set go to .sub, if A < r1 go to .bit
 	asl.b r2
 	rol a
 	bcs .sub
 	cmp.b r1
 	bcc .bit
-.sub:								; subtract
+.sub:								; A - r1
 	sbc.b r1
 	sec
-.bit:								; the bit into r0
+.bit:								; X - 1, if the result is not 0 go to .loop, return
 	rol.b r0
 	dex
 	bne .loop
 	rtl
 	sep #$20
-.hi0:								; top byte 0
+.hi0:								; if r1+1 = 0 go to Div32U_ByteDivisor, if r2+2 = 0 go to Div16U_Go, ...
 	lda.b r1+1
 	beq Div32U_ByteDivisor
 	lda.b r2+2
@@ -258,16 +258,16 @@ Div32U:								; r2 (4 bytes) / r1 into r0, unsigned; $7FFF if it does not fit
 	lda.b r2+2
 	and.w #$00FF
 	ldx.w #$0010
-.loop2:								; one quotient bit
+.loop2:								; loop: r2 * 2, if carry set go to .sub2, if A < r1 go to .bit2
 	asl.b r2
 	rol a
 	bcs .sub2
 	cmp.b r1
 	bcc .bit2
-.sub2:								; subtract
+.sub2:								; A - r1
 	sbc.b r1
 	sec
-.bit2:								; the bit into r0
+.bit2:								; X - 1, if the result is not 0 go to .loop2, return
 	rol.b r0
 	dex
 	bne .loop2
@@ -277,16 +277,16 @@ Div_8Bits:							; r2+1 (with r2) / r1 when the quotient fits in 8 bits
 	rep #$20
 	lda.b r2+1
 	ldx.w #$0008
-.loop:								; one quotient bit
+.loop:								; loop: r1+3 * 2, if carry set go to .sub, if A < r1 go to .bit
 	asl.b r1+3
 	rol a
 	bcs .sub
 	cmp.b r1
 	bcc .bit
-.sub:								; subtract
+.sub:								; A - r1
 	sbc.b r1
 	sec
-.bit:								; the bit into r0
+.bit:								; X - 1, if the result is not 0 go to .loop, return
 	rol.b r0
 	dex
 	bne .loop
@@ -460,7 +460,7 @@ CODE_C09336:						; called from CODE_C092B3
 	sta.w BA_Sktr_SCnum
 .2:									; Y = $0000
 	ldy.w #$0000
-.loop:								; loop: A = $1525,y, if A = a2 go to .3, Y + 1, Y + 1, ...
+.loop:								; loop: if $1525,y = a2 go to .3, Y + 1, Y + 1, ...
 	lda.w $1525,y
 	cmp.b a2
 	beq .3
@@ -478,7 +478,7 @@ CODE_C09336:						; called from CODE_C092B3
 	lda.b a2
 	beq .6
 	lda.w $18A0
-.loop2:								; loop: if minus go to .5, A - $0005, go to .loop2
+.loop2:								; loop: if A - $0006 < 0 go to .5, A - $0005, go to .loop2
 	cmp.w #$0006
 	bmi .5
 	sec
@@ -499,7 +499,7 @@ CODE_C09336:						; called from CODE_C092B3
 	bra .8
 .6:									; A = $18A0
 	lda.w $18A0
-.loop3:								; loop: if minus go to .7, A - $0005, go to .loop3
+.loop3:								; loop: if A - $0006 < 0 go to .7, A - $0005, go to .loop3
 	cmp.w #$0006
 	bmi .7
 	sec
@@ -591,7 +591,7 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	beq .7
 	lda.w #$0002
 	sta.b d0
-.7:									; A = cont1team, if A = d0 go to .8, A = $17B7, if A = d0 go to .8, ...
+.7:									; if cont1team = d0 go to .8, if $17B7 = d0 go to .8, go to .10
 	lda.w cont1team
 	cmp.b d0
 	beq .8
@@ -653,7 +653,7 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	dec.w $1878
 	jsl.l CODE_C095BF
 	bra .9
-.14:								; A = $1878, if plus go to .9, $1878 + 1, call CODE_C095BF, ...
+.14:								; if $1878 - $0005 >= 0 go to .9, $1878 + 1, call CODE_C095BF, go to .9
 	lda.w $1878
 	cmp.w #$0005
 	bpl .9
@@ -970,7 +970,7 @@ CODE_C096C0:						; called from ShootoutWonBy
 	lda.w #$0001
 	sta.w $2364
 	rtl
-.9:									; A = $0806, A + 1, if plus go to .loop, $0806 = A, ...
+.9:									; A = $0806, A + 1, if A - $0010 >= 0 go to .loop, $0806 = A, ...
 	lda.w $0806
 	inc a
 	cmp.w #$0010
@@ -992,7 +992,7 @@ CODE_C096C0:						; called from ShootoutWonBy
 	sta.w $1888
 	jsl.l CODE_C09855
 	jmp.w .loop
-.12:								; A = $1888, A + 1, if plus go to .15, $1888 = A, ...
+.12:								; A = $1888, A + 1, if A - $0009 >= 0 go to .15, $1888 = A, ...
 	lda.w $1888
 	inc a
 	cmp.w #$0009
@@ -1000,7 +1000,7 @@ CODE_C096C0:						; called from ShootoutWonBy
 	sta.w $1888
 	jsl.l CODE_C09855
 	jmp.w .loop
-.13:								; A = $1884, A - $1880, A + $0009, if minus go to .14, ...
+.13:								; A = $1884, A - $1880, A + $0009, if A - $187C < 0 go to .14, ...
 	lda.w $1884
 	sec
 	sbc.w $1880
@@ -1013,7 +1013,7 @@ CODE_C096C0:						; called from ShootoutWonBy
 	inc.w $1884
 	jsl.l CODE_C09855
 	jmp.w .loop
-.15:								; A = $1884, A - 1, if plus go to .16, go to .loop
+.15:								; A = $1884, A - 1, if A - $1880 >= 0 go to .16, go to .loop
 	lda.w $1884
 	dec a
 	cmp.w $1880
@@ -1070,7 +1070,7 @@ CODE_C09855:						; called from CODE_C096C0, CODE_C096C0, ...
 	lda.w $1884
 	cmp.w $1880
 	beq .5
-.5:									; A = $1884, A - $1880, A + $0009, if plus go to .6
+.5:									; A = $1884, A - $1880, A + $0009, if A - $187C >= 0 go to .6
 	lda.w $1884
 	sec
 	sbc.w $1880
@@ -1111,7 +1111,7 @@ CODE_C09910:						; called from CODE_C09855
 	bvc .loop
 .2:									; d1 - 1
 	dec.b d1
-.loop:								; loop: $07D2 = $3800, A = d1, if A is not $1888 go to .3, $07D2 = $2000
+.loop:								; loop: $07D2 = $3800, if d1 is not $1888 go to .3, $07D2 = $2000
 	lda.w #$3800
 	sta.w $07D2
 	lda.b d1

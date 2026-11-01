@@ -961,13 +961,13 @@ SpriteRecordList:					; the records, by sprite number (the team logos first, by 
 TiledBackMap:						; tilemap of a 16 x 3 block of tiles repeated over the screen, LZSS
 									; packed; screen set-ups have the map unpacker send it to VRAM
 	dw .end-.width					; bytes after this word
-.width:								; map width in tiles
+.width:								; continue
 	db $20
 	db $1C							; height in tiles
 	db $8C							; flags: bit 7 LZSS packed
 	dw $0700						; unpacked size in bytes, then the LZSS stream
 	incbin "../Extracted/segments/bankC0_8000.bin":$7F9..$939
-.end:								; the end of the set
+.end:								; continue
 DATA8_C08939:						; not traced: a set with the same length word (another format), then
 									; 7 bytes
 	incbin "../Extracted/segments/bankC0_8000.bin":$939..$B17
@@ -997,7 +997,7 @@ NMI_Fast:							; NMI: save the registers; just return while NMISkip is set
 	plb
 	pld
 	rti
-.run:								; NMISkip clear: set it, then the NMI hook
+.run:								; A + 1, NMISkip = A, push X, push Y, ...
 	inc a
 	sta.b NMISkip
 	phx
@@ -1010,7 +1010,7 @@ NMI_Fast:							; NMI: save the registers; just return while NMISkip is set
 	stz.w NMIHookNext
 	ldx.w NMIHookNext+2
 	stx.w NMIHook+2
-.1:									; call [NMIHook]; its rtl lands on NMI_HookReturn
+.1:									; X = NMI_HookReturn>>16, push X, jump through [NMIHook]
 	ldx.b #NMI_HookReturn>>16
 	phx
 	pea.w NMI_HookReturn-1
@@ -1056,7 +1056,7 @@ NMI_HookReturn:						; NMI after the hook: IRQ timers, BG scroll, queued transfe
 	stz.w MDMAEN
 	jsl.l CODE_C4C58B
 	stz.w TransfersReady
-.1:									; DMA and HDMA enables
+.1:									; MDMAEN = DMAEnShadow
 	lda.w DMAEnShadow
 	sta.w MDMAEN
 NMI_Tick:							; Vcount + 1, the fade, FrameCount, then the frame hook
@@ -1066,7 +1066,7 @@ NMI_Tick:							; Vcount + 1, the fade, FrameCount, then the frame hook
 	sta.b Vcount
 	bcc .1
 	inc.b Vcount+2
-.1:									; the fade
+.1:									; if fadestep < 0 go to .fadeout, A - 1, ...
 	lda.w fadestep
 	bmi .fadeout
 	dec a
@@ -1074,31 +1074,31 @@ NMI_Tick:							; Vcount + 1, the fade, FrameCount, then the frame hook
 	sta.w fadestep
 	sep #$20
 	bra .write
-.fadein:							; fadestep 0: brightness + 1 up to 15
+.fadein:							; A 8-bit, if brightness >= 0 go to .up, A = $FF
 	sep #$20
 	lda.w brightness
 	bpl .up
 	lda.b #$FF
-.up:								; up one step
+.up:								; A + 1, if A >= $10 go to .write, brightness = A, go to .write
 	inc a
 	cmp.b #$10
 	bcs .write
 	sta.w brightness
 	bra .write
-.fadeout:							; fadestep negative: brightness - 1 until negative
+.fadeout:							; A 8-bit, if brightness < 0 go to .write, A - 1, brightness = A
 	sep #$20
 	lda.w brightness
 	bmi .write
 	dec a
 	sta.w brightness
-.write:								; brightness to INIDISP
+.write:								; INIDISP = brightness, A 16-bit, if FrameCountHold is not 0 go to .2, ...
 	lda.w brightness
 	sta.w INIDISP
 	rep #$20
 	lda.w FrameCountHold
 	bne .2
 	inc.w FrameCount
-.2:									; the frame hook: FrameHookNext to FrameHook
+.2:									; X / Y 8-bit, if FrameHookNext+1 = 0 go to .3, ...
 	sep #$10
 	ldx.w FrameHookNext+1
 	beq .3
@@ -1107,7 +1107,7 @@ NMI_Tick:							; Vcount + 1, the fade, FrameCount, then the frame hook
 	stz.w FrameHookNext
 	ldx.w FrameHookNext+2
 	stx.w FrameHook+2
-.3:									; call [FrameHook]; its rtl lands on NMI_FrameHookReturn
+.3:									; X = NMI_FrameHookReturn>>16, push X, jump through [FrameHook]
 	ldx.b #NMI_FrameHookReturn>>16
 	phx
 	pea.w NMI_FrameHookReturn-1
@@ -1231,7 +1231,7 @@ SetNMIHook:							; run the routine at X:A as the NMI hook from the next NMI
 WaitFrame:							; wait for the next frame (FrameCount changes)
 	pha
 	lda.w FrameCount
-.loop:								; until FrameCount changes
+.loop:								; loop: if A = FrameCount go to .loop, pull A, return
 	cmp.w FrameCount
 	beq .loop
 	pla
@@ -1247,15 +1247,15 @@ WaitFrames:							; wait X frames, Y counting the rounds of 65536
 	rtl
 WaitDMAQueue:						; wait until the DMA queue is empty (DMAQueueHead = DMAQueueTail)
 	pha
-.loop:								; until the queue is empty
+.loop:								; loop: if DMAQueueHead is not DMAQueueTail go to .loop, pull A, return
 	lda.b DMAQueueHead
 	cmp.b DMAQueueTail
 	bne .loop
 	pla
 	rtl
-.t1:								; wait up to X+Y*65536 frames for a button on pad 1
+.t1:								; Y + 1
 	iny
-.1:									; next frame
+.1:									; call WaitFrame, X - 1, if the result is not 0 go to .t1x, Y - 1, ...
 	jsl.l WaitFrame
 	dex
 	bne .t1x
@@ -1263,13 +1263,13 @@ WaitDMAQueue:						; wait until the DMA queue is empty (DMAQueueHead = DMAQueueT
 	bne .t1x
 	lda.w #$0000
 	rtl
-.t1x:								; a button held: return it
+.t1x:								; if PadRaw1 = 0 go to .1, return
 	lda.b PadRaw1
 	beq .1
 	rtl
-.t2:								; the same for pad 2
+.t2:								; Y + 1
 	iny
-.2:									; next frame
+.2:									; call WaitFrame, X - 1, if the result is not 0 go to .t1xx, Y - 1, ...
 	jsl.l WaitFrame
 	dex
 	bne .t1xx
@@ -1277,14 +1277,14 @@ WaitDMAQueue:						; wait until the DMA queue is empty (DMAQueueHead = DMAQueueT
 	bne .t1xx
 	lda.w #$0000
 	rtl
-.t1xx:								; a button held: return it
+.t1xx:								; if PadRaw2 = 0 go to .2, return
 	lda.b PadRaw2
 	beq .2
 	rtl
-.t2x:								; wait for one of the buttons in A on pad 1
+.t2x:								; r3 = A, Y + 1
 	sta.b r3
 	iny
-.3:									; next frame
+.3:									; call WaitFrame, X - 1, if the result is not 0 go to .t1xxx, Y - 1, ...
 	jsl.l WaitFrame
 	dex
 	bne .t1xxx
@@ -1292,15 +1292,15 @@ WaitDMAQueue:						; wait until the DMA queue is empty (DMAQueueHead = DMAQueueT
 	bne .t1xxx
 	lda.w #$0000
 	rtl
-.t1xxx:								; one of them held: return them
+.t1xxx:								; A = PadRaw1, if the result = 0 go to .3, return
 	lda.b PadRaw1
 	and.b r3
 	beq .3
 	rtl
-.t2xx:								; the same for pad 2
+.t2xx:								; r3 = A, Y + 1
 	sta.b r3
 	iny
-.4:									; next frame
+.4:									; call WaitFrame, X - 1, if the result is not 0 go to .t1xxxx, Y - 1, ...
 	jsl.l WaitFrame
 	dex
 	bne .t1xxxx
@@ -1308,49 +1308,49 @@ WaitDMAQueue:						; wait until the DMA queue is empty (DMAQueueHead = DMAQueueT
 	bne .t1xxxx
 	lda.w #$0000
 	rtl
-.t1xxxx:							; one of them held: return them
+.t1xxxx:							; A = PadRaw2, if the result = 0 go to .4, return
 	lda.b PadRaw2
 	and.b r3
 	beq .4
 	rtl
 WaitNoButtons:						; wait until no button is held on pad 1
 	pha
-.loop:								; until no button (the d-pad bits ignored)
+.loop:								; loop: A = PadRaw1, if the result is not 0 go to .loop, pull A, return
 	lda.b PadRaw1
 	and.w #$FFF0
 	bne .loop
 	pla
 	rtl
-.t1:								; the same for pad 2
+.t1:								; push A
 	pha
-.loopx:								; until no button
+.loopx:								; loop: A = PadRaw2, if the result is not 0 go to .loopx, pull A, return
 	lda.b PadRaw2
 	and.w #$FFF0
 	bne .loopx
 	pla
 	rtl
-.t2:								; wait up to X frames for no button on pad 1
+.t2:								; push A
 	pha
-.loopx2:							; next frame
+.loopx2:							; loop: call WaitFrame, A = PadRaw1, if the result = 0 go to .1, ...
 	jsl.l WaitFrame
 	lda.b PadRaw1
 	and.w #$FFF0
 	beq .1
 	dex
 	bne .loopx2
-.1:									; return
+.1:									; pull A, return
 	pla
 	rtl
-.t1x:								; the same for pad 2
+.t1x:								; push A
 	pha
-.loopxx:							; next frame
+.loopxx:							; loop: call WaitFrame, A = PadRaw2, if the result = 0 go to .1x, ...
 	jsl.l WaitFrame
 	lda.b PadRaw2
 	and.w #$FFF0
 	beq .1x
 	dex
 	bne .loopxx
-.1x:								; return
+.1x:								; pull A, return
 	pla
 	rtl
 JoyDirIndex_Hi:						; JoyDirIndex of the high byte of A
@@ -1371,25 +1371,25 @@ RandomWord:							; A = a random word: the sum of two 16-bit shift-register gene
 	asl a
 	bcc .1
 	eor.w #$1D87
-.1:									; the first generator
+.1:									; seed = A, if seed+2 = 0 go to .4, A * 2, if carry clear go to .2, ...
 	sta.w seed
 	lda.w seed+2
 	beq .4
 	asl a
 	bcc .2
 	eor.w #$1D87
-.2:									; the second generator, then the sum
+.2:									; seed+2 = A, A + seed, return
 	sta.w seed+2
 	clc
 	adc.w seed
 	rtl
-.3:									; seed 0: start it
+.3:									; A = $A5A5, go to .1
 	lda.w #$A5A5
 	bra .1
-.4:									; seed+2 0: start it
+.4:									; A = $B4B4, go to .2
 	lda.w #$B4B4
 	bra .2
-.t1:								; rtl
+.t1:								; return
 	rtl
 BlankScreen:						; wait a frame, the default hooks, IRQ off, fade out, HDMA off
 	jsl.l WaitFrame
@@ -1399,7 +1399,7 @@ BlankScreen:						; wait a frame, the default hooks, IRQ off, fade out, HDMA off
 	lda.w #$FFFF
 	sta.w fadestep
 	stz.w DMAEnShadow
-.loop:								; until the fade is out
+.loop:								; loop: if brightness-1 >= 0 go to .loop, return
 	lda.w brightness-1
 	bpl .loop
 	rtl
@@ -1479,10 +1479,10 @@ Mul8S:								; A * X, 8 by 8 bits, both signed, into A
 	lda.l RDMPYL
 	ply
 	rtl
-.xsigned:							; A positive: X decides
+.xsigned:							; if X - $0000 >= 0 go to .pos
 	cpx.w #$0000
 	bpl .pos
-.neg:								; one operand negative: negate the product
+.neg:								; WRMPYA = A, A = Y, A xor $FF, A + 1, ...
 	sep #$21
 	sta.l WRMPYA
 	tya
@@ -1494,7 +1494,7 @@ Mul8S:								; A * X, 8 by 8 bits, both signed, into A
 	sbc.l RDMPYL
 	ply
 	rtl
-.pos:								; both positive
+.pos:								; A 8-bit, WRMPYA = A, A = X, WRMPYB = A, ...
 	sep #$20
 	sta.l WRMPYA
 	txa

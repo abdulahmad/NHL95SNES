@@ -104,7 +104,7 @@ CODE_C511B8:						; called from other segments
 	cmp.w #$0004
 	bcc .1
 	jmp.w .6
-.1:									; X = a0, A = $2458,x
+.1:									; X = a0, if $2458,x is not $0003 go to .4, A = $0005
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -126,7 +126,7 @@ CODE_C511B8:						; called from other segments
 	beq .2
 	eor.w #$FFFF
 	inc a
-.2:									; if A >= $0002 go to .5, A = gsp, if A is not $0004 go to .3, ...
+.2:									; if A >= $0002 go to .5, if gsp is not $0004 go to .3, ...
 	cmp.w #$0002
 	bcs .5
 	lda.w gsp
@@ -1116,7 +1116,7 @@ CODE_C51A13:						; called from other segments
 	rtl
 CODE_C51A30:						; from CODE_C51A13
 	ldy.w #$0008
-.loop:								; loop: if $1525,y < 0 go to .1, if A = d4 go to .2
+.loop:								; loop: if $1525,y < 0 go to .1, if $1525,y = d4 go to .2
 	lda.w $1525,y
 	bmi .1
 	cmp.b d4
@@ -1167,7 +1167,7 @@ CODE_C51A61:						; called from other segments
 	lda.w $17C1,x
 	beq .4
 	ldy.w #$0000
-.loop:								; loop: if $1525,y < 0 go to .2, if A = d4 go to .3
+.loop:								; loop: if $1525,y < 0 go to .2, if $1525,y = d4 go to .3
 	lda.w $1525,y
 	bmi .2
 	cmp.b d4
@@ -1437,7 +1437,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	bit.w #$0040
 	beq .4
 	jml.l CODE_C50ADD
-.4:									; A = gsp, if A is not $0003 go to .5, A = tmscore, ...
+.4:									; if gsp is not $0003 go to .5, if tmscore = $12AD go to .5, ...
 	lda.w gsp
 	cmp.w #$0003
 	bne .5
@@ -1513,7 +1513,7 @@ CODE_C51DB8:						; from CODE_C51E81, CODE_C51CC1 and other segments
 	lda.w $186E
 	bne .1
 	jmp.w CODE_C51E80
-.1:									; A = d0, if A is not cont1team go to .2, go to CODE_C51E80
+.1:									; if d0 is not cont1team go to .2, go to CODE_C51E80
 	lda.b d0
 	cmp.w cont1team
 	bne .2
@@ -1709,7 +1709,7 @@ CODE_C51EB8:						; from CODE_C51E81 and other segments
 	rtl
 CODE_C51F48:						; from CODE_C51F60, CODE_C51F6E and other segments
 	ldy.w #$0000
-.loop:								; loop: A = $1525,y, if A = a2 go to .1, Y + 1, Y + 1, ...
+.loop:								; loop: if $1525,y = a2 go to .1, Y + 1, Y + 1, ...
 	lda.w $1525,y
 	cmp.b a2
 	beq .1
@@ -1793,7 +1793,7 @@ CODE_C51FBA:						; from CODE_C51F7C and other segments
 	lda.w #$FFBB
 	sta.w $2036
 	bra .2
-.1:									; A = d1, if plus go to .rtl, $2036 = $0045
+.1:									; if d1 - $2036 >= 0 go to .rtl, $2036 = $0045
 	lda.b d1
 	cmp.w $2036
 	bpl .rtl

@@ -102,7 +102,7 @@ assdefd:							; called from other segments
 	sta.b d2
 	eor.b d1
 	sta.b d1
-.10:								; temp3,x = $0041, A = position,x, if A = $0002 go to .11, temp3,x = $FFBF
+.10:								; temp3,x = $0041, if position,x = $0002 go to .11, temp3,x = $FFBF
 	lda.w #$0041
 	sta.w temp3,x
 	lda.w position,x
@@ -296,7 +296,7 @@ CODE_C43350:						; from assdefo
 	lda.w #$0000
 .3:									; temp1,x = A
 	sta.w temp1,x
-.4:									; $65 = EvadePC>>16, a0 = EvadePC, Y = $0050, A = position,x, ...
+.4:									; $65 = EvadePC>>16, a0 = EvadePC, Y = $0050, ...
 	lda.w #EvadePC>>16
 	sta.b $65
 	lda.w #EvadePC
@@ -344,7 +344,7 @@ CODE_C433CE:						; from CODE_C43350
 	sec
 	sbc.b d2
 	sta.b d2
-.1:									; A = d2, if minus go to .3, if minus go to .2, d1 = $0066, ...
+.1:									; if d2 - $FFA4 < 0 go to .3, if d2 - $005C < 0 go to .2, d1 = $0066, ...
 	lda.b d2
 	cmp.w #$FFA4
 	bmi .3
@@ -387,7 +387,7 @@ EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .1
 	ora.w #$FF00
-.1:									; A + Xpos,x, A - $0830, if minus go to .rtl, if plus go to .rtl, ...
+.1:									; A + Xpos,x, A - $0830, if A - $FFD7 < 0 go to .rtl, ...
 	clc
 	adc.w Xpos,x
 	sec
@@ -403,7 +403,7 @@ EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .2
 	ora.w #$FF00
-.2:									; A + Ypos,x, A - pucky, if minus go to .rtl, if plus go to .rtl, ...
+.2:									; A + Ypos,x, A - pucky, if A - $FFD7 < 0 go to .rtl, ...
 	clc
 	adc.w Ypos,x
 	sec
@@ -463,7 +463,7 @@ asswingd:							; called from other segments
 	lda.w #$0000
 .4:									; temp1,x = A
 	sta.w temp1,x
-.5:									; d0 = $0064, A = position,x, if A is not $0005 go to .6, d0 = $FF9C
+.5:									; d0 = $0064, if position,x is not $0005 go to .6, d0 = $FF9C
 	lda.w #$0064
 	sta.b d0
 	lda.w position,x
@@ -644,7 +644,7 @@ asswingo:							; called from other segments
 	bmi .9
 	lda.w #$0018
 	sta.b d2
-.9:									; A = d2, if A is not temp5,x go to .10, A = seed, if A >= $0200 go to .11
+.9:									; if d2 is not temp5,x go to .10, if seed >= $0200 go to .11
 	lda.b d2
 	cmp.w temp5,x
 	bne .10
@@ -677,7 +677,7 @@ asswingo:							; called from other segments
 	jsl.l randomd0s
 	adc.b [a0],y
 	sta.w temp4,x
-.11:								; d0 = temp3,x, A = position,x, if A = $0005 go to .12, A = $0000, ...
+.11:								; d0 = temp3,x, if position,x = $0005 go to .12, A = $0000, A - d0, ...
 	lda.w temp3,x
 	sta.b d0
 	lda.w position,x
@@ -842,7 +842,7 @@ assfaceoffpl:						; called from other segments
 	ldx.w $2022
 	bcc .7
 	ldx.w $2020
-.7:									; A = $1864, if A = $0001 go to .8, r1,x = 0
+.7:									; if $1864 = $0001 go to .8, r1,x = 0
 	lda.w $1864
 	cmp.w #$0001
 	beq .8
@@ -929,7 +929,7 @@ CODE_C43826:						; called from other segments
 	lda.w #$0001
 	jsl.l CODE_CF048A
 	bra .7
-.4:									; if $078A is not 0 go to .5, A = $1864, if A = $0004 go to .7, ...
+.4:									; if $078A is not 0 go to .5, if $1864 = $0004 go to .7, ...
 	ldy.w $078A
 	bne .5
 	lda.w $1864
@@ -1039,7 +1039,7 @@ CODE_C43826:						; called from other segments
 	lda.w #$000B
 	sta.b d2
 	pha
-.9:									; X = a3, if X >= $0018 go to .10, A = pfteam,x, A / 2, ...
+.9:									; if a3 >= $0018 go to .10, A = pfteam,x, A / 2, A xor gmode, ...
 	ldx.b a3
 	cpx.w #$0018
 	bcs .10
@@ -1089,7 +1089,7 @@ CODE_C43826:						; called from other segments
 	sta.w pnum,x
 	sta.b d3
 	plx
-.15:								; d0 = $0016, A = d1, if A is not $0004 go to .17, a2 = 0, ...
+.15:								; d0 = $0016, if d1 is not $0004 go to .17, a2 = 0, ...
 	lda.w #$0016
 	sta.b d0
 	lda.b d1
@@ -1174,7 +1174,7 @@ CODE_C43826:						; called from other segments
 	sec
 	sbc.b d1
 	sta.b d1
-.22:								; if position,x = 0 go to .27, A = d4, if plus go to .26, A = $2034, ...
+.22:								; if position,x = 0 go to .27, if d4 - $0009 >= 0 go to .26, ...
 	lda.w position,x
 	beq .27
 	lda.b d4
@@ -1270,7 +1270,7 @@ CODE_C43826:						; called from other segments
 	lda.w penshot
 	beq .35
 	ldx.w #$0008
-.loop2:								; loop: A = $1525,x, if A is not BA_Team go to .32, ...
+.loop2:								; loop: if $1525,x is not BA_Team go to .32, if X = $18B6 go to .32, ...
 	lda.w $1525,x
 	cmp.w BA_Team
 	bne .32
@@ -1296,7 +1296,7 @@ CODE_C43826:						; called from other segments
 	cpy.w #$000A
 	bne .33
 	ldy.w #$0000
-.33:								; A = $1525,y, if A is not d0 go to .loop3, d1 = Y, A = Y, ...
+.33:								; if $1525,y is not d0 go to .loop3, d1 = Y, A = Y, $05C4,x = A, ...
 	lda.w $1525,y
 	cmp.b d0
 	bne .loop3
@@ -1304,7 +1304,7 @@ CODE_C43826:						; called from other segments
 	tya
 	sta.w $05C4,x
 	ldx.w #$0008
-.loop4:								; loop: A = $1525,x, if A is not d0 go to .34, if X = d1 go to .34, ...
+.loop4:								; loop: if $1525,x is not d0 go to .34, if X = d1 go to .34, ...
 	lda.w $1525,x
 	cmp.b d0
 	bne .34
@@ -1346,7 +1346,7 @@ CODE_C43826:						; called from other segments
 	lda.w penshot
 	beq .37
 	jmp.w CODE_C43F0D
-.37:								; A = $1864, if A is not $0001 go to .38, go to CODE_C43FC1
+.37:								; if $1864 is not $0001 go to .38, go to CODE_C43FC1
 	lda.w $1864
 	cmp.w #$0001
 	bne .38
@@ -1630,7 +1630,7 @@ CODE_C43EC6:						; from CODE_C43826
 	sta.w temp1,x
 	bmi .2
 	jml.l CODE_C51999
-.2:									; A = $1864, if A is not $0001 go to .3, call CODE_C51AFF, ...
+.2:									; if $1864 is not $0001 go to .3, call CODE_C51AFF, go to CODE_C51A13
 	lda.w $1864
 	cmp.w #$0001
 	bne .3

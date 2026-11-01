@@ -177,7 +177,7 @@ CODE_C4E12C:						; called from other segments
 	bcc .2
 	ldy.w #$2DC9
 	jsr.w CODE_C4EF41
-.2:									; A = $17CB, if A < $001A go to .3, Y = $3207, call CODE_C4EF41
+.2:									; if $17CB < $001A go to .3, Y = $3207, call CODE_C4EF41
 	lda.w $17CB
 	cmp.w #$001A
 	bcc .3
@@ -1004,7 +1004,7 @@ CODE_C4E8CD:						; from CODE_C4E885
 	asl a
 	sta.w $0004,y
 	jmp.w .10
-.4:									; $04F9 = $04F7, $0004,y = $0002,y, A = $65, if A >= $04F5 go to .5, ...
+.4:									; $04F9 = $04F7, $0004,y = $0002,y, if $65 >= $04F5 go to .5, ...
 	lda.w $04F7
 	sta.w $04F9
 	lda.w $0002,y
@@ -1041,7 +1041,7 @@ CODE_C4E8CD:						; from CODE_C4E885
 	asl a
 	sta.w $000A,y
 	bra .10
-.8:									; $04FF = $04FD, $000A,y = $0008,y, A = $65, if A < $04FB go to .9, ...
+.8:									; $04FF = $04FD, $000A,y = $0008,y, if $65 < $04FB go to .9, ...
 	lda.w $04FD
 	sta.w $04FF
 	lda.w $0008,y
@@ -1318,7 +1318,7 @@ CODE_C4EBC8:						; from CODE_C4E12C
 	jsr.w CODE_C4EC58
 .1:									; A 8-bit
 	sep #$20
-.2:									; if $0000,x = 0 go to .4, X + 1, if A is not $39 go to .3, A 16-bit, ...
+.2:									; if $0000,x = 0 go to .4, X + 1, if $0000,x is not $39 go to .3, ...
 	lda.w $0000,x
 	beq .4
 	inx

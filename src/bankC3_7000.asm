@@ -302,7 +302,7 @@ updatereplay:						; called from other segments
 	sta.w recbpr
 	bcc .4
 	inc.w $07E2
-.4:									; if A is not $8EF8 go to .5, A = $07E2, if A is not $007F go to .5, ...
+.4:									; if A is not $8EF8 go to .5, if $07E2 is not $007F go to .5, ...
 	cmp.w #$8EF8
 	bne .5
 	lda.w $07E2
@@ -553,7 +553,7 @@ CODE_C3736B:						; called from other segments
 	lda.w #$007F
 	sta.w $07E2
 	stz.w recbpr
-.2:									; A = $8EF8, A = $007F, A - $07E2, if carry clear go to .loop2, ...
+.2:									; A = $007F, A - $07E2, if carry clear go to .loop2, A = recbpr, ...
 	lda.w #$8EF8
 	cmp.w recbpr
 	lda.w #$007F
@@ -614,7 +614,7 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lda.w $0774
 	bpl .1
 	jmp.w .12
-.1:									; X = A, $0834 = Xpos,x, if plus go to .3, A = $0786, ...
+.1:									; X = A, $0834 = Xpos,x, if Xpos,x - $0786 >= 0 go to .3, A = $0786, ...
 	tax
 	lda.w Xpos,x
 	sta.w $0834
@@ -628,22 +628,22 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lda.w $0834
 .2:									; go to .4
 	bra .4
-.3:									; A = $0786, A + $0004, if minus go to .4, A = $0834
+.3:									; A = $0786, A + $0004, if A - $0834 < 0 go to .4, A = $0834
 	lda.w $0786
 	clc
 	adc.w #$0004
 	cmp.w $0834
 	bmi .4
 	lda.w $0834
-.4:									; if plus go to .5, A = $FFC8
+.4:									; if A - $FFC8 >= 0 go to .5, A = $FFC8
 	cmp.w #$FFC8
 	bpl .5
 	lda.w #$FFC8
-.5:									; if minus go to .6, A = $0038
+.5:									; if A - $0038 < 0 go to .6, A = $0038
 	cmp.w #$0038
 	bmi .6
 	lda.w #$0038
-.6:									; $CB = A, $0786 = A, $08B6 = Ypos,x, if plus go to .8, ...
+.6:									; $CB = A, $0786 = A, $08B6 = Ypos,x, if Ypos,x - $0788 >= 0 go to .8, ...
 	sta.b $CB
 	sta.w $0786
 	lda.w Ypos,x
@@ -658,18 +658,18 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lda.w $08B6
 .7:									; go to .9
 	bra .9
-.8:									; A = $0788, A + $0004, if minus go to .9, A = $08B6
+.8:									; A = $0788, A + $0004, if A - $08B6 < 0 go to .9, A = $08B6
 	lda.w $0788
 	clc
 	adc.w #$0004
 	cmp.w $08B6
 	bmi .9
 	lda.w $08B6
-.9:									; if plus go to .10, A = $FF39
+.9:									; if A - $FF39 >= 0 go to .10, A = $FF39
 	cmp.w #$FF39
 	bpl .10
 	lda.w #$FF39
-.10:								; if minus go to .11, A = $0100
+.10:								; if A - $0100 < 0 go to .11, A = $0100
 	cmp.w #$0100
 	bmi .11
 	lda.w #$0100
@@ -680,7 +680,7 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lsr a
 	sta.w $05BA
 	jmp.w .24
-.12:								; if A = $FFFF go to .23, A = $0834, if plus go to .14, A = $0786, ...
+.12:								; if A = $FFFF go to .23, if $0834 - $0786 >= 0 go to .14, A = $0786, ...
 	cmp.w #$FFFF
 	beq .23
 	lda.w $0834
@@ -694,22 +694,22 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lda.w $0834
 .13:								; go to .15
 	bra .15
-.14:								; A = $0786, A + $0002, if minus go to .15, A = $0834
+.14:								; A = $0786, A + $0002, if A - $0834 < 0 go to .15, A = $0834
 	lda.w $0786
 	clc
 	adc.w #$0002
 	cmp.w $0834
 	bmi .15
 	lda.w $0834
-.15:								; if plus go to .16, A = $FFC8
+.15:								; if A - $FFC8 >= 0 go to .16, A = $FFC8
 	cmp.w #$FFC8
 	bpl .16
 	lda.w #$FFC8
-.16:								; if minus go to .17, A = $0038
+.16:								; if A - $0038 < 0 go to .17, A = $0038
 	cmp.w #$0038
 	bmi .17
 	lda.w #$0038
-.17:								; $CB = A, $0786 = A, A = $08B6, if plus go to .19, ...
+.17:								; $CB = A, $0786 = A, if $08B6 - $0788 >= 0 go to .19, A = $0788, ...
 	sta.b $CB
 	sta.w $0786
 	lda.w $08B6
@@ -723,18 +723,18 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lda.w $08B6
 .18:								; go to .20
 	bra .20
-.19:								; A = $0788, A + $0002, if minus go to .20, A = $08B6
+.19:								; A = $0788, A + $0002, if A - $08B6 < 0 go to .20, A = $08B6
 	lda.w $0788
 	clc
 	adc.w #$0002
 	cmp.w $08B6
 	bmi .20
 	lda.w $08B6
-.20:								; if plus go to .21, A = $FF39
+.20:								; if A - $FF39 >= 0 go to .21, A = $FF39
 	cmp.w #$FF39
 	bpl .21
 	lda.w #$FF39
-.21:								; if minus go to .22, A = $0100
+.21:								; if A - $0100 < 0 go to .22, A = $0100
 	cmp.w #$0100
 	bmi .22
 	lda.w #$0100
@@ -981,24 +981,24 @@ CODE_C377DB:						; from CODE_C37609
 	lda.w Ypos,x
 	sta.w $08B6
 	bra .6
-.1:									; $05BA = $000F, A = $0830, if plus go to .2, A = $FF65
+.1:									; $05BA = $000F, if $0830 - $FF65 >= 0 go to .2, A = $FF65
 	lda.w #$000F
 	sta.w $05BA
 	lda.w $0830
 	cmp.w #$FF65
 	bpl .2
 	lda.w #$FF65
-.2:									; if minus go to .3, A = $009B
+.2:									; if A - $009B < 0 go to .3, A = $009B
 	cmp.w #$009B
 	bmi .3
 	lda.w #$009B
-.3:									; $0834 = A, A = pucky, if plus go to .4, A = $FED4
+.3:									; $0834 = A, if pucky - $FED4 >= 0 go to .4, A = $FED4
 	sta.w $0834
 	lda.w pucky
 	cmp.w #$FED4
 	bpl .4
 	lda.w #$FED4
-.4:									; if minus go to .5, A = $012C
+.4:									; if A - $012C < 0 go to .5, A = $012C
 	cmp.w #$012C
 	bmi .5
 	lda.w #$012C
@@ -1147,7 +1147,7 @@ suba4:								; from CODE_C3736B, CODE_C377DB and other segments
 	cmp.w recbpr
 	beq .2
 	jml.l RestoreReplayFrame
-.2:									; A = $75, if A = $07E2 go to .3, go to RestoreReplayFrame
+.2:									; if $75 = $07E2 go to .3, go to RestoreReplayFrame
 	lda.b $75
 	cmp.w $07E2
 	beq .3
@@ -1159,7 +1159,7 @@ suba4:								; from CODE_C3736B, CODE_C377DB and other segments
 	sta.b a4
 	bcc .4
 	inc.b $75
-.4:									; if A is not $8EF8 go to .5, A = $75, if A is not $007F go to .5, ...
+.4:									; if A is not $8EF8 go to .5, if $75 is not $007F go to .5, ...
 	cmp.w #$8EF8
 	bne .5
 	lda.b $75
@@ -1198,7 +1198,7 @@ adda4:								; from CODE_C3736B, CODE_C377DB, CODE_C377DB, ...
 	cmp.w $07E2
 	bne .1
 	rtl
-.1:									; A = a4, if A is not recbpr go to .2, A = $75, ...
+.1:									; if a4 is not recbpr go to .2, if $75 is not $07E2 go to .2, return
 	lda.b a4
 	cmp.w recbpr
 	bne .2
@@ -1215,7 +1215,7 @@ adda43:								; from adda4 and other segments
 	sta.b a4
 	bcc .1
 	inc.b $75
-.1:									; if A is not $8EF8 go to .rtl, A = $75, if A is not $007F go to .rtl, ...
+.1:									; if A is not $8EF8 go to .rtl, if $75 is not $007F go to .rtl, ...
 	cmp.w #$8EF8
 	bne .rtl
 	lda.b $75

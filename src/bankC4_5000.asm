@@ -7,7 +7,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	adc.w #$000F
 	bmi .1
 	sta.w CwdExciteLvl
-.1:									; Y = a2, if Y >= $0018 go to .rtl, A = SPA,y, ...
+.1:									; if a2 >= $0018 go to .rtl, if SPA,y = $2708 go to .rtl, ...
 	ldy.b a2
 	cpy.w #$0018
 	bcs .rtl
@@ -89,7 +89,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	jmp.w .19
 .8:									; go to .39
 	jmp.w .39
-.9:									; A = Ypos,y, if plus go to .8, if minus go to .8, A = d0, ...
+.9:									; if Ypos,y - $00F0 >= 0 go to .8, if Ypos,y - $FF0A < 0 go to .8, ...
 	lda.w Ypos,y
 	cmp.w #$00F0
 	bpl .8
@@ -109,7 +109,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 .11:								; A = $29EA, go to .15
 	lda.w #$29EA
 	bra .15
-.12:								; A = Ypos,y, if plus go to .8, if minus go to .8, A = d0, ...
+.12:								; if Ypos,y - $00F0 >= 0 go to .8, if Ypos,y - $FF0A < 0 go to .8, ...
 	lda.w Ypos,y
 	cmp.w #$00F0
 	bpl .8
@@ -160,7 +160,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	jmp.w .29
 .18:								; go to .37
 	jmp.w .37
-.19:								; A = Xpos,y, if plus go to .23, if minus go to .23, A = d0, ...
+.19:								; if Xpos,y - $0050 >= 0 go to .23, if Xpos,y - $FFB0 < 0 go to .23, ...
 	lda.w Xpos,y
 	cmp.w #$0050
 	bpl .23
@@ -179,7 +179,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 .20:								; A = $28F6, go to .15
 	lda.w #$28F6
 	bra .15
-.21:								; A = Xpos,y, if plus go to .23, if minus go to .23, A = d0, ...
+.21:								; if Xpos,y - $0050 >= 0 go to .23, if Xpos,y - $FFB0 < 0 go to .23, ...
 	lda.w Xpos,y
 	cmp.w #$0050
 	bpl .23
@@ -340,7 +340,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	sta.b d0
 	jsl.l AddPenalty2
 	jmp.w Stop4Pen
-.34:								; Y = a2, A = SPA,y, if A = $25D2 go to .35, puckc = $FFFF
+.34:								; Y = a2, if SPA,y = $25D2 go to .35, puckc = $FFFF
 	ldy.b a2
 	lda.w SPA,y
 	cmp.w #$25D2
@@ -478,7 +478,7 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	jmp.w .13
 .47:								; go to .24
 	jmp.w .24
-.48:								; A = d5, if A < $0005 go to .47, A = d0, A - $0006, ...
+.48:								; if d5 < $0005 go to .47, A = d0, A - $0006, A + $81, ...
 	lda.b d5
 	cmp.w #$0005
 	bcc .47
@@ -566,7 +566,7 @@ CODE_C453E6:						; from checkcheck and other segments
 	cmp.w #$2082
 	bne .1
 	jmp.w CODE_C47C8C
-.1:									; A = SPA,x, if A is not $21BC go to CODE_C453E2, ...
+.1:									; if SPA,x is not $21BC go to CODE_C453E2, if gmclock = 0 go to .2, ...
 	lda.w SPA,x
 	cmp.w #$21BC
 	bne CODE_C453E2
@@ -663,7 +663,7 @@ CODE_C453E6:						; from checkcheck and other segments
 	jmp.w AddPenalty
 .rtl:								; return
 	rtl
-.6:									; call checkagr, A = d0, if A >= $0001 go to .7, A = gmode, ...
+.6:									; call checkagr, if d0 >= $0001 go to .7, A = gmode, ...
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
@@ -717,7 +717,7 @@ check4check:						; called from other segments
 	cpx.w #$000C
 	bcs .loop
 	ldy.w #$000C
-.loop:								; loop: a0 = Y, if position,y = 0 go to .4, A = SPA,y, ...
+.loop:								; loop: a0 = Y, if position,y = 0 go to .4, if SPA,y < $2280 go to .3, ...
 	sty.b a0
 	lda.w position,y
 	beq .4
@@ -737,7 +737,7 @@ check4check:						; called from other segments
 	bpl .loop
 .rtl:								; return
 	rtl
-.5:									; A = Xpos,y, A - Xpos,x, d0 = A, if minus go to .4, ...
+.5:									; A = Xpos,y, A - Xpos,x, d0 = A, if A - $FFDE < 0 go to .4, ...
 	lda.w Xpos,y
 	sec
 	sbc.w Xpos,x
@@ -770,7 +770,7 @@ check4check:						; called from other segments
 	bmi .10
 	cmp.w #$010E
 	bpl .10
-.6:									; A = SPA,y, if A < $2280 go to .7, if A < $2345 go to .11
+.6:									; if SPA,y < $2280 go to .7, if SPA,y < $2345 go to .11
 	lda.w SPA,y
 	cmp.w #$2280
 	bcc .7
@@ -782,7 +782,7 @@ check4check:						; called from other segments
 	beq .11
 .8:									; go to Acheck
 	jml.l Acheck
-.9:									; A = Ypos,x, if plus go to .10, if plus go to .6
+.9:									; if Ypos,x - $FFA4 >= 0 go to .10, if Ypos,x - $FEF2 >= 0 go to .6
 	lda.w Ypos,x
 	cmp.w #$FFA4
 	bpl .10
@@ -965,7 +965,7 @@ holdcheck:							; from CODE_C453E3
 	sta.b d0
 	jsl.l AddPenalty
 	bra .5
-.3:									; call checkagr, A = d0, if A >= $0001 go to .5, d0 = $0028, ...
+.3:									; call checkagr, if d0 >= $0001 go to .5, d0 = $0028, ...
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
@@ -1279,7 +1279,7 @@ skateto:							; called from other segments
 	cpy.w #$0005
 	bpl .7
 	bra .6
-.5:									; if plus go to .7
+.5:									; if Y - $000C >= 0 go to .7
 	cpy.w #$000C
 	bpl .7
 .6:									; d0 = $0009, go to .8
@@ -1454,7 +1454,7 @@ CODE_C45AED:						; from DATA8_C45ACD
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Yvel,x = A
+.4:									; pull A, if carry clear go to .5, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1553,7 +1553,7 @@ CODE_C45BB4:						; from DATA8_C45ADD
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Yvel,x = A
+.4:									; pull A, if carry clear go to .5, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1767,7 +1767,7 @@ CODE_C45D0F:						; from DATA8_C45ACD
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1886,7 +1886,7 @@ CODE_C45DF8:						; from DATA8_C45ADD
 	inc a
 	adc.b $89
 	sta.b $89
-.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
+.6:									; pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
@@ -1987,7 +1987,7 @@ CODE_C45EE5:						; from DATA8_C45ACD
 	inc a
 	adc.b $89
 	sta.b $89
-.4:									; A = $89, pull A, if carry clear go to .5, Xvel,x = A
+.4:									; pull A, if carry clear go to .5, Xvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla

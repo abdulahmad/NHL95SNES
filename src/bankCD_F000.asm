@@ -19,7 +19,7 @@ HartPicPalette:						; its colours (16)
 	dw $0010,$0010					; colours per palette and total colours
 	dw $7C00,$7FFF,$6F7B,$35AD,$1084,$35B2,$0004,$3656
 	dw $35B2,$4ADB,$5AD6,$2529,$1CE7,$35AD,$4A52,$0000
-.end:								; end of the picture
+.end:								; continue
 DATA8_CDF94A:						; per frame number (1060 words, as DATA8_C60000): a signed offset;
 									; CODE_C37FE2 puts it in $7F, negated when $08E0,y has bit $0800
 	dw $0000,$0012,$0016,$0017,$0014,$000C,$000A,$000C

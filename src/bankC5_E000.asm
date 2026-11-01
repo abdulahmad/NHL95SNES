@@ -603,7 +603,7 @@ CODE_C5E41D:						; from CODE_C5E40C and other segments
 	sta.w $17C9
 	sta.l $306041
 	jsr.w CODE_C5A46A
-.1:									; A = $17CB, if A < $001A go to CODE_C5E41C, $17CB = $0017, ...
+.1:									; if $17CB < $001A go to CODE_C5E41C, $17CB = $0017, $306043 = A, ...
 	lda.w $17CB
 	cmp.w #$001A
 	bcc CODE_C5E41C
@@ -1962,7 +1962,7 @@ CODE_C5ECF1:						; from CODE_C5EB7F, CODE_C5EC1A
 	and.w #$FF00
 	sta.b $0C
 	bra .loop
-.9:									; A = $0C, A + $0100, push A, A = $A5
+.9:									; A = $0C, A + $0100, push A, A = $A5, ...
 	pei ($A5)
 	pei ($0C)
 	pei ($2E)

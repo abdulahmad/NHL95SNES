@@ -193,7 +193,7 @@ CODE_C36B83:						; called from other segments
 	cmp.w #$001C
 	bcc .1
 	lda.w #$001B
-.1:									; $17C9 = A, A = $306043, if A < $001C go to .2, A = $001B
+.1:									; $17C9 = A, if $306043 < $001C go to .2, A = $001B
 	sta.w $17C9
 	lda.l $306043
 	cmp.w #$001C
@@ -238,7 +238,7 @@ CODE_C36B83:						; called from other segments
 	cmp.w #$0006
 	bcc .6
 	lda.w #$0005
-.6:									; $1906 = A, A = $306047, if A < $0006 go to .7, A = $0005
+.6:									; $1906 = A, if $306047 < $0006 go to .7, A = $0005
 	sta.w $1906
 	lda.l $306047
 	cmp.w #$0006
@@ -579,7 +579,7 @@ Multi5Bios:							; called from other segments
 	bra .13
 .12:								; JOYSER0 = 0
 	stz.w JOYSER0
-.13:								; A = mp5padsig, if A = $01 go to .14, PadRaw1 = $000F, ...
+.13:								; if mp5padsig = $01 go to .14, PadRaw1 = $000F, ...
 	lda.w mp5padsig
 	cmp.b #$01
 	beq .14
@@ -587,7 +587,7 @@ Multi5Bios:							; called from other segments
 	stx.b PadRaw1
 	ldx.w mp5present
 	beq .14
-.14:								; A = $0596, if A = $01 go to .15, PadRaw2 = $000F, ...
+.14:								; if $0596 = $01 go to .15, PadRaw2 = $000F, if mp5present = 0 go to .18
 	lda.w $0596
 	cmp.b #$01
 	beq .15
@@ -595,7 +595,7 @@ Multi5Bios:							; called from other segments
 	stx.b PadRaw2
 	ldx.w mp5present
 	beq .18
-.15:								; if mp5present = 0 go to .18, A = $0597, if A = $01 go to .16, ...
+.15:								; if mp5present = 0 go to .18, if $0597 = $01 go to .16, $C5 = $000F
 	lda.w mp5present
 	beq .18
 	lda.w $0597
@@ -603,13 +603,13 @@ Multi5Bios:							; called from other segments
 	beq .16
 	ldx.w #$000F
 	stx.b $C5
-.16:								; A = $0598, if A = $01 go to .17, $C7 = $000F
+.16:								; if $0598 = $01 go to .17, $C7 = $000F
 	lda.w $0598
 	cmp.b #$01
 	beq .17
 	ldx.w #$000F
 	stx.b $C7
-.17:								; A = $0599, if A = $01 go to .18, $C9 = $000F
+.17:								; if $0599 = $01 go to .18, $C9 = $000F
 	lda.w $0599
 	cmp.b #$01
 	beq .18
@@ -705,7 +705,7 @@ Multi5ConnectCheck:					; from CODE_C36F3D, Multi5Bios and other segments
 	beq .1
 	lda.b #$00
 	sta.w mp5connect
-.1:									; A = $04A2, if A is not $FF go to .2, A = $04A1, if A = $FF go to .2, ...
+.1:									; if $04A2 is not $FF go to .2, if $04A1 = $FF go to .2, mp5connect = $00
 	lda.w $04A2
 	cmp.b #$FF
 	bne .2

@@ -621,7 +621,7 @@ CODE_C553D6:						; from CODE_C553CC
 	jsr.w CODE_C560AC
 	plx
 	sep #$20
-.loop:								; loop: A = $04F5,x, X + 1, if A is not $3F go to .loop, ...
+.loop:								; loop: A = $04F5,x, X + 1, if $04F5,x is not $3F go to .loop, ...
 	lda.w $04F5,x
 	inx
 	cmp.b #$3F
@@ -1161,7 +1161,7 @@ CODE_C558D7:						; from CODE_C55A09 and other segments
 	dec a
 	asl a
 	tay
-.loop:								; loop: X = $1AE2,y, A = $0A,x, if A = $FFFF go to .1, push Y, ...
+.loop:								; loop: X = $1AE2,y, if $0A,x = $FFFF go to .1, push Y, ...
 	ldx.w $1AE2,y
 	lda.b $0A,x
 	cmp.w #$FFFF
@@ -1920,7 +1920,7 @@ CODE_C55F22:						; from CODE_C55F8A and other segments
 	beq .2
 	ldx.b $2E
 	txy
-.loop2:								; loop: A = $0001,x, X + 1, if A is not $20 go to .loop2, $0002,y = A, ...
+.loop2:								; loop: A = $0001,x, X + 1, if $0001,x is not $20 go to .loop2, ...
 	lda.w $0001,x
 	inx
 	cmp.b #$20
@@ -1986,7 +1986,7 @@ CODE_C55F98:						; called from other segments
 	beq .3
 	ldx.b $2E
 	txy
-.loop2:								; loop: A = $0001,x, X + 1, if A is not $20 go to .loop2, $0002,y = A, ...
+.loop2:								; loop: A = $0001,x, X + 1, if $0001,x is not $20 go to .loop2, ...
 	lda.w $0001,x
 	inx
 	cmp.b #$20

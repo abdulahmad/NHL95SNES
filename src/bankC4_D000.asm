@@ -1449,7 +1449,7 @@ CODE_C4DD74:						; from DATA8_C4DC51
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	ldx.w #$364E
-.loop2:								; loop: A = $000A,y, if A >= $0000,x go to .2, A = X, A + $0006, ...
+.loop2:								; loop: if $000A,y >= $0000,x go to .2, A = X, A + $0006, X = A, ...
 	lda.w $000A,y
 	cmp.w $0000,x
 	bcs .2
@@ -1667,7 +1667,7 @@ CODE_C4DF20:						; from DATA8_C4DC51
 	sta.b a3
 	lda.w #$0000
 	sta.b a2
-.loop:								; loop: $6D = A, call CODE_C5B97F, A = $0004,x, if A < a2 go to .2, ...
+.loop:								; loop: $6D = A, call CODE_C5B97F, if $0004,x < a2 go to .2, ...
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	lda.w $0004,x
@@ -1697,7 +1697,7 @@ CODE_C4DF5B:						; from CODE_C4DC9C, CODE_C4DD41, CODE_C4DED9
 	sta.b a2
 	sta.b $71
 	dec.b a2
-.loop:								; loop: $6D = A, call CODE_C5B97F, A = $002A,x, if A >= a2 go to .1, ...
+.loop:								; loop: $6D = A, call CODE_C5B97F, if $002A,x >= a2 go to .1, a2 = A, ...
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	lda.w $002A,x

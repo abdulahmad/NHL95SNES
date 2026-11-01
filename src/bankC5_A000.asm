@@ -396,7 +396,7 @@ CODE_C5A397:						; from CODE_C5A359
 	beq .rts
 	dec a
 	beq .rts
-.1:									; A = $17CB, if A is not $001A go to .3, A = $0000
+.1:									; if $17CB is not $001A go to .3, A = $0000
 	lda.w $17CB
 	cmp.w #$001A
 	bne .3
@@ -482,7 +482,7 @@ CODE_C5A440:						; from CODE_C5A402
 	beq .rts
 	dec a
 	beq .rts
-.1:									; A = $17C9, if A is not $001A go to .3, A = $0000
+.1:									; if $17C9 is not $001A go to .3, A = $0000
 	lda.w $17C9
 	cmp.w #$001A
 	bne .3
@@ -1224,7 +1224,7 @@ CODE_C5A9FE:						; from CODE_C5A9FB
 	and.w #$00FF
 	jsr.w CODE_C5B369
 	sep #$20
-.4:									; A = $38, if A = $4692 go to .5, $4692 = A, go to .6
+.4:									; if $38 = $4692 go to .5, $4692 = A, go to .6
 	lda.b #$38
 	cmp.w $4692
 	beq .5
@@ -1361,7 +1361,7 @@ CODE_C5AB27:						; called from other segments
 	jsr.w CODE_C590BB
 	lda.w #$00CD
 	bra .3
-.5:									; X = a0, pull Y, A = $08,x, if A is not $00B5 go to .6, ...
+.5:									; X = a0, pull Y, if $08,x is not $00B5 go to .6, go to CODE_C5963A
 	ldx.b a0
 	ply
 	lda.b $08,x

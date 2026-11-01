@@ -134,7 +134,7 @@ CODE_C5D0F5:						; called from other segments
 	beq .rts
 	jsr.w CODE_C5D1C5
 	ldy.w #$0000
-.loop:								; loop: A = cont1team,y, if A = $0001 go to .2, Y + 1, Y + 1, ...
+.loop:								; loop: if cont1team,y = $0001 go to .2, Y + 1, Y + 1, ...
 	lda.w cont1team,y
 	cmp.w #$0001
 	beq .2
@@ -144,7 +144,7 @@ CODE_C5D0F5:						; called from other segments
 	bne .loop
 .1:									; Y = $0000
 	ldy.w #$0000
-.loop2:								; loop: A = cont1team,y, if A = $0002 go to .3, Y + 1, Y + 1, ...
+.loop2:								; loop: if cont1team,y = $0002 go to .3, Y + 1, Y + 1, ...
 	lda.w cont1team,y
 	cmp.w #$0002
 	beq .3
@@ -548,7 +548,7 @@ CODE_C5D36F:						; from CODE_C5D156
 .14:								; X = $FFFF, A 8-bit
 	ldx.w #$FFFF
 	sep #$20
-.loop2:								; loop: X + 1, A = $04F5,x, if A is not $3E go to .loop2, $04F5,x = 0, ...
+.loop2:								; loop: X + 1, if $04F5,x is not $3E go to .loop2, $04F5,x = 0, ...
 	inx
 	lda.w $04F5,x
 	cmp.b #$3E
@@ -768,7 +768,7 @@ CODE_C5D5FD:						; from CODE_C5D5CD
 	sta.b d2
 	lda.w $12AF,y
 	sta.b $89
-.3:									; A = tmscore,x, if A < d0 go to .4, if zero go to .4, d0 = A, ...
+.3:									; if tmscore,x < d0 go to .4, if zero go to .4, d0 = A, $81 = $12AF,x, ...
 	lda.w tmscore,x
 	cmp.b d0
 	bcc .4
@@ -1775,7 +1775,7 @@ CODE_C5DD47:						; called from other segments
 	clc
 	adc.l $7F000A,x
 	sta.l $7F000A,x
-.2:									; $7F0006,x = $FFFF, A = $1864, if A is not $0003 go to .3, ...
+.2:									; $7F0006,x = $FFFF, if $1864 is not $0003 go to .3, ...
 	lda.w #$FFFF
 	sta.l $7F0006,x
 	lda.w $1864

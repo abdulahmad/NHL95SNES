@@ -119,7 +119,7 @@ CODE_C380D1:						; called from other segments
 	cmp.w #$0001
 	bne .1
 	rtl
-.1:									; push X, push Y, A = $FFFF
+.1:									; push X, push Y, $2CE3 = $FFFF, $2CE5 = A
 	phx
 	phy
 	pei ($81)
@@ -353,7 +353,7 @@ CODE_C382B8:						; called from other segments
 	lsr a
 	bcc .1
 	jmp.w .8
-.1:									; A = $0862, if A = $0882 go to .2, tmp2 = $2100, tmp1 = $2018, ...
+.1:									; if $0862 = $0882 go to .2, tmp2 = $2100, tmp1 = $2018, $0882 = A, ...
 	lda.w $0862
 	cmp.w $0882
 	beq .2
@@ -363,7 +363,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0882
 	jsl.l CODE_C5F368
-.2:									; A = $0864, if A = $0884 go to .3, tmp2 = $2108, tmp1 = $201C, ...
+.2:									; if $0864 = $0884 go to .3, tmp2 = $2108, tmp1 = $201C, $0884 = A, ...
 	lda.w $0864
 	cmp.w $0884
 	beq .3
@@ -373,7 +373,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0884
 	jsl.l CODE_C5F368
-.3:									; A = $0866, if A = $0886 go to .4, tmp2 = $2120, tmp1 = $2020, ...
+.3:									; if $0866 = $0886 go to .4, tmp2 = $2120, tmp1 = $2020, $0886 = A, ...
 	lda.w $0866
 	cmp.w $0886
 	beq .4
@@ -383,7 +383,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0886
 	jsl.l CODE_C5F368
-.4:									; A = $0868, if A = $0888 go to .5, tmp2 = $2128, tmp1 = $2024, ...
+.4:									; if $0868 = $0888 go to .5, tmp2 = $2128, tmp1 = $2024, $0888 = A, ...
 	lda.w $0868
 	cmp.w $0888
 	beq .5
@@ -393,7 +393,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0888
 	jsl.l CODE_C5F368
-.5:									; A = $086A, if A = $088A go to .6, tmp2 = $2140, tmp1 = $2028, ...
+.5:									; if $086A = $088A go to .6, tmp2 = $2140, tmp1 = $2028, $088A = A, ...
 	lda.w $086A
 	cmp.w $088A
 	beq .6
@@ -403,7 +403,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $088A
 	jsl.l CODE_C5F368
-.6:									; A = $086C, if A = $088C go to .7, tmp2 = $2148, tmp1 = $202C, ...
+.6:									; if $086C = $088C go to .7, tmp2 = $2148, tmp1 = $202C, $088C = A, ...
 	lda.w $086C
 	cmp.w $088C
 	beq .7
@@ -415,7 +415,7 @@ CODE_C382B8:						; called from other segments
 	jsl.l CODE_C5F368
 .7:									; go to .14
 	jmp.w .14
-.8:									; A = frame, if A = $0876 go to .9, tmp2 = $20A0, tmp1 = $2000, ...
+.8:									; if frame = $0876 go to .9, tmp2 = $20A0, tmp1 = $2000, $0876 = A, ...
 	lda.w frame
 	cmp.w $0876
 	beq .9
@@ -425,7 +425,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0876
 	jsl.l CODE_C5F368
-.9:									; A = $0858, if A = $0878 go to .10, tmp2 = $20A8, tmp1 = $2004, ...
+.9:									; if $0858 = $0878 go to .10, tmp2 = $20A8, tmp1 = $2004, $0878 = A, ...
 	lda.w $0858
 	cmp.w $0878
 	beq .10
@@ -435,7 +435,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0878
 	jsl.l CODE_C5F368
-.10:								; A = $085A, if A = $087A go to .11, tmp2 = $20C0, tmp1 = $2008, ...
+.10:								; if $085A = $087A go to .11, tmp2 = $20C0, tmp1 = $2008, $087A = A, ...
 	lda.w $085A
 	cmp.w $087A
 	beq .11
@@ -445,7 +445,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $087A
 	jsl.l CODE_C5F368
-.11:								; A = $085C, if A = $087C go to .12, tmp2 = $20C8, tmp1 = $200C, ...
+.11:								; if $085C = $087C go to .12, tmp2 = $20C8, tmp1 = $200C, $087C = A, ...
 	lda.w $085C
 	cmp.w $087C
 	beq .12
@@ -455,7 +455,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $087C
 	jsl.l CODE_C5F368
-.12:								; A = $085E, if A = $087E go to .13, tmp2 = $20E0, tmp1 = $2010, ...
+.12:								; if $085E = $087E go to .13, tmp2 = $20E0, tmp1 = $2010, $087E = A, ...
 	lda.w $085E
 	cmp.w $087E
 	beq .13
@@ -465,7 +465,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $087E
 	jsl.l CODE_C5F368
-.13:								; A = $0860, if A = $0880 go to .14, tmp2 = $20E8, tmp1 = $2014, ...
+.13:								; if $0860 = $0880 go to .14, tmp2 = $20E8, tmp1 = $2014, $0880 = A, ...
 	lda.w $0860
 	cmp.w $0880
 	beq .14
@@ -475,7 +475,7 @@ CODE_C382B8:						; called from other segments
 	stx.b tmp1
 	sta.w $0880
 	jsl.l CODE_C5F368
-.14:								; A = $0872, if A = $0892 go to .15, tmp1 = $2034, $0892 = A, ...
+.14:								; if $0872 = $0892 go to .15, tmp1 = $2034, $0892 = A, call CODE_C5F368
 	lda.w $0872
 	cmp.w $0892
 	beq .15

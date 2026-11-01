@@ -534,7 +534,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 .4:									; A xor $FFFF, A + 1
 	eor.w #$FFFF
 	inc a
-.5:									; push A, $75 = A, A = $02, $02 = X
+.5:									; push A, $75 = A, A = $02, $02 = X, ...
 	pha
 	sta.b $75
 	pea.w $0080
@@ -887,7 +887,7 @@ CODE_C4B79E:						; from CODE_C4B2DC, CODE_C4B32D
 	sta.b d2
 	stx.b $89
 	ldx.w #$2D85
-.loop:								; loop: if A is not $0002,x go to .1, A = $89, ...
+.loop:								; loop: if A is not $0002,x go to .1, if $89 = $0004,x go to .2, A = d2
 	cmp.w $0002,x
 	bne .1
 	lda.b $89
@@ -1364,7 +1364,7 @@ CODE_C4BB5A:						; called from other segments
 	jsl.l CODE_C4BDAE
 .1:									; pull X
 	plx
-.2:									; if $C30008,x = 0 go to .11, if A is not $FFFF go to .3, ...
+.2:									; if $C30008,x = 0 go to .11, if $C30008,x is not $FFFF go to .3, ...
 	lda.l $C30008,x
 	beq .11
 	cmp.w #$FFFF
@@ -1827,7 +1827,7 @@ CODE_C4BE53:						; from CODE_C4C068
 	bcc .11
 	inc.b $0A
 	bra .11
-.10:								; A = p0, if A is not $007F go to .11, A = $18DE, go to CODE_C4C068
+.10:								; if p0 is not $007F go to .11, A = $18DE, go to CODE_C4C068
 	lda.b p0
 	cmp.w #$007F
 	bne .11

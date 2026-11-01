@@ -19,17 +19,17 @@ org $C00F49
 SoundDriver:						; sound CPU program as upload blocks (length, sound RAM address,
 									; bytes; length 0 ends with the start address), sent after SoundRAMClear
 	dw .initend-.initcode,.init
-.initcode:							; the init block
+.initcode:							; continue
 	arch spc700
 	base $1000
-.init:								; the start address of the upload: runs once after it
+.init:								; continue
 	clrp
 	mov x,#$1F
 	mov sp,x
 	mov.b SPC_CONTROL,#$30			; boot ROM off, ports cleared
 	mov.b SPC_PORT3,#$7E			; busy
 	mov y,#$08
-.l100C:								; loop
+.l100C:								; continue
 	mov a,.dspregs-1+y
 	mov.b SPC_DSPADDR,a
 	mov a,.dspvalues-1+y
@@ -38,7 +38,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov y,#$50
 	mov a,#$07
 	clrc
-.l101D:								; loop
+.l101D:								; A + a,$10, if A is not a,$87 go to .l101D
 	mov.b SPC_DSPADDR,a				; gain of every voice
 	mov.b SPC_DSPDATA,y
 	adc a,#$10
@@ -47,7 +47,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov y,#$00
 	mov $21,y
 	mov a,#$05
-.l102D:								; loop
+.l102D:								; A + a,$10, if A is not a,$85 go to .l102D
 	mov.b SPC_DSPADDR,a				; ADSR off on every voice
 	mov.b SPC_DSPDATA,y
 	adc a,#$10
@@ -55,18 +55,18 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bne .l102D
 	mov a,y
 	mov x,#$4F
-.l103A:								; loop
+.l103A:								; if A is not x,$5F go to .l103A, A - 1
 	mov (x+),a
 	cmp x,#$5F
 	bne .l103A
 	mov $15,a
 	dec a
 	mov x,#$5F
-.l1044:								; loop
+.l1044:								; if A is not x,$6F go to .l1044
 	mov (x+),a
 	cmp x,#$6F
 	bne .l1044
-.l1049:								; loop
+.l1049:								; y + 1, y + 1, if A is not y,$20 go to .l1049
 	mov a,.tcallvectors+y
 	mov spcTcallVectors+y,a
 	mov a,.tcallvectors+1+y
@@ -83,36 +83,36 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 15
 	mov a,#$7F						; ready: the CPU waits for this on port 3
 	mov.b SPC_PORT3,a
-.l106D:								; loop
+.l106D:								; go to .mainloop
 	cbne.b SPC_PORT0,.l106D			; until the CPU echoes it on port 0
 	mov.b SPC_PORT3,#$7E
 	jmp .mainloop
-.dspregs:							; DSP registers the init sets (read from the end down)
+.dspregs:							; continue
 	db DSP_ENDX,DSP_PMON,DSP_KOF,DSP_KON,DSP_DIR,DSP_EFB,DSP_EON,DSP_NON
-.dspvalues:							; their values: all voices keyed off, the sample directory page, rest 0
+.dspvalues:							; continue
 	db $00,$00,$FF,$00,$FE,$00,$00,$00
-.tcallvectors:						; copied to spcTcallVectors: the handlers of tcall 15 down to 0
+.tcallvectors:						; continue
 	dw .l0574,.l0467,.l04CD,.l0773,.l04DF,.l06A1,.l043F,.l038A
 	dw .l049C,.l06FD,.l070F,.l03A3,.l03D5,.l09A9,.l09AD,.l0452
-.version:							; the driver's name, version, authors and date
+.version:							; continue
 	db "SMSG 3.07w Jason Andersen/John Schappert 8/17/1994"
 	base off
 	arch 65816
-.initend:							; the main block
+.initend:							; continue
 	dw .mainend-.maincode,.mainloop
-.maincode:							; its bytes
+.maincode:							; continue
 	arch spc700
 	base $0120
-.mainloop:							; from .l106D, .ticks, .cmdcall
+.mainloop:							; continue
 	clr1.b spcStatus.7
 	mov.b SPC_PORT2,spcStatus		; status to port 2
-.poll:								; from .command, .l0140
+.poll:								; if zero go to .command
 	mov.b a,SPC_T0OUT				; timer 0 ticks since the last read
 	beq .command
 	set1.b spcStatus.7
 	set1.b spcStatus.6
 	mov.b SPC_PORT2,spcStatus
-.ticks:								; loop
+.ticks:								; A - 1, if the result is not 0 go to .ticks, go to .mainloop
 	push a
 	call .tick
 	pop a
@@ -120,10 +120,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bne .ticks
 	clr1.b spcStatus.6
 	bra .mainloop
-.command:							; from .poll
+.command:							; if zero go to .poll
 	mov.b a,SPC_PORT3
 	beq .poll
-.l0140:								; loop
+.l0140:								; if A is not a,SPC_PORT3 go to .l0140, if A >= a,$21 go to .poll, A * 2
 	mov.b a,SPC_PORT3
 	cmp.b a,SPC_PORT3
 	bne .l0140
@@ -145,10 +145,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b spcArg1,x
 	mov.b spcArg2,y
 	mov.b SPC_CONTROL,spcControl	; clear the ports
-.cmdcall:							; operand set by .l0140
+.cmdcall:							; go to .mainloop
 	call $FFFF
 	bra .mainloop
-.tick:								; called from .ticks
+.tick:								; if A = a,spcENDX go to .l0194, A xor a,$FF, ...
 	mov a,$1B
 	tset.w $001A,a
 	mov $1B,#$00
@@ -164,23 +164,23 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	beq .l0194
 	or a,$1A
 	mov $1A,a
-.l0194:								; from .tick
+.l0194:								; continue
 	mov x,#$07
-.l0196:								; from .l01AD
+.l0196:								; if the result is not 0 go to .l01AD, $5F+x + 1, ...
 	mov a,.voicebits+x
 	and a,$1A
 	bne .l01AD
 	inc $5F+x
 	bne .l01A3
 	dec $5F+x
-.l01A3:								; from .l0196
+.l01A3:								; if zero go to .l01AD, A - 1, if not zero go to .l01AD
 	mov a,$57+x
 	beq .l01AD
 	dec a
 	mov $57+x,a
 	bne .l01AD
 	tcall 8
-.l01AD:								; from .l0196, .l01A3
+.l01AD:								; x - 1, if the result >= 0 go to .l0196, if carry set go to .l01E8, ...
 	dec x
 	bpl .l0196
 	tcall 13
@@ -209,17 +209,17 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,spcQueue+1+x
 	mov x,a
 	pop a
-.queuecall:							; operand set by .l01AD
+.queuecall:							; continue
 	call $FFFF
-.l01E8:								; from .l01AD
+.l01E8:								; continue
 	bbs $15.7,.l01EC
-.l01EB:								; from .l01EC
+.l01EB:								; continue
 	ret
-.l01EC:								; from .l01E8
+.l01EC:								; continue
 	bbs $15.4,.l01EB
 	mov $24,$22
 	mov $25,$23
-.l01F5:								; from .l0244
+.l01F5:								; y + 1, y + 1, y + 1
 	mov y,#$02
 	mov a,($24)+y
 	mov $31,a
@@ -235,13 +235,13 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	call .l09B9
 	dec $09
 	mov y,$09
-.l0213:								; from .l023E, .l0241
+.l0213:								; if A is not a,($39)+y go to .l021D, if A = a,$FF go to .l0241
 	mov a,($37)+y
 	cmp a,($39)+y
 	bne .l021D
 	cmp a,#$FF
 	beq .l0241
-.l021D:								; from .l0213
+.l021D:								; A - 1, A + 1, if the result is not 0 go to .l0241, A - 1, ...
 	dec a
 	mov ($37)+y,a
 	inc a
@@ -258,15 +258,15 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov .eventcall+1,a
 	mov a,.events+1+x
 	mov .eventcall+2,a
-.eventcall:							; operand set by .l021D
+.eventcall:							; continue
 	call $FFFF
-.l023E:								; from .l0263, .l036D
+.l023E:								; go to .l0213
 	tcall 9
 	bra .l0213
-.l0241:								; from .l0213, .l021D, .l043B
+.l0241:								; y - 1, if the result >= 0 go to .l0213
 	dec y
 	bpl .l0213
-.l0244:								; from .l0405, .l0435
+.l0244:								; y + 1, if zero go to .l0262
 	call .l0A66
 	mov y,#$00
 	mov a,($24)+y
@@ -282,9 +282,9 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	movw $24,ya
 	movw.b SPC_PORT0,ya
 	jmp .l01F5
-.l0262:								; from .l0244
+.l0262:								; continue
 	ret
-.l0263:								; from .l021D
+.l0263:								; A / 2, A * 2, A + a,$13
 	lsr a
 	mov $13,a
 	mov a,($33)+y
@@ -363,13 +363,13 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,.pitchlo+y
 	dec x
 	bmi .l02EA
-.l02E2:								; loop
+.l02E2:								; A * 2, x - 1, if the result >= 0 go to .l02E2
 	asl a
 	rol $04
 	rol $05
 	dec x
 	bpl .l02E2
-.l02EA:								; from .l0263
+.l02EA:								; $05 / 2, A / 2, $05 / 2, A / 2, ...
 	movw ya,$04
 	movw $02,ya
 	lsr $05
@@ -386,7 +386,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bpl .l0304
 	eor a,#$FF
 	inc a
-.l0304:								; from .l02EA
+.l0304:								; $06 * 2, $07 * 2, $08 * 2
 	mov x,a
 	mul ya
 	movw $06,ya
@@ -404,16 +404,16 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bpl .l0323
 	subw ya,$07
 	bra .l0325
-.l0323:								; from .l0304
+.l0323:								; continue
 	addw ya,$07
-.l0325:								; from .l0304
+.l0325:								; SPC_DSPADDR + 1, go to .l034C
 	movw $02,ya
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
 	mov.b SPC_DSPDATA,y
 	mov y,$09
 	bra .l034C
-.l0331:								; from .l0263
+.l0331:								; A * 2, A * 2, SPC_DSPADDR + 1
 	mov a,($33)+y
 	push x
 	mov x,a
@@ -429,7 +429,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FD01+x
 	mov.b SPC_DSPDATA,a
 	mov $03,a
-.l034C:								; from .l0325
+.l034C:								; A * 2, if carry clear go to .l0360
 	pop x
 	mov a,$02
 	mov $7F+x,a
@@ -440,7 +440,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bcc .l0360
 	mov a,.voicebits+x
 	tset.w $001C,a
-.l0360:								; from .l034C
+.l0360:								; A / 2, if carry clear go to .l036D
 	mov a,$4D
 	mov $57+x,a
 	mov a,($35)+y
@@ -448,7 +448,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bcc .l036D
 	mov a,#$00
 	mov $57+x,a
-.l036D:								; from .l0360
+.l036D:								; continue
 	mov a,($33)+y
 	push x
 	mov x,a
@@ -465,7 +465,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 4
 	tcall 12
 	jmp .l023E
-.l038A:								; tcall 8
+.l038A:								; continue
 	mov a,.voicebits+x
 	mov.b SPC_DSPADDR,#DSP_KOF
 	mov.b SPC_DSPDATA,a
@@ -476,9 +476,9 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $4F+x,a
 	mov $6F+x,a
 	mov $77+x,a
-.l03A2:								; event $81
+.l03A2:								; continue
 	ret
-.l03A3:								; tcall 4
+.l03A3:								; A / 2
 	push y
 	mov a,.voiceregs+x
 	or a,#$02
@@ -500,16 +500,16 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	movw ya,$04
 	subw ya,$02
 	bra .l03CD
-.l03CA:								; from .l03A3
+.l03CA:								; continue
 	tcall 3
 	addw ya,$04
-.l03CD:								; from .l03A3
+.l03CD:								; SPC_DSPADDR + 1
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
 	mov.b SPC_DSPDATA,y
 	pop y
 	ret
-.l03D5:								; tcall 3
+.l03D5:								; A * 2
 	asl a
 	push a
 	mov y,$02
@@ -521,11 +521,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $03,#$00
 	addw ya,$02
 	ret
-.l03E6:								; event $82
+.l03E6:								; continue
 	tcall 14
 	mov ($3F)+y,a
 	mov x,#$07
-.l03EB:								; from .l03FD
+.l03EB:								; if A is not a,$67+x go to .l03FD, if A is not a,$6F+x go to .l03FD, ...
 	mov a,y
 	cmp a,$67+x
 	bne .l03FD
@@ -536,15 +536,15 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	cmp a,$77+x
 	bne .l03FD
 	tcall 4
-.l03FD:								; from .l03EB
+.l03FD:								; x - 1, if the result >= 0 go to .l03EB
 	dec x
 	bpl .l03EB
 	ret
-.l0401:								; event $83
+.l0401:								; continue
 	tcall 14
 	mov ($3B)+y,a
 	ret
-.l0405:								; event $80
+.l0405:								; A - 1, if not zero go to .l043B
 	mov a,#$FF
 	mov ($37)+y,a
 	mov ($39)+y,a
@@ -572,13 +572,13 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov ($24)+y,a
 	set1 $15.7
 	jmp .l0244
-.l0435:								; from .l0405
+.l0435:								; go to .l0244
 	call .l05B0
 	jmp .l0244
-.l043B:								; from .l0405
+.l043B:								; go to .l0241
 	pop y
 	jmp .l0241
-.l043F:								; tcall 9
+.l043F:								; if A is not a,$FF go to .l044B
 	tcall 14
 	cmp a,#$FF
 	bne .l044B
@@ -587,34 +587,34 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 14
 	mov ($39)+y,a
 	ret
-.l044B:								; from .l043F
+.l044B:								; continue
 	mov ($37)+y,a
 	mov a,#$00
 	mov ($39)+y,a
 	ret
-.l0452:								; tcall 0
+.l0452:								; SPC_DSPADDR + 1, if minus go to .l045E, SPC_DSPADDR + 1
 	inc.b SPC_DSPADDR
 	mov x,a
 	mov a,$F580+x
 	mov.b SPC_DSPDATA,a
 	bmi .l045E
 	inc.b SPC_DSPADDR
-.l045E:								; from .l0452
+.l045E:								; SPC_DSPADDR + 1
 	inc.b SPC_DSPADDR
 	mov a,$F581+x
 	mov.b SPC_DSPDATA,a
 	mov a,x
 	ret
-.l0467:								; tcall 14
+.l0467:								; continue
 	push x
 	mov x,#$00
 	mov $1F,x
-.l046C:								; loop
+.l046C:								; x + 1, if carry clear go to .l046C
 	inc x
 	tcall 7
 	bcc .l046C
 	rol $1F
-.l0472:								; loop
+.l0472:								; x - 1, if the result is not 0 go to .l0472, x - 1, x - 1
 	tcall 7
 	rol $1F
 	dec x
@@ -622,11 +622,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov x,$1F
 	dec x
 	dec x
-.l047C:								; operand set by .l01F5, .l0615
+.l047C:								; continue
 	mov a,$FFFF+x
 	pop x
 	ret
-.l0481:								; no branch, call or table refers to it (a patched call may)
+.l0481:								; A + 1, if not zero go to .l0493, A + 1, A - 1, ...
 	mov a,($45)+y
 	mov .l0498+1,a
 	inc a
@@ -637,14 +637,14 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov ($47)+y,a
 	dec a
 	bra .l0495
-.l0493:								; from .l0481
+.l0493:								; continue
 	mov a,($47)+y
-.l0495:								; from .l0481
+.l0495:								; continue
 	mov .l0498+2,a
-.l0498:								; operand set by .l0481, .l0495
+.l0498:								; continue
 	mov a,$FFFF
 	ret
-.l049C:								; tcall 7
+.l049C:								; A - 1, if the result >= 0 go to .l04C5, A + 1, ...
 	mov a,($41)+y
 	dec a
 	bpl .l04C5
@@ -658,71 +658,71 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc a
 	mov ($47)+y,a
 	bra .l04BA
-.l04B5:								; from .l049C
+.l04B5:								; continue
 	mov a,($47)+y
 	mov .l04BA+2,a
-.l04BA:								; from .l049C; operand set by .l049C, .l04B5
+.l04BA:								; A / 2
 	mov a,$FFFF
 	lsr a
 	mov ($43)+y,a
 	mov a,#$07
 	mov ($41)+y,a
 	ret
-.l04C5:								; from .l049C
+.l04C5:								; A / 2
 	mov ($41)+y,a
 	mov a,($43)+y
 	lsr a
 	mov ($43)+y,a
 	ret
-.l04CD:								; tcall 13
+.l04CD:								; continue
 	mov a,$1A
 	mov x,#$07
-.l04D1:								; loop
+.l04D1:								; A * 2, if carry set go to .l04D9, x - 1, ...
 	asl a
 	bcs .l04D9
 	dec x
 	bpl .l04D1
 	setc
 	ret
-.l04D9:								; from .l04D1
+.l04D9:								; continue
 	mov a,.voiceregs+x
 	mov y,a
 	clrc
 	ret
-.l04DF:								; tcall 11
+.l04DF:								; continue
 	mov $09,a
 	mov $0A,x
 	mov x,#$07
-.l04E5:								; loop
+.l04E5:								; if A = a,$4F+x go to .l04EE, x - 1, if the result >= 0 go to .l04E5
 	cmp a,$4F+x
 	beq .l04EE
 	dec x
 	bpl .l04E5
 	setc
 	ret
-.l04EE:								; from .l04E5
+.l04EE:								; continue
 	mov a,.voiceregs+x
 	clrc
 	ret
-.commands:							; handlers of commands 1 to $20 (port 3, or a queued command)
+.commands:							; continue
 	dw .l075F,.l0744,.l072A,.l078D,.l0540,.l083C,.l0879,.l090F
 	dw .l0838,.l056B,.l0830,.l0827,.l08CA,.l0822,.l07EC,.l0800
 	dw .l07EE,.l08C7,.l08E4,.l0902,.l08CD,.l08F1,.l08A6,.l0803
 	dw .l091A,.l0925,.bootrom,.l081B,.l0A1C,.l0540,.l054C,.l0729
-.events:							; handlers of music events $80 to $83
+.events:							; continue
 	dw .l0405,.l03A2,.l03E6,.l0401
-.bootrom:							; command 27
+.bootrom:							; continue
 	mov.b SPC_CONTROL,#$80			; boot ROM on
 	pcall $C0
-.l0540:								; command 5, 30
+.l0540:								; continue
 	mov x,#$7F
-.l0542:								; loop
+.l0542:								; x - 1, if the result >= 0 go to .l0542
 	mov.b SPC_DSPADDR,x
 	mov.b a,SPC_DSPDATA
 	mov $F000+x,a
 	dec x
 	bpl .l0542
-.l054C:								; command 31
+.l054C:								; continue
 	mov.b SPC_PORT3,#$7F
 	mov.b SPC_DSPADDR,#$0F
 	mov a,#$C4
@@ -732,20 +732,20 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,#$F9
 	mov $F9,a
 	mov a,#$E5
-.l0560:								; loop
+.l0560:								; if A is not a,SPC_PORT1 go to .l0560
 	cmp.b a,SPC_PORT1
 	bne .l0560
 	call.w $00F5
 	mov.b SPC_PORT3,#$7E
 	ret
-.l056B:								; command 10; from .l075F
+.l056B:								; if zero go to .l0573
 	mov a,$21
 	beq .l0573
 	set1 $15.7
 	clr1 $15.4
-.l0573:								; from .l056B
+.l0573:								; continue
 	ret
-.l0574:								; tcall 15
+.l0574:								; continue
 	mov.b SPC_T0TARGET,$11
 	set1.b spcControl.0
 	mov.b SPC_CONTROL,spcControl
@@ -759,7 +759,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $03,#$00
 	mov y,#$F7
 	mov a,#$00
-.l0596:								; loop
+.l0596:								; x - 1, x - 1, if the result >= 0 go to .l0596
 	mov $27+x,a
 	mov $28+x,y
 	addw ya,$02
@@ -767,7 +767,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	dec x
 	bpl .l0596
 	call .l081B
-.l05A3:								; called from .l05B6, .l0615
+.l05A3:								; A / 2
 	mov a,#$38
 	tclr.w $0020,a
 	mov a,$21
@@ -775,11 +775,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	lsr a
 	tset.w $0020,a
 	ret
-.l05B0:								; called from .l0405, .l0435
+.l05B0:								; $21 - 1, if the result is not 0 go to .l05B6
 	dec $21
 	bne .l05B6
 	clr1 $15.7
-.l05B6:								; from .l05B0
+.l05B6:								; x - 1, x - 1, if not zero go to .l05D7
 	call .l05A3
 	mov x,$26
 	dec x
@@ -798,11 +798,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,($24)+y
 	mov $23,a
 	ret
-.l05D7:								; from .l05B6
+.l05D7:								; continue
 	movw ya,$22
 	movw $02,ya
 	mov y,#$00
-.l05DD:								; from .l05F4
+.l05DD:								; if A is not a,$24 go to .l05F4, y + 1, ...
 	mov a,($02)+y
 	cmp a,$24
 	bne .l05F4
@@ -816,7 +816,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,($24)+y
 	mov ($02)+y,a
 	ret
-.l05F4:								; from .l05DD
+.l05F4:								; y - 1, go to .l05DD
 	mov y,#$01
 	mov a,($02)+y
 	mov x,a
@@ -825,19 +825,19 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $02,a
 	mov $03,x
 	bra .l05DD
-.l0602:								; called from .l075F
+.l0602:								; A * 2
 	asl a
 	mov x,a
 	mov a,$F600+x
 	mov $31,a
 	mov a,$F601+x
 	mov $32,a
-.l060E:								; called from .l0405
+.l060E:								; if A < a,$05 go to .l0615
 	mov a,$21
 	cmp a,#$05
 	bcc .l0615
 	ret
-.l0615:								; from .l060E
+.l0615:								; $21 + 1, x + 1, x + 1
 	inc $21
 	call .l05A3
 	mov x,$26
@@ -883,7 +883,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	movw $02,ya
 	mov x,#$00
 	mov y,#$00
-.l066F:								; loop
+.l066F:								; A + a,$31, A + a,$32, y + 1
 	clrc
 	mov a,($02+x)
 	adc a,$31
@@ -900,7 +900,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bne .l066F
 	mov y,$09
 	dec y
-.l068C:								; loop
+.l068C:								; y - 1, if the result >= 0 go to .l068C
 	mov a,#$00
 	mov ($41)+y,a
 	mov ($3B)+y,a
@@ -913,7 +913,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$1E
 	mov ($24)+y,a
 	ret
-.l06A1:								; tcall 10
+.l06A1:								; if carry set go to .l06D5, A - 1
 	mov x,a
 	mov a,$F480+x
 	push a
@@ -942,10 +942,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,.voicebits+x
 	tset.w $001C,a
 	pop x
-.l06D3:								; from .l06A1
+.l06D3:								; continue
 	clrc
 	ret
-.l06D5:								; from .l06A1
+.l06D5:								; A * 2, if zero go to .l06FB
 	pop a
 	asl a
 	mov x,a
@@ -965,10 +965,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	adc a,#$04
 	and a,#$3F
 	mov.b spcQueueWrite,a
-.l06FB:								; from .l06D5
+.l06FB:								; continue
 	setc
 	ret
-.l06FD:								; tcall 6
+.l06FD:								; SPC_DSPADDR + 1
 	mov a,y
 	or a,#$02
 	mov.b SPC_DSPADDR,a
@@ -978,7 +978,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FD01+x
 	mov.b SPC_DSPDATA,a
 	ret
-.l070F:								; tcall 5
+.l070F:								; SPC_DSPADDR + 1
 	mov a,y
 	or a,#$00
 	mov.b SPC_DSPADDR,a
@@ -993,14 +993,14 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FD03+x
 	tcall 2
 	mov.b SPC_DSPDATA,a
-.l0726:								; from .l072A
+.l0726:								; continue
 	pop x
 	pop y
-.l0728:								; from .l072A, .l0744, .l0769
+.l0728:								; continue
 	ret
-.l0729:								; command 32
+.l0729:								; continue
 	ret
-.l072A:								; command 3
+.l072A:								; if carry set go to .l0726, SPC_DSPADDR + 1
 	bbs $15.5,.l0728
 	push y
 	push x
@@ -1018,18 +1018,18 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 2
 	mov.b SPC_DSPDATA,a
 	bra .l0771
-.l0744:								; command 2
+.l0744:								; if carry clear go to .l074F
 	bbs $15.5,.l0728
 	push y
 	push x
 	tcall 10
 	bcc .l074F
-.l074C:								; from .l078D
+.l074C:								; continue
 	pop x
 	pop y
-.l074E:								; from .l0769
+.l074E:								; continue
 	ret
-.l074F:								; from .l0744
+.l074F:								; SPC_DSPADDR + 1, go to .l0771
 	tcall 5
 	mov a,y
 	or a,#$02
@@ -1040,33 +1040,33 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	pop a
 	mov.b SPC_DSPDATA,a
 	bra .l0771
-.l075F:								; command 1
+.l075F:								; if A < a,$80 go to .l0769, go to .l056B
 	cmp a,#$80
 	bcc .l0769
 	call .l0602
 	jmp .l056B
-.l0769:								; from .l075F
+.l0769:								; if carry set go to .l074E
 	bbs $15.5,.l0728
 	tcall 10
 	bcs .l074E
 	tcall 6
 	tcall 5
-.l0771:								; from .l072A, .l074F, .l07BF
+.l0771:								; continue
 	mov x,$09
-.l0773:								; tcall 12
+.l0773:								; continue
 	bbs $15.6,.l077B
 	call .l07E5
 	set1 $15.6
-.l077B:								; from .l0773
+.l077B:								; continue
 	mov a,.voicebits+x
 	mov.b SPC_DSPADDR,#DSP_KOF
 	mov.b SPC_DSPDATA,#$00
 	mov.b SPC_DSPADDR,#DSP_KON
 	mov.b SPC_DSPDATA,a
 	tclr.w $001A,a
-.l078C:								; from .l078D
+.l078C:								; continue
 	ret
-.l078D:								; command 4
+.l078D:								; if carry set go to .l074C
 	bbs $15.5,.l078C
 	push x
 	push y
@@ -1086,7 +1086,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bmi .l07AF
 	mul ya
 	bra .l07BF
-.l07AF:								; from .l078D
+.l07AF:								; A xor a,$FF, A + 1, A xor a,$FF, A xor a,$FF, ...
 	eor a,#$FF
 	inc a
 	mul ya
@@ -1097,10 +1097,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc x
 	bne .l07BD
 	inc a
-.l07BD:								; from .l07AF
+.l07BD:								; continue
 	mov y,a
 	mov a,x
-.l07BF:								; from .l078D
+.l07BF:								; SPC_DSPADDR + 1, A and a,$0F, A * 2, A * 2, ...
 	addw ya,$02
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
@@ -1126,30 +1126,30 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 2
 	mov.b SPC_DSPDATA,a
 	bra .l0771
-.l07E5:								; called from .l0773
+.l07E5:								; continue
 	mov.b SPC_DSPADDR,#DSP_FLG
 	mov.b SPC_DSPDATA,#$20
 	ret
-.l07EC:								; command 15
+.l07EC:								; continue
 	set1 $15.5
-.l07EE:								; command 17
+.l07EE:								; continue
 	mov x,#$07
-.l07F0:								; from .l07F6
+.l07F0:								; if plus go to .l07F6
 	mov.w a,$0067+x
 	bpl .l07F6
 	tcall 8
-.l07F6:								; from .l07F0
+.l07F6:								; x - 1, if the result >= 0 go to .l07F0
 	dec x
 	bpl .l07F0
-.l07F9:								; called from .l0803
+.l07F9:								; continue
 	mov a,#$00
 	mov.b spcQueueWrite,a
 	mov.b spcQueueRead,a
 	ret
-.l0800:								; command 16
+.l0800:								; continue
 	clr1 $15.5
 	ret
-.l0803:								; command 24; called from .l1049
+.l0803:								; continue
 	mov a,#$7F
 	mov $1D,a
 	mov $1E,a
@@ -1162,34 +1162,34 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	clr1 $15.4
 	tcall 15
 	call .l07F9
-.l081B:								; command 28; called from .l0596, .l091A
+.l081B:								; continue
 	mov x,#$07
-.l081D:								; loop
+.l081D:								; x - 1, if the result >= 0 go to .l081D
 	tcall 8
 	dec x
 	bpl .l081D
 	ret
-.l0822:								; command 14
+.l0822:								; continue
 	mov.b SPC_T0TARGET,a
 	mov $11,a
 	ret
-.l0827:								; command 12
+.l0827:								; continue
 	bbc $15.4,.l082F
 	mov $15,$17
 	clr1 $15.4
-.l082F:								; from .l0827, .l0830
+.l082F:								; continue
 	ret
-.l0830:								; command 11
+.l0830:								; continue
 	bbs $15.4,.l082F
 	mov $17,$15
 	set1 $15.4
-.l0838:								; command 9; called from .l091A
+.l0838:								; continue
 	clr1 $15.7
 	tcall 15
 	ret
-.l083C:								; command 6
+.l083C:								; continue
 	mov x,#$07
-.l083E:								; loop
+.l083E:								; SPC_DSPADDR + 1, x - 1, if the result >= 0 go to .l083E
 	mov a,.voiceregs+x
 	or a,#$00
 	mov.b SPC_DSPADDR,a
@@ -1201,9 +1201,9 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	dec x
 	bpl .l083E
 	mov y,#$80
-.l0856:								; from .l0871
+.l0856:								; continue
 	mov x,#$07
-.l0858:								; from .l0871
+.l0858:								; A - 1, if the result >= 0 go to .l0866
 	mov a,.voiceregs+x
 	or a,#$00
 	mov.b SPC_DSPADDR,a
@@ -1211,24 +1211,24 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	dec a
 	bpl .l0866
 	mov a,#$00
-.l0866:								; from .l0858
+.l0866:								; SPC_DSPADDR + 1, A - 1, if the result >= 0 go to .l0871
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
 	mov.b a,SPC_DSPDATA
 	dec a
 	bpl .l0871
 	mov a,#$00
-.l0871:								; from .l0866
+.l0871:								; x - 1, if the result >= 0 go to .l0858
 	mov.b SPC_DSPDATA,a
 	dec x
 	bpl .l0858
 	dbnz y,.l0856
 	ret
-.l0879:								; command 7
+.l0879:								; continue
 	mov y,#$80
-.l087B:								; from .l089E
+.l087B:								; continue
 	mov x,#$07
-.l087D:								; from .l089E
+.l087D:								; A + 1, if A < a,$FFE0+x go to .l088F
 	mov a,.voiceregs+x
 	or a,#$00
 	mov.b SPC_DSPADDR,a
@@ -1237,7 +1237,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	cmp a,$FFE0+x
 	bcc .l088F
 	mov a,$FFE0+x
-.l088F:								; from .l087D
+.l088F:								; SPC_DSPADDR + 1, A + 1, if A < a,$FFE8+x go to .l089E
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
 	mov.b a,SPC_DSPDATA
@@ -1245,20 +1245,20 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	cmp a,$FFE8+x
 	bcc .l089E
 	mov a,$FFE8+x
-.l089E:								; from .l088F
+.l089E:								; x - 1, if the result >= 0 go to .l087D
 	mov.b SPC_DSPDATA,a
 	dec x
 	bpl .l087D
 	dbnz y,.l087B
 	ret
-.l08A6:								; command 23
+.l08A6:								; if carry set go to .l08AB
 	tcall 11
 	bcs .l08AB
 	tcall 8
 	ret
-.l08AB:								; from .l08A6
+.l08AB:								; continue
 	mov.b a,spcQueueRead
-.l08AD:								; from .l08BF
+.l08AD:								; if A = x,spcQueueWrite go to .l08BE, ...
 	mov x,a
 	cmp.b x,spcQueueWrite
 	beq .l08BE
@@ -1267,22 +1267,22 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bne .l08BF
 	mov a,#$FF
 	mov spcQueue+3+x,a
-.l08BE:								; from .l08AD
+.l08BE:								; continue
 	ret
-.l08BF:								; from .l08AD
+.l08BF:								; A + a,$04, A and a,$3F, go to .l08AD
 	mov a,x
 	clrc
 	adc a,#$04
 	and a,#$3F
 	bra .l08AD
-.l08C7:								; command 18
+.l08C7:								; continue
 	mov $1D,a
 	ret
-.l08CA:								; command 13
+.l08CA:								; continue
 	mov $1E,a
-.l08CC:								; from .l08CD
+.l08CC:								; continue
 	ret
-.l08CD:								; command 21
+.l08CD:								; if carry set go to .l08CC, A and a,$1D, SPC_DSPADDR + 1, ...
 	tcall 11
 	bcs .l08CC
 	or a,#$00
@@ -1296,7 +1296,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	and a,$1D
 	mov.b SPC_DSPDATA,a
 	mov a,$09
-.l08E4:								; command 19
+.l08E4:								; A * 2, A * 2
 	asl a
 	asl a
 	push a
@@ -1305,9 +1305,9 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $FD02+x,a
 	mov a,y
 	mov $FD03+x,a
-.l08F0:								; from .l08F1
+.l08F0:								; continue
 	ret
-.l08F1:								; command 22
+.l08F1:								; if carry set go to .l08F0, SPC_DSPADDR + 1
 	tcall 11
 	bcs .l08F0
 	or a,#$02
@@ -1317,7 +1317,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc.b SPC_DSPADDR
 	mov.b SPC_DSPDATA,y
 	mov a,$09
-.l0902:								; command 20
+.l0902:								; A * 2, A * 2
 	asl a
 	asl a
 	push a
@@ -1327,13 +1327,13 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,y
 	mov $FD01+x,a
 	ret
-.l090F:								; command 8; called from .l0803
+.l090F:								; continue
 	mov.b SPC_DSPADDR,#DSP_MVOLL
 	mov.b SPC_DSPDATA,x
 	mov.b SPC_DSPADDR,#DSP_MVOLR
 	mov.b SPC_DSPDATA,y
 	ret
-.l091A:								; command 25
+.l091A:								; continue
 	push x
 	push y
 	call .l0838
@@ -1341,7 +1341,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 15
 	pop y
 	pop x
-.l0925:								; command 26
+.l0925:								; continue
 	mov .l094C+2,y
 	mov .l095D+2,y
 	mov .l0970+2,y
@@ -1352,7 +1352,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov y,a
 	mov x,a
 	mov.b SPC_PORT3,x
-.l093D:								; from .l0970; loop
+.l093D:								; if A = x,SPC_PORT3 go to .l093D, if minus go to .l0981
 	mov.b SPC_PORT2,x
 	mov.b SPC_PORT1,SPC_PORT3
 	cmp.b x,SPC_PORT3
@@ -1360,26 +1360,26 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b x,SPC_PORT3
 	bmi .l0981
 	mov.b a,SPC_PORT0
-.l094C:								; operand set by .l0925, .l094C, .l095D, .l0970, .l0981
+.l094C:								; y + 1, if the result is not 0 go to .l095B, .l094C+2 + 1, ...
 	mov $FFFF+y,a
 	inc y
 	bne .l095B
 	inc .l094C+2
 	inc .l095D+2
 	inc .l0970+2
-.l095B:								; from .l094C
+.l095B:								; continue
 	mov.b a,SPC_PORT1
-.l095D:								; operand set by .l0925, .l094C, .l095D, .l0970
+.l095D:								; y + 1, if the result is not 0 go to .l096C, .l094C+2 + 1, ...
 	mov $FFFF+y,a
 	inc y
 	bne .l096C
 	inc .l094C+2
 	inc .l095D+2
 	inc .l0970+2
-.l096C:								; from .l095D
+.l096C:								; continue
 	mov.b SPC_PORT3,x
 	mov.b a,SPC_PORT2
-.l0970:								; operand set by .l0925, .l094C, .l095D, .l0970
+.l0970:								; y + 1, if the result is not 0 go to .l093D, .l094C+2 + 1, ...
 	mov $FFFF+y,a
 	inc y
 	bne .l093D
@@ -1387,7 +1387,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc .l095D+2
 	inc .l0970+2
 	bra .l093D
-.l0981:								; from .l093D
+.l0981:								; A and a,$7F, x - 1, if the result = 0 go to .l09A5
 	mov a,.l094C+1
 	mov $09,a
 	mov a,.l094C+2
@@ -1407,24 +1407,24 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	incw $09
 	mov.b a,SPC_PORT2
 	mov ($09)+y,a
-.l09A5:								; from .l0981
+.l09A5:								; continue
 	mov.b SPC_PORT3,#$7E
 	ret
-.l09A9:								; tcall 2
+.l09A9:								; go to .l09B4
 	mov y,$1D
 	bra .l09B4
-.l09AD:								; tcall 1
+.l09AD:								; continue
 	mov y,#$B7
 	mov x,a
 	mov a,($24)+y
 	mov y,a
 	mov a,x
-.l09B4:								; from .l09A9
+.l09B4:								; continue
 	mul ya
 	mov x,#$7F
 	div ya,x
 	ret
-.l09B9:								; called from .l01F5, .l0615
+.l09B9:								; if not zero go to .l09C8, go to .l09CF
 	mov y,#$00
 	mov a,($31)+y
 	bne .l09C8
@@ -1432,11 +1432,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $FFC2,a
 	mov a,#$04
 	bra .l09CF
-.l09C8:								; from .l09B9
+.l09C8:								; continue
 	mov a,#$67
 	mov $FFC2,a
 	mov a,#$04
-.l09CF:								; from .l09B9
+.l09CF:								; A and a,$7F
 	mov $FFC3,a
 	mov a,#$02
 	addw ya,$31
@@ -1475,29 +1475,29 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	addw ya,$02
 	movw $4B,ya
 	ret
-.l0A1C:								; command 29
+.l0A1C:								; continue
 	mov x,#$08
 	mov y,#$04
-.l0A20:								; from .l0A3D
+.l0A20:								; if A < a,$10 go to .l0A2B, go to .l0A30
 	mov a,$5E+x
 	cmp a,#$10
 	bcc .l0A2B
 	mov $09,#$00
 	bra .l0A30
-.l0A2B:								; from .l0A20
+.l0A2B:								; A xor a,$0F
 	eor a,#$0F
 	xcn a
 	mov $09,a
-.l0A30:								; from .l0A20
+.l0A30:								; x - 1, if A < a,$10 go to .l0A3B, go to .l0A3D
 	dec x
 	mov a,$5E+x
 	cmp a,#$10
 	bcc .l0A3B
 	mov a,#$00
 	bra .l0A3D
-.l0A3B:								; from .l0A30
+.l0A3B:								; A xor a,$0F
 	eor a,#$0F
-.l0A3D:								; from .l0A30
+.l0A3D:								; x - 1
 	or a,$09
 	mov.w $008E+y,a
 	dec x
@@ -1507,19 +1507,19 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b SPC_PORT2,$1A
 	mov a,#$7F
 	mov.b SPC_PORT3,a
-.l0A52:								; loop
+.l0A52:								; continue
 	cbne.b SPC_PORT3,.l0A52
 	mov.b SPC_PORT0,$91
 	mov.b SPC_PORT1,$92
 	mov a,#$00
 	mov.b SPC_PORT3,a
-.l0A5F:								; loop
+.l0A5F:								; continue
 	cbne.b SPC_PORT3,.l0A5F
 	mov.b SPC_PORT3,#$7E
 	ret
-.l0A66:								; called from .l0244
+.l0A66:								; continue
 	mov x,#$07
-.l0A68:								; from .l0AC0
+.l0A68:								; if minus go to .l0AC0, if A is not a,$6F+x go to .l0AC0, ...
 	mov y,$67+x
 	bmi .l0AC0
 	mov a,$24
@@ -1550,7 +1550,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov x,#$7F
 	div ya,x
 	bra .l0AAA
-.l0A9C:								; from .l0A68
+.l0A9C:								; A xor a,$FF, A + 1, if zero go to .l0AAA, A xor a,$FF, ...
 	eor a,#$FF
 	inc a
 	mul ya
@@ -1560,7 +1560,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	eor a,#$FF
 	inc a
 	dec $03
-.l0AAA:								; from .l0A68, .l0A9C
+.l0AAA:								; SPC_DSPADDR + 1
 	mov $02,a
 	pop x
 	mov a,.voiceregs+x
@@ -1572,24 +1572,24 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
 	mov.b SPC_DSPDATA,y
-.l0AC0:								; from .l0A68
+.l0AC0:								; x - 1, if the result >= 0 go to .l0A68
 	dec x
 	bpl .l0A68
 	ret
-.voicebits:							; the bit of each voice
+.voicebits:							; continue
 	db $01,$02,$04,$08,$10,$20,$40,$80
-.voiceregs:							; the DSP register base of each voice
+.voiceregs:							; continue
 	db $00,$10,$20,$30,$40,$50,$60,$70
-.pitchlo:							; pitch of the 12 notes of an octave, a semitone apart: low bytes
+.pitchlo:							; continue
 	db $82,$27,$F5,$ED,$13,$69,$F1,$AF,$A6,$DA,$4D,$05
-.pitchhi:							; high bytes
+.pitchhi:							; continue
 	db $2C,$2F,$31,$34,$38,$3B,$3E,$42,$46,$4A,$4F,$54
-.sine:								; one sine period, signed
+.sine:								; continue
 	db $00,$02,$04,$06,$08,$0A,$0C,$0D,$0F,$10,$11,$13,$13,$14,$15,$15
 	db $15,$15,$15,$14,$13,$13,$11,$10,$0F,$0D,$0C,$0A,$08,$06,$04,$02
 	db $00,$FE,$FC,$FA,$F8,$F6,$F4,$F3,$F1,$F0,$EF,$ED,$ED,$EC,$EB,$EB
 	db $EB,$EB,$EB,$EC,$ED,$ED,$EF,$F0,$F1,$F3,$F4,$F6,$F8,$FA,$FC,$FE
 	base off
 	arch 65816
-.mainend:							; end block: start at .init
+.mainend:							; continue
 	dw $0000,.init

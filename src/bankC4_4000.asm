@@ -50,7 +50,7 @@ CODE_C43FC8:						; called from other segments
 .3:									; d1 = OOlistpos,x
 	lda.w OOlistpos,x
 	sta.b d1
-.loop:								; loop: Y = d1, if Y = $000F go to .4, A = $10E1,y, A and $00FF, ...
+.loop:								; loop: if d1 = $000F go to .4, A = $10E1,y, A and $00FF, d4 = A, ...
 	ldy.b d1
 	cpy.w #$000F
 	beq .4
@@ -107,7 +107,7 @@ CODE_C43FC8:						; called from other segments
 	lda.b d3
 	sta.w Ylist,x
 	rtl
-.6:									; A = SPA,x, if A >= $28F6 go to .rtl, Xpos,x = $0920,x, Ypos,x = $0960,x
+.6:									; if SPA,x >= $28F6 go to .rtl, Xpos,x = $0920,x, Ypos,x = $0960,x
 	lda.w SPA,x
 	cmp.w #$28F6
 	bcs .rtl
@@ -156,7 +156,7 @@ checkwallcoll:						; from CODE_C43FC8 and other segments
 	sta.b a2
 	jsl.l checkgoal
 	jmp.w CODE_C441BE
-.1:									; A = $0000, A - d5, d5 = A, if plus go to .2, ...
+.1:									; A = $0000, A - d5, d5 = A, if A - d3 >= 0 go to .2, ...
 	lda.w #$0000
 	sec
 	sbc.b d5
@@ -226,7 +226,7 @@ CODE_C4414F:						; from checkwallcoll
 	cmp.w #$FF01
 	bpl .4
 	lda.w #$FF01
-.4:									; if minus go to .5, A = $00FF
+.4:									; if A - $00FF < 0 go to .5, A = $00FF
 	cmp.w #$00FF
 	bmi .5
 	lda.w #$00FF
@@ -242,7 +242,7 @@ CODE_C4414F:						; from checkwallcoll
 	cmp.w #$FF01
 	bpl .6
 	lda.w #$FF01
-.6:									; if minus go to .7, A = $00FF
+.6:									; if A - $00FF < 0 go to .7, A = $00FF
 	cmp.w #$00FF
 	bmi .7
 	lda.w #$00FF
@@ -450,7 +450,7 @@ wallcoll:							; from CODE_C4420F, checkgoalp, checkgoal, ...
 	lsr a
 	lsr a
 	sta.b tmp0
-.5:									; A 16-bit, A = $0003, Y = puckz, if Y >= $000B go to .6, ...
+.5:									; A 16-bit, A = $0003, if puckz >= $000B go to .6, A = $0003
 	rep #$20
 	lda.w #$0003
 	ldy.w puckz
@@ -574,7 +574,7 @@ checkgoal:							; from checkwallcoll and other segments
 	bmi .2
 	lda.w position,y
 	beq .rtl
-.2:									; A = puckz, if plus go to .rtl, Y = a2, A = d2, ...
+.2:									; if puckz - $000D >= 0 go to .rtl, Y = a2, A = d2, A - Xpos,y, ...
 	lda.w puckz
 	cmp.w #$000D
 	bpl .rtl
@@ -714,7 +714,7 @@ checkgoal:							; from checkwallcoll and other segments
 	bmi .14
 .9:									; go to .20
 	jmp.w .20
-.10:								; A = puckvy, if plus go to .12, if minus go to .12, ...
+.10:								; if puckvy - $0800 >= 0 go to .12, if puckvy - $F800 < 0 go to .12, ...
 	lda.w puckvy
 	cmp.w #$0800
 	bpl .12
@@ -806,7 +806,7 @@ checkgoal:							; from checkwallcoll and other segments
 .19:								; puckvz = A, return
 	sta.w puckvz
 	rtl
-.20:								; A = puckvx, if plus go to .22, if minus go to .22, ...
+.20:								; if puckvx - $0800 >= 0 go to .22, if puckvx - $F800 < 0 go to .22, ...
 	lda.w puckvx
 	cmp.w #$0800
 	bpl .22
@@ -841,7 +841,7 @@ checkgoalp:							; from checkgoal
 	bcc .1
 .rtl:								; return
 	rtl
-.1:									; Y = a2, if Y = $0018 go to .2, A = d3, A - wcradiusy, ...
+.1:									; if a2 = $0018 go to .2, A = d3, A - wcradiusy, ...
 	ldy.b a2
 	cpy.w #$0018
 	beq .2
@@ -851,7 +851,7 @@ checkgoalp:							; from checkgoal
 	cmp.w #$FF10
 	bpl .rtl
 	bra .3
-.2:									; A = d3, A + wcradiusy, if minus go to .rtl
+.2:									; A = d3, A + wcradiusy, if A - $00F0 < 0 go to .rtl
 	lda.b d3
 	clc
 	adc.w wcradiusy
@@ -863,7 +863,7 @@ checkgoalp:							; from checkgoal
 	beq .4
 	eor.w #$FFFF
 	inc a
-.4:									; A - $07FA, if plus go to .rtl, A = d3, push A, ...
+.4:									; A - $07FA, if A - $0040 >= 0 go to .rtl, A = d3, push A, ...
 	sec
 	sbc.w $07FA
 	cmp.w #$0040
@@ -924,7 +924,7 @@ checkgoalp:							; from checkgoal
 	cmp.w #$00FF
 	bmi .6
 	lda.w #$00FF
-.6:									; if plus go to .7, A = $FF01
+.6:									; if A - $FF01 >= 0 go to .7, A = $FF01
 	cmp.w #$FF01
 	bpl .7
 	lda.w #$FF01
@@ -939,7 +939,7 @@ checkgoalp:							; from checkgoal
 	cmp.w #$00FF
 	bmi .8
 	lda.w #$00FF
-.8:									; if plus go to .9, A = $FF01
+.8:									; if A - $FF01 >= 0 go to .9, A = $FF01
 	cmp.w #$FF01
 	bpl .9
 	lda.w #$FF01
@@ -1045,7 +1045,7 @@ checkplcoll:						; from CODE_C43FC8 and other segments
 .1:									; d1 = OOlistpos,x
 	lda.w OOlistpos,x
 	sta.b d1
-.loop:								; loop: Y = d1, if Y = $000F go to .3, A = $10E1,y, A and $00FF, ...
+.loop:								; loop: if d1 = $000F go to .3, A = $10E1,y, A and $00FF, Y = A, ...
 	ldy.b d1
 	cpy.w #$000F
 	beq .3
@@ -1172,7 +1172,7 @@ CODE_C448BB:						; from checkplcoll and other segments
 	sta.b $85
 	bpl .3
 	jmp.w .17
-.3:									; A = SPA,x, if A < $2280 go to .5, if A >= $2345 go to .5, ...
+.3:									; if SPA,x < $2280 go to .5, if SPA,x >= $2345 go to .5, ...
 	lda.w SPA,x
 	cmp.w #$2280
 	bcc .5
@@ -1191,7 +1191,7 @@ CODE_C448BB:						; from checkplcoll and other segments
 	sta.w pf2aip,y
 .4:									; Y = a2
 	ldy.b a2
-.5:									; A = SPA,y, if A < $2280 go to .7, if A >= $2345 go to .7, ...
+.5:									; if SPA,y < $2280 go to .7, if SPA,y >= $2345 go to .7, ...
 	lda.w SPA,y
 	cmp.w #$2280
 	bcc .7
@@ -1210,7 +1210,7 @@ CODE_C448BB:						; from checkplcoll and other segments
 	stz.w pf2aip,x
 .6:									; X = a3
 	ldx.b a3
-.7:									; d1 = $84, A = pfteam,x, if A = pfteam,y go to .14, A = d1, ...
+.7:									; d1 = $84, if pfteam,x = pfteam,y go to .14, A = d1, A / 2, ...
 	lda.b $84
 	sta.b d1
 	lda.w pfteam,x
@@ -1224,7 +1224,7 @@ CODE_C448BB:						; from checkplcoll and other segments
 	cmp.w #$0005
 	bcs .8
 	lda.w #$0005
-.8:									; d4 = A, A = SPA,x, if A < $2082 go to .10, if A >= $21BD go to .10
+.8:									; d4 = A, if SPA,x < $2082 go to .10, if SPA,x >= $21BD go to .10
 	sta.b d4
 	lda.w SPA,x
 	cmp.w #$2082
@@ -1237,7 +1237,7 @@ CODE_C448BB:						; from checkplcoll and other segments
 	adc.b d4
 	sta.b d4
 	bra .11
-.10:								; A = SPA,y, if A < $2082 go to .11, if A < $21BD go to .9
+.10:								; if SPA,y < $2082 go to .11, if SPA,y < $21BD go to .9
 	lda.w SPA,y
 	cmp.w #$2082
 	bcc .11
@@ -1531,7 +1531,7 @@ CODE_C44B64:						; from checkpuckcoll and other segments
 	beq .6
 	lsr.b d1
 	lsr.b d1
-.6:									; A = d1, if A < d0 go to .7, call puckstick, go to CODE_C44C86
+.6:									; if d1 < d0 go to .7, call puckstick, go to CODE_C44C86
 	lda.b d1
 	cmp.b d0
 	bcc .7
@@ -1731,7 +1731,7 @@ CODE_C44D3D:						; from CODE_C44B64
 	beq .8
 	lsr.b d1
 	lsr.b d1
-.8:									; A = d1, if A < d0 go to .9, call puckstick
+.8:									; if d1 < d0 go to .9, call puckstick
 	lda.b d1
 	cmp.b d0
 	bcc .9
@@ -1745,7 +1745,7 @@ CODE_C44E0A:						; called from other segments
 	jsl.l EndPenaltyShot
 	stz.w breakaway
 	stz.w onetimer
-.1:									; puckc = a2, puckvz = 0, puckz = 0, A = SPA,y, ...
+.1:									; puckc = a2, puckvz = 0, puckz = 0, if SPA,y < $224E go to .2, ...
 	ldy.b a2
 	sty.w puckc
 	stz.w puckvz
@@ -1788,7 +1788,7 @@ CODE_C44E0A:						; called from other segments
 	sta.l $7E24CA
 	lda.w #$0014
 	sta.b crowdhold
-.4:									; if gmclock is not 0 go to .5, A = a2, ...
+.4:									; if gmclock is not 0 go to .5, ...
 	lda.w gmclock
 	bne .5
 	lda.b a2
@@ -1813,7 +1813,7 @@ CODE_C44E0A:						; called from other segments
 	bne .6
 	lda.w #$0005
 	sta.w temp5,y
-.6:									; A = a2, if A is not passReceiverPlayerNum go to .7, Y = a1, ...
+.6:									; if a2 is not passReceiverPlayerNum go to .7, Y = a1, d4 = $05C8,y, ...
 	lda.b a2
 	cmp.w passReceiverPlayerNum
 	bne .7

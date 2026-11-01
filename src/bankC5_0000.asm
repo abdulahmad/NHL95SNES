@@ -108,7 +108,7 @@ CODE_C5009B:						; called from other segments
 	stz.w teampads
 	stz.w $14F7
 	ldx.w #$0008
-.2:									; A = cont1team,x, if A is not $0001 go to .3, teampads + 1, go to .4
+.2:									; if cont1team,x is not $0001 go to .3, teampads + 1, go to .4
 	lda.w cont1team,x
 	cmp.w #$0001
 	bne .3
@@ -440,7 +440,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	cmp.w #$0080
 	bcc .9
 	ora.w #$FF00
-.9:									; d0 = A, if minus go to .10, d0 * 2, call loadTeamStruct
+.9:									; d0 = A, if A - $0000 < 0 go to .10, d0 * 2, call loadTeamStruct
 	sta.b d0
 	cmp.w #$0000
 	bmi .10
@@ -461,7 +461,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	lda.w onetimer
 	beq .13
 	jmp.w .33
-.13:								; A = SPA,x, if A is not $2708 go to .14, go to .44
+.13:								; if SPA,x is not $2708 go to .14, go to .44
 	lda.w SPA,x
 	cmp.w #$2708
 	bne .14
@@ -877,7 +877,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 .50:								; if pfgoal,x = 0 go to .52
 	lda.w pfgoal,x
 	beq .52
-.51:								; A = puckz, if A >= $000D go to .52, A = puckvy, ...
+.51:								; if puckz >= $000D go to .52, if puckvy >= $2400 go to .52, ...
 	lda.w puckz
 	cmp.w #$000D
 	bcs .52
@@ -895,12 +895,12 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	dex
 	bmi .53
 	jmp.w .1
-.53:								; A = $08AE, if minus go to .54, A = $012E
+.53:								; if $08AE - $012E < 0 go to .54, A = $012E
 	lda.w $08AE
 	cmp.w #$012E
 	bmi .54
 	lda.w #$012E
-.54:								; $08AE = A, A = $08B0, if plus go to .55, A = $FED2
+.54:								; $08AE = A, if $08B0 - $FED2 >= 0 go to .55, A = $FED2
 	sta.w $08AE
 	lda.w $08B0
 	cmp.w #$FED2
@@ -1002,14 +1002,14 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	lda.w #$FFD5
 	stz.w Xvel,x
 	bra .63
-.62:								; if minus go to .63, if plus go to .63, A = $002B, Xvel,x = 0
+.62:								; if A - $002C < 0 go to .63, if A - $0031 >= 0 go to .63, A = $002B, ...
 	cmp.w #$002C
 	bmi .63
 	cmp.w #$0031
 	bpl .63
 	lda.w #$002B
 	stz.w Xvel,x
-.63:								; Xpos,x = A, if Ypos,x >= 0 go to .64, if minus go to .65, ...
+.63:								; Xpos,x = A, if Ypos,x >= 0 go to .64, ...
 	sta.w Xpos,x
 	lda.w Ypos,x
 	bpl .64
@@ -1021,7 +1021,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sta.w Ypos,x
 	stz.w Yvel,x
 	bra .65
-.64:								; if plus go to .65, if minus go to .65, Ypos,x = $00EC, Yvel,x = 0
+.64:								; if A - $00EC >= 0 go to .65, if A - $00E7 < 0 go to .65, ...
 	cmp.w #$00EC
 	bpl .65
 	cmp.w #$00E7
@@ -1103,7 +1103,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	cpx.w #$0020
 	beq .73
 	jmp.w .56
-.73:								; A = puckz, if A >= $0018 go to .75, A = $0830, if plus go to .74, ...
+.73:								; if puckz >= $0018 go to .75, if $0830 - $FF65 >= 0 go to .74, ...
 	lda.w puckz
 	cmp.w #$0018
 	bcs .75
@@ -1116,7 +1116,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	cpx.w #$01B3
 	bne .74
 	sta.w $0832
-.74:								; A = $0830, if minus go to .75, $0830 = $009B, X = $0872, ...
+.74:								; if $0830 - $009B < 0 go to .75, $0830 = $009B, ...
 	lda.w $0830
 	cmp.w #$009B
 	bmi .75
@@ -1126,7 +1126,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	cpx.w #$01B3
 	bne .75
 	sta.w $0832
-.75:								; if puckz is not 0 go to .77, A = pucky, if minus go to .77, ...
+.75:								; if puckz is not 0 go to .77, if pucky - $FEAE < 0 go to .77, ...
 	lda.w puckz
 	bne .77
 	lda.w pucky
@@ -1140,7 +1140,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	lda.w #$FEC7
 	sta.w pucky
 	sta.w $08B4
-.76:								; A = pucky, if minus go to .77, pucky = $013E, $08B4 = A
+.76:								; if pucky - $013E < 0 go to .77, pucky = $013E, $08B4 = A
 	lda.w pucky
 	cmp.w #$013E
 	bmi .77
@@ -1170,7 +1170,7 @@ clockcont_0:						; called from other segments
 	cmp.w #$0002
 	bcs .1
 	jmp.w .5
-.1:									; d0 = $0008, a3 = $0000, d2 = $0005, A = tmscore, ...
+.1:									; d0 = $0008, a3 = $0000, d2 = $0005, if tmscore = $12AD go to .5, ...
 	lda.w #$0008
 	sta.b d0
 	ldx.w #$0000
@@ -1230,7 +1230,7 @@ clockcont_0:						; called from other segments
 	jsl.l AddPenalty2
 .rtl:								; return
 	rtl
-.5:									; A = gsp, if A is not $0003 go to .6, if $1864 = 0 go to .3
+.5:									; if gsp is not $0003 go to .6, if $1864 = 0 go to .3
 	lda.w gsp
 	cmp.w #$0003
 	bne .6
@@ -1248,7 +1248,7 @@ CODE_C50ADD:						; called from other segments
 	eor.w #$0002
 	sta.w gmode
 	ldy.w #$0000
-.loop:								; loop: A = tmpdst,y, if A is not $FFFD go to .1, tmpdst,y = $FFFE
+.loop:								; loop: if tmpdst,y is not $FFFD go to .1, tmpdst,y = $FFFE
 	lda.w tmpdst,y
 	cmp.w #$FFFD
 	bne .1
@@ -1273,13 +1273,13 @@ CODE_C50ADD:						; called from other segments
 	beq .2
 	lda.w #$0004
 	sta.w gsp
-.2:									; A = tmscore, if A = $12AD go to .3, gsp = $0004
+.2:									; if tmscore = $12AD go to .3, gsp = $0004
 	lda.w tmscore
 	cmp.w $12AD
 	beq .3
 	lda.w #$0004
 	sta.w gsp
-.3:									; call CODE_C53535, A = gsp, if A is not $0004 go to .5, ...
+.3:									; call CODE_C53535, if gsp is not $0004 go to .5, call CODE_C5D5CD, ...
 	jsl.l CODE_C53535
 	lda.w gsp
 	cmp.w #$0004
@@ -1292,7 +1292,7 @@ CODE_C50ADD:						; called from other segments
 	bne .5
 .4:									; call CODE_C5DD47
 	jsr.w CODE_C5DD47
-.5:									; call CODE_C51523, A = gsp, if A = $0004 go to .6, $1876 = gsp, ...
+.5:									; call CODE_C51523, if gsp = $0004 go to .6, $1876 = gsp, ...
 	jsl.l CODE_C51523
 	lda.w gsp
 	cmp.w #$0004
@@ -1303,14 +1303,14 @@ CODE_C50ADD:						; called from other segments
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jmp.w CODE_C5016D
-.6:									; A = $1864, if A = $0003 go to .7, if A = $0002 go to .7, ...
+.6:									; if $1864 = $0003 go to .7, if $1864 = $0002 go to .7, go to CODE_C50056
 	lda.w $1864
 	cmp.w #$0003
 	beq .7
 	cmp.w #$0002
 	beq .7
 	jmp.w CODE_C50056
-.7:									; call CODE_C5E49A, call CODE_C50BEC, call CODE_C5DE9B, A = $1864, ...
+.7:									; call CODE_C5E49A, call CODE_C50BEC, call CODE_C5DE9B, ...
 	jsr.w CODE_C5E49A
 	jsr.w CODE_C50BEC
 	jsr.w CODE_C5DE9B
@@ -1702,7 +1702,7 @@ UpdateScores:						; no caller found (not traced)
 	sta.w TickerNum
 	asl a
 	sta.b a0
-.loop:								; loop: A = d1, if A = $24C6 go to .1, X = a0, A = $2488,x, ...
+.loop:								; loop: if d1 = $24C6 go to .1, X = a0, A = $2488,x, A and $FFFD, ...
 	lda.b d1
 	cmp.w $24C6
 	beq .1
@@ -1886,7 +1886,7 @@ CalcAttrib:							; no caller found (not traced)
 	clc
 	adc.b d1
 	sta.b d1
-.17:								; A = d2, A + 1, if plus go to .18, go to .2
+.17:								; A = d2, A + 1, if A - $000F >= 0 go to .18, go to .2
 	lda.b d2
 	inc a
 	cmp.w #$000F
@@ -1940,7 +1940,7 @@ CalcAttrib:							; no caller found (not traced)
 	lda.b r2
 	beq .25
 	lsr.b d0
-.25:								; if $81 is not 0 go to .rtl, A = d0, if A < $0065 go to .26, A = $0064
+.25:								; if $81 is not 0 go to .rtl, if d0 < $0065 go to .26, A = $0064
 	lda.b $81
 	bne .rtl
 	lda.b d0

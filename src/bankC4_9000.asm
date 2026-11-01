@@ -10,13 +10,13 @@ CODE_C492F8:						; called from other segments
 	cpx.w puckc
 	bne .1
 	stz.b d0
-.1:									; A = d1, if minus go to .2, d1 = $0109
+.1:									; if d1 - $0109 < 0 go to .2, d1 = $0109
 	lda.b d1
 	cmp.w #$0109
 	bmi .2
 	lda.w #$0109
 	sta.b d1
-.2:									; A = d1, if plus go to .3, d1 = $FEF7
+.2:									; if d1 - $FEF7 >= 0 go to .3, d1 = $FEF7
 	lda.b d1
 	cmp.w #$FEF7
 	bpl .3
@@ -100,7 +100,7 @@ CODE_C4939D:						; from GoaliePuckVector
 	sta.b d1
 .rts:								; return
 	rts
-.3:									; if plus go to .rts, A = pucky, if plus go to .2, return
+.3:									; if A - $010E >= 0 go to .rts, if pucky - $010E >= 0 go to .2, return
 	cmp.w #$010E
 	bpl .rts
 	lda.w pucky
@@ -208,7 +208,7 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	jsl.l EndPenaltyShot
 .9:									; $234E = 0
 	stz.w $234E
-.10:								; A = $0830, if A is not $093C go to .12, A = pucky, ...
+.10:								; if $0830 is not $093C go to .12, if pucky is not OldYpos go to .12, ...
 	lda.w $0830
 	cmp.w $093C
 	bne .12
@@ -291,7 +291,7 @@ CODE_C49504:						; from CODE_C494E6 and other segments
 	bmi .2
 	lda.w #$009B
 	sta.b d0
-.2:									; A = d0, if plus go to .3, d0 = $FF65
+.2:									; if d0 - $FF65 >= 0 go to .3, d0 = $FF65
 	lda.b d0
 	cmp.w #$FF65
 	bpl .3
@@ -740,7 +740,7 @@ CODE_C498D3:						; from CODE_C498A1 and other segments
 	bne .1
 	and.w #$0007
 	sta.w passdir
-.1:									; A = SPAnum,x, if A >= $0010 go to .rtl, A = passspeed, A + d7, ...
+.1:									; if SPAnum,x >= $0010 go to .rtl, A = passspeed, A + d7, ...
 	lda.w SPAnum,x
 	cmp.w #$0010
 	bcs .rtl
@@ -779,7 +779,7 @@ doshot:								; from CODE_C498D3, CODE_C49E91, ...
 	cpx.w puckc
 	beq .1
 	jmp.w .15
-.1:									; $01,s = $000E, A = $1000, A = SPA,x, if A is not $1D36 go to .2, ...
+.1:									; $01,s = $000E, A = $1000, if SPA,x is not $1D36 go to .2, $01,s = $000E
 	lda.w #$000E
 	sta.b $01,s
 	lda.w #$1000
@@ -789,7 +789,7 @@ doshot:								; from CODE_C498D3, CODE_C49E91, ...
 	bne .2
 	lda.w #$000E
 	sta.b $01,s
-.2:									; $068E = passspeed, if A < $001E go to .3, $01,s = $0010
+.2:									; $068E = passspeed, if passspeed < $001E go to .3, $01,s = $0010
 	lda.w passspeed
 	sta.w $068E
 	cmp.w #$001E
@@ -864,7 +864,7 @@ doshot:								; from CODE_C498D3, CODE_C49E91, ...
 	bit.w #$0010
 	beq .7
 	jmp.w .13
-.7:									; A = d3, if A >= $00C9 go to .8, A = $0010, A + shotacc,x, ...
+.7:									; if d3 >= $00C9 go to .8, A = $0010, A + shotacc,x, call randoma8, ...
 	lda.b d3
 	cmp.w #$00C9
 	bcs .8
@@ -1047,7 +1047,7 @@ CODE_C49B74:						; from CODE_C49B59
 	and.w #$0003
 	sta.w temp3,x
 	jsr.w CODE_C49CDB
-.2:									; if $18C8 < 0 go to .5, A = d0, if minus go to .3, call CODE_C49C88, ...
+.2:									; if $18C8 < 0 go to .5, if d0 - $18C8 < 0 go to .3, call CODE_C49C88, ...
 	lda.w $18C8
 	bmi .5
 	lda.b d0
@@ -1214,7 +1214,7 @@ CODE_C49CDB:						; from CODE_C49B74
 	lda.w #$001E
 	sta.w $18C8
 	rts
-.6:									; A = Xpos,x, if plus go to .13, if minus go to .13, call RandomWord, ...
+.6:									; if Xpos,x - $0020 >= 0 go to .13, if Xpos,x - $FFE0 < 0 go to .13, ...
 	lda.w Xpos,x
 	cmp.w #$0020
 	bpl .13
@@ -1359,7 +1359,7 @@ CODE_C49E42:						; from asspassrec
 	lda.w #$7FFF
 	sta.w $0674
 	jmp.w CODE_C49E91
-.2:									; A = Ypos,x, if plus go to .1
+.2:									; if Ypos,x - $005C >= 0 go to .1
 	lda.w Ypos,x
 	cmp.w #$005C
 	bpl .1
@@ -1422,7 +1422,7 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	jmp.w CODE_C49E90
 .6:									; go to CODE_C49E78
 	jmp.w CODE_C49E78
-.7:									; nopuck,x = $000A, A = SPAnum,x, if A >= $0010 go to .6, ...
+.7:									; nopuck,x = $000A, if SPAnum,x >= $0010 go to .6, if minus go to .6, ...
 	lda.w #$000A
 	sta.w nopuck,x
 	lda.w SPAnum,x

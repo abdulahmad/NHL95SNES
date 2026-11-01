@@ -239,7 +239,7 @@ CODE_C4F1F8:						; from CODE_C4F01E
 	rts
 CODE_C4F201:						; from CODE_C4F01E
 	ldy.w #$0000
-.loop:								; loop: if $370E,y < 0 go to .2, if A < $364E,x go to .1, Y + 1, ...
+.loop:								; loop: if $370E,y < 0 go to .2, if $370E,y < $364E,x go to .1, Y + 1, ...
 	lda.w $370E,y
 	bmi .2
 	cmp.w $364E,x
@@ -273,7 +273,7 @@ CODE_C4F201:						; from CODE_C4F01E
 	rts
 CODE_C4F240:						; from CODE_C4F01E
 	ldy.w #$0000
-.loop:								; loop: if $378E,y < 0 go to .2, if A < $364E,x go to .1, Y + 1, ...
+.loop:								; loop: if $378E,y < 0 go to .2, if $378E,y < $364E,x go to .1, Y + 1, ...
 	lda.w $378E,y
 	bmi .2
 	cmp.w $364E,x
@@ -317,7 +317,7 @@ CODE_C4F27F:						; from CODE_C4F2AE
 	bne .1
 	dec a
 	sta.b tmp0
-.loop:								; loop: A = $003A,x, if A is not $003A,y go to .1, X + 1, X + 1, ...
+.loop:								; loop: if $003A,x is not $003A,y go to .1, X + 1, X + 1, Y + 1, ...
 	lda.w $003A,x
 	cmp.w $003A,y
 	bne .1

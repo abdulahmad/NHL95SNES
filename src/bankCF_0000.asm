@@ -287,7 +287,7 @@ CODE_CF0239:						; called from other segments
 	asl a
 	tax
 	ldy.w #$0000
-.1:									; A = $4BC8,y, if A is not r1 go to .2, A = $4BCA,y, ...
+.1:									; if $4BC8,y is not r1 go to .2, if $4BCA,y is not $32 go to .2, ...
 	lda.w $4BC8,y
 	cmp.b r1
 	bne .2

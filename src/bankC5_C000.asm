@@ -196,7 +196,7 @@ CODE_C5C109:						; called from other segments
 .4:									; call CODE_C55CE6, go to .loop
 	jsr.w CODE_C55CE6
 	bra .loop
-.5:									; if $0400 bits clear go to .7, A = $85, if A >= $0007 go to .6, ...
+.5:									; if $0400 bits clear go to .7, if $85 >= $0007 go to .6, A + $69, ...
 	bit.w #$0400
 	beq .7
 	lda.b $85
@@ -641,7 +641,7 @@ CODE_C5C4FC:						; from CODE_C5C214, CODE_C5C109
 	ldx.b a3
 	cmp.w #$0000
 	bne .6
-.5:									; A = d0, if A < $0003 go to .10, go to .9
+.5:									; if d0 < $0003 go to .10, go to .9
 	lda.b d0
 	cmp.w #$0003
 	bcc .10
@@ -649,12 +649,12 @@ CODE_C5C4FC:						; from CODE_C5C214, CODE_C5C109
 .6:									; if A >= $0003 go to .8
 	cmp.w #$0003
 	bcs .8
-.7:									; A = d1, if A < $000F go to .10, go to .9
+.7:									; if d1 < $000F go to .10, go to .9
 	lda.b d1
 	cmp.w #$000F
 	bcc .10
 	bra .9
-.8:									; A = $81, if A < $000F go to .10
+.8:									; if $81 < $000F go to .10
 	lda.b $81
 	cmp.w #$000F
 	bcc .10
@@ -721,7 +721,7 @@ CODE_C5C58A:						; from CODE_C5C109
 	ora.w #$0FE0
 	ora.w $17CB
 	sta.l $306A56,x
-.4:									; A = tmp0, if A < $026A go to .5, call CODE_C5D7CD, A = Y, ...
+.4:									; if tmp0 < $026A go to .5, call CODE_C5D7CD, A = Y, A + $005D, ...
 	lda.b tmp0
 	cmp.w #$026A
 	bcc .5
@@ -950,7 +950,7 @@ CODE_C5C722:						; called from other segments
 .3:									; call CODE_C55CE6, go to .loop
 	jsr.w CODE_C55CE6
 	bra .loop
-.4:									; if $0400 bits clear go to .6, A = $85, if A >= $0007 go to .5, ...
+.4:									; if $0400 bits clear go to .6, if $85 >= $0007 go to .5, A + $69, ...
 	bit.w #$0400
 	beq .6
 	lda.b $85
@@ -983,7 +983,7 @@ CODE_C5C722:						; called from other segments
 	sbc.w $0004,y
 	bmi .10
 	bra .12
-.7:									; A = X, A - $0002,y, if the result >= 0 go to .9, A = d0, ...
+.7:									; A = X, A - $0002,y, if the result >= 0 go to .9, if d0 < $0003 go to .16
 	txa
 	sec
 	sbc.w $0002,y
@@ -995,7 +995,7 @@ CODE_C5C722:						; called from other segments
 	lda.w #$007F
 	sta.b tmp0
 	bra .13
-.9:									; A - $0004,y, if the result >= 0 go to .11, A = $81, ...
+.9:									; A - $0004,y, if the result >= 0 go to .11, if $81 < $000A go to .16
 	sbc.w $0004,y
 	bpl .11
 	lda.b $81
@@ -1005,7 +1005,7 @@ CODE_C5C722:						; called from other segments
 	lda.w #$0081
 	sta.b tmp0
 	bra .13
-.11:								; A = d1, if A < $0007 go to .16
+.11:								; if d1 < $0007 go to .16
 	lda.b d1
 	cmp.w #$0007
 	bcc .16
@@ -1153,7 +1153,7 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	lda.w #$2C00
 	sta.b $D5
 	bra .4
-.3:									; X = $4CF0, A = d1, if A < $0007 go to .2
+.3:									; X = $4CF0, if d1 < $0007 go to .2
 	ldx.w #$4CF0
 	lda.b d1
 	cmp.w #$0007
@@ -1334,7 +1334,7 @@ CODE_C5CA6C:						; from CODE_C5CD41 and other segments
 .6:									; call CODE_C5DAF3, go to .1
 	jsr.w CODE_C5DAF3
 	bra .1
-.7:									; if $0400 bits clear go to .9, A = $85, if A >= $0004 go to .8, ...
+.7:									; if $0400 bits clear go to .9, if $85 >= $0004 go to .8, X = a2, ...
 	bit.w #$0400
 	beq .9
 	lda.b $85
@@ -1494,7 +1494,7 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	sbc.w $0004,y
 	bmi .1
 	ldx.w #$4CF0
-.1:									; A = $0000, Y = d2, if Y = $2DC9 go to .2, A = $0064
+.1:									; A = $0000, if d2 = $2DC9 go to .2, A = $0064
 	lda.w #$0000
 	ldy.b d2
 	cpy.w #$2DC9

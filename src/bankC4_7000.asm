@@ -581,7 +581,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	cmp.w #$0000
 	bne .loop3
 	jmp.w .23
-.loop3:								; loop: A = (a0), a0 + 1, a0 + 1, if A is not $0000 go to .loop3, ...
+.loop3:								; loop: A = (a0), a0 + 1, a0 + 1, if (a0) is not $0000 go to .loop3, ...
 	lda.b (a0)
 	inc.b a0
 	inc.b a0
@@ -632,7 +632,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	sta.b d2
 	bne .10
 	jmp.w .21
-.10:								; continue
+.10:								; call GetPeriodTimeRemaining
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -836,7 +836,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w #$001B
 	sta.b d0
 	jsl.l assreplace
-.24:								; A = $1864, if A = $0001 go to .25, if penshot is not 0 go to .25, ...
+.24:								; if $1864 = $0001 go to .25, if penshot is not 0 go to .25, a2 = 0, ...
 	lda.w $1864
 	cmp.w #$0001
 	beq .25
@@ -1046,7 +1046,7 @@ AddPenalty2:						; from AddPenalty and other segments
 	lda.w $2CF5
 	beq .1
 	jmp.w .rtl
-.1:									; A = d0, if A is not $000E go to .2
+.1:									; if d0 is not $000E go to .2
 	pei ($83)
 	pei ($85)
 	pei ($63)
@@ -1186,7 +1186,7 @@ PenGoalStuff:						; called from other segments
 	bcc .2
 	lda.w #$0002
 	sta.b d0
-.2:									; A = a2, if A = d0 go to .loop
+.2:									; if a2 = d0 go to .loop
 	lda.b a2
 	cmp.b d0
 	beq .loop
@@ -1406,7 +1406,7 @@ CODE_C47B3F:						; called from other segments
 	lda.w attribute,x
 	ora.w #$0800
 	sta.w attribute,x
-.4:									; X = a2, A = teampads,x, if A < $0004 go to .6, Y = $05C0,x
+.4:									; X = a2, if teampads,x < $0004 go to .6, Y = $05C0,x
 	ldx.b a2
 	lda.w teampads,x
 	cmp.w #$0004
@@ -1474,7 +1474,7 @@ GetLowestPen:						; from updatepwrplay and other segments
 	lda.b d2
 	sta.b d3
 	bra .loop
-.3:									; Y = a3, A = tmap,y, if A = $0006 go to .rtl, A = d0, ...
+.3:									; Y = a3, if tmap,y = $0006 go to .rtl, A = d0, A - d3, ...
 	ldy.b a3
 	lda.w tmap,y
 	cmp.w #$0006
@@ -1570,7 +1570,7 @@ CODE_C47C8C:						; called from other segments
 	bra .3
 .rtl:								; return
 	rtl
-.2:									; call checkagr, A = d0, if A >= $0005 go to .3, d0 = $0022, ...
+.2:									; call checkagr, if d0 >= $0005 go to .3, d0 = $0022, call AddPenalty
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0005
@@ -1635,7 +1635,7 @@ asspenalty:							; called from other segments
 	lda.w #$883F
 	sta.b a0
 	jml.l skateto
-.4:									; A = Ypos,x, A - temp4,x, if minus go to .3, if plus go to .3, ...
+.4:									; A = Ypos,x, A - temp4,x, if A - $FFF3 < 0 go to .3, ...
 	lda.w Ypos,x
 	sec
 	sbc.w temp4,x
@@ -1673,7 +1673,7 @@ asspenalty:							; called from other segments
 	beq .6
 	lda.w #$0002
 	sta.b d2
-.6:									; A = facedir,x, if A = d2 go to .7, A + 1, A and $0007, ...
+.6:									; if facedir,x = d2 go to .7, A + 1, A and $0007, facedir,x = A
 	lda.w facedir,x
 	cmp.b d2
 	beq .7
@@ -1778,7 +1778,7 @@ CODE_C47E65:						; from asspenalty and other segments
 	cpy.w #$000A
 	bne .7
 	ldy.w #$0000
-.7:									; A = $1525,y, if A is not a2 go to .loop3, A or $FF00, $1525,y = A, ...
+.7:									; if $1525,y is not a2 go to .loop3, A or $FF00, $1525,y = A, ...
 	lda.w $1525,y
 	cmp.b a2
 	bne .loop3

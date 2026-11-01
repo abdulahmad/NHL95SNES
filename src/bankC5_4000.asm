@@ -445,7 +445,7 @@ SetPlList:							; from setpersonel and other segments
 	lda.w #$9B38
 	sta.b a0
 	bra .3
-.1:									; if penshot = 0 go to .2, $65 = $00C0, a0 = $9B31, A = a2, ...
+.1:									; if penshot = 0 go to .2, $65 = $00C0, a0 = $9B31, ...
 	lda.w penshot
 	beq .2
 	lda.w #$00C0
@@ -556,7 +556,7 @@ SetPlList:							; from setpersonel and other segments
 	lda.b a2
 	beq .11
 	lda.w #$0034
-.11:								; A + d3, Y = A, A = tmpdst,y, if A = $FFFD go to .12, ...
+.11:								; A + d3, Y = A, if tmpdst,y = $FFFD go to .12, ...
 	clc
 	adc.b d3
 	tay
@@ -644,7 +644,7 @@ TryAddPlayerToList:					; from SetPlList and other segments
 	sbc.w #$0000
 	beq .2
 	bpl .3
-.2:									; A = tmpdst,y, if A = $FFFD go to .3, if A = $FFFC go to .3, d0 = $0005
+.2:									; if tmpdst,y = $FFFD go to .3, if tmpdst,y = $FFFC go to .3, d0 = $0005
 	lda.w tmpdst,y
 	cmp.w #$FFFD
 	beq .3
@@ -765,7 +765,7 @@ assbench:							; asstab entry 12: an assignment routine
 	lda.w #$FF5D
 	sta.w temp3,x
 	stz.w temp1,x
-.4:									; A = newpnum,x, if A is not pnum,x go to .5, go to .18
+.4:									; if newpnum,x is not pnum,x go to .5, go to .18
 	lda.w newpnum,x
 	cmp.w pnum,x
 	bne .5
@@ -813,7 +813,7 @@ assbench:							; asstab entry 12: an assignment routine
 	ldy.w position,x
 	bne .11
 	lda.w #$121E
-.11:								; call SetSPAFromA, pfnc,x = $0001, A = facedir,x, ...
+.11:								; call SetSPAFromA, pfnc,x = $0001, if facedir,x = $0004 go to .12, ...
 	jsl.l SetSPAFromA
 	lda.w #$0001
 	sta.w pfnc,x
@@ -832,7 +832,7 @@ assbench:							; asstab entry 12: an assignment routine
 	sbc.w #$0010
 	beq .13
 	bpl .rtl
-.13:								; Xvel,x = 0, A = facedir,x, if A is not $0004 go to .rtl, ...
+.13:								; Xvel,x = 0, if facedir,x is not $0004 go to .rtl, Xpos,x = $FF65, ...
 	stz.w Xvel,x
 	lda.w facedir,x
 	cmp.w #$0004
@@ -1016,14 +1016,14 @@ CODE_C54828:						; from CompLine
 	ldy.b a2
 	beq .1
 	jmp.w CODE_C548C1
-.1:									; A = $186E, if A is not $0002 go to .2, ...
+.1:									; if $186E is not $0002 go to .2, if c1playernum,y < 0 go to .2, ...
 	lda.w $186E
 	cmp.w #$0002
 	bne .2
 	lda.w c1playernum,y
 	bmi .2
 	jmp.w CODE_C548C1
-.2:									; d1 = $0002, $65 = $00C5, a0 = $4897, A = gsp, ...
+.2:									; d1 = $0002, $65 = $00C5, a0 = $4897, if gsp is not $0002 go to .3, ...
 	lda.w #$0002
 	sta.b d1
 	lda.w #$00C5
@@ -1151,7 +1151,7 @@ CODE_C5492E:						; called from other segments
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-.3:									; call AvgCline, A = d0, if A >= $0C01 go to .rtl, ...
+.3:									; call AvgCline, if d0 >= $0C01 go to .rtl, ...
 	jsl.l AvgCline
 	lda.b d0
 	cmp.w #$0C01
@@ -1174,7 +1174,7 @@ check4bench:						; from assbench and other segments
 	bpl .1
 	lda.w newpnum,x
 	bmi .rtl
-.1:									; A = newpnum,x, if A = pnum,x go to .2, A = asscur,x, ...
+.1:									; if newpnum,x = pnum,x go to .2, if asscur,x = $000C go to .rtl, ...
 	lda.w newpnum,x
 	cmp.w pnum,x
 	beq .2
@@ -1345,7 +1345,7 @@ CODE_C54AEF:						; from CODE_C54DFB and other segments
 	lda.b a2
 	beq .loop
 	ldy.w #$0066
-.loop:								; loop: tmpde,y = $1000, A = tmpdst,y, if A is not $FFFD go to .1, ...
+.loop:								; loop: tmpde,y = $1000, if tmpdst,y is not $FFFD go to .1, ...
 	lda.w #$1000
 	sta.w tmpde,y
 	lda.w tmpdst,y
@@ -1375,7 +1375,7 @@ CODE_C54B2B:						; from RestoreBenchEnergy and other segments
 	lda.b a2
 	beq .1
 	lda.w #$0034
-.1:									; A + d0, Y = A, A = tmpdst,y, if A is not $FFFE go to .2, ...
+.1:									; A + d0, Y = A, if tmpdst,y is not $FFFE go to .2, A = tmpde,y, ...
 	clc
 	adc.b d0
 	tay
@@ -1492,7 +1492,7 @@ CODE_C54BE8:						; no caller found (not traced)
 	sta.w $04F5
 	lda.w #$0003
 	sta.b d3
-.loop:								; loop: d2 = $FFFF, if d0 < 0 go to .2, d2 = A, if A < $0008 go to .2, ...
+.loop:								; loop: d2 = $FFFF, if d0 < 0 go to .2, d2 = A, ...
 	lda.w #$FFFF
 	sta.b d2
 	lda.b d0

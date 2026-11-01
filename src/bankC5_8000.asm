@@ -1145,7 +1145,7 @@ CODE_C588EB:						; called from other segments
 	bcc .loop
 	ror a
 	sta.b $32
-.loop2:								; loop: r2 * 2, A = $2E, if A < $32 go to .3, if not zero go to .1, ...
+.loop2:								; loop: r2 * 2, if $2E < $32 go to .3, if not zero go to .1, ...
 	asl.b r2
 	rol.b $36
 	lda.b $2E

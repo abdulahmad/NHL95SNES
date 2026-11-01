@@ -398,7 +398,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	lda.w #$0000
 	sta.w $0000,y
 	jsr.w CODE_C52628
-.7:									; A = $0A, if A < $00E9 go to .8, A = $00E8
+.7:									; if $0A < $00E9 go to .8, A = $00E8
 	lda.b $0A
 	cmp.w #$00E9
 	bcc .8
@@ -456,7 +456,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	lda.w #$0000
 	sta.w $0000,y
 	jsr.w CODE_C52628
-.13:								; A = $0A, if A < $00E9 go to .14, A = $00E8
+.13:								; if $0A < $00E9 go to .14, A = $00E8
 	lda.b $0A
 	cmp.w #$00E9
 	bcc .14
@@ -505,7 +505,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	sta.w $0000,y
 	clc
 	jsr.w CODE_C526A7
-.17:								; A = $0C, if A >= $0009 go to .18, A = $0009
+.17:								; if $0C >= $0009 go to .18, A = $0009
 	lda.b $0C
 	cmp.w #$0009
 	bcs .18
@@ -557,7 +557,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	sta.w $0000,y
 	clc
 	jsr.w CODE_C526A7
-.21:								; A = $0C, if A >= $0009 go to .22, A = $0009
+.21:								; if $0C >= $0009 go to .22, A = $0009
 	lda.b $0C
 	cmp.w #$0009
 	bcs .22
@@ -594,7 +594,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	adc.w #$F40B
 	pha
 	jmp ($00A5)
-.24:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .25, ...
+.24:								; A = $C4FFF2,x, Y = A, if zero go to .25, $0000,y = A, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
@@ -626,7 +626,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	phy
 	pea.w $1514
 	jmp ($00A5)
-.26:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .27, ...
+.26:								; A = $C4FFF2,x, Y = A, if zero go to .27, $0000,y = A, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
@@ -655,7 +655,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	phy
 	pea.w $15E4
 	jmp ($00A5)
-.28:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .29, ...
+.28:								; A = $C4FFF2,x, Y = A, if zero go to .29, $0000,y = A, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
@@ -687,7 +687,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	phy
 	pea.w $C314
 	jmp ($00A5)
-.30:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .31, ...
+.30:								; A = $C4FFF2,x, Y = A, if zero go to .31, $0000,y = A, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
@@ -911,7 +911,7 @@ CODE_C52794:						; a continuation: CODE_C52898 jumps back here through a pointe
 	ldx.b $0E
 	bne .1
 	sbc.w #$0004
-.1:									; $0A = A, X = $10, if X is not $000C go to .2, go to CODE_C52852
+.1:									; $0A = A, if $10 is not $000C go to .2, go to CODE_C52852
 	sta.b $0A
 	ldx.b $10
 	cpx.w #$000C
@@ -1240,7 +1240,7 @@ checkwindow:						; called from other segments
 	lda.w #$0020
 	sta.w yleader
 	bra .2
-.1:									; A = yleader, A - $07A4, yleader = A, if plus go to .2, ...
+.1:									; A = yleader, A - $07A4, yleader = A, if A - $FFE1 >= 0 go to .2, ...
 	lda.w yleader
 	sec
 	sbc.w $07A4
@@ -1271,7 +1271,7 @@ checkwindow:						; called from other segments
 	lda.w Xpos,x
 	sta.b d3
 	sta.w xc1
-.4:									; A = d2, A - $CD, d0 = A, if plus go to .5, ...
+.4:									; A = d2, A - $CD, d0 = A, if A - $FFF7 >= 0 go to .5, ...
 	lda.b d2
 	sec
 	sbc.b $CD
@@ -1287,7 +1287,7 @@ checkwindow:						; called from other segments
 	lda.w #$FF39
 	sta.b d1
 	bra .6
-.5:									; A = d0, if minus go to .9, A = d2, A - $000A, ...
+.5:									; if d0 - $000B < 0 go to .9, A = d2, A - $000A, d1 = A, ...
 	lda.b d0
 	cmp.w #$000B
 	bmi .9
@@ -1319,7 +1319,7 @@ checkwindow:						; called from other segments
 	clc
 	adc.b $CD
 	sta.b $CD
-.9:									; A = d3, A - $CB, d0 = A, if plus go to .10, ...
+.9:									; A = d3, A - $CB, d0 = A, if A - $FFD8 >= 0 go to .10, ...
 	lda.b d3
 	sec
 	sbc.b $CB
@@ -1335,7 +1335,7 @@ checkwindow:						; called from other segments
 	lda.w #$FFC8
 	sta.b d1
 	bra .11
-.10:								; A = d0, if minus go to .rtl, A = d3, A - $0028, ...
+.10:								; if d0 - $0029 < 0 go to .rtl, A = d3, A - $0028, d1 = A, ...
 	lda.b d0
 	cmp.w #$0029
 	bmi .rtl
@@ -1385,7 +1385,7 @@ doinput:							; called from other segments
 	bit.w #$0100
 	beq .2
 	jmp.w .9
-.2:									; A = asscur,x, if A = $7D2E go to .rtl, push Y, Y = $0000, ...
+.2:									; if asscur,x = $7D2E go to .rtl, push Y, Y = $0000, ...
 	lda.w asscur,x
 	cmp.w #$7D2E
 	beq .rtl
@@ -1394,7 +1394,7 @@ doinput:							; called from other segments
 	lda.w pfteam,x
 	beq .3
 	ldy.w #$0002
-.3:									; A = lcpad,y, pull Y, if minus go to .4, if A is not d4 go to .6
+.3:									; A = lcpad,y, pull Y, if lcpad,y - $0000 < 0 go to .4, ...
 	lda.w lcpad,y
 	ply
 	cmp.w #$0000
@@ -1483,7 +1483,7 @@ doinput:							; called from other segments
 	jmp.w CODE_C5404A
 .19:								; go to CODE_C42D10
 	jml.l CODE_C42D10
-.20:								; Y = $0000, if minus go to .21, Y = $0002
+.20:								; Y = $0000, if X - $000C < 0 go to .21, Y = $0002
 	ldy.w #$0000
 	cpx.w #$000C
 	bmi .21
@@ -1752,7 +1752,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-.4:									; A = $003A,y, if A < $026A go to .5, go to .10
+.4:									; if $003A,y < $026A go to .5, go to .10
 	lda.w $003A,y
 	cmp.w #$026A
 	bcc .5
@@ -1876,7 +1876,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 .15:								; tmp2 = 0, A = tmp2
 	stz.b tmp2
 	lda.b tmp2
-.16:								; A * 2, A + tmp1, Y = A, A = $1864, ...
+.16:								; A * 2, A + tmp1, Y = A, if $1864 >= $0002 go to .17, ...
 	asl a
 	adc.b tmp1
 	tay
@@ -1886,7 +1886,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	lda.w $1872
 	bne .17
 	jmp.w .29
-.17:								; A = $003A,y, if A >= $026A go to .18, go to .29
+.17:								; if $003A,y >= $026A go to .18, go to .29
 	lda.w $003A,y
 	cmp.w #$026A
 	bcs .18
@@ -2054,7 +2054,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	cmp.b (tmp1)
 	beq .32
 	jmp.w .16
-.32:								; if $1872 is not 0 go to .33, A = $1864, if A is not $0002 go to .34
+.32:								; if $1872 is not 0 go to .33, if $1864 is not $0002 go to .34
 	lda.w $1872
 	bne .33
 	lda.w $1864

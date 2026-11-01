@@ -248,14 +248,14 @@ CODE_C57149:						; from DATA8_C570E8
 	ldx.b a2
 	beq .1
 	adc.w #$0034
-.1:									; Y = A, A = tmpde,y, X = $186E, if X is not $0002 go to .2, ...
+.1:									; Y = A, A = tmpde,y, if $186E is not $0002 go to .2, A = $1000
 	tay
 	lda.w tmpde,y
 	ldx.w $186E
 	cpx.w #$0002
 	bne .2
 	lda.w #$1000
-.2:									; r2 = A, r1 = $0028, call Div16x8U, A = r0, ...
+.2:									; r2 = A, r1 = $0028, call Div16x8U, if r0 < $0065 go to .3, ...
 	sta.b r2
 	lda.w #$0028
 	sta.b r1
@@ -538,7 +538,7 @@ CODE_C57361:						; called from other segments
 	ldx.w #$0006
 .1:									; $7B = X
 	stx.b $7B
-.2:									; X = $7B, if X = $0000 go to .3, $CF = $0010, Y = $0018, ...
+.2:									; if $7B = $0000 go to .3, $CF = $0010, Y = $0018, X = $4F06, ...
 	ldx.b $7B
 	cpx.w #$0000
 	beq .3
@@ -591,7 +591,7 @@ CODE_C57361:						; called from other segments
 	beq .loop
 	dec a
 	bra .9
-.8:									; if $0400 bits clear go to .10, A = $69, if A >= a1 go to .loop, A + 1
+.8:									; if $0400 bits clear go to .10, if $69 >= a1 go to .loop, A + 1
 	bit.w #$0400
 	beq .10
 	lda.b $69
@@ -622,7 +622,7 @@ CODE_C57361:						; called from other segments
 	dec a
 	sta.b $79
 	bra .12
-.11:								; if $0100 bits clear go to .13, A = $79, if A = $7B go to .14, A + 1, ...
+.11:								; if $0100 bits clear go to .13, if $79 = $7B go to .14, A + 1, $79 = A
 	bit.w #$0100
 	beq .13
 	lda.b $79
@@ -683,7 +683,7 @@ CODE_C574A4:						; from CODE_C57361
 	lda.w #$000D
 	sta.b $6D
 	stz.b a3
-.loop:								; loop: X = $2400, A = a3, if A = $69 go to .3, X = $2000
+.loop:								; loop: X = $2400, if a3 = $69 go to .3, X = $2000
 	ldx.w #$2400
 	lda.b a3
 	cmp.b $69
@@ -867,7 +867,7 @@ CODE_C57578:						; from CODE_C57361
 	dec a
 	sta.b $7D
 	bra .9
-.8:									; if $0100 bits clear go to .10, A = $7D, if A >= $000F go to .loop, ...
+.8:									; if $0100 bits clear go to .10, if $7D >= $000F go to .loop, A + 1, ...
 	bit.w #$0100
 	beq .10
 	lda.b $7D
@@ -1129,7 +1129,7 @@ CODE_C57844:						; from DATA8_C57810
 	sta.w $0003,x
 	rep #$20
 	rts
-.2:									; A = $0004,x, if A is not $7B go to .1, $0004,x = $0003,x, go to .1
+.2:									; if $0004,x is not $7B go to .1, $0004,x = $0003,x, go to .1
 	lda.w $0004,x
 	cmp.b $7B
 	bne .1
@@ -1147,7 +1147,7 @@ CODE_C57868:						; from DATA8_C57810
 	sta.w $0004,x
 	rep #$20
 	rts
-.2:									; A = $0005,x, if A is not $7B go to .1, $0005,x = $0004,x, go to .1
+.2:									; if $0005,x is not $7B go to .1, $0005,x = $0004,x, go to .1
 	lda.w $0005,x
 	cmp.b $7B
 	bne .1
@@ -1165,7 +1165,7 @@ CODE_C5788C:						; from DATA8_C57810
 	sta.w $0005,x
 	rep #$20
 	rts
-.2:									; A = $0004,x, if A is not $7B go to .1, $0004,x = $0005,x, go to .1
+.2:									; if $0004,x is not $7B go to .1, $0004,x = $0005,x, go to .1
 	lda.w $0004,x
 	cmp.b $7B
 	bne .1
@@ -1236,7 +1236,7 @@ CODE_C578B0:						; called from other segments
 	dec a
 	sta.b $69
 	bra .loop
-.3:									; if $0400 bits clear go to .4, A = $69, if A = a1 go to .loop2, ...
+.3:									; if $0400 bits clear go to .4, if $69 = a1 go to .loop2, A + 1, ...
 	bit.w #$0400
 	beq .4
 	lda.b $69
@@ -1253,7 +1253,7 @@ CODE_C578B0:						; called from other segments
 	dec a
 	sta.b $7D
 	bra .loop
-.5:									; if $0100 bits clear go to .6, A = $7D, if A >= $000B go to .loop2, ...
+.5:									; if $0100 bits clear go to .6, if $7D >= $000B go to .loop2, A + 1, ...
 	bit.w #$0100
 	beq .6
 	lda.b $7D
@@ -1262,7 +1262,7 @@ CODE_C578B0:						; called from other segments
 	inc a
 	sta.b $7D
 	bra .loop
-.6:									; if $8000 bits clear go to .loop2, A = $69, if A is not a1 go to .7, ...
+.6:									; if $8000 bits clear go to .loop2, if $69 is not a1 go to .7, A = $FFFF
 	bit.w #$8000
 	beq .loop2
 	lda.b $69

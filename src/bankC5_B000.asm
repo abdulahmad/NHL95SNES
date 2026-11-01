@@ -627,7 +627,7 @@ CODE_C5B53D:						; from CODE_C5B4C2
 	cmp.w #$0001
 	ply
 	rts
-.1:									; A * 2, X = A, A = PlayerList,x, return
+.1:									; A * 2, X = A, return
 	asl a
 	tax
 	lda.l PlayerList,x
@@ -649,7 +649,7 @@ CODE_C5B572:						; from DATA8_C5B56C
 	lda.w $000A,y
 	sta.b tmp1
 	lda.b d0
-.loop:								; loop: X = A, A = $000A,x, if A >= tmp1 go to CODE_C5B5D7, ...
+.loop:								; loop: X = A, if $000A,x >= tmp1 go to CODE_C5B5D7, ...
 	tax
 	lda.w $000A,x
 	cmp.b tmp1
@@ -661,7 +661,7 @@ CODE_C5B588:						; from DATA8_C5B56C
 	lda.w $000C,y
 	sta.b tmp1
 	lda.b d0
-.loop:								; loop: X = A, A = $000C,x, if A >= tmp1 go to CODE_C5B5D7, ...
+.loop:								; loop: X = A, if $000C,x >= tmp1 go to CODE_C5B5D7, ...
 	tax
 	lda.w $000C,x
 	cmp.b tmp1
@@ -673,7 +673,7 @@ CODE_C5B59E:						; from DATA8_C5B56C
 	lda.w $0008,y
 	sta.b tmp1
 	lda.b d0
-.loop:								; loop: X = A, A = $0008,x, if A >= tmp1 go to CODE_C5B5D7, ...
+.loop:								; loop: X = A, if $0008,x >= tmp1 go to CODE_C5B5D7, ...
 	tax
 	lda.w $0008,x
 	cmp.b tmp1

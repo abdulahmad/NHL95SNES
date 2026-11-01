@@ -640,7 +640,7 @@ CODE_C4C3C4:						; from CODE_C4C3AE
 	clc
 	adc.b #$08
 	bra .10
-.3:									; A = $41, if A is not $14 go to .4, A = $61
+.3:									; if $41 is not $14 go to .4, A = $61
 	lda.b #$41
 	cmp.b $14
 	bne .4
@@ -1904,7 +1904,7 @@ CODE_C4CF5A:						; from CODE_C4CEF5
 	rts
 CODE_C4CF64:						; from CODE_C4CEF5
 	ldx.w #$FFC0
-.loop:								; loop: A = $00,x, if A is not $0000,y go to .rts, Y + 1, Y + 1, ...
+.loop:								; loop: if $00,x is not $0000,y go to .rts, Y + 1, Y + 1, X + 1, ...
 	lda.b $00,x
 	cmp.w $0000,y
 	bne .rts

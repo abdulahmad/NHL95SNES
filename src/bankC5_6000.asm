@@ -307,7 +307,7 @@ CODE_C5625E:						; called from other segments
 CODE_C56262:						; from CODE_C5625E and other segments
 	phx
 	sep #$20
-.1:									; if $0000,x = 0 go to .4, if A is not $3D go to .2, A = $AE, go to .3
+.1:									; if $0000,x = 0 go to .4, if $0000,x is not $3D go to .2, A = $AE, ...
 	lda.w $0000,x
 	beq .4
 	cmp.b #$3D
@@ -608,7 +608,7 @@ CODE_C5649F:						; called from other segments
 	lda.b a2
 	beq .3
 	ldx.w #$3207
-.3:									; A = $7D, if A is not $FFFF go to .4, a1 = $0002,x, call CODE_C566E8, ...
+.3:									; if $7D is not $FFFF go to .4, a1 = $0002,x, call CODE_C566E8, go to .5
 	lda.b $7D
 	cmp.w #$FFFF
 	bne .4
@@ -661,7 +661,7 @@ CODE_C5649F:						; called from other segments
 	beq .8
 	jsr.w CODE_C55C58
 	bra .loop
-.8:									; X = $7D, if X = $FFFF go to .11, if $0200 bits clear go to .9, ...
+.8:									; if $7D = $FFFF go to .11, if $0200 bits clear go to .9, ...
 	ldx.b $7D
 	cpx.w #$FFFF
 	beq .11
@@ -673,7 +673,7 @@ CODE_C5649F:						; called from other segments
 	dec a
 	sta.b $7D
 	bra .10
-.9:									; if $0100 bits clear go to .11, A = $7D, if A = $0008 go to .11, ...
+.9:									; if $0100 bits clear go to .11, if $7D = $0008 go to .11, A + 1, ...
 	bit.w #$0100
 	beq .11
 	lda.b $7D
@@ -1405,7 +1405,7 @@ CODE_C56B90:						; called from other segments
 	bne .loop
 	tya
 	pha
-.loop2:								; loop: X - 1, A = $0000,x, if A is not $3D go to .2, A = $2E
+.loop2:								; loop: X - 1, if $0000,x is not $3D go to .2, A = $2E
 	dex
 	lda.w $0000,x
 	cmp.b #$3D
@@ -1673,7 +1673,7 @@ CODE_C56D3F:						; a callback: CODE_C56C6A passes it to CODE_C55ABC
 	cmp.w #$0005
 	bcc .7
 	lda.w #$0002
-.7:									; A * 2, X = A, A = DATA8_C35E2D,x, if A = $FFFF go to .8, ...
+.7:									; A * 2, X = A, if DATA8_C35E2D,x = $FFFF go to .8, X = A, ...
 	asl a
 	tax
 	lda.l DATA8_C35E2D,x
@@ -1760,7 +1760,7 @@ CODE_C56E6A:						; called from other segments
 	beq .loop
 	dec.b $7D
 	bra .9
-.5:									; if $0400 bits clear go to .6, A = $79, if A >= $0007 go to .loop, ...
+.5:									; if $0400 bits clear go to .6, if $79 >= $0007 go to .loop, $79 + 1, ...
 	bit.w #$0400
 	beq .6
 	lda.b $79
