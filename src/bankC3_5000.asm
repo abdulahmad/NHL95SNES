@@ -257,7 +257,7 @@ PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 
 	dd $CE4585,$CE57BF,$CE6D00,$CE8087
 	dd $CE93D3,$CEA782,$CEB8A0,$CECBDA
 	dd $CEDDCB,PhotoPalettesTB,PhotoPalettesTOR,PhotoPalettesVAN
-	dd PhotoPalettesWSH,$CD3879
+	dd PhotoPalettesWSH,PhotoPalettesWPG
 	db $03,$F6,$F3,$AE,$05,$D7,$E9,$EE,$F3,$A1,$0A,$C9,$EE,$EA,$F5,$F2
 	db $F9,$A0,$F4,$EF,$BA,$0E,$CF,$F5,$F4,$A0,$E6,$EF,$F2,$A0,$F0,$E5
 	db $F2,$E9,$EF,$E4,$08,$F4,$E8,$E5,$A0,$E7,$E1,$ED,$E5,$09,$D0,$E5
