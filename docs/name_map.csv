@@ -3659,17 +3659,17 @@ $C44B1B,.loop,CODE_C44B1B,new,"branch target only used in checkpuckcoll",src/ban
 $C44B3F,.1,CODE_C44B3F,new,"branch target only used in checkpuckcoll",src/bankC4_4000.asm
 $C44B44,.loop2,CODE_C44B44,new,"branch target only used in checkpuckcoll",src/bankC4_4000.asm
 $C44B63,.rtl,CODE_C44B63,new,"branch target only used in checkpuckcoll",src/bankC4_4000.asm
-$C44B7D,.rtl,CODE_C44B7D,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44B7E,.1,CODE_C44B7E,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44B81,.2,CODE_C44B81,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44B84,.3,CODE_C44B84,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44BD7,.4,CODE_C44BD7,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44BF1,.5,CODE_C44BF1,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44C22,.6,CODE_C44C22,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44C2E,.7,CODE_C44C2E,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44C36,.8,CODE_C44C36,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44C46,.9,CODE_C44C46,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
-$C44C5D,.10,CODE_C44C5D,new,"branch target only used in CODE_C44B64",src/bankC4_4000.asm
+$C44B7D,.rtl,CODE_C44B7D,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44B7E,.1,CODE_C44B7E,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44B81,.2,CODE_C44B81,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44B84,.3,CODE_C44B84,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44BD7,.4,CODE_C44BD7,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44BF1,.5,CODE_C44BF1,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44C22,.6,CODE_C44C22,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44C2E,.7,CODE_C44C2E,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44C36,.8,CODE_C44C36,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44C46,.9,CODE_C44C46,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
+$C44C5D,.10,CODE_C44C5D,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
 $C44D4D,.1,CODE_C44D4D,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
 $C44D62,.2,CODE_C44D62,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
 $C44D87,.3,CODE_C44D87,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
@@ -7391,3 +7391,4 @@ $C465C1,PlayerAccDir6,CODE_C465C1,code,"entry 6 of PlayerAccOneFrame",src/bankC4
 $C46689,PlayerAccDir6x2,CODE_C46689,code,"entry 6 of PlayerAccFrames",src/bankC4_6000.asm
 $C46755,PlayerAccDir7,CODE_C46755,code,"entry 7 of PlayerAccOneFrame",src/bankC4_6000.asm
 $C4683F,PlayerAccDir7x2,CODE_C4683F,code,"entry 7 of PlayerAccFrames",src/bankC4_6000.asm
+$C44B64,checkpuckcoll_ccx,CODE_C44B64,94S+code,"the same code as 94S checkpuckcoll_ccx, side by side: puckc / position / pfnc / nopuck tests, the work words saved, pflags bit $1000, puckz < 5, puckvz < $100, the hot spot call (CODE_C37FE2 where 94S calls GetHot), the distances; 95 squares through the table at $C3884A where 94S calls Mul8U, and its reach limits are $0D / $91 where 94S has $09 / $41",src/bankC4_4000.asm

@@ -1416,7 +1416,7 @@ checkpuckcoll:						; called from other segments
 	sec
 	sbc.w #$0028
 	bpl .1
-	jsl.l CODE_C44B64
+	jsl.l checkpuckcoll_ccx
 	ldy.b d1
 	iny
 	bra .loop
@@ -1434,13 +1434,15 @@ checkpuckcoll:						; called from other segments
 	sec
 	sbc.w #$0028
 	bpl .rtl
-	jsl.l CODE_C44B64
+	jsl.l checkpuckcoll_ccx
 	ldy.b d1
 	dey
 	bne .loop2
 .rtl:								; return
 	rtl
-CODE_C44B64:						; from checkpuckcoll and other segments
+checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) when the puck is
+									; low, slow and within reach of the frame's hot spot, else the body
+									; (puckbody) when close
 	sty.b a2
 	cpy.w puckc
 	beq .rtl
@@ -1578,7 +1580,7 @@ CODE_C44B64:						; from checkpuckcoll and other segments
 	cmp.w #$0091
 	bcs CODE_C44C86
 	jsl.l puckbody
-CODE_C44C86:						; from CODE_C44B64, CODE_C44CB1
+CODE_C44C86:						; from checkpuckcoll_ccx, CODE_C44CB1
 	pla
 	sta.b $99
 	pla
@@ -1608,7 +1610,7 @@ CODE_C44C86:						; from CODE_C44B64, CODE_C44CB1
 	pla
 	sta.b d0
 	rtl
-CODE_C44CB1:						; from CODE_C44B64, CODE_C44D3D
+CODE_C44CB1:						; from checkpuckcoll_ccx, CODE_C44D3D
 	lda.w Xpos,y
 	sec
 	sbc.w $0830
@@ -1634,7 +1636,7 @@ DATA8_C44CDD:						; not traced: a table read by CODE_C44D3D, CODE_C44D3D
 	db $10,$00,$11,$00,$11,$00,$12,$00,$13,$00,$13,$00,$14,$00,$15,$00
 	db $15,$00,$16,$00,$17,$00,$17,$00,$18,$00,$19,$00,$19,$00,$1A,$00
 	db $1B,$00,$1B,$00,$1C,$00,$1D,$00,$1D,$00,$1E,$00,$1F,$00,$1F,$00
-CODE_C44D3D:						; from CODE_C44B64
+CODE_C44D3D:						; from checkpuckcoll_ccx
 	tya
 	jsl.l CODE_C37FE2
 	lda.b d0
