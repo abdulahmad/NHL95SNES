@@ -410,7 +410,7 @@ CODE_C092B3:						; called from CODE_C50056; the first game routine after the ma
 	lda.w #$0001
 	sta.w $18A0
 	stz.b d1
-CODE_C092F0:						; from CODE_C0930C
+.loop:								; loop: $18A4 = 0, a2 = $0002, a1 = 0, call CODE_C09336, ...
 	stz.w $18A4
 	lda.w #$0002
 	sta.b a2
@@ -418,10 +418,10 @@ CODE_C092F0:						; from CODE_C0930C
 	jsl.l CODE_C09336
 	lda.w $18A0
 	cmp.w #$0005
-	bmi CODE_C0930C
+	bmi .1
 	lda.w #$0001
 	sta.w $18A4
-CODE_C0930C:						; from CODE_C092F0
+.1:									; a2 = 0, a1 = $0002, call CODE_C09336, $18A0 + 1, ...
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
@@ -429,62 +429,62 @@ CODE_C0930C:						; from CODE_C092F0
 	inc.w $18A0
 	lda.w $18A0
 	cmp.w #$0006
-	bmi CODE_C092F0
+	bmi .loop
 	lda.w tmscore
 	cmp.w $12AD
-	beq CODE_C092F0
+	beq .loop
 	stz.w $189C
 	pla
 	sta.w $186C
 	pla
 	sta.w $186E
 	rtl
-CODE_C09336:						; called from CODE_C092F0, CODE_C0930C
+CODE_C09336:						; called from CODE_C092B3
 	stz.w $189E
 	stz.w $18A2
 	pei ($6B)
 	jsl.l CODE_C4818C
 	stz.w gmode
 	lda.b a2
-	beq CODE_C0934F
+	beq .1
 	lda.w #$0002
 	sta.w gmode
-CODE_C0934F:						; from CODE_C09336
+.1:									; call CODE_C5016D, pull A, a2 = A, BA_Sktr_SCnum = 0, ...
 	jsl.l CODE_C5016D
 	pla
 	sta.b a2
 	stz.w BA_Sktr_SCnum
 	lda.b a2
-	beq CODE_C09363
+	beq .2
 	lda.w #$000C
 	sta.w BA_Sktr_SCnum
-CODE_C09363:						; from CODE_C0934F
+.2:									; Y = $0000
 	ldy.w #$0000
-CODE_C09366:						; loop
+.loop:								; loop: A = $1525,y, if A = a2 go to .3, Y + 1, Y + 1, ...
 	lda.w $1525,y
 	cmp.b a2
-	beq CODE_C0937C
+	beq .3
 	iny
 	iny
 	cpy.w #$000A
-	bcc CODE_C09366
+	bcc .loop
 	lda.w #$FFFF
 	sta.w $18B6
-	bra CODE_C0937F
-CODE_C0937C:						; from CODE_C09366
+	bra .4
+.3:									; $18B6 = Y
 	sty.w $18B6
-CODE_C0937F:						; from CODE_C09366
+.4:									; call StartPenaltyShot, if a2 = 0 go to .6, A = $18A0
 	jsl.l StartPenaltyShot
 	lda.b a2
-	beq CODE_C093B2
+	beq .6
 	lda.w $18A0
-CODE_C0938A:						; loop
+.loop2:								; loop: if minus go to .5, A - $0005, go to .loop2
 	cmp.w #$0006
-	bmi CODE_C09395
+	bmi .5
 	sec
 	sbc.w #$0005
-	bra CODE_C0938A
-CODE_C09395:						; from CODE_C0938A
+	bra .loop2
+.5:									; Y = A, A 8-bit, A = $1894,y, A 16-bit, ...
 	tay
 	sep #$20
 	lda.w $1894,y
@@ -496,16 +496,16 @@ CODE_C09395:						; from CODE_C0938A
 	sta.w BA_Sktr_SCnum
 	lda.w #$0002
 	sta.w BA_Team
-	bra CODE_C093D8
-CODE_C093B2:						; from CODE_C0937F
+	bra .8
+.6:									; A = $18A0
 	lda.w $18A0
-CODE_C093B5:						; loop
+.loop3:								; loop: if minus go to .7, A - $0005, go to .loop3
 	cmp.w #$0006
-	bmi CODE_C093C0
+	bmi .7
 	sec
 	sbc.w #$0005
-	bra CODE_C093B5
-CODE_C093C0:						; from CODE_C093B5
+	bra .loop3
+.7:									; Y = A, A 8-bit, A = $188C,y, A 16-bit, ...
 	tay
 	sep #$20
 	lda.w $188C,y
@@ -516,27 +516,27 @@ CODE_C093C0:						; from CODE_C093B5
 	lda.w #$0000
 	sta.w BA_Sktr_SCnum
 	stz.w BA_Team
-CODE_C093D8:						; from CODE_C09395
+.8:									; call CODE_C5021B, return
 	jsl.l CODE_C5021B
 	rtl
 ShootoutWonBy:						; jumps to its end at once: the shootout check after it is not reached
-	jmp.w CODE_C09465
+	jmp.w .6
 	lda.w $189C
-	bne CODE_C093E8
-	jmp.w CODE_C09465
-CODE_C093E8:						; from ShootoutWonBy
+	bne .1
+	jmp.w .6
+.1:									; d0 = $000A, if $18A4 is not 0 go to .2, go to .6
 	lda.w #$000A
 	sta.b d0
 	lda.w $18A4
-	bne CODE_C093F5
-	jmp.w CODE_C09465
-CODE_C093F5:						; from CODE_C093E8
+	bne .2
+	jmp.w .6
+.2:									; A = tmscore, A - $12AD, if the result is not 0 go to .3, go to .6
 	lda.w tmscore
 	sec
 	sbc.w $12AD
-	bne CODE_C09401
-	jmp.w CODE_C09465
-CODE_C09401:						; from CODE_C093F5
+	bne .3
+	jmp.w .6
+.3:									; push X, push Y, A = tmscore, A - $12AD, ...
 	phx
 	phy
 	pei ($83)
@@ -544,12 +544,12 @@ CODE_C09401:						; from CODE_C093F5
 	lda.w tmscore
 	sec
 	sbc.w $12AD
-	bmi CODE_C09415
+	bmi .4
 	ldy.w #$0000
-	bra CODE_C09418
-CODE_C09415:						; from CODE_C09401
+	bra .5
+.4:									; Y = $0002
 	ldy.w #$0002
-CODE_C09418:						; from CODE_C09401
+.5:									; push Y, A = $17C9,y, A * 2, X = A, ...
 	phy
 	brk #$00						; a brk in the ROM
 	lda.w $17C9,y
@@ -582,24 +582,24 @@ CODE_C09418:						; from CODE_C09401
 	plx
 	lda.w #$0010
 	sta.b d0
-CODE_C09465:						; from ShootoutWonBy, CODE_C093E8, CODE_C093F5
+.6:									; go to AddPenalty2
 	jml.l AddPenalty2
 	jsl.l CODE_C53ABC
 	lda.w #$0001
 	sta.b d0
 	lda.b a2
-	beq CODE_C0947B
+	beq .7
 	lda.w #$0002
 	sta.b d0
-CODE_C0947B:						; from CODE_C09465
+.7:									; A = cont1team, if A = d0 go to .8, A = $17B7, if A = d0 go to .8, ...
 	lda.w cont1team
 	cmp.b d0
-	beq CODE_C0948C
+	beq .8
 	lda.w $17B7
 	cmp.b d0
-	beq CODE_C0948C
-	jmp.w CODE_C094E4
-CODE_C0948C:						; from CODE_C0947B
+	beq .8
+	jmp.w .10
+.8:									; X = a2, $2352 = $17C9,x, $2350 = $FFFF, call CODE_C09529, ...
 	ldx.b a2
 	lda.w $17C9,x
 	sta.w $2352
@@ -615,56 +615,56 @@ CODE_C0948C:						; from CODE_C0947B
 	lda.w #$0005
 	ldx.w #$0050
 	jsl.l ScreenOn
-CODE_C094BC:						; from CODE_C094E2
+.loop:								; loop: call WaitFrame, call CODE_C36CBF, call CODE_C370A5, ...
 	jsl.l WaitFrame
 	jsl.l CODE_C36CBF
 	jsl.l CODE_C370A5
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
 	bit.w #$0800
-	bne CODE_C09500
+	bne .13
 	bit.w #$0400
-	bne CODE_C0950E
+	bne .14
 	bit.w #$8080
-	bne CODE_C0951F
+	bne .15
 	bit.w #$1000
-	bne CODE_C094E4
-CODE_C094E2:						; from CODE_C09500, CODE_C0950E, CODE_C0951F
-	bra CODE_C094BC
-CODE_C094E4:						; from CODE_C0947B, CODE_C094BC
+	bne .10
+.9:									; go to .loop
+	bra .loop
+.10:								; if a2 is not 0 go to .11, A 8-bit, A = $188C, A 16-bit, ...
 	ldy.b a2
-	bne CODE_C094F1
+	bne .11
 	sep #$20
 	lda.w $188C
 	rep #$20
-	bra CODE_C094F8
-CODE_C094F1:						; from CODE_C094E4
+	bra .12
+.11:								; A 8-bit, A = $1894, A 16-bit
 	sep #$20
 	lda.w $1894
 	rep #$20
-CODE_C094F8:						; from CODE_C094E4
+.12:								; A and $00FF, A - 1, tmgoalie,y = A, return
 	and.w #$00FF
 	dec a
 	sta.w tmgoalie,y
 	rtl
-CODE_C09500:						; from CODE_C094BC
+.13:								; if $1878 = 0 go to .9, $1878 - 1, call CODE_C095BF, go to .9
 	lda.w $1878
-	beq CODE_C094E2
+	beq .9
 	dec.w $1878
 	jsl.l CODE_C095BF
-	bra CODE_C094E2
-CODE_C0950E:						; from CODE_C094BC
+	bra .9
+.14:								; A = $1878, if plus go to .9, $1878 + 1, call CODE_C095BF, ...
 	lda.w $1878
 	cmp.w #$0005
-	bpl CODE_C094E2
+	bpl .9
 	inc.w $1878
 	jsl.l CODE_C095BF
-	bra CODE_C094E2
-CODE_C0951F:						; from CODE_C094BC
+	bra .9
+.15:								; call CODE_C096C0, call CODE_C095BF, go to .9
 	jsl.l CODE_C096C0
 	jsl.l CODE_C095BF
-	bra CODE_C094E2
-CODE_C09529:						; called from CODE_C0948C
+	bra .9
+CODE_C09529:						; called from ShootoutWonBy
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -705,29 +705,29 @@ CODE_C09551:						; called from CODE_C0958F
 	clc
 	adc.w #$0C00
 	rtl
-CODE_C0958F:						; called from CODE_C0948C, CODE_C09529, CODE_C09678
+CODE_C0958F:						; called from ShootoutWonBy, CODE_C09529, CODE_C095BF
 	lda.w $2364
-	beq CODE_C09598
+	beq .1
 	jsl.l CODE_C09551
-CODE_C09598:						; from CODE_C0958F
+.1:									; X = $0058, Y = $0018, d1 = $17C9, if a2 = 0 go to .2, ...
 	ldx.w #$0058
 	ldy.w #$0018
 	lda.w $17C9
 	sta.b d1
 	lda.b a2
-	beq CODE_C095AC
+	beq .2
 	lda.w $17CB
 	sta.b d1
-CODE_C095AC:						; from CODE_C09598
+.2:									; if $2364 = 0 go to .rtl, call WaitFrame, irqline2 = $0050, $2364 = 0
 	lda.w $2364
-	beq CODE_C095BE
+	beq .rtl
 	jsl.l WaitFrame
 	lda.w #$0050
 	sta.w irqline2
 	stz.w $2364
-CODE_C095BE:						; from CODE_C095AC
+.rtl:								; return
 	rtl
-CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C0951F
+CODE_C095BF:						; called from ShootoutWonBy
 	lda.w #$0020
 	sta.b d0
 	lda.w #$0013
@@ -750,7 +750,7 @@ CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C095
 	lda.w $0802
 	dec a
 	sta.b d0
-	bmi CODE_C09623
+	bmi .loop
 	asl a
 	asl a
 	asl a
@@ -760,26 +760,26 @@ CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C095
 	lda.w #$188C
 	sta.b a3
 	lda.b a2
-	beq CODE_C09614
+	beq .1
 	lda.w #$0000
 	sta.b $71
 	lda.w #$1894
 	sta.b a3
-CODE_C09614:						; from CODE_C095BF
+.1:									; $79 = CODE_C09681>>16, $77 = CODE_C09681, d1 = $0005
 	lda.w #CODE_C09681>>16
 	sta.b $79
 	lda.w #CODE_C09681
 	sta.b $77
 	lda.w #$0005
 	sta.b d1
-CODE_C09623:						; from CODE_C095BF, CODE_C09655
+.loop:								; loop: $07D2 = $3800, A = $0005, A - d1, if A is not $1878 go to .3, ...
 	lda.w #$3800
 	sta.w $07D2
 	lda.w #$0005
 	sec
 	sbc.b d1
 	cmp.w $1878
-	bne CODE_C09655
+	bne .3
 	lda.w #$2000
 	sta.w $07D2
 	lda.b [a3]
@@ -790,12 +790,12 @@ CODE_C09623:						; from CODE_C095BF, CODE_C09655
 	ldx.b a2
 	lda.w $17C9,x
 	cmp.w #$0018
-	bcc CODE_C09654
+	bcc .2
 	ldx.w #$0000
 	lda.w $2358
-CODE_C09654:						; from CODE_C09623
+.2:									; pull X
 	plx
-CODE_C09655:						; from CODE_C09623
+.3:									; $07D4 = $0005, $07D4 = $0008, A = [a3], A and $00FF, ...
 	lda.w #$0005
 	sta.w $07D4
 	lda.w #$0008
@@ -808,9 +808,9 @@ CODE_C09655:						; from CODE_C09623
 	inc.w $07D6
 	inc.w $07D6
 	dec.b d1
-	bmi CODE_C09678
-	jmp.w CODE_C09623
-CODE_C09678:						; from CODE_C09655
+	bmi .4
+	jmp.w .loop
+.4:									; call CODE_C0958F, return
 	jsl.l CODE_C0958F
 	rtl
 DATA8_C0967D:						; not traced: 1, 2, 3, 4
@@ -823,20 +823,20 @@ CODE_C09681:						; from CODE_C092B3; its address is stored as a long pointer
 	lda.w #$2E35
 	sta.b a1
 	lda.b a2
-	beq CODE_C096A3
+	beq .1
 	lda.w #$0000
 	sta.b $71
 	lda.w #$1894
 	sta.b a3
 	lda.w #$3273
 	sta.b a1
-CODE_C096A3:						; from CODE_C09681
+.1:									; Y = a2, $69 = $007E, d0 = $0007
 	ldy.b a2
 	lda.w #$007E
 	sta.b $69
 	lda.w #$0007
 	sta.b d0
-CODE_C096AF:						; loop
+.loop:								; loop: A 8-bit, [a3] = [a1], A 16-bit, a1 + 1, ...
 	sep #$20
 	lda.b [a1]
 	sta.b [a3]
@@ -844,36 +844,36 @@ CODE_C096AF:						; loop
 	inc.b a1
 	inc.b a3
 	dec.b d0
-	bpl CODE_C096AF
+	bpl .loop
 	rts
-CODE_C096C0:						; called from CODE_C0951F
+CODE_C096C0:						; called from ShootoutWonBy
 	lda.w $1878
-	bne CODE_C096F7
+	bne .3
 	jsl.l CODE_C48A41
 	lda.w #$0000
 	sta.b $69
 	lda.w #$188C
 	sta.b a1
 	lda.b a2
-	beq CODE_C096E1
+	beq .1
 	lda.w #$0000
 	sta.b $69
 	lda.w #$1894
 	sta.b a1
-CODE_C096E1:						; from CODE_C096C0
+.1:									; A = [a1], A and $00FF, A + 1, if A = d0 go to .2, ...
 	lda.b [a1]
 	and.w #$00FF
 	inc a
 	cmp.b d0
-	beq CODE_C096F0
-	bmi CODE_C096F0
+	beq .2
+	bmi .2
 	lda.w #$0001
-CODE_C096F0:						; from CODE_C096E1
+.2:									; A 8-bit, [a1] = A, A 16-bit, return
 	sep #$20
 	sta.b [a1]
 	rep #$20
 	rtl
-CODE_C096F7:						; from CODE_C096C0
+.3:									; d0 = $0020, d1 = $000D, d2 = $24C0, call CODE_C528D4, ...
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -906,12 +906,12 @@ CODE_C096F7:						; from CODE_C096C0
 	lda.w #$188C
 	sta.b a3
 	lda.b a2
-	beq CODE_C09759
+	beq .4
 	lda.w #$0000
 	sta.b $71
 	lda.w #$1894
 	sta.b a3
-CODE_C09759:						; from CODE_C096F7
+.4:									; A = a3, A + $1878, a3 = A, A = [a3], ...
 	lda.b a3
 	clc
 	adc.w $1878
@@ -925,105 +925,105 @@ CODE_C09759:						; from CODE_C096F7
 	adc.w $1884
 	sec
 	sbc.w $1888
-	bpl CODE_C09790
+	bpl .6
 	lda.w $1888
 	sec
 	sbc.w #$0008
 	sec
 	sbc.w $1884
-	bmi CODE_C0978B
+	bmi .5
 	clc
 	adc.w $1884
 	sta.w $1884
-CODE_C0978B:						; from CODE_C09759
+.5:									; A = $0000, go to .7
 	lda.w #$0000
-	bra CODE_C0979B
-CODE_C09790:						; from CODE_C09759
+	bra .7
+.6:									; A = $1884, A + $0008, A - $1888
 	lda.w $1884
 	clc
 	adc.w #$0008
 	sec
 	sbc.w $1888
-CODE_C0979B:						; from CODE_C0978B
+.7:									; $1888 = A, call CODE_C09855
 	sta.w $1888
 	jsl.l CODE_C09855
-CODE_C097A2:						; from CODE_C097DD, CODE_C097EF, CODE_C097FF, CODE_C0980F, ...
+.loop:								; loop: call WaitFrame, call CODE_C36CBF, call CODE_C370A5, ...
 	jsl.l WaitFrame
 	jsl.l CODE_C36CBF
 	jsl.l CODE_C370A5
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
 	bit.w #$1000
-	bne CODE_C097D6
+	bne .8
 	bit.w #$0800
-	bne CODE_C0980F
+	bne .12
 	bit.w #$0400
-	bne CODE_C097FF
+	bne .11
 	bit.w #$0100
-	bne CODE_C097DD
+	bne .9
 	bit.w #$0200
-	bne CODE_C097EF
+	bne .10
 	bit.w #$8080
-	beq CODE_C097A2
+	beq .loop
 	jsl.l CODE_C0998F
-CODE_C097D6:						; from CODE_C097A2
+.8:									; $2364 = $0001, return
 	lda.w #$0001
 	sta.w $2364
 	rtl
-CODE_C097DD:						; from CODE_C097A2
+.9:									; A = $0806, A + 1, if plus go to .loop, $0806 = A, ...
 	lda.w $0806
 	inc a
 	cmp.w #$0010
-	bpl CODE_C097A2
+	bpl .loop
 	sta.w $0806
 	jsl.l CODE_C09855
-	bra CODE_C097A2
-CODE_C097EF:						; from CODE_C097A2
+	bra .loop
+.10:								; A = $0806, A - 1, if the result < 0 go to .loop, $0806 = A, ...
 	lda.w $0806
 	dec a
-	bmi CODE_C097A2
+	bmi .loop
 	sta.w $0806
 	jsl.l CODE_C09855
-	jmp.w CODE_C097A2
-CODE_C097FF:						; from CODE_C097A2
+	jmp.w .loop
+.11:								; A = $1888, A - 1, if the result < 0 go to .13, $1888 = A, ...
 	lda.w $1888
 	dec a
-	bmi CODE_C09822
+	bmi .13
 	sta.w $1888
 	jsl.l CODE_C09855
-	jmp.w CODE_C097A2
-CODE_C0980F:						; from CODE_C097A2
+	jmp.w .loop
+.12:								; A = $1888, A + 1, if plus go to .15, $1888 = A, ...
 	lda.w $1888
 	inc a
 	cmp.w #$0009
-	bpl CODE_C0983F
+	bpl .15
 	sta.w $1888
 	jsl.l CODE_C09855
-	jmp.w CODE_C097A2
-CODE_C09822:						; from CODE_C097FF
+	jmp.w .loop
+.13:								; A = $1884, A - $1880, A + $0009, if minus go to .14, ...
 	lda.w $1884
 	sec
 	sbc.w $1880
 	clc
 	adc.w #$0009
 	cmp.w $187C
-	bmi CODE_C09835
-	jmp.w CODE_C097A2
-CODE_C09835:						; from CODE_C09822
+	bmi .14
+	jmp.w .loop
+.14:								; $1884 + 1, call CODE_C09855, go to .loop
 	inc.w $1884
 	jsl.l CODE_C09855
-	jmp.w CODE_C097A2
-CODE_C0983F:						; from CODE_C0980F
+	jmp.w .loop
+.15:								; A = $1884, A - 1, if plus go to .16, go to .loop
 	lda.w $1884
 	dec a
 	cmp.w $1880
-	bpl CODE_C0984B
-	jmp.w CODE_C097A2
-CODE_C0984B:						; from CODE_C0983F
+	bpl .16
+	jmp.w .loop
+.16:								; $1884 - 1, call CODE_C09855, go to .loop
 	dec.w $1884
 	jsl.l CODE_C09855
-	jmp.w CODE_C097A2
-CODE_C09855:						; called from CODE_C0979B, CODE_C097DD, CODE_C097EF, CODE_C097FF, ...
+	jmp.w .loop
+CODE_C09855:						; called from CODE_C096C0, CODE_C096C0, ...
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -1035,31 +1035,31 @@ CODE_C09855:						; called from CODE_C0979B, CODE_C097DD, CODE_C097EF, CODE_C097
 	sta.w $07D4
 	lda.w #$0002
 	sta.w $07D6
-CODE_C09874:						; from CODE_C09897
+.1:									; $69 = DATA8_C098CE>>16, a1 = DATA8_C098CE, d0 = $0806, go to .2
 	lda.w #DATA8_C098CE>>16
 	sta.b $69
 	lda.w #DATA8_C098CE
 	sta.b a1
 	lda.w $0806
 	sta.b d0
-	bra CODE_C0988F
-CODE_C09885:						; from CODE_C0988F
+	bra .2
+.loop:								; loop: A = a1, A + [a1], A + $0004, a1 = A
 	lda.b a1
 	clc
 	adc.b [a1]
 	adc.w #$0004
 	sta.b a1
-CODE_C0988F:						; from CODE_C09874
+.2:									; if [a1] < 0 go to .3, d0 - 1, if the result >= 0 go to .loop
 	lda.b [a1]
-	bmi CODE_C09897
+	bmi .3
 	dec.b d0
-	bpl CODE_C09885
-CODE_C09897:						; from CODE_C0988F
+	bpl .loop
+.3:									; if [a1] >= 0 go to .4, $0806 - 1, go to .1
 	lda.b [a1]
-	bpl CODE_C098A0
+	bpl .4
 	dec.w $0806
-	bra CODE_C09874
-CODE_C098A0:						; from CODE_C09897
+	bra .1
+.4:									; $07D2 = $3800, $91 = [a1], Y = $0002, d4 = [a1],y, ...
 	lda.w #$3800
 	sta.w $07D2
 	lda.b [a1]
@@ -1069,21 +1069,21 @@ CODE_C098A0:						; from CODE_C09897
 	sta.b d4
 	lda.w $1884
 	cmp.w $1880
-	beq CODE_C098B9
-CODE_C098B9:						; from CODE_C098A0
+	beq .5
+.5:									; A = $1884, A - $1880, A + $0009, if plus go to .6
 	lda.w $1884
 	sec
 	sbc.w $1880
 	clc
 	adc.w #$0009
 	cmp.w $187C
-	bpl CODE_C098C9
-CODE_C098C9:						; from CODE_C098B9
+	bpl .6
+.6:									; call CODE_C09910, return
 	jsl.l CODE_C09910
 	rtl
 DATA8_C098CE:						; not traced: records CODE_C09855 walks, $FFFF ends them
 	incbin "../Extracted/segments/bankC0_9000.bin":$8CE..$910
-CODE_C09910:						; called from CODE_C098C9
+CODE_C09910:						; called from CODE_C09855
 	lda.w $0802
 	dec a
 	asl a
@@ -1103,23 +1103,23 @@ CODE_C09910:						; called from CODE_C098C9
 	lda.w $0802
 	sec
 	sbc.w #$0005
-	beq CODE_C09943
-	bmi CODE_C0993F
-	bvc CODE_C09941
-	bra CODE_C09943
-CODE_C0993F:						; from CODE_C09910
-	bvc CODE_C09943
-CODE_C09941:						; from CODE_C09910
+	beq .loop
+	bmi .1
+	bvc .2
+	bra .loop
+.1:									; if overflow clear go to .loop
+	bvc .loop
+.2:									; d1 - 1
 	dec.b d1
-CODE_C09943:						; from CODE_C09910, CODE_C0993F, CODE_C09977
+.loop:								; loop: $07D2 = $3800, A = d1, if A is not $1888 go to .3, $07D2 = $2000
 	lda.w #$3800
 	sta.w $07D2
 	lda.b d1
 	cmp.w $1888
-	bne CODE_C09956
+	bne .3
 	lda.w #$2000
 	sta.w $07D2
-CODE_C09956:						; from CODE_C09943
+.3:									; $07D4 = $0002, A = a3, A and $00FF, A - 1, ...
 	lda.w #$0002
 	sta.w $07D4
 	lda.b a3
@@ -1131,21 +1131,21 @@ CODE_C09956:						; from CODE_C09943
 	jsl.l CODE_C48A41
 	lda.b r1
 	cmp.b d0
-	bpl CODE_C09977
+	bpl .4
 	lda.w #$0010
 	sta.b r2
-CODE_C09977:						; from CODE_C09956
+.4:									; d0 = r1, call CODE_C50F08, a3 + 1, $07D6 + 1, ...
 	lda.b r1
 	sta.b d0
 	jsl.l CODE_C50F08
 	inc.b a3
 	inc.w $07D6
 	dec.b d1
-	bpl CODE_C09943
+	bpl .loop
 	lda.w #$2000
 	sta.w $07D2
 	rtl
-CODE_C0998F:						; called from CODE_C097A2
+CODE_C0998F:						; called from CODE_C096C0
 	ldy.b d1
 	phy
 	lda.w #$0009
@@ -1160,12 +1160,12 @@ CODE_C0998F:						; called from CODE_C097A2
 	lda.w #$188C
 	sta.b a1
 	lda.b a2
-	beq CODE_C099BA
+	beq .1
 	lda.w #$0000
 	sta.b $69
 	lda.w #$1894
 	sta.b a1
-CODE_C099BA:						; from CODE_C0998F
+.1:									; Y = $1878, A 8-bit, A = [a1],y, A 16-bit, ...
 	ldy.w $1878
 	sep #$20
 	lda.b [a1],y
@@ -1174,21 +1174,21 @@ CODE_C099BA:						; from CODE_C0998F
 	sta.b d1
 	lda.b d0
 	ldy.w #$0001
-CODE_C099CD:						; loop
+.loop:								; loop: A 8-bit, A 16-bit, if zero go to .2, Y + 1, ...
 	sep #$20
 	cmp.b [a1],y
 	rep #$20
-	beq CODE_C099DD
+	beq .2
 	iny
 	cpy.w #$0007
-	bmi CODE_C099CD
-	bra CODE_C099E5
-CODE_C099DD:						; from CODE_C099CD
+	bmi .loop
+	bra .3
+.2:									; A = d1, A 8-bit, [a1],y = A, A 16-bit
 	lda.b d1
 	sep #$20
 	sta.b [a1],y
 	rep #$20
-CODE_C099E5:						; from CODE_C099CD
+.3:									; Y = $1878, A = d0, A 8-bit, [a1],y = A, ...
 	ldy.w $1878
 	lda.b d0
 	sep #$20
@@ -1197,17 +1197,17 @@ CODE_C099E5:						; from CODE_C099CD
 	pla
 	sta.b d1
 	rtl
-CODE_C099F4:						; called from CODE_C09418
+CODE_C099F4:						; called from ShootoutWonBy
 	phy
 	phx
 	sep #$20
 	ldy.w #$0000
 	dex
-CODE_C099FC:						; loop
+.loop:								; loop: Y + 1, X + 1, if $0000,x is not 0 go to .loop, A 16-bit, ...
 	iny
 	inx
 	lda.w $0000,x
-	bne CODE_C099FC
+	bne .loop
 	rep #$20
 	tya
 	jsl.l CODE_C4C561
@@ -1217,14 +1217,14 @@ CODE_C099FC:						; loop
 	ply
 	pha
 	sep #$20
-CODE_C09A13:						; loop
+.loop2:								; loop: $0001,x = $0000,y, if $0000,y = 0 go to .1, Y + 1, X + 1, ...
 	lda.w $0000,y
 	sta.w $0001,x
-	beq CODE_C09A1F
+	beq .1
 	iny
 	inx
-	bra CODE_C09A13
-CODE_C09A1F:						; from CODE_C09A13
+	bra .loop2
+.1:									; A 16-bit, pull X, pull Y, return
 	rep #$20
 	plx
 	ply
