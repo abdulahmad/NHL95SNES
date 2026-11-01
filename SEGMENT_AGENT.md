@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC6_2000 (org $C62120): next segment in ROM order. <- CURRENT
+bankC6_3000 (org $C630A8): next segment in ROM order. <- CURRENT
 
 ## Sources
 
@@ -318,6 +318,8 @@ bankC6_2000 (org $C62120): next segment in ROM order. <- CURRENT
   size lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankC6_1000 matched: parallel frame placement word tables. Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC6_2000 matched: frame placement words and raw frame tiles. Transfer extents come from CODE_C5F368 and its
+  size lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -423,8 +425,8 @@ The first row that is still incbin is the current segment.
 | bankC5_F000 | matched 3983 bytes | $C5F071 | $C5FFFF | UnpackStream0 (its loop runs through the bank $85 mirror and code built in the DMA registers), BuildSpriteOAM, game code with CODE_ names, the zero fill (padbyte / pad); out of ROM order, org moved to $C5F071 |
 | bankC6_0000 | matched 4240 bytes | $C60000 | $C6108F | frame source low words and bank/layout words; end moved +$90 |
 | bankC6_1000 | matched 4240 bytes | $C61090 | $C6211F | parallel frame placement word tables; org moved to $C61090, end moved +$120 |
-| bankC6_2000 | incbin | $C62120 | $C62FFF | <- CURRENT |
-| bankC6_3000 | incbin | $C63000 | $C63FFF | |
+| bankC6_2000 | matched 3976 bytes | $C62120 | $C630A7 | frame placement words and raw frame tiles; org moved to $C62120, end moved +$A8 |
+| bankC6_3000 | incbin | $C630A8 | $C63FFF | <- CURRENT |
 | bankC6_4000 | incbin | $C64000 | $C64FFF | |
 | bankC6_5000 | incbin | $C65000 | $C65FFF | |
 | bankC6_6000 | incbin | $C66000 | $C66FFF | |

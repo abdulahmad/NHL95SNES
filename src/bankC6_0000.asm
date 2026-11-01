@@ -4,11 +4,11 @@ org $C60000
 DATA8_C60000:						; frame source low words; read by CODE_C5F368
 	dw $2968
 	dw $2968
-	dw $2968
-	dw $2BE8
+	dw DATA8_C62968&$FFFF
+	dw DATA8_C62BE8&$FFFF
 	dw $0000
 	dw $0000
-	dw $2E28
+	dw DATA8_C62E28&$FFFF
 	dw $30A8
 	dw $3308
 	dw $0000
@@ -1065,11 +1065,11 @@ DATA8_C60000:						; frame source low words; read by CODE_C5F368
 DATA8_C60848:						; source bank and transfer-layout index; read by CODE_C5F368
 	dw $0000
 	dw $0000
-	dw $5EC6
-	dw $6CC6
+	dw (DATA8_C62968>>16)|$5E00
+	dw (DATA8_C62BE8>>16)|$6C00
 	dw $0000
 	dw $0000
-	dw $3CC6
+	dw (DATA8_C62E28>>16)|$3C00
 	dw $70C6
 	dw $88C6
 	dw $0000
