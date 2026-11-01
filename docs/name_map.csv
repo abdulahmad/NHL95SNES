@@ -2339,3 +2339,5 @@ $CEA782,PhotoPalettesPIT,DATA8_CEA782,code,"Pittsburgh: 16 colours for each of i
 $CEA842,PlayerPhotosPIT,DATA8_CEA842,code,"Pittsburgh: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_A000.asm
 $CEB8A0,PhotoPalettesQUE,DATA8_CEB8A0,code,"Quebec: 16 colours for each of its 6 player photos; entry 18 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_B000.asm
 $CEB960,PlayerPhotosQUE,DATA8_CEB960,code,"Quebec: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_B000.asm
+$CECBDA,PhotoPalettesSJ,DATA8_CECBDA,code,"San Jose: 16 colours for each of its 6 player photos; entry 19 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_C000.asm
+$CECC9A,PlayerPhotosSJ,DATA8_CECC9A,code,"San Jose: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_C000.asm

@@ -4,6 +4,7 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+PhotoPalettesSJ = $CECBDA			; the San Jose photo set
 PhotoPalettesQUE = $CEB8A0			; the Quebec photo set
 PhotoPalettesPIT = $CEA782			; the Pittsburgh photo set
 PhotoPalettesPHI = $CE93D3			; the Philadelphia photo set
