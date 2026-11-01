@@ -137,6 +137,13 @@
   4181 labels in banks $C0 / $C3 / $C4 / $C5 / $CF. refresh_locals.py regenerates only those summaries (never the
   hand-written local labels). About 1400 CODE_ labels stay top level: entries, jump table and pointer targets, labels used
   across routines.
+- Purpose names (95-only screens): ../work/textdec.py decodes the packed text (OFF... or --scan); textmap.py writes
+  strings.txt (the string starts) and textrefs.txt (the strings each routine passes). Menu item lists are a count, then
+  word pairs whose second word is the offset of a length-prefixed text in bank $C3 (bit 7 set on each character). The
+  pause menu: tabs Info / Stats / Options / quit prompt (DATA8_C5501C ...). A routine takes a 95G or 94S name only after
+  reading it against that routine (source genesis+purpose / 94S+purpose; code for names made from the code);
+  ../work/purpose.py MAP renames, writes the label's comment and follows the local label rows. Named so far: the Stanley
+  Cup screen and the season awards, the pause menu screens, the scouting report, the trade screens.
 
 ## Setup notes
 
