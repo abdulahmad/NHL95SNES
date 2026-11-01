@@ -291,6 +291,9 @@ then its code from about $C36000. Banks $C0-$C2, $C4 and $C5 are all source. <- 
 - 2026-10-31: bankC3_4000 matched: the last team records, a 29th record of the same form that TeamList does not point at
   (DATA8_C34427), then the game's data tables and text (high-bit letters, e.g. Period Over) as db, labelled where code reads
   them; bankC4_8000 / bankC5_6000 use those labels.
+- 2026-10-31: bankC3_0000 matched: TeamList (a word per team to its record, as 94S TeamList) and PlayerList (a word per player
+  to its record plus flags in bits 14-15) as source with the labels, then the first player records. The team database is all
+  source now (the record bodies stay ROM cuts).
 
 ## ROM map
 
@@ -346,7 +349,7 @@ The first row that is still incbin is the current segment.
 | bankC2_D000 | matched 1506 bytes | $C2DF3B | $C2E51C | Sample09 (incbin); org moved to $C2DF3B, end moved +$51D |
 | bankC2_E000 | matched 3981 bytes | $C2E51D | $C2F4A9 | Sample10 (incbin); org moved to $C2E51D, end moved +$4AA |
 | bankC2_F000 | matched 2902 bytes | $C2F4AA | $C2FFFF | Sample11, Sample12 (incbin), the zero fill (padbyte / pad); org moved to $C2F4AA |
-| bankC3_0000 | incbin | $C30000 | $C31006 | |
+| bankC3_0000 | matched 4103 bytes | $C30000 | $C31006 | TeamList (94S name; words to the team records), PlayerList (words to the player records, flags in bits 14-15), the first player records (labels and ROM cuts); written last in the bank so the labels exist; end moved +$7 |
 | bankC3_1000 | matched 4090 bytes | $C31007 | $C32000 | player records (218: Player101 ... Player318, by PlayerList index), labels and ROM cuts (the names are licensed); out of ROM order inside the bank: PlayerList in bankC3_0000 needs these labels first; org moved to $C31007, end moved +$1 |
 | bankC3_2000 | matched 4103 bytes | $C32001 | $C33007 | player records (219: Player319 ... Player537, by PlayerList index), labels and ROM cuts (the names are licensed); out of ROM order inside the bank; org moved to $C32001, end moved +$8 |
 | bankC3_3000 | matched 4132 bytes | $C33008 | $C3402B | the last player records (106), then team records AllStarsEast ... Washington (labels by city, as 94S, and ROM cuts: the names are licensed); out of ROM order inside the bank; org moved to $C33008, end moved +$2C |

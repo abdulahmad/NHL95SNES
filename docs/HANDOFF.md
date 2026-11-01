@@ -14,16 +14,15 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC3_0000, org $C30000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Source so far: banks $C0, $C1, $C2, $C4 and $C5
+- Next: segment bankC3_5000, org $C35000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Source so far: banks $C0, $C1, $C2, $C4 and $C5
   (the code banks $C4 / $C5 out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12.
-  Banks $C4 / $C5: game code (CODE_ names; the decoding pipeline and its seed rules are in the notes below). Bank $C3 starts
-  with the team database (not written yet; the player names are licensed, and 94S and 95 Genesis keep them out of the source, so
-  the records should stay ROM cuts): $C30000 a word per team to its record, $C30038 a word per player (687) to its record, with
-  flags in bits 14-15 (they group like goalies, forwards, defence: not traced), the player records from $C30596, the team
-  records from $C337BC; its code starts at about $C36000. Remaining after bank $C3: banks $C6-$CF (bank $CF has code).
-  Onboarding: McMarkis.
+  Banks $C4 / $C5: game code (CODE_ names; the decoding pipeline and its seed rules are in the notes below). Bank $C3 to $C34FFF
+  is source: the team database (TeamList, PlayerList and the player and team records as labels and ROM cuts, since the names are
+  licensed), then data tables and text; the data runs on to $C36B82 (the photo table PhotoPaletteTable at $C35EA7), and the code
+  is $C36B83 to about $C38EFD, then samples and data. Remaining after bank $C3: banks $C6-$CF (bank $CF has code). Onboarding:
+  McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -102,6 +101,9 @@
   (from bank $C4), so they probably fill the bracket's slots (94S colours its slots with TeamBlockPalettes); not traced.
 - CenterIceTiles: named as 94S's centre ice logos (the home team's logo on ice blue goes to VRAM in the game screen setup,
   with its colours to palette 3); where the map puts it on the rink is not traced.
+- Team database (bank $C3): PlayerList's bits 14-15 (0, $4000, $8000) group like goalies, defence and forwards (63, 218,
+  406 players) but the code that reads them is not traced; a player record is taken to hold a packed name and the ratings
+  (not decoded); DATA8_C34427 has the form of a team record but TeamList does not point at it.
 - bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
   named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
 - bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
