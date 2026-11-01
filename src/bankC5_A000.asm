@@ -393,7 +393,7 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 CODE_C5A397:						; from CODE_C5A359
 	lda.w $1872
 	bne .1
-	lda.w $1864
+	lda.w OptPlayMode
 	beq .rts
 	dec a
 	beq .rts
@@ -479,7 +479,7 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 CODE_C5A440:						; from CODE_C5A402
 	lda.w $1872
 	bne .1
-	lda.w $1864
+	lda.w OptPlayMode
 	beq .rts
 	dec a
 	beq .rts
@@ -609,7 +609,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	sta.w BG3VScroll
 	jsl.l WaitTransfers
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	lda.l $306050
 	and.w #$00FF
 	asl a
@@ -617,7 +617,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	lda.l DATA8_C35F60,x
 	bne .1
 	jsl.l CODE_C40D96
-	inc.w $1864
+	inc.w OptPlayMode
 .1:									; X = d7, call DeleteSprite, X = $9D, call DeleteSprite, ...
 	ldx.b d7
 	jsl.l DeleteSprite
@@ -1390,7 +1390,7 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	sta.b $08,x
 	jsr.w CODE_C5ABAE
 	lda.w #$0007
-	sta.w $1864
+	sta.w OptPlayMode
 	jsr.w CODE_C5ABC4
 	lda.w #$C000
 	sta.w DMAEnShadow
@@ -1400,7 +1400,7 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	jmp.w GameSetUp_reenter
 CODE_C5ABA1:						; called from other segments
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	jsl.l CODE_C4CFF5
 	jmp.w CODE_C5963A
 CODE_C5ABAE:						; from StartSeasonInput
@@ -1461,10 +1461,10 @@ SeasonOptionsInput:					; the League Menu each frame (screen state 6): up / down
 	asl a
 	tax
 	jmp (SeasonMenuJumps,x)
-.3:									; call FadeOutWait, $1864 = $0002, go to Restart
+.3:									; call FadeOutWait, OptPlayMode = $0002, go to Restart
 	jsl.l FadeOutWait
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	jmp.w Restart
 .4:									; call CODE_C5AC7F, d6 - 1, if the result >= 0 go to .5, d6 = $0005
 	jsr.w CODE_C5AC7F
@@ -1523,7 +1523,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 									; changes the day, start goes back to the League Menu)
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
 	jml.l CODE_C40000
@@ -1672,7 +1672,7 @@ DATA8_C5AE40:						; not traced: data between routines
 MenuPlayGames:						; League Menu Play Games: when the season is over (play mode 3), the end
 									; of season (CODE_C401E5); else the day's games from the schedule
 	stz.b tmp0
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
 	jml.l CODE_C401E5
@@ -1690,7 +1690,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	lsr a
 	tay
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	lda.l $306050
 	and.w #$00FF
 	asl a
@@ -1698,7 +1698,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	lda.l DATA8_C35F60,x
 	bne .2
 	jsl.l CODE_C40D96
-	inc.w $1864
+	inc.w OptPlayMode
 	jmp.w CODE_C5ADDC
 .2:									; A = d0, A * 2, X = A, A = DATA8_C360D4,x, ...
 	lda.b d0
@@ -1782,7 +1782,7 @@ CODE_C5AF07:						; from MenuPlayGames and other segments
 	jsr.w ShowOtherScores
 	stz.w $190E
 	jsl.l CODE_C4C574
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
 	jml.l CODE_C40296

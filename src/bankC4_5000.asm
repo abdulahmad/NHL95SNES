@@ -264,7 +264,7 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w gmode
 	bit.w #$0010
 	bne .28
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .28
 	lda.w position,x

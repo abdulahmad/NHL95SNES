@@ -285,13 +285,13 @@ DATA8_C59249:						; not reached by the traced code (data or unused code)
 	db $8D,$06,$19,$D4,$97,$AD,$0E,$01,$48,$3A,$3A,$8D,$0E,$01,$C6,$97
 	db $20,$75,$8F,$20,$9A,$90,$68,$8D,$0E,$01,$68,$85,$97,$60,$00,$00
 CODE_C592A9:						; from setoptions
-	lda.w $1864
+	lda.w OptPlayMode
 	beq .1
 	dec a
 	beq .1
 	jsr.w CODE_C5E41D
-.1:									; if $1864 is not $0003 go to .3, if $17CB is not $17C9 go to .3, ...
-	lda.w $1864
+.1:									; if OptPlayMode is not $0003 go to .3, ...
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .3
 	lda.w $17CB
@@ -313,7 +313,7 @@ CODE_C592A9:						; from setoptions
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
-	lda.w $1864
+	lda.w OptPlayMode
 	asl a
 	tax
 	lda.l DATA8_C592FA,x
@@ -362,7 +362,7 @@ CODE_C59308:						; from CODE_C592A9
 	tax
 	lda.b $03,s
 	tay
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0007
 	bne .3
 	jsl.l PrintItalicRight
@@ -458,7 +458,7 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	dey
 	bpl .loop2
 	jsr.w UserNameEntry
-	lda.w $1864
+	lda.w OptPlayMode
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	jsl.l forceblack

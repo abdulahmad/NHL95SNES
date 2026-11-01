@@ -1735,10 +1735,10 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	beq .7
 	jsr.w CODE_C59012
 	bra .8
-.7:									; if $3000 bits clear go to .8, A = $1864, A * 2, X = A, ...
+.7:									; if $3000 bits clear go to .8, A = OptPlayMode, A * 2, X = A, ...
 	bit.w #$3000
 	beq .8
-	lda.w $1864
+	lda.w OptPlayMode
 	asl a
 	tax
 	jmp (DATA8_C58DD0,x)
@@ -1759,7 +1759,7 @@ StartDemo:							; starts the demo: the demo flag set, user records off, play mo
 	lda.w #$0001
 	sta.l $7E23BA
 	stz.w $1904
-	stz.w $1864
+	stz.w OptPlayMode
 	jmp.w CODE_C593B1
 DATA8_C58DF0:						; jump table: the routine for each index
 	dw CODE_C59052,CODE_C58DF6,CODE_C58E71
@@ -1980,7 +1980,7 @@ CODE_C58F75:						; from CODE_C58EE0
 	lda.l $C30000,x
 	tax
 	ldy.w $010E
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0007
 	bne .1
 	jsl.l PrintItalicRight

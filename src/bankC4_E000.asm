@@ -152,7 +152,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 									; commentary (BuildScoutingText) scrolling, X restarts it; start leaves
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .1
 	jsr.w CODE_C4F2AE

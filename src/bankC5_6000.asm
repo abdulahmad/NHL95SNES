@@ -1501,7 +1501,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	sta.b $CF
 	ldx.w #$4F8E
 	jsr.w CODE_C56D37
-	lda.w $2038
+	lda.w ScoreSumbytes
 	lsr a
 	sta.b a1
 	bne .1
@@ -1580,7 +1580,7 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	adc.b $65
 	sta.b $65
 	tax
-	lda.w $203C,x
+	lda.w ScoreSum+2,x
 	and.w #$0080
 	beq .1
 	pea.w $3207
@@ -1596,10 +1596,10 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	beq .6
 	dec a
 	beq .3
-	lda.w $203F,x
+	lda.w ScoreSum+5,x
 	bra .4
 .3:									; A = $203E,x
-	lda.w $203E,x
+	lda.w ScoreSum+4,x
 .4:									; A and $00FF, if A = $00FF go to .5, A * 2, A * 2, ...
 	and.w #$00FF
 	cmp.w #$00FF

@@ -574,7 +574,7 @@ CODE_C5E3E2:						; no caller found (not traced)
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3F0:						; no caller found (not traced)
 	sep #$20
-	lda.w $1870
+	lda.w OptGoalie
 	sta.l $30604A
 	rep #$20
 	rts

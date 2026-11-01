@@ -327,13 +327,13 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	tax
 	ldy.w #$0009
 	jsl.l PrintThinCentred
-	lda.w $1864
+	lda.w OptPlayMode
 	pha
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	jsr.w CODE_C52CC1
 	pla
-	sta.w $1864
+	sta.w OptPlayMode
 	ldx.w #$3207
 	lda.w $0002,x
 	sta.b d0
@@ -1100,13 +1100,13 @@ DrawReleasePage:					; draws the Release Players page and starts its scrolling l
 	tax
 	ldy.w #$0009
 	jsl.l PrintThinCentred
-	lda.w $1864
+	lda.w OptPlayMode
 	pha
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	jsr.w CODE_C52CC1
 	pla
-	sta.w $1864
+	sta.w OptPlayMode
 	ldx.w #$3207
 	lda.w $0002,x
 	sta.b d0
@@ -1442,13 +1442,13 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	ldx.w #$4CDE
 	ldy.w #$000F
 	jsl.l PrintBoldCentred
-	lda.w $1864
+	lda.w OptPlayMode
 	pha
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	jsr.w CODE_C52CC1
 	pla
-	sta.w $1864
+	sta.w OptPlayMode
 	lda.w $2DCB
 	clc
 	adc.w $2DCD

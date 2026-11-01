@@ -574,14 +574,14 @@ a2touchpuck:						; called from other segments
 	cpy.w #$0018
 	bcc .1
 	jmp.w .rtl
-.1:									; $2004 = Xpos,y, $2006 = Ypos,y, A = Y, A / 2, ...
+.1:									; ltx = Xpos,y, lty = Ypos,y, A = Y, A / 2, ...
 	lda.w Xpos,y
-	sta.w $2004
+	sta.w ltx
 	lda.w Ypos,y
-	sta.w $2006
+	sta.w lty
 	tya
 	lsr a
-	sta.w $2002
+	sta.w ltplayer
 	stz.b a0
 	lda.w pfteam,y
 	beq .2
@@ -874,9 +874,9 @@ StartPenaltyShot:					; called from other segments
 	stz.w penshot
 	inc.w penshot
 	lda.w fox
-	sta.w $18BA
+	sta.w psfoxsave
 	lda.w foy
-	sta.w $18BC
+	sta.w psfoysave
 	stz.w fox
 	stz.w foy
 .rtl:								; return
@@ -896,10 +896,10 @@ EndPenaltyShot:						; called from other segments
 	lda.w #$000A
 	sta.b d0
 	jsl.l ShootoutWonBy
-	lda.w $18BA
-	sta.w $2004
-	lda.w $18BC
-	sta.w $2006
+	lda.w psfoxsave
+	sta.w ltx
+	lda.w psfoysave
+	sta.w lty
 	plx
 .rtl:								; return
 	rtl

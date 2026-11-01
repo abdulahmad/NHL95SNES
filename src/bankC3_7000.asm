@@ -225,7 +225,7 @@ InitCrowdExcite:					; initialize crowd excitement at a period start except over
 	cmp.w #$0003
 	beq .rtl
 	stz.b r0
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
 	inc.b r0
@@ -1110,7 +1110,7 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	bne .19
 	lda.w $0784
 	beq .19
-	lda.w $1864
+	lda.w OptPlayMode
 	beq .19
 	cmp.w #$0004
 	beq .19

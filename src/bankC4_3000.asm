@@ -844,8 +844,8 @@ assfaceoffpl:						; called from other segments
 	ldx.w $2022
 	bcc .7
 	ldx.w $2020
-.7:									; if $1864 = $0001 go to .8, $30,x = 0
-	lda.w $1864
+.7:									; if OptPlayMode = $0001 go to .8, $30,x = 0
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .8
 	stz.b $30,x
@@ -932,10 +932,10 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w #$0001
 	jsl.l PlayTeamSong
 	bra .7
-.4:									; if percue is not 0 go to .5, if $1864 = $0004 go to .7, ...
+.4:									; if percue is not 0 go to .5, if OptPlayMode = $0004 go to .7, ...
 	ldy.w percue
 	bne .5
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0004
 	beq .7
 	jsl.l RandomWord
@@ -1012,7 +1012,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	bpl .loop
 	lda.w #$003C
 	sta.w yleader
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .8
 	lda.w $1906
@@ -1132,7 +1132,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	asl a
 	asl a
 	sta.b d4
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .20
 	stz.b d4
@@ -1331,10 +1331,10 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w fox
 	bpl .36
 	ldy.w #$00BE
-.36:								; d0 = Y, A = Y, $201C = A, A - $002E, ...
+.36:								; d0 = Y, A = Y, fodropx = A, A - $002E, ...
 	sty.b d0
 	tya
-	sta.w $201C
+	sta.w fodropx
 	sec
 	sbc.w #$002E
 	lsr a
@@ -1344,19 +1344,19 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	adc.w #$5860
 	sta.w $2026
 	lda.w #$005C
-	sta.w $201E
+	sta.w fodropy
 	jsl.l SeatPenaltyBox
 	lda.w penshot
 	beq .37
 	jmp.w CODE_C43F0D
-.37:								; if $1864 is not $0001 go to .38, go to CODE_C43FC1
-	lda.w $1864
+.37:								; if OptPlayMode is not $0001 go to .38, go to CODE_C43FC1
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .38
 	jmp.w CODE_C43FC1
-.38:								; $2016 = $0001, call WaitTransfers, call RestoreWorkBuf, A = $0A00, ...
+.38:								; fobox = $0001, call WaitTransfers, call RestoreWorkBuf, A = $0A00, ...
 	lda.w #$0001
-	sta.w $2016
+	sta.w fobox
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.w #$0A00
@@ -1413,11 +1413,11 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	stx.b $04
 	stz.b QueueBusy
 	jsl.l WaitTransfers
-	lda.w $201E
+	lda.w fodropy
 	clc
 	adc.w #$0005
 	sta.b $1A
-	lda.w $201C
+	lda.w fodropx
 	sec
 	sbc.w #$002B
 	sta.b $18
@@ -1524,7 +1524,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	sta.b d0
 	ldx.b a3
 	sta.w temp1,x
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .6
 	lda.w #$003C
@@ -1534,29 +1534,29 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	beq .7
 	lda.w #$00B4
 	sta.w temp1,x
-.7:									; $2028 = $0001, $202A = $8000, $2032 = A, $202C = $0004, ...
+.7:									; fofdata2 = $0001, fofdata2+2 = $8000, fofdata+2 = A, ...
 	lda.w #$0001
-	sta.w $2028
+	sta.w fofdata2
 	lda.w #$8000
-	sta.w $202A
-	sta.w $2032
+	sta.w fofdata2+2
+	sta.w fofdata+2
 	lda.w #$0004
-	sta.w $202C
+	sta.w fofdata2+4
 	lda.w #$A800
-	sta.w $202E
+	sta.w fofdata2+6
 	lda.w #$0007
-	sta.w $2030
+	sta.w fofdata
 	lda.w gmode
 	bit.w #$0002
 	bne .8
 	lda.w #$8800
-	sta.w $202A
+	sta.w fofdata2+2
 	lda.w #$A000
-	sta.w $202E
-.8:									; $2018 = $FFFF, $201A = A, pull A, $7D = A, ...
+	sta.w fofdata2+6
+.8:									; fodir1 = $FFFF, fodir2 = A, pull A, $7D = A, ...
 	lda.w #$FFFF
-	sta.w $2018
-	sta.w $201A
+	sta.w fodir1
+	sta.w fodir2
 	pla
 	sta.b $7D
 	pla
@@ -1632,23 +1632,23 @@ CODE_C43EC6:						; from puckfaceoff2
 	sbc.b tmp0
 	sta.w temp1,x
 	bmi .2
-	jml.l CODE_C51999
-.2:									; if $1864 is not $0001 go to .3, call CODE_C51AFF, go to CODE_C51A13
-	lda.w $1864
+	jml.l updatefaceoff
+.2:									; if OptPlayMode is not $0001 go to .3, call Endfaceoff, go to CODE_C51A13
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .3
-	jsl.l CODE_C51AFF
+	jsl.l Endfaceoff
 	jml.l CODE_C51A13
-.3:									; if penshot = 0 go to .4, call CODE_C51AFF, go to SetupPenaltyShot
+.3:									; if penshot = 0 go to .4, call Endfaceoff, go to SetupPenaltyShot
 	lda.w penshot
 	beq .4
-	jsl.l CODE_C51AFF
+	jsl.l Endfaceoff
 	jml.l SetupPenaltyShot
-.4:									; PenShotActive = 0, BA_Sktr_SCnum = $FFFF, go to CODE_C51AFF
+.4:									; PenShotActive = 0, BA_Sktr_SCnum = $FFFF, go to Endfaceoff
 	stz.w PenShotActive
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
-	jml.l CODE_C51AFF
+	jml.l Endfaceoff
 CODE_C43F0D:						; from puckfaceoff2
 	jsl.l WaitTransfers
 	ldx.w #$0014

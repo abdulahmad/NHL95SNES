@@ -223,11 +223,11 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	cmp.w #$0003
 	bcc .5
 	lda.w #$0002
-.5:									; OptPen = A, A = $30604A, A and $0001, $1870 = A, ...
+.5:									; OptPen = A, A = $30604A, A and $0001, OptGoalie = A, ...
 	sta.w OptPen
 	lda.l $30604A
 	and.w #$0001
-	sta.w $1870
+	sta.w OptGoalie
 	lda.l $306040
 	and.w #$0001
 	sta.w $1904

@@ -132,7 +132,7 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 	lda.w #$FFFF
 	sta.w $4688
 	sta.w $468A
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rts
 	lda.w $1904
@@ -728,7 +728,7 @@ CODE_C5D5A5:						; from DrawNameGrid, EditUserName
 	jsl.l CODE_C4BC68
 	rts
 CODE_C5D5CD:						; called from other segments
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rtl
 	lda.w $1904
@@ -1783,10 +1783,10 @@ CODE_C5DD47:						; called from other segments
 	clc
 	adc.l $7F000A,x
 	sta.l $7F000A,x
-.2:									; $7F0006,x = $FFFF, if $1864 is not $0003 go to .3, ...
+.2:									; $7F0006,x = $FFFF, if OptPlayMode is not $0003 go to .3, ...
 	lda.w #$FFFF
 	sta.l $7F0006,x
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .3
 	lda.l $7F000A,x

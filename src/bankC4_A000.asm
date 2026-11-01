@@ -1404,22 +1404,22 @@ Goal:								; called from other segments
 	inc a
 	sta.w $129B,x
 	plx
-	lda.w $2038
+	lda.w ScoreSumbytes
 	cmp.w #$0258
 	bne .20
 	sec
 	sbc.w #$0006
-	sta.w $2038
-.20:								; $65 = $007E, A = $203A, A + $2038, a0 = A, ...
+	sta.w ScoreSumbytes
+.20:								; $65 = $007E, A = ScoreSum, A + ScoreSumbytes, a0 = A, ...
 	lda.w #$007E
 	sta.b $65
-	lda.w #$203A
+	lda.w #ScoreSum
 	clc
-	adc.w $2038
+	adc.w ScoreSumbytes
 	sta.b a0
-	lda.w $2038
+	lda.w ScoreSumbytes
 	adc.w #$0006
-	sta.w $2038
+	sta.w ScoreSumbytes
 	jsl.l GetPeriodTimeRemaining
 	lda.b d0
 	sta.b [a0]

@@ -654,7 +654,7 @@ ResetClock:							; sets the period length: gameclock, PerTimeTotal and gmclock 
 	lda.w gsp
 	cmp.w #$0003
 	bne .2
-	lda.w $1864
+	lda.w OptPlayMode
 	bne .2
 	lda.w #$0500
 	sta.w clockbcd
@@ -787,7 +787,7 @@ ChkShotStat_add:					; no caller found (not traced)
 	rtl
 CODE_C53651:						; called from other segments
 	jsl.l CalcPuckDistances
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .2
 	lda.w penshot

@@ -442,7 +442,7 @@ SetPlList:							; from setpersonel and other segments
 	sta.b $65
 	lda.w #$9B2A
 	sta.b a0
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .1
 	lda.w #$00C0
@@ -524,7 +524,7 @@ SetPlList:							; from setpersonel and other segments
 	inc a
 	sta.b d3
 	bne .6
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .5
 	lda.w penshot

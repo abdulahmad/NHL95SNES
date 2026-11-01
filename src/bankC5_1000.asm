@@ -842,7 +842,7 @@ NewTicker2:							; the score ticker's next game: TickerNum counted down, skippi
 	lda.w $24C4
 	inc a
 	sta.b d0
-	lda.w $1864
+	lda.w OptPlayMode
 	bne .3
 	stz.b d0
 .3:									; pull A, return
@@ -903,7 +903,8 @@ CODE_C51812:						; no caller found (not traced)
 	lda.w $24C0
 	sta.b d2
 	jml.l CODE_C528D4
-CODE_C51825:						; called from other segments
+ShowGoalBox:						; the goal box after a goal: both line change boxes closed (CloseLCBoxes),
+									; then the last ScoreSum entry with the scorer and the assists
 	pei ($6D)
 	pei ($6B)
 	pei ($71)
@@ -913,18 +914,18 @@ CODE_C51825:						; called from other segments
 	sta.w lcpad
 	sta.w lcpad+2
 	jsl.l CloseLCBoxes
-	lda.w $2038
+	lda.w ScoreSumbytes
 	sec
 	sbc.w #$0006
 	sta.b $6D
 	tax
 	ldy.w #$0004
-	lda.w $203E,x
+	lda.w ScoreSum+4,x
 	bit.w #$0080
 	bne .1
 	iny
 	iny
-	lda.w $203F,x
+	lda.w ScoreSum+5,x
 	bit.w #$0080
 	bne .1
 	iny
@@ -934,13 +935,13 @@ CODE_C51825:						; called from other segments
 	jsl.l Framer
 	ldy.w #$0000
 	ldx.b $6D
-	lda.w $203C,x
+	lda.w ScoreSum+2,x
 	bit.w #$0080
 	beq .2
 	ldy.w #$001A
 .2:									; a2 = Y, A = $203D,x, A and $00FF, A + a2, ...
 	sty.b a2
-	lda.w $203D,x
+	lda.w ScoreSum+3,x
 	and.w #$00FF
 	clc
 	adc.b a2
@@ -973,11 +974,11 @@ CODE_C51825:						; called from other segments
 	adc.w #$0110
 	sta.b a2
 	ldx.b $6D
-	lda.w $203D,x
+	lda.w ScoreSum+3,x
 	and.w #$00FF
 	jsr.w CODE_C51911
 	ldx.b $6D
-	lda.w $203E,x
+	lda.w ScoreSum+4,x
 	bit.w #$0080
 	bne .6
 	pha
@@ -993,7 +994,7 @@ CODE_C51825:						; called from other segments
 	and.w #$00FF
 	jsr.w CODE_C51911
 	ldx.b $6D
-	lda.w $203F,x
+	lda.w ScoreSum+5,x
 	bit.w #$0080
 	bne .6
 	and.w #$00FF
@@ -1009,7 +1010,7 @@ CODE_C51825:						; called from other segments
 	pla
 	sta.b $6D
 	rtl
-CODE_C51911:						; from CODE_C51825
+CODE_C51911:						; from ShowGoalBox
 	asl a
 	asl a
 	asl a
@@ -1051,7 +1052,8 @@ DATA8_C5195D:						; not traced: data between routines
 	db $00,$03,$05,$01,$04,$00,$00,$00,$00,$04,$04,$04,$04,$04,$04,$00
 	db $00,$00,$06,$FF,$DD,$FF,$CE,$FF,$23,$00,$CE,$FF,$CE,$FF,$F6,$FF
 	db $00,$00,$F1,$FF,$32,$00,$F6,$FF,$00,$00,$C4,$FF
-CODE_C51999:						; called from other segments
+updatefaceoff:						; the face off countdown (temp1): the ref's drop frame from the time left
+									; (fofdata)
 	lda.w temp1,x
 	beq .3
 	clc
@@ -1064,7 +1066,7 @@ CODE_C51999:						; called from other segments
 	bpl .rtl
 	lda.w penshot
 	bne .2
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .2
 	phx
@@ -1088,7 +1090,7 @@ CODE_C51999:						; called from other segments
 	clc
 	adc.w #$000A
 	sta.b d0
-	sta.w $2030
+	sta.w fofdata
 .rtl:								; return
 	rtl
 .3:									; push X, call CODE_C58944, push Y, push A, ...
@@ -1098,7 +1100,7 @@ CODE_C51999:						; called from other segments
 	pha
 	lda.w penshot
 	bne .4
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .4
 	ldx.w $2020
@@ -1224,26 +1226,28 @@ SetupPenaltyShot:					; penalty shot set up: the puck at centre ice, every playe
 	lda.w #$0384
 	sta.w pstimer
 	jml.l ClearPenaltyBuffer
-CODE_C51AFF:						; called from other segments
+Endfaceoff:							; drops the puck: the face off sound, sflags $0100 / $0400 cleared, fobox,
+									; replaydelay and gmclock cleared, then the winner from the centres' pull
+									; directions (fodir1, fodir2) and frames
 	lda.w #$000D
 	jsl.l StartSound
 	lda.w #$0100
 	trb.w sflags
-	stz.w $2016
+	stz.w fobox
 	lda.w #$0400
 	trb.w sflags
 	stz.w replaydelay
 	stz.w gmclock
 	lda.w #$0010
 	tsb.w sflags3
-	lda.w $2018
+	lda.w fodir1
 	sta.b d3
 	lda.w #$0800
 	sta.b d4
 	stz.b a1
 	lda.w #$0010
 	sta.b d2
-	ldx.w $2028
+	ldx.w fofdata2
 	lda.l $C51C51,x
 	and.w #$00FF
 	bit.w #$0080
@@ -1255,7 +1259,7 @@ CODE_C51AFF:						; called from other segments
 	clc
 	adc.b d2
 	sta.b d2
-	ldx.w $202C
+	ldx.w fofdata2+4
 	lda.l $C51C51,x
 	and.w #$00FF
 	bit.w #$0080
@@ -1272,12 +1276,12 @@ CODE_C51AFF:						; called from other segments
 	bcs .3
 	lda.w #$0004
 	sta.b a1
-.3:									; X = a1, A = $202A,x, if $0800 bits clear go to .4, d3 = $201A, ...
+.3:									; X = a1, A = fofdata2+2,x, if $0800 bits clear go to .4, d3 = fodir2, ...
 	ldx.b a1
-	lda.w $202A,x
+	lda.w fofdata2+2,x
 	bit.w #$0800
 	beq .4
-	lda.w $201A
+	lda.w fodir2
 	sta.b d3
 	lda.w #$F800
 	sta.b d4
@@ -1362,7 +1366,7 @@ CODE_C51AFF:						; called from other segments
 	lda.w #$0018
 	sta.b d0
 	jml.l assreplace
-CODE_C51C39:						; from CODE_C51AFF
+CODE_C51C39:						; from Endfaceoff
 	pha
 	lda.w #$0006
 	sta.b d0
@@ -1380,21 +1384,22 @@ CODE_C51C39:						; from CODE_C51AFF
 	rts
 DATA8_C51C52:						; not traced: data between routines
 	db $00,$08,$10,$00,$08,$10
-CODE_C51C58:						; called from other segments
+faceoffinput:						; pad input of a centre taking a face off (assignment $17): the pad
+									; direction to fodir1 / fodir2 by pfgoal; B starts the swing (pf2aip)
 	lda.w asscur,x
 	cmp.w #$0017
 	bne .rtl
 	lda.w pfgoal,x
 	beq .2
 	lda.b d0
-	sta.w $201A
+	sta.w fodir2
 	lda.w pf2aip,x
 	bne .rtl
 	lda.b d1
 	bit.w #$8000
 	beq .4
 	sta.w pf2aip,x
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .1
 	ldx.w $2020
@@ -1405,16 +1410,16 @@ CODE_C51C58:						; called from other segments
 	jml.l SetSPAFromA
 .rtl:								; return
 	rtl
-.2:									; $2018 = d0, if pf2aip,x is not 0 go to .rtl, A = d1, ...
+.2:									; fodir1 = d0, if pf2aip,x is not 0 go to .rtl, A = d1, ...
 	lda.b d0
-	sta.w $2018
+	sta.w fodir1
 	lda.w pf2aip,x
 	bne .rtl
 	lda.b d1
 	bit.w #$8000
 	beq .4
 	sta.w pf2aip,x
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .3
 	ldx.w $2022

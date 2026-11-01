@@ -115,7 +115,7 @@ IRQ_StatsScroll3:					; IRQ hook: the last BG1 scroll split, then IRQ_StatsScrol
 	sta.w IRQHook
 	rtl
 ShowScoringLeaders:					; display the three leading scorers with their team and player names
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .1
 	rtl
@@ -945,7 +945,7 @@ SetPA:								; start the referee animation and message for penalty d0
 	lda.b d0
 	cmp.w #$000E
 	bne .1
-	jsl.l CODE_C51825
+	jsl.l ShowGoalBox
 .1:									; $1143 = $7FFF, if sfhormode = 0 go to SetPA2, $1143 = $003C
 	lda.w #$7FFF
 	sta.w $1143

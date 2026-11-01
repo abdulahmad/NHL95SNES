@@ -5290,17 +5290,17 @@ $C517DB,.1,CODE_C517DB,new,"branch target only used in waitxsr",src/bankC5_1000.
 $C517F1,.loop3,CODE_C517F1,new,"branch target only used in waitxsr",src/bankC5_1000.asm
 $C517FE,.2,CODE_C517FE,new,"branch target only used in waitxsr",src/bankC5_1000.asm
 $C51810,.rtl,CODE_C51810,new,"branch target only used in clockcont",src/bankC5_1000.asm
-$C5185D,.1,CODE_C5185D,new,"branch target only used in CODE_C51825",src/bankC5_1000.asm
-$C51877,.2,CODE_C51877,new,"branch target only used in CODE_C51825",src/bankC5_1000.asm
-$C5188D,.3,CODE_C5188D,new,"branch target only used in CODE_C51825",src/bankC5_1000.asm
-$C518A9,.4,CODE_C518A9,new,"branch target only used in CODE_C51825",src/bankC5_1000.asm
-$C518B6,.5,CODE_C518B6,new,"branch target only used in CODE_C51825",src/bankC5_1000.asm
-$C51903,.6,CODE_C51903,new,"branch target only used in CODE_C51825",src/bankC5_1000.asm
-$C519CC,.1,CODE_C519CC,new,"branch target only used in CODE_C51999",src/bankC5_1000.asm
-$C519D2,.2,CODE_C519D2,new,"branch target only used in CODE_C51999",src/bankC5_1000.asm
-$C519E1,.rtl,CODE_C519E1,new,"branch target only used in CODE_C51999",src/bankC5_1000.asm
-$C519E2,.3,CODE_C519E2,new,"branch target only used in CODE_C51999",src/bankC5_1000.asm
-$C51A0A,.4,CODE_C51A0A,new,"branch target only used in CODE_C51999",src/bankC5_1000.asm
+$C5185D,.1,CODE_C5185D,new,"branch target only used in ShowGoalBox",src/bankC5_1000.asm
+$C51877,.2,CODE_C51877,new,"branch target only used in ShowGoalBox",src/bankC5_1000.asm
+$C5188D,.3,CODE_C5188D,new,"branch target only used in ShowGoalBox",src/bankC5_1000.asm
+$C518A9,.4,CODE_C518A9,new,"branch target only used in ShowGoalBox",src/bankC5_1000.asm
+$C518B6,.5,CODE_C518B6,new,"branch target only used in ShowGoalBox",src/bankC5_1000.asm
+$C51903,.6,CODE_C51903,new,"branch target only used in ShowGoalBox",src/bankC5_1000.asm
+$C519CC,.1,CODE_C519CC,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
+$C519D2,.2,CODE_C519D2,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
+$C519E1,.rtl,CODE_C519E1,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
+$C519E2,.3,CODE_C519E2,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
+$C51A0A,.4,CODE_C51A0A,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
 $C51A33,.loop,CODE_C51A33,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
 $C51A3C,.1,CODE_C51A3C,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
 $C51A42,.2,CODE_C51A42,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
@@ -5312,23 +5312,23 @@ $C51AB8,.3,CODE_C51AB8,new,"branch target only used in SetupPenaltyShot",src/ban
 $C51ABE,.4,CODE_C51ABE,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
 $C51ADA,.5,CODE_C51ADA,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
 $C51AE9,.6,CODE_C51AE9,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
-$C51B44,.1,CODE_C51B44,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51B5F,.2,CODE_C51B5F,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51B75,.3,CODE_C51B75,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51B89,.4,CODE_C51B89,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51B9D,.5,CODE_C51B9D,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51BB6,.6,CODE_C51BB6,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51BF2,.7,CODE_C51BF2,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51BFF,.8,CODE_C51BFF,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51C04,.9,CODE_C51C04,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
-$C51C0C,.10,CODE_C51C0C,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
+$C51B44,.1,CODE_C51B44,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51B5F,.2,CODE_C51B5F,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51B75,.3,CODE_C51B75,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51B89,.4,CODE_C51B89,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51B9D,.5,CODE_C51B9D,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51BB6,.6,CODE_C51BB6,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51BF2,.7,CODE_C51BF2,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51BFF,.8,CODE_C51BFF,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51C04,.9,CODE_C51C04,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
+$C51C0C,.10,CODE_C51C0C,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
 $C51C40,.loop,CODE_C51C40,new,"branch target only used in CODE_C51C39",src/bankC5_1000.asm
 $C51C4E,.1,CODE_C51C4E,new,"branch target only used in CODE_C51C39",src/bankC5_1000.asm
-$C51C86,.1,CODE_C51C86,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
-$C51C8F,.rtl,CODE_C51C8F,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
-$C51C90,.2,CODE_C51C90,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
-$C51CB1,.3,CODE_C51CB1,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
-$C51CBA,.4,CODE_C51CBA,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
+$C51C86,.1,CODE_C51C86,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
+$C51C8F,.rtl,CODE_C51C8F,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
+$C51C90,.2,CODE_C51C90,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
+$C51CB1,.3,CODE_C51CB1,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
+$C51CBA,.4,CODE_C51CBA,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
 $C51CD2,.1,CODE_C51CD2,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
 $C51CE7,.2,CODE_C51CE7,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
 $C51CF6,.3,CODE_C51CF6,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
@@ -7594,3 +7594,23 @@ $2458,gsper,,94S+code,"RAM: 94S SetScore side by side: the period test, 5 final,
 $2468,gss1,,94S+code,"RAM: 94S SetScore side by side: the margin and the goals added",src/ram95s.asm
 $2478,gss2,,94S+code,"RAM: 94S SetScore side by side",src/ram95s.asm
 $2488,gsflags,,94S+code,"RAM: 94S SetScore (ora #2 for overtime) and NewTicker3 (bit #$0006) side by side",src/ram95s.asm
+$C51AFF,Endfaceoff,CODE_C51AFF,94S+code,"94S Endfaceoff side by side (StartSound where 94S calls sfx; sflags $0100 / $0400, fobox, replaydelay, gmclock, sflags3 $10, fodir1 to d3, $800 to d4, the fofdata2 frames through the same table); puckfaceoff2 goes to it as in 94S",src/bankC5_1000.asm
+$C51999,updatefaceoff,CODE_C51999,94S+code,"94S updatefaceoff side by side at its start (temp1, + 6, / 8, under 3, the drop frame to fofdata); 95 adds steps for penalty shots and play mode 1; puckfaceoff2 goes to it while temp1 runs, as in 94S",src/bankC5_1000.asm
+$C51C58,faceoffinput,CODE_C51C58,94S+code,"94S faceoffinput's job side by side (asscur $17, pfgoal, d0 stored, pf2aip, B, the two animations); 95 also clears a word of the object in $2020 / $2022 outside play mode 1; called from doinput as in 94S",src/bankC5_1000.asm
+$C51825,ShowGoalBox,CODE_C51825,94S+purpose,"94S ShowGoalBox's job side by side (lcpad $FFFF for both teams, both boxes closed, ScoreSum - 6 + ScoreSumbytes, box width $13, one row less without a second assist); called from SetPA2 as 94S SetPA calls it",src/bankC5_1000.asm
+$1864,OptPlayMode,,94S+code,"RAM: 7 of 7 votes from 94S long operands; the block's layout is 94S's (Optperlen, OptPen, OptLine at +6 / +8 / +$A, OptGoalie at +$C)",src/ram95s.asm
+$1870,OptGoalie,,94S+code,"RAM: 94S option block +$C; 94S StartGame copies OptGoalie to goaliemode1 / goaliemode2 as StartGame_go does; kept in SRAM ($30604A)",src/ram95s.asm
+$18BA,psfoxsave,,94S+code,"RAM: 94S StartPenaltyShot / EndPenaltyShot side by side",src/ram95s.asm
+$18BC,psfoysave,,94S+code,"RAM: 94S StartPenaltyShot / EndPenaltyShot side by side",src/ram95s.asm
+$2002,ltplayer,,94S+code,"RAM: 94S a2touchpuck side by side (2 votes from long operands; ltx / lty follow it as in 94S)",src/ram95s.asm
+$2004,ltx,,94S+code,"RAM: 3 of 3 votes from long operands (a2touchpuck, Stop4Pen, EndPenaltyShot)",src/ram95s.asm
+$2006,lty,,94S+code,"RAM: 3 of 3 votes from long operands (a2touchpuck, Stop4Pen, EndPenaltyShot)",src/ram95s.asm
+$2016,fobox,,94S+code,"RAM: 94S puckfaceoff2 sets fobox when it draws the box, Endfaceoff clears it (side by side)",src/ram95s.asm
+$2018,fodir1,,94S+code,"RAM: 94S faceoffinput / Endfaceoff side by side (fodir1 to d3)",src/ram95s.asm
+$201A,fodir2,,94S+code,"RAM: 94S faceoffinput side by side; fodir1 and fodir2 are two words in a row as in 94S",src/ram95s.asm
+$201C,fodropx,,94S+code,"RAM: 94S puckfaceoff2 side by side (fodropx = d0, then (x - $2E) / 8 for the box column)",src/ram95s.asm
+$201E,fodropy,,94S+code,"RAM: 94S puckfaceoff2 side by side (fodropy = $5C)",src/ram95s.asm
+$2028,fofdata2,,94S+code,"RAM: 94S Endfaceoff side by side (fofdata2 and fofdata2+4 index the same table)",src/ram95s.asm
+$2030,fofdata,,94S+code,"RAM: 94S updatefaceoff side by side (sta fofdata); four bytes before fox as in 94S",src/ram95s.asm
+$2038,ScoreSumbytes,,94S+code,"RAM: 5 of 5 votes from long operands (Goal); ShowGoalBox and ShowScoringSummary read it",src/ram95s.asm
+$203A,ScoreSum,,94S+code,"RAM: 94S Goal side by side: lda #ScoreSum plus ScoreSumbytes is the new entry; right after ScoreSumbytes as in 94S",src/ram95s.asm

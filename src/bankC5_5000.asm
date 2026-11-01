@@ -28,7 +28,7 @@ CODE_C54F05:						; called from other segments
 CODE_C54F37:						; from CODE_C54F94, CODE_C54F78, CODE_C54F86
 	rts
 CODE_C54F38:						; from CODE_C54F05
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .4
 	lda.w $18F6
@@ -93,7 +93,7 @@ CODE_C54F94:						; from CODE_C54F05 and other segments
 CODE_C54FA9:						; from CODE_C54F81
 	asl a
 	tax
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .1
 	lda.l DATA8_C5500A,x
@@ -514,7 +514,7 @@ CODE_C55320:						; no caller found (not traced)
 CODE_C55346:						; no caller found (not traced)
 	phx
 	lda.w #$5991
-	ldx.w $1864
+	ldx.w OptPlayMode
 	cpx.w #$0002
 	beq .2
 	dec.w $18F4

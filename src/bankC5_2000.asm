@@ -1454,8 +1454,8 @@ doinput:							; called from other segments
 	jml.l doplayeracc
 .8:									; go to .31
 	jmp.w .31
-.9:									; go to CODE_C51C58
-	jml.l CODE_C51C58
+.9:									; go to faceoffinput
+	jml.l faceoffinput
 .10:								; go to lineinput
 	jml.l lineinput
 .11:								; go to Holdplayer
@@ -1581,12 +1581,12 @@ CODE_C52CA7:						; called from other segments
 	ldx.w $1872
 	phx
 	stz.w $1872
-	ldx.w $1864
+	ldx.w OptPlayMode
 	phx
-	stz.w $1864
+	stz.w OptPlayMode
 	jsr.w CODE_C52CD0
 	pla
-	sta.w $1864
+	sta.w OptPlayMode
 	pla
 	sta.w $1872
 	rtl
@@ -1604,7 +1604,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	tax
 	jsl.l MarkWorkBuf
 	txa
-	ldx.w $1864
+	ldx.w OptPlayMode
 	cpx.w #$0003
 	beq .1
 	cpx.w #$0002
@@ -1884,11 +1884,11 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 .15:								; tmp2 = 0, A = tmp2
 	stz.b tmp2
 	lda.b tmp2
-.16:								; A * 2, A + tmp1, Y = A, if $1864 >= $0002 go to .17, ...
+.16:								; A * 2, A + tmp1, Y = A, if OptPlayMode >= $0002 go to .17, ...
 	asl a
 	adc.b tmp1
 	tay
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0002
 	bcs .17
 	lda.w $1872
@@ -2062,10 +2062,10 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	cmp.b (tmp1)
 	beq .32
 	jmp.w .16
-.32:								; if $1872 is not 0 go to .33, if $1864 is not $0002 go to .34
+.32:								; if $1872 is not 0 go to .33, if OptPlayMode is not $0002 go to .34
 	lda.w $1872
 	bne .33
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0002
 	bne .34
 .33:								; A = $0000

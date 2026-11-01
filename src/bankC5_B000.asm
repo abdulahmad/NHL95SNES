@@ -155,7 +155,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	ldx.w #$50A8
 	jsl.l MapTileBlock
 	lda.w #$0002
-	sta.w $1864
+	sta.w OptPlayMode
 	stz.w $17C9
 	jsr.w CODE_C52CC1
 	sec

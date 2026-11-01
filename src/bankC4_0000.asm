@@ -1223,7 +1223,7 @@ CODE_C409E3:						; from CODE_C401E5, CODE_C40444
 	mvn $7E,$7E
 	jmp.w CODE_C40999
 CODE_C40A02:						; called from other segments
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0002
 	beq .1
 	cmp.w #$0003

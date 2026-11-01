@@ -48,7 +48,7 @@ Restart:							; starts over at the setup screen: the stack reset, StartMenuMusi
 	lda.w #$007E
 	sta.b $71
 	stz.w shootoutmode
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0004
 	bne .1
 	jsl.l PlayShootout
@@ -98,7 +98,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	lda.w #$0002
 	sta.b a2
 	jsl.l LoadTeamLines
-	lda.w $1870
+	lda.w OptGoalie
 	sta.w goaliemode1
 	sta.w goaliemode2
 	lda.w #$0001
@@ -193,7 +193,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	sta.w recsfx
 	sta.w recsfx2
 	sta.w percue
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0004
 	beq .4
 	lda.w #$0010
@@ -1239,11 +1239,11 @@ clockcont_0:						; called from other segments
 	jsl.l AddPenalty2
 .rtl:								; return
 	rtl
-.5:									; if gsp is not $0003 go to .6, if $1864 = 0 go to .3
+.5:									; if gsp is not $0003 go to .6, if OptPlayMode = 0 go to .3
 	lda.w gsp
 	cmp.w #$0003
 	bne .6
-	lda.w $1864
+	lda.w OptPlayMode
 	beq .3
 .6:									; call EndPenaltyShot, d0 = $0002, go to ShootoutWonBy
 	jsl.l EndPenaltyShot
@@ -1279,7 +1279,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	bcc .3
 	lda.w #$0003
 	sta.w gsp
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .2
 	lda.w #$0004
@@ -1296,7 +1296,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	cmp.w #$0004
 	bne .5
 	jsl.l CODE_C5D5CD
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .4
 	cmp.w #$0002
@@ -1314,8 +1314,8 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jmp.w StartPer
-.6:									; if $1864 = $0003 go to .7, if $1864 = $0002 go to .7, go to Restart
-	lda.w $1864
+.6:									; if OptPlayMode = $0003 go to .7, if OptPlayMode = $0002 go to .7, ...
+	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .7
 	cmp.w #$0002
@@ -1325,7 +1325,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	jsr.w CODE_C5E49A
 	jsr.w CODE_C50BEC
 	jsr.w CODE_C5DE9B
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .8
 	jsr.w CODE_C5DDF0
@@ -1345,7 +1345,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	bcc .11
 	dex
 	bne .loop2
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .10
 	jml.l CODE_C40296
@@ -1447,7 +1447,7 @@ CODE_C50BEC:						; from PeriodOver
 	phb
 	mvn $7F,$00
 	plb
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .rts
 	pea.w $7E7F
@@ -1623,7 +1623,7 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.w OldVcount
 	rtl
 demoread:							; from Gameloop and other segments
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0004
 	bne .3
 	lda.w cont1team

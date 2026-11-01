@@ -333,7 +333,7 @@ CODE_C4F27F:						; from CODE_C4F2AE
 	sec
 	rts
 CODE_C4F2AE:						; called from other segments
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3
 .1:									; A = $17C9, Y = $364E, call CODE_C52CA7, Y = $2DC9, ...
@@ -357,8 +357,8 @@ CODE_C4F2AE:						; called from other segments
 	ldy.w #$3207
 	jsr.w CODE_C4F01E
 	bra .rts
-.3:									; if $1864 = 0 go to .4, A - 1, if the result is not 0 go to .rts
-	lda.w $1864
+.3:									; if OptPlayMode = 0 go to .4, A - 1, if the result is not 0 go to .rts
+	lda.w OptPlayMode
 	beq .4
 	dec a
 	bne .rts

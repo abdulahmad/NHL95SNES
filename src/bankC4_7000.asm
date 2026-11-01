@@ -377,9 +377,9 @@ Stop4Pen:							; from checkfornewpen and other segments
 	cmp.w #$000E
 	beq .2
 	pha
-	lda.w $2004
+	lda.w ltx
 	sta.b d0
-	lda.w $2006
+	lda.w lty
 	sta.b d1
 	pla
 	cmp.w #$0006
@@ -836,8 +836,8 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w #$001B
 	sta.b d0
 	jsl.l assreplace
-.24:								; if $1864 = $0001 go to .25, if penshot is not 0 go to .25, a2 = 0, ...
-	lda.w $1864
+.24:								; if OptPlayMode = $0001 go to .25, if penshot is not 0 go to .25, ...
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .25
 	lda.w penshot
@@ -904,7 +904,7 @@ InProgress_ap:						; from chkprogress and other segments
 	sta.w tmap,y
 	rtl
 updatepwrplay:						; called from other segments
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rtl
 	stz.b a2
@@ -1855,7 +1855,7 @@ assdopen:							; from SeatPenaltyBox and other segments
 	sta.w frame,x
 	rtl
 SeatPenaltyBox:						; from chkprogress and other segments
-	lda.w $1864
+	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rtl
 	lda.w penshot
