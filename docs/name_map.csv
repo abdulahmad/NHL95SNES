@@ -1511,3 +1511,5 @@ $C3DC1D,Sample30,,new,"sound sample 30 of the sample list: header, then BRR bloc
 $C3E82F,Sample29,,new,"sound sample 29 of the sample list: header, then BRR blocks",src/bankC3_E000.asm
 $C60000,DATA8_C60000,,new,"frame source low words; read by CODE_C5F368",src/bankC6_0000.asm
 $C60848,DATA8_C60848,,new,"source bank and transfer-layout index; read by CODE_C5F368",src/bankC6_0000.asm
+$C61090,DATA8_C61090,,new,"placement words read by the normal frame path; axis not traced",src/bankC6_1000.asm
+$C618D8,DATA8_C618D8,,new,"placement words shared by the normal and mirrored frame paths",src/bankC6_1000.asm
