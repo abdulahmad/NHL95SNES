@@ -482,12 +482,12 @@ DATA8_C60000:						; frame source low words; read by CODE_C5F368
 	dw DATA8_C91A0B&$FFFF
 	dw DATA8_C91C6B&$FFFF
 	dw DATA8_C91EEB&$FFFF
-	dw $216B
-	dw $23CB
-	dw $262B
-	dw $28AB
-	dw $2B2B
-	dw $2DAB
+	dw DATA8_C9216B&$FFFF
+	dw DATA8_C923CB&$FFFF
+	dw DATA8_C9262B&$FFFF
+	dw DATA8_C928AB&$FFFF
+	dw DATA8_C92B2B&$FFFF
+	dw DATA8_C92DAB&$FFFF
 	dw $302B
 	dw $322B
 	dw $342B
@@ -1543,12 +1543,12 @@ DATA8_C60848:						; source bank and transfer-layout index; read by CODE_C5F368
 	dw (DATA8_C91A0B>>16)|$7000
 	dw (DATA8_C91C6B>>16)|$2500
 	dw (DATA8_C91EEB>>16)|$3400
-	dw $70C9
-	dw $72C9
-	dw $5FC9
-	dw $38C9
-	dw $33C9
-	dw $33C9
+	dw (DATA8_C9216B>>16)|$7000
+	dw (DATA8_C923CB>>16)|$7200
+	dw (DATA8_C9262B>>16)|$5F00
+	dw (DATA8_C928AB>>16)|$3800
+	dw (DATA8_C92B2B>>16)|$3300
+	dw (DATA8_C92DAB>>16)|$3300
 	dw $88C9
 	dw $88C9
 	dw $37C9
