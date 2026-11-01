@@ -1786,9 +1786,9 @@ CODE_C5AF07:						; from MenuPlayGames and other segments
 	cmp.w #$0003
 	bne .1
 	jml.l CODE_C40296
-.1:									; call CODE_C5DDF0, call CODE_C5E17C, A = $306050, A + 1, ...
-	jsr.w CODE_C5DDF0
-	jsr.w CODE_C5E17C
+.1:									; call RecordDayResults, call SaveDayGameStats, A = $306050, A + 1, ...
+	jsr.w RecordDayResults
+	jsr.w SaveDayGameStats
 	lda.l $306050
 	inc a
 	sta.l $306050

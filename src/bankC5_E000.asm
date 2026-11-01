@@ -264,7 +264,9 @@ CODE_C5E172:						; from CODE_C5DF5F, CODE_C5E123, CODE_C5E0B1, ...
 	jsl.l RandomBelowA
 	plb
 	rts
-CODE_C5E17C:						; called from other segments
+SaveDayGameStats:					; for each of the day's games not played by a user: AddTeamSeasonStats for
+									; both teams, the score to $306053, AddGamePlayerStats; then $306051
+									; rebuilt
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
@@ -305,7 +307,7 @@ CODE_C5E17C:						; called from other segments
 	pei ($0C)
 	pei ($0E)
 	phb
-	jsl.l CODE_C40A6D
+	jsl.l AddGamePlayerStats
 	plb
 	pla
 	sta.b $0E

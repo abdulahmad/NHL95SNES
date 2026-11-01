@@ -1273,7 +1273,8 @@ CODE_C40A60:						; from CODE_C40A02
 	jsl.l RandomBelowA
 	plb
 	rts
-CODE_C40A6D:						; called from other segments
+AddGamePlayerStats:					; AddPlayerSeasonStats for both teams of game record Y (home, then away at
+									; + $1A)
 	tyx
 	lda.l $7F0004,x
 	sta.l $0017C9

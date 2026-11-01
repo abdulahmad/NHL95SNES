@@ -1825,7 +1825,8 @@ CODE_C5DDC0:						; from CODE_C5DD47
 	lda.l RDDIVL
 	adc.w #$0004
 	rts
-CODE_C5DDF0:						; called from other segments
+RecordDayResults:					; RecordGameResult for each of the day's game records ($2C42 of them at
+									; $7F8EF8) whose bit in $306051 is clear
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
@@ -1833,10 +1834,10 @@ CODE_C5DDF0:						; called from other segments
 	sta.b tmp2
 	plb
 	ldy.w #$8EF8
-.loop:								; loop: tmp2 / 2, if carry set go to .1, call CODE_C5DE1F
+.loop:								; loop: tmp2 / 2, if carry set go to .1, call RecordGameResult
 	lsr.b tmp2
 	bcs .1
-	jsr.w CODE_C5DE1F
+	jsr.w RecordGameResult
 .1:									; A = Y, A + $010A, Y = A, tmp0 - 1, ...
 	tya
 	clc
@@ -1846,25 +1847,28 @@ CODE_C5DDF0:						; called from other segments
 	bne .loop
 	plb
 	rts
-CODE_C5DE15:						; from CODE_C5DE38
+CODE_C5DE15:						; from RecordTeamResult
 	ldx.w #$0002
 	bra CODE_C5DE3F
-CODE_C5DE1A:						; from CODE_C5DE38
+CODE_C5DE1A:						; from RecordTeamResult
 	ldx.w #$0003
 	bra CODE_C5DE3F
-CODE_C5DE1F:						; from CODE_C5DDF0 and other segments
+RecordGameResult:					; records game Y's result for both teams (RecordTeamResult): home by +8
+									; against +$A, then away
 	lda.w $0008,y
 	cmp.w $000A,y
 	php
 	lda.w $0002,y
 	plp
-	jsr.w CODE_C5DE38
+	jsr.w RecordTeamResult
 	lda.w $000A,y
 	cmp.w $0008,y
 	php
 	lda.w $0004,y
 	plp
-CODE_C5DE38:						; from CODE_C5DE1F
+RecordTeamResult:					; adds a win (1), loss (2) or tie (3) for team A by the flags of the score
+									; compare to its 2-bit results at $30606D (21 bytes a team), in the first
+									; free slot
 	bcc CODE_C5DE15
 	beq CODE_C5DE1A
 	ldx.w #$0001

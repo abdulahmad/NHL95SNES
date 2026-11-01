@@ -5197,9 +5197,9 @@ $C50BA8,.9,CODE_C50BA8,new,"branch target only used in PeriodOver",src/bankC5_00
 $C50BB9,.loop2,CODE_C50BB9,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
 $C50BCB,.10,CODE_C50BCB,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
 $C50BE5,.11,CODE_C50BE5,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
-$C50BF3,.loop,CODE_C50BF3,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
-$C50BF9,.1,CODE_C50BF9,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
-$C50D02,.rts,CODE_C50D02,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
+$C50BF3,.loop,CODE_C50BF3,new,"branch target only used in SeasonGameOver",src/bankC5_0000.asm
+$C50BF9,.1,CODE_C50BF9,new,"branch target only used in SeasonGameOver",src/bankC5_0000.asm
+$C50D02,.rts,CODE_C50D02,new,"branch target only used in SeasonGameOver",src/bankC5_0000.asm
 $C50D0B,.rtl,CODE_C50D0B,new,"branch target only used in CODE_C50D03",src/bankC5_0000.asm
 $C50D14,.rtl,CODE_C50D14,new,"branch target only used in CODE_C50D0C",src/bankC5_0000.asm
 $C50D23,.rtl,CODE_C50D23,new,"branch target only used in startpause",src/bankC5_0000.asm
@@ -6773,8 +6773,8 @@ $C5DD4F,.loop,CODE_C5DD4F,new,"branch target only used in CODE_C5DD47",src/bankC
 $C5DD79,.1,CODE_C5DD79,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
 $C5DD97,.2,CODE_C5DD97,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
 $C5DDB5,.3,CODE_C5DDB5,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
-$C5DE02,.loop,CODE_C5DE02,new,"branch target only used in CODE_C5DDF0",src/bankC5_D000.asm
-$C5DE09,.1,CODE_C5DE09,new,"branch target only used in CODE_C5DDF0",src/bankC5_D000.asm
+$C5DE02,.loop,CODE_C5DE02,new,"branch target only used in RecordDayResults",src/bankC5_D000.asm
+$C5DE09,.1,CODE_C5DE09,new,"branch target only used in RecordDayResults",src/bankC5_D000.asm
 $C5DE4D,.1,CODE_C5DE4D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
 $C5DE5D,.2,CODE_C5DE5D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
 $C5DE6D,.3,CODE_C5DE6D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
@@ -6803,9 +6803,9 @@ $C5E0CF,.2,CODE_C5E0CF,new,"branch target only used in CODE_C5E0B1",src/bankC5_E
 $C5E0DE,.rts,CODE_C5E0DE,new,"branch target only used in CODE_C5E0B1",src/bankC5_E000.asm
 $C5E0E8,.loop,CODE_C5E0E8,new,"branch target only used in CODE_C5E0DF",src/bankC5_E000.asm
 $C5E0FB,.loop2,CODE_C5E0FB,new,"branch target only used in CODE_C5E0DF",src/bankC5_E000.asm
-$C5E192,.loop,CODE_C5E192,new,"branch target only used in CODE_C5E17C",src/bankC5_E000.asm
-$C5E1EB,.1,CODE_C5E1EB,new,"branch target only used in CODE_C5E17C",src/bankC5_E000.asm
-$C5E1FF,.loop2,CODE_C5E1FF,new,"branch target only used in CODE_C5E17C",src/bankC5_E000.asm
+$C5E192,.loop,CODE_C5E192,new,"branch target only used in SaveDayGameStats",src/bankC5_E000.asm
+$C5E1EB,.1,CODE_C5E1EB,new,"branch target only used in SaveDayGameStats",src/bankC5_E000.asm
+$C5E1FF,.loop2,CODE_C5E1FF,new,"branch target only used in SaveDayGameStats",src/bankC5_E000.asm
 $C5E314,.1,CODE_C5E314,new,"branch target only used in WriteTeamStatBit",src/bankC5_E000.asm
 $C5E34D,.loop,CODE_C5E34D,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
 $C5E36F,.1,CODE_C5E36F,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
@@ -7727,3 +7727,9 @@ $C5D804,NextSaveBits5,CODE_C5D804,code,"from the code: as NextSaveBits3 with 5 b
 $C5D821,NextSaveBits7,CODE_C5D821,code,"from the code: as NextSaveBits3 with 7 bits",src/bankC5_D000.asm
 $C5D83F,NextSaveBits8,CODE_C5D83F,code,"from the code: as NextSaveBits3 with 8 bits",src/bankC5_D000.asm
 $C5D7CD,CreatedPlayerBits,CODE_C5D7CD,code,"from the code: (A - $26A) * $9C by shifts and adds; the slot stride of SaveCreatedPlayer",src/bankC5_D000.asm
+$C50BEC,SeasonGameOver,CODE_C50BEC,genesis+purpose,"95 Genesis SeasonGameOver's job (after a human season game: the scores into its entry, marked played, the results saved); PeriodOver calls it; it calls RecordGameResult, AddTeamSeasonStats for both teams and AddGamePlayerStats",src/bankC5_0000.asm
+$C5DE1F,RecordGameResult,CODE_C5DE1F,genesis+purpose,"95 Genesis RecordGameResult's job (RecordTeamResult for the home and the away team)",src/bankC5_D000.asm
+$C5DE38,RecordTeamResult,CODE_C5DE38,genesis+purpose,"95 Genesis RecordTeamResult's job (a win, loss or tie added to the team's standings record); BuildTeamSeasonRecord counts these values",src/bankC5_D000.asm
+$C5DDF0,RecordDayResults,CODE_C5DDF0,code,"from the code: the loop over the records, $10A bytes each, with the played bits",src/bankC5_D000.asm
+$C5E17C,SaveDayGameStats,CODE_C5E17C,code,"from the code: the same record loop as RecordDayResults with the season stat calls",src/bankC5_E000.asm
+$C40A6D,AddGamePlayerStats,CODE_C40A6D,code,"from the code: the teams from the record into $17C9 / $17CB, the two team rosters ($2DC9, $3207)",src/bankC4_0000.asm

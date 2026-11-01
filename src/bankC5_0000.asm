@@ -1321,15 +1321,15 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	cmp.w #$0002
 	beq .7
 	jmp.w Restart
-.7:									; call CODE_C5E49A, call CODE_C50BEC, call CODE_C5DE9B, ...
+.7:									; call CODE_C5E49A, call SeasonGameOver, call CODE_C5DE9B, ...
 	jsr.w CODE_C5E49A
-	jsr.w CODE_C50BEC
+	jsr.w SeasonGameOver
 	jsr.w CODE_C5DE9B
 	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .8
-	jsr.w CODE_C5DDF0
-	jsr.w CODE_C5E17C
+	jsr.w RecordDayResults
+	jsr.w SaveDayGameStats
 	bra .9
 .8:									; call CODE_C5E4D2
 	jsr.w CODE_C5E4D2
@@ -1363,7 +1363,9 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	pea.w $7E7F
 	plb
 	jmp.w CODE_C5AF07
-CODE_C50BEC:						; from PeriodOver
+SeasonGameOver:						; after the user's season game: its game record (the first one in use at
+									; $7F8EF8) marked played in $306051, the scores and team stats copied in,
+									; then the result and the season stats (outside play mode 3)
 	ldy.w #$0000
 	tyx
 	clc
@@ -1456,7 +1458,7 @@ CODE_C50BEC:						; from PeriodOver
 	clc
 	adc.w #$8EF8
 	tay
-	jsr.w CODE_C5DE1F
+	jsr.w RecordGameResult
 	tyx
 	lda.w $0002,y
 	jsr.w AddTeamSeasonStats
@@ -1467,7 +1469,7 @@ CODE_C50BEC:						; from PeriodOver
 	lda.w $0004,y
 	jsr.w AddTeamSeasonStats
 	plb
-	jsl.l CODE_C40A6D
+	jsl.l AddGamePlayerStats
 .rts:								; return
 	rts
 CODE_C50D03:						; no caller found (not traced)
