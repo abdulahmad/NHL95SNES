@@ -38,6 +38,7 @@ DATA8_CF4402 = $CF4402				; sound 33, in another segment
 DATA8_CF5717 = $CF5717				; sound 35, in another segment
 DATA8_CF46CE = $CF46CE				; sound 36, in another segment
 DATA8_CF590B = $CF590B				; sound 37, in another segment
+DATA8_CF6A1A = $CF6A1A				; sound 38, in another segment
 Sample00 = $C0C1CB					; sample 0, in another segment
 Sample01 = $C0BE7A					; sample 1, in another segment
 Sample02 = $C4F2FC					; sample 2, in another segment

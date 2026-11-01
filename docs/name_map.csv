@@ -2397,3 +2397,4 @@ $CF4402,DATA8_CF4402,,new,"sound 33 of DATA8_CF04E3: a length word, then its dat
 $CF46CE,DATA8_CF46CE,,new,"sound 36 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_4000.asm
 $CF5717,DATA8_CF5717,,new,"sound 35 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_5000.asm
 $CF590B,DATA8_CF590B,,new,"sound 37 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_5000.asm
+$CF6A1A,DATA8_CF6A1A,,new,"sound 38 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_6000.asm
