@@ -15,7 +15,7 @@ CODE_C43FC8:						; called from other segments
 	sta.w $07FA
 	lda.w $0BC0,x
 	sta.w $07FC
-	jsl.l CODE_C440C2
+	jsl.l checkwallcoll
 	lda.w $0BE0,x
 	ora.w $0C00,x
 	bne CODE_C4401D
@@ -34,7 +34,7 @@ CODE_C43FC8:						; called from other segments
 	lda.w #$0001
 	sta.w $07FA
 	sta.w $07FC
-	jsl.l CODE_C440C2
+	jsl.l checkwallcoll
 CODE_C4401D:						; from CODE_C43FC8
 	pla
 	sta.b $87
@@ -117,7 +117,7 @@ CODE_C440AD:						; from CODE_C4402C
 	sta.w $0896,x
 CODE_C440C1:						; from CODE_C440AD
 	rtl
-CODE_C440C2:						; from CODE_C43FC8 and other segments
+checkwallcoll:						; from CODE_C43FC8 and other segments
 	lda.w #$013E
 	sec
 	sbc.w $07FC
@@ -156,7 +156,7 @@ CODE_C440C2:						; from CODE_C43FC8 and other segments
 	sta.b $6B
 	jsl.l checkgoal
 	jmp.w CODE_C441BE
-CODE_C4410F:						; from CODE_C440C2
+CODE_C4410F:						; from checkwallcoll
 	lda.w #$0000
 	sec
 	sbc.b $93
@@ -177,7 +177,7 @@ CODE_C4410F:						; from CODE_C440C2
 	jsl.l checkgoal
 CODE_C44136:						; from CODE_C4410F
 	jmp.w CODE_C441BE
-CODE_C44139:						; from CODE_C440C2, CODE_C4410F
+CODE_C44139:						; from checkwallcoll, CODE_C4410F
 	lda.b $87
 	sec
 	sbc.b $8F
@@ -248,8 +248,8 @@ CODE_C441B0:						; from CODE_C44197
 	lda.w #$00FF
 CODE_C441B8:						; from CODE_C441B0
 	sta.b $83
-	jsl.l CODE_C44215
-CODE_C441BE:						; from CODE_C440C2, CODE_C44136, CODE_C44173
+	jsl.l wallcollb
+CODE_C441BE:						; from checkwallcoll, CODE_C44136, CODE_C44173
 	pla
 	sta.b $87
 	pla
@@ -267,7 +267,7 @@ CODE_C441BE:						; from CODE_C440C2, CODE_C44136, CODE_C44173
 	lda.b $8B
 	dec a
 	cmp.b $93
-	bpl CODE_C44215
+	bpl wallcollb
 	lda.w #$FF01
 	sta.b $7F
 	lda.w #$0000
@@ -275,14 +275,14 @@ CODE_C441BE:						; from CODE_C440C2, CODE_C44136, CODE_C44173
 	sbc.b $93
 	dec a
 	cmp.b $8B
-	bpl CODE_C44215
+	bpl wallcollb
 	stz.b $7F
 	lda.w #$FF01
 	sta.b $83
 	lda.b $87
 	dec a
 	cmp.b $8F
-	bpl CODE_C44215
+	bpl wallcollb
 	lda.w #$00FF
 	sta.b $83
 	lda.w #$0000
@@ -290,14 +290,14 @@ CODE_C441BE:						; from CODE_C440C2, CODE_C44136, CODE_C44173
 	sbc.b $8F
 	dec a
 	cmp.b $87
-	bpl CODE_C44215
+	bpl wallcollb
 CODE_C4420E:						; from CODE_C441BE
 	rtl
-CODE_C4420F:						; from CODE_C44215
-	jmp.w CODE_C442B5
-CODE_C44212:						; from CODE_C44215
+CODE_C4420F:						; from wallcollb
+	jmp.w wallcoll
+CODE_C44212:						; from wallcollb
 	jmp.w wallcollb_out
-CODE_C44215:						; from CODE_C441BE, CODE_C441B8 and other segments
+wallcollb:							; from CODE_C441BE, CODE_C441B8 and other segments
 	cpx.w #$001C
 	bne CODE_C4420F
 	lda.w $08D8
@@ -341,7 +341,7 @@ CODE_C44215:						; from CODE_C441BE, CODE_C441B8 and other segments
 	adc.w #$000F
 	bmi wallcollb_out
 	sta.w $14E3
-wallcollb_out:						; from CODE_C44215, CODE_C44212
+wallcollb_out:						; from wallcollb, CODE_C44212
 	lda.w #$0040
 	tsb.w $10F5
 	sta.w $109C
@@ -367,7 +367,7 @@ CODE_C442AA:						; from CODE_C4428D
 	stz.w $18AE
 	stz.w $18AC
 	rtl
-CODE_C442B5:						; from CODE_C4420F, CODE_C44766, CODE_C4468C, ...
+wallcoll:							; from CODE_C4420F, CODE_C44766, CODE_C4468C, ...
 	lda.b $7F
 	sta.w $0BE0,x
 	lda.b $83
@@ -407,7 +407,7 @@ CODE_C442B5:						; from CODE_C4420F, CODE_C44766, CODE_C4468C, ...
 	cpx.w #$001C
 	beq CODE_C4430E
 	jmp.w CODE_C443A1
-CODE_C4430E:						; from CODE_C442B5
+CODE_C4430E:						; from wallcoll
 	lda.w #$1000
 	trb.w $10F5
 	lda.b $87
@@ -486,7 +486,7 @@ CODE_C4438A:						; from CODE_C4437A
 	bra CODE_C443E4
 CODE_C4439E:						; from CODE_C443A1
 	jmp.w CODE_C44428
-CODE_C443A1:						; from CODE_C442B5
+CODE_C443A1:						; from wallcoll
 	lda.b $87
 	sec
 	sbc.w #$03E8
@@ -565,10 +565,10 @@ CODE_C44428:						; from CODE_C4430E, CODE_C443E4, CODE_C4439E
 	stz.w $18AC
 CODE_C44444:						; from CODE_C44428
 	rtl
-checkgoal:							; from CODE_C440C2, CODE_C4410F and other segments
+checkgoal:							; from checkwallcoll, CODE_C4410F and other segments
 	cpx.w #$001C
 	beq CODE_C4444D
-	jmp.w CODE_C4468F
+	jmp.w checkgoalp
 CODE_C4444D:						; from checkgoal
 	ldy.w $05A0
 	bmi CODE_C44457
@@ -729,7 +729,7 @@ CODE_C4459D:						; from CODE_C44583
 	lda.w #$0800
 	sta.w $09DC
 CODE_C445A3:						; from CODE_C44583
-	jmp.w CODE_C442B5
+	jmp.w wallcoll
 CODE_C445A6:						; from CODE_C445A9
 	jmp.w CODE_C4AA65
 CODE_C445A9:						; from CODE_C4455B
@@ -832,16 +832,16 @@ CODE_C44675:						; from CODE_C44655
 	lda.w #$FF01
 	sta.b $83
 CODE_C4468C:						; from CODE_C44675
-	jmp.w CODE_C442B5
-CODE_C4468F:						; from checkgoal
+	jmp.w wallcoll
+checkgoalp:							; from checkgoal
 	lda.w $0D60,x
 	bit.w #$8000
 	bne CODE_C4469C
 	cpx.w #$0017
 	bcc CODE_C4469D
-CODE_C4469C:						; from CODE_C4468F, CODE_C4469D, CODE_C446B1, CODE_C446C7
+CODE_C4469C:						; from checkgoalp, CODE_C4469D, CODE_C446B1, CODE_C446C7
 	rtl
-CODE_C4469D:						; from CODE_C4468F
+CODE_C4469D:						; from checkgoalp
 	ldy.b $6B
 	cpy.w #$0018
 	beq CODE_C446B1
@@ -946,7 +946,7 @@ CODE_C4475E:						; from CODE_C44747
 CODE_C44766:						; from CODE_C4475E
 	sta.b $83
 	ldx.b $6F
-	jsl.l CODE_C442B5
+	jsl.l wallcoll
 CODE_C4476E:						; from CODE_C44710
 	pla
 	sta.b $87
@@ -1535,7 +1535,7 @@ CODE_C44C22:						; from CODE_C44BF1
 	lda.b $83
 	cmp.b $7F
 	bcc CODE_C44C2E
-	jsl.l CODE_C4AD26
+	jsl.l puckstick
 	bra CODE_C44C86
 CODE_C44C2E:						; from CODE_C44BD7, CODE_C44BF1, CODE_C44C22, CODE_C44B7E
 	lda.w $0A20,y
@@ -1735,7 +1735,7 @@ CODE_C44DFD:						; from CODE_C44DC7
 	lda.b $83
 	cmp.b $7F
 	bcc CODE_C44E07
-	jsl.l CODE_C4AD26
+	jsl.l puckstick
 CODE_C44E07:						; from CODE_C44DFD
 	jmp.w CODE_C44CB1
 CODE_C44E0A:						; called from other segments

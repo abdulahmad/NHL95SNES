@@ -282,7 +282,7 @@ CODE_C5226A:						; called from other segments
 	inc.w $2CF5
 	ldx.b $6F
 	rtl
-CODE_C52284:						; called from other segments
+freezewindow:						; called from other segments
 	lda.b $CD
 	sta.w $080C
 	lda.b $CB

@@ -208,7 +208,7 @@ CODE_C471ED:						; from CODE_C471A7
 CODE_C471F0:						; called from other segments
 	jsl.l updatepentime
 	jsl.l checkfornewpen
-	jsl.l CODE_C4740D
+	jsl.l chkprogress
 	jml.l CODE_C38C4A
 chkatop:							; from CODE_C47FD4 and other segments
 	stz.b $83
@@ -469,13 +469,13 @@ CODE_C473F4:						; from CODE_C473E9
 	lda.w #$000A
 	sta.b $7F
 	jml.l CODE_C38C6D
-CODE_C4740D:						; from CODE_C471F0 and other segments
+chkprogress:						; from CODE_C471F0 and other segments
 	lda.w $10F1
 	bit.w #$0004
 	bne CODE_C47416
 CODE_C47415:						; from CODE_C4741E, CODE_C47431
 	rtl
-CODE_C47416:						; from CODE_C4740D
+CODE_C47416:						; from chkprogress
 	lda.w $113B
 	bpl CODE_C4741E
 	jmp.w CODE_C474C4
@@ -524,7 +524,7 @@ CODE_C47431:						; from CODE_C47431
 	lda.w #$0038
 	sta.b $CB
 	stz.b $CD
-	jsl.l CODE_C52284
+	jsl.l freezewindow
 	lda.w #$FF00
 	tsb.w $05A0
 	ldx.w #$001C
@@ -1388,7 +1388,7 @@ CODE_C47B64:						; from CODE_C47B53
 	sta.w $1000,x
 	lda.w #$18EC
 	jsl.l SetSPAFromA
-	jml.l CODE_C384FC
+	jml.l SprSort
 CODE_C47B8F:						; from CODE_C47B3F
 	lda.w #$0004
 	sta.w $0C40,x

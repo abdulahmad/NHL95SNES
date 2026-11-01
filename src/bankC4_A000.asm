@@ -115,7 +115,7 @@ CODE_C4A0A8:						; from CODE_C4A092
 	iny
 	dec.b $8B
 	bpl CODE_C4A092
-	jsl.l CODE_C4A0DD
+	jsl.l dopass
 	lda.w $0A20,x
 	beq CODE_C4A0C0
 	pla
@@ -128,7 +128,7 @@ CODE_C4A0C0:						; from CODE_C4A05B, CODE_C4A092, CODE_C4A0A8
 CODE_C4A0C1:						; called from other segments
 	lda.b $87
 	bit.w #$8000
-	bne CODE_C4A0DD
+	bne dopass
 	lda.b $7F
 	bit.w #$0008
 	bne CODE_C4A0DC
@@ -136,10 +136,10 @@ CODE_C4A0C1:						; called from other segments
 	sta.w $07C8
 	ora.w #$0008
 	sta.b $7F
-	bra CODE_C4A0DD
+	bra dopass
 CODE_C4A0DC:						; from CODE_C4A0C1
 	rtl
-CODE_C4A0DD:						; from CODE_C4A0C1, CODE_C4A0A8 and other segments
+dopass:								; from CODE_C4A0C1, CODE_C4A0A8 and other segments
 	stz.w $0672
 	lda.w #$0004
 	trb.w $10F5
@@ -156,7 +156,7 @@ CODE_C4A0DD:						; from CODE_C4A0C1, CODE_C4A0A8 and other segments
 	beq CODE_C4A106
 	lda.w $0EC0,x
 	sta.b $7F
-CODE_C4A106:						; from CODE_C4A0DD
+CODE_C4A106:						; from dopass
 	lda.b $7F
 	asl a
 	asl a
@@ -797,7 +797,7 @@ CODE_C4A6B1:						; called from other segments
 	lda.b $7F
 	and.w #$000F
 	beq CODE_C4A6C3
-	jmp.w CODE_C4AD26
+	jmp.w puckstick
 CODE_C4A6C3:						; from CODE_C4A6B1
 	jsl.l CODE_C4843B
 	lda.w $09BC
@@ -1280,7 +1280,7 @@ CODE_C4AA9E:						; from CODE_C4AA74, CODE_C4AA88
 	beq CODE_C4AA97
 CODE_C4AAA3:						; from CODE_C4AA74, CODE_C4AA92
 	jsl.l ChkShotStat
-	jsl.l CODE_C52284
+	jsl.l freezewindow
 	lda.w #$001E
 	sta.w $0772
 	stz.b $6B
@@ -1579,7 +1579,7 @@ CODE_C4AD1E:						; from CODE_C4AD10
 	plx
 CODE_C4AD25:						; from CODE_C4AA97
 	rtl
-CODE_C4AD26:						; from CODE_C4A6B1 and other segments
+puckstick:							; from CODE_C4A6B1 and other segments
 	ldy.b $6B
 	lda.w $0A20,y
 	bne CODE_C4AD36
@@ -1588,7 +1588,7 @@ CODE_C4AD26:						; from CODE_C4A6B1 and other segments
 	beq CODE_C4AD36
 CODE_C4AD35:						; from CODE_C4AD47
 	rtl
-CODE_C4AD36:						; from CODE_C4AD26
+CODE_C4AD36:						; from puckstick
 	lda.w $0D60,y
 	and.w #$FFFE
 	sta.w $0D60,y

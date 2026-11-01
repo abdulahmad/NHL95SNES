@@ -710,6 +710,9 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
   goalieacc, assdopen, revplayeracc, EndPenaltyShot, RestoreReplayFrame, setpersonel, pplpen, ReadJoy1, findpc, updatepwrplay,
   updatepwrplay_clr, ApproxLength, dostop, vtoa, AddPenalty, AddPenalty2, ShootoutWonBy). ShootoutWonBy starts with a jmp to its
   end in 95. vtoa is a purpose match (sign tests only).
+- 2026-10-31: naming pass 4: 16 more (instruction match 0.71-0.90 with the named callees in place, the start checked against
+  94S, each compared side by side): stopna, lcfound, adda4, checkgoalp, puckstick, setplayer, dopass, wallcoll, checkwallcoll,
+  wallcollb, chkprogress, freezewindow, AvgCline, PlayerShortName, CompLine, SprSort.
 
 ## ROM map
 

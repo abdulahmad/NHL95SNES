@@ -591,7 +591,7 @@ CODE_C3749B:						; from CODE_C3749B
 	lda.b $01,s
 	beq CODE_C374AB
 	inc.w $2CE1
-	jsl.l CODE_C379BD
+	jsl.l adda4
 	pla
 	dec a
 	pha
@@ -605,7 +605,7 @@ CODE_C374AB:						; from CODE_C3749B
 	lda.w #$000A
 	sta.w fadestep
 	jsl.l ScreenOn
-	jsl.l CODE_C384FC
+	jsl.l SprSort
 	lda.w #$0001
 	sta.b $9B
 	lda.w #$0002
@@ -750,7 +750,7 @@ CODE_C375E1:						; from CODE_C37560
 CODE_C375EB:						; from CODE_C37553, CODE_C375DA
 	lda.b $9B
 	sta.w $05A2
-	jsl.l CODE_C384FC
+	jsl.l SprSort
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -888,7 +888,7 @@ CODE_C376CE:						; from CODE_C376AA
 	lda.w #$0001
 	sta.w $07FA
 	sta.w $07FC
-	jsl.l CODE_C440C2
+	jsl.l checkwallcoll
 	pla
 	sta.b $8B
 	pla
@@ -1050,11 +1050,11 @@ CODE_C37892:						; from CODE_C37858
 	trb.w $10F5
 	jmp.w CODE_C37609
 CODE_C378A1:						; from CODE_C37858
-	jsl.l CODE_C379BD
-	jsl.l CODE_C379BD
+	jsl.l adda4
+	jsl.l adda4
 	bra CODE_C378C3
 CODE_C378AB:						; from CODE_C37858
-	jsl.l CODE_C379BD
+	jsl.l adda4
 	ldx.w #$0003
 	lda.b $8B
 	bit.w #$0010
@@ -1075,7 +1075,7 @@ CODE_C378D1:						; from CODE_C37858
 	bne CODE_C378DC
 	jmp.w CODE_C37609
 CODE_C378DC:						; from CODE_C378D1
-	jsl.l CODE_C379BD
+	jsl.l adda4
 	lda.b $9B
 	beq CODE_C378C3
 	jmp.w CODE_C374CF
@@ -1175,7 +1175,7 @@ CODE_C379B6:						; from suba4
 	jsl.l RestoreReplayFrame
 	stz.b $9B
 	rtl
-CODE_C379BD:						; from CODE_C3749B, CODE_C378AB, CODE_C378A1, ...
+adda4:								; from CODE_C3749B, CODE_C378AB, CODE_C378A1, ...
 	stz.b $9B
 	lda.w $10F5
 	bit.w #$0400
@@ -1198,7 +1198,7 @@ CODE_C379BD:						; from CODE_C3749B, CODE_C378AB, CODE_C378A1, ...
 	cmp.w $07E2
 	bne CODE_C379EC
 	rtl
-CODE_C379EC:						; from CODE_C379BD
+CODE_C379EC:						; from adda4
 	lda.b $73
 	cmp.w $07E0
 	bne CODE_C379FB
@@ -1208,7 +1208,7 @@ CODE_C379EC:						; from CODE_C379BD
 	rtl
 CODE_C379FB:						; from CODE_C379EC
 	jsl.l RestoreReplayFrame
-adda43:								; from CODE_C379BD and other segments
+adda43:								; from adda4 and other segments
 	lda.b $73
 	clc
 	adc.w #$007A

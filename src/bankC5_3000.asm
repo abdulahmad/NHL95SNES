@@ -374,7 +374,7 @@ CODE_C5331F:						; no caller found (not traced)
 	inc.b $6B
 	inc.b $6B
 CODE_C53339:						; from CODE_C5331F
-	jsl.l CODE_C5334A
+	jsl.l PlayerShortName
 	pla
 	sta.b $6D
 	pla
@@ -384,7 +384,7 @@ CODE_C53339:						; from CODE_C5331F
 	pla
 	sta.b $7F
 	rtl
-CODE_C5334A:						; from CODE_C53339 and other segments
+PlayerShortName:					; from CODE_C53339 and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($6B)
@@ -547,7 +547,7 @@ CODE_C53475:						; no caller found (not traced)
 	lda.w $24C0
 	sta.b $87
 	jml.l CODE_C528D4
-PutDigits2:							; from CODE_C5334A and other segments
+PutDigits2:							; from PlayerShortName and other segments
 	lda.w #$2020
 	sta.b $9F
 	lda.b $7F
@@ -722,7 +722,7 @@ CODE_C535DE:						; from CODE_C535D7
 	dec.b $7F
 	bpl CODE_C535D7
 	rtl
-CODE_C535EF:						; from CODE_C5334A and other segments
+CODE_C535EF:						; from PlayerShortName and other segments
 	ldy.b $6B
 	lda.w #$00C3
 	sta.b $65
@@ -1467,7 +1467,7 @@ CODE_C53BC4:						; from CODE_C53BB2
 	lda.w #$FFFF
 	sta.w $1373,y
 	lsr.b $8B
-	jsl.l CODE_C53C46
+	jsl.l setplayer
 CODE_C53BD4:						; from CODE_C53B91
 	ldx.b $6F
 	lda.w #$FFFF
@@ -1532,7 +1532,7 @@ CODE_C53C3E:						; from Setplass
 	rtl
 DATA8_C53C3F:						; not traced: data between routines
 	db $07,$02,$02,$03,$05,$03,$05
-CODE_C53C46:						; from CODE_C53BC4 and other segments
+setplayer:							; from CODE_C53BC4 and other segments
 	phx
 	phy
 	lda.w $0D60,x
@@ -1542,7 +1542,7 @@ CODE_C53C46:						; from CODE_C53BC4 and other segments
 	lda.w $1020,x
 	beq CODE_C53C5C
 	ldy.w #$0002
-CODE_C53C5C:						; from CODE_C53C46
+CODE_C53C5C:						; from setplayer
 	sty.b $63
 	lda.b $8B
 	and.w #$00FF

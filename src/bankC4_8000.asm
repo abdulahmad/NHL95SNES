@@ -200,7 +200,7 @@ CODE_C4813C:						; from CODE_C4810B
 	sta.w $0A20,x
 	stx.b $6F
 	jsl.l Setplass
-	jsl.l CODE_C53C46
+	jsl.l setplayer
 	lda.w $0D60,x
 	ora.w #$1000
 	sta.w $0D60,x
@@ -955,7 +955,7 @@ CODE_C4875A:						; from CODE_C48743
 	jsl.l SetSPAFromA
 	jmp.w CODE_C487C4
 CODE_C4876D:						; from CODE_C48718, CODE_C48743
-	jmp.w CODE_C458E4
+	jmp.w stopna
 CODE_C48770:						; from CODE_C4872A, CODE_C48743
 	lda.w $0694,x
 	bne CODE_C4879A
@@ -1457,7 +1457,7 @@ CODE_C48B8E:						; from CODE_C48B48
 	lda.w $056F,y
 	cmp.w #$0008
 	bne CODE_C48BAA
-	jsl.l CODE_C458E4
+	jsl.l stopna
 CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	lda.w $1060,x
 	bne CODE_C48BB6
@@ -2269,7 +2269,7 @@ CODE_C49259:						; from CODE_C48BFC
 	sbc.w #$0007
 	beq CODE_C4926E
 	bmi CODE_C4926E
-	jmp.w CODE_C458E4
+	jmp.w stopna
 CODE_C4926E:						; from CODE_C49259
 	jml.l CODE_C45ABE
 CODE_C49272:						; from CODE_C49276, CODE_C4928F, CODE_C492A0, CODE_C492C1

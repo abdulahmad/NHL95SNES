@@ -877,7 +877,7 @@ CODE_C51801:						; called from other segments
 	lda.w $10F3
 	ora.w $114D
 	bne CODE_C51810
-	jsl.l CODE_C52284
+	jsl.l freezewindow
 	jmp.w CODE_C50A14
 CODE_C51810:						; from CODE_C51801
 	rtl
@@ -1535,7 +1535,7 @@ CODE_C51DE2:						; from CODE_C51DDA
 	bne CODE_C51DEA
 	jmp.w CODE_C51E80
 CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DE2
-	jsl.l CODE_C547CB
+	jsl.l CompLine
 	jsl.l setpersonel
 	jml.l CODE_C5111A
 CODE_C51DF6:						; from CODE_C51D7B and other segments
@@ -1700,7 +1700,7 @@ CODE_C51F2F:						; from CODE_C51F1C
 	bit.w #$0008
 	beq CODE_C51F44
 	stz.b $87
-	jsl.l CODE_C54DA4
+	jsl.l lcfound
 	bmi CODE_C51F44
 	jsl.l CODE_C54070
 CODE_C51F44:						; from CODE_C51F2F

@@ -1120,7 +1120,7 @@ dostop:								; called from other segments
 	cmp.w #$DFFF
 	bmi CODE_C458BC
 	cmp.w #$2001
-	bmi CODE_C458E4
+	bmi stopna
 CODE_C458BC:						; from dostop
 	lda.w #$1958
 	ldy.w $1040,x
@@ -1138,7 +1138,7 @@ CODE_C458DA:						; from CODE_C458BC
 	stz.w $1060,x
 CODE_C458E0:						; from CODE_C458BC
 	jsl.l SetSPAFromA
-CODE_C458E4:						; from dostop and other segments
+stopna:								; from dostop and other segments
 	lda.w $0A20,x
 	bne CODE_C45908
 	lda.w $14F9,x
@@ -1154,7 +1154,7 @@ CODE_C458E4:						; from dostop and other segments
 	ror a
 	sta.w $09C0,x
 	rtl
-CODE_C45908:						; from CODE_C458E4
+CODE_C45908:						; from stopna
 	stx.b $16
 	lda.w #$0070
 	clc

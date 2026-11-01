@@ -176,7 +176,7 @@ CODE_C54150:						; from CODE_C54140
 	ldx.w #$000B
 	pla
 	rts
-CODE_C54155:						; from CODE_C540A7, CODE_C54DA4, CODE_C54140
+CODE_C54155:						; from CODE_C540A7, lcfound, CODE_C54140
 	phx
 	pha
 	lda.b $6B
@@ -216,7 +216,7 @@ DATA8_C54194:						; not traced: a table read by CODE_C54171
 	db $01,$02,$00,$01,$02,$03,$04,$FF,$03,$04,$FF,$03,$04,$FF,$03,$04
 	db $FF,$04,$03,$FF,$03,$04,$FF,$03,$04,$FF,$05,$06,$FF,$05,$06,$FF
 	db $05,$06,$FF,$05,$06,$FF,$05,$06,$FF,$05,$06,$FF,$06,$05,$FF
-setpersonel:						; from CODE_C54982, CODE_C54DA4 and other segments
+setpersonel:						; from CODE_C54982, lcfound and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -727,7 +727,7 @@ CODE_C54597:						; from CODE_C54568
 	sta.w $184C,y
 	jmp.w CODE_C54B60
 CODE_C545B8:						; from CODE_C54568
-	jsl.l CODE_C54DA4
+	jsl.l lcfound
 	bmi CODE_C545C6
 	lda.w $10F3
 	bne CODE_C545C6
@@ -873,7 +873,7 @@ CODE_C546F0:						; from CODE_C546E9
 	lda.w $0D40,x
 	sta.b $8B
 	jsl.l CODE_C54734
-	jmp.w CODE_C53C46
+	jmp.w setplayer
 CODE_C54706:						; from CODE_C5462C, CODE_C54653, CODE_C5465B
 	lda.w $1080,x
 	bne CODE_C546D6
@@ -956,7 +956,7 @@ CODE_C5479E:						; from CODE_C5474A
 	sta.w $08E0,x
 CODE_C547C7:						; from CODE_C5479E
 	jml.l assexit
-CODE_C547CB:						; from CODE_C54982 and other segments
+CompLine:							; from CODE_C54982 and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -975,7 +975,7 @@ CODE_C547CB:						; from CODE_C54982 and other segments
 	bpl CODE_C547F2
 	inc.b $7F
 	inc.b $7F
-CODE_C547F2:						; from CODE_C547CB
+CODE_C547F2:						; from CompLine
 	lda.b $7F
 	pha
 	inc a
@@ -1012,7 +1012,7 @@ CODE_C5480F:						; from CODE_C5490E, CODE_C54878
 	pla
 	sta.b $7F
 	rtl
-CODE_C54828:						; from CODE_C547CB
+CODE_C54828:						; from CompLine
 	ldy.b $6B
 	beq CODE_C5482F
 	jmp.w CODE_C548C1
@@ -1152,7 +1152,7 @@ CODE_C54966:						; from CODE_C54948
 	lda.w #$0002
 	sta.b $6B
 CODE_C54982:						; from CODE_C54966
-	jsl.l CODE_C54A73
+	jsl.l AvgCline
 	lda.b $7F
 	cmp.w #$0C01
 	bcs CODE_C549A7
@@ -1160,7 +1160,7 @@ CODE_C54982:						; from CODE_C54966
 	bne CODE_C549A7
 	lda.w $186E
 	beq CODE_C549A7
-	jsl.l CODE_C547CB
+	jsl.l CompLine
 	jsl.l setpersonel
 	jsl.l CODE_C5111A
 	jml.l CompShoot
@@ -1270,7 +1270,7 @@ CODE_C54A47:						; called from other segments
 	ldx.b $6F
 	clc
 	rtl
-CODE_C54A73:						; from CODE_C54982 and other segments
+AvgCline:							; from CODE_C54982 and other segments
 	pei ($83)
 	pei ($85)
 	pei ($87)
@@ -1696,7 +1696,7 @@ CODE_C54D70:						; from CODE_C54D55, CODE_C54D40
 	stx.b $02
 	stz.b QueueBusy
 	rts
-CODE_C54DA4:						; from CODE_C545B8 and other segments
+lcfound:							; from CODE_C545B8 and other segments
 	ldx.b $6F
 	ldy.b $6B
 	lda.b $87
@@ -1718,7 +1718,7 @@ CODE_C54DA4:						; from CODE_C545B8 and other segments
 	sta.w $184C,y
 	jsl.l setpersonel
 	lda.w #$0000
-CODE_C54DDE:						; from CODE_C54DA4
+CODE_C54DDE:						; from lcfound
 	rtl
 CODE_C54DDF:						; called from other segments
 	jsl.l ResetBench
