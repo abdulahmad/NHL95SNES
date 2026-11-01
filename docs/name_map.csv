@@ -1304,3 +1304,16 @@ $C33E66,NewYorkI,,new,"team record 13 (NewYorkI): not traced; it holds licensed 
 $C33ED7,NewYorkR,,new,"team record 14 (NewYorkR): not traced; it holds licensed names",src/bankC3_3000.asm
 $C33F4C,Ottawa,,new,"team record 15 (Ottawa): not traced; it holds licensed names",src/bankC3_3000.asm
 $C33FBE,Philadelphia,,new,"team record 16 (Philadelphia): not traced; it holds licensed names",src/bankC3_3000.asm
+$C3402C,Pittsburgh,,new,"team record 17 (Pittsburgh): not traced; it holds licensed names",src/bankC3_4000.asm
+$C340A3,Quebec,,new,"team record 18 (Quebec): not traced; it holds licensed names",src/bankC3_4000.asm
+$C34113,SanJose,,new,"team record 19 (SanJose): not traced; it holds licensed names",src/bankC3_4000.asm
+$C34182,StLouis,,new,"team record 20 (StLouis): not traced; it holds licensed names",src/bankC3_4000.asm
+$C341F4,TampaBay,,new,"team record 21 (TampaBay): not traced; it holds licensed names",src/bankC3_4000.asm
+$C34262,Toronto,,new,"team record 22 (Toronto): not traced; it holds licensed names",src/bankC3_4000.asm
+$C342D7,Vancouver,,new,"team record 23 (Vancouver): not traced; it holds licensed names",src/bankC3_4000.asm
+$C3434B,Winnipeg,,new,"team record 25 (Winnipeg): not traced; it holds licensed names",src/bankC3_4000.asm
+$C343B8,Washington,,new,"team record 24 (Washington): not traced; it holds licensed names",src/bankC3_4000.asm
+$C34427,DATA8_C34427,,new,"a team record not in TeamList (the same form; not traced)",src/bankC3_4000.asm
+$C34499,DATA8_C34499,,new,"not traced: read by CODE_C38CAB, CODE_C4792C, CODE_C481E2, ...",src/bankC3_4000.asm
+$C3449A,DATA8_C3449A,,new,"not traced: read by CODE_C38CAB",src/bankC3_4000.asm
+$C3449B,DATA8_C3449B,,new,"not traced: read by CODE_C38CAB, CODE_C481E2",src/bankC3_4000.asm

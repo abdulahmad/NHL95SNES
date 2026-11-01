@@ -1258,7 +1258,7 @@ CODE_C56A93:						; from CODE_C56A77
 	lda.w $115E,x
 	and.w #$00FF
 	tax
-	lda.l $C34499,x
+	lda.l DATA8_C34499,x
 	sec
 	adc.w #$4499
 	inc a
@@ -1341,9 +1341,9 @@ CODE_C56B19:						; from CODE_C56ABB
 	lda.w $115E,x
 	and.w #$00FF
 	tax
-	lda.l $C34499,x
+	lda.l DATA8_C34499,x
 	tax
-	lda.l $C34499,x
+	lda.l DATA8_C34499,x
 	and.w #$00FF
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5

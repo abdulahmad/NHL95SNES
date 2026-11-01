@@ -287,9 +287,9 @@ CODE_C481DD:						; from CODE_C481D5
 	bpl CODE_C481E2
 	rtl
 CODE_C481E2:						; from CODE_C481DD
-	lda.l $C34499,x
+	lda.l DATA8_C34499,x
 	tax
-	lda.l $C3449B,x
+	lda.l DATA8_C3449B,x
 	and.w #$00FF
 	dec a
 	beq CODE_C48240
