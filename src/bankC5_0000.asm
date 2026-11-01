@@ -83,7 +83,7 @@ CODE_C500B1:						; from CODE_C500B1
 	tsb.w $10F1
 CODE_C500D2:						; from CODE_C500B1
 	jsl.l CODE_C53574
-	jsl.l CODE_C535BF
+	jsl.l restoreteams
 	jsl.l CODE_C5362C
 	lda.w #$007F
 	sta.w $07E2
@@ -181,7 +181,7 @@ CODE_C501BC:						; from CODE_C501AC
 	stx.b $6F
 	lda.w #$001B
 	sta.b $7F
-	jsl.l CODE_C4373E
+	jsl.l assreplace
 	jsl.l CODE_C5897B
 	lda.w #$0400
 	tsb.w $10F5
@@ -347,7 +347,7 @@ CODE_C5033A:						; from CODE_C5032F
 	jmp.w CODE_C5021B
 CODE_C5033D:						; from CODE_C50308 and other segments
 	jsl.l CODE_C382B7
-	jsl.l CODE_C50364
+	jsl.l periodicevents
 	jsl.l CODE_C50393
 	jsl.l CODE_C529D7
 	jsl.l CODE_C371F9
@@ -359,7 +359,7 @@ CODE_C50351:						; from CODE_C50351
 	lda.w #$1E00
 	sta.b $2A
 	jml.l CODE_C52295
-CODE_C50364:						; from CODE_C5033D and other segments
+periodicevents:						; from CODE_C5033D and other segments
 	jsl.l CODE_C471F0
 	jsl.l CODE_C371AB
 	jsl.l CODE_C51801
@@ -372,10 +372,10 @@ CODE_C50364:						; from CODE_C5033D and other segments
 	adc.w #$0018
 	sta.w $07BC
 	jsl.l CODE_C487EB
-	jsl.l CODE_C54B1B
+	jsl.l RestoreBenchEnergy
 	jsl.l CODE_C48241
 	jsl.l CODE_C47787
-CODE_C50392:						; from CODE_C50364
+CODE_C50392:						; from periodicevents
 	rtl
 CODE_C50393:						; from CODE_C5033D and other segments
 	lda.w #$FFFF
@@ -417,7 +417,7 @@ CODE_C503E0:						; from CODE_C503D8
 CODE_C503EC:						; from CODE_C503E0
 	stx.w $0664
 CODE_C503EF:						; from CODE_C503E0
-	jsl.l CODE_C457DD
+	jsl.l updateanim
 	lda.w $0CE0,x
 	sec
 	sbc.w $05A2
@@ -1627,7 +1627,7 @@ CODE_C50E42:						; from CODE_C50E59
 	beq CODE_C50E59
 	txa
 	lsr a
-	jsl.l CODE_C3704D
+	jsl.l ReadjoyA
 	lda.b $8B
 	bit.w #$1000
 	beq CODE_C50E59
@@ -1721,7 +1721,7 @@ CODE_C50EFF:						; from CODE_C50EE4
 	rtl
 CODE_C50F08:						; called from other segments
 	rtl
-CODE_C50F09:						; no caller found (not traced)
+CalcAttrib:							; no caller found (not traced)
 	lda.b $7F
 	asl a
 	adc.b $7F
@@ -1735,7 +1735,7 @@ CODE_C50F09:						; no caller found (not traced)
 	clc
 	adc.w #$0138
 	sta.b $2C
-CODE_C50F20:						; from CODE_C50F09
+CODE_C50F20:						; from CalcAttrib
 	lda.w #$00C3
 	sta.b $65
 	lda.w $17D3,y

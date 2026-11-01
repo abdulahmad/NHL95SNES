@@ -90,7 +90,7 @@ CODE_C470BC:						; from CODE_C47086
 CODE_C470E7:						; from CODE_C4702E, CODE_C47086, CODE_C470F0, CODE_C47120
 	lda.w $0B80,x
 	sta.b $7F
-	jml.l CODE_C4694F
+	jml.l doplayeracc
 CODE_C470F0:						; from CODE_C470BC
 	lda.w $05A0
 	bmi CODE_C470E7
@@ -206,11 +206,11 @@ CODE_C471E2:						; from CODE_C47177 and other segments
 CODE_C471ED:						; from CODE_C471A7
 	jmp.w CODE_C45950
 CODE_C471F0:						; called from other segments
-	jsl.l CODE_C47FB5
-	jsl.l CODE_C4724D
+	jsl.l updatepentime
+	jsl.l checkfornewpen
 	jsl.l CODE_C4740D
 	jml.l CODE_C38C4A
-CODE_C47200:						; from CODE_C47FD4 and other segments
+chkatop:							; from CODE_C47FD4 and other segments
 	stz.b $83
 	lda.w $08B2
 	sec
@@ -222,7 +222,7 @@ CODE_C47200:						; from CODE_C47FD4 and other segments
 	sec
 	sbc.w #$FFA4
 	bpl CODE_C47230
-CODE_C47218:						; from CODE_C47200
+CODE_C47218:						; from chkatop
 	lda.w $10F1
 	bit.w #$0002
 	beq CODE_C47227
@@ -234,7 +234,7 @@ CODE_C47227:						; from CODE_C47218
 	lda.w $126F,y
 	inc a
 	sta.w $126F,y
-CODE_C47230:						; from CODE_C47200
+CODE_C47230:						; from chkatop
 	rtl
 CountPowerPlayTime:					; from CODE_C47FD4 and other segments
 	stz.b $83
@@ -252,11 +252,11 @@ CODE_C47243:						; from CountPowerPlayTime
 	sta.w $1273,y
 CODE_C4724C:						; from CountPowerPlayTime
 	rtl
-CODE_C4724D:						; from CODE_C471F0 and other segments
+checkfornewpen:						; from CODE_C471F0 and other segments
 	lda.w $2CF5
 	beq CODE_C47255
 	jmp.w CODE_C4730E
-CODE_C47255:						; from CODE_C4724D
+CODE_C47255:						; from checkfornewpen
 	lda.w #$10F9
 	sta.b $63
 CODE_C4725A:						; from CODE_C4725A, CODE_C472B9, CODE_C4730F, CODE_C4730B
@@ -304,7 +304,7 @@ CODE_C472AD:						; from CODE_C4726E
 	eor.b $7F
 	bmi CODE_C4730F
 CODE_C472B5:						; from CODE_C4726E
-	jsl.l CODE_C47323
+	jsl.l Stop4Pen
 CODE_C472B9:						; from CODE_C4726E
 	dec.b $63
 	lda.b ($63)
@@ -350,7 +350,7 @@ CODE_C472CE:						; from CODE_C472B9
 	sta.w $113B
 CODE_C4730B:						; from CODE_C4730F, CODE_C472CE
 	jmp.w CODE_C4725A
-CODE_C4730E:						; from CODE_C4724D, CODE_C4725A
+CODE_C4730E:						; from checkfornewpen, CODE_C4725A
 	rtl
 CODE_C4730F:						; from CODE_C4726E, CODE_C472AD
 	lda.w #$0008
@@ -360,12 +360,12 @@ CODE_C4730F:						; from CODE_C4726E, CODE_C472AD
 	sta.b $7F
 	jsl.l CODE_C38C6D
 	jmp.w CODE_C4725A
-CODE_C47323:						; from CODE_C472B5 and other segments
+Stop4Pen:							; from CODE_C472B5 and other segments
 	lda.w #$FFFF
 	tsb.w $10F3
 	beq CODE_C4732E
 	jmp.w CODE_C473DE
-CODE_C4732E:						; from CODE_C47323
+CODE_C4732E:						; from Stop4Pen
 	stz.b $7F
 	stz.b $83
 	dec.b $63
@@ -449,7 +449,7 @@ CODE_C473D0:						; from CODE_C473B5
 	lda.b $83
 	sta.w $2036
 	jsl.l CODE_C51F7C
-CODE_C473DE:						; from CODE_C47323
+CODE_C473DE:						; from Stop4Pen
 	lda.b $5D
 	sec
 	sbc.w $07EC
@@ -549,7 +549,7 @@ CODE_C47431:						; from CODE_C47431
 	stz.w fadestep
 	rtl
 CODE_C474C4:						; from CODE_C47416
-	jsl.l CODE_C47F7A
+	jsl.l SeatPenaltyBox
 	lda.w $1145
 	bmi CODE_C474D0
 	jmp.w CODE_C47748
@@ -788,7 +788,7 @@ CODE_C4769A:						; from CODE_C4768A
 	sta.b $65
 	lda.w #$000D
 	sta.b $7F
-	jsl.l CODE_C4373E
+	jsl.l assreplace
 	pla
 	sta.b $75
 	pla
@@ -835,7 +835,7 @@ CODE_C476F8:						; from CODE_C474F1
 	stx.b $6F
 	lda.w #$001B
 	sta.b $7F
-	jsl.l CODE_C4373E
+	jsl.l assreplace
 CODE_C4770C:						; from CODE_C47507, CODE_C47537, CODE_C4769A, CODE_C476F2
 	lda.w $1864
 	cmp.w #$0001
@@ -1296,7 +1296,7 @@ CODE_C47A93:						; from CODE_C47A89
 CODE_C47AB2:						; from CODE_C47A7C
 	plx
 	rts
-CODE_C47AB4:						; called from other segments
+checkint:							; called from other segments
 	jsl.l CODE_C47ACD
 	ldx.b $6B
 	ldy.b $6F
@@ -1309,7 +1309,7 @@ CODE_C47AB4:						; called from other segments
 	stx.b $6F
 CODE_C47ACC:						; from CODE_C47ACD, CODE_C47AE9
 	rtl
-CODE_C47ACD:						; from CODE_C47AB4 and other segments
+CODE_C47ACD:						; from checkint and other segments
 	ldy.b $6B
 	lda.w $0A20,y
 	bne CODE_C47ACC
@@ -1602,7 +1602,7 @@ CODE_C47D39:						; from CODE_C47D2E
 	stz.w $0B00,x
 	lda.w #$0008
 	sta.w $0B80,x
-	jsl.l CODE_C47F0E
+	jsl.l PenBoxSpot
 	lda.b $34
 	sta.b $83
 	sta.w $0B40,x
@@ -1710,7 +1710,7 @@ CODE_C47E2D:						; from CODE_C47D81
 	sta.w $0D60,x
 	lda.w #$000E
 	sta.b $7F
-	jml.l CODE_C4373E
+	jml.l assreplace
 CODE_C47E64:						; from CODE_C47E91, CODE_C47E12
 	rtl
 CODE_C47E65:						; from CODE_C47D39 and other segments
@@ -1801,7 +1801,7 @@ CODE_C47EFA:						; from CODE_C47EDC
 	sta.w $1511,y
 	sta.w $14F9,x
 	jmp.w CODE_C47E91
-CODE_C47F0E:						; from CODE_C47F94, CODE_C47D39 and other segments
+PenBoxSpot:							; from CODE_C47F94, CODE_C47D39 and other segments
 	lda.w #$000B
 	sta.b $7F
 	lda.w $113F
@@ -1816,7 +1816,7 @@ CODE_C47F0E:						; from CODE_C47F94, CODE_C47D39 and other segments
 	sta.b $83
 	lda.w #$FFF5
 	sta.b $7F
-CODE_C47F2A:						; from CODE_C47F0E
+CODE_C47F2A:						; from PenBoxSpot
 	lda.b $83
 	and.w #$000F
 	sta.b $83
@@ -1854,7 +1854,7 @@ CODE_C47F5B:						; from CODE_C47F4C
 	lda.w #$02A4
 	sta.w $0856,x
 	rtl
-CODE_C47F7A:						; from CODE_C474C4 and other segments
+SeatPenaltyBox:						; from CODE_C474C4 and other segments
 	lda.w $1864
 	cmp.w #$0001
 	beq CODE_C47FB4
@@ -1868,7 +1868,7 @@ CODE_C47F7A:						; from CODE_C474C4 and other segments
 CODE_C47F94:						; from CODE_C47FAC
 	lda.w $0A20,x
 	bpl CODE_C47FAC
-	jsl.l CODE_C47F0E
+	jsl.l PenBoxSpot
 	lda.b $34
 	sta.w $0896,x
 	lda.w #$009B
@@ -1880,5 +1880,5 @@ CODE_C47FAC:						; from CODE_C47F94
 	cpx.w #$0018
 	bcc CODE_C47F94
 	plx
-CODE_C47FB4:						; from CODE_C47F7A
+CODE_C47FB4:						; from SeatPenaltyBox
 	rtl

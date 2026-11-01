@@ -1,13 +1,13 @@
 ; Segment bankC4_8000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C47FB5
-CODE_C47FB5:						; called from other segments
+updatepentime:						; called from other segments
 	lda.w #$0020
 	trb.w $10F7
 	lda.w $10F3
 	beq CODE_C47FC3
 	jmp.w CODE_C48050
-CODE_C47FC3:						; from CODE_C47FB5
+CODE_C47FC3:						; from updatepentime
 	lda.w $1157
 	beq CODE_C47FCB
 	jmp.w CODE_C48050
@@ -26,7 +26,7 @@ CODE_C47FD4:						; from CODE_C47FCB
 	sta.w $113D
 	lda.w #$0020
 	tsb.w $10F7
-	jsl.l CODE_C47200
+	jsl.l chkatop
 	jsl.l CountPowerPlayTime
 	stz.b $6B
 	jsl.l CODE_C47FFA
@@ -75,7 +75,7 @@ CODE_C48029:						; from CODE_C48011
 	jsl.l CODE_C45A9F
 CODE_C4804E:						; from CODE_C48029
 	bra CODE_C48011
-CODE_C48050:						; from CODE_C47FB5, CODE_C4807A, CODE_C47FC3, CODE_C47FD4, ...
+CODE_C48050:						; from updatepentime, CODE_C4807A, CODE_C47FC3, CODE_C47FD4, ...
 	rtl
 CODE_C48051:						; from CODE_C48011
 	lda.w $04F5
@@ -1208,7 +1208,7 @@ CODE_C48985:						; from CODE_C4896D
 	cmp.w #$0046
 	bcc CODE_C48956
 CODE_C4898F:						; from CODE_C4893B
-	jsr.w CODE_C4937C
+	jsr.w GoaliePuckVector
 	jsl.l CODE_C37F6D
 	jsl.l AdjustFacingDirection
 	asl.w $0E00,x
@@ -1289,7 +1289,7 @@ CODE_C48A24:						; from CODE_C48A06
 CODE_C48A38:						; from CODE_C489A5
 	lda.w $0B80,x
 	sta.b $7F
-	jml.l CODE_C4694F
+	jml.l doplayeracc
 CODE_C48A41:						; called from other segments
 	ldy.b $6B
 	stz.b $7F
@@ -1736,7 +1736,7 @@ CODE_C48E06:						; from CODE_C48DEE
 CODE_C48E15:						; from CODE_C48DEE
 	cpx.w $05A0
 	beq CODE_C48E27
-	jsr.w CODE_C4937C
+	jsr.w GoaliePuckVector
 	jsl.l CODE_C37F6D
 	jsl.l AdjustFacingDirection
 	bra CODE_C48E3A

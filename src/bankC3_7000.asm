@@ -38,7 +38,7 @@ CODE_C36FF2:						; called from other segments
 	lda.b $C9
 	sta.w $056D
 	rts
-CODE_C3704D:						; from CODE_C370A5 and other segments
+ReadjoyA:							; from CODE_C370A5 and other segments
 	phx
 	asl a
 	tax
@@ -86,7 +86,7 @@ CODE_C37091:						; no caller found (not traced)
 CODE_C370A5:						; from CODE_C37065, CODE_C37611, CODE_C376CE and other segments
 	lda.w $0591
 	lsr a
-	jmp.w CODE_C3704D
+	jmp.w ReadjoyA
 CODE_C370AC:						; called from other segments
 	lda.w $058D
 	sta.b $83
@@ -1182,7 +1182,7 @@ CODE_C379BD:						; from CODE_C3749B, CODE_C378AB, CODE_C378A1, ...
 	beq CODE_C379EC
 	pei ($75)
 	pei ($73)
-	jsl.l CODE_C379FF
+	jsl.l adda43
 	lda.b $75
 	sta.b $A1
 	lda.b $73
@@ -1208,14 +1208,14 @@ CODE_C379EC:						; from CODE_C379BD
 	rtl
 CODE_C379FB:						; from CODE_C379EC
 	jsl.l CODE_C37C62
-CODE_C379FF:						; from CODE_C379BD and other segments
+adda43:								; from CODE_C379BD and other segments
 	lda.b $73
 	clc
 	adc.w #$007A
 	sta.b $73
 	bcc CODE_C37A0B
 	inc.b $75
-CODE_C37A0B:						; from CODE_C379FF
+CODE_C37A0B:						; from adda43
 	cmp.w #$8EF8
 	bne CODE_C37A1E
 	lda.b $75

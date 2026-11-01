@@ -848,7 +848,7 @@ CODE_C517CA:						; from CODE_C517DB
 	lda.w $17B5,y
 	beq CODE_C517DB
 	txa
-	jsl.l CODE_C3704D
+	jsl.l ReadjoyA
 	lda.b $8B
 	bne CODE_C517FE
 CODE_C517DB:						; from CODE_C517CA
@@ -1345,7 +1345,7 @@ CODE_C51C0C:						; from CODE_C51BB6, CODE_C51BF2
 	stz.w $1080,x
 	lda.w #$0018
 	sta.b $7F
-	jml.l CODE_C4373E
+	jml.l assreplace
 CODE_C51C39:						; from CODE_C51BB6, CODE_C51BF2
 	pha
 	lda.w #$0006
@@ -1449,7 +1449,7 @@ CODE_C51D16:						; from CODE_C51D02
 	lda.w $10F1
 	bit.w #$0008
 	beq CODE_C51D22
-	jml.l CODE_C47323
+	jml.l Stop4Pen
 CODE_C51D22:						; from CODE_C51D16
 	jsl.l CODE_C48840
 	lda.w #$FFFF
@@ -1629,7 +1629,7 @@ CODE_C51E81:						; no caller found (not traced)
 	lda.w #$001C
 	sta.b $7F
 	ldx.b $6F
-	jml.l CODE_C4373E
+	jml.l assreplace
 CODE_C51EB8:						; from CODE_C51E81 and other segments
 	lda.b $6F
 	clc

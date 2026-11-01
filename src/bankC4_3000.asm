@@ -9,7 +9,7 @@ CODE_C4313E:						; called from other segments
 	bne CODE_C43157
 	lda.w #$0001
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C43153:						; from CODE_C43157
 	rtl
 CODE_C43154:						; from CODE_C43157
@@ -258,7 +258,7 @@ CODE_C4332A:						; called from other segments
 	beq CODE_C43350
 	lda.w #$0002
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C43344:						; from CODE_C43358
 	rtl
 DATA8_C43345:						; not traced: data between routines
@@ -431,7 +431,7 @@ CODE_C4348E:						; called from other segments
 	bne CODE_C434A7
 	lda.w #$0004
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C434A3:						; from CODE_C434A7
 	rtl
 CODE_C434A4:						; from CODE_C434A7
@@ -555,7 +555,7 @@ CODE_C43590:						; called from other segments
 	beq CODE_C435B6
 	lda.w #$0003
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C435AA:						; from CODE_C435B6
 	rtl
 CODE_C435AB:						; from CODE_C435B6
@@ -716,7 +716,7 @@ donothing:							; from CODE_C43350, CODE_C43154, CODE_C434A4, ...
 	bpl CODE_C4370B
 	lda.w #$0008
 	sta.b $7F
-	jml.l CODE_C4694F
+	jml.l doplayeracc
 CODE_C4370B:						; from donothing
 	rtl
 assexit:							; from CODE_C43769, CODE_C437F7 and other segments
@@ -745,7 +745,7 @@ CODE_C43734:						; from CODE_C43348, CODE_C435AE, CODE_C43A96 and other segment
 	dec a
 	and.w #$0007
 	sta.w $0A40,x
-CODE_C4373E:						; from CODE_C4313E, CODE_C4332A, CODE_C4348E, ...
+assreplace:							; from CODE_C4313E, CODE_C4332A, CODE_C4348E, ...
 	lda.w $0D60,x
 	ora.w #$0002
 	sta.w $0D60,x
@@ -1019,7 +1019,7 @@ CODE_C439A2:						; from CODE_C439A2
 	inc a
 	sta.w $12C9
 CODE_C439C6:						; from CODE_C439A2
-	jsl.l CODE_C53AE0
+	jsl.l ResetBench
 	stz.b $6B
 	jsl.l CODE_C541D3
 	jsl.l CODE_C53B51
@@ -1251,7 +1251,7 @@ CODE_C43BAC:						; from CODE_C43B66
 	lda.w #$1958
 CODE_C43BAF:						; from CODE_C43B66
 	jsl.l SetSPAFromA
-	jsl.l CODE_C457DD
+	jsl.l updateanim
 CODE_C43BB7:						; from CODE_C43A24, CODE_C43A32
 	inc.b $6F
 	inc.b $6F
@@ -1342,7 +1342,7 @@ CODE_C43C4E:						; from CODE_C43C34
 	sta.w $2026
 	lda.w #$005C
 	sta.w $201E
-	jsl.l CODE_C47F7A
+	jsl.l SeatPenaltyBox
 	lda.w $18BE
 	beq CODE_C43C74
 	jmp.w CODE_C43F0D

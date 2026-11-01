@@ -253,7 +253,7 @@ CODE_C5420B:						; from CODE_C5420B
 	stx.b $6F
 	dec.b $8F
 	bpl CODE_C5420B
-	jsl.l CODE_C54359
+	jsl.l SetPlList
 	lda.w #$0005
 	sta.b $8F
 	lda.w #$007E
@@ -425,7 +425,7 @@ CODE_C54320:						; called from other segments
 	sta.b $7F
 	ldx.b $6F
 	rtl
-CODE_C54359:						; from CODE_C5420B and other segments
+SetPlList:							; from CODE_C5420B and other segments
 	lda.w #$007E
 	sta.b $75
 	lda.w #$2008
@@ -445,7 +445,7 @@ CODE_C54359:						; from CODE_C5420B and other segments
 	lda.w #$9B38
 	sta.b $63
 	bra CODE_C543AD
-CODE_C5438A:						; from CODE_C54359
+CODE_C5438A:						; from SetPlList
 	lda.w $18BE
 	beq CODE_C543A4
 	lda.w #$00C0
@@ -462,7 +462,7 @@ CODE_C543A4:						; from CODE_C5438A
 	lda.w $12CB,y
 	bpl CODE_C543AD
 	inc.b $63
-CODE_C543AD:						; from CODE_C54359, CODE_C5438A, CODE_C543A4
+CODE_C543AD:						; from SetPlList, CODE_C5438A, CODE_C543A4
 	pei ($71)
 	pei ($6F)
 	jsl.l GetTeamLines
@@ -711,7 +711,7 @@ CODE_C54568:						; from CODE_C5454E
 	beq CODE_C54596
 	lda.w $1000,x
 	bne CODE_C54596
-	jml.l CODE_C4694F
+	jml.l doplayeracc
 CODE_C54596:						; from CODE_C54568
 	rtl
 CODE_C54597:						; from CODE_C54568
@@ -1193,7 +1193,7 @@ CODE_C549BA:						; from check4bench
 	stz.w $0AE0,x
 	lda.w #$000C
 	sta.b $7F
-	jml.l CODE_C4373E
+	jml.l assreplace
 CODE_C549EA:						; from check4bench, CODE_C549BA
 	rtl
 CODE_C549EB:						; from CODE_C549BA
@@ -1361,14 +1361,14 @@ CODE_C54B15:						; from CODE_C54AFC
 	dex
 	bpl CODE_C54AFC
 	rtl
-CODE_C54B1B:						; called from other segments
+RestoreBenchEnergy:					; called from other segments
 	lda.w $186E
 	beq CODE_C54B5F
 	stz.b $6B
 	jsl.l CODE_C54B2B
 	lda.w #$0002
 	sta.b $6B
-CODE_C54B2B:						; from CODE_C54B1B and other segments
+CODE_C54B2B:						; from RestoreBenchEnergy and other segments
 	lda.w #$0032
 	sta.b $7F
 CODE_C54B30:						; from CODE_C54B59
@@ -1395,7 +1395,7 @@ CODE_C54B59:						; from CODE_C54B37
 	dec.b $7F
 	dec.b $7F
 	bpl CODE_C54B30
-CODE_C54B5F:						; from CODE_C54B1B
+CODE_C54B5F:						; from RestoreBenchEnergy
 	rtl
 CODE_C54B60:						; from CODE_C54BAF, CODE_C54BCA, CODE_C545B8, ...
 	jsr.w CODE_C54114
@@ -1721,7 +1721,7 @@ CODE_C54DA4:						; from CODE_C545B8 and other segments
 CODE_C54DDE:						; from CODE_C54DA4
 	rtl
 CODE_C54DDF:						; called from other segments
-	jsl.l CODE_C53AE0
+	jsl.l ResetBench
 	lda.w #$0001
 	sta.w $234C
 	stz.b $6B

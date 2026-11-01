@@ -154,7 +154,7 @@ CODE_C440C2:						; from CODE_C43FC8 and other segments
 	bmi CODE_C44139
 	lda.w #$001A
 	sta.b $6B
-	jsl.l CODE_C44445
+	jsl.l checkgoal
 	jmp.w CODE_C441BE
 CODE_C4410F:						; from CODE_C440C2
 	lda.w #$0000
@@ -174,7 +174,7 @@ CODE_C4410F:						; from CODE_C440C2
 	bmi CODE_C44139
 	lda.w #$0018
 	sta.b $6B
-	jsl.l CODE_C44445
+	jsl.l checkgoal
 CODE_C44136:						; from CODE_C4410F
 	jmp.w CODE_C441BE
 CODE_C44139:						; from CODE_C440C2, CODE_C4410F
@@ -565,11 +565,11 @@ CODE_C44428:						; from CODE_C4430E, CODE_C443E4, CODE_C4439E
 	stz.w $18AC
 CODE_C44444:						; from CODE_C44428
 	rtl
-CODE_C44445:						; from CODE_C440C2, CODE_C4410F and other segments
+checkgoal:							; from CODE_C440C2, CODE_C4410F and other segments
 	cpx.w #$001C
 	beq CODE_C4444D
 	jmp.w CODE_C4468F
-CODE_C4444D:						; from CODE_C44445
+CODE_C4444D:						; from checkgoal
 	ldy.w $05A0
 	bmi CODE_C44457
 	lda.w $0A20,y
@@ -757,7 +757,7 @@ CODE_C445A9:						; from CODE_C4455B
 	cmp.w #$FFEF
 	bpl CODE_C445A6
 CODE_C445DD:						; from CODE_C445A9
-	jsl.l CODE_C4A967
+	jsl.l ChkShotStat
 	stz.w $18AE
 	stz.w $18AC
 	lda.w #$000C
@@ -833,7 +833,7 @@ CODE_C44675:						; from CODE_C44655
 	sta.b $83
 CODE_C4468C:						; from CODE_C44675
 	jmp.w CODE_C442B5
-CODE_C4468F:						; from CODE_C44445
+CODE_C4468F:						; from checkgoal
 	lda.w $0D60,x
 	bit.w #$8000
 	bne CODE_C4469C
@@ -1269,8 +1269,8 @@ CODE_C44A02:						; from CODE_C449D3
 	pei ($83)
 	pei ($87)
 	pei ($8B)
-	jsl.l CODE_C47AB4
-	jsl.l CODE_C453C1
+	jsl.l checkint
+	jsl.l checkcheck
 	pla
 	sta.b $8B
 	pla
@@ -1804,7 +1804,7 @@ CODE_C44E99:						; from CODE_C44E84
 	ldy.b $6B
 	lda.w $0A20,y
 	bne CODE_C44EC0
-	jsl.l CODE_C4A967
+	jsl.l ChkShotStat
 	ldy.b $6B
 	lda.w #$008C
 	sta.w $0B60,y

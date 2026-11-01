@@ -697,12 +697,12 @@ CODE_C5357F:						; from CODE_C5357F
 	lda.l $C30000,x
 	sta.w $17D5
 	rtl
-CODE_C535BF:						; called from other segments
+restoreteams:						; called from other segments
 	stz.b $6B
 	jsl.l CODE_C535CA
 	lda.w #$0002
 	sta.b $6B
-CODE_C535CA:						; from CODE_C535BF and other segments
+CODE_C535CA:						; from restoreteams and other segments
 	ldy.b $6B
 	lda.w #$0006
 	sta.w $12C7,y
@@ -1353,7 +1353,7 @@ CODE_C53AD5:						; from CODE_C53ABC, CODE_C53ACB
 	sta.b $6B
 CODE_C53ADF:						; from CODE_C53AD5
 	rtl
-CODE_C53AE0:						; called from other segments
+ResetBench:							; called from other segments
 	stz.w $113F
 	lda.w #$0010
 	sta.b $83
@@ -1363,7 +1363,7 @@ CODE_C53AE0:						; called from other segments
 	sta.b $83
 	lda.w #$0002
 	sta.b $63
-CODE_C53AF8:						; from CODE_C53AE0 and other segments
+CODE_C53AF8:						; from ResetBench and other segments
 	lda.w #$0032
 	sta.b $7F
 CODE_C53AFD:						; from CODE_C53B4A
@@ -1527,7 +1527,7 @@ Setplass:							; from CODE_C53B91 and other segments
 	lda.b [$63],y
 	and.w #$00FF
 	sta.b $7F
-	jml.l CODE_C4373E
+	jml.l assreplace
 CODE_C53C3E:						; from Setplass
 	rtl
 DATA8_C53C3F:						; not traced: data between routines

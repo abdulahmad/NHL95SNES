@@ -588,7 +588,7 @@ CODE_C4A4AA:						; from CODE_C4A493
 CODE_C4A4AB:						; called from other segments
 	lda.w #$0014
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C4A4B3:						; called from other segments
 	cpx.w $05A0
 	bne CODE_C4A4E3
@@ -964,7 +964,7 @@ CODE_C4A815:						; from CODE_C4A7FE
 	bmi CODE_C4A82C
 	jmp.w CODE_C4A91E
 CODE_C4A82C:						; from CODE_C4A815
-	jsl.l CODE_C4A967
+	jsl.l ChkShotStat
 	jsl.l CODE_C4843B
 	lda.w $09DC
 	bit.w #$8000
@@ -1109,12 +1109,12 @@ CODE_C4A922:						; from CODE_C4A88F, CODE_C4A896
 	bne CODE_C4A91F
 	stz.w $08DE
 	jmp.w CODE_C44E0A
-CODE_C4A967:						; from CODE_C4A82C, CODE_C4AAA3 and other segments
+ChkShotStat:						; from CODE_C4A82C, CODE_C4AAA3 and other segments
 	lda.w #$1000
 	trb.w $10F5
 	bne CODE_C4A972
 	jmp.w CODE_C4AA64
-CODE_C4A972:						; from CODE_C4A967
+CODE_C4A972:						; from ChkShotStat
 	lda.w $10F3
 	beq CODE_C4A97A
 	jmp.w CODE_C4AA64
@@ -1246,7 +1246,7 @@ CODE_C4AA3F:						; from CODE_C4AA24
 	adc.w #$000A
 	bmi CODE_C4AA64
 	sta.w $14E3
-CODE_C4AA64:						; from CODE_C4A967, CODE_C4A972, CODE_C4AA3F
+CODE_C4AA64:						; from ChkShotStat, CODE_C4A972, CODE_C4AA3F
 	rtl
 CODE_C4AA65:						; called from other segments
 	lda.w $10F3
@@ -1279,7 +1279,7 @@ CODE_C4AA9E:						; from CODE_C4AA74, CODE_C4AA88
 	lda.w $18B4
 	beq CODE_C4AA97
 CODE_C4AAA3:						; from CODE_C4AA74, CODE_C4AA92
-	jsl.l CODE_C4A967
+	jsl.l ChkShotStat
 	jsl.l CODE_C52284
 	lda.w #$001E
 	sta.w $0772
@@ -1544,7 +1544,7 @@ CODE_C4ACC4:						; from CODE_C4ACB6
 	sta.w $109C
 	lda.w #$001A
 	sta.b $7F
-	jsl.l CODE_C4373E
+	jsl.l assreplace
 	inx
 	inx
 	lda.w #$253E

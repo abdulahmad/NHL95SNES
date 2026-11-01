@@ -1210,11 +1210,11 @@ DATA8_C4692F:						; not traced: a table read by CODE_C45FAC, CODE_C46075, CODE_
 	db $00,$00,$04,$00,$07,$00,$04,$00,$00,$00,$FC,$FF,$F9,$FF,$FC,$FF
 DATA8_C4693F:						; not traced: a table read by CODE_C46075, CODE_C4615F, CODE_C4624F, ...
 	db $07,$00,$04,$00,$00,$00,$FC,$FF,$F9,$FF,$FC,$FF,$00,$00,$04,$00
-CODE_C4694F:						; from CODE_C470E7 and other segments
+doplayeracc:						; from CODE_C470E7 and other segments
 	lda.w $0A20,x
 	bne CODE_C46957
 	jmp.w CODE_C486FD
-CODE_C46957:						; from CODE_C4694F
+CODE_C46957:						; from doplayeracc
 	lda.w $0C80,x
 	cmp.w #$2082
 	beq CODE_C46992

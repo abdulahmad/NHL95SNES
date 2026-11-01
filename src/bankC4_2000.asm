@@ -552,7 +552,7 @@ CODE_C42E23:						; from CODE_C42E08
 	bpl CODE_C42E33
 	lda.w #$0010
 	sta.b $7F
-	jsl.l CODE_C4373E
+	jsl.l assreplace
 	bra CODE_C42E99
 CODE_C42E33:						; from CODE_C42E08, CODE_C42E23
 	jsl.l CODE_C5492E
@@ -706,7 +706,7 @@ CODE_C42F62:						; called from other segments
 	beq CODE_C42F88
 	lda.w #$0005
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C42F7C:						; from CODE_C42F88
 	rtl
 CODE_C42F7D:						; from CODE_C42F88
@@ -840,7 +840,7 @@ CODE_C43099:						; called from other segments
 	bne CODE_C430B2
 	lda.w #$0006
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C430AE:						; from CODE_C430B2
 	rtl
 CODE_C430AF:						; from CODE_C430B2

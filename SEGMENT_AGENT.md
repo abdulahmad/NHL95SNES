@@ -702,6 +702,9 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
 - 2026-10-31: naming pass 1: 43 routines in banks $C3-$C5 take their NHL94SNES names (the same code: instruction match >= 0.95
   with operands checked; e.g. TryAddPlayerToList, CompShoot, CheckBreakaway, dopass_count, holdcheck, SetSPA). Byte-neutral;
   name_map rows say why.
+- 2026-10-31: naming pass 2: 24 more routines take their NHL94SNES names (instruction match 0.85-0.95, each checked side by side
+  with 94S; call graph and immediates agree). Where the best match was an inner loop (94S .r / .rb / .cc / .ci), the name goes
+  on the routine that calls it, as in 94S: restoreteams, ResetBench, checkcheck, checkint, RestoreBenchEnergy, CalcAttrib.
 
 ## ROM map
 

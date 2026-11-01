@@ -339,7 +339,7 @@ CODE_C4521C:						; from CODE_C45214
 	lda.w #$0014
 	sta.b $7F
 	jsl.l CODE_C478C3
-	jmp.w CODE_C47323
+	jmp.w Stop4Pen
 CODE_C45228:						; from CODE_C45147, CODE_C45144
 	ldy.b $6B
 	lda.w $0C80,y
@@ -535,7 +535,7 @@ CODE_C45399:						; from CODE_C4536E
 	sta.w $09A0,y
 	sta.w $09C0,y
 	jmp.w CODE_C450A9
-CODE_C453C1:						; called from other segments
+checkcheck:							; called from other segments
 	pei ($8F)
 	pei ($6B)
 	pei ($6F)
@@ -556,7 +556,7 @@ CODE_C453E2:						; from CODE_C453FD
 	rtl
 CODE_C453E3:						; from CODE_C453E6
 	jmp.w holdcheck
-CODE_C453E6:						; from CODE_C453C1 and other segments
+CODE_C453E6:						; from checkcheck and other segments
 	ldy.b $6B
 	lda.w $0C80,y
 	cmp.w #$224E
@@ -781,7 +781,7 @@ CODE_C455DE:						; from CODE_C455D1
 	and.w #$0007
 	beq CODE_C45602
 CODE_C455E6:						; from CODE_C455F7
-	jml.l CODE_C4568F
+	jml.l Acheck
 CODE_C455EA:						; from CODE_C45581
 	lda.w $0896,x
 	cmp.w #$FFA4
@@ -863,7 +863,7 @@ CODE_C45687:						; from CODE_C45677
 	iny
 	dec.b $87
 	bne CODE_C4563A
-CODE_C4568F:						; from CODE_C455E6 and other segments
+Acheck:								; from CODE_C455E6 and other segments
 	lda.w #$2684
 	sta.b $83
 	sta.w $1000,x
@@ -879,7 +879,7 @@ CODE_C4568F:						; from CODE_C455E6 and other segments
 	bcc CODE_C456B1
 	lda.w #$224E
 	sta.b $83
-CODE_C456B1:						; from CODE_C4568F
+CODE_C456B1:						; from Acheck
 	jml.l SetSPA
 holdcheck:							; from CODE_C453E3
 	lda.w $0A20,x
@@ -1013,16 +1013,16 @@ SetSPAUpdate:						; from CODE_C4504A, CODE_C45881 and other segments
 	stz.w $0CA0,x
 	lda.w #$FFFF
 	sta.w $0CC0,x
-	jsl.l CODE_C457DD
+	jsl.l updateanim
 CODE_C457DC:						; from SetSPAUpdate
 	rtl
-CODE_C457DD:						; from SetSPAUpdate and other segments
+updateanim:							; from SetSPAUpdate and other segments
 	lda.w $0C80,x
 	bne CODE_C457E9
 	stz.w $1060,x
 	stz.w $1000,x
 	rtl
-CODE_C457E9:						; from CODE_C457DD
+CODE_C457E9:						; from updateanim
 	phy
 	sta.b $63
 	lda.w #$00C4
@@ -1313,7 +1313,7 @@ CODE_C45A08:						; from CODE_C459FD
 CODE_C45A3E:						; from CODE_C45950, CODE_C45A08
 	lda.w $0B80,x
 	sta.b $7F
-	jml.l CODE_C4694F
+	jml.l doplayeracc
 CODE_C45A47:						; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002

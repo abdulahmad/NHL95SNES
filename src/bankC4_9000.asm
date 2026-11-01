@@ -65,7 +65,7 @@ CODE_C49378:						; from CODE_C4936A
 	sta.w $0694,x
 CODE_C4937B:						; from CODE_C4936A
 	rtl
-CODE_C4937C:						; called from other segments
+GoaliePuckVector:					; called from other segments
 	lda.w $0830
 	sec
 	sbc.w $0814,x
@@ -82,7 +82,7 @@ CODE_C49390:						; no caller found (not traced); it runs on into the next routi
 	sec
 	sbc.b $8F
 	sta.b $83
-CODE_C4939D:						; from CODE_C4937C
+CODE_C4939D:						; from GoaliePuckVector
 	lda.w $0896,x
 	bpl CODE_C493BC
 	cmp.w #$FEF2
@@ -500,7 +500,7 @@ CODE_C496FE:						; from CODE_C496DF
 	jmp.w CompShoot
 CODE_C49709:						; from CODE_C496C2, CODE_C496DF, CODE_C496FE
 	rtl
-shotdiradj:							; from CODE_C49930 and other segments
+shotdiradj:							; from doshot and other segments
 	lda.w $14F9,x
 	bmi CODE_C49712
 	jmp.w CODE_C497DE
@@ -669,7 +669,7 @@ CODE_C49846:						; from CODE_C49835
 	sta.w $0B80,x
 	lda.w #$0013
 	sta.b $7F
-	jmp.w CODE_C4373E
+	jmp.w assreplace
 CODE_C49858:						; from CODE_C498A1 and other segments
 	lda.w #$0008
 	sta.w $07C8
@@ -734,7 +734,7 @@ CODE_C498D3:						; from CODE_C498BC and other segments
 	bcs CODE_C49929
 	lda.w $0CA0,x
 	cmp.w #$0018
-	bcs CODE_C49930
+	bcs doshot
 	lda.b $7F
 	bit.w #$0008
 	bne CODE_C498FA
@@ -759,13 +759,13 @@ CODE_C498FA:						; from CODE_C498D3
 	bcc CODE_C4992F
 	lda.w #$0018
 	sta.w $0CA0,x
-	bra CODE_C49930
+	bra doshot
 CODE_C49929:						; from CODE_C498D3
 	lda.w #$0008
 	trb.w $10F5
 CODE_C4992F:						; from CODE_C498FA
 	rtl
-CODE_C49930:						; from CODE_C498D3, CODE_C498FA, CODE_C49F9D, ...
+doshot:								; from CODE_C498D3, CODE_C498FA, CODE_C49F9D, ...
 	jsl.l shotdiradj
 	pea.w $000D
 	lda.w $07CA
@@ -779,7 +779,7 @@ CODE_C49930:						; from CODE_C498D3, CODE_C498FA, CODE_C49F9D, ...
 	cpx.w $05A0
 	beq CODE_C49955
 	jmp.w CODE_C49AFE
-CODE_C49955:						; from CODE_C49930
+CODE_C49955:						; from doshot
 	lda.w #$000E
 	sta.b $01,s
 	lda.w #$1000
@@ -976,7 +976,7 @@ CODE_C49A83:						; from CODE_C49A05, CODE_C49A12
 	lda.w #$1800
 CODE_C49AFB:						; from CODE_C49A83
 	sta.w $08DE
-CODE_C49AFE:						; from CODE_C49930, CODE_C49A83
+CODE_C49AFE:						; from doshot, CODE_C49A83
 	pla
 	jsl.l CODE_CF040B
 	ldx.b $6F
@@ -1000,7 +1000,7 @@ CODE_C49B26:						; from CODE_C49B10
 	beq CODE_C49B34
 	lda.w #$0012
 	sta.b $7F
-	jsl.l CODE_C4373E
+	jsl.l assreplace
 CODE_C49B34:						; from CODE_C49B26
 	rtl
 DATA8_C49B35:						; not traced: data between routines
@@ -1137,10 +1137,10 @@ CODE_C49C72:						; from CODE_C49C63
 	lda.w #$1E48
 CODE_C49C75:						; from CODE_C49C63
 	jsl.l SetSPAFromA
-	jsl.l CODE_C457DD
+	jsl.l updateanim
 	lda.w #$0002
 	sta.w $0CC0,x
-	jml.l CODE_C49930
+	jml.l doshot
 DATA8_C49C87:						; not traced: a table read by CODE_C49BE0
 	db $6B
 CODE_C49C88:						; from CODE_C49BB4
@@ -1503,7 +1503,7 @@ CODE_C49F9D:						; from CODE_C49F8B
 	jsl.l CODE_C4843B
 	pla
 	sta.b $6B
-	jsl.l CODE_C49930
+	jsl.l doshot
 	jmp.w CODE_C49E78
 CODE_C49FAF:						; from CODE_C49EF0, CODE_C49F2C
 	lda.w $05A0
