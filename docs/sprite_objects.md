@@ -157,6 +157,32 @@ not change that saved index (CreateSprite initializes it to zero).
 - $8A and $9D have no persistent effect except consuming one operand byte. No external call is
   present; names such as sound or callback would be speculation.
 
+#### Existing record scripts
+
+The source comments in bankC0_8000 describe the commands at each script. The pointer lists are:
+
+| List | Index | Script | Behavior |
+|---|---|---|---|
+| Sprite28FramesEnd | 0 | SpriteScript_C0853E | Frames 2-12, toggle h flip ($8B), frames 5, 4, 3, 2, toggle h flip ($8B), frame 13, restart ($81) |
+| Sprite28FramesEnd | 1 | OneFrameScript | Frame 0, hold ($80) |
+| Sprite28FramesEnd | 2 | SpriteScript_C08551 | Frame 1, hold ($80) |
+| Sprite28FramesEnd | 3 | SpriteScript_C08553 | Frames 14-26, 28, 29, restart ($81); frame 27 is not in this script |
+| Sprite28FramesEnd | 4 | SpriteScript_C08563 | Frame 30, hold ($80) |
+| Sprite28FramesEnd | 5 | SpriteScript_C08565 | Frame 31, hold ($80) |
+| PadNumbersFramesEnd | 0 | SpriteScript_C085C4 | Upload frames 0 + 1 together ($87, count 2), then hold ($80) |
+| PadNumbersFramesEnd | 1 | SpriteScript_C085C9 | Upload frames 0 + 2 together ($87, count 2), then hold ($80) |
+| PadNumbersFramesEnd | 2 | SpriteScript_C085CE | Upload frames 0 + 3 together ($87, count 2), then hold ($80) |
+| PadNumbersFramesEnd | 3 | SpriteScript_C085D3 | Upload frames 0 + 4 together ($87, count 2), then hold ($80) |
+| PadNumbersFramesEnd | 4 | SpriteScript_C085D8 | Upload frames 0 + 5 together ($87, count 2), then hold ($80) |
+| SkaterFramesEnd | 0 | SpriteScript_C08634 | Set speed $0060 ($86), frames 0, 1, 2, hold ($80) |
+| SkaterFramesEnd | 1 | SpriteScript_C0863B | Set speed $0060 ($86), frames 3, 4, 5, hold ($80) |
+
+Every other record's list has one pointer to OneFrameScript. Frame numbers in this table are decimal;
+command bytes and the speed word are hexadecimal. The five additional words after Sprite28FramesEnd's
+first pointer are therefore indices 1-5 of the same list. The only command bytes in these existing
+scripts are $80, $81, $86, $87 and $8B; other command behavior above comes from the handler code, not
+from an observed use in these scripts.
+
 
 ## Object RAM (bank $00, X = object) used by these routines
 $05 x, $08 y, $0A speed, $0C reload, $0E timer, $10/$12 small VRAM word address, $14 large VRAM address, $16/$18 large slot,

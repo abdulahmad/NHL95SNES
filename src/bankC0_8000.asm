@@ -21,9 +21,9 @@ LogoANHSprite:						; the ANH logo
 	db $03							; not traced
 LogoANHFrames:						; its frames
 	dw LogoANHFrame
-LogoANHFramesEnd:					; the animation script
+LogoANHFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
-OneFrameScript:						; animation script: frame numbers, and commands (bit 7 set)
+OneFrameScript:						; show frame 0, then $80 holds on itself at each timer expiry
 	db $00,$80
 LogoBOSFrame:						; 4 8x8 and 8 16x16 sprites, packed tiles (flags 3)
 	db 4,8							; the 8x8 and 16x16 sprite counts
@@ -40,7 +40,7 @@ LogoBOSSprite:						; the BOS logo
 	db $03							; not traced
 LogoBOSFrames:						; its frames
 	dw LogoBOSFrame
-LogoBOSFramesEnd:					; the animation script
+LogoBOSFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoBUFFrame:						; 4 8x8 and 8 16x16 sprites, packed tiles (flags 3)
 	db 4,8							; the 8x8 and 16x16 sprite counts
@@ -57,7 +57,7 @@ LogoBUFSprite:						; the BUF logo
 	db $03							; not traced
 LogoBUFFrames:						; its frames
 	dw LogoBUFFrame
-LogoBUFFramesEnd:					; the animation script
+LogoBUFFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoCGYFrame:						; 3 8x8 and 8 16x16 sprites, packed tiles (flags 3)
 	db 3,8							; the 8x8 and 16x16 sprite counts
@@ -74,7 +74,7 @@ LogoCGYSprite:						; the CGY logo
 	db $03							; not traced
 LogoCGYFrames:						; its frames
 	dw LogoCGYFrame
-LogoCGYFramesEnd:					; the animation script
+LogoCGYFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoCHIFrame:						; 4 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 4,7							; the 8x8 and 16x16 sprite counts
@@ -91,7 +91,7 @@ LogoCHISprite:						; the CHI logo
 	db $03							; not traced
 LogoCHIFrames:						; its frames
 	dw LogoCHIFrame
-LogoCHIFramesEnd:					; the animation script
+LogoCHIFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoDALFrame:						; 10 8x8 and 5 16x16 sprites, packed tiles (flags 3)
 	db 10,5							; the 8x8 and 16x16 sprite counts
@@ -108,7 +108,7 @@ LogoDALSprite:						; the DAL logo
 	db $03							; not traced
 LogoDALFrames:						; its frames
 	dw LogoDALFrame
-LogoDALFramesEnd:					; the animation script
+LogoDALFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoDETFrame:						; 11 8x8 and 4 16x16 sprites, packed tiles (flags 3)
 	db 11,4							; the 8x8 and 16x16 sprite counts
@@ -125,7 +125,7 @@ LogoDETSprite:						; the DET logo
 	db $03							; not traced
 LogoDETFrames:						; its frames
 	dw LogoDETFrame
-LogoDETFramesEnd:					; the animation script
+LogoDETFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoEDMFrame:						; 0 8x8 and 9 16x16 sprites, packed tiles (flags 2)
 	db 0,9							; the 8x8 and 16x16 sprite counts
@@ -142,7 +142,7 @@ LogoEDMSprite:						; the EDM logo
 	db $03							; not traced
 LogoEDMFrames:						; its frames
 	dw LogoEDMFrame
-LogoEDMFramesEnd:					; the animation script
+LogoEDMFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoFLAFrame:						; 5 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 5,6							; the 8x8 and 16x16 sprite counts
@@ -159,7 +159,7 @@ LogoFLASprite:						; the FLA logo
 	db $03							; not traced
 LogoFLAFrames:						; its frames
 	dw LogoFLAFrame
-LogoFLAFramesEnd:					; the animation script
+LogoFLAFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoHFDFrame:						; 0 8x8 and 9 16x16 sprites, packed tiles (flags 2)
 	db 0,9							; the 8x8 and 16x16 sprite counts
@@ -176,7 +176,7 @@ LogoHFDSprite:						; the HFD logo
 	db $03							; not traced
 LogoHFDFrames:						; its frames
 	dw LogoHFDFrame
-LogoHFDFramesEnd:					; the animation script
+LogoHFDFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoLAFrame:						; 3 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 3,6							; the 8x8 and 16x16 sprite counts
@@ -193,7 +193,7 @@ LogoLASprite:						; the LA logo
 	db $03							; not traced
 LogoLAFrames:						; its frames
 	dw LogoLAFrame
-LogoLAFramesEnd:					; the animation script
+LogoLAFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoMTLFrame:						; 4 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 4,6							; the 8x8 and 16x16 sprite counts
@@ -210,7 +210,7 @@ LogoMTLSprite:						; the MTL logo
 	db $03							; not traced
 LogoMTLFrames:						; its frames
 	dw LogoMTLFrame
-LogoMTLFramesEnd:					; the animation script
+LogoMTLFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoNJFrame:						; 5 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 5,7							; the 8x8 and 16x16 sprite counts
@@ -227,7 +227,7 @@ LogoNJSprite:						; the NJ logo
 	db $03							; not traced
 LogoNJFrames:						; its frames
 	dw LogoNJFrame
-LogoNJFramesEnd:					; the animation script
+LogoNJFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoNYIFrame:						; 4 8x8 and 8 16x16 sprites, packed tiles (flags 3)
 	db 4,8							; the 8x8 and 16x16 sprite counts
@@ -244,7 +244,7 @@ LogoNYISprite:						; the NYI logo
 	db $03							; not traced
 LogoNYIFrames:						; its frames
 	dw LogoNYIFrame
-LogoNYIFramesEnd:					; the animation script
+LogoNYIFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoNYRFrame:						; 0 8x8 and 9 16x16 sprites, packed tiles (flags 2)
 	db 0,9							; the 8x8 and 16x16 sprite counts
@@ -261,7 +261,7 @@ LogoNYRSprite:						; the NYR logo
 	db $03							; not traced
 LogoNYRFrames:						; its frames
 	dw LogoNYRFrame
-LogoNYRFramesEnd:					; the animation script
+LogoNYRFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoOTWFrame:						; 7 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 7,6							; the 8x8 and 16x16 sprite counts
@@ -278,7 +278,7 @@ LogoOTWSprite:						; the OTW logo
 	db $03							; not traced
 LogoOTWFrames:						; its frames
 	dw LogoOTWFrame
-LogoOTWFramesEnd:					; the animation script
+LogoOTWFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoPHIFrame:						; 5 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 5,6							; the 8x8 and 16x16 sprite counts
@@ -295,7 +295,7 @@ LogoPHISprite:						; the PHI logo
 	db $03							; not traced
 LogoPHIFrames:						; its frames
 	dw LogoPHIFrame
-LogoPHIFramesEnd:					; the animation script
+LogoPHIFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoPITFrame:						; 6 8x8 and 5 16x16 sprites, packed tiles (flags 3)
 	db 6,5							; the 8x8 and 16x16 sprite counts
@@ -312,7 +312,7 @@ LogoPITSprite:						; the PIT logo
 	db $03							; not traced
 LogoPITFrames:						; its frames
 	dw LogoPITFrame
-LogoPITFramesEnd:					; the animation script
+LogoPITFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoQUEFrame:						; 6 8x8 and 5 16x16 sprites, packed tiles (flags 3)
 	db 6,5							; the 8x8 and 16x16 sprite counts
@@ -329,7 +329,7 @@ LogoQUESprite:						; the QUE logo
 	db $03							; not traced
 LogoQUEFrames:						; its frames
 	dw LogoQUEFrame
-LogoQUEFramesEnd:					; the animation script
+LogoQUEFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoSJFrame:						; 6 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 6,6							; the 8x8 and 16x16 sprite counts
@@ -346,7 +346,7 @@ LogoSJSprite:						; the SJ logo
 	db $03							; not traced
 LogoSJFrames:						; its frames
 	dw LogoSJFrame
-LogoSJFramesEnd:					; the animation script
+LogoSJFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoSTLFrame:						; 3 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 3,6							; the 8x8 and 16x16 sprite counts
@@ -363,7 +363,7 @@ LogoSTLSprite:						; the STL logo
 	db $03							; not traced
 LogoSTLFrames:						; its frames
 	dw LogoSTLFrame
-LogoSTLFramesEnd:					; the animation script
+LogoSTLFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoTBFrame:						; 4 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 4,7							; the 8x8 and 16x16 sprite counts
@@ -380,7 +380,7 @@ LogoTBSprite:						; the TB logo
 	db $03							; not traced
 LogoTBFrames:						; its frames
 	dw LogoTBFrame
-LogoTBFramesEnd:					; the animation script
+LogoTBFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoTORFrame:						; 5 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 5,7							; the 8x8 and 16x16 sprite counts
@@ -397,7 +397,7 @@ LogoTORSprite:						; the TOR logo
 	db $03							; not traced
 LogoTORFrames:						; its frames
 	dw LogoTORFrame
-LogoTORFramesEnd:					; the animation script
+LogoTORFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoVANFrame:						; 6 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 6,7							; the 8x8 and 16x16 sprite counts
@@ -414,7 +414,7 @@ LogoVANSprite:						; the VAN logo
 	db $03							; not traced
 LogoVANFrames:						; its frames
 	dw LogoVANFrame
-LogoVANFramesEnd:					; the animation script
+LogoVANFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoWSHFrame:						; 5 8x8 and 4 16x16 sprites, packed tiles (flags 3)
 	db 5,4							; the 8x8 and 16x16 sprite counts
@@ -431,7 +431,7 @@ LogoWSHSprite:						; the WSH logo
 	db $03							; not traced
 LogoWSHFrames:						; its frames
 	dw LogoWSHFrame
-LogoWSHFramesEnd:					; the animation script
+LogoWSHFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoWPGFrame:						; 4 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 4,7							; the 8x8 and 16x16 sprite counts
@@ -448,7 +448,7 @@ LogoWPGSprite:						; the WPG logo
 	db $03							; not traced
 LogoWPGFrames:						; its frames
 	dw LogoWPGFrame
-LogoWPGFramesEnd:					; the animation script
+LogoWPGFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoASEFrame:						; 7 8x8 and 8 16x16 sprites, packed tiles (flags 3)
 	db 7,8							; the 8x8 and 16x16 sprite counts
@@ -465,7 +465,7 @@ LogoASESprite:						; the Eastern all-star logo
 	db $03							; not traced
 LogoASEFrames:						; its frames
 	dw LogoASEFrame
-LogoASEFramesEnd:					; the animation script
+LogoASEFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 LogoASWFrame:						; 7 8x8 and 8 16x16 sprites, packed tiles (flags 3)
 	db 7,8							; the 8x8 and 16x16 sprite counts
@@ -482,7 +482,7 @@ LogoASWSprite:						; the Western all-star logo
 	db $03							; not traced
 LogoASWFrames:						; its frames
 	dw LogoASWFrame
-LogoASWFramesEnd:					; the animation script
+LogoASWFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 Sprite28Frame00:					; 0 8x8 and 1 16x16 sprites, packed tiles (flags 2)
 	db 0,1							; the 8x8 and 16x16 sprite counts
@@ -661,18 +661,20 @@ Sprite28Frames:						; its frames
 	dw Sprite28Frame20,Sprite28Frame21,Sprite28Frame22,Sprite28Frame23
 	dw Sprite28Frame24,Sprite28Frame25,Sprite28Frame26,Sprite28Frame27
 	dw Sprite28Frame28,Sprite28Frame29,Sprite28Frame30,Sprite28Frame31
-Sprite28FramesEnd:					; the animation script
+Sprite28FramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw SpriteScript_C0853E
-	dw OneFrameScript,SpriteScript_C08551,SpriteScript_C08553,SpriteScript_C08563,SpriteScript_C08565	; more script pointers (not traced)
-SpriteScript_C0853E:				; animation script: frame numbers, and commands (bit 7 set)
+									; additional script pointers, indexed after entry zero
+	dw OneFrameScript,SpriteScript_C08551,SpriteScript_C08553,SpriteScript_C08563,SpriteScript_C08565
+SpriteScript_C0853E:				; show frames 2 through 12, $8B toggles h flip, show 5 through 2, then $8B
+									; toggles h flip again, show frame 13 and $81 restarts this script
 	db $02,$03,$04,$05,$06,$07,$08,$09,$0A,$0B,$0C,$8B,$05,$04,$03,$02,$8B,$0D,$81
-SpriteScript_C08551:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C08551:				; show frame 1, then $80 holds on itself
 	db $01,$80
-SpriteScript_C08553:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C08553:				; show the listed frames, then $81 restarts this script
 	db $0E,$0F,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$1A,$1C,$1D,$81
-SpriteScript_C08563:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C08563:				; show frame 30, then $80 holds on itself
 	db $1E,$80
-SpriteScript_C08565:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C08565:				; show frame 31, then $80 holds on itself
 	db $1F,$80
 PadNumbersFrame00:					; 0 8x8 and 2 16x16 sprites, packed tiles (flags 2)
 	db 0,2							; the 8x8 and 16x16 sprite counts
@@ -715,18 +717,24 @@ PadNumbersSprite:					; a controller, then the numbers 1 to 5
 PadNumbersFrames:					; its frames
 	dw PadNumbersFrame00,PadNumbersFrame01,PadNumbersFrame02,PadNumbersFrame03
 	dw PadNumbersFrame04,PadNumbersFrame05
-PadNumbersFramesEnd:				; the animation script
+PadNumbersFramesEnd:				; animation script pointer list, selected by SetSpriteAnim
 	dw SpriteScript_C085C4
-	dw SpriteScript_C085C9,SpriteScript_C085CE,SpriteScript_C085D3,SpriteScript_C085D8	; more script pointers (not traced)
-SpriteScript_C085C4:				; animation script: frame numbers, and commands (bit 7 set)
+									; additional script pointers, indexed after entry zero
+	dw SpriteScript_C085C9,SpriteScript_C085CE,SpriteScript_C085D3,SpriteScript_C085D8
+SpriteScript_C085C4:				; upload frames 0 and 1 together with $87 (count 2), then $80 holds on
+									; itself
 	db $87,$02,$00,$01,$80
-SpriteScript_C085C9:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C085C9:				; upload frames 0 and 2 together with $87 (count 2), then $80 holds on
+									; itself
 	db $87,$02,$00,$02,$80
-SpriteScript_C085CE:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C085CE:				; upload frames 0 and 3 together with $87 (count 2), then $80 holds on
+									; itself
 	db $87,$02,$00,$03,$80
-SpriteScript_C085D3:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C085D3:				; upload frames 0 and 4 together with $87 (count 2), then $80 holds on
+									; itself
 	db $87,$02,$00,$04,$80
-SpriteScript_C085D8:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C085D8:				; upload frames 0 and 5 together with $87 (count 2), then $80 holds on
+									; itself
 	db $87,$02,$00,$05,$80
 SkaterFrame00:						; 7 8x8 and 6 16x16 sprites, packed tiles (flags 3)
 	db 7,6							; the 8x8 and 16x16 sprite counts
@@ -769,12 +777,15 @@ SkaterSprite:						; a skating player
 SkaterFrames:						; its frames
 	dw SkaterFrame00,SkaterFrame01,SkaterFrame02,SkaterFrame03
 	dw SkaterFrame04,SkaterFrame05
-SkaterFramesEnd:					; the animation script
+SkaterFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw SpriteScript_C08634
-	dw SpriteScript_C0863B			; more script pointers (not traced)
-SpriteScript_C08634:				; animation script: frame numbers, and commands (bit 7 set)
+									; additional script pointers, indexed after entry zero
+	dw SpriteScript_C0863B
+SpriteScript_C08634:				; set timer speed to $0060 with $86, show frames 0, 1, 2, then $80 holds
+									; on itself
 	db $86,$60,$00,$00,$01,$02,$80
-SpriteScript_C0863B:				; animation script: frame numbers, and commands (bit 7 set)
+SpriteScript_C0863B:				; set timer speed to $0060 with $86, show frames 3, 4, 5, then $80 holds
+									; on itself
 	db $86,$60,$00,$03,$04,$05,$80
 RedDotFrame:						; 2 8x8 and 0 16x16 sprites, packed tiles
 	db 2,0							; the 8x8 and 16x16 sprite counts
@@ -791,7 +802,7 @@ RedDotSprite:						; a small red dot
 	db $03							; not traced
 RedDotFrames:						; its frames
 	dw RedDotFrame
-RedDotFramesEnd:					; the animation script
+RedDotFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 EASportsFrame:						; 4 8x8 and 2 16x16 sprites, packed tiles (flags 3)
 	db 4,2							; the 8x8 and 16x16 sprite counts
@@ -808,7 +819,7 @@ EASportsSprite:						; the EA SPORTS logo
 	db $03							; not traced
 EASportsFrames:						; its frames
 	dw EASportsFrame
-EASportsFramesEnd:					; the animation script
+EASportsFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 EALogoEFrame:						; 0 8x8 and 24 16x16 sprites, packed tiles (flags 2)
 	db 0,24							; the 8x8 and 16x16 sprite counts
@@ -825,7 +836,7 @@ EALogoESprite:						; the big E of the EA logo
 	db $02							; not traced
 EALogoEFrames:						; its frames
 	dw EALogoEFrame
-EALogoEFramesEnd:					; the animation script
+EALogoEFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 EALogoAFrame:						; 0 8x8 and 19 16x16 sprites, packed tiles (flags 2)
 	db 0,19							; the 8x8 and 16x16 sprite counts
@@ -842,7 +853,7 @@ EALogoASprite:						; the big A of the EA logo
 	db $02							; not traced
 EALogoAFrames:						; its frames
 	dw EALogoAFrame
-EALogoAFramesEnd:					; the animation script
+EALogoAFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 SportsWordFrame:					; 0 8x8 and 19 16x16 sprites, packed tiles (flags 2)
 	db 0,19							; the 8x8 and 16x16 sprite counts
@@ -859,7 +870,7 @@ SportsWordSprite:					; part of the word SPORTS
 	db $02							; not traced
 SportsWordFrames:					; its frames
 	dw SportsWordFrame
-SportsWordFramesEnd:				; the animation script
+SportsWordFramesEnd:				; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 ElectronicWordFrame:				; 0 8x8 and 9 16x16 sprites, packed tiles (flags 2)
 	db 0,9							; the 8x8 and 16x16 sprite counts
@@ -876,7 +887,7 @@ ElectronicWordSprite:				; part of the words ELECTRONIC ARTS
 	db $02							; not traced
 ElectronicWordFrames:				; its frames
 	dw ElectronicWordFrame
-ElectronicWordFramesEnd:			; the animation script
+ElectronicWordFramesEnd:			; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 ItsInTheFrame:						; 0 8x8 and 7 16x16 sprites, packed tiles (flags 2)
 	db 0,7							; the 8x8 and 16x16 sprite counts
@@ -893,7 +904,7 @@ ItsInTheSprite:						; the words It's in the
 	db $03							; not traced
 ItsInTheFrames:						; its frames
 	dw ItsInTheFrame
-ItsInTheFramesEnd:					; the animation script
+ItsInTheFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 BlackBoxFrame:						; 1 8x8 and 15 16x16 sprites, packed tiles (flags 3)
 	db 1,15							; the 8x8 and 16x16 sprite counts
@@ -910,7 +921,7 @@ BlackBoxSprite:						; a black box with a white frame
 	db $03							; not traced
 BlackBoxFrames:						; its frames
 	dw BlackBoxFrame
-BlackBoxFramesEnd:					; the animation script
+BlackBoxFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 NHLShieldFrame:						; 5 8x8 and 7 16x16 sprites, packed tiles (flags 3)
 	db 5,7							; the 8x8 and 16x16 sprite counts
@@ -927,7 +938,7 @@ NHLShieldSprite:					; the NHL shield
 	db $03							; not traced
 NHLShieldFrames:					; its frames
 	dw NHLShieldFrame
-NHLShieldFramesEnd:					; the animation script
+NHLShieldFramesEnd:					; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 NHLPAFrame:							; 10 8x8 and 4 16x16 sprites, packed tiles (flags 3)
 	db 10,4							; the 8x8 and 16x16 sprite counts
@@ -944,7 +955,7 @@ NHLPASprite:						; the NHLPA logo
 	db $03							; not traced
 NHLPAFrames:						; its frames
 	dw NHLPAFrame
-NHLPAFramesEnd:						; the animation script
+NHLPAFramesEnd:						; animation script pointer list, selected by SetSpriteAnim
 	dw OneFrameScript
 SpriteRecordList:					; the records, by sprite number (the team logos first, by team)
 	dw LogoANHSprite,LogoBOSSprite,LogoBUFSprite,LogoCGYSprite
