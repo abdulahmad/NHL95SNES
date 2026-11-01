@@ -218,7 +218,7 @@ CODE_C5503C:						; called from other segments
 	inx
 	dey
 	bpl .loop
-CODE_C550E2:						; from CODE_C55A09
+CODE_C550E2:						; from ExitToPauseMenu
 	jsl.l CODE_C5E50E
 	lda.w #$0039
 	sta.b $1A
@@ -1153,7 +1153,7 @@ CODE_C558CC:						; called from other segments
 	lda.w #$040E
 	jsl.l FreeWorkBuf
 	jsl.l MarkWorkBuf
-CODE_C558D7:						; from CODE_C55A09 and other segments
+CODE_C558D7:						; from ExitToPauseMenu and other segments
 	ldx.w $3648
 	ldy.w #$1912
 	lda.w #$01FD
@@ -1203,7 +1203,8 @@ CODE_C558D7:						; from CODE_C55A09 and other segments
 	jsl.l CODE_C5EE9B
 	jsl.l WaitTransfers
 	jml.l RestoreWorkBuf
-CODE_C55951:						; from CODE_C55A40 and other segments
+SetupScreen:						; common start of the stats screens: the tiled background, VRAM cleared,
+									; the colour hook, a new text map (InitTextMap) and the sprites
 	stz.w DMAEnShadow
 	stz.b $22
 	stz.b $24
@@ -1269,7 +1270,9 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	lda.w #$0002
 	sta.w BG2VScroll
 	rts
-CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
+ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed, VRAM cleared,
+									; back to the pause menu (CODE_C550E2); opened from the season's Other
+									; Scores it only fades out and returns
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	lda.w $190E
@@ -1288,11 +1291,12 @@ CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
 	stz.w $058D
 	lda.w $190E
 	jmp.w CODE_C550E2
-CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
+SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both teams' logo
+									; sprites
 	pha
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	pla
 	jsl.l PrintTextPage
 	lda.w #$0040
@@ -1335,9 +1339,10 @@ CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	jsl.l PrintThinCentred
 	rts
 CODE_C55AB8:						; called from other segments
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	rtl
-CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
+StartScrollList:					; starts a scrolling list: X rows shown from text row Y, each row drawn by
+									; the routine A, a1 = the last row; the first rows drawn
 	sta.b $75
 	stx.b $71
 	sty.b a4
@@ -1461,11 +1466,12 @@ CODE_C55BD1:						; from CODE_C55BC8
 	inc.b a3
 	lda.b a3
 	cmp.b a1
-	bcs CODE_C55BE8
+	bcs ScrollListArrows
 	dec a
 	cmp.b $71
 	bcc CODE_C55BC8
-CODE_C55BE8:						; from CODE_C562C6, CODE_C55BD1 and other segments
+ScrollListArrows:					; a scrolling list each frame: its up arrow sprite shown when rows are
+									; above, the down arrow when rows are below
 	ldx.b $77
 	lda.b $22,x
 	ldy.b $69
@@ -1532,9 +1538,9 @@ CODE_C55C52:						; from CODE_C55C25
 	pla
 	rts
 CODE_C55C54:						; called from other segments
-	jsr.w CODE_C55C58
+	jsr.w ScrollListDown
 	rtl
-CODE_C55C58:						; from CODE_C55C54, CODE_C56301 and other segments
+ScrollListDown:						; scrolls a scrolling list down a row (the pad's down) when rows are below
 	lda.b $71
 	inc a
 	sta.b tmp1
@@ -1561,15 +1567,15 @@ CODE_C55C58:						; from CODE_C55C54, CODE_C56301 and other segments
 	jsr.w CODE_C55D73
 	pea.w CODE_C55C86-1
 	jmp ($0075)
-CODE_C55C86:						; from CODE_C55C58
+CODE_C55C86:						; from ScrollListDown
 	jsl.l SendTextMap
 	bra CODE_C55C93
 CODE_C55C8C:						; from CODE_C55C93
 	stz.w $0565
 	stz.w $058D
-CODE_C55C92:						; from CODE_C55C58
+CODE_C55C92:						; from ScrollListDown
 	rts
-CODE_C55C93:						; from CODE_C55C58, CODE_C55C86
+CODE_C55C93:						; from ScrollListDown, CODE_C55C86
 	inc.b $69
 	ldx.w #$0008
 .loop:								; loop: X - 1, if the result < 0 go to CODE_C55C8C, $4693 + 1, ...
@@ -1609,7 +1615,7 @@ CODE_C55C93:						; from CODE_C55C58, CODE_C55C86
 	sta.w $4699
 	stz.w $469B
 	bra .loop
-CODE_C55CE6:						; from CODE_C562C6 and other segments
+ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows are above
 	lda.b $71
 	inc a
 	sta.b tmp1
@@ -1634,9 +1640,9 @@ CODE_C55CE6:						; from CODE_C562C6 and other segments
 	jsr.w CODE_C55D73
 	pea.w CODE_C55D10-1
 	jmp ($0075)
-CODE_C55D10:						; from CODE_C55CE6
+CODE_C55D10:						; from ScrollListUp
 	jsl.l SendTextMap
-CODE_C55D14:						; from CODE_C55CE6
+CODE_C55D14:						; from ScrollListUp
 	ldx.w #$0008
 .loop:								; loop: X - 1, if the result < 0 go to .2, A 8-bit, A = tmp2, ...
 	dex
@@ -1680,11 +1686,11 @@ CODE_C55D14:						; from CODE_C55CE6
 .2:									; $0565 = 0, $058D = 0
 	stz.w $0565
 	stz.w $058D
-CODE_C55D6A:						; from CODE_C55CE6
+CODE_C55D6A:						; from ScrollListUp
 	rts
 DATA8_C55D6B:						; jump table: the routine for each index (code in bankC5_6000 uses it)
 	dw CODE_C55D8A,CODE_C55DAC,CODE_C55DEF,CODE_C55E3D
-CODE_C55D73:						; from CODE_C55C25, CODE_C55C58, CODE_C55CE6, ...
+CODE_C55D73:						; from CODE_C55C25, ScrollListDown, ScrollListUp, ...
 	lda.b $6D
 	xba
 	lsr a

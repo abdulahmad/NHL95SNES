@@ -80,7 +80,7 @@ CODE_C5AFCC:						; called from other segments
 	lda.w #CODE_C5B6A1
 	ldx.w #$000D
 	ldy.w #$0009
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	lda.w #$0008
@@ -165,7 +165,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	lda.w #CODE_C5BBDD
 	ldx.w #$000C
 	ldy.w #$000B
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	stz.b d7
 	jsr.w CODE_C5BCD9
 	jsl.l SendTextMap
@@ -204,7 +204,7 @@ CODE_C5B1AF:						; called from other segments
 	lda.w #CODE_C5BE72
 	ldx.w #$000D
 	ldy.w #$0009
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	lda.b d0
 	asl a
 	tax
@@ -817,7 +817,7 @@ BinToBCD:							; A (binary, below 10000) as BCD
 	plx
 	stx.b tmp0
 	rts
-CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
+CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to StartScrollList
 	lda.w #$000A
 	sta.b $CF
 	lda.b a3
@@ -1440,7 +1440,7 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	jsl.l CODE_C5F3DB
 	jsl.l WaitTransfers
 	rts
-CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C55ABC
+CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to StartScrollList
 	lda.w #$000C
 	sta.b $CF
 	lda.b d0
@@ -1795,7 +1795,7 @@ CODE_C5BE37:						; from CODE_C5BE33, CODE_C5BBDD, CODE_C5B4C2
 	ora.b tmp0
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
+CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to StartScrollList
 	lda.w #$000A
 	sta.b $CF
 	lda.b a3

@@ -5820,22 +5820,22 @@ $C5571A,.5,CODE_C5571A,new,"branch target only used in CODE_C55513",src/bankC5_5
 $C55724,.6,CODE_C55724,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
 $C558F2,.loop,CODE_C558F2,new,"branch target only used in CODE_C558D7",src/bankC5_5000.asm
 $C55907,.1,CODE_C55907,new,"branch target only used in CODE_C558D7",src/bankC5_5000.asm
-$C55A16,.1,CODE_C55A16,new,"branch target only used in CODE_C55A09",src/bankC5_5000.asm
-$C55AF5,.1,CODE_C55AF5,new,"branch target only used in CODE_C55ABC",src/bankC5_5000.asm
-$C55B59,.2,CODE_C55B59,new,"branch target only used in CODE_C55ABC",src/bankC5_5000.asm
-$C55B6C,.3,CODE_C55B6C,new,"branch target only used in CODE_C55ABC",src/bankC5_5000.asm
-$C55BF5,.1,CODE_C55BF5,new,"branch target only used in CODE_C55BE8",src/bankC5_5000.asm
-$C55BF8,.2,CODE_C55BF8,new,"branch target only used in CODE_C55BE8",src/bankC5_5000.asm
-$C55C0C,.3,CODE_C55C0C,new,"branch target only used in CODE_C55BE8",src/bankC5_5000.asm
-$C55C0F,.4,CODE_C55C0F,new,"branch target only used in CODE_C55BE8",src/bankC5_5000.asm
+$C55A16,.1,CODE_C55A16,new,"branch target only used in ExitToPauseMenu",src/bankC5_5000.asm
+$C55AF5,.1,CODE_C55AF5,new,"branch target only used in StartScrollList",src/bankC5_5000.asm
+$C55B59,.2,CODE_C55B59,new,"branch target only used in StartScrollList",src/bankC5_5000.asm
+$C55B6C,.3,CODE_C55B6C,new,"branch target only used in StartScrollList",src/bankC5_5000.asm
+$C55BF5,.1,CODE_C55BF5,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
+$C55BF8,.2,CODE_C55BF8,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
+$C55C0C,.3,CODE_C55C0C,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
+$C55C0F,.4,CODE_C55C0F,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
 $C55C2F,.loop,CODE_C55C2F,new,"branch target only used in CODE_C55C25",src/bankC5_5000.asm
 $C55C37,.1,CODE_C55C37,new,"branch target only used in CODE_C55C25",src/bankC5_5000.asm
-$C55C70,.loop,CODE_C55C70,new,"branch target only used in CODE_C55C58",src/bankC5_5000.asm
-$C55C78,.1,CODE_C55C78,new,"branch target only used in CODE_C55C58",src/bankC5_5000.asm
+$C55C70,.loop,CODE_C55C70,new,"branch target only used in ScrollListDown",src/bankC5_5000.asm
+$C55C78,.1,CODE_C55C78,new,"branch target only used in ScrollListDown",src/bankC5_5000.asm
 $C55C98,.loop,CODE_C55C98,new,"branch target only used in CODE_C55C93",src/bankC5_5000.asm
 $C55CBB,.1,CODE_C55CBB,new,"branch target only used in CODE_C55C93",src/bankC5_5000.asm
-$C55CFA,.loop,CODE_C55CFA,new,"branch target only used in CODE_C55CE6",src/bankC5_5000.asm
-$C55D02,.1,CODE_C55D02,new,"branch target only used in CODE_C55CE6",src/bankC5_5000.asm
+$C55CFA,.loop,CODE_C55CFA,new,"branch target only used in ScrollListUp",src/bankC5_5000.asm
+$C55D02,.1,CODE_C55D02,new,"branch target only used in ScrollListUp",src/bankC5_5000.asm
 $C55D17,.loop,CODE_C55D17,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
 $C55D54,.1,CODE_C55D54,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
 $C55D64,.2,CODE_C55D64,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
@@ -7225,3 +7225,10 @@ $CF039E,SoundVolumeDown,CODE_CF039E,code,"from the value in $059C, a sixteenth e
 $C5ECBD,SetSpriteAnim,CODE_C5ECBD,code,"the object's $1E (script), $32 (pointer from the list at $2E), $30 (position), $0E (timer), $22 bit $4000",src/bankC5_E000.asm
 $C4BAF6,InitTextMap,CODE_C4BAF6,code,"$D3 = the map, $D5 = $2000 (map bits), MarkWorkBuf; Y = 4 palettes queued (Y = 0 none)",src/bankC4_B000.asm
 $C387D8,MapTileBlock,CODE_C387D8,code,"VMAIN $80, VMADDL, VMDATAL; CODE_C387F2 writes one row",src/bankC3_8000.asm
+$C55951,SetupScreen,CODE_C55951,94S+purpose,"same job as 94S SetupScreen (the common start of the stats screens: blank, the background, the text map cleared, the sprites); called from TeamRoster, EditLinesScreen, ShowOtherScores, ShowPlayerStats and the other pause screens, as in 94S",src/bankC5_5000.asm
+$C55A40,SetupStatsPage,CODE_C55A40,code,"ShowGameStats, ShowPeriodStats, ShowPenaltySummary and ShowScoringSummary start with it",src/bankC5_5000.asm
+$C55A09,ExitToPauseMenu,CODE_C55A09,code,"$190E set by CODE_C5AF07 around ShowOtherScores; the stats screens jump here on start",src/bankC5_5000.asm
+$C55ABC,StartScrollList,CODE_C55ABC,code,"the routine in $75 (called through it), rows in $71, row in a4, the top row $69; an HDMA set up for it",src/bankC5_5000.asm
+$C55BE8,ScrollListArrows,CODE_C55BE8,code,"the arrow objects in $77 / $79 ($22 bit 0)",src/bankC5_5000.asm
+$C55C58,ScrollListDown,CODE_C55C58,code,"the stats screens call it on $0400",src/bankC5_5000.asm
+$C55CE6,ScrollListUp,CODE_C55CE6,code,"the stats screens call it on $0800",src/bankC5_5000.asm

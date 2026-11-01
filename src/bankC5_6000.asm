@@ -341,7 +341,7 @@ CODE_C56262:						; from CODE_C5625E and other segments
 ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling list
 									; (CODE_C56310 draws each, from one of two row lists); start returns
 	lda.w #$531F
-	jsr.w CODE_C55A40
+	jsr.w SetupStatsPage
 	ldx.w #$5D5F
 	lda.w $186C
 	bne .1
@@ -355,7 +355,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	ldx.w #$0009
 	ldy.w #$000F
 	lda.w #CODE_C56310
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
@@ -365,7 +365,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	bne .loop2
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -380,18 +380,18 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	bne .4
 	bit.w #$0800
 	beq .2
-	jsr.w CODE_C55CE6
+	jsr.w ScrollListUp
 	bra .loop
-.2:									; if $0400 bits clear go to .3, call CODE_C55C58, go to .loop
+.2:									; if $0400 bits clear go to .3, call ScrollListDown, go to .loop
 	bit.w #$0400
 	beq .3
-	jsr.w CODE_C55C58
+	jsr.w ScrollListDown
 	bra .loop
 .3:									; go to .loop
 	bra .loop
-.4:									; go to CODE_C55A09
-	jmp.w CODE_C55A09
-CODE_C56310:						; a callback: ShowGameStats passes it to CODE_C55ABC
+.4:									; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu
+CODE_C56310:						; a callback: ShowGameStats passes it to StartScrollList
 	lda.b a3
 	asl a
 	asl a
@@ -434,7 +434,7 @@ CODE_C56310:						; a callback: ShowGameStats passes it to CODE_C55ABC
 ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches between goals and
 									; shots, start returns
 	lda.w #$532D
-	jsr.w CODE_C55A40
+	jsr.w SetupStatsPage
 	stz.b $7B
 	jsr.w DrawPeriodStats
 	jsl.l SendTextMap
@@ -469,10 +469,10 @@ ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches betw
 	jsr.w DrawPeriodStats
 	jsl.l SendTextMap
 	bra .loop
-.1:									; if $1000 bits clear go to .loop, go to CODE_C55A09
+.1:									; if $1000 bits clear go to .loop, go to ExitToPauseMenu
 	bit.w #$1000
 	beq .loop
-	jmp.w CODE_C55A09
+	jmp.w ExitToPauseMenu
 DrawPeriodStats:					; the period stats: the periods played and Total, the heading Goals or
 									; Shots with the B hint, then each team's goals or shots per period and
 									; their sum
@@ -575,7 +575,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 									; scroll, start returns
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	lda.w #$533B
 	jsl.l PrintTextPage
 	jsl.l GetPadTeam
@@ -628,11 +628,11 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	sbc.w $0002,x
 	sta.b a1
 	jsr.w CODE_C5663A
-.5:									; A = CODE_C56759, X = $000B, Y = $000D, call CODE_C55ABC, ...
+.5:									; A = CODE_C56759, X = $000B, Y = $000D, call StartScrollList, ...
 	lda.w #CODE_C56759
 	ldx.w #$000B
 	ldy.w #$000D
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsr.w CODE_C56880
 	jsl.l SendTextMap
 	stz.w fadestep
@@ -643,7 +643,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	bne .loop2
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -656,16 +656,16 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	lda.w $058D
 	bit.w #$1000
 	beq .6
-	jmp.w CODE_C55A09
-.6:									; if $0800 bits clear go to .7, call CODE_C55CE6, go to .loop
+	jmp.w ExitToPauseMenu
+.6:									; if $0800 bits clear go to .7, call ScrollListUp, go to .loop
 	bit.w #$0800
 	beq .7
-	jsr.w CODE_C55CE6
+	jsr.w ScrollListUp
 	bra .loop
-.7:									; if $0400 bits clear go to .8, call CODE_C55C58, go to .loop
+.7:									; if $0400 bits clear go to .8, call ScrollListDown, go to .loop
 	bit.w #$0400
 	beq .8
-	jsr.w CODE_C55C58
+	jsr.w ScrollListDown
 	bra .loop
 .8:									; if $7D = $FFFF go to .11, if $0200 bits clear go to .9, ...
 	ldx.b $7D
@@ -909,7 +909,7 @@ CODE_C566E8:						; from ShowPlayerStats
 	cpx.b $0E
 	bne .loop3
 	bra .2
-CODE_C56759:						; a callback: ShowPlayerStats passes it to CODE_C55ABC
+CODE_C56759:						; a callback: ShowPlayerStats passes it to StartScrollList
 	lda.w #$0010
 	sta.b $CF
 	lda.b a3
@@ -1148,7 +1148,7 @@ DATA8_C56989:						; not traced: a table read by CODE_C56880
 ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, Time, Tm, Player,
 									; PM) as a scrolling list, No Penalties when there are none; start returns
 	lda.w #$534D
-	jsr.w CODE_C55A40
+	jsr.w SetupStatsPage
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0030
@@ -1194,7 +1194,7 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	lda.w #CODE_C56A77
 	ldx.w #$0006
 	ldy.w #$0012
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 .2:									; call SendTextMap, fadestep = 0
 	jsl.l SendTextMap
 	stz.w fadestep
@@ -1207,7 +1207,7 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	inc.b $26
 	lda.b a1
 	beq .3
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 .3:									; call AnimateSprites, $28 = $1D8F, $2A = $1E00, call BuildSpriteOAM, ...
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1225,24 +1225,24 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	beq .loop
 	bit.w #$0800
 	beq .4
-	jsr.w CODE_C55CE6
+	jsr.w ScrollListUp
 	bra .loop
-.4:									; if $0400 bits clear go to .5, call CODE_C55C58, go to .loop
+.4:									; if $0400 bits clear go to .5, call ScrollListDown, go to .loop
 	bit.w #$0400
 	beq .5
-	jsr.w CODE_C55C58
+	jsr.w ScrollListDown
 	bra .loop
 .5:									; go to .loop
 	bra .loop
-.6:									; go to CODE_C55A09
-	jmp.w CODE_C55A09
+.6:									; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu
 CODE_C56A6B:						; from ShowPenaltySummary
 	ldy.w #$000F
 	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
+CODE_C56A77:						; a callback: ShowPenaltySummary passes it to StartScrollList
 	lda.b a3
 	sta.b r2
 	lda.w #$0003
@@ -1479,7 +1479,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 									; Ass., P/S) as a scrolling list, No Scoring when there are none; start
 									; returns
 	lda.w #$535B
-	jsr.w CODE_C55A40
+	jsr.w SetupStatsPage
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$4F83
@@ -1516,11 +1516,11 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	lda.w #$2000
 	sta.b $D5
 	bra .2
-.1:									; A = CODE_C56D3F, X = $0006, Y = $0012, call CODE_C55ABC
+.1:									; A = CODE_C56D3F, X = $0006, Y = $0012, call StartScrollList
 	lda.w #CODE_C56D3F
 	ldx.w #$0006
 	ldy.w #$0012
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 .2:									; call SendTextMap, fadestep = 0
 	jsl.l SendTextMap
 	stz.w fadestep
@@ -1533,7 +1533,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	inc.b $26
 	lda.b a1
 	beq .3
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 .3:									; call AnimateSprites, $28 = $1D8F, $2A = $1E00, call BuildSpriteOAM, ...
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1551,22 +1551,22 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	beq .loop
 	bit.w #$0800
 	beq .4
-	jsr.w CODE_C55CE6
+	jsr.w ScrollListUp
 	bra .loop
-.4:									; if $0400 bits clear go to .5, call CODE_C55C58, go to .loop
+.4:									; if $0400 bits clear go to .5, call ScrollListDown, go to .loop
 	bit.w #$0400
 	beq .5
-	jsr.w CODE_C55C58
+	jsr.w ScrollListDown
 	bra .loop
 .5:									; go to .loop
 	bra .loop
-.6:									; go to CODE_C55A09
-	jmp.w CODE_C55A09
+.6:									; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu
 CODE_C56D37:						; from ShowScoringSummary
 	ldy.w #$000F
 	jsl.l PrintBoldLeft
 	rts
-CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
+CODE_C56D3F:						; a callback: ShowScoringSummary passes it to StartScrollList
 	lda.b a3
 	sta.b r2
 	lda.w #$0003
@@ -1711,7 +1711,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	sta.w $24DC
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	lda.w #$5369
 	jsl.l PrintTextPage
 	jsl.l GetPadTeam
@@ -1810,5 +1810,5 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	ldx.b $7B
 	jsl.l DeleteSprite
 	jmp.w .1
-.10:								; go to CODE_C55A09
-	jmp.w CODE_C55A09
+.10:								; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu

@@ -156,7 +156,7 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	wai
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	ldx.b a0
 	lda.b $85
 	asl a
@@ -194,8 +194,8 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	dec a
 	sta.b $85
 	bra .loop
-.4:									; call CODE_C55CE6, go to .loop
-	jsr.w CODE_C55CE6
+.4:									; call ScrollListUp, go to .loop
+	jsr.w ScrollListUp
 	bra .loop
 .5:									; if $0400 bits clear go to .7, if $85 >= $0007 go to .6, A + $69, ...
 	bit.w #$0400
@@ -209,8 +209,8 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	beq .loop
 	inc.b $85
 	bra .loop
-.6:									; call CODE_C55C58, go to .loop
-	jsr.w CODE_C55C58
+.6:									; call ScrollListDown, go to .loop
+	jsr.w ScrollListDown
 	jmp.w .loop
 .7:									; if $8000 bits clear go to .15, A = $85, A + $69, X = A, ...
 	bit.w #$8000
@@ -395,13 +395,13 @@ CODE_C5C214:						; called from other segments
 	lda.w #CODE_C5C34C
 	ldx.w #$0008
 	ldy.w #$000E
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	stz.b $85
 .4:									; call CODE_C5D85D, call SendTextMap, return
 	jsr.w CODE_C5D85D
 	jsl.l SendTextMap
 	rts
-CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
+CODE_C5C34C:						; a callback: CODE_C5C214 passes it to StartScrollList
 	ldx.b a3
 	stx.b $65
 	lda.w $364E,x
@@ -916,7 +916,7 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	wai
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	ldx.b a0
 	lda.b $85
 	asl a
@@ -949,8 +949,8 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	dec a
 	sta.b $85
 	bra .loop
-.3:									; call CODE_C55CE6, go to .loop
-	jsr.w CODE_C55CE6
+.3:									; call ScrollListUp, go to .loop
+	jsr.w ScrollListUp
 	bra .loop
 .4:									; if $0400 bits clear go to .6, if $85 >= $0007 go to .5, A + $69, ...
 	bit.w #$0400
@@ -964,8 +964,8 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	beq .loop
 	inc.b $85
 	bra .loop
-.5:									; call CODE_C55C58, go to .loop
-	jsr.w CODE_C55C58
+.5:									; call ScrollListDown, go to .loop
+	jsr.w ScrollListDown
 	jmp.w .loop
 .6:									; if $8000 bits clear go to .loop, Y = $3207, A = $69, A + $85, ...
 	bit.w #$8000
@@ -1126,11 +1126,11 @@ CODE_C5C826:						; from ReleasePlayers
 	lda.w #CODE_C5C926
 	ldx.w #$0008
 	ldy.w #$000E
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsr.w CODE_C5D85D
 	jsl.l SendTextMap
 	rts
-CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
+CODE_C5C926:						; a callback: CODE_C5C826 passes it to StartScrollList
 	lda.w #$0010
 	sta.l $7E24DC
 	ldy.w #$3207

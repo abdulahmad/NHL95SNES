@@ -661,7 +661,7 @@ CODE_C5A599:						; from CODE_C5AC07
 	sta.b $08,x
 	rts
 CODE_C5A5B0:						; called from other segments
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -674,11 +674,11 @@ CODE_C5A5B0:						; called from other segments
 	bne .4
 	bit.w #$0800
 	beq .2
-	jmp.w CODE_C55CE6
-.2:									; if $0400 bits clear go to .3, go to CODE_C55C58
+	jmp.w ScrollListUp
+.2:									; if $0400 bits clear go to .3, go to ScrollListDown
 	bit.w #$0400
 	beq .3
-	jmp.w CODE_C55C58
+	jmp.w ScrollListDown
 .3:									; if a $0200 bit set go to .5, if a $0100 bit set go to .6, ...
 	bit.w #$0200
 	bne .5
@@ -753,7 +753,7 @@ CODE_C5A623:						; called from other segments
 	sta.w $17C9
 	jmp.w CODE_C5B7F1
 CODE_C5A66E:						; called from other segments
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -770,11 +770,11 @@ CODE_C5A66E:						; called from other segments
 	bne .9
 	bit.w #$0400
 	beq .2
-	jmp.w CODE_C55C58
-.2:									; if $0800 bits clear go to .3, go to CODE_C55CE6
+	jmp.w ScrollListDown
+.2:									; if $0800 bits clear go to .3, go to ScrollListUp
 	bit.w #$0800
 	beq .3
-	jmp.w CODE_C55CE6
+	jmp.w ScrollListUp
 .3:									; if a $3000 bit set go to .4
 	bit.w #$3000
 	bne .4
@@ -837,7 +837,7 @@ CODE_C5A66E:						; called from other segments
 	lda.w #CODE_C5BBDD
 	ldx.w #$000C
 	ldy.w #$000B
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsl.l SendTextMap
 	rts
 CODE_C5A72D:						; from CODE_C5A66E
@@ -871,7 +871,7 @@ CODE_C5A72D:						; from CODE_C5A66E
 	jsl.l WaitTransfers
 	rts
 CODE_C5A773:						; called from other segments
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -1800,7 +1800,7 @@ CODE_C5AF07:						; from MenuPlayGames and other segments
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	wai
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	jsl.l CODE_C5E50E
 	lda.w #$FFFA
 	sta.w BG2VScroll

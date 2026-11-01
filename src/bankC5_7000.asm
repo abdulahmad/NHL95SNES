@@ -517,7 +517,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 									; the line); start returns
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	jsl.l GetPadTeam
 	ldy.w #$2801
 	ldx.w #$5135
@@ -658,8 +658,8 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	jmp.w .2
 .14:								; go to .loop
 	jmp.w .loop
-.15:								; go to CODE_C55A09
-	jmp.w CODE_C55A09
+.15:								; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu
 CODE_C574A4:						; from EditLinesScreen
 	lda.w #$0020
 	sta.b $CF
@@ -807,11 +807,11 @@ CODE_C57578:						; from EditLinesScreen
 	sta.b $65
 	lda.w $0004,x
 	sta.b a1
-.2:									; A = CODE_C576FD, X = $000A, Y = $000E, call CODE_C55ABC, ...
+.2:									; A = CODE_C576FD, X = $000A, Y = $000E, call StartScrollList, ...
 	lda.w #CODE_C576FD
 	ldx.w #$000A
 	ldy.w #$000E
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsr.w CODE_C577C3
 	jsl.l SendTextMap
 .loop:								; loop: TransfersReady + 1
@@ -821,7 +821,7 @@ CODE_C57578:						; from EditLinesScreen
 	bne .loop2
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -841,8 +841,8 @@ CODE_C57578:						; from EditLinesScreen
 	beq .3
 	dec a
 	sta.b $7B
-.3:									; call CODE_C55CE6, pull A, go to .6
-	jsr.w CODE_C55CE6
+.3:									; call ScrollListUp, pull A, go to .6
+	jsr.w ScrollListUp
 	pla
 	bra .6
 .4:									; if $0400 bits clear go to .7, A = $7B, push A, A + 1, ...
@@ -854,8 +854,8 @@ CODE_C57578:						; from EditLinesScreen
 	cmp.b a1
 	bcs .5
 	sta.b $7B
-.5:									; call CODE_C55C58, pull A
-	jsr.w CODE_C55C58
+.5:									; call ScrollListDown, pull A
+	jsr.w ScrollListDown
 	pla
 .6:									; call CODE_C57779, go to .loop
 	jsr.w CODE_C57779
@@ -954,7 +954,7 @@ CODE_C576CC:						; from CODE_C57578
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-CODE_C576FD:						; a callback: CODE_C57578 passes it to CODE_C55ABC
+CODE_C576FD:						; a callback: CODE_C57578 passes it to StartScrollList
 	ldx.w #$2000
 	lda.b a3
 	cmp.b $7B
@@ -1177,7 +1177,7 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 									; the stat); B puts the chosen one in tmgoalie (setpersonel) and returns
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	lda.w #$5395
 	jsl.l PrintTextPage
 	jsl.l GetPadTeam
@@ -1275,8 +1275,8 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	ldx.b a2
 	sta.w tmgoalie,x
 	jsl.l setpersonel
-.8:									; go to CODE_C55A09
-	jmp.w CODE_C55A09
+.8:									; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu
 CODE_C57997:						; from PauseGoalie
 	lda.w #$0300
 	clc
@@ -1388,7 +1388,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 									; from the pause menu, and from CODE_C5AF07 with X: EXIT MENU
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -1465,7 +1465,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	pla
 	ldx.w #$000B
 	ldy.w #$000B
-	jsr.w CODE_C55ABC
+	jsr.w StartScrollList
 	jsl.l SendTextMap
 	stz.w fadestep
 .loop2:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
@@ -1473,7 +1473,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	wai
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -1490,21 +1490,21 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	bne .10
 	bit.w #$0800
 	beq .7
-	jsr.w CODE_C55CE6
+	jsr.w ScrollListUp
 	bra .loop2
-.7:									; if $0400 bits clear go to .8, call CODE_C55C58
+.7:									; if $0400 bits clear go to .8, call ScrollListDown
 	bit.w #$0400
 	beq .8
-	jsr.w CODE_C55C58
+	jsr.w ScrollListDown
 .8:									; go to .loop2
 	bra .loop2
 .9:									; if $190E = 0 go to .loop2, $1910 - 1
 	lda.w $190E
 	beq .loop2
 	dec.w $1910
-.10:								; go to CODE_C55A09
-	jmp.w CODE_C55A09
-CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
+.10:								; go to ExitToPauseMenu
+	jmp.w ExitToPauseMenu
+CODE_C57B8A:						; a callback: pushed (pea), then passed to StartScrollList
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00C4
@@ -1589,7 +1589,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 									; changes the page, start returns
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	stz.b $7D
 	lda.w #$0000
 	tax
@@ -1737,7 +1737,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	wai
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C55BE8
+	jsr.w ScrollListArrows
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -1750,7 +1750,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	lda.w $058D
 	bit.w #$1000
 	beq .12
-	jmp.w CODE_C55A09
+	jmp.w ExitToPauseMenu
 .12:								; if a1 = 0 go to .loop3, if $0100 bits clear go to .14, A = $7D, ...
 	ldx.b a1
 	beq .loop3

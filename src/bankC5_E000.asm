@@ -667,7 +667,7 @@ CODE_C5E49A:						; called from other segments
 	jsl.l WaitTransfers
 	stz.w DMAEnShadow
 	jsl.l CODE_C5E50E
-	jsr.w CODE_C55951
+	jsr.w SetupScreen
 	stz.b $26
 	jsr.w CODE_C5BBC0
 	stz.b $CF
