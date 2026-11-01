@@ -14,14 +14,14 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC3_9000, org $C38EFE (see `SEGMENT_AGENT.md`, `PROMPT.md`). Source so far: banks $C0, $C1, $C2, $C4 and $C5
-  (the code banks $C4 / $C5 out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
+- Next: segment bankC6_0000, org $C60000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C5 are all source (the code banks $C4
+  / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
-  bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12.
-  Banks $C4 / $C5: game code (CODE_ names; the decoding pipeline and its seed rules are in the notes below). Bank $C3 to $C35FFF
-  is source: the team database (TeamList, PlayerList and the player and team records as labels and ROM cuts, since the names are
-  licensed), then data tables and text; the data runs on to $C36B82 (PhotoPaletteTable is at $C35EAB), and the code is $C36B83
-  to about $C38EFD, then samples and data. Remaining after bank $C3: banks $C6-$CF (bank $CF has code). Onboarding: McMarkis.
+  bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
+  $C3: the team database (TeamList, PlayerList, the player and team records as labels and ROM cuts, since the names are
+  licensed), data tables and text, PhotoPaletteTable, game code ($C36B83-$C38EFD), then samples 03, 04, 05, 28, 07, 08, 24, 25,
+  30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Remaining: banks
+  $C6-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
