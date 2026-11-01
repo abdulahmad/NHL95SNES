@@ -2550,3 +2550,46 @@ $CFFD6A,DATA8_CFFD6A,,new,"layout record for DATA8_CFF3A2 entry 138; not traced 
 $CFFD7C,DATA8_CFFD7C,,new,"layout record for DATA8_CFF3A2 entry 139; not traced further",src/bankCF_F000.asm
 $CFFD8E,DATA8_CFFD8E,,new,"layout record for DATA8_CFF3A2 entry 140; not traced further",src/bankCF_F000.asm
 $CFFD96,DATA8_CFFD96,,new,"layout record for DATA8_CFF3A2 entry 141; not traced further",src/bankCF_F000.asm
+$C54E59,GetTeamLines,CODE_C54E59,94S+code,"a3 = RAM lines of team a2; the same code as 94S GetTeamLines (instruction match 1.000, operands checked)",src/bankC5_4000.asm
+$C54A0E,getpde,CODE_C54A0E,94S+code,"d0 = the energy of player X; the same code as 94S getpde (instruction match 1.000, operands checked)",src/bankC5_4000.asm
+$C544E6,TryAddPlayerToList,CODE_C544E6,94S+code,"Add roster player d0 to slot d4 of the list of players wanted on the ice, if he is available; the same code as 94S TryAddPlayerToList (instruction match 1.000, operands checked)",src/bankC5_4000.asm
+$C53C20,Setplass,CODE_C53C20,94S+code,"Set player X's first assignment from his position; the same code as 94S Setplass (instruction match 1.000, operands checked)",src/bankC5_3000.asm
+$C53776,AssignPadPlayer,CODE_C53776,94S+code,"Pad d4 takes control of player d0: its old player is released (pflags, playerpad = -1), the new one marked (pflags bit 3, playerpad = pad, c1playernum = player); the same code as 94S AssignPadPlayer (instruction match 1.000, operands checked)",src/bankC5_3000.asm
+$C53616,loadTeamStruct,CODE_C53616,94S+code,"a2 = player X's team, a1 = the other team; the same code as 94S loadTeamStruct (instruction match 1.000, operands checked)",src/bankC5_3000.asm
+$C511A8,Mod100,CODE_C511A8,94S+code,"d0 = d0 mod 100; the same code as 94S Mod100 (instruction match 1.000, operands checked)",src/bankC5_1000.asm
+$C4AE6D,deflect,CODE_C4AE6D,94S+code,"Send the puck off in a random direction after a deflection; the same code as 94S deflect (instruction match 1.000, operands checked)",src/bankC4_A000.asm
+$C4A41C,DumpInTarget,CODE_C4A41C,94S+code,"assdumpin: dumpinplayer = X; pick the dump-in target (dumpintarget) and passdir from where he is; the same code as 94S DumpInTarget (instruction match 1.000, operands checked)",src/bankC4_A000.asm
+$C4981D,CompShoot,CODE_C4981D,94S+code,"computer player X shoots; the same code as 94S CompShoot (instruction match 1.000, operands checked)",src/bankC4_9000.asm
+$C497DF,CalcAngleOffset,CODE_C497DF,94S+code,"cross product for the shot aim; the same code as 94S CalcAngleOffset (instruction match 1.000, operands checked)",src/bankC4_9000.asm
+$C49595,pucknothing,CODE_C49595,94S+code,"The puck slides and stops spinning; the same code as 94S pucknothing (instruction match 1.000, operands checked)",src/bankC4_9000.asm
+$C48872,CPgoalie,CODE_C48872,94S+code,"should the computer pull its goalie?; the same code as 94S CPgoalie (instruction match 1.000, operands checked)",src/bankC4_8000.asm
+$C48535,a2offsides,CODE_C48535,94S+code,"takes a2 = player, called from a2touchpuck; the same code as 94S a2offsides (instruction match 1.000, operands checked)",src/bankC4_8000.asm
+$C48199,checkagr,CODE_C48199,94S+code,"Penalty roll for player X: random below (20 - aggress) * 16, doubled for a player on a pad, halved near the puck. Callers call a penalty when the result is ; the same code as 94S checkagr (instruction match 1.000, operands checked)",src/bankC4_8000.asm
+$C480B5,PenShotChk,CODE_C480B5,94S+code,"penalty shot check -> A; the same code as 94S PenShotChk (instruction match 1.000, operands checked)",src/bankC4_8000.asm
+$C47749,InProgress_ap,CODE_C47749,94S+code,"Count team a2's players kept off the ice by penalties to set how many it has on the ice; the same code as 94S InProgress_ap (instruction match 1.000, operands checked)",src/bankC4_7000.asm
+$C457C7,SetSPAUpdate,CODE_C457C7,94S+code,"A = animation, x = object; called from asseben, updateanim, FallDown; the same code as 94S SetSPAUpdate (instruction match 1.000, operands checked)",src/bankC4_5000.asm
+$C457B5,SetSPAFromA,CODE_C457B5,94S+code,"Start sprite animation A on object X; the same code as 94S SetSPAFromA (instruction match 1.000, operands checked)",src/bankC4_5000.asm
+$C457A1,SetSPA,CODE_C457A1,94S+code,"takes d1 = animation, X = object; called by many routines; the same code as 94S SetSPA (instruction match 1.000, operands checked)",src/bankC4_5000.asm
+$C436FD,donothing,CODE_C436FD,94S+code,"computer player stands still; the same code as 94S donothing (instruction match 1.000, operands checked)",src/bankC4_3000.asm
+$C42DA2,chkpk2,CODE_C42DA2,94S+code,"Z if X is on the shorthanded team; the same code as 94S chkpk2 (instruction match 1.000, operands checked)",src/bankC4_2000.asm
+$C4A254,dopass_count,CODE_C4A254,94S+code,"the same code as 94S dopass_count (instruction match 0.998, operands checked)",src/bankC4_A000.asm
+$C456B5,holdcheck,CODE_C456B5,94S+code,"a2 holds or hooks X: both slow down, and a penalty may be called; the same code as 94S holdcheck (instruction match 0.995, operands checked)",src/bankC4_5000.asm
+$C48590,CheckBreakaway,CODE_C48590,94S+code,"IsBreakaway = 1 when the puck carrier is in the attacking zone half with no opposing skater (not the goalie) between him and the goal, else 0; the same code as 94S CheckBreakaway (instruction match 0.992, operands checked)",src/bankC4_8000.asm
+$C4A1F2,dopass_swing,CODE_C4A1F2,94S+code,"the same code as 94S dopass_swing (instruction match 0.986, operands checked)",src/bankC4_A000.asm
+$C47BFA,GetLowestPen,CODE_C47BFA,94S+code,"time left of the power play -> d0; the same code as 94S GetLowestPen (instruction match 0.985, operands checked)",src/bankC4_7000.asm
+$C5393D,PadTakePosition,CODE_C5393D,94S+code,"the same code as 94S PadTakePosition (instruction match 0.983, operands checked)",src/bankC5_3000.asm
+$C4933E,AdjustFacingDirection,CODE_C4933E,94S+code,"turn the goalie one step toward d0; the same code as 94S AdjustFacingDirection (instruction match 0.982, operands checked)",src/bankC4_9000.asm
+$C36F88,Multi5ConnectCheck,CODE_C36F88,94S+code,"read 16 signature bits from each port; mp5connect bit 7 (port 1) or 6 (port 2) = multitap; the same code as 94S Multi5ConnectCheck (instruction match 0.980, operands checked)",src/bankC3_6000.asm
+$C4AF7E,ChkOffsides_other,CODE_C4AF7E,94S+code,"puck in the negative half: same test with the line negated; the same code as 94S ChkOffsides_other (instruction match 0.977, operands checked)",src/bankC4_A000.asm
+$C49D8D,Findhittype,CODE_C49D8D,94S+code,"swing type of player X for direction d0; the same code as 94S Findhittype (instruction match 0.977, operands checked)",src/bankC4_9000.asm
+$C549A8,check4bench,CODE_C549A8,94S+code,"check whether a line change wants this player off; the same code as 94S check4bench (instruction match 0.976, operands checked)",src/bankC5_4000.asm
+$C4970A,shotdiradj,CODE_C4970A,94S+code,"Aim a computer shot at the open side when the goalie covers the middle of the net; the same code as 94S shotdiradj (instruction match 0.975, operands checked)",src/bankC4_9000.asm
+$C4370C,assexit,CODE_C4370C,94S+code,"End the player's current assignment and go back to the one under it; the same code as 94S assexit (instruction match 0.974, operands checked)",src/bankC4_3000.asm
+$C4B00F,ClearOffsidesIfAllPlayers,CODE_C4B00F,94S+code,"clear the offsides flag when nobody is offside any more; the same code as 94S ClearOffsidesIfAllPlayers (instruction match 0.970, operands checked)",src/bankC4_B000.asm
+$C5147E,DispPen,CODE_C5147E,94S+code,"box list display, a2 = team; the same code as 94S DispPen (instruction match 0.966, operands checked)",src/bankC5_1000.asm
+$C50E26,demoread,CODE_C50E26,94S+code,"read the controllers during the demo; the same code as 94S demoread (instruction match 0.966, operands checked)",src/bankC5_0000.asm
+$C47231,CountPowerPlayTime,CODE_C47231,94S+code,"On a penalty clock tick: the team with more players on the ice (tmap against tmap+2) gets one more tick of power play time (tmPwrPlayTime home, $1758 visitors); the same code as 94S CountPowerPlayTime (instruction match 0.960, operands checked)",src/bankC4_7000.asm
+$C44279,wallcollb_out,CODE_C44279,94S+code,"puck out of play; the same code as 94S wallcollb_out (instruction match 0.957, operands checked)",src/bankC4_4000.asm
+$C3794F,suba4,CODE_C3794F,94S+code,"Move the replay one frame back; the same code as 94S suba4 (instruction match 0.957, operands checked)",src/bankC3_7000.asm
+$C53488,PutDigits2,CODE_C53488,94S+code,"Write the two digit number d0 as two characters at [a1], blank leading zero; the same code as 94S PutDigits2 (instruction match 0.955, operands checked)",src/bankC5_3000.asm
+$C46B36,noturn0,CODE_C46B36,94S+code,"direction needs no turn: skate, stop or turn one step; the same code as 94S noturn0 (instruction match 0.950, operands checked)",src/bankC4_6000.asm

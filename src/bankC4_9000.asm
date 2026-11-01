@@ -32,7 +32,7 @@ CODE_C4932B:						; called from other segments
 DATA8_C4932C:						; not traced: data between routines
 	db $02,$13,$34,$13,$CA,$13,$0C,$14,$66,$13,$98,$13,$2C,$18,$9A,$17
 	db $08,$17
-CODE_C4933E:						; called from other segments
+AdjustFacingDirection:				; called from other segments
 	lda.w $0C40,x
 	sta.b $40
 	lda.w $0694,x
@@ -54,7 +54,7 @@ CODE_C4933E:						; called from other segments
 	lda.w #$0006
 	sta.w $0694,x
 	rtl
-CODE_C4936A:						; from CODE_C4933E
+CODE_C4936A:						; from AdjustFacingDirection
 	lda.w $0694,x
 	beq CODE_C4937B
 	sec
@@ -233,7 +233,7 @@ CODE_C494D1:						; from CODE_C4945D, CODE_C494A8
 	beq CODE_C494DF
 	jmp.w CODE_C44B0F
 CODE_C494DF:						; from CODE_C494D1
-	jsl.l CODE_C49595
+	jsl.l pucknothing
 	jmp.w CODE_C44B0F
 CODE_C494E6:						; from CODE_C493E1 and other segments
 	phx
@@ -317,10 +317,10 @@ CODE_C49572:						; called from other segments
 	phx
 	ldx.w #$001C
 	lda.w #$191A
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	plx
 	rtl
-CODE_C49595:						; from CODE_C494DF and other segments
+pucknothing:						; from CODE_C494DF and other segments
 	lda.w $0CBC
 	cmp.w #$0008
 	bcc CODE_C495AB
@@ -329,7 +329,7 @@ CODE_C49595:						; from CODE_C494DF and other segments
 	lda.w $0C5C
 	eor.w #$0002
 	sta.w $0C5C
-CODE_C495AB:						; from CODE_C49595
+CODE_C495AB:						; from pucknothing
 	lda.w #$0004
 	tsb.w $0C5C
 	stz.w $0CBC
@@ -366,7 +366,7 @@ CODE_C495E8:						; called from other segments
 	lda.w $114D
 	cmp.w #$0005
 	bcs CODE_C495F8
-	jmp.w CODE_C4981D
+	jmp.w CompShoot
 CODE_C495F8:						; from CODE_C495E8
 	lda.w $1157
 	bne CODE_C49620
@@ -497,14 +497,14 @@ CODE_C496FE:						; from CODE_C496DF
 	lda.w $10F5
 	bit.w #$8000
 	bne CODE_C49709
-	jmp.w CODE_C4981D
+	jmp.w CompShoot
 CODE_C49709:						; from CODE_C496C2, CODE_C496DF, CODE_C496FE
 	rtl
-CODE_C4970A:						; from CODE_C49930 and other segments
+shotdiradj:							; from CODE_C49930 and other segments
 	lda.w $14F9,x
 	bmi CODE_C49712
 	jmp.w CODE_C497DE
-CODE_C49712:						; from CODE_C4970A
+CODE_C49712:						; from shotdiradj
 	lda.w #$0008
 	sta.b $7F
 	lda.w #$0005
@@ -566,7 +566,7 @@ CODE_C49785:						; from CODE_C4975F
 	tya
 	pha
 	pei ($8B)
-	jsr.w CODE_C497DF
+	jsr.w CalcAngleOffset
 	lda.b $8F
 	sta.b $93
 	pla
@@ -575,7 +575,7 @@ CODE_C49785:						; from CODE_C4975F
 	sta.b $8B
 	pla
 	sta.b $8F
-	jsr.w CODE_C497DF
+	jsr.w CalcAngleOffset
 	lda.b $8F
 	clc
 	adc.b $93
@@ -607,9 +607,9 @@ CODE_C497C3:						; from CODE_C49785
 CODE_C497D9:						; from CODE_C49727, CODE_C49785, CODE_C497C3
 	lda.b $7F
 	sta.w $07C8
-CODE_C497DE:						; from CODE_C4970A
+CODE_C497DE:						; from shotdiradj
 	rtl
-CODE_C497DF:						; from CODE_C49785
+CalcAngleOffset:					; from CODE_C49785
 	lda.b $8B
 	sec
 	sbc.w $0830
@@ -639,7 +639,7 @@ CODE_C497DF:						; from CODE_C49785
 	lda.b $2C
 	sta.b $8F
 	rts
-CODE_C4981D:						; from CODE_C495E8, CODE_C496FE and other segments
+CompShoot:							; from CODE_C495E8, CODE_C496FE and other segments
 	pla
 	sep #$20
 	pla
@@ -652,7 +652,7 @@ CODE_C4981D:						; from CODE_C495E8, CODE_C496FE and other segments
 	sec
 	sbc.b $7F
 	sta.b $7F
-CODE_C49835:						; from CODE_C4981D
+CODE_C49835:						; from CompShoot
 	lda.w #$010E
 	sec
 	sbc.b $7F
@@ -695,12 +695,12 @@ CODE_C49875:						; from CODE_C49858
 	lda.w #$000F
 	sta.w $07CA
 	ldy.w #$1C24
-	jsl.l CODE_C49D8D
+	jsl.l Findhittype
 	beq CODE_C4989B
 	ldy.w #$1D36
 CODE_C4989B:						; from CODE_C49875
 	sty.b $83
-	jml.l CODE_C457A1
+	jml.l SetSPA
 CODE_C498A1:						; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
@@ -712,7 +712,7 @@ CODE_C498B1:						; from CODE_C498A1
 	lda.w $10F5
 	bit.w #$0008
 	bne CODE_C498BC
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C498BC:						; from CODE_C498B1
 	lda.w $0AE0,x
 	sta.b $7F
@@ -766,7 +766,7 @@ CODE_C49929:						; from CODE_C498D3
 CODE_C4992F:						; from CODE_C498FA
 	rtl
 CODE_C49930:						; from CODE_C498D3, CODE_C498FA, CODE_C49F9D, ...
-	jsl.l CODE_C4970A
+	jsl.l shotdiradj
 	pea.w $000D
 	lda.w $07CA
 	lsr a
@@ -811,7 +811,7 @@ CODE_C4997D:						; from CODE_C4996D
 	sta.w $07CA
 	lda.w $18AE
 	beq CODE_C499AE
-	jsl.l CODE_C48590
+	jsl.l CheckBreakaway
 	lda.w $1155
 	sta.w $18AE
 CODE_C499AE:						; from CODE_C4997D
@@ -1013,14 +1013,14 @@ CODE_C49B59:						; called from other segments
 	lda.w $14F9,x
 	bmi CODE_C49B74
 CODE_C49B63:						; from CODE_C49B59
-	jmp.w CODE_C4370C
+	jmp.w assexit
 DATA8_C49B66:						; an rtl no traced code reaches
 	db $6B
 CODE_C49B67:						; from CODE_C49B74
 	jsl.l CODE_C42B18
 	lda.w #$003C
 	sta.w $0CE0,x
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C49B74:						; from CODE_C49B59
 	lda.w $10F3
 	bne CODE_C49B67
@@ -1129,14 +1129,14 @@ CODE_C49C5A:						; from CODE_C49C36
 	sta.b $83
 CODE_C49C63:						; from CODE_C49C36
 	jsl.l CODE_C37F6D
-	jsl.l CODE_C49D8D
+	jsl.l Findhittype
 	beq CODE_C49C72
 	lda.w #$1EFA
 	bra CODE_C49C75
 CODE_C49C72:						; from CODE_C49C63
 	lda.w #$1E48
 CODE_C49C75:						; from CODE_C49C63
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	jsl.l CODE_C457DD
 	lda.w #$0002
 	sta.w $0CC0,x
@@ -1260,7 +1260,7 @@ CODE_C49D85:						; from CODE_C49D2A
 	sta.w $18CC
 	stz.w $18C4
 	bra CODE_C49D72
-CODE_C49D8D:						; from CODE_C49875, CODE_C4A20F, CODE_C49ED4, ...
+Findhittype:						; from CODE_C49875, CODE_C4A20F, CODE_C49ED4, ...
 	lda.b $7F
 	eor.w #$FFFF
 	inc a
@@ -1277,14 +1277,14 @@ CODE_C49D8D:						; from CODE_C49875, CODE_C4A20F, CODE_C49ED4, ...
 	plx
 	and.w #$00FF
 	rtl
-CODE_C49DB0:						; from CODE_C49D8D
+CODE_C49DB0:						; from Findhittype
 	phx
 	ldx.b $7F
 	lda.l DATA8_C49DBF,x
 	plx
 	and.w #$00FF
 	rtl
-DATA8_C49DBC:						; not traced: a table read by CODE_C49D8D
+DATA8_C49DBC:						; not traced: a table read by Findhittype
 	db $00,$00,$00
 DATA8_C49DBF:						; not traced: a table read by CODE_C49DB0
 	db $00,$01,$01,$01,$01,$00,$00,$00
@@ -1374,7 +1374,7 @@ CODE_C49E78:						; from CODE_C49E15, CODE_C49EED, CODE_C49FAF, CODE_C49F9D
 	lda.w $0D60,x
 	and.w #$FFFE
 	sta.w $0D60,x
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C49E90:						; from CODE_C49E73, CODE_C49EE6
 	rtl
 CODE_C49E91:						; from CODE_C49E15, CODE_C49E56
@@ -1411,14 +1411,14 @@ CODE_C49ECB:						; from CODE_C49EAA
 	sta.b $83
 CODE_C49ED4:						; from CODE_C49EAA
 	jsl.l CODE_C37F6D
-	jsl.l CODE_C49D8D
+	jsl.l Findhittype
 	beq CODE_C49EE3
 	lda.w #$1EFA
 	bra CODE_C49EE6
 CODE_C49EE3:						; from CODE_C49ED4
 	lda.w #$1E48
 CODE_C49EE6:						; from CODE_C49ED4
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	jmp.w CODE_C49E90
 CODE_C49EED:						; from CODE_C49EF0
 	jmp.w CODE_C49E78

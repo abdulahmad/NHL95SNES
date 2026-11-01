@@ -46,7 +46,7 @@ CODE_C51136:						; from CODE_C51136
 	ldy.b $6B
 	lda.w $12AB,y
 	sta.b $7F
-	jsl.l CODE_C511A8
+	jsl.l Mod100
 	stz.b $69
 	lda.w #$04F5
 	sta.b $67
@@ -85,7 +85,7 @@ CODE_C511A1:						; from CODE_C51191
 	cmp.b [$67]
 	bcc CODE_C51191
 	rtl
-CODE_C511A8:						; from CODE_C51136 and other segments
+Mod100:								; from CODE_C51136 and other segments
 	lda.b $7F
 CODE_C511AA:						; from CODE_C511AA
 	cmp.w #$0064
@@ -370,10 +370,10 @@ CODE_C513F4:						; called from other segments
 	pei ($6F)
 	pei ($71)
 	stz.b $6B
-	jsl.l CODE_C5147E
+	jsl.l DispPen
 	lda.w #$0002
 	sta.b $6B
-	jsl.l CODE_C5147E
+	jsl.l DispPen
 	pla
 	sta.b $71
 	pla
@@ -425,11 +425,11 @@ CODE_C513F4:						; called from other segments
 	ldx.b $6F
 CODE_C5147D:						; from CODE_C514E4, CODE_C514BA
 	rtl
-CODE_C5147E:						; from CODE_C513F4 and other segments
+DispPen:							; from CODE_C513F4 and other segments
 	lda.b $6B
 	beq CODE_C51485
 	lda.w #$001A
-CODE_C51485:						; from CODE_C5147E
+CODE_C51485:						; from DispPen
 	sta.b $63
 CODE_C51487:						; from CODE_C5149F
 	ldy.b $63
@@ -1386,7 +1386,7 @@ CODE_C51C58:						; called from other segments
 CODE_C51C86:						; from CODE_C51C58
 	ldx.b $6F
 	lda.w #$24FA
-	jml.l CODE_C457B5
+	jml.l SetSPAFromA
 CODE_C51C8F:						; from CODE_C51C58, CODE_C51C90
 	rtl
 CODE_C51C90:						; from CODE_C51C58
@@ -1406,10 +1406,10 @@ CODE_C51C90:						; from CODE_C51C58
 CODE_C51CB1:						; from CODE_C51C90
 	ldx.b $6F
 	lda.w #$24FA
-	jml.l CODE_C457B5
+	jml.l SetSPAFromA
 CODE_C51CBA:						; from CODE_C51C58, CODE_C51C90
 	lda.w #$2524
-	jml.l CODE_C457B5
+	jml.l SetSPAFromA
 CODE_C51CC1:						; asstab entry 27: an assignment routine
 	stz.w $14E5
 	lda.w $189C

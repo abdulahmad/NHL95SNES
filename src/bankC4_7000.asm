@@ -197,7 +197,7 @@ CODE_C471A7:						; from CODE_C47177
 	lda.w #$FFFF
 	sta.w $07EA
 CODE_C471DE:						; from CODE_C471A7
-	jsl.l CODE_C457A1
+	jsl.l SetSPA
 CODE_C471E2:						; from CODE_C47177 and other segments
 	lda.w #$0078
 	jsl.l CODE_C37EAA
@@ -236,7 +236,7 @@ CODE_C47227:						; from CODE_C47218
 	sta.w $126F,y
 CODE_C47230:						; from CODE_C47200
 	rtl
-CODE_C47231:						; from CODE_C47FD4 and other segments
+CountPowerPlayTime:					; from CODE_C47FD4 and other segments
 	stz.b $83
 	lda.w $12C7
 	sec
@@ -245,12 +245,12 @@ CODE_C47231:						; from CODE_C47FD4 and other segments
 	bpl CODE_C47243
 	lda.w #$0002
 	sta.b $83
-CODE_C47243:						; from CODE_C47231
+CODE_C47243:						; from CountPowerPlayTime
 	ldy.b $83
 	lda.w $1273,y
 	inc a
 	sta.w $1273,y
-CODE_C4724C:						; from CODE_C47231
+CODE_C4724C:						; from CountPowerPlayTime
 	rtl
 CODE_C4724D:						; from CODE_C471F0 and other segments
 	lda.w $2CF5
@@ -843,10 +843,10 @@ CODE_C4770C:						; from CODE_C47507, CODE_C47537, CODE_C4769A, CODE_C476F2
 	lda.w $18BE
 	bne CODE_C47728
 	stz.b $6B
-	jsl.l CODE_C47749
+	jsl.l InProgress_ap
 	lda.w #$0002
 	sta.b $6B
-	jsl.l CODE_C47749
+	jsl.l InProgress_ap
 CODE_C47728:						; from CODE_C4770C
 	pla
 	sta.b $71
@@ -871,7 +871,7 @@ CODE_C47728:						; from CODE_C4770C
 	ldx.b $6F
 CODE_C47748:						; from CODE_C474C4, CODE_C474D0
 	rtl
-CODE_C47749:						; from CODE_C4770C and other segments
+InProgress_ap:						; from CODE_C4770C and other segments
 	lda.w #$0006
 	sta.b $83
 	lda.w #$0032
@@ -959,7 +959,7 @@ CODE_C477E6:						; from CODE_C477D5
 	ldx.w #$007E
 	ldy.w #$5B04
 	jsl.l QueueVRAMDMALen
-	jsl.l CODE_C47BFA
+	jsl.l GetLowestPen
 	lda.w $10F3
 	bne CODE_C4782C
 	lda.b $7F
@@ -1387,7 +1387,7 @@ CODE_C47B64:						; from CODE_C47B53
 	sta.w $0C40,x
 	sta.w $1000,x
 	lda.w #$18EC
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	jml.l CODE_C384FC
 CODE_C47B8F:						; from CODE_C47B3F
 	lda.w #$0004
@@ -1436,14 +1436,14 @@ CODE_C47BD5:						; from CODE_C47BCB
 	sta.w $1511,y
 CODE_C47BF4:						; from CODE_C47BBE
 	ldx.b $B7
-	jml.l CODE_C4370C
-CODE_C47BFA:						; from CODE_C477E6 and other segments
+	jml.l assexit
+GetLowestPen:						; from CODE_C477E6 and other segments
 	stz.b $7F
 	stz.b $8B
 	lda.b $6B
 	beq CODE_C47C05
 	lda.w #$001A
-CODE_C47C05:						; from CODE_C47BFA
+CODE_C47C05:						; from GetLowestPen
 	sta.b $63
 CODE_C47C07:						; from CODE_C47C1F
 	ldy.b $63
@@ -1556,7 +1556,7 @@ CODE_C47CB6:						; from CODE_C47C8C
 	sty.b $6B
 	stx.b $6F
 	jsl.l CODE_C44F20
-	jsl.l CODE_C480B5
+	jsl.l PenShotChk
 	beq CODE_C47D0B
 	lda.w $18B0
 	bpl CODE_C47D0B
@@ -1571,7 +1571,7 @@ CODE_C47CB6:						; from CODE_C47C8C
 CODE_C47D0A:						; from CODE_C47C8C, CODE_C47CB6
 	rtl
 CODE_C47D0B:						; from CODE_C47CB6
-	jsl.l CODE_C48199
+	jsl.l checkagr
 	lda.b $7F
 	cmp.w #$0005
 	bcs CODE_C47D1F
@@ -1666,7 +1666,7 @@ CODE_C47DA9:						; from CODE_C47D81
 CODE_C47DEB:						; from CODE_C47DA9
 	lda.w #$1958
 	sta.w $1080,x
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w #$0006
 	sta.b $87
 	lda.w $0FC0,x
@@ -1704,7 +1704,7 @@ CODE_C47E2D:						; from CODE_C47D81
 	sta.w $0C40,x
 	sta.w $1000,x
 	lda.w #$18BE
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w $0D60,x
 	and.w #$BFFF
 	sta.w $0D60,x

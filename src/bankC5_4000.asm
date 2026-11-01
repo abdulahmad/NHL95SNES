@@ -29,7 +29,7 @@ CODE_C54008:						; from CODE_C53FFA
 CODE_C54020:						; from CODE_C54008
 	lda.w #$1958
 CODE_C54023:						; from CODE_C54008
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	stz.w $0A00,x
 	stz.w $0CE0,x
 	lda.w $0D60,x
@@ -49,7 +49,7 @@ CODE_C5404A:						; called from other segments
 	lda.w $186E
 	cmp.w #$0001
 	bne CODE_C5406F
-	jsl.l CODE_C53616
+	jsl.l loadTeamStruct
 	ldy.b $6B
 	lda.w $12FF,y
 	bit.w #$0008
@@ -465,7 +465,7 @@ CODE_C543A4:						; from CODE_C5438A
 CODE_C543AD:						; from CODE_C54359, CODE_C5438A, CODE_C543A4
 	pei ($71)
 	pei ($6F)
-	jsl.l CODE_C54E59
+	jsl.l GetTeamLines
 	lda.b $71
 	sta.b $69
 	lda.b $6F
@@ -571,7 +571,7 @@ CODE_C54459:						; from CODE_C5444E
 CODE_C54471:						; from CODE_C54459
 	pei ($71)
 	pei ($6F)
-	jsl.l CODE_C54E59
+	jsl.l GetTeamLines
 	lda.b $71
 	sta.b $69
 	lda.b $6F
@@ -608,7 +608,7 @@ CODE_C544A9:						; from CODE_C544A9
 	lda.b [$67],y
 	and.w #$00FF
 	sta.b $7F
-	jsl.l CODE_C544E6
+	jsl.l TryAddPlayerToList
 	beq CODE_C544A9
 CODE_C544C6:						; from CODE_C54435, CODE_C54459, CODE_C544D6
 	dec.b $8F
@@ -625,10 +625,10 @@ CODE_C544D6:						; from CODE_C544D6
 	sta.b $7F
 	dec.b $8B
 	bmi CODE_C544C6
-	jsl.l CODE_C544E6
+	jsl.l TryAddPlayerToList
 	beq CODE_C544D6
 	bra CODE_C544C6
-CODE_C544E6:						; from CODE_C544A9, CODE_C544D6 and other segments
+TryAddPlayerToList:					; from CODE_C544A9, CODE_C544D6 and other segments
 	lda.b $7F
 	sta.b $83
 	dec.b $7F
@@ -636,7 +636,7 @@ CODE_C544E6:						; from CODE_C544A9, CODE_C544D6 and other segments
 	lda.b $6B
 	beq CODE_C544F5
 	lda.w #$0034
-CODE_C544F5:						; from CODE_C544E6
+CODE_C544F5:						; from TryAddPlayerToList
 	adc.b $7F
 	tay
 	lda.w $1373,y
@@ -718,7 +718,7 @@ CODE_C54597:						; from CODE_C54568
 	lda.w $0D60,x
 	ora.w #$0008
 	sta.w $0D60,x
-	jsl.l CODE_C53616
+	jsl.l loadTeamStruct
 	ldy.b $6B
 	lda.w $12FF,y
 	and.w #$FFF7
@@ -740,11 +740,11 @@ CODE_C545C7:						; asstab entry 12: an assignment routine
 	bne CODE_C545D2
 	jmp.w CODE_C546D7
 CODE_C545D2:						; from CODE_C545C7
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $0D60,x
 	bit.w #$4000
 	beq CODE_C545E2
-	jml.l CODE_C4370C
+	jml.l assexit
 CODE_C545E2:						; from CODE_C545D2
 	bit.w #$0002
 	beq CODE_C54613
@@ -814,7 +814,7 @@ CODE_C5466F:						; from CODE_C5465B
 	bne CODE_C5467A
 	lda.w #$121E
 CODE_C5467A:						; from CODE_C5466F
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w #$0001
 	sta.w $1080,x
 	lda.w $0C40,x
@@ -845,7 +845,7 @@ CODE_C546A6:						; from CODE_C54693
 	ora.w #$0800
 	sta.w $08E0,x
 	lda.w #$18BE
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w #$0064
 	sta.w $0AE0,x
 	sta.w $1000,x
@@ -897,7 +897,7 @@ CODE_C54734:						; from CODE_C546F0 and other segments
 	lda.w $0D20,x
 	sta.b $7F
 	sta.w $0A20,x
-	jsl.l CODE_C53C20
+	jsl.l Setplass
 	lda.w #$FFFF
 	sta.w $0D40,x
 	sta.w $0D20,x
@@ -936,7 +936,7 @@ CODE_C5476F:						; from CODE_C5474A
 	sta.w $0C40,x
 	sta.w $1000,x
 	lda.w #$18EC
-	jml.l CODE_C457C7
+	jml.l SetSPAUpdate
 CODE_C5479D:						; from CODE_C5474A
 	rtl
 CODE_C5479E:						; from CODE_C5474A
@@ -955,7 +955,7 @@ CODE_C5479E:						; from CODE_C5474A
 	and.w #$F7FF
 	sta.w $08E0,x
 CODE_C547C7:						; from CODE_C5479E
-	jml.l CODE_C4370C
+	jml.l assexit
 CODE_C547CB:						; from CODE_C54982 and other segments
 	pei ($7F)
 	pei ($81)
@@ -1163,10 +1163,10 @@ CODE_C54982:						; from CODE_C54966
 	jsl.l CODE_C547CB
 	jsl.l CODE_C541D3
 	jsl.l CODE_C5111A
-	jml.l CODE_C4981D
+	jml.l CompShoot
 CODE_C549A7:						; from CODE_C5492E, CODE_C54948, CODE_C54966, CODE_C54982
 	rtl
-CODE_C549A8:						; from CODE_C545D2 and other segments
+check4bench:						; from CODE_C545D2 and other segments
 	lda.w $0D60,x
 	bit.w #$4000
 	bne CODE_C549EA
@@ -1174,7 +1174,7 @@ CODE_C549A8:						; from CODE_C545D2 and other segments
 	bpl CODE_C549BA
 	lda.w $0D40,x
 	bmi CODE_C549EA
-CODE_C549BA:						; from CODE_C549A8
+CODE_C549BA:						; from check4bench
 	lda.w $0D40,x
 	cmp.w $0DC0,x
 	beq CODE_C549EB
@@ -1194,7 +1194,7 @@ CODE_C549BA:						; from CODE_C549A8
 	lda.w #$000C
 	sta.b $7F
 	jml.l CODE_C4373E
-CODE_C549EA:						; from CODE_C549A8, CODE_C549BA
+CODE_C549EA:						; from check4bench, CODE_C549BA
 	rtl
 CODE_C549EB:						; from CODE_C549BA
 	sep #$20
@@ -1210,8 +1210,8 @@ CODE_C549EB:						; from CODE_C549BA
 	sta.w $0D20,x
 	lda.w $0A20,x
 	sta.b $7F
-	jmp.w CODE_C53C20
-CODE_C54A0E:						; from CODE_C54A47 and other segments
+	jmp.w Setplass
+getpde:								; from CODE_C54A47 and other segments
 	lda.w $0DC0,x
 	and.w #$00FF
 	asl a
@@ -1219,7 +1219,7 @@ CODE_C54A0E:						; from CODE_C54A47 and other segments
 	lda.w $1020,x
 	beq CODE_C54A1F
 	lda.w #$0002
-CODE_C54A1F:						; from CODE_C54A0E
+CODE_C54A1F:						; from getpde
 	sta.b $6B
 	beq CODE_C54A26
 	lda.w #$0034
@@ -1249,7 +1249,7 @@ CODE_C54A47:						; called from other segments
 	pei ($83)
 	pei ($6B)
 	ldx.b $63
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	pla
 	sta.b $6B
 	pla
@@ -1707,7 +1707,7 @@ CODE_C54DA4:						; from CODE_C545B8 and other segments
 	lda.w $0D60,x
 	ora.w #$0008
 	sta.w $0D60,x
-	jsl.l CODE_C53616
+	jsl.l loadTeamStruct
 	ldy.b $6B
 	lda.w $12FF,y
 	and.w #$FFF7
@@ -1779,16 +1779,16 @@ CODE_C54E53:						; from CODE_C54E39
 	dex
 	bpl CODE_C54E2A
 	rtl
-CODE_C54E59:						; from CODE_C543AD, CODE_C54471 and other segments
+GetTeamLines:						; from CODE_C543AD, CODE_C54471 and other segments
 	lda.w #$007E
 	sta.b $71
 	lda.b $6B
 	beq CODE_C54E67
 	lda.w #$1813
 	bra CODE_C54E6A
-CODE_C54E67:						; from CODE_C54E59
+CODE_C54E67:						; from GetTeamLines
 	lda.w #$17DB
-CODE_C54E6A:						; from CODE_C54E59
+CODE_C54E6A:						; from GetTeamLines
 	sta.b $6F
 	rtl
 CODE_C54E6D:						; called from other segments

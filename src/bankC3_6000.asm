@@ -552,7 +552,7 @@ CODE_C36E9F:						; from CODE_C36E72
 	bne CODE_C36EA6
 	bra CODE_C36EDB
 CODE_C36EA6:						; from CODE_C36E9F
-	jsl.l CODE_C36F88
+	jsl.l Multi5ConnectCheck
 	ldx.w #$000F
 	stx.b $C5
 	stx.b $C7
@@ -630,7 +630,7 @@ CODE_C36F3B:						; from CODE_C36F29
 CODE_C36F3D:						; called from other segments
 	pea.w $7E80
 	plb
-	jsl.l CODE_C36F88
+	jsl.l Multi5ConnectCheck
 	lda.w #$000F
 	sta.b $C5
 	sta.b $C7
@@ -661,7 +661,7 @@ CODE_C36F80:						; from CODE_C36F70
 CODE_C36F86:						; from CODE_C36F70
 	plb
 	rtl
-CODE_C36F88:						; from CODE_C36F3D, CODE_C36EA6 and other segments
+Multi5ConnectCheck:					; from CODE_C36F3D, CODE_C36EA6 and other segments
 	php
 	sep #$30
 	stz.w $152F

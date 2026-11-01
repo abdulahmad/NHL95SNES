@@ -578,7 +578,7 @@ CODE_C37451:						; from CODE_C373D4
 	pea.w $0000
 CODE_C3748A:						; from CODE_C3748A
 	dec.w $2CE1
-	jsl.l CODE_C3794F
+	jsl.l suba4
 	pla
 	inc a
 	pha
@@ -1034,11 +1034,11 @@ CODE_C37858:						; from CODE_C37833
 	bne CODE_C378A1
 	bit.w #$4000
 	beq CODE_C378D1
-	jsl.l CODE_C3794F
-	jsl.l CODE_C3794F
+	jsl.l suba4
+	jsl.l suba4
 	bra CODE_C378C3
 CODE_C37886:						; from CODE_C37858
-	jsl.l CODE_C3794F
+	jsl.l suba4
 	ldx.w #$0003
 	bra CODE_C378BC
 CODE_C3788F:						; from CODE_C37858
@@ -1121,7 +1121,7 @@ CODE_C37949:						; from CODE_C378E7
 	lda.w $2CDF
 	sta.b $48
 	rtl
-CODE_C3794F:						; from CODE_C3748A, CODE_C37858, CODE_C37886 and other segments
+suba4:								; from CODE_C3748A, CODE_C37858, CODE_C37886 and other segments
 	lda.b $73
 	cmp.w #$0000
 	bne CODE_C3796F
@@ -1135,7 +1135,7 @@ CODE_C3794F:						; from CODE_C3748A, CODE_C37858, CODE_C37886 and other segment
 	sta.b $75
 	lda.w #$8EF8
 	sta.b $73
-CODE_C3796F:						; from CODE_C3794F
+CODE_C3796F:						; from suba4
 	lda.b $73
 	sec
 	sbc.w #$007A
@@ -1171,7 +1171,7 @@ CODE_C379A0:						; from CODE_C37994
 CODE_C379B3:						; from CODE_C379A0
 	stz.b $9B
 	rtl
-CODE_C379B6:						; from CODE_C3794F
+CODE_C379B6:						; from suba4
 	jsl.l CODE_C37C62
 	stz.b $9B
 	rtl

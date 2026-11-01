@@ -324,7 +324,7 @@ CODE_C502EB:						; from CODE_C50269, CODE_C502B1, CODE_C502BF
 	sta.w $07B0
 CODE_C50308:						; from CODE_C502EB
 	jsl.l CODE_C5033D
-	jsl.l CODE_C50E26
+	jsl.l demoread
 	lda.w $10F5
 	bit.w #$0001
 	bne CODE_C5032B
@@ -445,7 +445,7 @@ CODE_C50427:						; from CODE_C5040E
 	cmp.w #$0000
 	bmi CODE_C50434
 	asl.b $7F
-	jsl.l CODE_C53616
+	jsl.l loadTeamStruct
 CODE_C50434:						; from CODE_C5040E, CODE_C50427
 	lda.w $06B4,x
 	beq CODE_C50445
@@ -981,7 +981,7 @@ CODE_C50851:						; from CODE_C5081F
 	lda.l $C09A25,x
 	sta.w $1852
 	ldx.b $B7
-	jsl.l CODE_C53616
+	jsl.l loadTeamStruct
 	jsl.l $001850
 CODE_C50874:						; from CODE_C50851
 	lda.w $0A20,x
@@ -1610,7 +1610,7 @@ CODE_C50E02:						; from CODE_C50DDD
 	sta.w $07F6
 	sta.w $07C6
 	rtl
-CODE_C50E26:						; from CODE_C50308 and other segments
+demoread:							; from CODE_C50308 and other segments
 	lda.w $1864
 	cmp.w #$0004
 	bne CODE_C50E62
@@ -1640,7 +1640,7 @@ CODE_C50E59:						; from CODE_C50E42
 	cpx.w #$000A
 	bcc CODE_C50E42
 	rtl
-CODE_C50E62:						; from CODE_C50E26
+CODE_C50E62:						; from demoread
 	lda.w $17B5
 	ora.w $17B7
 	ora.w $17B9

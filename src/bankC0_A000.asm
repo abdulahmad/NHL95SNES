@@ -10,7 +10,7 @@ asstab:								; the assignment routines, by assignment number (as 94S asstab; t
 	dd CODE_C545C7,CODE_C47D2E,CODE_C47F4C,CODE_C488BB
 	dd CODE_C49B59,CODE_C42DB8,CODE_C42B25,CODE_C498A1
 	dd CODE_C4A4B3,CODE_C49DFB,CODE_C4375B,CODE_C4376F
-	dd CODE_C493CA,CODE_C4A65D,CODE_C49595,CODE_C51CC1
+	dd CODE_C493CA,CODE_C4A65D,pucknothing,CODE_C51CC1
 	dd CODE_C43826
 asspuckc_postab:					; 10 positions (x, y) as 94S asspuckc_postab
 	dw -100,-20

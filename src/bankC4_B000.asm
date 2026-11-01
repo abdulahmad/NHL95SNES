@@ -1,13 +1,13 @@
 ; Segment bankC4_B000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4B00F
-CODE_C4B00F:						; called from other segments
+ClearOffsidesIfAllPlayers:			; called from other segments
 	ldy.b $6B
 	lda.w $12FF,y
 	bit.w #$0010
 	bne CODE_C4B01C
 	jmp.w CODE_C4AF74
-CODE_C4B01C:						; from CODE_C4B00F
+CODE_C4B01C:						; from ClearOffsidesIfAllPlayers
 	lda.w $1283,y
 	sta.b $63
 	lda.w #$0005

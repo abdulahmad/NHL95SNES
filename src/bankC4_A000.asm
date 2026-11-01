@@ -122,7 +122,7 @@ CODE_C4A0A8:						; from CODE_C4A092
 	sep #$20
 	pla
 	rep #$30
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C4A0C0:						; from CODE_C4A05B, CODE_C4A092, CODE_C4A0A8
 	rtl
 CODE_C4A0C1:						; called from other segments
@@ -220,10 +220,10 @@ CODE_C4A181:						; from CODE_C4A176
 	ldx.b $6F
 	lda.b $8F
 	bmi CODE_C4A195
-	jsl.l CODE_C4A254
+	jsl.l dopass_count
 	lda.w #$000B
 	jsl.l CODE_CF040B
-	jmp.w CODE_C4A1F2
+	jmp.w dopass_swing
 CODE_C4A195:						; from CODE_C4A181
 	lda.w $07C8
 	asl a
@@ -267,7 +267,7 @@ CODE_C4A195:						; from CODE_C4A181
 	jsl.l RandomWord
 	and.w #$0FFF
 	sta.w $08DE
-CODE_C4A1F2:						; from CODE_C4A181, CODE_C4A599
+dopass_swing:						; from CODE_C4A181, CODE_C4A599
 	lda.w $0A20,x
 	bne CODE_C4A20F
 	lda.w $0FE0,x
@@ -275,14 +275,14 @@ CODE_C4A1F2:						; from CODE_C4A181, CODE_C4A599
 	lda.w $09DC
 	bmi CODE_C4A208
 	bra CODE_C4A20F
-CODE_C4A203:						; from CODE_C4A1F2
+CODE_C4A203:						; from dopass_swing
 	lda.w $09DC
 	bmi CODE_C4A20F
-CODE_C4A208:						; from CODE_C4A1F2
+CODE_C4A208:						; from dopass_swing
 	eor.w #$FFFF
 	inc a
 	sta.w $09DC
-CODE_C4A20F:						; from CODE_C4A1F2, CODE_C4A203
+CODE_C4A20F:						; from dopass_swing, CODE_C4A203
 	lda.w $09BC
 	sta.b $7F
 	lda.w $09DC
@@ -292,12 +292,12 @@ CODE_C4A20F:						; from CODE_C4A1F2, CODE_C4A203
 	lda.w $0A20,x
 	beq CODE_C4A231
 	ldy.w #$1B40
-	jsl.l CODE_C49D8D
+	jsl.l Findhittype
 	beq CODE_C4A231
 	ldy.w #$1BB2
 CODE_C4A231:						; from CODE_C4A20F
 	sty.b $83
-	jsl.l CODE_C457A1
+	jsl.l SetSPA
 	lda.w #$0001
 	sta.w $1000,x
 	lda.w $0A20,x
@@ -310,15 +310,15 @@ CODE_C4A231:						; from CODE_C4A20F
 	jsl.l CODE_C537C4
 CODE_C4A253:						; from CODE_C4A231
 	rtl
-CODE_C4A254:						; from CODE_C4A181 and other segments
-	jsl.l CODE_C53616
+dopass_count:						; from CODE_C4A181 and other segments
+	jsl.l loadTeamStruct
 	lda.w $10F3
 	bne CODE_C4A266
 	ldy.b $6B
 	lda.w $12DF,y
 	inc a
 	sta.w $12DF,y
-CODE_C4A266:						; from CODE_C4A254
+CODE_C4A266:						; from dopass_count
 	ldx.w $0664,y
 	lda.w $0E60,x
 	lsr a
@@ -521,7 +521,7 @@ CODE_C4A373:						; from CODE_C4A2A3
 	jsl.l CODE_C537C4
 CODE_C4A41B:						; from CODE_C4A373
 	rtl
-CODE_C4A41C:						; from CODE_C4A4B3 and other segments
+DumpInTarget:						; from CODE_C4A4B3 and other segments
 	stx.w $066A
 	lda.w $0A20,x
 	beq CODE_C4A493
@@ -537,11 +537,11 @@ CODE_C4A41C:						; from CODE_C4A4B3 and other segments
 	lda.w #$000A
 	sta.w $066C
 	rtl
-CODE_C4A443:						; from CODE_C4A41C
+CODE_C4A443:						; from DumpInTarget
 	lda.w #$0006
 	sta.w $066C
 	rtl
-CODE_C4A44A:						; from CODE_C4A41C
+CODE_C4A44A:						; from DumpInTarget
 	lda.w $063E
 	sec
 	sbc.w #$0004
@@ -550,7 +550,7 @@ CODE_C4A44A:						; from CODE_C4A41C
 	lda.w #$0008
 	sta.w $066C
 	rtl
-CODE_C4A45E:						; from CODE_C4A41C
+CODE_C4A45E:						; from DumpInTarget
 	lda.w $0896,x
 	cmp.w #$005C
 	bpl CODE_C4A47F
@@ -574,7 +574,7 @@ CODE_C4A47F:						; from CODE_C4A45E
 	lda.w #$0014
 	sta.w $066C
 	rtl
-CODE_C4A493:						; from CODE_C4A41C
+CODE_C4A493:						; from DumpInTarget
 	stz.w $066C
 	stz.w $07C8
 	lda.w $0FE0,x
@@ -595,7 +595,7 @@ CODE_C4A4B3:						; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
 	beq CODE_C4A4E6
-	jsl.l CODE_C4A41C
+	jsl.l DumpInTarget
 	lda.w $0D60,x
 	and.w #$FFFD
 	sta.w $0D60,x
@@ -608,9 +608,9 @@ CODE_C4A4B3:						; called from other segments
 	beq CODE_C4A4E0
 	rtl
 CODE_C4A4E0:						; from CODE_C4A4B3
-	jmp.w CODE_C4981D
+	jmp.w CompShoot
 CODE_C4A4E3:						; from CODE_C4A4B3
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C4A4E6:						; from CODE_C4A4B3
 	ldy.w #$0000
 	lda.w $07C8
@@ -629,7 +629,7 @@ CODE_C4A4E6:						; from CODE_C4A4B3
 	beq CODE_C4A510
 	lda.w $07C8
 	sta.b $7F
-	jsl.l CODE_C4933E
+	jsl.l AdjustFacingDirection
 	rtl
 CODE_C4A510:						; from CODE_C4A4E6
 	lda.w $0A20,x
@@ -642,7 +642,7 @@ CODE_C4A510:						; from CODE_C4A4E6
 	sta.w $07C8
 CODE_C4A523:						; from CODE_C4A510
 	jsl.l CODE_C4A52A
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C4A52A:						; from CODE_C4A523 and other segments
 	txy
 	lda.w #$000F
@@ -737,7 +737,7 @@ CODE_C4A599:						; from CODE_C4A58F, CODE_C4A591
 	txa
 	lsr a
 	sta.w $07B8
-	jmp.w CODE_C4A1F2
+	jmp.w dopass_swing
 DATA8_C4A5FD:						; not traced: a table read by CODE_C4A52A
 	db $19,$00,$19,$00,$19,$00,$19,$00,$14,$00,$19,$00,$19,$00,$19,$00
 	db $19,$00,$19,$00,$14,$00,$19,$00
@@ -880,7 +880,7 @@ CODE_C4A76B:						; from CODE_C4A711
 	sta.w $1060,y
 	lda.w #$26B6
 	ldx.b $6B
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	ldx.b $6F
 	rtl
 CODE_C4A782:						; called from other segments
@@ -1548,7 +1548,7 @@ CODE_C4ACC4:						; from CODE_C4ACB6
 	inx
 	inx
 	lda.w #$253E
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	ldy.b $6B
 	ldx.w $1283,y
 	stx.b $6F
@@ -1661,7 +1661,7 @@ CODE_C4ADD6:						; from CODE_C4AE5F
 	lda.w #$000D
 	jsl.l CODE_CF040B
 	jsl.l CODE_C4843B
-	jmp.w CODE_C4AE6D
+	jmp.w deflect
 CODE_C4ADE4:						; from CODE_C4AE3F
 	rtl
 CODE_C4ADE5:						; from CODE_C4AD36
@@ -1731,7 +1731,7 @@ CODE_C4AE5F:						; from CODE_C4AE3F
 	jmp.w CODE_C4ADD6
 CODE_C4AE6A:						; from CODE_C4AE3F
 	jmp.w CODE_C44E0A
-CODE_C4AE6D:						; from CODE_C4ADD6
+deflect:							; from CODE_C4ADD6
 	lda.w #$FFFF
 	sta.w $05A0
 	jsl.l RandomWord
@@ -1780,16 +1780,16 @@ CODE_C4AED5:						; called from other segments
 	stz.b $67
 	lda.w #$0002
 	sta.b $6B
-	jsl.l CODE_C4B00F
+	jsl.l ClearOffsidesIfAllPlayers
 	stz.b $6B
 	lda.w #$0002
 	sta.b $67
-	jsl.l CODE_C4B00F
+	jsl.l ClearOffsidesIfAllPlayers
 	lda.w #$0058
 	sta.b $7F
 	lda.w $08B2
 	bpl CODE_C4AEF8
-	jmp.w CODE_C4AF7E
+	jmp.w ChkOffsides_other
 CODE_C4AEF8:						; from CODE_C4AED5
 	lda.b $7F
 	sec
@@ -1853,7 +1853,7 @@ CODE_C4AF5A:						; from CODE_C4AF75
 	lda.w $12FF,y
 	ora.w #$0010
 	sta.w $12FF,y
-CODE_C4AF74:						; from CODE_C4B00F, CODE_C4AEF8, CODE_C4AF7E, CODE_C4B03F, ...
+CODE_C4AF74:						; from ClearOffsidesIfAllPlayers, CODE_C4AEF8, ChkOffsides_other, ...
 	rtl
 CODE_C4AF75:						; from CODE_C4AF5A
 	inc.b $63
@@ -1861,7 +1861,7 @@ CODE_C4AF75:						; from CODE_C4AF5A
 	dec.b $87
 	bpl CODE_C4AF5A
 	rtl
-CODE_C4AF7E:						; from CODE_C4AED5
+ChkOffsides_other:					; from CODE_C4AED5
 	lda.w #$0000
 	sec
 	sbc.b $7F
@@ -1875,12 +1875,12 @@ CODE_C4AF7E:						; from CODE_C4AED5
 	sbc.w $097C
 	bpl CODE_C4AF74
 	bra CODE_C4AFA0
-CODE_C4AF98:						; from CODE_C4AF7E
+CODE_C4AF98:						; from ChkOffsides_other
 	lda.b $7F
 	sec
 	sbc.w $097C
 	bmi CODE_C4AF74
-CODE_C4AFA0:						; from CODE_C4AF7E
+CODE_C4AFA0:						; from ChkOffsides_other
 	jsl.l CODE_C4862C
 	lda.w $10F1
 	bit.w #$0020

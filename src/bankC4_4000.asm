@@ -296,7 +296,7 @@ CODE_C4420E:						; from CODE_C441BE
 CODE_C4420F:						; from CODE_C44215
 	jmp.w CODE_C442B5
 CODE_C44212:						; from CODE_C44215
-	jmp.w CODE_C44279
+	jmp.w wallcollb_out
 CODE_C44215:						; from CODE_C441BE, CODE_C441B8 and other segments
 	cpx.w #$001C
 	bne CODE_C4420F
@@ -339,9 +339,9 @@ CODE_C44215:						; from CODE_C441BE, CODE_C441B8 and other segments
 	lda.w $14E3
 	clc
 	adc.w #$000F
-	bmi CODE_C44279
+	bmi wallcollb_out
 	sta.w $14E3
-CODE_C44279:						; from CODE_C44215, CODE_C44212
+wallcollb_out:						; from CODE_C44215, CODE_C44212
 	lda.w #$0040
 	tsb.w $10F5
 	sta.w $109C
@@ -349,7 +349,7 @@ CODE_C44279:						; from CODE_C44215, CODE_C44212
 	bpl CODE_C4428D
 	lda.w #$8000
 	tsb.w $08FC
-CODE_C4428D:						; from CODE_C44279
+CODE_C4428D:						; from wallcollb_out
 	stz.w $0874
 	lda.w $10F3
 	bne CODE_C442AA

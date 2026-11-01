@@ -699,6 +699,9 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
   read by CODE_C5F368, now by label), DATA8_CFF3A0 / DATA8_CFF3A2 (146 pointers in this bank: 0-141 layout records, 142-145 the
   code at CODE_CFFD9E and CODE_CFFF88, which the top layouts jump to), the 141 records, the two routines and zeros to the end of
   the ROM. Bank $CF is all source, and so is the whole ROM.
+- 2026-10-31: naming pass 1: 43 routines in banks $C3-$C5 take their NHL94SNES names (the same code: instruction match >= 0.95
+  with operands checked; e.g. TryAddPlayerToList, CompShoot, CheckBreakaway, dopass_count, holdcheck, SetSPA). Byte-neutral;
+  name_map rows say why.
 
 ## ROM map
 

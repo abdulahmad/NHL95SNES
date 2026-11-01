@@ -116,6 +116,13 @@
   normal; layout from DATA8_C60848+1, the record through DATA8_CFF3A2 / DATA8_CFF3A0 and the handler table DATA8_CFEEAE),
   DATA8_CFF27C (the size words CODE_C5F368 reads), the 141 layout records, CODE_CFFD9E / CODE_CFFF88 (the top layouts jump
   there through the pointer table) and zeros. The records are read as $CF0000-$CF0008,x (bank bases; numbers).
+- Naming pass (94S by code): ../work/match94.py compares every call target in the bank $C3/$C4/$C5/$CF pickles (body
+  flooded over branches, calls not followed) with each NHL94SNES routine (mnemonic + addressing mode, 4-gram candidates,
+  difflib score); imm94.py compares their immediates. Accepted: score >= 0.95, similar length, one claimant per 94S name,
+  a clear runner-up gap; small value changes (DumpInTarget $FFA4 / $FFA8, CompShoot, ClearOffsidesIfAllPlayers $5C / $58)
+  are 95 tuning of the same routine. ../work/rename.py MAP renames everywhere (stubs too), re-aligns comments and adds
+  name_map rows (source 94S+code; the note gives the 94S purpose). Matches below 0.95 are in ../work/match94.txt for review.
+  The pairs also map RAM: 95 $1020,x = 94S pfteam, $10F5 = sflags (chkpk2), $17DB / $1813 = homelines / awaylines.
 
 ## Setup notes
 

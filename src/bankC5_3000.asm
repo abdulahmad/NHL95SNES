@@ -318,7 +318,7 @@ CODE_C532C5:						; called from other segments
 	pei ($67)
 	phx
 	phy
-	jsl.l CODE_C54E59
+	jsl.l GetTeamLines
 	pei ($6F)
 	lda.w #$2DC9
 	ldx.b $6B
@@ -408,7 +408,7 @@ CODE_C5334A:						; from CODE_C53339 and other segments
 	lda.b [$63]
 	and.w #$00FF
 	sta.b $7F
-	jsl.l CODE_C53488
+	jsl.l PutDigits2
 	lda.w #$0020
 	sta.b [$67]
 	inc.b $67
@@ -547,7 +547,7 @@ CODE_C53475:						; no caller found (not traced)
 	lda.w $24C0
 	sta.b $87
 	jml.l CODE_C528D4
-CODE_C53488:						; from CODE_C5334A and other segments
+PutDigits2:							; from CODE_C5334A and other segments
 	lda.w #$2020
 	sta.b $9F
 	lda.b $7F
@@ -561,7 +561,7 @@ CODE_C53488:						; from CODE_C5334A and other segments
 	clc
 	adc.w #$0030
 	sta.b $9F
-CODE_C534A1:						; from CODE_C53488
+CODE_C534A1:						; from PutDigits2
 	lda.b $7F
 	and.w #$000F
 	clc
@@ -742,14 +742,14 @@ CODE_C535EF:						; from CODE_C5334A and other segments
 	lda.b [$63]
 	sta.b $63
 	rtl
-CODE_C53616:						; from CODE_C5404A and other segments
+loadTeamStruct:						; from CODE_C5404A and other segments
 	lda.w $1020,x
 	beq CODE_C53623
 	stz.b $67
 	lda.w #$0002
 	sta.b $6B
 	rtl
-CODE_C53623:						; from CODE_C53616
+CODE_C53623:						; from loadTeamStruct
 	lda.w #$0002
 	sta.b $67
 	stz.b $6B
@@ -916,7 +916,7 @@ CODE_C5374C:						; from CODE_C53764
 	sty.b $8F
 	tya
 	sta.w $05C4,x
-	jsl.l CODE_C53776
+	jsl.l AssignPadPlayer
 CODE_C5375B:						; from CODE_C53737
 	plx
 	rtl
@@ -935,10 +935,10 @@ CODE_C5376A:						; called from other segments
 	ldy.b $7F
 	lda.w $14F9,y
 	bpl CODE_C53775
-	jsl.l CODE_C53776
+	jsl.l AssignPadPlayer
 CODE_C53775:						; from CODE_C5376A
 	rtl
-CODE_C53776:						; from CODE_C5374C, CODE_C5376A, CODE_C53964, ...
+AssignPadPlayer:					; from CODE_C5374C, CODE_C5376A, CODE_C53964, ...
 	lda.w #$FFFF
 	sta.w $066A
 	ldy.b $8F
@@ -958,7 +958,7 @@ CODE_C53776:						; from CODE_C5374C, CODE_C5376A, CODE_C53964, ...
 	bne CODE_C537A8
 	lda.w #$0000
 	sta.w $05CC,y
-CODE_C537A8:						; from CODE_C53776
+CODE_C537A8:						; from AssignPadPlayer
 	ldy.b $7F
 	cpy.w #$0018
 	bcs CODE_C537C3
@@ -970,7 +970,7 @@ CODE_C537A8:						; from CODE_C53776
 	tay
 	lda.b $7F
 	sta.w $1511,y
-CODE_C537C3:						; from CODE_C53776, CODE_C537A8
+CODE_C537C3:						; from AssignPadPlayer, CODE_C537A8
 	rtl
 CODE_C537C4:						; from CODE_C536D6, CODE_C53713 and other segments
 	pei ($7F)
@@ -1100,7 +1100,7 @@ CODE_C53882:						; from CODE_C537DE
 	bra CODE_C538C5
 CODE_C538BF:						; from CODE_C5386A
 	sta.b $7F
-	jsl.l CODE_C53776
+	jsl.l AssignPadPlayer
 CODE_C538C5:						; from CODE_C5386A, CODE_C53882
 	pla
 	sta.b $8D
@@ -1135,12 +1135,12 @@ CODE_C538F3:						; from CODE_C538E9
 	bra CODE_C538E9
 CODE_C538F7:						; from CODE_C538E9
 	phx
-	jsl.l CODE_C5393D
+	jsl.l PadTakePosition
 	plx
 	rtl
 CODE_C538FE:						; called from other segments
 	lda.w #$0000
-	bra CODE_C5393D
+	bra PadTakePosition
 CODE_C53903:						; called from other segments
 	ldy.w #$0000
 	cpx.w #$000C
@@ -1153,9 +1153,9 @@ CODE_C5390E:						; from CODE_C53903
 CODE_C53914:						; from CODE_C5390E
 	lda.w #$0002
 	ldy.w $0FE0,x
-	bne CODE_C5393D
+	bne PadTakePosition
 	lda.w #$0001
-	bra CODE_C5393D
+	bra PadTakePosition
 CODE_C53921:						; called from other segments
 	ldy.w #$0000
 	cpx.w #$000C
@@ -1168,9 +1168,9 @@ CODE_C5392C:						; from CODE_C53921
 CODE_C53932:						; from CODE_C5392C
 	lda.w #$0001
 	ldy.w $0FE0,x
-	bne CODE_C5393D
+	bne PadTakePosition
 	lda.w #$0002
-CODE_C5393D:						; from CODE_C538FE, CODE_C538F7, CODE_C53914, ...
+PadTakePosition:					; from CODE_C538FE, CODE_C538F7, CODE_C53914, ...
 	sta.b $83
 	phx
 	ldy.b $8F
@@ -1179,7 +1179,7 @@ CODE_C5393D:						; from CODE_C538FE, CODE_C538F7, CODE_C53914, ...
 	cmp.w #$0001
 	beq CODE_C53950
 	ldx.w #$000C
-CODE_C53950:						; from CODE_C5393D
+CODE_C53950:						; from PadTakePosition
 	lda.w #$0005
 	sta.b $7F
 CODE_C53955:						; from CODE_C53955
@@ -1201,7 +1201,7 @@ CODE_C53964:						; from CODE_C53955
 	inc a
 	sta.w $05A4,y
 	stx.b $7F
-	jsl.l CODE_C53776
+	jsl.l AssignPadPlayer
 CODE_C5397E:						; from CODE_C53955, CODE_C53964
 	plx
 	rtl
@@ -1443,7 +1443,7 @@ CODE_C53B91:						; from CODE_C53B81
 	sta.w $0A20,x
 	cmp.w #$0000
 	bmi CODE_C53BD4
-	jsl.l CODE_C53C20
+	jsl.l Setplass
 	ldx.b $6F
 	lda.w $0A20,x
 	cmp.w #$0004
@@ -1515,7 +1515,7 @@ CODE_C53BD4:						; from CODE_C53B91
 	sta.b $7F
 	ldx.b $6F
 	rtl
-CODE_C53C20:						; from CODE_C53B91 and other segments
+Setplass:							; from CODE_C53B91 and other segments
 	lda.w $0A20,x
 	sta.b $7F
 	bmi CODE_C53C3E
@@ -1528,7 +1528,7 @@ CODE_C53C20:						; from CODE_C53B91 and other segments
 	and.w #$00FF
 	sta.b $7F
 	jml.l CODE_C4373E
-CODE_C53C3E:						; from CODE_C53C20
+CODE_C53C3E:						; from Setplass
 	rtl
 DATA8_C53C3F:						; not traced: data between routines
 	db $07,$02,$02,$03,$05,$03,$05
@@ -1604,7 +1604,7 @@ CODE_C53CD3:						; from CODE_C53CBD
 	lda.w $10F5
 	bit.w #$2000
 	beq CODE_C53CEF
-	jsl.l CODE_C42DA2
+	jsl.l chkpk2
 	beq CODE_C53CE9
 	lda.w $0436,y
 	sta.w $07D0

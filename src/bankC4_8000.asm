@@ -27,7 +27,7 @@ CODE_C47FD4:						; from CODE_C47FCB
 	lda.w #$0020
 	tsb.w $10F7
 	jsl.l CODE_C47200
-	jsl.l CODE_C47231
+	jsl.l CountPowerPlayTime
 	stz.b $6B
 	jsl.l CODE_C47FFA
 	lda.w #$0002
@@ -126,7 +126,7 @@ CODE_C480AB:						; from CODE_C4809C
 	lda.w #$0000
 	sta.w $1373,y
 	jml.l CODE_C45A9F
-CODE_C480B5:						; called from other segments
+PenShotChk:							; called from other segments
 	lda.w $10F1
 	bit.w #$0010
 	bne CODE_C480E0
@@ -136,8 +136,8 @@ CODE_C480B5:						; called from other segments
 	lda.w $18AE
 	bne CODE_C480CC
 	jmp.w CODE_C480E0
-CODE_C480CC:						; from CODE_C480B5
-	jsl.l CODE_C48590
+CODE_C480CC:						; from PenShotChk
+	jsl.l CheckBreakaway
 	lda.w $1155
 	sta.w $18AE
 	bne CODE_C480DB
@@ -145,7 +145,7 @@ CODE_C480CC:						; from CODE_C480B5
 CODE_C480DB:						; from CODE_C480CC
 	lda.w #$FFFF
 	bra CODE_C480E3
-CODE_C480E0:						; from CODE_C480B5, CODE_C480CC
+CODE_C480E0:						; from PenShotChk, CODE_C480CC
 	lda.w #$0000
 CODE_C480E3:						; from CODE_C480DB
 	rtl
@@ -199,7 +199,7 @@ CODE_C4813C:						; from CODE_C4810B
 	and.w #$00FF
 	sta.w $0A20,x
 	stx.b $6F
-	jsl.l CODE_C53C20
+	jsl.l Setplass
 	jsl.l CODE_C53C46
 	lda.w $0D60,x
 	ora.w #$1000
@@ -248,7 +248,7 @@ CODE_C48190:						; from CODE_C48190
 	bpl CODE_C48190
 	plx
 	rtl
-CODE_C48199:						; called from other segments
+checkagr:							; called from other segments
 	lda.w #$0014
 	sec
 	sbc.w $0F60,x
@@ -260,7 +260,7 @@ CODE_C48199:						; called from other segments
 	lda.w $14F9,x
 	bmi CODE_C481AD
 	asl.b $7F
-CODE_C481AD:						; from CODE_C48199
+CODE_C481AD:						; from checkagr
 	lda.w $0814,x
 	sec
 	sbc.w $0830
@@ -622,7 +622,7 @@ CODE_C4849A:						; from CODE_C48461, CODE_C4848C
 CODE_C484AA:						; from CODE_C48461, CODE_C4849A
 	lda.w #$1000
 	trb.w $10F5
-	jsl.l CODE_C48535
+	jsl.l a2offsides
 	ldy.b $6B
 	lda.w $07B6
 	bit.w #$0004
@@ -687,7 +687,7 @@ CODE_C4852A:						; from CODE_C48510
 	lda.w #$0004
 	tsb.w $07B6
 	rtl
-CODE_C48535:						; from CODE_C484AA and other segments
+a2offsides:							; from CODE_C484AA and other segments
 	ldy.b $6B
 	lda.w $10F1
 	bit.w #$0020
@@ -700,7 +700,7 @@ CODE_C48535:						; from CODE_C484AA and other segments
 	sec
 	sbc.b $7F
 	sta.b $7F
-CODE_C48551:						; from CODE_C48535
+CODE_C48551:						; from a2offsides
 	lda.b $7F
 	cmp.w #$005C
 	bmi CODE_C4858F
@@ -728,14 +728,14 @@ CODE_C48564:						; from CODE_C48551
 	ldy.b $6F
 	sty.b $6B
 	stx.b $6F
-CODE_C4858F:						; from CODE_C48535, CODE_C48551, CODE_C48564
+CODE_C4858F:						; from a2offsides, CODE_C48551, CODE_C48564
 	rtl
-CODE_C48590:						; from CODE_C4862C, CODE_C480CC and other segments
+CheckBreakaway:						; from CODE_C4862C, CODE_C480CC and other segments
 	stz.w $1155
 	lda.w $05A0
 	bpl CODE_C4859B
 	jmp.w CODE_C4862B
-CODE_C4859B:						; from CODE_C48590
+CODE_C4859B:						; from CheckBreakaway
 	lda.w $10F1
 	bit.w #$0002
 	bne CODE_C485AD
@@ -808,10 +808,10 @@ CODE_C4861F:						; from CODE_C48610
 CODE_C48625:						; from CODE_C485E7
 	stz.w $1155
 	inc.w $1155
-CODE_C4862B:						; from CODE_C48590, CODE_C485EF, CODE_C48610, CODE_C485B7, ...
+CODE_C4862B:						; from CheckBreakaway, CODE_C485EF, CODE_C48610, CODE_C485B7, ...
 	rtl
 CODE_C4862C:						; called from other segments
-	jsl.l CODE_C48590
+	jsl.l CheckBreakaway
 	lda.w $1155
 	sta.w $18AE
 	beq CODE_C4866C
@@ -922,7 +922,7 @@ CODE_C48718:						; from CODE_C486FD
 CODE_C48720:						; from CODE_C486FD
 	lda.w $1060,x
 	bne CODE_C48729
-	jml.l CODE_C457A1
+	jml.l SetSPA
 CODE_C48729:						; from CODE_C48720
 	rtl
 CODE_C4872A:						; from CODE_C486FD
@@ -952,7 +952,7 @@ CODE_C4875A:						; from CODE_C48743
 	beq CODE_C4879A
 	sta.b $87
 	lda.w #$121E
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	jmp.w CODE_C487C4
 CODE_C4876D:						; from CODE_C48718, CODE_C48743
 	jmp.w CODE_C458E4
@@ -994,7 +994,7 @@ CODE_C487AB:						; from CODE_C4879A
 CODE_C487B8:						; from CODE_C487AB
 	lda.w #$14C0
 CODE_C487BB:						; from CODE_C487AB
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w $0C40,x
 	sta.b $87
 CODE_C487C4:						; from CODE_C4875A
@@ -1047,7 +1047,7 @@ CODE_C48802:						; from CODE_C487EB and other segments
 	bne rtss
 	lda.w $08B2
 	sta.b $83
-	jsl.l CODE_C48872
+	jsl.l CPgoalie
 	rtl
 CODE_C48832:						; from CODE_C48802
 	lda.w $12CB,y
@@ -1076,10 +1076,10 @@ CODE_C48852:						; from CODE_C48840 and other segments
 	bne CODE_C48871
 	lda.w $2036
 	sta.b $83
-	jmp.w CODE_C48872
+	jmp.w CPgoalie
 CODE_C48871:						; from CODE_C48852
 	rtl
-CODE_C48872:						; from CODE_C48802, CODE_C48852 and other segments
+CPgoalie:							; from CODE_C48802, CODE_C48852 and other segments
 	lda.w $114B
 	cmp.w #$0002
 	bne CODE_C488BA
@@ -1103,7 +1103,7 @@ CODE_C48872:						; from CODE_C48802, CODE_C48852 and other segments
 	sec
 	sbc.b $83
 	sta.b $83
-CODE_C488A7:						; from CODE_C48872
+CODE_C488A7:						; from CPgoalie
 	lda.b $83
 	bmi CODE_C488BA
 	ldy.b $6B
@@ -1111,7 +1111,7 @@ CODE_C488A7:						; from CODE_C48872
 	ora.w #$FF00
 	sta.w $12CB,y
 	jml.l CODE_C541D3
-CODE_C488BA:						; from CODE_C48872, CODE_C488A7
+CODE_C488BA:						; from CPgoalie, CODE_C488A7
 	rtl
 CODE_C488BB:						; called from other segments
 	lda.w #$0006
@@ -1158,7 +1158,7 @@ CODE_C48919:						; from CODE_C488F2, CODE_C4890B
 	bpl CODE_C48956
 	lda.w $10F3
 	bne CODE_C48956
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $0D60,x
 	bit.w #$0002
 	beq CODE_C4893B
@@ -1181,7 +1181,7 @@ CODE_C4893B:						; from CODE_C48919
 	lda.w #$0000
 	bra CODE_C48959
 CODE_C48956:						; from CODE_C48919, CODE_C48959, CODE_C4896D, CODE_C48985
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C48959:						; from CODE_C4893B
 	sta.w $0AE0,x
 	lda.w $05A0
@@ -1210,7 +1210,7 @@ CODE_C48985:						; from CODE_C4896D
 CODE_C4898F:						; from CODE_C4893B
 	jsr.w CODE_C4937C
 	jsl.l CODE_C37F6D
-	jsl.l CODE_C4933E
+	jsl.l AdjustFacingDirection
 	asl.w $0E00,x
 	jsl.l CODE_C489A5
 	lsr.w $0E00,x
@@ -1364,7 +1364,7 @@ CODE_C48AC1:						; from CODE_C48AA8
 	and.w $05CC,x
 	sta.w $05CC,x
 CODE_C48AD1:						; from CODE_C48AA8, CODE_C48AC1
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $0D60,x
 	bit.w #$0002
 	beq CODE_C48AF5
@@ -1462,7 +1462,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	lda.w $1060,x
 	bne CODE_C48BB6
 	lda.w #$121E
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 CODE_C48BB6:						; from CODE_C48BAA
 	lda.w $10F3
 	bne CODE_C48BDF
@@ -1589,7 +1589,7 @@ CODE_C48CB7:						; from CODE_C48C8B
 	lda.w #$005A
 	sta.w $1060,x
 	lda.w #$1636
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 CODE_C48CCC:						; from CODE_C48C9D
 	rtl
 CODE_C48CCD:						; from CODE_C48CE7, CODE_C48D39
@@ -1599,7 +1599,7 @@ CODE_C48CD3:						; from CODE_C48CE7
 	sta.w $0C40,x
 	sta.w $1000,x
 	lda.w #$15C4
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w #$00F0
 	sta.w $06B4,x
 	rtl
@@ -1698,7 +1698,7 @@ CODE_C48DBC:						; from CODE_C48D33
 	sta.w $0C40,x
 	ldy.w #$1552
 	tya
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.w #$0168
 	sta.w $06B4,x
 	lda.w $14E3
@@ -1738,7 +1738,7 @@ CODE_C48E15:						; from CODE_C48DEE
 	beq CODE_C48E27
 	jsr.w CODE_C4937C
 	jsl.l CODE_C37F6D
-	jsl.l CODE_C4933E
+	jsl.l AdjustFacingDirection
 	bra CODE_C48E3A
 CODE_C48E27:						; from CODE_C48E15
 	lda.w $14F9,x
@@ -1748,7 +1748,7 @@ CODE_C48E27:						; from CODE_C48E15
 	asl a
 	asl a
 	sta.b $7F
-	jsl.l CODE_C4933E
+	jsl.l AdjustFacingDirection
 CODE_C48E3A:						; from CODE_C48E15, CODE_C48E27
 	lda.w $0896,x
 	cmp.w #$FEF5
@@ -2131,7 +2131,7 @@ CODE_C4913D:						; from CODE_C490FE, CODE_C49063, CODE_C490C0
 	ldy.b $7F
 	lda.b [$67],y
 	sta.w $1000,x
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	lda.l $7E24CA
 	clc
 	adc.w #$0096

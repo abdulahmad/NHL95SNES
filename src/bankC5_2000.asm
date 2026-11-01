@@ -1565,7 +1565,7 @@ CODE_C52C72:						; from CODE_C52C5E
 	inc.w $0672
 	lda.w #$7FFF
 	sta.w $0674
-	jml.l CODE_C53776
+	jml.l AssignPadPlayer
 CODE_C52CA3:						; called from other segments
 	jsr.w CODE_C52CC1
 	rtl

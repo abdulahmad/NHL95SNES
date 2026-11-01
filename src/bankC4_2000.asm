@@ -181,7 +181,7 @@ CODE_C42B18:						; from CODE_C42DC6, CODE_C42C47 and other segments
 	lda.w $1000,x
 	bne CODE_C42B24
 	lda.w #$1F6C
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 CODE_C42B24:						; from CODE_C42B18
 	rtl
 CODE_C42B25:						; called from other segments
@@ -261,7 +261,7 @@ CODE_C42B9E:						; from CODE_C42B74
 	sta.b $7F
 	jsl.l CODE_C43734
 	ldx.b $B7
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C42BD7:						; from CODE_C42B8E, CODE_C42B9E
 	lda.w #$0002
 	sta.b $83
@@ -277,7 +277,7 @@ CODE_C42BEA:						; from CODE_C42BD7
 	beq CODE_C42C04
 	dec.b $83
 	dec.b $83
-	jsl.l CODE_C42DA2
+	jsl.l chkpk2
 	bne CODE_C42C04
 	inc.b $83
 	inc.b $83
@@ -318,7 +318,7 @@ CODE_C42C34:						; from CODE_C42C1A
 	jmp.w CODE_C45529
 CODE_C42C47:						; from CODE_C42C66
 	jsl.l CODE_C42B18
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C42C4E:						; from CODE_C42C1A
 	jsl.l CODE_C4702E
 	jmp.w CODE_C45529
@@ -420,7 +420,7 @@ CODE_C42D10:						; called from other segments
 	beq CODE_C42D16
 	rtl
 CODE_C42D16:						; from CODE_C42D10
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	beq CODE_C42D38
 	lda.b $7F
@@ -481,21 +481,21 @@ CODE_C42D38:						; from CODE_C42D16
 	sta.w $09C0,x
 	lda.w #$21BC
 	sta.w $1000,x
-	jml.l CODE_C457B5
+	jml.l SetSPAFromA
 CODE_C42D98:						; from CODE_C431E9 and other segments
 	lda.w $10F5
 	and.w #$2000
-	bne CODE_C42DA2
+	bne chkpk2
 	inc a
 	rtl
-CODE_C42DA2:						; from CODE_C42D98, CODE_C42BEA and other segments
+chkpk2:								; from CODE_C42D98, CODE_C42BEA and other segments
 	lda.w $1020,x
 	bne CODE_C42DB1
 	lda.w $10F5
 	and.w #$4000
 	eor.w #$4000
 	rtl
-CODE_C42DB1:						; from CODE_C42DA2
+CODE_C42DB1:						; from chkpk2
 	lda.w $10F5
 	and.w #$4000
 	rtl
@@ -505,12 +505,12 @@ CODE_C42DB8:						; called from other segments
 	lda.w $14F9,x
 	bmi CODE_C42DCD
 CODE_C42DC2:						; from CODE_C42DB8
-	jmp.w CODE_C4370C
+	jmp.w assexit
 DATA8_C42DC5:						; an rtl no traced code reaches
 	db $6B
 CODE_C42DC6:						; from CODE_C42DCD
 	jsl.l CODE_C42B18
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C42DCD:						; from CODE_C42DB8
 	lda.w $10F3
 	bne CODE_C42DC6
@@ -710,7 +710,7 @@ CODE_C42F62:						; called from other segments
 CODE_C42F7C:						; from CODE_C42F88
 	rtl
 CODE_C42F7D:						; from CODE_C42F88
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C42F80:						; from CODE_C42F62
 	lda.w #$0011
 	sta.b $7F
@@ -718,7 +718,7 @@ CODE_C42F80:						; from CODE_C42F62
 CODE_C42F88:						; from CODE_C42F62
 	lda.w $10F3
 	bne CODE_C42F7D
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $14F9,x
 	bpl CODE_C42F7C
 	lda.w $0D60,x
@@ -844,11 +844,11 @@ CODE_C43099:						; called from other segments
 CODE_C430AE:						; from CODE_C430B2
 	rtl
 CODE_C430AF:						; from CODE_C430B2
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C430B2:						; from CODE_C43099
 	lda.w $10F3
 	bne CODE_C430AF
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $14F9,x
 	bpl CODE_C430AE
 	lda.w $0D60,x

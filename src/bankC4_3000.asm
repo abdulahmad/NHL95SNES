@@ -13,11 +13,11 @@ CODE_C4313E:						; called from other segments
 CODE_C43153:						; from CODE_C43157
 	rtl
 CODE_C43154:						; from CODE_C43157
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C43157:						; from CODE_C4313E
 	lda.w $10F3
 	bne CODE_C43154
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $14F9,x
 	bpl CODE_C43153
 	lda.w $0D60,x
@@ -270,9 +270,9 @@ CODE_C43348:						; from CODE_C4332A
 CODE_C43350:						; from CODE_C4332A
 	lda.w $10F3
 	beq CODE_C43358
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C43358:						; from CODE_C43350
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $14F9,x
 	bpl CODE_C43344
 	lda.w $0D60,x
@@ -435,11 +435,11 @@ CODE_C4348E:						; called from other segments
 CODE_C434A3:						; from CODE_C434A7
 	rtl
 CODE_C434A4:						; from CODE_C434A7
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C434A7:						; from CODE_C4348E
 	lda.w $10F3
 	bne CODE_C434A4
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $14F9,x
 	bpl CODE_C434A3
 	lda.w $0D60,x
@@ -559,7 +559,7 @@ CODE_C43590:						; called from other segments
 CODE_C435AA:						; from CODE_C435B6
 	rtl
 CODE_C435AB:						; from CODE_C435B6
-	jmp.w CODE_C436FD
+	jmp.w donothing
 CODE_C435AE:						; from CODE_C43590
 	lda.w #$0011
 	sta.b $7F
@@ -567,7 +567,7 @@ CODE_C435AE:						; from CODE_C43590
 CODE_C435B6:						; from CODE_C43590
 	lda.w $10F3
 	bne CODE_C435AB
-	jsl.l CODE_C549A8
+	jsl.l check4bench
 	lda.w $14F9,x
 	bpl CODE_C435AA
 	lda.w $0D60,x
@@ -711,15 +711,15 @@ DATA8_C436DC:						; an rtl no traced code reaches
 DATA8_C436DD:						; not traced: a table read by CODE_C4366D
 	db $50,$00,$14,$00,$BA,$FF,$0A,$00,$64,$00,$14,$00,$3C,$00,$0A,$00
 	db $3C,$00,$32,$00,$E6,$00,$14,$00,$50,$00,$1E,$00,$FA,$00,$14,$00
-CODE_C436FD:						; from CODE_C43350, CODE_C43154, CODE_C434A4, ...
+donothing:							; from CODE_C43350, CODE_C43154, CODE_C434A4, ...
 	lda.w $14F9,x
 	bpl CODE_C4370B
 	lda.w #$0008
 	sta.b $7F
 	jml.l CODE_C4694F
-CODE_C4370B:						; from CODE_C436FD
+CODE_C4370B:						; from donothing
 	rtl
-CODE_C4370C:						; from CODE_C43769, CODE_C437F7 and other segments
+assexit:							; from CODE_C43769, CODE_C437F7 and other segments
 	lda.w $0A40,x
 	inc a
 	and.w #$0007
@@ -770,7 +770,7 @@ CODE_C43768:						; from CODE_C4375B
 	rtl
 CODE_C43769:						; from CODE_C4375B
 	stz.w $18AA
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C4376F:						; called from other segments
 	lda.w $1000,x
 	beq CODE_C43777
@@ -830,12 +830,12 @@ CODE_C437B7:						; from CODE_C437A4
 	sta.b $83
 	lda.w #$0001
 	sta.w $1060,x
-	jml.l CODE_C457A1
+	jml.l SetSPA
 CODE_C437F7:						; from CODE_C43777
 	stz.w $18AA
 	lda.w #$0014
 	sta.w $0CE0,x
-	jmp.w CODE_C4370C
+	jmp.w assexit
 CODE_C43803:						; from CODE_C437B7
 	lda.w $0FE0,x
 	lsr a
@@ -851,7 +851,7 @@ CODE_C43819:						; from CODE_C4380F
 	ldx.b $6F
 	lda.w #$0001
 	sta.w $1060,x
-	jml.l CODE_C457A1
+	jml.l SetSPA
 CODE_C43825:						; from CODE_C4376F, CODE_C437B7
 	rtl
 CODE_C43826:						; called from other segments
@@ -1250,7 +1250,7 @@ CODE_C43B66:						; from CODE_C43B16
 CODE_C43BAC:						; from CODE_C43B66
 	lda.w #$1958
 CODE_C43BAF:						; from CODE_C43B66
-	jsl.l CODE_C457B5
+	jsl.l SetSPAFromA
 	jsl.l CODE_C457DD
 CODE_C43BB7:						; from CODE_C43A24, CODE_C43A32
 	inc.b $6F

@@ -34,7 +34,7 @@ CODE_C45FCA:						; from CODE_C45FAC
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C45FFD
@@ -84,7 +84,7 @@ CODE_C46048:						; from CODE_C4603E
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C46074
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -146,7 +146,7 @@ CODE_C460BB:						; from CODE_C46098
 	ldx.b $B7
 	pei ($7F)
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C460E1
@@ -200,7 +200,7 @@ CODE_C46132:						; from CODE_C4612C
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C4615E
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -266,7 +266,7 @@ CODE_C461AB:						; from CODE_C46186
 	ldx.b $B7
 	pei ($7F)
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C461D1
@@ -320,7 +320,7 @@ CODE_C46222:						; from CODE_C4621C
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C4624E
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -368,7 +368,7 @@ CODE_C4626C:						; from CODE_C4624F
 	sta.b $8B
 	ldx.b $B7
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C4629F
@@ -418,7 +418,7 @@ CODE_C462EA:						; from CODE_C462E0
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C46316
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -468,7 +468,7 @@ CODE_C46338:						; from CODE_C46317
 	sta.b $8B
 	ldx.b $B7
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C4636B
@@ -518,7 +518,7 @@ CODE_C463B6:						; from CODE_C463AC
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C463E2
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -581,7 +581,7 @@ CODE_C4642A:						; from CODE_C46406
 	ldx.b $B7
 	pei ($7F)
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C46450
@@ -635,7 +635,7 @@ CODE_C464A1:						; from CODE_C4649B
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C464CD
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -702,7 +702,7 @@ CODE_C4651D:						; from CODE_C464F5
 	ldx.b $B7
 	pei ($7F)
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C46543
@@ -756,7 +756,7 @@ CODE_C46594:						; from CODE_C4658E
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C465C0
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -804,7 +804,7 @@ CODE_C465DE:						; from CODE_C465C1
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C46611
@@ -854,7 +854,7 @@ CODE_C4665C:						; from CODE_C46652
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C46688
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -904,7 +904,7 @@ CODE_C466AA:						; from CODE_C46689
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C466DD
@@ -954,7 +954,7 @@ CODE_C46728:						; from CODE_C4671E
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C46754
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -1016,7 +1016,7 @@ CODE_C4679B:						; from CODE_C46777
 	ldx.b $B7
 	pei ($7F)
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C467C1
@@ -1070,7 +1070,7 @@ CODE_C46812:						; from CODE_C4680C
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C4683E
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -1136,7 +1136,7 @@ CODE_C4688B:						; from CODE_C46863
 	ldx.b $B7
 	pei ($7F)
 	pei ($83)
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C468B1
@@ -1190,7 +1190,7 @@ CODE_C46902:						; from CODE_C468FC
 	lda.w $04B0
 	and.w #$003F
 	bne CODE_C4692E
-	jsl.l CODE_C54A0E
+	jsl.l getpde
 	lda.b $7F
 	sec
 	sbc.w #$0021
@@ -1239,7 +1239,7 @@ CODE_C4696E:						; from CODE_C46957
 CODE_C4698A:						; from CODE_C4696E
 	lda.w $1060,x
 	bne CODE_C46992
-	jmp.w CODE_C457A1
+	jmp.w SetSPA
 CODE_C46992:						; from CODE_C46957, CODE_C4698A
 	rtl
 CODE_C46993:						; from CODE_C4696E
@@ -1352,7 +1352,7 @@ CODE_C46A53:						; from CODE_C46A26, CODE_C46A4A
 	ldx.b $6F
 	cmp.w #$0000
 	bne CODE_C46A78
-	jmp.w CODE_C46B36
+	jmp.w noturn0
 CODE_C46A78:						; from CODE_C46A53
 	asl a
 	sta.b $9F
@@ -1425,7 +1425,7 @@ CODE_C46AFF:						; from CODE_C46AD4
 CODE_C46B0C:						; from CODE_C46AD4, CODE_C46AFF
 	lda.w $1060,x
 	bne CODE_C46B1B
-	jsl.l CODE_C457A1
+	jsl.l SetSPA
 	lda.w #$0001
 	sta.w $1060,x
 CODE_C46B1B:						; from CODE_C46B0C
@@ -1437,7 +1437,7 @@ CODE_C46B25:						; from CODE_C46B1B
 	rtl
 DATA8_C46B26:						; not traced: a table read by CODE_C46A53
 	db $00,$00,$11,$00,$11,$00,$11,$00,$00,$00,$EF,$FF,$EF,$FF,$EF,$FF
-CODE_C46B36:						; from CODE_C46A53
+noturn0:							; from CODE_C46A53
 	lda.w #$0002
 	sta.b $8F
 	lda.w $1040,x
@@ -1447,7 +1447,7 @@ CODE_C46B36:						; from CODE_C46A53
 	lda.b $7F
 	eor.w #$0008
 	sta.b $7F
-CODE_C46B4C:						; from CODE_C46B36
+CODE_C46B4C:						; from noturn0
 	lda.b $7F
 	beq CODE_C46BA8
 	lda.w $09A0,x
@@ -1481,11 +1481,11 @@ CODE_C46B88:						; from CODE_C46B77
 	sta.b $83
 	lda.w $1040,x
 	bne CODE_C46B9E
-	jmp.w CODE_C457A1
+	jmp.w SetSPA
 CODE_C46B9E:						; from CODE_C46B88
 	ldy.w #$0001
 	lda.w #$1F6C
-	jml.l CODE_C457B5
+	jml.l SetSPAFromA
 CODE_C46BA8:						; from CODE_C46B4C
 	ldy.w #$0001
 	lda.w #$1F9E
@@ -1512,7 +1512,7 @@ CODE_C46BDA:						; from CODE_C46BA8, CODE_C46BCD
 	bne CODE_C46BE7
 	tya
 	sta.w $1060,x
-	jsl.l CODE_C457A1
+	jsl.l SetSPA
 CODE_C46BE7:						; from CODE_C46B1B, CODE_C46BDA
 	lda.w $1040,x
 	beq CODE_C46BF3
