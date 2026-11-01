@@ -278,7 +278,7 @@ CODE_C40264:						; from CODE_C40254
 	jsr.w CODE_C40280
 	tax
 	pla
-	jsl.l $C4DFD6
+	jsl.l CODE_C4DFD6
 	jsl.l CODE_C4D818
 	jml.l Reset
 CODE_C40280:						; from CODE_C40264

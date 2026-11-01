@@ -879,7 +879,7 @@ CODE_C4D818:						; called from other segments
 	jsl.l $C387D8
 	ldy.w #$3076
 	ldx.w #$5106
-	jsr.w $EE9D
+	jsr.w CODE_C4EE9D
 	lda.w #$0240
 	jsl.l CODE_C4C56A
 	lda.w #$0002
@@ -1127,7 +1127,7 @@ CODE_C4DAD8:						; from CODE_C4DAD8
 	adc.w #$00C0
 	phy
 	ldy.b $68
-	jsr.w $EC88
+	jsr.w CODE_C4EC88
 	ply
 	sta.b $6B
 	dec.b QueueBusy
@@ -1219,7 +1219,7 @@ CODE_C4DB91:						; from CODE_C4DAD8
 	jsl.l $C387D8
 	ldy.w #$3076
 	ldx.w #$5106
-	jsr.w $EE9D
+	jsr.w CODE_C4EE9D
 	rts
 CODE_C4DBCC:						; from CODE_C4D915
 	sta.w $17C9

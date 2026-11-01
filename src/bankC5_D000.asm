@@ -1955,9 +1955,9 @@ CODE_C5DEBC:						; from CODE_C5DEB4
 	jsl.l CODE_C4C536
 	jsr.w CODE_C52CC1
 	ldy.w #$2DC9
-	jsl.l $C4EFD8
+	jsl.l CODE_C4EFD8
 	ldy.w #$3207
-	jsl.l $C4EFD8
+	jsl.l CODE_C4EFD8
 	plb
 	pla
 	sta.b $A3

@@ -54,7 +54,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segment
 CODE_C5008D:						; from CODE_C50056
 	jsl.l CODE_C54E27
 	jsr.w CODE_C52CC1
-	jsl.l $C4E12C
+	jsl.l CODE_C4E12C
 	jsr.w CODE_C53984
 CODE_C5009B:						; called from other segments
 	jsl.l FadeOutWait
