@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5AFB6
 LeagueLeadersScreen:				; League Menu League Leaders: the players leading a stat category (the pad
-									; changes the stat); CODE_C5AFCC redraws it
+									; changes the stat); DrawLeagueLeaders redraws it
 	jsl.l FadeOutWait
 	ldx.b a0
 	lda.w #$FC18
@@ -12,7 +12,8 @@ LeagueLeadersScreen:				; League Menu League Leaders: the players leading a stat
 	stz.b $79
 	stz.b $85
 	pea.w $0000
-CODE_C5AFCC:						; called from other segments
+DrawLeagueLeaders:					; draws the League Leaders page for the current category and starts its
+									; scrolling list (DrawLeaderRow); screen state 8
 	ldx.b $77
 	jsl.l DeleteSprite
 	ldx.b $79
@@ -77,7 +78,7 @@ CODE_C5AFCC:						; called from other segments
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
 	stz.b $69
-	lda.w #CODE_C5B6A1
+	lda.w #DrawLeaderRow
 	ldx.w #$000D
 	ldy.w #$0009
 	jsr.w StartScrollList
@@ -115,7 +116,7 @@ SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (recor
 	jsl.l MapTileBlock
 	stz.w $17C9
 	stz.b d7
-	jsr.w CODE_C5B7F1
+	jsr.w DrawSeasonTeamStats
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	sep #$20
@@ -162,7 +163,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	sbc.w $2DCB
 	sta.b a1
 	stz.b $69
-	lda.w #CODE_C5BBDD
+	lda.w #DrawSeasonPlayerRow
 	ldx.w #$000C
 	ldy.w #$000B
 	jsr.w StartScrollList
@@ -198,12 +199,12 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 	jsl.l CODE_C5E37E
 	stz.b d1
 DrawStandings:						; draws the standings page: the teams of division d1 sorted by stat d0 as
-									; a scrolling list (CODE_C5BE72 a row), the stat's title and the
+									; a scrolling list (DrawStandingsRow a row), the stat's title and the
 									; division's name; screen state 11
 	jsr.w CODE_C5C029
 	jsr.w CODE_C5BFE0
 	stz.b $69
-	lda.w #CODE_C5BE72
+	lda.w #DrawStandingsRow
 	ldx.w #$000D
 	ldy.w #$0009
 	jsr.w StartScrollList
@@ -565,7 +566,7 @@ CODE_C5B4BC:						; from CODE_C5B4BC, CODE_C5B4AE
 	dec a
 	bpl CODE_C5B4BC
 	rts
-CODE_C5B4C2:						; from CODE_C5AFCC, CODE_C5B558
+CODE_C5B4C2:						; from DrawLeagueLeaders, CODE_C5B558
 	pha
 	sta.w $0004,y
 	jsr.w CODE_C5B5EE
@@ -641,7 +642,7 @@ CODE_C5B53D:						; from CODE_C5B4C2
 	lda.l PlayerList,x
 	cmp.w #$4000
 	rts
-CODE_C5B558:						; from CODE_C5AFCC
+CODE_C5B558:						; from DrawLeagueLeaders
 	lda.w #$0010
 	jsl.l AllocWorkBuf
 	tay
@@ -762,7 +763,7 @@ CODE_C5B5EE:						; from CODE_C5B5EA, CODE_C5B4C2
 	ora.b $01,s
 	plx
 	rts
-CODE_C5B631:						; from CODE_C5AFCC
+CODE_C5B631:						; from DrawLeagueLeaders
 	sta.b d1
 	asl a
 	tax
@@ -821,7 +822,7 @@ BinToBCD:							; A (binary, below 10000) as BCD
 	plx
 	stx.b tmp0
 	rts
-CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to StartScrollList
+DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his team and the stat
 	lda.w #$000A
 	sta.b $CF
 	lda.b a3
@@ -992,7 +993,8 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to StartScrollList
 	jsl.l PrintBoldRightStr
 	plx
 	rts
-CODE_C5B7F1:						; from SeasonTeamStats and other segments
+DrawSeasonTeamStats:				; draws the season stats of the current team (record, goals, save and
+									; shooting percentages, shots)
 	lda.w #$00D4
 	sta.b $18
 	lda.w #$0025
@@ -1155,7 +1157,7 @@ CODE_C5B95A:						; called from other segments
 	ply
 	jsl.l SendTextMap
 	rts
-CODE_C5B96D:						; from CODE_C5B7F1, CODE_C5B96D
+CODE_C5B96D:						; from DrawSeasonTeamStats, CODE_C5B96D
 	pha
 	ldy.w #$0014
 	jsl.l ClearRAM7E
@@ -1168,7 +1170,7 @@ CODE_C5B96D:						; from CODE_C5B7F1, CODE_C5B96D
 CODE_C5B97F:						; called from other segments
 	jsr.w CODE_C5B983
 	rtl
-CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
+CODE_C5B983:						; from DrawSeasonTeamStats, CODE_C5B97F and other segments
 	tax
 	lda.w #$0032
 	jsl.l AllocWorkBuf
@@ -1444,7 +1446,8 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	jsl.l PackOAMHigh
 	jsl.l WaitTransfers
 	rts
-CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to StartScrollList
+DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player and his season
+									; stats
 	lda.w #$000C
 	sta.b $CF
 	lda.b d0
@@ -1563,7 +1566,7 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to StartS
 	cld
 	plx
 	plx
-CODE_C5BCCC:						; from CODE_C5BBDD
+CODE_C5BCCC:						; from DrawSeasonPlayerRow
 	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.b $6D
@@ -1574,7 +1577,7 @@ CODE_C5BCD9:						; from SeasonPlayerStats and other segments
 	sta.b $18
 	lda.w #$0025
 	sta.b $1A
-CODE_C5BCE3:						; from CODE_C5B7F1
+CODE_C5BCE3:						; from DrawSeasonTeamStats
 	ldx.b d7
 	jsl.l DeleteSprite
 	stz.b d7
@@ -1604,7 +1607,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	jsl.l PrintThinCentred
 	jsl.l WaitTransfers
 	rts
-CODE_C5BD30:						; from CODE_C5BBDD and other segments
+CODE_C5BD30:						; from DrawSeasonPlayerRow and other segments
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1629,7 +1632,7 @@ CODE_C5BD30:						; from CODE_C5BBDD and other segments
 CODE_C5BD52:						; called from other segments
 	jsr.w CODE_C5BD56
 	rtl
-CODE_C5BD56:						; from CODE_C5BD52, CODE_C5B4C2, CODE_C5BBDD
+CODE_C5BD56:						; from CODE_C5BD52, CODE_C5B4C2, DrawSeasonPlayerRow
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1655,7 +1658,7 @@ CODE_C5BD56:						; from CODE_C5BD52, CODE_C5B4C2, CODE_C5BBDD
 CODE_C5BD7D:						; called from other segments
 	jsr.w CODE_C5BD81
 	rtl
-CODE_C5BD81:						; from CODE_C5BD7D, CODE_C5B4C2, CODE_C5BBDD
+CODE_C5BD81:						; from CODE_C5BD7D, CODE_C5B4C2, DrawSeasonPlayerRow
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1681,7 +1684,7 @@ CODE_C5BD81:						; from CODE_C5BD7D, CODE_C5B4C2, CODE_C5BBDD
 CODE_C5BDA8:						; called from other segments
 	jsr.w CODE_C5BDAC
 	rtl
-CODE_C5BDAC:						; from CODE_C5BDA8, CODE_C5BBDD, CODE_C5B4C2
+CODE_C5BDAC:						; from CODE_C5BDA8, DrawSeasonPlayerRow, CODE_C5B4C2
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1766,7 +1769,7 @@ CODE_C5BDEB:						; from CODE_C5BDE7
 CODE_C5BE33:						; called from other segments
 	jsr.w CODE_C5BE37
 	rtl
-CODE_C5BE37:						; from CODE_C5BE33, CODE_C5BBDD, CODE_C5B4C2
+CODE_C5BE37:						; from CODE_C5BE33, DrawSeasonPlayerRow, CODE_C5B4C2
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1799,7 +1802,7 @@ CODE_C5BE37:						; from CODE_C5BE33, CODE_C5BBDD, CODE_C5B4C2
 	ora.b tmp0
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BE72:						; a callback: DrawStandings passes it to StartScrollList
+DrawStandingsRow:					; draws row a3 of the NHL Standings list: a team and its stat
 	lda.w #$000A
 	sta.b $CF
 	lda.b a3

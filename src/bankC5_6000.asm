@@ -61,7 +61,7 @@ CODE_C56009:						; from CODE_C56005, CODE_C56F98, CODE_C56FC1
 	pla
 	pla
 	rts
-CODE_C5605D:						; from CODE_C56A77, CODE_C56D3F, CODE_C5711B and other segments
+CODE_C5605D:						; from DrawPenaltyRow, DrawScoringRow, CODE_C5711B and other segments
 	ldx.w #$0000
 	phy
 	txy
@@ -150,7 +150,7 @@ CODE_C560AC:						; called from other segments
 CODE_C56100:						; called from other segments
 	jsr.w CODE_C56104
 	rtl
-CODE_C56104:						; from CODE_C56100, CODE_C56A77, CODE_C56D3F and other segments
+CODE_C56104:						; from CODE_C56100, DrawPenaltyRow, DrawScoringRow and other segments
 	ldx.w $17C9
 	cmp.w #$0000
 	beq .1
@@ -339,7 +339,7 @@ CODE_C56262:						; from CODE_C5625E and other segments
 	rep #$20
 	rts
 ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling list
-									; (CODE_C56310 draws each, from one of two row lists); start returns
+									; (DrawGameStatRow draws each, from one of two row lists); start returns
 	lda.w #$531F
 	jsr.w SetupStatsPage
 	ldx.w #$5D5F
@@ -354,7 +354,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	stx.b a0
 	ldx.w #$0009
 	ldy.w #$000F
-	lda.w #CODE_C56310
+	lda.w #DrawGameStatRow
 	jsr.w StartScrollList
 	jsl.l SendTextMap
 	stz.w fadestep
@@ -391,7 +391,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	bra .loop
 .4:									; go to ExitToPauseMenu
 	jmp.w ExitToPauseMenu
-CODE_C56310:						; a callback: ShowGameStats passes it to StartScrollList
+DrawGameStatRow:					; draws row a3 of ShowGameStats' scrolling list: a team stat row
 	lda.b a3
 	asl a
 	asl a
@@ -628,8 +628,8 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	sbc.w $0002,x
 	sta.b a1
 	jsr.w CODE_C5663A
-.5:									; A = CODE_C56759, X = $000B, Y = $000D, call StartScrollList, ...
-	lda.w #CODE_C56759
+.5:									; A = DrawPlayerStatRow, X = $000B, Y = $000D, call StartScrollList, ...
+	lda.w #DrawPlayerStatRow
 	ldx.w #$000B
 	ldy.w #$000D
 	jsr.w StartScrollList
@@ -909,7 +909,7 @@ CODE_C566E8:						; from ShowPlayerStats
 	cpx.b $0E
 	bne .loop3
 	bra .2
-CODE_C56759:						; a callback: ShowPlayerStats passes it to StartScrollList
+DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a player and his stats
 	lda.w #$0010
 	sta.b $CF
 	lda.b a3
@@ -989,7 +989,7 @@ CODE_C56759:						; a callback: ShowPlayerStats passes it to StartScrollList
 	lda.w $14AF,x
 	and.w #$00FF
 	ldx.w #$0008
-CODE_C5680B:						; from CODE_C56759, CODE_C5683C
+CODE_C5680B:						; from DrawPlayerStatRow, CODE_C5683C
 	cpx.b $7D
 	bne .1
 	ldx.w #$2400
@@ -1013,7 +1013,7 @@ CODE_C5680B:						; from CODE_C56759, CODE_C5683C
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C5683C:						; from CODE_C56759
+CODE_C5683C:						; from DrawPlayerStatRow
 	lda.w $147B,x
 	and.w #$00FF
 	ldx.w #$8000
@@ -1188,10 +1188,10 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	lda.w #$2000
 	sta.b $D5
 	bra .2
-.1:									; A - 1, a1 = A, A = CODE_C56A77, X = $0006, ...
+.1:									; A - 1, a1 = A, A = DrawPenaltyRow, X = $0006, ...
 	dec a
 	sta.b a1
-	lda.w #CODE_C56A77
+	lda.w #DrawPenaltyRow
 	ldx.w #$0006
 	ldy.w #$0012
 	jsr.w StartScrollList
@@ -1242,7 +1242,8 @@ CODE_C56A6B:						; from ShowPenaltySummary
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C56A77:						; a callback: ShowPenaltySummary passes it to StartScrollList
+DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a penalty (period,
+									; time, team, player, minutes)
 	lda.b a3
 	sta.b r2
 	lda.w #$0003
@@ -1516,8 +1517,8 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	lda.w #$2000
 	sta.b $D5
 	bra .2
-.1:									; A = CODE_C56D3F, X = $0006, Y = $0012, call StartScrollList
-	lda.w #CODE_C56D3F
+.1:									; A = DrawScoringRow, X = $0006, Y = $0012, call StartScrollList
+	lda.w #DrawScoringRow
 	ldx.w #$0006
 	ldy.w #$0012
 	jsr.w StartScrollList
@@ -1566,7 +1567,8 @@ CODE_C56D37:						; from ShowScoringSummary
 	ldy.w #$000F
 	jsl.l PrintBoldLeft
 	rts
-CODE_C56D3F:						; a callback: ShowScoringSummary passes it to StartScrollList
+DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a goal (period,
+									; time, team, scorer and assists)
 	lda.b a3
 	sta.b r2
 	lda.w #$0003

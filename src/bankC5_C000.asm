@@ -271,7 +271,8 @@ CODE_C5C1F6:						; from SignFreeAgents
 	lda.w #$FFFF
 	sta.w BG3VScroll
 	jsl.l WaitTransfers
-CODE_C5C214:						; called from other segments
+DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolling list
+									; (DrawFreeAgentRow); No Free Agents when there are none
 	ldy.w #$2C01
 	ldx.w #$5115
 	jsl.l MapTileBlock
@@ -392,7 +393,7 @@ CODE_C5C214:						; called from other segments
 	stz.w $364E,x
 	bne .loop2
 	jsr.w CODE_C5C4FC
-	lda.w #CODE_C5C34C
+	lda.w #DrawFreeAgentRow
 	ldx.w #$0008
 	ldy.w #$000E
 	jsr.w StartScrollList
@@ -401,7 +402,8 @@ CODE_C5C214:						; called from other segments
 	jsr.w CODE_C5D85D
 	jsl.l SendTextMap
 	rts
-CODE_C5C34C:						; a callback: CODE_C5C214 passes it to StartScrollList
+DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent, his position
+									; and rating
 	ldx.b a3
 	stx.b $65
 	lda.w $364E,x
@@ -608,7 +610,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to StartScrollList
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C5C4FC:						; from CODE_C5C214, SignFreeAgents
+CODE_C5C4FC:						; from DrawFreeAgentsPage, SignFreeAgents
 	ldx.w #$0000
 .1:									; a3 = X, $65 = X, call CODE_C5D794, if A >= $026A go to .4, ...
 	stx.b a3
@@ -844,7 +846,7 @@ CODE_C5C6A2:						; called from other segments
 	plx
 	stx.b tmp0
 	rtl
-CODE_C5C6B7:						; from CODE_C5C6A2, CODE_C5CC4D, CODE_C5C34C, CODE_C5C926, ...
+CODE_C5C6B7:						; from CODE_C5C6A2, DrawTradeRow, DrawFreeAgentRow, DrawReleaseRow, ...
 	ldx.w #$5DF9
 	lda.l $7E24DC
 	beq .1
@@ -909,7 +911,7 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 									; player); start releases them (CODE_C5CA27), X leaves
 	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
-	jsr.w CODE_C5C826
+	jsr.w DrawReleasePage
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
@@ -1034,7 +1036,8 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	jsl.l SendTextMap
 .16:								; go to .loop
 	jmp.w .loop
-CODE_C5C826:						; from ReleasePlayers
+DrawReleasePage:					; draws the Release Players page and starts its scrolling list of the
+									; team's players (DrawReleaseRow)
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -1123,14 +1126,15 @@ CODE_C5C826:						; from ReleasePlayers
 	inx
 	cpx.b a1
 	bne .loop
-	lda.w #CODE_C5C926
+	lda.w #DrawReleaseRow
 	ldx.w #$0008
 	ldy.w #$000E
 	jsr.w StartScrollList
 	jsr.w CODE_C5D85D
 	jsl.l SendTextMap
 	rts
-CODE_C5C926:						; a callback: CODE_C5C826 passes it to StartScrollList
+DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his position and
+									; rating
 	lda.w #$0010
 	sta.l $7E24DC
 	ldy.w #$3207
@@ -1288,7 +1292,7 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 									; move, B marks a player); start goes on to GMDecisionScreen, X leaves
 	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
-	jsr.w CODE_C5CB36
+	jsr.w DrawTradePage
 	stz.w fadestep
 .1:									; TransfersReady + 1, call ReadMenuPads, $26 + 1, call CODE_C5DA09, ...
 	inc.w TransfersReady
@@ -1381,7 +1385,8 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	jsl.l SendTextMap
 .12:								; go to .1
 	jmp.w .1
-CODE_C5CB36:						; from TradePlayers
+DrawTradePage:						; draws the Trade Players page and starts the two teams' lists
+									; (DrawTradeRow)
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -1477,13 +1482,14 @@ CODE_C5CB36:						; from TradePlayers
 	sta.b a4
 	lda.w #$3207
 	sta.b $75
-	lda.w #CODE_C5CC4D
+	lda.w #DrawTradeRow
 	jsr.w CODE_C5D8E7
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	stz.b $85
 	rts
-CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
+DrawTradeRow:						; draws a row of the Trade Players lists: a player, his position and
+									; rating
 	ldy.b d2
 	lda.w #$0010
 	sta.l $7E24DC

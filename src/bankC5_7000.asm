@@ -1386,8 +1386,8 @@ CODE_C57A4D:						; from CODE_C579F4
 	lda.w #$2000
 	sta.b $D5
 	rts
-ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A draws each row);
-									; from the pause menu, and from CODE_C5AF07 with X: EXIT MENU
+ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScoreRow draws each
+									; row); from the pause menu, and from CODE_C5AF07 with X: EXIT MENU
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	jsr.w SetupScreen
@@ -1460,7 +1460,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	bra .6
 .5:									; A - 1
 	dec a
-	pea.w CODE_C57B8A
+	pea.w DrawOtherScoreRow
 .6:									; a1 = A, $69 = 0, pull A, X = $000B, ...
 	sta.b a1
 	stz.b $69
@@ -1506,7 +1506,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	dec.w $1910
 .10:								; go to ExitToPauseMenu
 	jmp.w ExitToPauseMenu
-CODE_C57B8A:						; a callback: pushed (pea), then passed to StartScrollList
+DrawOtherScoreRow:					; draws row a3 of ShowOtherScores' scrolling list: a game and its score
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00C4

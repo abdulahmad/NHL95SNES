@@ -709,15 +709,15 @@ LeagueLeadersInput:					; the League Leaders screen each frame (screen state 8):
 	cmp.w #$0003
 	bcc .7
 	lda.w #$0000
-.7:									; push A, go to CODE_C5AFCC
+.7:									; push A, go to DrawLeagueLeaders
 	pha
-	jmp.w CODE_C5AFCC
-.8:									; A = $85, A xor $0001, $85 = A, go to CODE_C5AFCC
+	jmp.w DrawLeagueLeaders
+.8:									; A = $85, A xor $0001, $85 = A, go to DrawLeagueLeaders
 	pei ($83)
 	lda.b $85
 	eor.w #$0001
 	sta.b $85
-	jmp.w CODE_C5AFCC
+	jmp.w DrawLeagueLeaders
 SeasonTeamStatsInput:				; the Season Team Stats screen each frame (screen state 9): left / right
 									; switch the team, start / select back to the League Menu
 	lda.w repeatdelayframes
@@ -744,17 +744,17 @@ SeasonTeamStatsInput:				; the Season Team Stats screen each frame (screen state
 	cmp.w #$001A
 	bcc .3
 	lda.w #$0000
-.3:									; $17C9 = A, go to CODE_C5B7F1
+.3:									; $17C9 = A, go to DrawSeasonTeamStats
 	sta.w $17C9
-	jmp.w CODE_C5B7F1
+	jmp.w DrawSeasonTeamStats
 .4:									; A = $17C9, A - 1, if the result >= 0 go to .5, A = $0019
 	lda.w $17C9
 	dec a
 	bpl .5
 	lda.w #$0019
-.5:									; $17C9 = A, go to CODE_C5B7F1
+.5:									; $17C9 = A, go to DrawSeasonTeamStats
 	sta.w $17C9
-	jmp.w CODE_C5B7F1
+	jmp.w DrawSeasonTeamStats
 SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen state 10): up / down
 									; scroll, B goalies / players, left / right switch the team, start /
 									; select back to the League Menu
@@ -837,9 +837,9 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	lda.w $2DC9
 	sbc.w $2DCB
 	sta.b a1
-.12:								; $69 = 0, A = CODE_C5BBDD, X = $000C, Y = $000B, ...
+.12:								; $69 = 0, A = DrawSeasonPlayerRow, X = $000C, Y = $000B, ...
 	stz.b $69
-	lda.w #CODE_C5BBDD
+	lda.w #DrawSeasonPlayerRow
 	ldx.w #$000C
 	ldy.w #$000B
 	jsr.w StartScrollList
