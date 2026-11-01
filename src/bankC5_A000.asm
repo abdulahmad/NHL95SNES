@@ -1516,9 +1516,9 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	cmp.w #$0003
 	bne .1
 	jml.l CODE_C40000
-.1:									; A = $3CF9, X = $00C0, call DecompressUnpackbuf, Y = $5C00, ...
-	lda.w #$3CF9
-	ldx.w #$00C0
+.1:									; A = WonCheckTiles&$FFFF, X = WonCheckTiles>>16, ...
+	lda.w #WonCheckTiles&$FFFF
+	ldx.w #WonCheckTiles>>16
 	jsl.l DecompressUnpackbuf
 	ldy.w #$5C00
 	jsl.l CODE_C589E4

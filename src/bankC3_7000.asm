@@ -488,8 +488,8 @@ CODE_C3736B:						; called from other segments
 	sta.b $32
 	lda.b $08
 	sta.b r1
-	ldx.w #$00C1
-	lda.w #$D778
+	ldx.w #PadButtonsMap>>16
+	lda.w #PadButtonsMap&$FFFF
 	jsl.l CODE_C5881C
 	ldx.b $08
 	ldy.w #$00DF

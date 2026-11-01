@@ -34,5 +34,6 @@ RandomWord = $C08E48
 ScreenOn = $C08E99
 WaitFrames_Inc = $C08D89
 forceblack = $C08E93
+PadButtonsMap = $C1D778
 
 incsrc "../bankC3_7000.asm"

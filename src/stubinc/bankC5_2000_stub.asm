@@ -59,5 +59,10 @@ Decompress = $C581E1
 DecompressToVRAM = $C58A65
 DecompressUnpackbuf = $C581D7
 forceblack = $C08E93
+CenterIceTiles = $C2792B
+DigitFontTiles = $C04642
+LinePieceTiles = $C04708
+MeterFontTiles = $C00976
+RefsMap = $C2CC6E
 
 incsrc "../bankC5_2000.asm"

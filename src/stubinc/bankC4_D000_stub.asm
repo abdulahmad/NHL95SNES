@@ -80,5 +80,13 @@ FadeOutWait = $C58A99
 MapSetToVRAM = $C58527
 SetNMIHook = $C08D73
 SetupHDMA = $C58AA5
+DATA8_C4BAD6 = $C4BAD6
+DATA8_CF05D4 = $CF05D4
+GradientBarTiles = $C0083D
+TeamPalettes = $C00000
+TiledBackMap = $C087F2
+TitleGoalieMap = $C22CB2
+TitleLogoMap = $C271F6
+TitlePlayersMap = $C20AB8
 
 incsrc "../bankC4_D000.asm"

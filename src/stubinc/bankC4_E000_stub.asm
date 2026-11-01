@@ -62,5 +62,7 @@ FadeOutWait = $C58A99
 MapSetToVRAM = $C58527
 SetNMIHook = $C08D73
 SetupHDMA = $C58AA5
+DATA8_CF05D4 = $CF05D4
+TiledBackMap = $C087F2
 
 incsrc "../bankC4_E000.asm"

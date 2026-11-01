@@ -52,5 +52,6 @@ DATA8_C09B3F = $C09B3F
 FadeOutWait = $C58A99
 QueueVRAMDMALen = $C58A15
 RandomWord = $C08E48
+FaceOffMap = $C1CFE2
 
 incsrc "../bankC4_3000.asm"

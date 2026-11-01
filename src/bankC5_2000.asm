@@ -124,8 +124,8 @@ CODE_C52037:						; called from other segments
 	stx.b $2E
 	pha
 	sta.b r0
-	lda.w #$4642
-	ldx.w #$00C0
+	lda.w #DigitFontTiles&$FFFF
+	ldx.w #DigitFontTiles>>16
 	jsl.l Decompress
 	lda.b $00
 	tsx
@@ -133,8 +133,8 @@ CODE_C52037:						; called from other segments
 	stx.b $00
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
-	lda.w #$792B
-	ldx.w #$00C2
+	lda.w #CenterIceTiles&$FFFF
+	ldx.w #CenterIceTiles>>16
 	jsl.l DecompressUnpackbuf
 	dec.b QueueBusy
 	lda.b $00
@@ -173,8 +173,8 @@ CODE_C52037:						; called from other segments
 	stx.b $04
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
-	lda.w #$CC6E
-	ldx.w #$00C2
+	lda.w #RefsMap&$FFFF
+	ldx.w #RefsMap>>16
 	jsl.l CODE_C58812
 	ldx.w #$092E
 	clc
@@ -215,8 +215,8 @@ CODE_C52037:						; called from other segments
 	lda.w #$FE90
 	sta.w $07F8
 	ldy.w #$4800
-	lda.w #$0976
-	ldx.w #$00C0
+	lda.w #MeterFontTiles&$FFFF
+	ldx.w #MeterFontTiles>>16
 	jsl.l DecompressToVRAM
 	jsl.l CODE_C5897B
 	jsl.l CODE_C4CEDB
@@ -230,8 +230,8 @@ CODE_C52037:						; called from other segments
 	sta.b r0
 	lda.w #$007F
 	sta.b $2E
-	lda.w #$4708
-	ldx.w #$00C0
+	lda.w #LinePieceTiles&$FFFF
+	ldx.w #LinePieceTiles>>16
 	jsl.l Decompress
 	jsl.l CODE_C539D7
 	jmp.w CODE_C53A29

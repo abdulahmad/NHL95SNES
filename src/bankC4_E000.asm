@@ -170,8 +170,8 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	ldy.w #$0001
 	ldx.w #$4C9F
 	jsl.l CODE_C4BDAE
-	lda.w #$05D9
-	ldx.w #$00CF
+	lda.w #(DATA8_CF05D4+$5)&$FFFF
+	ldx.w #(DATA8_CF05D4+$5)>>16
 	jsl.l CODE_CF0134
 	lda.w #$00A6
 	jsl.l CODE_CF040B
@@ -221,8 +221,8 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b tmp1
 	lda.w #$5800
 	sta.b tmp0
-	lda.w #$87F2
-	ldx.w #$00C0
+	lda.w #TiledBackMap&$FFFF
+	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
 	jsl.l MapSetToVRAM
 	ldy.w #$5000

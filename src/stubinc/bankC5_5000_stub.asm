@@ -71,5 +71,16 @@ SetNMIHook = $C08D73
 SetupHDMA = $C58AA5
 UploadSpriteFrame = $C5E8A5
 forceblack = $C08E93
+ArrowFontTiles = $C0027E
+BlueColoursHook = $C04A65
+CenterIceTiles = $C2792B
+DigitFontTiles = $C04642
+FaceOffMap = $C1CFE2
+GradientBarTiles = $C0083D
+MeterFontTiles = $C00976
+PauseScreenMap = $C1BA31
+RefsMap = $C2CC6E
+TeamNicknameTiles = $C19B68
+TiledBackMap = $C087F2
 
 incsrc "../bankC5_5000.asm"

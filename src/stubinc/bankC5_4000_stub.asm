@@ -48,5 +48,6 @@ FadeOutWait = $C58A99
 Mul16S = $C09035
 Mul16x8XS = $C08F95
 QueueVRAMDMALen = $C58A15
+DATA8_CF05D4 = $CF05D4
 
 incsrc "../bankC5_4000.asm"

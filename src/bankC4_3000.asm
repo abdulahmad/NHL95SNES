@@ -1363,8 +1363,8 @@ CODE_C43826:						; called from other segments
 	jsl.l CODE_C4C541
 	lda.w #$007E
 	sta.b $32
-	lda.w #$CFE2
-	ldx.w #$00C1
+	lda.w #FaceOffMap&$FFFF
+	ldx.w #FaceOffMap>>16
 	jsl.l CODE_C5881C
 	lda.w $2024
 	tax

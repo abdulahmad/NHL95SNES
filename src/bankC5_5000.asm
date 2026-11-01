@@ -192,8 +192,8 @@ CODE_C5503C:						; called from other segments
 	jsl.l CODE_C4C541
 	lda.w #$007E
 	sta.b $32
-	lda.w #$BA31
-	ldx.w #$00C1
+	lda.w #PauseScreenMap&$FFFF
+	ldx.w #PauseScreenMap>>16
 	jsl.l CODE_C5881C
 	lda.w #$012A
 	ldy.w #$0523
@@ -302,8 +302,8 @@ CODE_C550E2:						; from CODE_C55A09
 	pha
 	lda.w #$007E
 	sta.b $2E
-	ldx.w #$00C1
-	lda.w #$9B68
+	ldx.w #TeamNicknameTiles>>16
+	lda.w #TeamNicknameTiles&$FFFF
 	jsl.l Decompress
 	pla
 	sta.b r0
@@ -358,8 +358,8 @@ CODE_C550E2:						; from CODE_C55A09
 	lda.w #$4100
 	jsl.l CODE_C4C56A
 	ldy.w #$4A00
-	lda.w #$027E
-	ldx.w #$00C0
+	lda.w #ArrowFontTiles&$FFFF
+	ldx.w #ArrowFontTiles>>16
 	jsl.l DecompressToVRAM
 	jsl.l CODE_C4CEDB
 	jsl.l ScreenOn
@@ -768,8 +768,8 @@ CODE_C55513:						; called from other segments
 	jsl.l CODE_C4C558
 	pha
 	sta.b r1
-	lda.w #$CC6E
-	ldx.w #$00C2
+	lda.w #RefsMap&$FFFF
+	ldx.w #RefsMap>>16
 	jsl.l CODE_C5881C
 	ply
 	dec.b QueueBusy
@@ -920,8 +920,8 @@ CODE_C55513:						; called from other segments
 	stx.b $2E
 	pha
 	sta.b r0
-	lda.w #$4642
-	ldx.w #$00C0
+	lda.w #DigitFontTiles&$FFFF
+	ldx.w #DigitFontTiles>>16
 	jsl.l Decompress
 	lda.b $00
 	tsx
@@ -1033,8 +1033,8 @@ CODE_C55513:						; called from other segments
 	sta.b r0
 	lda.w #$007E
 	sta.b $2E
-	ldx.w #$00C2
-	lda.w #$792B
+	ldx.w #CenterIceTiles>>16
+	lda.w #CenterIceTiles&$FFFF
 	jsl.l Decompress
 	dec.b QueueBusy
 	lda.b $00
@@ -1078,8 +1078,8 @@ CODE_C55513:						; called from other segments
 	lda.w #$03E7
 	sta.w $07E4
 	ldy.w #$4800
-	lda.w #$0976
-	ldx.w #$00C0
+	lda.w #MeterFontTiles&$FFFF
+	ldx.w #MeterFontTiles>>16
 	jsl.l DecompressToVRAM
 	lda.w #$13E0
 	jsl.l CODE_C4C558
@@ -1087,8 +1087,8 @@ CODE_C55513:						; called from other segments
 	sta.b r1
 	lda.w #$007E
 	sta.b $32
-	lda.w #$CFE2
-	ldx.w #$00C1
+	lda.w #FaceOffMap&$FFFF
+	ldx.w #FaceOffMap>>16
 	jsl.l CODE_C5881C
 	dec.b QueueBusy
 	lda.b $00
@@ -1220,8 +1220,8 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	sta.b tmp1
 	lda.w #$5800
 	sta.b tmp0
-	lda.w #$87F2
-	ldx.w #$00C0
+	lda.w #TiledBackMap&$FFFF
+	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
 	jsr.w CODE_C5852B
 	ldy.w #$5000
@@ -1230,8 +1230,8 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	jsl.l CODE_C589B0
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
-	lda.w #$4A65
-	ldx.w #$00C0
+	lda.w #BlueColoursHook&$FFFF
+	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
 	jsl.l CODE_C4BAF6
 	lda.w #$8000
@@ -1244,8 +1244,8 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	sta.b r2
 	lda.w #$007E
 	sta.b $2E
-	ldx.w #$00C0
-	lda.w #$083D
+	ldx.w #GradientBarTiles>>16
+	lda.w #GradientBarTiles&$FFFF
 	jsl.l Decompress
 	dec.b QueueBusy
 	lda.b $00

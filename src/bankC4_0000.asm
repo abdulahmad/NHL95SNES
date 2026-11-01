@@ -169,8 +169,8 @@ CODE_C40153:						; from CODE_C40000
 	ldx.w #$0070
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
-	lda.w #$4A65
-	ldx.w #$00C0
+	lda.w #BlueColoursHook&$FFFF
+	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
 	jsl.l CODE_C5E50E
 	lda.w #$001C
@@ -196,8 +196,8 @@ CODE_C40153:						; from CODE_C40000
 	jsl.l CODE_C589E4
 	ldy.w #$5000
 	jsl.l CODE_C589B0
-	lda.w #$083D
-	ldx.w #$00C0
+	lda.w #GradientBarTiles&$FFFF
+	ldx.w #GradientBarTiles>>16
 	jsl.l DecompressUnpackbuf
 	dec.b QueueBusy
 	lda.b $00
@@ -520,8 +520,8 @@ CODE_C403C2:						; from CODE_C40000
 CODE_C40444:						; from CODE_C40000
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
-	lda.w #$4A87
-	ldx.w #$00C0
+	lda.w #DarkBlueColoursHook&$FFFF
+	ldx.w #DarkBlueColoursHook>>16
 	jsl.l SetNMIHook
 	wai
 	ldx.w #$0070
@@ -540,8 +540,8 @@ CODE_C40444:						; from CODE_C40000
 	stz.b a0
 	jsl.l CODE_C5BBBC
 	jsl.l CODE_C4C530
-	lda.w #$DC7B
-	ldx.w #$00C1
+	lda.w #PlayoffBracketMap&$FFFF
+	ldx.w #PlayoffBracketMap>>16
 	jsl.l CODE_C58812
 	ldx.w #$15DE
 	clc
@@ -583,8 +583,8 @@ CODE_C40444:						; from CODE_C40000
 	stx.b $04
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
-	lda.w #$E9B2
-	ldx.w #$00C1
+	lda.w #TeamNameBarsMap&$FFFF
+	ldx.w #TeamNameBarsMap>>16
 	jsl.l CODE_C58812
 	lda.w #$04E0
 	jsl.l CODE_C4C558

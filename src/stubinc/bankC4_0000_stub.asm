@@ -58,5 +58,10 @@ FadeOutWait = $C58A99
 Reset = $C0FD0E
 SetNMIHook = $C08D73
 SetupHDMA = $C58AA5
+BlueColoursHook = $C04A65
+DarkBlueColoursHook = $C04A87
+GradientBarTiles = $C0083D
+PlayoffBracketMap = $C1DC7B
+TeamNameBarsMap = $C1E9B2
 
 incsrc "../bankC4_0000.asm"

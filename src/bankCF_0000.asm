@@ -692,7 +692,8 @@ DATA8_CF05B1:						; list 2 of DATA8_CF0583
 DATA8_CF05C1:						; list 3 of DATA8_CF0583
 	db $1C,$28,$28,$17,$2D,$2D,$1E,$32,$32,$1D,$28,$28,$1F,$2A,$2A,$19
 	db $37,$37,$21
-DATA8_CF05D4:						; a byte list ending in $FF; CODE_CF04B6 passes it to CODE_CF0134
+DATA8_CF05D4:						; four byte lists, each ending in $FF (at +0, +3, +5, +7); CODE_CF0134
+									; takes one
 	db $A3,$A4,$FF,$A5,$FF,$A6,$FF,$A7,$FF
 SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 									; CODE_CF01E0 sends sample A to the sound CPU

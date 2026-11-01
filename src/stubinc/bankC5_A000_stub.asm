@@ -80,5 +80,6 @@ StandingsScreen = $C5B17A
 LeagueLeadersScreen = $C5AFB6
 SeasonTeamStats = $C5B07C
 SeasonPlayerStats = $C5B0EA
+WonCheckTiles = $C03CF9
 
 incsrc "../bankC5_A000.asm"

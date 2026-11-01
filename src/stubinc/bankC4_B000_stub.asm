@@ -46,5 +46,9 @@ MapSetToVRAM = $C58527
 ResetPPURegs = $C08E9D
 SetNMIHook = $C08D73
 SpritePieces = $C19660
+DATA8_C07F7B = $C07F7B
+HighScoreMap = $C2BB69
+VisualConceptsMap = $C2B14A
+VisualConceptsPalette = $C2BB22
 
 incsrc "../bankC4_B000.asm"

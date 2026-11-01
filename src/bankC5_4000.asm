@@ -1800,9 +1800,9 @@ CODE_C54E6D:						; called from other segments
 	bne .1
 	lda.w $153F
 	beq .2
-.1:									; A = $05D7, X = $00CF, call CODE_CF0134, A = $00A5, ...
-	lda.w #$05D7
-	ldx.w #$00CF
+.1:									; A = (DATA8_CF05D4+$3)&$FFFF, X = (DATA8_CF05D4+$3)>>16, ...
+	lda.w #(DATA8_CF05D4+$3)&$FFFF
+	ldx.w #(DATA8_CF05D4+$3)>>16
 	jsl.l CODE_CF0134
 	lda.w #$00A5
 	jsl.l CODE_CF040B

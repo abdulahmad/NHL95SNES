@@ -91,5 +91,9 @@ CODE_C5A66E = $C5A66E
 CODE_C5A773 = $C5A773
 CODE_C5AB16 = $C5AB16
 CODE_C5AB27 = $C5AB27
+BlueColoursHook = $C04A65
+GradientBarTiles = $C0083D
+TeamPalettes = $C00000
+TiledBackMap = $C087F2
 
 incsrc "../bankC5_9000.asm"

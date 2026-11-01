@@ -67,8 +67,8 @@ CODE_C4B05E:						; passed as a long pointer (lda # of its bank and address) to 
 CODE_C4B09F:						; called from other segments
 	jsl.l Multi5Bios
 	jsl.l CODE_C36C2D
-	ldx.w #$00C0
-	lda.w #$7F7B
+	ldx.w #DATA8_C07F7B>>16
+	lda.w #DATA8_C07F7B&$FFFF
 	jsl.l CODE_CF0134
 	lda.w #CODE_C4B05E
 	ldx.w #CODE_C4B05E>>16
@@ -1168,16 +1168,16 @@ CODE_C4B97E:						; called from other segments
 	lda.w #$5900
 	sta.b tmp0
 	stz.b tmp1
-	ldx.w #$00C2
-	lda.w #$B14A
+	ldx.w #VisualConceptsMap>>16
+	lda.w #VisualConceptsMap&$FFFF
 	ldy.w #$2000
 	jsl.l MapSetToVRAM
 	lda.w #$50C0
 	sta.b tmp0
 	lda.w #$0800
 	sta.b tmp1
-	ldx.w #$00C2
-	lda.w #$BB69
+	ldx.w #HighScoreMap>>16
+	lda.w #HighScoreMap&$FFFF
 	ldy.w #$0000
 	jsl.l MapSetToVRAM
 	sep #$20
@@ -1222,8 +1222,8 @@ CODE_C4B97E:						; called from other segments
 	stx.b $71
 	ldy.w #$0000
 	jsl.l CODE_C4B970
-	lda.w #$BB29
-	ldx.w #$00C2
+	lda.w #(VisualConceptsPalette+$7)&$FFFF
+	ldx.w #(VisualConceptsPalette+$7)>>16
 	ldy.b d5
 	jsl.l CODE_C4B8D1
 	lda.b d4

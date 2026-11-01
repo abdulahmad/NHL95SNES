@@ -197,8 +197,8 @@ CODE_C4D193:						; called from other segments
 	sta.b tmp0
 	lda.w #$214A
 	sta.b tmp1
-	ldx.w #$00C2
-	lda.w #$71F6
+	ldx.w #TitleLogoMap>>16
+	lda.w #TitleLogoMap&$FFFF
 	ldy.w #$2A50
 	jsl.l MapSetToVRAM
 	dec.b QueueBusy
@@ -208,8 +208,8 @@ CODE_C4D193:						; called from other segments
 	stx.b $04
 	pea.w $0020
 	pea.w $0010
-	ldx.w #$00C2
-	lda.w #$71F6
+	ldx.w #TitleLogoMap>>16
+	lda.w #TitleLogoMap&$FFFF
 	jsr.w CODE_C4D636
 	phx
 	pha
@@ -222,16 +222,16 @@ CODE_C4D193:						; called from other segments
 	sta.b tmp0
 	lda.w #$0800
 	sta.b tmp1
-	ldx.w #$00C2
-	lda.w #$2CB2
+	ldx.w #TitleGoalieMap>>16
+	lda.w #TitleGoalieMap&$FFFF
 	ldy.w #$0000
 	jsl.l MapSetToVRAM
 	lda.w #$3820
 	sta.b tmp0
 	lda.w #$0800
 	sta.b tmp1
-	ldx.w #$00C2
-	lda.w #$0AB8
+	ldx.w #TitlePlayersMap>>16
+	lda.w #TitlePlayersMap&$FFFF
 	ldy.w #$4000
 	jsl.l MapSetToVRAM
 	sep #$20
@@ -273,8 +273,8 @@ CODE_C4D193:						; called from other segments
 	lda.b d4
 	ldy.w #$7FFF
 	jsl.l CODE_C4B970
-	ldx.w #$00C2
-	lda.w #$0AB8
+	ldx.w #TitlePlayersMap>>16
+	lda.w #TitlePlayersMap&$FFFF
 	jsr.w CODE_C4D636
 	ldy.b d5
 	jsl.l CODE_C4B8D1
@@ -596,8 +596,8 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	sta.b a3
 	ldy.w #$0000
 	jsl.l CODE_C4B970
-	ldx.w #$00C4
-	lda.w #$BAD6
+	ldx.w #DATA8_C4BAD6>>16
+	lda.w #DATA8_C4BAD6&$FFFF
 	ldy.b d5
 	jsl.l CODE_C4B8D1
 	lda.b $D3
@@ -692,8 +692,8 @@ CODE_C4D657:						; called from other segments
 	sta.b tmp1
 	lda.w #$5800
 	sta.b tmp0
-	lda.w #$87F2
-	ldx.w #$00C0
+	lda.w #TiledBackMap&$FFFF
+	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
 	jsl.l MapSetToVRAM
 	sep #$20
@@ -761,8 +761,8 @@ CODE_C4D657:						; called from other segments
 	lda.b $26
 	cmp.w #$003C
 	bne .1
-	lda.w #$05D4
-	ldx.w #$00CF
+	lda.w #DATA8_CF05D4&$FFFF
+	ldx.w #DATA8_CF05D4>>16
 	jsl.l CODE_CF0134
 	bra .loop
 .1:									; if A < $00C3 go to .loop, if a0 is not 0 go to .2, ...
@@ -783,8 +783,8 @@ CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	sta.b $2E
 	lda.w #$D80A
 	sta.b r0
-	lda.w #$0000
-	ldx.w #$00C0
+	lda.w #TeamPalettes&$FFFF
+	ldx.w #TeamPalettes>>16
 	jsl.l Decompress
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
@@ -803,8 +803,8 @@ CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	sta.b tmp1
 	lda.w #$5800
 	sta.b tmp0
-	lda.w #$87F2
-	ldx.w #$00C0
+	lda.w #TiledBackMap&$FFFF
+	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
 	jsl.l MapSetToVRAM
 	ldy.w #$5000
@@ -833,8 +833,8 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 									; DrawAward, FindAwardWinner and its winner; pad left / right steps
 									; through the 8 awards, start returns
 	jsl.l CODE_CF039E
-	lda.w #$05DB
-	ldx.w #$00CF
+	lda.w #(DATA8_CF05D4+$7)&$FFFF
+	ldx.w #(DATA8_CF05D4+$7)>>16
 	ldy.w #$FF00
 	jsl.l CODE_CF0134
 	lda.w #$00A7
@@ -858,8 +858,8 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	sta.b r2
 	lda.w #$007E
 	sta.b $2E
-	ldx.w #$00C0
-	lda.w #$083D
+	ldx.w #GradientBarTiles>>16
+	lda.w #GradientBarTiles&$FFFF
 	jsl.l Decompress
 	dec.b QueueBusy
 	lda.b $00

@@ -155,16 +155,16 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	sta.b $2E
 	lda.w #$D80A
 	sta.b r0
-	lda.w #$0000
-	ldx.w #$00C0
+	lda.w #TeamPalettes&$FFFF
+	ldx.w #TeamPalettes>>16
 	jsl.l Decompress
 	ldy.w #$5000
 	jsl.l CODE_C589E4
 	ldy.w #$0000
 	jsl.l CODE_C589E4
 	jsl.l CODE_C4CEDB
-	lda.w #$083D
-	ldx.w #$00C0
+	lda.w #GradientBarTiles&$FFFF
+	ldx.w #GradientBarTiles>>16
 	jsl.l DecompressUnpackbuf
 	dec.b QueueBusy
 	lda.b $00
@@ -193,8 +193,8 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	sta.b tmp1
 	lda.w #$5800
 	sta.b tmp0
-	lda.w #$87F2
-	ldx.w #$00C0
+	lda.w #TiledBackMap&$FFFF
+	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
 	jsr.w CODE_C5852B
 	sep #$20
@@ -230,8 +230,8 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #$56CE
 	jsl.l CODE_C4BB5A
 	jsl.l CODE_C4CEDB
-	lda.w #$4A65
-	ldx.w #$00C0
+	lda.w #BlueColoursHook&$FFFF
+	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
 	jsl.l CODE_C5E50E
 	jsr.w CODE_C5C0BE
