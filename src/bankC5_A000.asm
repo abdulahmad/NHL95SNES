@@ -1761,7 +1761,7 @@ CODE_C5AF07:						; from CODE_C5AE48 and other segments
 	sta.w $190E
 	stz.w $1910
 	jsl.l CODE_C5E50E
-	jsr.w CODE_C57A7D
+	jsr.w ShowOtherScores
 	stz.w $190E
 	jsl.l CODE_C4C574
 	lda.w $1864

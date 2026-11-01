@@ -150,12 +150,12 @@ CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
 	bne .1
 	lda.w #$1FFF
 	tcs
-.1:									; a2 = 0, call CODE_C54AEF, a2 = $0002, call CODE_C54AEF, ...
+.1:									; a2 = 0, call reenergizeteam, a2 = $0002, call reenergizeteam, ...
 	stz.b a2
-	jsl.l CODE_C54AEF
+	jsl.l reenergizeteam
 	lda.w #$0002
 	sta.b a2
-	jsl.l CODE_C54AEF
+	jsl.l reenergizeteam
 	jsl.l CODE_C52227
 	jsl.l CODE_C53535
 	jsl.l CODE_C3718D

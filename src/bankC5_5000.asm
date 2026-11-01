@@ -134,23 +134,27 @@ CODE_C54FA9:						; from CODE_C54F81
 	stx.b $00
 	stz.b QueueBusy
 	jmp.w CODE_C55367
-DATA8_C55002:						; not traced: a table read by CODE_C54FA9
+DATA8_C55002:						; the item list (bank $C3) of each pause menu tab: Info, Stats, Options,
+									; the quit prompt; CODE_C54FA9
 	db $CB,$5C,$EF,$5C,$07,$5D,$21,$5D
-DATA8_C5500A:						; not traced: a table read by CODE_C54FA9
+DATA8_C5500A:						; the same in game mode 1: shorter Info and Options lists; CODE_C54FA9
 	db $E1,$5C,$EF,$5C,$FD,$5C,$21,$5D
-DATA8_C55012:						; jump table: the routine for each index
-	dw CODE_C56E6A,CODE_C56C6A,CODE_C57C34
-DATA8_C55018:						; jump table: the routine for each index
+DATA8_C55012:						; game mode 1, Info tab: Team Roster, Score Summry, Records (CODE_C54F38
+									; jumps through it)
+	dw TeamRoster,ShowScoringSummary,CODE_C57C34
+DATA8_C55018:						; game mode 1, Options tab: Inst Replay, Quit Game
 	dw CODE_C57329,CODE_C56B80
-DATA8_C5501C:						; jump table: the routine for each index
-	dw CODE_C56E6A,CODE_C56C6A,CODE_C56993,CODE_C57C34
-	dw CODE_C57A7D
-DATA8_C55026:						; jump table: the routine for each index
-	dw CODE_C56293,CODE_C56368,CODE_C5649F
-DATA8_C5502C:						; jump table: the routine for each index
-	dw CODE_C57329,CODE_C57361,CODE_C578B0,CODE_C56E55
-	dw CODE_C56B90,CODE_C56B80
-DATA8_C55038:						; jump table: the routine for each index
+DATA8_C5501C:						; pause menu Info tab: Team Roster, Score Summry, Penalties, Records,
+									; Other Scores (CODE_C54F38)
+	dw TeamRoster,ShowScoringSummary,ShowPenaltySummary,CODE_C57C34
+	dw ShowOtherScores
+DATA8_C55026:						; pause menu Stats tab: Game Stats, Period Stats, Player Stats
+	dw ShowGameStats,ShowPeriodStats,ShowPlayerStats
+DATA8_C5502C:						; pause menu Options tab: Inst Replay, Edit Lines, Chnge Goalie, the
+									; goalie mode, Time Out, Quit Game
+	dw CODE_C57329,EditLinesScreen,CODE_C578B0,PauseGoalieMode
+	dw PauseTimeout,CODE_C56B80
+DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Quit Game
 	dw CODE_C56B7B,CODE_C56B8C
 CODE_C5503C:						; called from other segments
 	jsl.l forceblack
@@ -478,7 +482,7 @@ CODE_C552CE:						; from CODE_C55308, CODE_C55320, CODE_C55346
 CODE_C55308:						; no caller found (not traced)
 	phy
 	phx
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	lda.w #$59FC
 	ldx.b a2
 	ldy.w $17C1,x
@@ -491,7 +495,7 @@ CODE_C55308:						; no caller found (not traced)
 CODE_C55320:						; no caller found (not traced)
 	phy
 	phx
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	lda.w #$5A08
 	ldx.b a2
 	ldy.w $1303,x
@@ -1284,7 +1288,7 @@ CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
 	stz.w $058D
 	lda.w $190E
 	jmp.w CODE_C550E2
-CODE_C55A40:						; from CODE_C56293, CODE_C56368
+CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	pha
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB

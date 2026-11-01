@@ -338,7 +338,8 @@ CODE_C56262:						; from CODE_C5625E and other segments
 	sta.w $0000,x
 	rep #$20
 	rts
-CODE_C56293:						; called from other segments
+ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling list
+									; (CODE_C56310 draws each, from one of two row lists); start returns
 	lda.w #$531F
 	jsr.w CODE_C55A40
 	ldx.w #$5D5F
@@ -390,7 +391,7 @@ CODE_C56293:						; called from other segments
 	bra .loop
 .4:									; go to CODE_C55A09
 	jmp.w CODE_C55A09
-CODE_C56310:						; a callback: CODE_C56293 passes it to CODE_C55ABC
+CODE_C56310:						; a callback: ShowGameStats passes it to CODE_C55ABC
 	lda.b a3
 	asl a
 	asl a
@@ -430,11 +431,12 @@ CODE_C56310:						; a callback: CODE_C56293 passes it to CODE_C55ABC
 	and.w #$00FF
 	tax
 	jmp (DATA8_C55D6B,x)
-CODE_C56368:						; called from other segments
+ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches between goals and
+									; shots, start returns
 	lda.w #$532D
 	jsr.w CODE_C55A40
 	stz.b $7B
-	jsr.w CODE_C563D0
+	jsr.w DrawPeriodStats
 	jsl.l CODE_C4C2AA
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
@@ -464,14 +466,16 @@ CODE_C56368:						; called from other segments
 	lda.b $7B
 	eor.w #$0001
 	sta.b $7B
-	jsr.w CODE_C563D0
+	jsr.w DrawPeriodStats
 	jsl.l CODE_C4C2AA
 	bra .loop
 .1:									; if $1000 bits clear go to .loop, go to CODE_C55A09
 	bit.w #$1000
 	beq .loop
 	jmp.w CODE_C55A09
-CODE_C563D0:						; from CODE_C56368
+DrawPeriodStats:					; the period stats: the periods played and Total, the heading Goals or
+									; Shots with the B hint, then each team's goals or shots per period and
+									; their sum
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -528,7 +532,7 @@ CODE_C563D0:						; from CODE_C56368
 	inc.b a0
 	inc.b a0
 	jmp.w CODE_C56453
-CODE_C56453:						; from CODE_C563D0
+CODE_C56453:						; from DrawPeriodStats
 	stz.b tmp0
 	lda.w #$0000
 	ldy.w #$0013
@@ -566,13 +570,15 @@ CODE_C56453:						; from CODE_C563D0
 	ldx.w #$04F5
 	jsl.l CODE_C4BBF1
 	rts
-CODE_C5649F:						; called from other segments
+ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by a stat column
+									; (left / right) or its goalies (B); Y switches the team, up / down
+									; scroll, start returns
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	lda.w #$533B
 	jsl.l CODE_C4BB5A
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	stz.b $7D
 	ldy.w #$2801
 	ldx.w #$5135
@@ -722,7 +728,7 @@ CODE_C5649F:						; called from other segments
 	bra .12
 .15:								; go to .loop
 	jmp.w .loop
-CODE_C5660A:						; from CODE_C5649F
+CODE_C5660A:						; from ShowPlayerStats
 	lda.w #$0300
 	clc
 	adc.b $D3
@@ -743,7 +749,7 @@ CODE_C5660A:						; from CODE_C5649F
 	jsl.l CODE_C58B11
 	jsl.l CODE_C4CEDB
 	rts
-CODE_C5663A:						; from CODE_C5649F
+CODE_C5663A:						; from ShowPlayerStats
 	ldx.w #$2DC9
 	ldy.w #$0000
 	lda.b a2
@@ -840,7 +846,7 @@ CODE_C566D6:						; from DATA8_C566DE
 DATA8_C566DE:						; jump table: the routine for each index
 	dw CODE_C566AB,CODE_C566B3,CODE_C566BB,CODE_C566CE
 	dw CODE_C566D6
-CODE_C566E8:						; from CODE_C5649F
+CODE_C566E8:						; from ShowPlayerStats
 	ldx.w #$2DC9
 	ldy.w #$0000
 	lda.b a2
@@ -903,7 +909,7 @@ CODE_C566E8:						; from CODE_C5649F
 	cpx.b $0E
 	bne .loop3
 	bra .2
-CODE_C56759:						; a callback: CODE_C5649F passes it to CODE_C55ABC
+CODE_C56759:						; a callback: ShowPlayerStats passes it to CODE_C55ABC
 	lda.w #$0010
 	sta.b $CF
 	lda.b a3
@@ -1035,7 +1041,7 @@ CODE_C5683C:						; from CODE_C56759
 	adc.w #$0064
 	ldx.w #$8000
 	jmp.w CODE_C5680B
-CODE_C56880:						; from CODE_C5649F
+CODE_C56880:						; from ShowPlayerStats
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0078
@@ -1139,7 +1145,8 @@ CODE_C56938:						; from CODE_C56880
 	jmp.w CODE_C5691F
 DATA8_C56989:						; not traced: a table read by CODE_C56880
 	db $6A,$4B,$6F,$4B,$75,$4B,$9E,$4B,$08,$48
-CODE_C56993:						; called from other segments
+ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, Time, Tm, Player,
+									; PM) as a scrolling list, No Penalties when there are none; start returns
 	lda.w #$534D
 	jsr.w CODE_C55A40
 	lda.w #$0010
@@ -1229,13 +1236,13 @@ CODE_C56993:						; called from other segments
 	bra .loop
 .6:									; go to CODE_C55A09
 	jmp.w CODE_C55A09
-CODE_C56A6B:						; from CODE_C56993
+CODE_C56A6B:						; from ShowPenaltySummary
 	ldy.w #$000F
 	jsl.l CODE_C4BBE5
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C56A77:						; a callback: CODE_C56993 passes it to CODE_C55ABC
+CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	lda.b a3
 	sta.b r2
 	lda.w #$0003
@@ -1355,7 +1362,7 @@ CODE_C56A77:						; a callback: CODE_C56993 passes it to CODE_C55ABC
 CODE_C56B7B:						; called from other segments
 	lda.w #$0002
 	bra CODE_C56B83
-CODE_C56B80:						; from CODE_C56B90 and other segments
+CODE_C56B80:						; from PauseTimeout and other segments
 	lda.w #$0003
 CODE_C56B83:						; from CODE_C56B7B
 	stz.w $18F6
@@ -1363,14 +1370,15 @@ CODE_C56B83:						; from CODE_C56B7B
 	jmp.w CODE_C54FA9
 CODE_C56B8C:						; called from other segments
 	jml.l CODE_C5004E
-CODE_C56B90:						; called from other segments
-	jsl.l CODE_C53ABC
+PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, gives the team
+									; full energy (reenergizeteam) and prints Time Out by and the team's name
+	jsl.l GetPadTeam
 	ldx.b a2
 	lda.w $1303,x
 	beq CODE_C56B80
 	dec a
 	sta.w $1303,x
-	jsl.l CODE_C54AEF
+	jsl.l reenergizeteam
 	ldx.w #$5D41
 	jsr.w CODE_C552AC
 	lda.w #$00C3
@@ -1449,7 +1457,7 @@ CODE_C56B90:						; called from other segments
 	jsl.l WaitFrames_Inc
 	lda.w $18F2
 	jmp.w CODE_C54FA9
-CODE_C56C4C:						; from CODE_C56B90
+CODE_C56C4C:						; from PauseTimeout
 	clc
 	adc.w $18EE
 	tax
@@ -1467,7 +1475,9 @@ CODE_C56C4C:						; from CODE_C56B90
 	dey
 	bne .loop
 	rts
-CODE_C56C6A:						; called from other segments
+ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, Time, Tm, Goal /
+									; Ass., P/S) as a scrolling list, No Scoring when there are none; start
+									; returns
 	lda.w #$535B
 	jsr.w CODE_C55A40
 	lda.w #$0010
@@ -1552,11 +1562,11 @@ CODE_C56C6A:						; called from other segments
 	bra .loop
 .6:									; go to CODE_C55A09
 	jmp.w CODE_C55A09
-CODE_C56D37:						; from CODE_C56C6A
+CODE_C56D37:						; from ShowScoringSummary
 	ldy.w #$000F
 	jsl.l CODE_C4BBFC
 	rts
-CODE_C56D3F:						; a callback: CODE_C56C6A passes it to CODE_C55ABC
+CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	lda.b a3
 	sta.b r2
 	lda.w #$0003
@@ -1686,15 +1696,17 @@ CODE_C56D3F:						; a callback: CODE_C56C6A passes it to CODE_C55ABC
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C56E55:						; called from other segments
-	jsl.l CODE_C53ABC
+PauseGoalieMode:					; pause menu Mnual Goalie / Auto Goalie: switches the goalie mode word of
+									; team a2, then redraws the menu
+	jsl.l GetPadTeam
 	ldx.b a2
 	lda.w $17C1,x
 	eor.w #$0001
 	sta.w $17C1,x
 	lda.w $18F2
 	jmp.w CODE_C54FA9
-CODE_C56E6A:						; called from other segments
+TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C prints its
+									; page: Goalies, Line, Stat); the pad pages through it, start returns
 	lda.w #$0001
 	sta.w $24DC
 	jsl.l FadeOutWait
@@ -1702,7 +1714,7 @@ CODE_C56E6A:						; called from other segments
 	jsr.w CODE_C55951
 	lda.w #$5369
 	jsl.l CODE_C4BB5A
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	stz.b $7D
 	stz.b $79
 	ldy.w #$2801

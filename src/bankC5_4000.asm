@@ -1339,7 +1339,8 @@ AvgCline:							; from CODE_C5492E and other segments
 	pla
 	sta.b d1
 	rtl
-CODE_C54AEF:						; from CODE_C54DFB and other segments
+reenergizeteam:						; gives every player of team a2 full energy ($1000); the bench check after
+									; it never passes (one value compared with $FFFD, then with $FFFC)
 	ldy.w #$0032
 	ldx.w #$0019
 	lda.b a2
@@ -1732,7 +1733,7 @@ SetupTeamForIntermission:			; called from other segments
 	lda.w #$0002
 	sta.b a2
 CODE_C54DFB:						; from SetupTeamForIntermission and other segments
-	jsl.l CODE_C54AEF
+	jsl.l reenergizeteam
 	ldx.b a3
 	ldy.b a2
 	stz.w tmline,x

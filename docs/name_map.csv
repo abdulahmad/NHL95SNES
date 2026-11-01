@@ -640,14 +640,14 @@ $C54194,DATA8_C54194,,new,"not traced: a table read by CODE_C54171 (in bankC5_40
 $C54897,DATA8_C54897,,new,"not traced: data between routines (in bankC5_4000)",src/bankC5_4000.asm
 $C5491C,DATA8_C5491C,,new,"not traced: data between routines (in bankC5_4000)",src/bankC5_4000.asm
 $C54D3A,DATA8_C54D3A,,new,"jump table: the routine for each index (in bankC5_4000)",src/bankC5_4000.asm
-$C55002,DATA8_C55002,,new,"not traced: a table read by CODE_C54FB9 (in bankC5_5000)",src/bankC5_5000.asm
-$C5500A,DATA8_C5500A,,new,"not traced: a table read by CODE_C54FA9 (in bankC5_5000)",src/bankC5_5000.asm
-$C55012,DATA8_C55012,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
-$C55018,DATA8_C55018,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
-$C5501C,DATA8_C5501C,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
-$C55026,DATA8_C55026,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
-$C5502C,DATA8_C5502C,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
-$C55038,DATA8_C55038,,new,"jump table: the routine for each index (in bankC5_5000)",src/bankC5_5000.asm
+$C55002,DATA8_C55002,,new,"the item list of each pause menu tab (Info $C35CCB, Stats $C35CEF, Options $C35D07, quit prompt $C35D21: a count, then a word pair per item, the second the offset of its length-prefixed text in bank $C3); read by CODE_C54FA9",src/bankC5_5000.asm
+$C5500A,DATA8_C5500A,,new,"the item lists in game mode 1 ($1864 = 1): Info $C35CE1, Stats, Options $C35CFD, quit prompt; read by CODE_C54FA9",src/bankC5_5000.asm
+$C55012,DATA8_C55012,,new,"game mode 1, Info tab items: Team Roster, Score Summry, Records; CODE_C54F38 jumps through it by item ($18F6)",src/bankC5_5000.asm
+$C55018,DATA8_C55018,,new,"game mode 1, Options tab items: Inst Replay, Quit Game",src/bankC5_5000.asm
+$C5501C,DATA8_C5501C,,new,"pause menu Info tab ($18F2 = 0) items: Team Roster, Score Summry, Penalties, Records, Other Scores; CODE_C54F38 jumps through it by item ($18F6) on B",src/bankC5_5000.asm
+$C55026,DATA8_C55026,,new,"pause menu Stats tab (1) items: Game Stats, Period Stats, Player Stats",src/bankC5_5000.asm
+$C5502C,DATA8_C5502C,,new,"pause menu Options tab (2) items: Inst Replay, Edit Lines, Chnge Goalie, Mnual / Auto Goalie, Time Out, Quit Game",src/bankC5_5000.asm
+$C55038,DATA8_C55038,,new,"the quit prompt (3): Resume Game (back to the Options tab), Quit Game (CODE_C5004E)",src/bankC5_5000.asm
 $C55245,DATA8_C55245,,new,"not traced: a table read by CODE_C550E2 (in bankC5_5000)",src/bankC5_5000.asm
 $C5528C,DATA8_C5528C,,new,"not traced: a table read by CODE_C5525F (in bankC5_5000)",src/bankC5_5000.asm
 $C55294,DATA8_C55294,,new,"not traced: a table read by CODE_C55256 (in bankC5_5000)",src/bankC5_5000.asm
@@ -5610,9 +5610,9 @@ $C53A54,.1,CODE_C53A54,new,"branch target only used in CODE_C53A29",src/bankC5_3
 $C53A8C,.1,CODE_C53A8C,new,"branch target only used in CODE_C53A75",src/bankC5_3000.asm
 $C53A9B,.loop,CODE_C53A9B,new,"branch target only used in CODE_C53A90",src/bankC5_3000.asm
 $C53AA9,.1,CODE_C53AA9,new,"branch target only used in CODE_C53A90",src/bankC5_3000.asm
-$C53ACB,.loop,CODE_C53ACB,new,"branch target only used in CODE_C53ABC",src/bankC5_3000.asm
-$C53AD5,.1,CODE_C53AD5,new,"branch target only used in CODE_C53ABC",src/bankC5_3000.asm
-$C53ADF,.rtl,CODE_C53ADF,new,"branch target only used in CODE_C53ABC",src/bankC5_3000.asm
+$C53ACB,.loop,CODE_C53ACB,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
+$C53AD5,.1,CODE_C53AD5,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
+$C53ADF,.rtl,CODE_C53ADF,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
 $C53AFD,.1,CODE_C53AFD,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
 $C53B0D,.2,CODE_C53B0D,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
 $C53B2E,.3,CODE_C53B2E,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
@@ -5746,8 +5746,8 @@ $C54A95,.loop,CODE_C54A95,new,"branch target only used in AvgCline",src/bankC5_4
 $C54AAE,.1,CODE_C54AAE,new,"branch target only used in AvgCline",src/bankC5_4000.asm
 $C54ABA,.2,CODE_C54ABA,new,"branch target only used in AvgCline",src/bankC5_4000.asm
 $C54AD6,.3,CODE_C54AD6,new,"branch target only used in AvgCline",src/bankC5_4000.asm
-$C54AFC,.loop,CODE_C54AFC,new,"branch target only used in CODE_C54AEF",src/bankC5_4000.asm
-$C54B15,.1,CODE_C54B15,new,"branch target only used in CODE_C54AEF",src/bankC5_4000.asm
+$C54AFC,.loop,CODE_C54AFC,new,"branch target only used in reenergizeteam",src/bankC5_4000.asm
+$C54B15,.1,CODE_C54B15,new,"branch target only used in reenergizeteam",src/bankC5_4000.asm
 $C54B30,.loop,CODE_C54B30,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
 $C54B37,.1,CODE_C54B37,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
 $C54B59,.2,CODE_C54B59,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
@@ -5882,37 +5882,37 @@ $C56272,.2,CODE_C56272,new,"branch target only used in CODE_C56262",src/bankC5_6
 $C56274,.3,CODE_C56274,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
 $C5627A,.4,CODE_C5627A,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
 $C5628A,.5,CODE_C5628A,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
-$C562A4,.1,CODE_C562A4,new,"branch target only used in CODE_C56293",src/bankC5_6000.asm
-$C562C3,.loop,CODE_C562C3,new,"branch target only used in CODE_C56293",src/bankC5_6000.asm
-$C562C6,.loop2,CODE_C562C6,new,"branch target only used in CODE_C56293",src/bankC5_6000.asm
-$C56301,.2,CODE_C56301,new,"branch target only used in CODE_C56293",src/bankC5_6000.asm
-$C5630B,.3,CODE_C5630B,new,"branch target only used in CODE_C56293",src/bankC5_6000.asm
-$C5630D,.4,CODE_C5630D,new,"branch target only used in CODE_C56293",src/bankC5_6000.asm
-$C5637A,.loop,CODE_C5637A,new,"branch target only used in CODE_C56368",src/bankC5_6000.asm
-$C5637D,.loop2,CODE_C5637D,new,"branch target only used in CODE_C56368",src/bankC5_6000.asm
-$C563C8,.1,CODE_C563C8,new,"branch target only used in CODE_C56368",src/bankC5_6000.asm
-$C563E0,.loop,CODE_C563E0,new,"branch target only used in CODE_C563D0",src/bankC5_6000.asm
-$C563F8,.1,CODE_C563F8,new,"branch target only used in CODE_C563D0",src/bankC5_6000.asm
-$C5641C,.2,CODE_C5641C,new,"branch target only used in CODE_C563D0",src/bankC5_6000.asm
+$C562A4,.1,CODE_C562A4,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
+$C562C3,.loop,CODE_C562C3,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
+$C562C6,.loop2,CODE_C562C6,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
+$C56301,.2,CODE_C56301,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
+$C5630B,.3,CODE_C5630B,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
+$C5630D,.4,CODE_C5630D,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
+$C5637A,.loop,CODE_C5637A,new,"branch target only used in ShowPeriodStats",src/bankC5_6000.asm
+$C5637D,.loop2,CODE_C5637D,new,"branch target only used in ShowPeriodStats",src/bankC5_6000.asm
+$C563C8,.1,CODE_C563C8,new,"branch target only used in ShowPeriodStats",src/bankC5_6000.asm
+$C563E0,.loop,CODE_C563E0,new,"branch target only used in DrawPeriodStats",src/bankC5_6000.asm
+$C563F8,.1,CODE_C563F8,new,"branch target only used in DrawPeriodStats",src/bankC5_6000.asm
+$C5641C,.2,CODE_C5641C,new,"branch target only used in DrawPeriodStats",src/bankC5_6000.asm
 $C5645B,.loop,CODE_C5645B,new,"branch target only used in CODE_C56453",src/bankC5_6000.asm
 $C56488,.1,CODE_C56488,new,"branch target only used in CODE_C56453",src/bankC5_6000.asm
-$C564C4,.1,CODE_C564C4,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C564FE,.2,CODE_C564FE,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C5650B,.3,CODE_C5650B,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C5651C,.4,CODE_C5651C,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C56528,.5,CODE_C56528,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C5653E,.loop,CODE_C5653E,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C56541,.loop2,CODE_C56541,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C56575,.6,CODE_C56575,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C5657F,.7,CODE_C5657F,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C56589,.8,CODE_C56589,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C5659F,.9,CODE_C5659F,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C565AF,.10,CODE_C565AF,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C565BF,.11,CODE_C565BF,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C565CB,.12,CODE_C565CB,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C565E3,.13,CODE_C565E3,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C56603,.14,CODE_C56603,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
-$C56607,.15,CODE_C56607,new,"branch target only used in CODE_C5649F",src/bankC5_6000.asm
+$C564C4,.1,CODE_C564C4,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C564FE,.2,CODE_C564FE,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C5650B,.3,CODE_C5650B,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C5651C,.4,CODE_C5651C,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C56528,.5,CODE_C56528,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C5653E,.loop,CODE_C5653E,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C56541,.loop2,CODE_C56541,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C56575,.6,CODE_C56575,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C5657F,.7,CODE_C5657F,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C56589,.8,CODE_C56589,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C5659F,.9,CODE_C5659F,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C565AF,.10,CODE_C565AF,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C565BF,.11,CODE_C565BF,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C565CB,.12,CODE_C565CB,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C565E3,.13,CODE_C565E3,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C56603,.14,CODE_C56603,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
+$C56607,.15,CODE_C56607,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
 $C5664A,.1,CODE_C5664A,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
 $C56660,.loop,CODE_C56660,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
 $C5666B,.loop2,CODE_C5666B,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
@@ -5934,31 +5934,31 @@ $C56870,.1,CODE_C56870,new,"branch target only used in CODE_C5683C",src/bankC5_6
 $C56873,.2,CODE_C56873,new,"branch target only used in CODE_C5683C",src/bankC5_6000.asm
 $C568B3,.1,CODE_C568B3,new,"branch target only used in CODE_C56880",src/bankC5_6000.asm
 $C56928,.1,CODE_C56928,new,"branch target only used in CODE_C5691F",src/bankC5_6000.asm
-$C56A00,.1,CODE_C56A00,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A0F,.2,CODE_C56A0F,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A16,.loop,CODE_C56A16,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A19,.loop2,CODE_C56A19,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A2B,.3,CODE_C56A2B,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A5C,.4,CODE_C56A5C,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A66,.5,CODE_C56A66,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
-$C56A68,.6,CODE_C56A68,new,"branch target only used in CODE_C56993",src/bankC5_6000.asm
+$C56A00,.1,CODE_C56A00,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A0F,.2,CODE_C56A0F,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A16,.loop,CODE_C56A16,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A19,.loop2,CODE_C56A19,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A2B,.3,CODE_C56A2B,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A5C,.4,CODE_C56A5C,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A66,.5,CODE_C56A66,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
+$C56A68,.6,CODE_C56A68,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
 $C56A93,.1,CODE_C56A93,new,"branch target only used in CODE_C56A77",src/bankC5_6000.asm
 $C56ABB,.2,CODE_C56ABB,new,"branch target only used in CODE_C56A77",src/bankC5_6000.asm
 $C56B16,.3,CODE_C56B16,new,"branch target only used in CODE_C56A77",src/bankC5_6000.asm
 $C56B19,.4,CODE_C56B19,new,"branch target only used in CODE_C56A77",src/bankC5_6000.asm
-$C56BCE,.1,CODE_C56BCE,new,"branch target only used in CODE_C56B90",src/bankC5_6000.asm
-$C56BE5,.loop,CODE_C56BE5,new,"branch target only used in CODE_C56B90",src/bankC5_6000.asm
-$C56BEE,.loop2,CODE_C56BEE,new,"branch target only used in CODE_C56B90",src/bankC5_6000.asm
-$C56BF8,.2,CODE_C56BF8,new,"branch target only used in CODE_C56B90",src/bankC5_6000.asm
+$C56BCE,.1,CODE_C56BCE,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
+$C56BE5,.loop,CODE_C56BE5,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
+$C56BEE,.loop2,CODE_C56BEE,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
+$C56BF8,.2,CODE_C56BF8,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
 $C56C57,.loop,CODE_C56C57,new,"branch target only used in CODE_C56C4C",src/bankC5_6000.asm
-$C56CCF,.1,CODE_C56CCF,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56CDB,.2,CODE_C56CDB,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56CE2,.loop,CODE_C56CE2,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56CE5,.loop2,CODE_C56CE5,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56CF7,.3,CODE_C56CF7,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56D28,.4,CODE_C56D28,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56D32,.5,CODE_C56D32,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
-$C56D34,.6,CODE_C56D34,new,"branch target only used in CODE_C56C6A",src/bankC5_6000.asm
+$C56CCF,.1,CODE_C56CCF,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56CDB,.2,CODE_C56CDB,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56CE2,.loop,CODE_C56CE2,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56CE5,.loop2,CODE_C56CE5,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56CF7,.3,CODE_C56CF7,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56D28,.4,CODE_C56D28,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56D32,.5,CODE_C56D32,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
+$C56D34,.6,CODE_C56D34,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
 $C56D62,.1,CODE_C56D62,new,"branch target only used in CODE_C56D3F",src/bankC5_6000.asm
 $C56D65,.2,CODE_C56D65,new,"branch target only used in CODE_C56D3F",src/bankC5_6000.asm
 $C56D7D,.3,CODE_C56D7D,new,"branch target only used in CODE_C56D3F",src/bankC5_6000.asm
@@ -5967,18 +5967,18 @@ $C56D9F,.5,CODE_C56D9F,new,"branch target only used in CODE_C56D3F",src/bankC5_6
 $C56DA1,.6,CODE_C56DA1,new,"branch target only used in CODE_C56D3F",src/bankC5_6000.asm
 $C56E3D,.7,CODE_C56E3D,new,"branch target only used in CODE_C56D3F",src/bankC5_6000.asm
 $C56E4F,.8,CODE_C56E4F,new,"branch target only used in CODE_C56D3F",src/bankC5_6000.asm
-$C56E94,.1,CODE_C56E94,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56EB1,.loop,CODE_C56EB1,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56EB4,.loop2,CODE_C56EB4,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56EF4,.2,CODE_C56EF4,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56EF9,.3,CODE_C56EF9,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56EFD,.4,CODE_C56EFD,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56F0A,.5,CODE_C56F0A,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56F1A,.6,CODE_C56F1A,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56F32,.7,CODE_C56F32,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56F4D,.8,CODE_C56F4D,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56F50,.9,CODE_C56F50,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
-$C56F59,.10,CODE_C56F59,new,"branch target only used in CODE_C56E6A",src/bankC5_6000.asm
+$C56E94,.1,CODE_C56E94,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56EB1,.loop,CODE_C56EB1,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56EB4,.loop2,CODE_C56EB4,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56EF4,.2,CODE_C56EF4,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56EF9,.3,CODE_C56EF9,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56EFD,.4,CODE_C56EFD,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56F0A,.5,CODE_C56F0A,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56F1A,.6,CODE_C56F1A,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56F32,.7,CODE_C56F32,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56F4D,.8,CODE_C56F4D,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56F50,.9,CODE_C56F50,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
+$C56F59,.10,CODE_C56F59,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
 $C56F91,.1,CODE_C56F91,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
 $C56F98,.2,CODE_C56F98,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
 $C56FBD,.3,CODE_C56FBD,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
@@ -6017,24 +6017,24 @@ $C572F6,.19,CODE_C572F6,new,"branch target only used in CODE_C571CB",src/bankC5_
 $C57302,.20,CODE_C57302,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
 $C57307,.21,CODE_C57307,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
 $C57358,.1,CODE_C57358,new,"branch target only used in CODE_C57329",src/bankC5_7000.asm
-$C573A0,.1,CODE_C573A0,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573A2,.2,CODE_C573A2,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573B8,.3,CODE_C573B8,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573CF,.4,CODE_C573CF,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573D3,.5,CODE_C573D3,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573D6,.6,CODE_C573D6,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573DD,.loop,CODE_C573DD,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C573E0,.loop2,CODE_C573E0,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C57411,.7,CODE_C57411,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C5741D,.8,CODE_C5741D,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C57429,.9,CODE_C57429,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C5744A,.10,CODE_C5744A,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C57458,.11,CODE_C57458,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C57466,.12,CODE_C57466,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C5746B,.loop3,CODE_C5746B,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C57493,.13,CODE_C57493,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C5749E,.14,CODE_C5749E,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
-$C574A1,.15,CODE_C574A1,new,"branch target only used in CODE_C57361",src/bankC5_7000.asm
+$C573A0,.1,CODE_C573A0,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573A2,.2,CODE_C573A2,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573B8,.3,CODE_C573B8,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573CF,.4,CODE_C573CF,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573D3,.5,CODE_C573D3,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573D6,.6,CODE_C573D6,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573DD,.loop,CODE_C573DD,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C573E0,.loop2,CODE_C573E0,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C57411,.7,CODE_C57411,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C5741D,.8,CODE_C5741D,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C57429,.9,CODE_C57429,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C5744A,.10,CODE_C5744A,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C57458,.11,CODE_C57458,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C57466,.12,CODE_C57466,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C5746B,.loop3,CODE_C5746B,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C57493,.13,CODE_C57493,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C5749E,.14,CODE_C5749E,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
+$C574A1,.15,CODE_C574A1,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
 $C574B8,.1,CODE_C574B8,new,"branch target only used in CODE_C574A4",src/bankC5_7000.asm
 $C574C2,.2,CODE_C574C2,new,"branch target only used in CODE_C574A4",src/bankC5_7000.asm
 $C574D7,.loop,CODE_C574D7,new,"branch target only used in CODE_C574A4",src/bankC5_7000.asm
@@ -6085,18 +6085,18 @@ $C5798B,.7,CODE_C5798B,new,"branch target only used in CODE_C578B0",src/bankC5_7
 $C57994,.8,CODE_C57994,new,"branch target only used in CODE_C578B0",src/bankC5_7000.asm
 $C57A05,.1,CODE_C57A05,new,"branch target only used in CODE_C579F4",src/bankC5_7000.asm
 $C57A62,.1,CODE_C57A62,new,"branch target only used in CODE_C57A4D",src/bankC5_7000.asm
-$C57AD2,.1,CODE_C57AD2,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57AD6,.2,CODE_C57AD6,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57AF6,.3,CODE_C57AF6,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57AFF,.loop,CODE_C57AFF,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B06,.4,CODE_C57B06,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B1D,.5,CODE_C57B1D,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B21,.6,CODE_C57B21,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B36,.loop2,CODE_C57B36,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B75,.7,CODE_C57B75,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B7D,.8,CODE_C57B7D,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B7F,.9,CODE_C57B7F,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
-$C57B87,.10,CODE_C57B87,new,"branch target only used in CODE_C57A7D",src/bankC5_7000.asm
+$C57AD2,.1,CODE_C57AD2,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57AD6,.2,CODE_C57AD6,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57AF6,.3,CODE_C57AF6,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57AFF,.loop,CODE_C57AFF,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B06,.4,CODE_C57B06,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B1D,.5,CODE_C57B1D,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B21,.6,CODE_C57B21,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B36,.loop2,CODE_C57B36,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B75,.7,CODE_C57B75,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B7D,.8,CODE_C57B7D,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B7F,.9,CODE_C57B7F,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
+$C57B87,.10,CODE_C57B87,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
 $C57BA5,.loop,CODE_C57BA5,new,"branch target only used in CODE_C57B8A",src/bankC5_7000.asm
 $C57BB1,.1,CODE_C57BB1,new,"branch target only used in CODE_C57B8A",src/bankC5_7000.asm
 $C57BB9,.2,CODE_C57BB9,new,"branch target only used in CODE_C57B8A",src/bankC5_7000.asm
@@ -7086,3 +7086,16 @@ $C4DED9,ScanNorris,CODE_C4DED9,genesis+code,"AwardScanTbl entry 6 (James Norris 
 $C4DF20,ScanPresidents,CODE_C4DF20,genesis+code,"AwardScanTbl entry 7 (Presidents Trophy, Best regular season record); the 26 teams' records from CODE_C5B97F",src/bankC4_D000.asm
 $C4DAAD,DrawAwardWinner,CODE_C4DAAD,code,"the team from CODE_C5B5EA, the team name (DATA8_C3585C), the photo ($0480 bytes, 48 x 48 4bpp, unpacked by CODE_C4EC88) or the logo sprite, the name from the roster; SeasonAwards for awards 0-6",src/bankC4_D000.asm
 $C4DBCC,DrawPresidentsWinner,CODE_C4DBCC,code,"team A's name (DATA8_C3585C) and logo sprite; SeasonAwards for award 7",src/bankC4_D000.asm
+$C56C6A,ShowScoringSummary,CODE_C56C6A,94S+purpose,"same job as 94S ShowScoringSummary (the scoring summary screen of the pause menu); the item Score Summry of the pause menu's first tab (jump table DATA8_C5501C, item list $C35CCB)",src/bankC5_6000.asm
+$C56993,ShowPenaltySummary,CODE_C56993,94S+purpose,"same job as 94S ShowPenaltySummary; the item Penalties of the pause menu's first tab (DATA8_C5501C)",src/bankC5_6000.asm
+$C56293,ShowGameStats,CODE_C56293,94S+purpose,"same job as 94S ShowGameStats; the item Game Stats of the pause menu's second tab (DATA8_C55026, item list $C35CEF)",src/bankC5_6000.asm
+$C56368,ShowPeriodStats,CODE_C56368,94S+purpose,"same job as 94S ShowPeriodStats; the item Period Stats of the pause menu's second tab (DATA8_C55026)",src/bankC5_6000.asm
+$C563D0,DrawPeriodStats,CODE_C563D0,94S+purpose,"same job as 94S DrawPeriodStats (goals or shots for each period and the total); ShowPeriodStats calls it again when B switches",src/bankC5_6000.asm
+$C5649F,ShowPlayerStats,CODE_C5649F,94S+purpose,"same job as 94S ShowPlayerStats (player stats for the team in a2, sorted by a column); the item Player Stats of the pause menu's second tab (DATA8_C55026)",src/bankC5_6000.asm
+$C57A7D,ShowOtherScores,CODE_C57A7D,94S+purpose,"same job as 94S ShowOtherScores; the item Other Scores of the pause menu's first tab (DATA8_C5501C); CODE_C5AF07 also calls it",src/bankC5_7000.asm
+$C56E6A,TeamRoster,CODE_C56E6A,94S+purpose,"same job as 94S TeamRoster (PauseTeamRoster: the roster screen of a team); the item Team Roster of the pause menu's first tab (DATA8_C5501C)",src/bankC5_6000.asm
+$C57361,EditLinesScreen,CODE_C57361,94S+purpose,"same job as 94S EditLinesScreen (PauseEditLines: change the lines on the ice); the item Edit Lines of the pause menu's options tab (DATA8_C5502C, item list $C35D07)",src/bankC5_7000.asm
+$C56E55,PauseGoalieMode,CODE_C56E55,94S+purpose,"same job as 94S PauseGoalieMode (GetPadTeam, then the team's goaliemode1 word switched); the fourth item of the options tab (DATA8_C5502C), whose text the mode picks",src/bankC5_6000.asm
+$C56B90,PauseTimeout,CODE_C56B90,94S+purpose,"same job as 94S PauseTimeout (a timeout of the pausing team: count down, reenergizeteam, the message); the fifth item of the options tab (DATA8_C5502C); with none left it goes to CODE_C56B80",src/bankC5_6000.asm
+$C53ABC,GetPadTeam,CODE_C53ABC,94S+purpose,"same job as 94S GetPadTeam (a2 = 0 or 2 from the pause pad and cont1team); the pause menu items call it first",src/bankC5_3000.asm
+$C54AEF,reenergizeteam,CODE_C54AEF,94S+code,"the same loop as 94S reenergizeteam (tmpde = $1000; the tmpdst check $FFFD then $FFFC never passes, in 94S too); counts with X where 94S counts with d0; PauseTimeout calls it",src/bankC5_4000.asm

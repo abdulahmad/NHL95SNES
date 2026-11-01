@@ -1331,7 +1331,8 @@ CODE_C53A90:						; from CODE_C539D7
 	txa
 	ldx.w #$007E
 	rts
-CODE_C53ABC:						; called from other segments
+GetPadTeam:							; a2 = the team of the pad that paused (0 home, 2 visitors), from its
+									; entry in cont1team
 	stz.b a2
 	ldx.w $0591
 	bpl .1

@@ -584,7 +584,7 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	sta.b d0
 .6:									; go to AddPenalty2
 	jml.l AddPenalty2
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	lda.w #$0001
 	sta.b d0
 	lda.b a2

@@ -513,11 +513,12 @@ CODE_C57329:						; called from other segments
 	sta.b $A2
 	pla
 	jmp.w $4EF1
-CODE_C57361:						; called from other segments
+EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / right changes
+									; the line); start returns
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	ldy.w #$2801
 	ldx.w #$5135
 	jsl.l CODE_C387D8
@@ -659,7 +660,7 @@ CODE_C57361:						; called from other segments
 	jmp.w .loop
 .15:								; go to CODE_C55A09
 	jmp.w CODE_C55A09
-CODE_C574A4:						; from CODE_C57361
+CODE_C574A4:						; from EditLinesScreen
 	lda.w #$0020
 	sta.b $CF
 	lda.w #$00A8
@@ -754,7 +755,7 @@ CODE_C57509:						; from CODE_C574A4
 	ldy.b $6D
 	jsl.l CODE_C4BC08
 	rts
-CODE_C5755C:						; from CODE_C57361, CODE_C57779
+CODE_C5755C:						; from EditLinesScreen, CODE_C57779
 	xba
 	lsr a
 	lsr a
@@ -773,7 +774,7 @@ CODE_C5755C:						; from CODE_C57361, CODE_C57779
 	dey
 	bne .loop
 	rts
-CODE_C57578:						; from CODE_C57361
+CODE_C57578:						; from EditLinesScreen
 	pei ($7B)
 	pei ($65)
 	pei ($79)
@@ -1178,7 +1179,7 @@ CODE_C578B0:						; called from other segments
 	jsr.w CODE_C55951
 	lda.w #$5395
 	jsl.l CODE_C4BB5A
-	jsl.l CODE_C53ABC
+	jsl.l GetPadTeam
 	ldy.w #$2801
 	ldx.w #$5135
 	jsl.l CODE_C387D8
@@ -1382,7 +1383,8 @@ CODE_C57A4D:						; from CODE_C579F4
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C57A7D:						; called from other segments
+ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A draws each row);
+									; from the pause menu, and from CODE_C5AF07 with X: EXIT MENU
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
