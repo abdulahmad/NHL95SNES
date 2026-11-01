@@ -1013,7 +1013,7 @@ DATA8_C598FA:						; not reached by the traced code (data or unused code)
 	db $76,$77,$78,$79,$7A,$3D
 ModifyRatings:						; Create Player screen state 4: the goalie or skater ratings (up / down
 									; pick, left / right change); start stores the player in save RAM
-									; (CODE_C59B36), X cancels
+									; (SaveCreatedPlayer), X cancels
 	jsr.w CODE_C59938
 	jsl.l SendTextMap
 	rts
@@ -1109,7 +1109,7 @@ CODE_C59998:						; from CODE_C59938
 	bne CODE_C59A4B
 	bit.w #$1000
 	beq .rts
-	jmp.w CODE_C59B36
+	jmp.w SaveCreatedPlayer
 .rts:								; return
 	rts
 CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
@@ -1267,9 +1267,9 @@ CODE_C59ADD:						; from CODE_C59938
 	bit.w #$0100
 	beq .4
 	jmp.w CODE_C59A4B
-.4:									; if a $1000 bit set go to CODE_C59B36, return
+.4:									; if a $1000 bit set go to SaveCreatedPlayer, return
 	bit.w #$1000
-	bne CODE_C59B36
+	bne SaveCreatedPlayer
 	rts
 .5:									; A = $0008, call CODE_C59978, d6 - 1, if the result >= 0 go to .rts, ...
 	lda.w #$0008
@@ -1288,12 +1288,14 @@ CODE_C59ADD:						; from CODE_C59938
 	bcs .rts
 	sta.b d6
 	rts
-CODE_C59B36:						; from CODE_C59998, CODE_C59ADD
+SaveCreatedPlayer:					; saves the created player in the first free one of 20 save RAM slots ($9C
+									; bits each, free when the first letter is 0): its entry at $306A56, both
+									; names at 5 bits a letter, the ratings, then GameSetUp
 	lda.w #$026A
 	sta.b $A5
 	ldy.w #$0003
-.loop:								; loop: call CODE_C59D96, if A = $0000 go to .1, $A5 + 1, A = Y, ...
-	jsr.w CODE_C59D96
+.loop:								; loop: call ReadSaveBits5, if A = $0000 go to .1, $A5 + 1, A = Y, ...
+	jsr.w ReadSaveBits5
 	cmp.w #$0000
 	beq .1
 	inc.b $A5
@@ -1349,7 +1351,7 @@ CODE_C59B36:						; from CODE_C59998, CODE_C59ADD
 	ldy.b tmp1
 	lda.b d0
 	sta.b tmp2
-	jsr.w CODE_C59D4B
+	jsr.w WriteSaveBits3
 	ldx.w #$0000
 .loop2:								; loop: A = $4673,x, if the result = 0 go to .5, ...
 	lda.w $4673,x
@@ -1358,19 +1360,19 @@ CODE_C59B36:						; from CODE_C59998, CODE_C59ADD
 	cmp.w #$003D
 	bne .4
 	lda.w #$001D
-.4:									; push X, tmp2 = A, call CODE_C59D45, pull X, ...
+.4:									; push X, tmp2 = A, call WriteSaveBits5, pull X, ...
 	phx
 	sta.b tmp2
-	jsr.w CODE_C59D45
+	jsr.w WriteSaveBits5
 	plx
 	inx
 	cpx.w #$0008
 	bcc .loop2
-.5:									; if X >= $0008 go to .6, tmp2 = 0, call CODE_C59D45
+.5:									; if X >= $0008 go to .6, tmp2 = 0, call WriteSaveBits5
 	cpx.w #$0008
 	bcs .6
 	stz.b tmp2
-	jsr.w CODE_C59D45
+	jsr.w WriteSaveBits5
 .6:									; A = tmp1, A + $002B, Y = A, X = $0000
 	clc
 	lda.b tmp1
@@ -1384,19 +1386,19 @@ CODE_C59B36:						; from CODE_C59998, CODE_C59ADD
 	cmp.w #$003D
 	bne .7
 	lda.w #$001D
-.7:									; push X, tmp2 = A, call CODE_C59D45, pull X, ...
+.7:									; push X, tmp2 = A, call WriteSaveBits5, pull X, ...
 	phx
 	sta.b tmp2
-	jsr.w CODE_C59D45
+	jsr.w WriteSaveBits5
 	plx
 	inx
 	cpx.w #$000A
 	bcc .loop3
-.8:									; if X >= $000A go to .9, tmp2 = 0, call CODE_C59D45
+.8:									; if X >= $000A go to .9, tmp2 = 0, call WriteSaveBits5
 	cpx.w #$000A
 	bcs .9
 	stz.b tmp2
-	jsr.w CODE_C59D45
+	jsr.w WriteSaveBits5
 .9:									; A = tmp1, A + $005D, Y = A, tmp2 = d1, ...
 	clc
 	lda.b tmp1
@@ -1404,136 +1406,137 @@ CODE_C59B36:						; from CODE_C59998, CODE_C59ADD
 	tay
 	lda.b d1
 	sta.b tmp2
-	jsr.w CODE_C59D3F
+	jsr.w WriteSaveBits7
 	lda.b d0
 	bne .10
 	jmp.w .11
-.10:								; A = $0529, call CODE_C5A07A, tmp2 = A, call CODE_C59D48, ...
+.10:								; A = $0529, call CODE_C5A07A, tmp2 = A, call WriteSaveBits4, ...
 	lda.w $0529
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.b $81
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $052D
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0527
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0533
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $052F
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.b $85
 	sta.b tmp2
-	jsr.w CODE_C59D51
+	jsr.w WriteSaveBit
 	lda.w $053D
 	jsr.w CODE_C5A07A
 	lsr a
 	sta.b tmp2
-	jsr.w CODE_C59D4B
+	jsr.w WriteSaveBits3
 	lda.w $053B
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0535
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0531
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.b $26
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $052B
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0539
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0537
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.b $A5
 	jsr.w CODE_C5E447
 	jmp.w CODE_C59D39
-.11:								; A = $0529, call CODE_C5A07A, tmp2 = A, call CODE_C59D48, ...
+.11:								; A = $0529, call CODE_C5A07A, tmp2 = A, call WriteSaveBits4, ...
 	lda.w $0529
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.b $81
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	stz.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0527
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $052D
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $052B
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.b $85
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	stz.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	stz.b tmp2
-	jsr.w CODE_C59D48
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
+	jsr.w WriteSaveBits4
 	lda.w $052F
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0531
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0533
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
+	jsr.w WriteSaveBits4
 	lda.w $0535
 	jsr.w CODE_C5A07A
 	sta.b tmp2
-	jsr.w CODE_C59D48
-CODE_C59D39:						; from CODE_C59998, CODE_C59ADD, CODE_C59B36
+	jsr.w WriteSaveBits4
+CODE_C59D39:						; from CODE_C59998, CODE_C59ADD, SaveCreatedPlayer
 	pla
 CODE_C59D3A:						; from CODE_C59DBE
 	pla
 CODE_C59D3B:						; from NameEntry
 	pla
 	jmp.w GameSetUp
-CODE_C59D3F:						; from CODE_C59B36
-	jsr.w CODE_C59D51
-	jsr.w CODE_C59D51
-CODE_C59D45:						; from CODE_C59B36
-	jsr.w CODE_C59D51
-CODE_C59D48:						; from CODE_C59B36
-	jsr.w CODE_C59D51
-CODE_C59D4B:						; from CODE_C59B36
-	jsr.w CODE_C59D51
-	jsr.w CODE_C59D51
-CODE_C59D51:						; from CODE_C59D4B, CODE_C59D45, CODE_C59D48, CODE_C59D3F, ...
+WriteSaveBits7:						; writes the low 7 bits of tmp2 from bit Y on (WriteSaveBit seven times)
+	jsr.w WriteSaveBit
+	jsr.w WriteSaveBit
+WriteSaveBits5:						; writes the low 5 bits of tmp2 from bit Y on (WriteSaveBit five times)
+	jsr.w WriteSaveBit
+WriteSaveBits4:						; writes the low 4 bits of tmp2 from bit Y on (WriteSaveBit four times)
+	jsr.w WriteSaveBit
+WriteSaveBits3:						; writes the low 3 bits of tmp2 from bit Y on (WriteSaveBit three times)
+	jsr.w WriteSaveBit
+	jsr.w WriteSaveBit
+WriteSaveBit:						; writes bit 0 of tmp2 to bit Y of the save RAM bit array at $307162
+									; (masks DATA8_C4C4A6); tmp2 / 2, Y + 1
 	lsr.b tmp2
 	bcs .1
 	tya
@@ -1570,7 +1573,7 @@ CODE_C59D51:						; from CODE_C59D4B, CODE_C59D45, CODE_C59D48, CODE_C59D3F, ...
 	sta.l $307162,x
 	iny
 	rts
-CODE_C59D96:						; from CODE_C59B36
+ReadSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $307162
 	tya
 	lsr a
 	lsr a

@@ -6308,22 +6308,22 @@ $C59B12,.4,CODE_C59B12,new,"branch target only used in CODE_C59ADD",src/bankC5_9
 $C59B18,.5,CODE_C59B18,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
 $C59B24,.rts,CODE_C59B24,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
 $C59B25,.6,CODE_C59B25,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59B3E,.loop,CODE_C59B3E,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59B56,.1,CODE_C59B56,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59B96,.2,CODE_C59B96,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BA0,.3,CODE_C59BA0,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BB2,.loop2,CODE_C59BB2,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BC2,.4,CODE_C59BC2,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BCF,.5,CODE_C59BCF,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BD9,.6,CODE_C59BD9,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BE3,.loop3,CODE_C59BE3,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59BF3,.7,CODE_C59BF3,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59C00,.8,CODE_C59C00,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59C0A,.9,CODE_C59C0A,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59C1F,.10,CODE_C59C1F,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59CC1,.11,CODE_C59CC1,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
-$C59D77,.1,CODE_C59D77,new,"branch target only used in CODE_C59D51",src/bankC5_9000.asm
-$C59DA5,.loop,CODE_C59DA5,new,"branch target only used in CODE_C59D96",src/bankC5_9000.asm
+$C59B3E,.loop,CODE_C59B3E,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59B56,.1,CODE_C59B56,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59B96,.2,CODE_C59B96,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BA0,.3,CODE_C59BA0,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BB2,.loop2,CODE_C59BB2,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BC2,.4,CODE_C59BC2,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BCF,.5,CODE_C59BCF,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BD9,.6,CODE_C59BD9,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BE3,.loop3,CODE_C59BE3,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59BF3,.7,CODE_C59BF3,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59C00,.8,CODE_C59C00,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59C0A,.9,CODE_C59C0A,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59C1F,.10,CODE_C59C1F,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59CC1,.11,CODE_C59CC1,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
+$C59D77,.1,CODE_C59D77,new,"branch target only used in WriteSaveBit",src/bankC5_9000.asm
+$C59DA5,.loop,CODE_C59DA5,new,"branch target only used in ReadSaveBits5",src/bankC5_9000.asm
 $C59DBB,.1,CODE_C59DBB,new,"branch target only used in EditPlayerInfo",src/bankC5_9000.asm
 $C59DCE,.1,CODE_C59DCE,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
 $C59DE8,.2,CODE_C59DE8,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
@@ -7669,3 +7669,10 @@ $18C8,sopathnext,,94S+code,"RAM: 2 votes; d0 against it takes the next point, ne
 $18CA,sopathpoint,,94S+code,"RAM: 1 vote; cleared at the start, incremented by the next-point step as in 94S",src/ram95s.asm
 $18CC,sopathside,,94S+code,"RAM: 1 vote; its sign picks the shot direction as in 94S",src/ram95s.asm
 $18CE,sopathface,,94S+code,"RAM: 2 votes; stored with the next point, the shot comes when facedir moves away from it as in 94S",src/ram95s.asm
+$C59D51,WriteSaveBit,CODE_C59D51,code,"from the code: lsr tmp2, then the mask of bit Y and 7 cleared or set in byte Y / 8 of $307162, Y + 1",src/bankC5_9000.asm
+$C59D4B,WriteSaveBits3,CODE_C59D4B,code,"from the code: two calls of WriteSaveBit, then falls into it",src/bankC5_9000.asm
+$C59D48,WriteSaveBits4,CODE_C59D48,code,"from the code: one call, then falls into WriteSaveBits3",src/bankC5_9000.asm
+$C59D45,WriteSaveBits5,CODE_C59D45,code,"from the code: one call, then falls into WriteSaveBits4",src/bankC5_9000.asm
+$C59D3F,WriteSaveBits7,CODE_C59D3F,code,"from the code: two calls, then falls into WriteSaveBits5",src/bankC5_9000.asm
+$C59D96,ReadSaveBits5,CODE_C59D96,code,"from the code: byte Y / 8 shifted right by Y and 7, the low 5 bits",src/bankC5_9000.asm
+$C59B36,SaveCreatedPlayer,CODE_C59B36,code,"from the code: the slot search with ReadSaveBits5, the list entry, the names from the two entry buffers, the ratings through WriteSaveBits4; ModifyRatings' start goes here",src/bankC5_9000.asm
