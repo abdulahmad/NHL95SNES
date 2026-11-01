@@ -155,9 +155,10 @@
   CODE_C4BB5A prints (a descriptor: margins, title, lines) with the routine that passes each: the screens' titles.
 - The front end is a state machine: a screen's entry draws its page, sets the state $99 and returns; CODE_C59651 runs
   the handler of the state from DATA8_C5967A each frame. The setup screen's start runs DATA8_C58DD0 by play mode
-  ($1864: Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player). Not named yet: the pause screen
-  CODE_C54E6D (94S splits it into Pausemode / Pausemode_menu), the task system (CODE_C4B743 / CODE_C4B763 start a
-  task, CODE_C4B7D4 runs them), the print variants around CODE_C4BBE5 and the game screens of bank $C4.
+  ($1864: Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player). The start-up screens run a task list
+  (StartTasks, AddTask, RunTasks through jmlvector, RemoveTask). The pause: Pausemode (game loop) and Intermission
+  call Pausemode_menu, as in 94S. Not named yet: the print variants around CODE_C4BBE5, the sprite and frame routines
+  of bank $C5 (CODE_C5F368 ...), the game screens of bank $C4.
 
 ## Setup notes
 
