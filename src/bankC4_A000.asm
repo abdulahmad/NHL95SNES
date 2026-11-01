@@ -7,12 +7,12 @@ CODE_C49FBD:						; called from other segments
 	lda.w #$0010
 	clc
 	adc.w $0F00,x
-	jsl.l $C37EAA
+	jsl.l CODE_C37EAA
 	cmp.w #$0009
 	bcs CODE_C4A00B
 CODE_C49FD2:						; from CODE_C49FBD
 	lda.w #$0006
-	jsl.l $C37EAA
+	jsl.l CODE_C37EAA
 	sta.b $7F
 	cpx.w #$000C
 	bcc CODE_C49FE6
@@ -287,7 +287,7 @@ CODE_C4A20F:						; from CODE_C4A1F2, CODE_C4A203
 	sta.b $7F
 	lda.w $09DC
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	ldy.w #$144E
 	lda.w $0A20,x
 	beq CODE_C4A231
@@ -456,7 +456,7 @@ CODE_C4A373:						; from CODE_C4A2A3
 	lda.w #$0010
 	sec
 	sbc.w $0EC0,x
-	jsl.l $C37EC8
+	jsl.l CODE_C37EC8
 	clc
 	adc.b $93
 	sta.b $93
@@ -654,7 +654,7 @@ CODE_C4A52A:						; from CODE_C4A523 and other segments
 	lda.l DATA8_C4A5FD,x
 	clc
 	adc.b $8F
-	jsl.l $C37EC8
+	jsl.l CODE_C37EC8
 	clc
 	adc.l DATA8_C4A62D,x
 	sec
@@ -663,7 +663,7 @@ CODE_C4A52A:						; from CODE_C4A523 and other segments
 	lda.l DATA8_C4A615,x
 	clc
 	adc.b $8F
-	jsl.l $C37EC8
+	jsl.l CODE_C37EC8
 	clc
 	adc.l DATA8_C4A645,x
 	sec
@@ -723,7 +723,7 @@ CODE_C4A599:						; from CODE_C4A58F, CODE_C4A591
 	lda.w #$03C0
 	sec
 	sbc.b $8F
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	clc
 	adc.w #$10E0
 	sta.w $08DE
@@ -904,7 +904,7 @@ CODE_C4A79B:						; from CODE_C4A78D
 	sec
 	sbc.b $83
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	ldy.b $6B
 	lda.b $7F
 	sec
@@ -1086,7 +1086,7 @@ CODE_C4A922:						; from CODE_C4A88F, CODE_C4A896
 	xba
 	and.w #$FF00
 	asl a
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	adc.w #$2000
 	sta.b $7F
 	cmp.w $09BC
@@ -1627,7 +1627,7 @@ CODE_C4AD47:						; from CODE_C4AD36
 	sbc.b $7F
 	clc
 	adc.w #$0024
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	cmp.w #$0003
 	bcs CODE_C4AD35
 CODE_C4AD97:						; from CODE_C4AD47

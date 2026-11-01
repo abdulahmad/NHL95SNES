@@ -177,7 +177,7 @@ CODE_C5D156:						; from CODE_C5D133, CODE_C5D145
 CODE_C5D160:						; from CODE_C5D160, CODE_C5D1B1, CODE_C5D1BF
 	inc.w TransfersReady
 	wai
-	jsl.l $C37065
+	jsl.l CODE_C37065
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -447,7 +447,7 @@ CODE_C5D36F:						; from CODE_C5D160
 CODE_C5D372:						; from CODE_C5D372, CODE_C5D42E
 	inc.w TransfersReady
 	wai
-	jsl.l $C37065
+	jsl.l CODE_C37065
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F

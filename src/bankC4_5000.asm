@@ -70,7 +70,7 @@ CODE_C44FA0:						; from CODE_C44F81, CODE_C44F92
 	sec
 	sbc.w $0896,y
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.w $0814,y
 	cmp.w #$007B
 	bpl CODE_C44FE4
@@ -278,7 +278,7 @@ CODE_C45147:						; from CODE_C45127, CODE_C4506C, CODE_C45265
 	bit.w #$4000
 	bne CODE_C45144
 	lda.w #$0190
-	jsl.l $C37EAA
+	jsl.l CODE_C37EAA
 	asl a
 	ldy.b $6B
 	sec
@@ -584,7 +584,7 @@ CODE_C45413:						; from CODE_C453FD
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.b $7F
 	sec
 	sbc.w $0C40,x
@@ -643,7 +643,7 @@ CODE_C45476:						; from CODE_C45413, CODE_C4546A
 	beq CODE_C454D4
 	bmi CODE_C454D4
 	sta.b $7F
-	jsl.l $C37EBF
+	jsl.l CODE_C37EBF
 	lda.b $7F
 	sec
 	sbc.w $0FA0,x
@@ -703,11 +703,11 @@ CODE_C45529:						; called from other segments
 	asl.b $7F
 CODE_C45539:						; from CODE_C45529
 	lda.b $7F
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	cmp.w #$0004
 	bcc CODE_C4554F
 	lda.b $7F
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	cmp.w #$0004
 	bcs CODE_C45580
 CODE_C4554F:						; from CODE_C45539
@@ -754,7 +754,7 @@ CODE_C45581:						; from CODE_C4555F, CODE_C45573
 	bmi CODE_C45578
 	cmp.w #$0022
 	bpl CODE_C45578
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.b $7F
 	cmp.w $0C40,x
 	bne CODE_C45578
@@ -837,7 +837,7 @@ CODE_C4563A:						; from CODE_C45687
 	lda.b $7F
 	jsl.l $C38778
 	sta.b $8F
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.b $7F
 	sec
 	sbc.w $0C40,x
@@ -895,7 +895,7 @@ CODE_C456B5:						; from CODE_C453E3
 	sec
 	sbc.w $0896,y
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	ldy.b $6B
 	lda.b $7F
 	sec
@@ -1287,7 +1287,7 @@ CODE_C459FD:						; from CODE_C459BA
 	sta.b $7F
 	bra CODE_C45A08
 CODE_C45A04:						; from CODE_C4599E, CODE_C459BA, CODE_C459F8
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 CODE_C45A08:						; from CODE_C459FD
 	lda.b $63
 	sta.w $1851
@@ -1309,7 +1309,7 @@ CODE_C45A08:						; from CODE_C459FD
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 CODE_C45A3E:						; from CODE_C45950, CODE_C45A08
 	lda.w $0B80,x
 	sta.b $7F
@@ -1340,7 +1340,7 @@ CODE_C45A71:						; from CODE_C45A47
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.b $7F
 	cmp.w #$0008
 	bpl CODE_C45A9E

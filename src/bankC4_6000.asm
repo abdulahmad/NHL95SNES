@@ -1293,7 +1293,7 @@ CODE_C469EB:						; from CODE_C469BE
 	lda.b $87
 	cmp.w #$0004
 	bne CODE_C46A50
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	inc a
 	and.w #$0007
 	cmp.w #$0003
@@ -1306,7 +1306,7 @@ CODE_C46A0A:						; from CODE_C469EB
 	and.w #$0007
 	cmp.w #$0003
 	bcs CODE_C46A50
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	inc a
 	inc a
 	and.w #$0007
@@ -1321,7 +1321,7 @@ CODE_C46A26:						; from CODE_C469EB
 	beq CODE_C46A4A
 	lda.w $09C0,x
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	sec
 	sbc.b $01,s
 	inc a
@@ -1454,7 +1454,7 @@ CODE_C46B4C:						; from CODE_C46B36
 	sta.b $7F
 	lda.w $09C0,x
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	bit.w #$0008
 	bne CODE_C46B77
 	sec

@@ -26,10 +26,10 @@ CODE_C5000A:						; from CODE_C5000A
 	jsl.l CODE_C4D193
 	jsl.l forceblack
 	jsl.l CODE_C36C2C
-	jsl.l $C370AC
+	jsl.l CODE_C370AC
 	jsl.l CODE_C36B83
 CODE_C5004E:						; called from other segments
-	jsl.l $C370AC
+	jsl.l CODE_C370AC
 	jsl.l FadeOutWait
 CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segments
 	rep #$30
@@ -158,7 +158,7 @@ CODE_C50176:						; from CODE_C5016D
 	jsl.l CODE_C54AEF
 	jsl.l CODE_C52227
 	jsl.l CODE_C53535
-	jsl.l $C3718D
+	jsl.l CODE_C3718D
 	lda.w #$FFFF
 	sta.w $0591
 	lda.w $17B5
@@ -350,7 +350,7 @@ CODE_C5033D:						; from CODE_C50308 and other segments
 	jsl.l CODE_C50364
 	jsl.l CODE_C50393
 	jsl.l CODE_C529D7
-	jsl.l $C371F9
+	jsl.l CODE_C371F9
 CODE_C50351:						; from CODE_C50351
 	lda.w TransfersReady
 	bne CODE_C50351
@@ -361,7 +361,7 @@ CODE_C50351:						; from CODE_C50351
 	jml.l CODE_C52295
 CODE_C50364:						; from CODE_C5033D and other segments
 	jsl.l CODE_C471F0
-	jsl.l $C371AB
+	jsl.l CODE_C371AB
 	jsl.l CODE_C51801
 	lda.w $07BC
 	sec
@@ -889,7 +889,7 @@ CODE_C5077D:						; from CODE_C50755
 	lda.w #$0005
 	trb.w $07B6
 CODE_C50798:						; from CODE_C50755, CODE_C50778, CODE_C5077D
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	sta.w $0624,x
 	dex
 	dex
@@ -1627,7 +1627,7 @@ CODE_C50E42:						; from CODE_C50E59
 	beq CODE_C50E59
 	txa
 	lsr a
-	jsl.l $C3704D
+	jsl.l CODE_C3704D
 	lda.b $8B
 	bit.w #$1000
 	beq CODE_C50E59
@@ -1647,7 +1647,7 @@ CODE_C50E62:						; from CODE_C50E26
 	ora.w $17BB
 	ora.w $17BD
 	bne CODE_C50E85
-	jsl.l $C3707D
+	jsl.l CODE_C3707D
 	lda.b $83
 	bit.w #$1000
 	beq CODE_C50E81

@@ -1755,7 +1755,7 @@ CODE_C54E27:						; called from other segments
 	ldx.w #$026F
 CODE_C54E2A:						; from CODE_C54E53
 	lda.w #$000E
-	jsl.l $C37EAA
+	jsl.l CODE_C37EAA
 	cmp.w #$000D
 	bcc CODE_C54E39
 	lda.w #$000C

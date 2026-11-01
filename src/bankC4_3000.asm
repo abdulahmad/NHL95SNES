@@ -420,7 +420,7 @@ CODE_C43465:						; from CODE_C43441
 	sec
 	sbc.w $08B2
 	sta.b $83
-	jml.l $C37F6D
+	jml.l CODE_C37F6D
 CODE_C4348D:						; from CODE_C4342A, CODE_C43441, CODE_C43465
 	rtl
 CODE_C4348E:						; called from other segments
@@ -664,7 +664,7 @@ CODE_C4366D:						; from CODE_C4365E
 	lda.b [$63],y
 	dey
 	dey
-	jsl.l $C37EC8
+	jsl.l CODE_C37EC8
 	adc.b [$63],y
 	sta.w $0B20,x
 	tya
@@ -674,7 +674,7 @@ CODE_C4366D:						; from CODE_C4365E
 	lda.b [$63],y
 	dey
 	dey
-	jsl.l $C37EC8
+	jsl.l CODE_C37EC8
 	adc.b [$63],y
 	sta.w $0B40,x
 CODE_C4369F:						; from CODE_C435E4, CODE_C4365E
@@ -1235,7 +1235,7 @@ CODE_C43B66:						; from CODE_C43B16
 	sta.b $83
 	stz.w $09A0,x
 	stz.w $09C0,x
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.b $7F
 	sta.w $0C40,x
 	lda.w $0D60,x

@@ -278,7 +278,7 @@ CODE_C51368:						; from CODE_C512B1
 	bpl CODE_C5135D
 	lda.b $83
 	sta.b $7F
-	jsl.l $C37EBF
+	jsl.l CODE_C37EBF
 CODE_C51374:						; from CODE_C51374
 	dec.b $67
 	dec.b $67
@@ -848,7 +848,7 @@ CODE_C517CA:						; from CODE_C517DB
 	lda.w $17B5,y
 	beq CODE_C517DB
 	txa
-	jsl.l $C3704D
+	jsl.l CODE_C3704D
 	lda.b $8B
 	bne CODE_C517FE
 CODE_C517DB:						; from CODE_C517CA
@@ -1276,7 +1276,7 @@ CODE_C51B89:						; from CODE_C51B75
 	bne CODE_C51BB6
 CODE_C51B9D:						; from CODE_C51B89
 	lda.w #$0005
-	jsl.l $C37EAA
+	jsl.l CODE_C37EAA
 	dec a
 	dec a
 	and.w #$0007

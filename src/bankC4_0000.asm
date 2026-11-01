@@ -862,7 +862,7 @@ CODE_C406EA:						; from CODE_C406AB
 	stz.w $058F
 	stz.w $058D
 CODE_C4073F:						; from CODE_C4073F
-	jsl.l $C3716D
+	jsl.l CODE_C3716D
 	jsl.l CODE_C36C2D
 	lda.w $058F
 	bne CODE_C4073F

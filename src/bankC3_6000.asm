@@ -360,7 +360,7 @@ CODE_C36CBF:						; called from other segments
 	lda.l DATA8_C36D2A,x
 	and.w #$00FF
 	sta.w $0577
-	jsr.w $6FF2
+	jsr.w CODE_C36FF2
 	lda.w $0579
 	ora.w $057B
 	ora.w $057D

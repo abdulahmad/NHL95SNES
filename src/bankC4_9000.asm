@@ -431,7 +431,7 @@ CODE_C49638:						; from CODE_C49620
 	lsr.b $8F
 	lsr.b $8F
 	lsr.b $8F
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	sta.b $93
 	lda.w #$0005
 	sta.b $8B
@@ -465,7 +465,7 @@ CODE_C496BC:						; from CODE_C49697, CODE_C496B0
 	bpl CODE_C49697
 CODE_C496C2:						; from CODE_C49638, CODE_C496AE
 	lda.b $8F
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	cmp.w #$0009
 	bcs CODE_C49709
 	lda.w $08B2
@@ -691,7 +691,7 @@ CODE_C49875:						; from CODE_C49858
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	lda.w #$000F
 	sta.w $07CA
 	ldy.w #$1C24
@@ -870,7 +870,7 @@ CODE_C49A12:						; from CODE_C49A05
 	bcs CODE_C49A28
 	lda.w #$0010
 	adc.w $0EA0,x
-	jsl.l $C37EAA
+	jsl.l CODE_C37EAA
 	cmp.w #$000F
 	bcs CODE_C49A83
 CODE_C49A28:						; from CODE_C49A12
@@ -901,7 +901,7 @@ CODE_C49A4C:						; from CODE_C49A28
 	lda.w #$009B
 CODE_C49A54:						; from CODE_C49A4C
 	pha
-	jsl.l $C37EC8
+	jsl.l CODE_C37EC8
 	adc.b $03,s
 	sta.b $03,s
 	lda.b $01,s
@@ -915,12 +915,12 @@ CODE_C49A69:						; from CODE_C49A54
 	bpl CODE_C49A71
 	lsr.b $7F
 CODE_C49A71:						; from CODE_C49A69
-	jsl.l $C37ED4
+	jsl.l CODE_C37ED4
 	adc.b $05,s
 	sta.b $05,s
 	pla
 	lsr a
-	jsl.l $C37E95
+	jsl.l CODE_C37E95
 	adc.b $05,s
 	sta.b $05,s
 CODE_C49A83:						; from CODE_C49A05, CODE_C49A12
@@ -1128,7 +1128,7 @@ CODE_C49C5A:						; from CODE_C49C36
 	sbc.w $0896,x
 	sta.b $83
 CODE_C49C63:						; from CODE_C49C36
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	jsl.l CODE_C49D8D
 	beq CODE_C49C72
 	lda.w #$1EFA
@@ -1410,7 +1410,7 @@ CODE_C49ECB:						; from CODE_C49EAA
 	sbc.w $0670
 	sta.b $83
 CODE_C49ED4:						; from CODE_C49EAA
-	jsl.l $C37F6D
+	jsl.l CODE_C37F6D
 	jsl.l CODE_C49D8D
 	beq CODE_C49EE3
 	lda.w #$1EFA

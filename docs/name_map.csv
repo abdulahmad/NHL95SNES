@@ -1479,3 +1479,5 @@ $C35F62,DATA8_C35F62,,new,"not traced: read by CODE_C5A8B0",src/bankC3_5000.asm
 $C36000,DATA8_C36000,,new,"not traced: data between routines (in bankC3_6000)",src/bankC3_6000.asm
 $C360D4,DATA8_C360D4,,new,"not traced: a table read by CODE_C5B22D, CODE_C5AE8D, CODE_C5B216 (in bankC3_6000)",src/bankC3_6000.asm
 $C36D2A,DATA8_C36D2A,,new,"not traced: a table read by CODE_C36CBF (in bankC3_6000)",src/bankC3_6000.asm
+$C377BB,DATA8_C377BB,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm
+$C377BD,DATA8_C377BD,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm

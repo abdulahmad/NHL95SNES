@@ -753,7 +753,7 @@ CODE_C4D657:						; called from other segments
 	stz.b $26
 	stz.b $63
 CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
-	jsl.l $C3716D
+	jsl.l CODE_C3716D
 	jsl.l CODE_C36C2D
 	lda.w $058D
 	and.w #$FFF0

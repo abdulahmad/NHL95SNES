@@ -30,8 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_7000 (org $C36FF2): bank $C3's code (to about $C38EFD), then its samples and data. Banks $C0-$C2, $C4 and $C5
-are all source, and bank $C3 to $C36FF1. <- CURRENT
+bankC3_8000 (org $C37FE2), after bankC3_7000. <- CURRENT
 
 ## Sources
 
@@ -301,6 +300,9 @@ are all source, and bank $C3 to $C36FF1. <- CURRENT
   source now (the record bodies stay ROM cuts).
 - 2026-10-31: bankC3_5000 matched: more data tables and text, and PhotoPaletteTable (a long pointer per team to its photo set,
   as 94S PhotoPaletteTable); the code reads it 1-based, so its readers use PhotoPaletteTable-4 / -2.
+- 2026-10-31: bankC3_7000 matched (game code, CODE_ names). Several routines here have no jsl, jml, pointer or lda # reference
+  anywhere in the ROM; their bytes are code, so they are decoded and marked no caller found. End moved to $C37FE1, bankC3_8000
+  org to $C37FE2.
 
 ## ROM map
 
@@ -363,8 +365,8 @@ The first row that is still incbin is the current segment.
 | bankC3_4000 | matched 4052 bytes | $C3402C | $C34FFF | the last team records Pittsburgh ... Washington (labels by city, ROM cuts), a team record not in TeamList (DATA8_C34427), then data tables and text (db, DATA8_ labels where code reads them); out of ROM order inside the bank; org moved to $C3402C |
 | bankC3_5000 | matched 4096 bytes | $C35000 | $C35FFF | data tables and text (db, DATA8_ labels where code reads them), PhotoPaletteTable (dd per team, 94S name) |
 | bankC3_6000 | matched 4082 bytes | $C36000 | $C36FF1 | data tables (db, DATA8_ labels where code reads them) to $C36B82, then game code with CODE_ names and their callers; out of ROM order, end moved -$E |
-| bankC3_7000 | incbin <- CURRENT | $C36FF2 | $C37FFF | org moved to $C36FF2 |
-| bankC3_8000 | incbin | $C38000 | $C38FFF | |
+| bankC3_7000 | matched 4080 bytes | $C36FF2 | $C37FE1 | game code with CODE_ names and their callers; routines with no reference anywhere are decoded and say so; out of ROM order, org moved to $C36FF2, end moved -$1E |
+| bankC3_8000 | incbin <- CURRENT | $C37FE2 | $C38FFF | org moved to $C37FE2 |
 | bankC3_9000 | incbin | $C39000 | $C39FFF | |
 | bankC3_A000 | incbin | $C3A000 | $C3AFFF | |
 | bankC3_B000 | incbin | $C3B000 | $C3BFFF | |

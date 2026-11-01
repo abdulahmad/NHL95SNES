@@ -506,7 +506,7 @@ CODE_C57329:						; called from other segments
 	sta.w $0812
 	lda.w $17D1
 	bne CODE_C57358
-	jsl.l $C3736B
+	jsl.l CODE_C3736B
 CODE_C57358:						; from CODE_C57329
 	pla
 	sta.b $9B

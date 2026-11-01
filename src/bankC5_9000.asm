@@ -255,7 +255,7 @@ CODE_C590DA:						; called from other segments
 	lda.w #$2C46
 	ldy.w #$0078
 	jsl.l CODE_C58B11
-	jsl.l $C3716D
+	jsl.l CODE_C3716D
 	rts
 CODE_C59217:						; from CODE_C590DA
 	lda.w #$0010

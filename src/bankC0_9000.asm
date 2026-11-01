@@ -618,8 +618,8 @@ CODE_C0948C:						; from CODE_C0947B
 CODE_C094BC:						; from CODE_C094E2
 	jsl.l WaitFrame
 	jsl.l CODE_C36CBF
-	jsl.l $C370A5
-	jsl.l $C370B2
+	jsl.l CODE_C370A5
+	jsl.l CODE_C370B2
 	lda.b $83
 	bit.w #$0800
 	bne CODE_C09500
@@ -950,8 +950,8 @@ CODE_C0979B:						; from CODE_C0978B
 CODE_C097A2:						; from CODE_C097DD, CODE_C097EF, CODE_C097FF, CODE_C0980F, ...
 	jsl.l WaitFrame
 	jsl.l CODE_C36CBF
-	jsl.l $C370A5
-	jsl.l $C370B2
+	jsl.l CODE_C370A5
+	jsl.l CODE_C370B2
 	lda.b $83
 	bit.w #$1000
 	bne CODE_C097D6
