@@ -794,8 +794,8 @@ check4check:						; called from other segments
 	and.w #$0007
 	bne .11
 	jmp.w .8
-.11:								; go to CODE_C42D10
-	jml.l CODE_C42D10
+.11:								; go to burst
+	jml.l burst
 CODE_C45606:						; called from other segments
 	lda.w #$2082
 	sta.w pf2aip,x

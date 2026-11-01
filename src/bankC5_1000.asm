@@ -1584,10 +1584,10 @@ CODE_C51E1F:						; from CODE_C51DF6, CODE_C51E0C
 	lda.w pfteam,x
 	beq .1
 	ldy.w #$0002
-.1:									; lcpad,y = $FFFF, call CODE_C5404A, pull Y, a2 = Y, ...
+.1:									; lcpad,y = $FFFF, call SetLCmode, pull Y, a2 = Y, ...
 	lda.w #$FFFF
 	sta.w lcpad,y
-	jsl.l CODE_C5404A
+	jsl.l SetLCmode
 	ply
 	sty.b a2
 	ldx.b a3
@@ -1686,7 +1686,7 @@ CODE_C51EB8:						; from CODE_C51E81 and other segments
 	ora.w #$FF00
 	sta.w temp1,y
 	ldx.b a3
-	jmp.w CODE_C54070
+	jmp.w SetLCmode2
 .3:									; A = a3, A + d0, Y = A, A = temp1,y, ...
 	lda.b a3
 	clc
@@ -1716,7 +1716,7 @@ CODE_C51EB8:						; from CODE_C51E81 and other segments
 	stz.b d2
 	jsl.l lcfound
 	bmi .6
-	jsl.l CODE_C54070
+	jsl.l SetLCmode2
 .6:									; pull X, a3 = X, return
 	plx
 	stx.b a3

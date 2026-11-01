@@ -3384,8 +3384,8 @@ $C42C90,.17,CODE_C42C90,new,"branch target only used in assnearest",src/bankC4_2
 $C42CB8,.18,CODE_C42CB8,new,"branch target only used in assnearest",src/bankC4_2000.asm
 $C42CF2,.19,CODE_C42CF2,new,"branch target only used in assnearest",src/bankC4_2000.asm
 $C42CFF,.20,CODE_C42CFF,new,"branch target only used in assnearest",src/bankC4_2000.asm
-$C42D16,.1,CODE_C42D16,new,"branch target only used in CODE_C42D10",src/bankC4_2000.asm
-$C42D38,.2,CODE_C42D38,new,"branch target only used in CODE_C42D10",src/bankC4_2000.asm
+$C42D16,.1,CODE_C42D16,new,"branch target only used in burst",src/bankC4_2000.asm
+$C42D38,.2,CODE_C42D38,new,"branch target only used in burst",src/bankC4_2000.asm
 $C42DB1,.1,CODE_C42DB1,new,"branch target only used in chkpk2",src/bankC4_2000.asm
 $C42DC2,.1,CODE_C42DC2,new,"branch target only used in CODE_C42DB8",src/bankC4_2000.asm
 $C42DF5,.1,CODE_C42DF5,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
@@ -5648,11 +5648,11 @@ $C54008,.2,CODE_C54008,new,"branch target only used in ResetTeamPlayers",src/ban
 $C54020,.3,CODE_C54020,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
 $C54023,.4,CODE_C54023,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
 $C5403F,.5,CODE_C5403F,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
-$C5406F,.rtl,CODE_C5406F,new,"branch target only used in CODE_C5404A",src/bankC5_4000.asm
-$C540A7,.loop,CODE_C540A7,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
-$C540C3,.1,CODE_C540C3,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
-$C540FF,.2,CODE_C540FF,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
-$C54107,.3,CODE_C54107,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
+$C5406F,.rtl,CODE_C5406F,new,"branch target only used in SetLCmode",src/bankC5_4000.asm
+$C540A7,.loop,CODE_C540A7,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
+$C540C3,.1,CODE_C540C3,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
+$C540FF,.2,CODE_C540FF,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
+$C54107,.3,CODE_C54107,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
 $C54150,.1,CODE_C54150,new,"branch target only used in CODE_C54140",src/bankC5_4000.asm
 $C5416E,.1,CODE_C5416E,new,"branch target only used in getlchoice",src/bankC5_4000.asm
 $C54171,.2,CODE_C54171,new,"branch target only used in getlchoice",src/bankC5_4000.asm
@@ -7542,3 +7542,6 @@ $2034,fox,,94S+code,"RAM: Stop4Pen stores d0 there before limitfo and puckfaceof
 $2036,foy,,94S+code,"RAM: Stop4Pen stores d1 there before limitfo and puckfaceoff2 copies it to pucky where 94S uses foy (side by side)",src/ram95s.asm
 $C51F7C,limitfo,CODE_C51F7C,94S+code,"94S limitfo's steps side by side: d0 / d1 / a0 / a1 saved, a0 = PenBuf, the loop over its entries to the zero word calling the per-penalty part (CODE_C51FBA here, the local .t2 in 94S); Stop4Pen calls it after fox / foy where 94S does",src/bankC5_1000.asm
 $C54155,getlchoice,CODE_C54155,94S+code,"94S getlchoice's index: choice + 3 * tmline, plus $15 when the tmap counts of the teams differ and $15 more when the other team has more, then the table byte; 95 passes the choice in A rather than d0; called from lcfound as in 94S",src/bankC5_4000.asm
+$C5404A,SetLCmode,CODE_C5404A,94S+code,"94S SetLCmode's code instruction for instruction (OptLine, loadTeamStruct, tmflags bit 3, sflags bits 2-3 cleared, jmp SetLCmode2); called from doinput as in 94S",src/bankC5_4000.asm
+$C54070,SetLCmode2,CODE_C54070,94S+purpose,"SetLCmode jumps to it where 94S SetLCmode jumps to SetLCmode2; also called from lineinput and the face off code as in 94S; the box is drawn differently (Framer, text queued to VRAM) but row by row for choices 2 down to 0 with getlchoice, tmflags bit 3 and tmlcchoice as in 94S",src/bankC5_4000.asm
+$C42D10,burst,CODE_C42D10,94S+code,"94S burst's steps side by side: pfalock test, getpde, OptLine, $CC energy taken by setpde, $1000 when OptLine is 2, the speed scaled, Xvel / Yvel from the facing direction table, pfalock, jml SetSPAFromA; called from doinput as in 94S",src/bankC4_2000.asm

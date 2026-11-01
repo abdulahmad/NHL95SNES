@@ -47,7 +47,8 @@ ResetTeamPlayers:					; resets team a2: its flag $0010 cleared, then for its 6 p
 	dec.b d2
 	bpl .1
 	rtl
-CODE_C5404A:						; called from other segments
+SetLCmode:							; opens the line change box for player X's team when line changes are on
+									; (OptLine 1) and the box is not open: tmflags bit 3, then SetLCmode2
 	lda.w OptLine
 	cmp.w #$0001
 	bne .rtl
@@ -60,10 +61,11 @@ CODE_C5404A:						; called from other segments
 	sta.w tmflags,y
 	lda.w #$000C
 	trb.w sflags
-	jmp.w CODE_C54070
+	jmp.w SetLCmode2
 .rtl:								; return
 	rtl
-CODE_C54070:						; from CODE_C5404A, lineinput and other segments
+SetLCmode2:							; draws the line change box of team a2: the frame, then a row per line
+									; choice (getlchoice) with its button letter (DATA8_C5410E)
 	phx
 	jsr.w CODE_C54114
 	sta.b d0
@@ -141,9 +143,9 @@ CODE_C54070:						; from CODE_C5404A, lineinput and other segments
 	bpl .loop
 	plx
 	rtl
-DATA8_C5410E:						; not traced: a table read by CODE_C54070
+DATA8_C5410E:						; not traced: a table read by SetLCmode2
 	db $D9,$A0,$C2,$A0,$C1,$A0
-CODE_C54114:						; from CODE_C54070, CODE_C54B60
+CODE_C54114:						; from SetLCmode2, CODE_C54B60
 	lda.w gmode
 	ldx.b a2
 	beq CODE_C54130
@@ -694,7 +696,7 @@ lineinput:							; called from other segments
 	sta.w tmflags,y
 	lda.w #$FFFF
 	sta.w lcpad,y
-	jsl.l CODE_C54070
+	jsl.l SetLCmode2
 .2:									; pull A, d1 = A, d2 = 0, if a $4000 bit set go to .4, ...
 	pla
 	sta.b d1
@@ -1616,7 +1618,7 @@ CODE_C54CB9:						; from CompLine, CODE_C54D03, CODE_C548C1, CODE_C54828
 	ply
 	sty.b d4
 	rts
-CODE_C54D03:						; from CODE_C54070
+CODE_C54D03:						; from SetLCmode2
 	jsr.w CODE_C54CB9
 	cmp.w #$0100
 	bcs .1

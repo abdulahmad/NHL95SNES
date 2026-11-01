@@ -1483,14 +1483,14 @@ doinput:							; called from other segments
 	lda.w pfteam,x
 	beq .18
 	ldy.w #$0002
-.18:								; if lcpad,y >= 0 go to .rtl2, lcpad,y = d4, go to CODE_C5404A
+.18:								; if lcpad,y >= 0 go to .rtl2, lcpad,y = d4, go to SetLCmode
 	lda.w lcpad,y
 	bpl .rtl2
 	lda.b d4
 	sta.w lcpad,y
-	jmp.w CODE_C5404A
-.19:								; go to CODE_C42D10
-	jml.l CODE_C42D10
+	jmp.w SetLCmode
+.19:								; go to burst
+	jml.l burst
 .20:								; Y = $0000, if X - $000C < 0 go to .21, Y = $0002
 	ldy.w #$0000
 	cpx.w #$000C

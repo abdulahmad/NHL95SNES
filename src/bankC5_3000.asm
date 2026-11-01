@@ -746,7 +746,7 @@ CODE_C535EF:						; from PlayerShortName and other segments
 	lda.b [a0]
 	sta.b a0
 	rtl
-loadTeamStruct:						; from CODE_C5404A and other segments
+loadTeamStruct:						; from SetLCmode and other segments
 	lda.w pfteam,x
 	beq .1
 	stz.b a1

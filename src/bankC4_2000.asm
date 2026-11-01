@@ -415,7 +415,8 @@ assnearest:							; called from other segments
 	sta.b a0
 	jsl.l skateto
 	jmp.w check4check
-CODE_C42D10:						; called from other segments
+burst:								; check button: a speed burst in the facing direction that costs energy
+									; (getpde / setpde), then SetSPAFromA
 	lda.w pfalock,x
 	beq .1
 	rtl
