@@ -1,8 +1,8 @@
 ; Segment bankCF_0000: the sound code (uploads to the sound CPU, the command queue), the sound block table,
 ; SampleList, then the first sound blocks.
 org $CF0000
-InitSoundSystem:					; Uploads the sound driver and initializes the CPU sound state and fade
-									; volume.
+InitSoundSystem:					; uploads the sound driver and initializes the CPU sound state and fade
+									; volume
 	stz.w $4DCE
 	jsl.l UploadSoundDriver
 	lda.w #$8001
@@ -12,8 +12,8 @@ InitSoundSystem:					; Uploads the sound driver and initializes the CPU sound st
 	lda.w #$007F
 	sta.w $059C
 	rtl
-UploadSoundDriver:					; Uploads SoundRAMClear and SoundDriver, acknowledges driver readiness and
-									; clears the CPU command queue.
+UploadSoundDriver:					; uploads SoundRAMClear and SoundDriver, acknowledges driver readiness and
+									; clears the CPU command queue
 	lda.w #SoundRAMClear&$FFFF
 	ldx.w #SoundRAMClear>>16
 	jsl.l SPCUpload
@@ -91,11 +91,11 @@ CODE_CF0098:						; called from other segments
 	rep #$20
 	plb
 	rtl
-WaitSPCUploadAck:					; Waits for port 0 to equal A during SPCUpload.
+WaitSPCUploadAck:					; waits for port 0 to equal A during SPCUpload
 	cmp.w $2140
 	bne WaitSPCUploadAck
 	rts
-ReadSPCUploadByte:					; Reads the next upload byte through r0 and advances the source pointer.
+ReadSPCUploadByte:					; reads the next upload byte through r0 and advances the source pointer
 	lda.b [r0]
 	ldy.b r0
 	iny
@@ -105,7 +105,7 @@ ReadSPCUploadByte:					; Reads the next upload byte through r0 and advances the 
 .1:									; r0 = Y, return
 	sty.b r0
 	rts
-ReadSPCUploadWord:					; Reads the next upload word through r0 and advances the source pointer.
+ReadSPCUploadWord:					; reads the next upload word through r0 and advances the source pointer
 	lda.b [r0]
 	ldy.b r0
 	iny
@@ -136,11 +136,11 @@ QueueSoundCmd:						; queues sound driver command A with the arguments X and Y (
 	sta.w $1EA1
 CODE_CF00FD:						; called from other segments
 	rtl
-SendQueuedSoundCmd:					; Loads the queue tail and sends one command if the CPU sound queue is not
-									; empty.
+SendQueuedSoundCmd:					; loads the queue tail and sends one command if the CPU sound queue is not
+									; empty
 	ldx.w $1EA3
-SendSoundCmdAtTail:					; Sends the queued command at X unless X equals the queue head; advances
-									; the tail.
+SendSoundCmdAtTail:					; sends the queued command at X unless X equals the queue head; advances
+									; the tail
 	cpx.w $1EA1
 	bne .1
 	rtl
@@ -192,8 +192,8 @@ LoadSounds:							; loads the samples and sounds of the list at X:A into the sou
 	sta.w $49BA
 	plx
 	pla
-AppendSounds:						; Loads the list at X:A using the current sample allocation, then uploads
-									; the sound lookup tables.
+AppendSounds:						; loads the list at X:A using the current sample allocation, then uploads
+									; the sound lookup tables
 	sta.b r2
 	stx.b $36
 .loop:								; loop: A = [r2], A and $00FF, if a $0080 bit set go to .1, r2 + 1, ...
@@ -213,8 +213,8 @@ AppendSounds:						; Loads the list at X:A using the current sample allocation, 
 .2:									; A = tmp0
 	lda.b tmp0
 	clc
-UploadSoundTables:					; Finishes the allocation bounds and uploads sequence pointers, sample
-									; slots, envelopes and sample parameters.
+UploadSoundTables:					; finishes the allocation bounds and uploads sequence pointers, sample
+									; slots, envelopes and sample parameters
 	adc.w #$0B80
 	sta.w $4DCA
 	eor.w #$FFFF
@@ -244,8 +244,8 @@ UploadSoundTables:					; Finishes the allocation bounds and uploads sequence poi
 	ldx.w #$007E
 	ldy.w #$FD00
 	jmp.w UploadSoundData
-LoadSample:							; Assigns sample A a driver slot, copies its header parameters and uploads
-									; BRR data if not already loaded.
+LoadSample:							; assigns sample A a driver slot, copies its header parameters and uploads
+									; BRR data if not already loaded
 	and.w #$00FF
 	tax
 	lda.w $48BA,x
@@ -332,8 +332,8 @@ CODE_CF0239:						; called from other segments
 	lda.b r1
 	adc.w #$000A
 	sta.b r1
-AppendSoundData:					; Allocates space for the length-prefixed block at r1 and sends it to the
-									; sound CPU.
+AppendSoundData:					; allocates space for the length-prefixed block at r1 and sends it to the
+									; sound CPU
 	lda.b tmp0
 	tay
 	clc
@@ -349,8 +349,8 @@ AppendSoundData:					; Allocates space for the length-prefixed block at r1 and s
 	sta.b tmp0
 	lda.b r1
 	ldx.b $32
-UploadSoundData:					; Sends the length-prefixed block at X:A to sound RAM Y with command $19
-									; and port handshakes.
+UploadSoundData:					; sends the length-prefixed block at X:A to sound RAM Y with command $19
+									; and port handshakes
 	sta.b r0
 	stx.b $2E
 	tya
@@ -410,8 +410,8 @@ UploadSoundData:					; Sends the length-prefixed block at X:A to sound RAM Y wit
 	bne .loop4
 	rep #$20
 	rtl
-LoadSequence:						; Uploads sequence A and its referenced samples, recording the sequence
-									; address for the driver.
+LoadSequence:						; uploads sequence A and its referenced samples, recording the sequence
+									; address for the driver
 	and.w #$007F
 	pei ($34)
 	pei ($36)
@@ -539,7 +539,7 @@ SoundVolumeUp:						; the sound volume up to $7F7F in 16 steps (sound driver com
 	sta.w $059C
 .rtl:								; return
 	rtl
-WaitSoundQueueEmpty:				; Waits for the CPU sound command queue head and tail to match.
+WaitSoundQueueEmpty:				; waits for the CPU sound command queue head and tail to match
 	ldy.w $1EA3
 	cpy.w $1EA1
 	bne WaitSoundQueueEmpty
@@ -554,8 +554,8 @@ StartSound:							; starts sound A: sound driver command 1 with X = A (the effec
 	ply
 	plx
 	rtl
-StartSoundVolume:					; Queues sample A with left and right volumes from tmp0 using driver
-									; command 3.
+StartSoundVolume:					; queues sample A with left and right volumes from tmp0 using driver
+									; command 3
 	phx
 	phy
 	tax
@@ -608,7 +608,7 @@ LoadTeamSongs:						; the home team's 6 songs from TeamSongs into a list (each $
 	lda.w #$00E8
 	sta.w $4FD2,x
 	rtl
-PlayTeamSongNow:					; Queues home team song A without polling the driver status.
+PlayTeamSongNow:					; queues home team song A without polling the driver status
 	phx
 	sta.b tmp0
 	bra CODE_CF04A8
@@ -653,8 +653,8 @@ CODE_CF04B6:						; called from other segments
 	lda.w #$0001
 	sta.w $1EA9
 	rtl
-SoundSequenceTable:					; Sequence pointers read by LoadSequence, each followed by a flag byte
-									; whose selection role is unresolved.
+SoundSequenceTable:					; sequence pointers read by LoadSequence, each followed by a flag byte
+									; whose selection role is unresolved
 	dd DATA8_CF0CDC					; sound 0
 	dd DATA8_CF0679					; sound 1
 	dd DATA8_CF0949					; sound 2
@@ -695,8 +695,8 @@ SoundSequenceTable:					; Sequence pointers read by LoadSequence, each followed 
 	dd DATA8_CF590B|$81000000		; sound 37
 	dd DATA8_CF6A1A|$82000000		; sound 38
 	dd DATA8_CF8145|$83000000		; sound 39
-SampleVolumeOverrideLists:			; Lists of sample IDs and stereo volume words applied by LoadSequence; a
-									; byte at least $21 ends each list.
+SampleVolumeOverrideLists:			; lists of sample IDs and stereo volume words applied by LoadSequence; a
+									; byte at least $21 ends each list
 	dw DATA8_CF058B&$FFFF,DATA8_CF059E&$FFFF,DATA8_CF05B1&$FFFF,DATA8_CF05C1&$FFFF
 DATA8_CF058B:						; list 0 of SampleVolumeOverrideLists
 	db $1C,$26,$26,$17,$2C,$2C,$1F,$3A,$3A,$1D,$20,$20,$1E,$29,$29,$19
@@ -749,8 +749,8 @@ SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 	dd Sample32						; sample 32
 DATA8_CF0661:						; not traced (no reader found)
 	db $A6,$FF
-TeamSongSoundList:					; Samples and sequence loaded by LoadTeamSongs before appending the
-									; selected team songs.
+TeamSongSoundList:					; samples and sequence loaded by LoadTeamSongs before appending the
+									; selected team songs
 	db $02,$03,$04,$05,$06,$07,$08,$09,$0A,$0B,$0C,$0D,$0E,$0F,$10,$11,$12,$01,$1A,$1B,$A2,$FF
 DATA8_CF0679:						; sound 1 of SoundSequenceTable: a length word, then its data;
 									; LoadSequence

@@ -467,7 +467,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 4
 	tcall 12
 	jmp .l023E
-.keyOffVoice:						; Tcall 8: keys off voice X and clears its sample and sequence ownership.
+.keyOffVoice:						; tcall 8: keys off voice X and clears its sample and sequence ownership
 	mov a,.voicebits+x
 	mov.b SPC_DSPADDR,#DSP_KOF
 	mov.b SPC_DSPDATA,a
@@ -478,10 +478,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $4F+x,a
 	mov $6F+x,a
 	mov $77+x,a
-.eventNoOp:							; Event $81: returns without changing state.
+.eventNoOp:							; event $81: returns without changing state
 	ret
-.applyChannelPitchBend:				; Tcall 4: offsets voice X's saved pitch by the signed bend of channel Y
-									; and writes DSP pitch.
+.applyChannelPitchBend:				; tcall 4: offsets voice X's saved pitch by the signed bend of channel Y
+									; and writes DSP pitch
 	push y
 	mov a,.voiceregs+x
 	or a,#$02
@@ -512,8 +512,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b SPC_DSPDATA,y
 	pop y
 	ret
-.scalePitchFraction:				; Tcall 3: multiplies the scratch pitch word by twice A, keeping the
-									; product above its low byte.
+.scalePitchFraction:				; tcall 3: multiplies the scratch pitch word by twice A, keeping the
+									; product above its low byte
 	asl a
 	push a
 	mov y,$02
@@ -525,8 +525,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $03,#$00
 	addw ya,$02
 	ret
-.setChannelPitchBend:				; Event $82: reads the channel's signed pitch bend and applies it to its
-									; active voices.
+.setChannelPitchBend:				; event $82: reads the channel's signed pitch bend and applies it to its
+									; active voices
 	tcall 14
 	mov ($3F)+y,a
 	mov x,#$07
@@ -545,12 +545,12 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	dec x
 	bpl .l03EB
 	ret
-.setChannelVibrato:					; Event $83: reads the channel's vibrato depth.
+.setChannelVibrato:					; event $83: reads the channel's vibrato depth
 	tcall 14
 	mov ($3B)+y,a
 	ret
-.endChannel:						; Event $80: ends the channel; releases or restarts the sequence when its
-									; last channel ends.
+.endChannel:						; event $80: ends the channel; releases or restarts the sequence when its
+									; last channel ends
 	mov a,#$FF
 	mov ($37)+y,a
 	mov ($39)+y,a
@@ -584,7 +584,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l043B:								; from .endChannel
 	pop y
 	jmp .l0241
-.readEventDelay:					; Tcall 9: reads a channel delay byte, or a low/high delay pair after $FF.
+.readEventDelay:					; tcall 9: reads a channel delay byte, or a low/high delay pair after $FF
 	tcall 14
 	cmp a,#$FF
 	bne .l044B
@@ -598,8 +598,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,#$00
 	mov ($39)+y,a
 	ret
-.setSampleEnvelope:					; Tcall 0: sets ADSR1 and either ADSR2 or GAIN from sample envelope A; DSP
-									; address starts at SRCN.
+.setSampleEnvelope:					; tcall 0: sets ADSR1 and either ADSR2 or GAIN from sample envelope A; DSP
+									; address starts at SRCN
 	inc.b SPC_DSPADDR
 	mov x,a
 	mov a,$F580+x
@@ -612,8 +612,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b SPC_DSPDATA,a
 	mov a,x
 	ret
-.readPackedEventByte:				; Tcall 14: decodes a variable-length bitstream index and reads its byte
-									; from the sequence dictionary.
+.readPackedEventByte:				; tcall 14: decodes a variable-length bitstream index and reads its byte
+									; from the sequence dictionary
 	push x
 	mov x,#$00
 	mov $1F,x
@@ -634,8 +634,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FFFF+x
 	pop x
 	ret
-.readRawEventByte:					; Alternate tcall 14: reads the next raw channel byte and advances its
-									; pointer.
+.readRawEventByte:					; alternate tcall 14: reads the next raw channel byte and advances its
+									; pointer
 	mov a,($45)+y
 	mov .l0498+1,a
 	inc a
@@ -653,8 +653,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l0498:								; operand set by .readRawEventByte, .l0495
 	mov a,$FFFF
 	ret
-.readStreamBit:						; Tcall 7: returns the next channel stream bit in carry, consuming each
-									; byte low bit first.
+.readStreamBit:						; tcall 7: returns the next channel stream bit in carry, consuming each
+									; byte low bit first
 	mov a,($41)+y
 	dec a
 	bpl .l04C5
@@ -684,8 +684,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	lsr a
 	mov ($43)+y,a
 	ret
-.findFreeVoice:						; Tcall 13: returns free voice X and its DSP base in A/Y, or carry set if
-									; none is free.
+.findFreeVoice:						; tcall 13: returns free voice X and its DSP base in A/Y, or carry set if
+									; none is free
 	mov a,$1A
 	mov x,#$07
 .l04D1:								; loop
@@ -700,8 +700,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov y,a
 	clrc
 	ret
-.findSampleVoice:					; Tcall 11: finds a voice with sample slot A; returns X and DSP base A,
-									; carry set if absent.
+.findSampleVoice:					; tcall 11: finds a voice with sample slot A; returns X and DSP base A,
+									; carry set if absent
 	mov $09,a
 	mov $0A,x
 	mov x,#$07
@@ -759,8 +759,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	clr1 $15.4
 .l0573:								; from .l056B
 	ret
-.resetSequenceState:				; Tcall 15: restarts timer 0, resets the sequence context list, keys off
-									; voices and updates status.
+.resetSequenceState:				; tcall 15: restarts timer 0, resets the sequence context list, keys off
+									; voices and updates status
 	mov.b SPC_T0TARGET,$11
 	set1.b spcControl.0
 	mov.b SPC_CONTROL,spcControl
@@ -928,8 +928,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$1E
 	mov ($24)+y,a
 	ret
-.prepareSampleVoice:				; Tcall 10: maps sample A to a slot and prepares a free voice; may queue
-									; the command if none is free.
+.prepareSampleVoice:				; tcall 10: maps sample A to a slot and prepares a free voice; may queue
+									; the command if none is free
 	mov x,a
 	mov a,$F480+x
 	push a
@@ -984,8 +984,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l06FB:								; from .l06D5
 	setc
 	ret
-.setDefaultSamplePitch:				; Tcall 6: writes the sample's default pitch; X is slot times four, Y is
-									; voice base.
+.setDefaultSamplePitch:				; tcall 6: writes the sample's default pitch; X is slot times four, Y is
+									; voice base
 	mov a,y
 	or a,#$02
 	mov.b SPC_DSPADDR,a
@@ -995,8 +995,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FD01+x
 	mov.b SPC_DSPDATA,a
 	ret
-.setDefaultSampleVolume:			; Tcall 5: writes the sample's scaled default stereo volume; X is slot
-									; times four, Y is voice base.
+.setDefaultSampleVolume:			; tcall 5: writes the sample's scaled default stereo volume; X is slot
+									; times four, Y is voice base
 	mov a,y
 	or a,#$00
 	mov.b SPC_DSPADDR,a
@@ -1016,10 +1016,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	pop y
 .l0728:								; from .playSampleVolume, .playSamplePitch, .l0769
 	ret
-.commandNoOp:						; Command 32: returns without changing state.
+.commandNoOp:						; command 32: returns without changing state
 	ret
-.playSampleVolume:					; Command 3: plays sample A with left/right volumes X/Y and the sample's
-									; default pitch.
+.playSampleVolume:					; command 3: plays sample A with left/right volumes X/Y and the sample's
+									; default pitch
 	bbs $15.5,.l0728
 	push y
 	push x
@@ -1037,8 +1037,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 2
 	mov.b SPC_DSPDATA,a
 	bra .l0771
-.playSamplePitch:					; Command 2: plays sample A with pitch Y:X and the sample's default
-									; volume.
+.playSamplePitch:					; command 2: plays sample A with pitch Y:X and the sample's default
+									; volume
 	bbs $15.5,.l0728
 	push y
 	push x
@@ -1060,8 +1060,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	pop a
 	mov.b SPC_DSPDATA,a
 	bra .l0771
-.playSound:							; Command 1: starts sample A below $80, otherwise starts sequence A masked
-									; to seven bits.
+.playSound:							; command 1: starts sample A below $80, otherwise starts sequence A masked
+									; to seven bits
 	cmp a,#$80
 	bcc .l0769
 	call .l0602
@@ -1074,7 +1074,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 5
 .l0771:								; from .playSampleVolume, .l074F, .l07BF
 	mov x,$09
-.keyOnVoice:						; Tcall 12: keys on voice X, enabling DSP output on the first use.
+.keyOnVoice:						; tcall 12: keys on voice X, enabling DSP output on the first use
 	bbs $15.6,.l077B
 	call .l07E5
 	set1 $15.6
@@ -1087,8 +1087,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tclr.w $001A,a
 .l078C:								; from .playSamplePacked
 	ret
-.playSamplePacked:					; Command 4: plays sample A with packed stereo volumes in X and signed
-									; pitch offset Y times 16.
+.playSamplePacked:					; command 4: plays sample A with packed stereo volumes in X and signed
+									; pitch offset Y times 16
 	bbs $15.5,.l078C
 	push x
 	push y
@@ -1152,11 +1152,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b SPC_DSPADDR,#DSP_FLG
 	mov.b SPC_DSPDATA,#$20
 	ret
-.disableSamples:					; Command 15: blocks sample starts, then stops sample voices and clears
-									; spcQueue.
+.disableSamples:					; command 15: blocks sample starts, then stops sample voices and clears
+									; spcQueue
 	set1 $15.5
-.stopSamples:						; Command 17: keys off voices without a sequence channel and clears
-									; spcQueue.
+.stopSamples:						; command 17: keys off voices without a sequence channel and clears
+									; spcQueue
 	mov x,#$07
 .l07F0:								; from .l07F6
 	mov.w a,$0067+x
@@ -1170,11 +1170,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov.b spcQueueWrite,a
 	mov.b spcQueueRead,a
 	ret
-.enableSamples:						; Command 16: allows sample starts again.
+.enableSamples:						; command 16: allows sample starts again
 	clr1 $15.5
 	ret
-.resetSound:						; Command 24: resets volumes, tick period, playback flags, sequence state
-									; and spcQueue.
+.resetSound:						; command 24: resets volumes, tick period, playback flags, sequence state
+									; and spcQueue
 	mov a,#$7F
 	mov $1D,a
 	mov $1E,a
@@ -1187,14 +1187,14 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	clr1 $15.4
 	tcall 15
 	call .l07F9
-.keyOffAll:							; Command 28: keys off each DSP voice through tcall 8.
+.keyOffAll:							; command 28: keys off each DSP voice through tcall 8
 	mov x,#$07
 .l081D:								; loop
 	tcall 8
 	dec x
 	bpl .l081D
 	ret
-.setTickPeriod:						; Command 14: writes A to SPC_T0TARGET and saves it for timer resets.
+.setTickPeriod:						; command 14: writes A to SPC_T0TARGET and saves it for timer resets
 	mov.b SPC_T0TARGET,a
 	mov $11,a
 	ret
@@ -1208,13 +1208,13 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bbs $15.4,.l082F
 	mov $17,$15
 	set1 $15.4
-.stopSequences:						; Command 9: clears sequence playback and resets sequence state, keying
-									; off all voices.
+.stopSequences:						; command 9: clears sequence playback and resets sequence state, keying
+									; off all voices
 	clr1 $15.7
 	tcall 15
 	ret
-.fadeVoicesOut:						; Command 6: saves voice volumes, then steps each left and right volume
-									; down to zero.
+.fadeVoicesOut:						; command 6: saves voice volumes, then steps each left and right volume
+									; down to zero
 	mov x,#$07
 .l083E:								; loop
 	mov a,.voiceregs+x
@@ -1251,7 +1251,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bpl .l0858
 	dbnz y,.l0856
 	ret
-.fadeVoicesIn:						; Command 7: steps voice volumes up to the values saved by .fadeVoicesOut.
+.fadeVoicesIn:						; command 7: steps voice volumes up to the values saved by .fadeVoicesOut
 	mov y,#$80
 .l087B:								; from .l089E
 	mov x,#$07
@@ -1278,8 +1278,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	bpl .l087D
 	dbnz y,.l087B
 	ret
-.stopSample:						; Command 23: keys off a matching sample voice, or invalidates the first
-									; matching queued command.
+.stopSample:						; command 23: keys off a matching sample voice, or invalidates the first
+									; matching queued command
 	tcall 11
 	bcs .l08AB
 	tcall 8
@@ -1303,16 +1303,16 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	adc a,#$04
 	and a,#$3F
 	bra .l08AD
-.setSampleVolumeScale:				; Command 18: sets the volume multiplier used when starting samples.
+.setSampleVolumeScale:				; command 18: sets the volume multiplier used when starting samples
 	mov $1D,a
 	ret
-.setSequenceVolume:					; Command 13: sets the volume copied into subsequently started sequence
-									; contexts.
+.setSequenceVolume:					; command 13: sets the volume copied into subsequently started sequence
+									; contexts
 	mov $1E,a
 .l08CC:								; from .setPlayingSampleVolume
 	ret
-.setPlayingSampleVolume:			; Command 21: updates a matching voice's volumes, then its sample slot
-									; defaults.
+.setPlayingSampleVolume:			; command 21: updates a matching voice's volumes, then its sample slot
+									; defaults
 	tcall 11
 	bcs .l08CC
 	or a,#$00
@@ -1326,8 +1326,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	and a,$1D
 	mov.b SPC_DSPDATA,a
 	mov a,$09
-.setSampleVolume:					; Command 19: writes X/Y as the default left/right volume for driver
-									; sample slot A.
+.setSampleVolume:					; command 19: writes X/Y as the default left/right volume for driver
+									; sample slot A
 	asl a
 	asl a
 	push a
@@ -1338,8 +1338,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $FD03+x,a
 .l08F0:								; from .setPlayingSamplePitch
 	ret
-.setPlayingSamplePitch:				; Command 22: updates a matching voice's pitch, then its sample slot
-									; default.
+.setPlayingSamplePitch:				; command 22: updates a matching voice's pitch, then its sample slot
+									; default
 	tcall 11
 	bcs .l08F0
 	or a,#$02
@@ -1349,7 +1349,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc.b SPC_DSPADDR
 	mov.b SPC_DSPDATA,y
 	mov a,$09
-.setSamplePitch:					; Command 20: writes Y:X as the default pitch for driver sample slot A.
+.setSamplePitch:					; command 20: writes Y:X as the default pitch for driver sample slot A
 	asl a
 	asl a
 	push a
@@ -1359,14 +1359,14 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,y
 	mov $FD01+x,a
 	ret
-.setMasterVolume:					; Command 8: writes X/Y to DSP_MVOLL/DSP_MVOLR.
+.setMasterVolume:					; command 8: writes X/Y to DSP_MVOLL/DSP_MVOLR
 	mov.b SPC_DSPADDR,#DSP_MVOLL
 	mov.b SPC_DSPDATA,x
 	mov.b SPC_DSPADDR,#DSP_MVOLR
 	mov.b SPC_DSPDATA,y
 	ret
-.stopAndReceiveData:				; Command 25: stops playback and receives bytes into sound RAM starting at
-									; Y:X.
+.stopAndReceiveData:				; command 25: stops playback and receives bytes into sound RAM starting at
+									; Y:X
 	push x
 	push y
 	call .stopSequences
@@ -1374,8 +1374,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 15
 	pop y
 	pop x
-.receiveData:						; Command 26: receives port 0-2 byte groups at Y:X; port 3 controls
-									; acknowledgement and final length.
+.receiveData:						; command 26: receives port 0-2 byte groups at Y:X; port 3 controls
+									; acknowledgement and final length
 	mov .l094C+2,y
 	mov .l095D+2,y
 	mov .l0970+2,y
@@ -1444,11 +1444,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l09A5:								; from .l0981
 	mov.b SPC_PORT3,#$7E
 	ret
-.scaleSampleVolume:					; Tcall 2: multiplies A by the sample volume scale and divides by 127.
+.scaleSampleVolume:					; tcall 2: multiplies A by the sample volume scale and divides by 127
 	mov y,$1D
 	bra .l09B4
-.scaleSequenceVolume:				; Tcall 1: multiplies A by the current sequence context's volume and
-									; divides by 127.
+.scaleSequenceVolume:				; tcall 1: multiplies A by the current sequence context's volume and
+									; divides by 127
 	mov y,#$B7
 	mov x,a
 	mov a,($24)+y
@@ -1459,8 +1459,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov x,#$7F
 	div ya,x
 	ret
-.setupSequencePointers:				; Selects raw or packed tcall 14 decoding and sets the current sequence's
-									; channel-array pointers.
+.setupSequencePointers:				; selects raw or packed tcall 14 decoding and sets the current sequence's
+									; channel-array pointers
 	mov y,#$00
 	mov a,($31)+y
 	bne .l09C8
@@ -1511,8 +1511,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	addw ya,$02
 	movw $4B,ya
 	ret
-.reportVoiceAges:					; Command 29: returns packed, inverted voice ages and the free-voice mask
-									; through the ports.
+.reportVoiceAges:					; command 29: returns packed, inverted voice ages and the free-voice mask
+									; through the ports
 	mov x,#$08
 	mov y,#$04
 .l0A20:								; from .l0A3D
