@@ -129,6 +129,12 @@
   ../work/ramapply.py replaces exact operands in code lines ($XX direct page, $XXXX absolute, indexed and indirect). Left as
   numbers: pei (asar does not take pei (label)), jmp / jml / jsr operands, immediates, long operands, the SPC700 files, and
   addresses with fewer votes (rammap.txt has them, weak or mixed).
+- Local labels: ../work/locals.py turns each CODE_ label that only branches / jmps of its own routine use (no other file or
+  stub names it) into a 92-style local: .loop / .loop2 for a loop head, .rtl / .rts for a lone return, else .1, .2 ... per
+  routine, with a generated summary of the code after it ("if d2 >= $00E2 go to .9, call X, ..."); name_map has a row each.
+  4181 labels in banks $C0 / $C3 / $C4 / $C5 / $CF. refresh_locals.py regenerates only those summaries (never the
+  hand-written local labels). About 1400 CODE_ labels stay top level: entries, jump table and pointer targets, labels used
+  across routines.
 
 ## Setup notes
 

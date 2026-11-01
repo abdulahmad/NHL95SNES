@@ -727,6 +727,9 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
   Xvel, Yvel, pflags, pfteam, facedir, position ...; the game state gmode, gmclock, sflags, puckc, tmscore ...), each the 94S
   name its address takes in 3 or more aligned instructions of the matched routines; 10436 operands in 38 files use them.
   Byte-neutral.
+- 2026-11-01: local labels: 4181 CODE_ branch targets that only their own routine uses became 92-style local labels (.loop,
+  .rtl, .1 ...) with generated summaries, one commit per bank (../work/locals.py); a refresh that also rewrote the hand-written
+  local labels was undone the commit after. Byte-neutral.
 
 ## ROM map
 
