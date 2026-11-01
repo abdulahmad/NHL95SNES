@@ -887,7 +887,7 @@ CODE_C486C7:						; called from other segments
 	lda.w $18BE
 	beq CODE_C486FC
 	phx
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4785E
 	stz.w $1157
 	stz.w $18BE

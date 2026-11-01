@@ -127,7 +127,7 @@ CODE_C5C0BE:						; called from other segments
 	sta.b $1A
 	jsr.w CODE_C5A4B9
 	jsr.w CODE_C5A4E2
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5194
 	jsl.l $C387D8
@@ -257,7 +257,7 @@ CODE_C5C1E6:						; from CODE_C5C1B1, CODE_C5C1D2, CODE_C5C1C5, CODE_C5C1DB, ...
 	jsr.w CODE_C5C4FC
 	jsr.w CODE_C5D85D
 	jsr.w CODE_C55C12
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C5C1F3:						; from CODE_C5C196
 	jmp.w CODE_C5C117
 CODE_C5C1F6:						; from CODE_C5C109
@@ -269,7 +269,7 @@ CODE_C5C1F6:						; from CODE_C5C109
 	jsl.l CODE_C589B0
 	lda.w #$FFFF
 	sta.w $04C6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 CODE_C5C214:						; called from other segments
 	ldy.w #$2C01
 	ldx.w #$5115
@@ -289,7 +289,7 @@ CODE_C5C214:						; called from other segments
 	ldx.b $63
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$53AB
 	jsl.l CODE_C4BB5A
@@ -398,7 +398,7 @@ CODE_C5C32D:						; from CODE_C5C305, CODE_C5C32D
 	stz.b $85
 CODE_C5C344:						; from CODE_C5C305
 	jsr.w CODE_C5D85D
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C5C34C:						; a callback: CODE_C5C32D passes it to CODE_C55ABC
 	ldx.b $6F
@@ -453,7 +453,7 @@ CODE_C5C367:						; from CODE_C5C35D
 	tax
 	lda.w #$0024
 	sta.b $CF
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
@@ -1029,7 +1029,7 @@ CODE_C5C814:						; from CODE_C5C7FF
 CODE_C5C819:						; from CODE_C5C7FF
 	jsr.w CODE_C5D85D
 	jsr.w CODE_C55C12
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C5C823:						; from CODE_C5C7CB, CODE_C5C7E0, CODE_C5C7F3
 	jmp.w CODE_C5C730
 CODE_C5C826:						; from CODE_C5C722
@@ -1041,7 +1041,7 @@ CODE_C5C826:						; from CODE_C5C722
 	jsl.l CODE_C589B0
 	lda.w #$FFFF
 	sta.w $04C6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w #$2C01
 	ldx.w #$5115
 	jsl.l $C387D8
@@ -1059,7 +1059,7 @@ CODE_C5C826:						; from CODE_C5C722
 	ldx.b $63
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$53D5
 	jsl.l CODE_C4BB5A
@@ -1126,7 +1126,7 @@ CODE_C5C90A:						; from CODE_C5C90A
 	ldy.w #$000E
 	jsr.w CODE_C55ABC
 	jsr.w CODE_C5D85D
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C5C926:						; a callback: CODE_C5C90A passes it to CODE_C55ABC
 	lda.w #$0010
@@ -1375,7 +1375,7 @@ CODE_C5CB1B:						; from CODE_C5CB0B
 	eor.w #$0001
 	sta.w $364E,x
 	jsr.w CODE_C5DA58
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C5CB33:						; from CODE_C5CB0B
 	jmp.w CODE_C5CA7A
 CODE_C5CB36:						; from CODE_C5CA6C
@@ -1385,7 +1385,7 @@ CODE_C5CB36:						; from CODE_C5CA6C
 	jsl.l CODE_C589E4
 	lda.w #$FFFF
 	sta.w $04C6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.b $9B
 	jsl.l CODE_C5E596
 	ldx.b $9D
@@ -1397,11 +1397,11 @@ CODE_C5CB36:						; from CODE_C5CA6C
 	ldx.b $63
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$56F2
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5084
 	jsl.l $C387D8
@@ -1476,8 +1476,8 @@ CODE_C5CC19:						; from CODE_C5CC19
 	sta.b $75
 	lda.w #CODE_C5CC4D
 	jsr.w CODE_C5D8E7
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	stz.b $85
 	rts
 CODE_C5CC4D:						; a callback: CODE_C5CC19 passes it to CODE_C5D8E7
@@ -1645,7 +1645,7 @@ CODE_C5CDA1:						; from CODE_C5CD90
 	sta.w DMAEnShadow
 	ldy.w #$5000
 	jsl.l CODE_C589E4
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.b $63
 	lda.w #$012C
 	sta.b $05,x
@@ -1655,11 +1655,11 @@ CODE_C5CDA1:						; from CODE_C5CD90
 	ldx.b $8D
 	jsl.l CODE_C5E596
 	stz.b $8D
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$53FF
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5084
 	jsl.l $C387D8
@@ -1736,7 +1736,7 @@ CODE_C5CE7B:						; from CODE_C5CE5C
 CODE_C5CE96:						; from CODE_C5CDA1
 	lda.w #$2000
 	sta.b $D5
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C5CEA0:						; from CODE_C5CDA1
 	sty.b $6D

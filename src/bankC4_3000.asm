@@ -908,7 +908,7 @@ CODE_C4389A:						; from CODE_C43831
 	jsl.l FadeOutWait
 	lda.w #$001E
 	sta.w fadestep
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l CODE_C539D7
 	lda.w $113F
 	beq CODE_C438D5
@@ -1354,13 +1354,13 @@ CODE_C43C74:						; from CODE_C43C4E
 CODE_C43C7F:						; from CODE_C43C74
 	lda.w #$0001
 	sta.w $2016
-	jsl.l $C4CEDB
-	jsl.l $C4C536
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C536
 	lda.w #$0A00
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.w $2024
 	sta.b $30
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$007E
 	sta.b $32
 	lda.w #$CFE2
@@ -1409,7 +1409,7 @@ CODE_C43CB4:						; from CODE_C43CB4
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w $201E
 	clc
 	adc.w #$0005
@@ -1481,9 +1481,9 @@ CODE_C43DA8:						; from CODE_C43D8B
 	stx.b $7F
 	sty.b $83
 	lda.w #$000B
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	tay
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$000A
 	sta.w $0000,y
 	lda.b $7F
@@ -1647,7 +1647,7 @@ CODE_C43F00:						; from CODE_C43EF3
 	sta.w $18B0
 	jml.l CODE_C51AFF
 CODE_C43F0D:						; from CODE_C43C4E
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.w #$0014
 	ldy.w #$0008
 	lda.w #$5846

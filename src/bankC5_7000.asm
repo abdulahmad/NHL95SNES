@@ -13,8 +13,8 @@ CODE_C56F5C:						; called from other segments
 	sbc.w #$0040
 	ldy.w #$0028
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -29,10 +29,10 @@ CODE_C56F91:						; from CODE_C56F5C
 	lda.l $C35E37,x
 	tax
 CODE_C56F98:						; from CODE_C56F5C
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	phx
 	ldx.w #$4E7D
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ply
 	jsr.w CODE_C56009
 	ldy.w #$000A
@@ -48,10 +48,10 @@ CODE_C56FBD:						; from CODE_C56F98
 	lda.l $C35E67,x
 CODE_C56FC1:						; from CODE_C56F98
 	tax
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	phx
 	ldx.w #$4EC1
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ply
 	jsr.w CODE_C56009
 	ldy.w #$000B
@@ -515,7 +515,7 @@ CODE_C57358:						; from CODE_C57329
 	jmp.w $4EF1
 CODE_C57361:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	jsl.l CODE_C53ABC
 	ldy.w #$2801
@@ -562,7 +562,7 @@ CODE_C573CF:						; from CODE_C573B8
 CODE_C573D3:						; from CODE_C5746B
 	jsr.w CODE_C574A4
 CODE_C573D6:						; from CODE_C57429
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	stz.w fadestep
 CODE_C573DD:						; from CODE_C573E0, CODE_C57411, CODE_C5741D, CODE_C5744A, ...
 	inc.w TransfersReady
@@ -646,8 +646,8 @@ CODE_C5746B:						; from CODE_C5746B
 	adc.w #$0300
 	ldy.w #$02C0
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	stz.b $69
 	jmp.w CODE_C573D3
 CODE_C57493:						; from CODE_C57458
@@ -783,8 +783,8 @@ CODE_C57578:						; from CODE_C57493
 	adc.w #$0300
 	ldy.w #$0400
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	stz.b $7D
 	stz.b $7B
 	stz.b $91
@@ -812,7 +812,7 @@ CODE_C575C4:						; from CODE_C57578
 	ldy.w #$000E
 	jsr.w CODE_C55ABC
 	jsr.w CODE_C577C3
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C575D7:						; from CODE_C575DA, CODE_C57631, CODE_C57636, CODE_C57644, ...
 	inc.w TransfersReady
 CODE_C575DA:						; from CODE_C575DA
@@ -879,7 +879,7 @@ CODE_C57653:						; from CODE_C57636
 	jsr.w CODE_C576CC
 	jsr.w CODE_C577C3
 	jsr.w CODE_C55C12
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C57660:						; from CODE_C57644
 	bit.w #$8000
 	beq CODE_C5767A
@@ -910,14 +910,14 @@ CODE_C5767D:						; from CODE_C575DA, CODE_C57660
 	sta.b $65
 	pla
 	sta.b $7B
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.b $D3
 	clc
 	adc.w #$0300
 	ldy.w #$0400
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.w #$8000
 	sta.w DMAEnShadow
 	sep #$20
@@ -950,8 +950,8 @@ CODE_C576E2:						; from CODE_C576E2
 	plx
 	dex
 	bpl CODE_C576E2
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C576FD:						; a callback: CODE_C575C4 passes it to CODE_C55ABC
 	ldx.w #$2000
@@ -1043,8 +1043,8 @@ CODE_C577A3:						; from CODE_C5779B
 	clc
 	adc.b $73
 	jsr.w CODE_C5755C
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	ldx.w #$0000
 	lda.w $0565
 	beq CODE_C577C2
@@ -1174,7 +1174,7 @@ CODE_C578A1:						; from CODE_C5788C
 	bra CODE_C57899
 CODE_C578B0:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	lda.w #$5395
 	jsl.l CODE_C4BB5A
@@ -1208,7 +1208,7 @@ CODE_C57903:						; from CODE_C578F3
 	sta.b $69
 CODE_C57905:						; from CODE_C57912, CODE_C5794E, CODE_C5795E, CODE_C5796C
 	jsr.w CODE_C57997
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	stz.w fadestep
 CODE_C5790F:						; from CODE_C57912, CODE_C5794E, CODE_C5795E, CODE_C5796C, ...
 	inc.w TransfersReady
@@ -1384,7 +1384,7 @@ CODE_C57A62:						; from CODE_C57A4D
 	rts
 CODE_C57A7D:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	lda.w #$0010
 	sta.b $CF
@@ -1463,7 +1463,7 @@ CODE_C57B21:						; from CODE_C57B06
 	ldx.w #$000B
 	ldy.w #$000B
 	jsr.w CODE_C55ABC
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	stz.w fadestep
 CODE_C57B36:						; from CODE_C57B36, CODE_C57B7F, CODE_C57B7D
 	inc.w TransfersReady
@@ -1583,7 +1583,7 @@ CODE_C57C2C:						; from CODE_C57BEA
 	rts
 CODE_C57C34:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	stz.b $7D
 	lda.w #$0000
@@ -1719,13 +1719,13 @@ CODE_C57D4B:						; from CODE_C57D27
 	adc.w #$0180
 	ldy.w #$02C0
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	ldx.b $7D
 	jsr (DATA8_C57DCD,x)
 CODE_C57D65:						; from CODE_C57D27
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	stz.w fadestep
 CODE_C57D70:						; from CODE_C57D70, CODE_C57DA3, CODE_C57DBD
 	inc.w TransfersReady
@@ -1982,7 +1982,7 @@ CODE_C57F39:						; from CODE_C57F28
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ply
 	jsr.w CODE_C57FC7
 	lda.w #$7620
@@ -1999,7 +1999,7 @@ CODE_C57F39:						; from CODE_C57F28
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ply
 	jsr.w CODE_C57FC7
 	lda.w #$0000

@@ -4,7 +4,7 @@ org $C40000
 CODE_C40000:						; called from other segments
 	jsr.w CODE_C40444
 CODE_C40003:						; from CODE_C40066
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l $C36C2D
 	inc.b $26
 	lda.w $058F
@@ -165,7 +165,7 @@ CODE_C40152:						; from DATA8_C400FE, DATA8_C40130
 CODE_C40153:						; from CODE_C4005E
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.w #$0070
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
@@ -213,13 +213,13 @@ CODE_C40153:						; from CODE_C4005E
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.w fadestep
 	jml.l CODE_C5A51C
 CODE_C401E5:						; called from other segments
 	lda.w #$0000
 	sta.l $306051
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsr.w CODE_C409E3
 	pea.w $7E7F
 	plb
@@ -539,7 +539,7 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l CODE_C5E596
 	stz.b $63
 	jsl.l CODE_C5BBBC
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	lda.w #$DC7B
 	ldx.w #$00C1
 	jsl.l CODE_C58812
@@ -582,13 +582,13 @@ CODE_C404A2:						; from CODE_C404A2
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$E9B2
 	ldx.w #$00C1
 	jsl.l CODE_C58812
 	lda.w #$04E0
-	jsl.l $C4C558
-	jsl.l $C4C541
+	jsl.l CODE_C4C558
+	jsl.l CODE_C4C541
 	ldx.w #$04DE
 CODE_C4050D:						; from CODE_C4050D
 	lda.w $50DC,x
@@ -655,8 +655,8 @@ CODE_C40547:						; from CODE_C40547
 	lda.w #$0100
 	sta.b $D1
 	jsl.l CODE_C4BBE5
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.l $30604D
 	and.w #$00FF
 	beq CODE_C40604
@@ -670,13 +670,13 @@ CODE_C405AE:						; from CODE_C405C7
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ldx.b $16
 	lda.b $0A
 	beq CODE_C405C7
 	inx
 CODE_C405C7:						; from CODE_C405AE
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ldy.b $9F
 	jsl.l CODE_C4BC08
 	dec.b $9F
@@ -735,7 +735,7 @@ CODE_C40633:						; from CODE_C40633
 	ply
 	dey
 	bpl CODE_C40633
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	plx
 	dex
 	bpl CODE_C4062F
@@ -766,7 +766,7 @@ CODE_C40671:						; from CODE_C4064B
 	pea.w $1801
 	pea.w $007E
 	lda.w #$0038
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	tay
 	lda.b $02
@@ -842,7 +842,7 @@ CODE_C406EA:						; from CODE_C406AB
 	jsl.l CODE_C589E4
 	lda.w #$FFFF
 	sta.w $04C6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.b $9B
 	jsl.l CODE_C5E596
 	stz.b $9B
@@ -850,7 +850,7 @@ CODE_C406EA:						; from CODE_C406AB
 	jsl.l CODE_C5E596
 	stz.b $9D
 	jsl.l CODE_C5A507
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	pla
 	jsl.l CODE_C4BB5A
@@ -1207,7 +1207,7 @@ CODE_C409BD:						; from CODE_C409BD
 	bpl CODE_C4099C
 	rts
 CODE_C409E3:						; from CODE_C401E5, CODE_C40547
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$364E
 	ldy.w #$1000
 	jsl.l CODE_C58B11
@@ -1279,7 +1279,7 @@ CODE_C40A6D:						; called from other segments
 	pea.w $7E7E
 	plb
 	plb
-	jsl.l $C4C536
+	jsl.l CODE_C4C536
 	jsl.l CODE_C52CA3
 	ply
 	phy
@@ -1698,7 +1698,7 @@ CODE_C40D96:						; called from other segments
 	lda.w #$2C46
 	ldy.w #$0078
 	jsl.l CODE_C58B11
-	jsl.l $C4C536
+	jsl.l CODE_C4C536
 	jsl.l CODE_C5E37E
 	lda.w #$0002
 	sta.b $9F

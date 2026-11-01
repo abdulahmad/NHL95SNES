@@ -1587,7 +1587,7 @@ CODE_C50D29:						; from CODE_C5032B and other segments
 CODE_C50DDD:						; from CODE_C50D29
 	stz.b $5D
 	stz.w $07C6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.w $2372
 	stz.w $1857
 	jsl.l forceblack

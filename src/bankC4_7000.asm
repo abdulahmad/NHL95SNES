@@ -947,7 +947,7 @@ CODE_C477D5:						; from CODE_C477A4, CODE_C477BB
 	inc.w $1263,x
 CODE_C477E6:						; from CODE_C477D5
 	lda.w #$0005
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	tax
 	lda.w #$0004
 	sta.w $0000,x

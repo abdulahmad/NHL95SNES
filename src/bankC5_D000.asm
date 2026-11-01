@@ -324,7 +324,7 @@ CODE_C5D2A8:						; from CODE_C5D26D
 	inc a
 	cmp.w #$0008
 	bne CODE_C5D26D
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C5D2B4:						; from CODE_C5D26D, CODE_C5D431
 	asl a
@@ -531,7 +531,7 @@ CODE_C5D41F:						; from CODE_C5D415
 	stx.b $69
 CODE_C5D427:						; from CODE_C5D406
 	jsr.w CODE_C5D5A5
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C5D42E:						; from CODE_C5D3EC, CODE_C5D43D
 	jmp.w CODE_C5D372
 CODE_C5D431:						; from CODE_C5D415
@@ -588,7 +588,7 @@ CODE_C5D485:						; from CODE_C5D44C
 	ldx.w #$4F4A
 	ldy.w #$001A
 	jsl.l CODE_C4BBFC
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	ldx.b $63
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
@@ -692,7 +692,7 @@ CODE_C5D56F:						; from CODE_C5D567
 	iny
 	iny
 	jsr.w CODE_C5D599
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C5D599:						; from CODE_C5D56F
 	lda.w $0000,y
@@ -1154,7 +1154,7 @@ CODE_C5D8E7:						; called from other segments
 	stz.b $77
 	stz.b $79
 	stz.b $6B
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $00,$2C,$4E,$3E,$7E,$00		; inline parameters
@@ -1396,8 +1396,8 @@ CODE_C5DAD4:						; from CODE_C5DACC
 	pea.w CODE_C5DAE2-1
 	jmp ($008F)
 CODE_C5DAE2:						; from CODE_C5DAD4
-	jsl.l $C4CEDB
-	jsl.l $C4C536
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C536
 	lda.b $91
 	inc a
 	bra CODE_C5DAC2
@@ -1445,7 +1445,7 @@ CODE_C5DB22:						; from CODE_C5DB1A
 	pea.w CODE_C5DB30-1
 	jmp ($008F)
 CODE_C5DB30:						; from CODE_C5DB22
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	bra CODE_C5DB38
 CODE_C5DB36:						; from CODE_C5DAF3
 	pla
@@ -1543,7 +1543,7 @@ CODE_C5DBD2:						; from CODE_C5DBCA
 	pea.w CODE_C5DBE0-1
 	jmp ($008F)
 CODE_C5DBE0:						; from CODE_C5DBD2
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	bra CODE_C5DBE8
 CODE_C5DBE6:						; from CODE_C5DB9F
 	pla
@@ -1952,7 +1952,7 @@ CODE_C5DEBC:						; from CODE_C5DEB4
 	pei ($A3)
 	pea.w $7F7E
 	plb
-	jsl.l $C4C536
+	jsl.l CODE_C4C536
 	jsr.w CODE_C52CC1
 	ldy.w #$2DC9
 	jsl.l $C4EFD8

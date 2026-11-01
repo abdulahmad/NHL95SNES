@@ -477,7 +477,7 @@ CODE_C533EF:						; from CODE_C533E1 and other segments
 	adc.b $9F
 	tax
 	lda.w #$0032
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	tay
 	phx
 	lda.w $0110,x
@@ -1236,7 +1236,7 @@ CODE_C53984:						; from CODE_C53980 and other segments
 	jsl.l CODE_C5EE6C
 	lda.w #$00B9
 	jsl.l CODE_C5EE6C
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	rts
 CODE_C539D7:						; called from other segments
 	ldx.w #$0009
@@ -1298,16 +1298,16 @@ CODE_C53A75:						; from CODE_C539D7, CODE_C53A71
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ldx.b $16
 	lda.b $0A
 	beq CODE_C53A8C
 	inx
 CODE_C53A8C:						; from CODE_C53A75
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 CODE_C53A90:						; from CODE_C539D7
 	lda.w #$0004
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	pha
 	tay
 	sep #$20

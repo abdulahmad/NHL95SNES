@@ -38,7 +38,7 @@ CODE_C5800C:						; called from other segments
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ply
 	jsr.w CODE_C5809A
 	lda.w #$7620
@@ -55,7 +55,7 @@ CODE_C5800C:						; called from other segments
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ply
 	jsr.w CODE_C5809A
 	lda.w #$0000
@@ -174,7 +174,7 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	db $58,$51,$5C,$5C,$02,$43		; inline parameters
 	lda.w #$0000
 	tcd
-	jsl.l $C4CEF5
+	jsl.l CODE_C4CEF5
 	lda.w #$548B
 	sta.w $18FA
 	lda.w #$6BAB
@@ -696,7 +696,7 @@ CODE_C58565:						; from CODE_C5855D
 	inc a
 	inc a
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	inc a
 	inc a
@@ -771,7 +771,7 @@ CODE_C585EC:						; from CODE_C585EC
 	bne CODE_C585CB
 CODE_C58604:						; from CODE_C585AD
 	pla
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	jsr.w CODE_C586B6
 	ldy.w #$0004
 	lda.b [$30],y
@@ -806,7 +806,7 @@ CODE_C58638:						; from CODE_C58604
 	sta.b $0A
 	lsr.b $0A
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	ldx.w #$007E
 	jsr.w DecompressLZSS
@@ -825,7 +825,7 @@ CODE_C5866D:						; from CODE_C5866D
 	cpy.b $A5
 	bcc CODE_C5866D
 	pla
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	jsr.w CODE_C586B6
 	ldy.w #$0005
 	lda.b [$30],y
@@ -885,7 +885,7 @@ CODE_C586D1:						; from CODE_C586CA
 	sta.b $2E
 	lda.b [$30],y
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	ldx.w #$007E
 	jsr.w DecompressLZSS
@@ -925,7 +925,7 @@ CODE_C5871D:						; from CODE_C5871D
 	bne CODE_C5871B
 	rep #$20
 	pla
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	jsr.w CODE_C586B6
 	ldy.w #$0004
 	lda.b [$30],y
@@ -962,7 +962,7 @@ CODE_C5877C:						; from CODE_C5871D
 	lda.b [$30],y
 	sta.b $A5
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	ldx.w #$007E
 	stx.b $2E
@@ -985,7 +985,7 @@ CODE_C587B8:						; from CODE_C587B8
 	bcc CODE_C587B8
 	rep #$20
 	pla
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	jsr.w CODE_C586B6
 	ldy.w #$0002
 	lda.b [$30],y
@@ -1257,7 +1257,7 @@ CODE_C589B0:						; from CODE_C58A3F
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jml.l $C4CEDB
+	jml.l CODE_C4CEDB
 CODE_C589E4:						; called from other segments
 	dec.b QueueBusy
 	lda.b $02
@@ -1324,7 +1324,7 @@ DecompressToVRAM:					; Decompress A:X into a $1000 byte heap block and queue it
 	phy
 	tay
 	lda.w #$1000
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	sta.b $2C
 	lda.w #$007E
@@ -1445,8 +1445,8 @@ CODE_C58B2E:						; called from other segments
 	rtl
 CODE_C58B48:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
-	jsl.l $C4C530
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C530
 	jsl.l CODE_C5E50E
 	pea.w $7E80
 	plb
@@ -1493,7 +1493,7 @@ CODE_C58BB9:						; called from other segments
 	and.w #$00FF
 	sta.b $9F
 	inc a
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	pha
 	tax
 	ldy.w #$0001
@@ -1511,8 +1511,8 @@ CODE_C58BD0:						; from CODE_C58BD0
 	plx
 	rtl
 CODE_C58BE4:						; called from other segments
-	jsl.l $C4CEDB
-	jsl.l $C4C530
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C530
 	jsl.l CODE_C5E50E
 	jsr.w SetBGMapRegs
 	db $58,$51,$5C,$5C,$02,$43		; inline parameters
@@ -1623,7 +1623,7 @@ CODE_C58CAF:						; from CODE_C58CAF
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jml.l $C4CEDB
+	jml.l CODE_C4CEDB
 CODE_C58CCD:						; called from other segments
 	sep #$20
 	pha
@@ -1974,7 +1974,7 @@ CODE_C58F75:						; from CODE_C58F02
 CODE_C58FC9:						; from CODE_C58F75
 	jsl.l CODE_C4BCA4
 CODE_C58FCD:						; from CODE_C58F75
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C58FD2:						; from CODE_C58F57
 	sta.b $08,x

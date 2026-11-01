@@ -725,3 +725,10 @@ $C4A62D,DATA8_C4A62D,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A0
 $C4A645,DATA8_C4A645,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A000)",src/bankC4_A000.asm
 $C4B35D,DATA8_C4B35D,,new,"not traced: a table read by CODE_C4B32D (in bankC4_B000)",src/bankC4_B000.asm
 $C4BAD6,DATA8_C4BAD6,,new,"not traced: data between routines (in bankC4_B000)",src/bankC4_B000.asm
+$C4C07D,DATA8_C4C07D,,new,"the 8 routines CODE_C4BF1A runs (address - 1: pushed, then rts) (in bankC4_C000)",src/bankC4_C000.asm
+$C4C420,DATA8_C4C420,,new,"not traced: a table read by CODE_C4C419 (in bankC4_C000)",src/bankC4_C000.asm
+$C4C4A6,DATA8_C4C4A6,,new,"not traced: data between routines (in bankC4_C000)",src/bankC4_C000.asm
+$C4C4AE,DATA8_C4C4AE,,new,"not traced: a table read by CODE_C4C08D (in bankC4_C000)",src/bankC4_C000.asm
+$C4C4B6,DATA8_C4C4B6,,new,"not traced: a table read by CODE_C4BEB1 (in bankC4_C000)",src/bankC4_C000.asm
+$C4C4D7,DATA8_C4C4D7,,new,"not traced: a table read by CODE_C4C349, CODE_C4BE99 (in bankC4_C000)",src/bankC4_C000.asm
+$C4C502,DATA8_C4C502,,new,"not traced: a table read by CODE_C4BEA6 (in bankC4_C000)",src/bankC4_C000.asm

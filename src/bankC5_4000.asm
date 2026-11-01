@@ -69,7 +69,7 @@ CODE_C54070:						; from CODE_C5404A, CODE_C5454E and other segments
 	jsl.l CODE_C58C36
 	lda.b $6B
 	jsr.w CODE_C56104
-	jsl.l $C4C3AE
+	jsl.l CODE_C4C3AE
 	jsr.w CODE_C56262
 	lda.b $7F
 	clc
@@ -105,7 +105,7 @@ CODE_C540A7:						; from CODE_C54107
 CODE_C540C3:						; from CODE_C540A7
 	phx
 	lda.w #$0006
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	tay
 	lda.w #$0005
 	sta.w $0000,y
@@ -1401,7 +1401,7 @@ CODE_C54B60:						; from CODE_C54BAF, CODE_C54BCA, CODE_C545B8, ...
 	jsr.w CODE_C54114
 	pha
 	tay
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -1426,14 +1426,14 @@ CODE_C54B74:						; from CODE_C54B74
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	pla
 	cmp.w #$5AB5
 	bcc CODE_C54BA3
 	jsl.l CODE_C539D7
 CODE_C54BA3:						; from CODE_C54B74
 	jsl.l CODE_C51397
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jml.l CODE_C5111A
 CODE_C54BAF:						; called from other segments
 	lda.w $186E
@@ -1633,7 +1633,7 @@ CODE_C54D16:						; from CODE_C54D0E
 	lsr a
 	tax
 	lda.w #$0003
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	pha
 	tay
 	lda.w #$A0A0

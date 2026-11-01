@@ -559,7 +559,7 @@ CODE_C09418:						; from CODE_C09401
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	jsl.l CODE_C099F4
 	phx
 	ldx.w #$0010
@@ -1210,7 +1210,7 @@ CODE_C099FC:						; loop
 	bne CODE_C099FC
 	rep #$20
 	tya
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	tax
 	tya
 	sta.w $0000,x

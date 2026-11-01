@@ -154,13 +154,13 @@ DATA8_C55038:						; jump table: the routine for each index
 	dw CODE_C56B7B,CODE_C56B8C
 CODE_C5503C:						; called from other segments
 	jsl.l forceblack
-	jsl.l $C4CEDB
-	jsl.l $C4C536
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C536
 	lda.w #$FFFF
 	sta.w $2372
 	sta.w $18F2
 	lda.w #$0802
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.l $7E364A
 	dec.b QueueBusy
 	lda.b $02
@@ -179,13 +179,13 @@ CODE_C5503C:						; called from other segments
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l $C387FF
 	lda.w #$2D60
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.w $18EE
 	sta.b $30
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$007E
 	sta.b $32
 	lda.w #$BA31
@@ -234,7 +234,7 @@ CODE_C550E2:						; from CODE_C55A16
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	sep #$20
 	lda.b #$11
 	sta.l TM
@@ -293,7 +293,7 @@ CODE_C55153:						; from CODE_C55153
 	stx.b $04
 	stz.b QueueBusy
 	lda.w #$4100
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.b $2C
 	pha
 	lda.w #$007E
@@ -347,17 +347,17 @@ CODE_C55153:						; from CODE_C55153
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C5547C
 	jsr.w CODE_C55367
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$4100
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	ldy.w #$4A00
 	lda.w #$027E
 	ldx.w #$00C0
 	jsl.l DecompressToVRAM
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l ScreenOn
 	rts
 CODE_C5522E:						; from CODE_C5503C
@@ -536,7 +536,7 @@ CODE_C55367:						; from CODE_C55153, CODE_C54FCF
 	sta.b $A3
 	lda.w #$001A
 	jsr.w CODE_C5538C
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C5538C:						; from CODE_C55367
 	pha
@@ -630,7 +630,7 @@ CODE_C5541C:						; from CODE_C5541C
 	sta.w $04F4,x
 	rep #$20
 	lda.w #$0020
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	tay
 	ldx.w #$0000
@@ -757,11 +757,11 @@ CODE_C55513:						; called from other segments
 	jsl.l $CF0427
 CODE_C55524:						; from CODE_C55513
 	stz.w DMAEnShadow
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$007E
 	sta.b $32
 	lda.w #$21F0
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	sta.b $30
 	lda.w #$CC6E
@@ -796,9 +796,9 @@ CODE_C55524:						; from CODE_C55513
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$21F0
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	ldx.w #$20A0
 	stx.b $A3
 	ldx.w #$2000
@@ -871,7 +871,7 @@ CODE_C55524:						; from CODE_C55513
 	stx.b $A1
 	lda.w $088C
 	jsl.l CODE_C5F368
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.w #$2180
 	stx.b $A3
 	ldx.w #$2034
@@ -909,7 +909,7 @@ CODE_C55524:						; from CODE_C55513
 	stx.b $00
 	lda.w #$01E0
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pea.w $6360
 	ldx.w #$007E
 	phx
@@ -924,9 +924,9 @@ CODE_C55524:						; from CODE_C55513
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$01E0
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	lda.w #$EEA5
 	sta.b $30
 	lda.w #$00CC
@@ -965,7 +965,7 @@ CODE_C5571A:						; from CODE_C55711
 CODE_C55724:						; from CODE_C5571A
 	sta.b $2C
 	lda.w #$4100
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.w $364C
 	ldx.w #$007E
 	jsr.w DecompressLZSS
@@ -1020,11 +1020,11 @@ CODE_C55724:						; from CODE_C5571A
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$4100
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	lda.w #$4E00
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.w $364C
 	sta.b $2C
 	lda.w #$007E
@@ -1068,9 +1068,9 @@ CODE_C55724:						; from CODE_C5571A
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$4E00
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	lda.w #$03E7
 	sta.w $07E4
 	ldy.w #$4800
@@ -1078,7 +1078,7 @@ CODE_C55724:						; from CODE_C5571A
 	ldx.w #$00C0
 	jsl.l DecompressToVRAM
 	lda.w #$13E0
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.w $364C
 	sta.b $30
 	lda.w #$007E
@@ -1114,15 +1114,15 @@ CODE_C55724:						; from CODE_C5571A
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
-	jsl.l $C4C536
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C536
 	sep #$20
 	lda.b #$13
 	sta.l TM
 	rep #$20
 	jsl.l CODE_C53A29
-	jsl.l $C4CEDB
-	jml.l $C4C536
+	jsl.l CODE_C4CEDB
+	jml.l CODE_C4C536
 CODE_C5589E:						; called from other segments
 	dec.b QueueBusy
 	lda.b $00
@@ -1141,14 +1141,14 @@ CODE_C5589E:						; called from other segments
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$0802
-	jsl.l $C4C56A
-	jml.l $C4C541
+	jsl.l CODE_C4C56A
+	jml.l CODE_C4C541
 CODE_C558CC:						; called from other segments
 	lda.w #$040E
-	jsl.l $C4C56A
-	jsl.l $C4C541
+	jsl.l CODE_C4C56A
+	jsl.l CODE_C4C541
 CODE_C558D7:						; from CODE_C55A16 and other segments
 	ldx.w $3648
 	ldy.w #$1912
@@ -1197,8 +1197,8 @@ CODE_C55907:						; from CODE_C558F2
 	and.w #$FF00
 	ora.w #$00B9
 	jsl.l CODE_C5EE9B
-	jsl.l $C4CEDB
-	jml.l $C4C536
+	jsl.l CODE_C4CEDB
+	jml.l CODE_C4C536
 CODE_C55951:						; from CODE_C55A40 and other segments
 	stz.w DMAEnShadow
 	stz.b $22
@@ -1235,7 +1235,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	lda.w #$001F
 	sta.l TM
 	lda.w #$0240
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	sta.b $2C
 	sta.b $34
 	lda.w #$007E
@@ -1259,9 +1259,9 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	stz.b QueueBusy
 	jsr.w CODE_C5A4B9
 	jsr.w CODE_C5A4E2
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$0240
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	lda.w #$0002
 	sta.w $04C2
 	rts
@@ -1274,20 +1274,20 @@ CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
 CODE_C55A16:						; from CODE_C55A09
 	jsl.l ClearNMIHook
 	lda.w #$0800
-	jsl.l $C4C56A
+	jsl.l CODE_C4C56A
 	sta.w $18E0
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l CODE_C558D7
 	ldy.w #$5000
 	jsl.l CODE_C589E4
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.w $058D
 	lda.w $190E
 	jmp.w CODE_C550E2
 CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	pha
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	pla
 	jsl.l CODE_C4BB5A
@@ -1338,7 +1338,7 @@ CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
 	stx.b $71
 	sty.b $73
 	stz.b $69
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $00,$2C,$9D,$46,$7E,$00		; inline parameters
@@ -1451,8 +1451,8 @@ CODE_C55BC8:						; from CODE_C55BD1
 	pea.w CODE_C55BD1-1
 	jmp ($0075)
 CODE_C55BD1:						; from CODE_C55BC8
-	jsl.l $C4CEDB
-	jsl.l $C4C536
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C536
 	inc.b $6D
 	inc.b $6F
 	lda.b $6F
@@ -1519,8 +1519,8 @@ CODE_C55C37:						; from CODE_C55C2F
 	pea.w CODE_C55C45-1
 	jmp ($0075)
 CODE_C55C45:						; from CODE_C55C37
-	jsl.l $C4CEDB
-	jsl.l $C4C536
+	jsl.l CODE_C4CEDB
+	jsl.l CODE_C4C536
 	lda.b $6F
 	inc a
 	bra CODE_C55C25
@@ -1558,7 +1558,7 @@ CODE_C55C78:						; from CODE_C55C70
 	pea.w CODE_C55C86-1
 	jmp ($0075)
 CODE_C55C86:						; from CODE_C55C78
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	bra CODE_C55C93
 CODE_C55C8C:						; from CODE_C55C98
 	stz.w $0565
@@ -1631,7 +1631,7 @@ CODE_C55D02:						; from CODE_C55CFA
 	pea.w CODE_C55D10-1
 	jmp ($0075)
 CODE_C55D10:						; from CODE_C55D02
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C55D14:						; from CODE_C55CE6
 	ldx.w #$0008
 CODE_C55D17:						; from CODE_C55D17, CODE_C55D54
@@ -1789,7 +1789,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	jsl.l CODE_C4BBF1
 	rts
 CODE_C55E57:						; called from other segments
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w $17C9
 	lda.b $6B
 	beq CODE_C55E65
@@ -1835,8 +1835,8 @@ CODE_C55E65:						; from CODE_C55E57
 	tax
 	ldy.w #$0009
 	jsl.l CODE_C4BCAA
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C55EC3:						; called from other segments
 	jsr.w CODE_C55EC7
@@ -1963,14 +1963,14 @@ CODE_C55F85:						; from CODE_C55F35, CODE_C55F53, CODE_C55F70
 CODE_C55F8A:						; called from other segments
 	pha
 	adc.w #$0002
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	tay
 	pla
 	jsr.w CODE_C55F22
 	rtl
 CODE_C55F98:						; called from other segments
 	sta.b $2C
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	stx.b $2E
 	ldy.w #$0000
 	sep #$20

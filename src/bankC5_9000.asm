@@ -141,15 +141,15 @@ CODE_C590C4:						; from CODE_C590C4
 	iny
 	dex
 	bpl CODE_C590C4
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C590DA:						; called from other segments
 	jsl.l CODE_C58D05
 	jsl.l FadeOutWait
 	lda.w #$0001
 	sta.w $059E
-	jsl.l $C4C574
-	jsl.l $C4C530
+	jsl.l CODE_C4C574
+	jsl.l CODE_C4C530
 	lda.w #$007F
 	sta.b $2E
 	lda.w #$D80A
@@ -161,7 +161,7 @@ CODE_C590DA:						; called from other segments
 	jsl.l CODE_C589E4
 	ldy.w #$0000
 	jsl.l CODE_C589E4
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$083D
 	ldx.w #$00C0
 	jsl.l DecompressUnpackbuf
@@ -180,7 +180,7 @@ CODE_C590DA:						; called from other segments
 	stx.b $00
 	stz.b QueueBusy
 	stz.w DMAEnShadow
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.w #$0070
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
@@ -228,7 +228,7 @@ CODE_C590DA:						; called from other segments
 	jsl.l CODE_C4BAF6
 	lda.w #$56CE
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$4A65
 	ldx.w #$00C0
 	jsl.l SetNMIHook
@@ -249,7 +249,7 @@ CODE_C590DA:						; called from other segments
 	lda.w #$0020
 	jsl.l CreateSprite
 	jsr.w CODE_C592A9
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$C000
 	sta.w DMAEnShadow
 	lda.w #$2C46
@@ -310,8 +310,8 @@ CODE_C592D7:						; from CODE_C592B4
 	adc.b $D3
 	ldy.w #$0200
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.w $1864
 	asl a
 	tax
@@ -418,7 +418,7 @@ CODE_C593B8:						; from CODE_C5939D
 	jsr.w CODE_C5951B
 CODE_C593BF:						; from CODE_C593BF
 	jsl.l $C36CBF
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -477,7 +477,7 @@ CODE_C59412:						; from CODE_C593F5
 	sta.b $0A,x
 	stz.b $20
 	stz.b $1E
-	jml.l $C4C530
+	jml.l CODE_C4C530
 CODE_C5945E:						; from CODE_C593BF
 	ldy.w #$0004
 CODE_C59461:						; from CODE_C5947C
@@ -640,12 +640,12 @@ CODE_C59595:						; from CODE_C59588
 	clc
 	adc.w #$0400
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	lda.w #$8000
 	sta.w DMAEnShadow
 	lda.w #$FFFF
 	sta.w $04C6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsr.w CODE_C5A50B
 	jsr.w CODE_C5BBC0
 	lda.w #$0005
@@ -686,7 +686,7 @@ CODE_C59595:						; from CODE_C59588
 	sta.b $08,x
 	lda.w #$0018
 	jsr.w CODE_C5909D
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	lda.w #$000D
 	sta.b $99
 	bra CODE_C59651
@@ -700,7 +700,7 @@ CODE_C59643:						; from CODE_C596D3
 	jsr.w CODE_C5A09B
 	stz.w fadestep
 CODE_C59651:						; from CODE_C59651, CODE_C59595, CODE_C5963A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	jsl.l $C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
@@ -782,7 +782,7 @@ CODE_C596DB:						; from CODE_C596D3
 	ldx.w #$04F5
 	ldy.w #$0002
 	jsl.l CODE_C4BDCA
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	stz.b $7F
 	stz.b $85
 	lda.w #$0032
@@ -907,7 +907,7 @@ CODE_C59824:						; from CODE_C5981A, CODE_C59803
 	ldy.b $71
 	ldx.w #$04F5
 	jsl.l CODE_C4BC46
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C59837:						; from CODE_C59778
 	lda.b $6F
@@ -929,7 +929,7 @@ CODE_C5983C:						; from CODE_C59837
 	ldy.b $71
 	ldx.w #$4673
 	jsl.l CODE_C4BC9E
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	lda.w #$3E3E
 	sta.w $04F5
 	sta.w $04F7
@@ -942,7 +942,7 @@ CODE_C5983C:						; from CODE_C59837
 	lda.w #$000A
 	sta.b $69
 	stz.b $6F
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C5988C:						; from CODE_C5983C
 	jsr.w CODE_C598C9
@@ -962,7 +962,7 @@ CODE_C5988C:						; from CODE_C5983C
 	lda.b $D3
 	adc.w #$0300
 	jsl.l CODE_C58B11
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$56DC
 	jsl.l CODE_C4BB5A
 	inc.b $99
@@ -983,7 +983,7 @@ CODE_C598C9:						; from CODE_C5983C, CODE_C5988C
 	clc
 	adc.w #$0040
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C598EB:						; from CODE_C5983C, CODE_C5988C
 	sep #$30
@@ -1002,7 +1002,7 @@ DATA8_C598FA:						; not reached by the traced code (data or unused code)
 	db $76,$77,$78,$79,$7A,$3D
 CODE_C59930:						; from DATA8_C5967A
 	jsr.w CODE_C59938
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C59938:						; from CODE_C59930
 	lda.b $7F
@@ -1115,8 +1115,8 @@ CODE_C599F8:						; from CODE_C599E7
 	stz.w $0002,x
 	stz.w $0004,x
 	stz.w $0006,x
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.b $97
 	asl a
 	tax
@@ -1168,8 +1168,8 @@ CODE_C59A5C:						; from CODE_C59A4B
 	stz.w $0002,x
 	stz.w $0004,x
 	stz.w $0006,x
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.b $97
 	asl a
 	tax
@@ -1526,7 +1526,7 @@ CODE_C59D51:						; from CODE_C59D4B, CODE_C59D45, CODE_C59D48, CODE_C59D3F, ...
 	tya
 	and.w #$0007
 	tax
-	lda.l $C4C4A6,x
+	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	eor.w #$FFFF
 	sta.b $9F
@@ -1544,7 +1544,7 @@ CODE_C59D77:						; from CODE_C59D51
 	tya
 	and.w #$0007
 	tax
-	lda.l $C4C4A6,x
+	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	sta.b $9F
 	tya
@@ -1579,7 +1579,7 @@ CODE_C59DAF:						; from DATA8_C5967A
 	lda.b $26
 	lsr a
 	bcs CODE_C59DBB
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 CODE_C59DBB:						; from CODE_C59DAF
 	jmp.w CODE_C59F62
 CODE_C59DBE:						; from CODE_C59DAF
@@ -1665,7 +1665,7 @@ CODE_C59E43:						; from CODE_C59DCE
 	lda.w #$57AE
 CODE_C59E65:						; from CODE_C59E43
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldx.b $63
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
@@ -1723,8 +1723,8 @@ CODE_C59EDA:						; from CODE_C59EDA
 	inc a
 	cmp.w #$0014
 	bcc CODE_C59EDA
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	stz.w fadestep
 	rts
 DATA8_C59EF2:						; jump table: the routine for each index

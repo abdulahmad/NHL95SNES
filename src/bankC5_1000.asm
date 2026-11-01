@@ -715,7 +715,7 @@ CODE_C516BF:						; from CODE_C516AA
 	jmp.w CODE_C51752
 CODE_C516C2:						; called from other segments
 	lda.w #$0020
-	jsl.l $C4C561
+	jsl.l CODE_C4C561
 	clc
 	adc.w #$001F
 	sta.b $67
@@ -1024,7 +1024,7 @@ CODE_C51911:						; from CODE_C518B6
 	jsr.w CODE_C55F22
 	ldx.w #$04F5
 	jsr.w CODE_C56262
-	jsl.l $C4C47E
+	jsl.l CODE_C4C47E
 	txa
 	ldx.w #$007E
 	ldy.b $6F

@@ -449,7 +449,7 @@ CODE_C5E2EB:						; from CODE_C5E2CA, CODE_C5E2CD, CODE_C5E2C7, CODE_C5E2C4
 	lda.b $34
 	and.w #$0007
 	tax
-	lda.l $C4C4A6,x
+	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	eor.w #$FFFF
 	sta.b $A5
@@ -467,7 +467,7 @@ CODE_C5E314:						; from CODE_C5E2EB
 	lda.b $34
 	and.w #$0007
 	tax
-	lda.l $C4C4A6,x
+	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	sta.b $A5
 	lda.b $34
@@ -537,7 +537,7 @@ CODE_C5E38C:						; from CODE_C5E38C
 CODE_C5E3A4:						; from CODE_C5E38C
 	plx
 	stz.w $0002,x
-	jml.l $C4C541
+	jml.l CODE_C4C541
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3AE:						; no caller found (not traced)
 	lda.l $3075B4
@@ -664,7 +664,7 @@ DATA8_C5E499:						; not traced: data between routines
 	db $6B
 CODE_C5E49A:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.w DMAEnShadow
 	jsl.l CODE_C5E50E
 	jsr.w CODE_C55951
@@ -676,7 +676,7 @@ CODE_C5E49A:						; called from other segments
 	ldx.w #$4692
 	ldy.w #$000C
 	jsl.l CODE_C4BCA4
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	stz.w fadestep
 	lda.w #$000F
 CODE_C5E4CC:						; from CODE_C5E4CC

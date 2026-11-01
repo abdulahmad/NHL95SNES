@@ -18,9 +18,9 @@ CODE_C5AFCC:						; called from other segments
 	jsl.l CODE_C5E596
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	pla
 	jsr.w CODE_C5B631
 	ldx.w #$559D
@@ -43,7 +43,7 @@ CODE_C5B008:						; from CODE_C5B008
 	jsr.w CODE_C5D804
 	beq CODE_C5B008
 	lda.w #$0010
-	jsl.l $C4C547
+	jsl.l CODE_C4C547
 	sta.b $7F
 	sta.b $81
 	tay
@@ -54,7 +54,7 @@ CODE_C5B02B:						; from CODE_C5B02B
 	jsr.w CODE_C5B558
 	dec.b $9F
 	bpl CODE_C5B02B
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.b $81
 	ldy.w #$FFFE
 CODE_C5B03B:						; from CODE_C5B049
@@ -74,14 +74,14 @@ CODE_C5B049:						; from CODE_C5B03B
 	sta.b $67
 	lda.w #$556D
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.b $69
 	lda.w #CODE_C5B6A1
 	ldx.w #$000D
 	ldy.w #$0009
 	jsr.w CODE_C55ABC
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.w #$0008
 	sta.b $99
 	stz.w fadestep
@@ -98,24 +98,24 @@ CODE_C5B07C:						; called from other segments
 	sta.w $04C2
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	sep #$20
 	lda.b #$11
 	sta.l TM
 	rep #$20
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$55F1
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$50A8
 	jsl.l $C387D8
 	stz.w $17C9
 	stz.b $9B
 	jsr.w CODE_C5B7F1
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	sep #$20
 	lda.b #$17
 	sta.l TM
@@ -137,16 +137,16 @@ CODE_C5B0EA:						; called from other segments
 	sta.w $04C2
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	sep #$20
 	lda.b #$11
 	sta.l TM
 	rep #$20
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$5583
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$50A8
 	jsl.l $C387D8
@@ -165,8 +165,8 @@ CODE_C5B0EA:						; called from other segments
 	jsr.w CODE_C55ABC
 	stz.b $9B
 	jsr.w CODE_C5BCD9
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	sep #$20
 	lda.b #$17
 	sta.l TM
@@ -185,11 +185,11 @@ CODE_C5B17A:						; called from other segments
 	sta.w DMAEnShadow
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	jsl.l $C4C530
+	jsl.l CODE_C4C530
 	jsl.l CODE_C4BAF6
 	lda.w #$5553
 	jsl.l CODE_C4BB5A
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.b $7F
 	jsl.l CODE_C5E37E
 	stz.b $83
@@ -219,8 +219,8 @@ CODE_C5B1AF:						; called from other segments
 	tax
 	ldy.w #$0013
 	jsl.l CODE_C4BCA4
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.w #$000B
 	sta.b $99
 	stz.w fadestep
@@ -257,10 +257,10 @@ CODE_C5B22D:						; called from other segments
 	adc.b $D3
 	ldy.w #$0540
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	ldy.w #$5000
 	jsl.l CODE_C589E4
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$0011
 	sta.w $3652
 	ldx.b $63
@@ -349,7 +349,7 @@ CODE_C5B22D:						; called from other segments
 	tay
 	jsl.l CODE_C4BCAA
 CODE_C5B315:						; from CODE_C5B22D
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$0017
 	sta.w $3652
 	ldx.b $73
@@ -412,7 +412,7 @@ CODE_C5B369:						; from CODE_C5B22D and other segments
 	lda.b $A1
 	rts
 CODE_C5B38F:						; from CODE_C5B22D and other segments
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	phd
 	lda.b $85
 	lsr a
@@ -452,7 +452,7 @@ CODE_C5B39F:						; from CODE_C5B38F
 	pha
 	and.w #$0007
 	tax
-	lda.l $C4C4A6,x
+	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	sta.w $009F
 	pla
@@ -635,7 +635,7 @@ CODE_C5B54E:						; from CODE_C5B53D
 	rts
 CODE_C5B558:						; from CODE_C5B02B
 	lda.w #$0010
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	tay
 	lda.b $9F
 	jsr.w CODE_C5B4C2
@@ -960,13 +960,13 @@ CODE_C5B7AF:						; from CODE_C5B781
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	ldx.b $16
 	lda.b $0A
 	beq CODE_C5B7C6
 	inx
 CODE_C5B7C6:						; from CODE_C5B781, CODE_C5B7AF
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	lda.w #$00A8
 	sta.b $CF
 	ldy.b $6D
@@ -1002,8 +1002,8 @@ CODE_C5B7F1:						; from CODE_C5B07C and other segments
 	lda.b $D3
 	adc.w #$0266
 	jsr.w CODE_C5B96D
-	jsl.l $C4C2AA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4C2AA
+	jsl.l CODE_C4CEDB
 	lda.w #$00F8
 	sta.b $D1
 	lda.w $17C9
@@ -1145,7 +1145,7 @@ CODE_C5B95A:						; called from other segments
 	ldy.w #$0015
 	jsl.l CODE_C4BC20
 	ply
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	rts
 CODE_C5B96D:						; from CODE_C5B7F1, CODE_C5B96D
 	pha
@@ -1163,7 +1163,7 @@ CODE_C5B97F:						; called from other segments
 CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	tax
 	lda.w #$0032
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	tay
 	txa
 	sta.w $000C,y
@@ -1434,7 +1434,7 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C5BBDD:						; a callback: CODE_C5A71A, CODE_C5B0EA pass it to CODE_C55ABC
 	lda.w #$000C
@@ -1586,7 +1586,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	adc.w #$0180
 	ldy.w #$0080
 	jsl.l CODE_C58B11
-	jsl.l $C4C2AA
+	jsl.l CODE_C4C2AA
 	lda.w $17C9
 	asl a
 	tax
@@ -1594,7 +1594,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	tax
 	ldy.w #$0006
 	jsl.l CODE_C4BCAA
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	rts
 CODE_C5BD30:						; from CODE_C5BBE9, CODE_C5BC6C and other segments
 	sta.b $9F

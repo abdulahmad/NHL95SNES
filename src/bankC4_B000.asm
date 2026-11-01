@@ -97,7 +97,7 @@ CODE_C4B09F:						; called from other segments
 	ldy.w #$0043
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.b $08
 	sta.b $69
 	lda.w #$0022
@@ -107,7 +107,7 @@ CODE_C4B09F:						; called from other segments
 	ldy.w #$0043
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.b $08
 	sta.b $6D
 	lda.w #$0023
@@ -117,7 +117,7 @@ CODE_C4B09F:						; called from other segments
 	ldy.w #$007C
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.b $08
 	sta.b $71
 	lda.w #$0024
@@ -127,14 +127,14 @@ CODE_C4B09F:						; called from other segments
 	ldy.w #$0094
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$0025
 	jsl.l CreateSprite
 	stx.b $7B
 	lda.w #$0080
 	ldy.w #$00B4
 	jsr.w CODE_C4B280
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$0010
 	sta.w $18D8
 	jsl.l AnimateSprites
@@ -144,7 +144,7 @@ CODE_C4B09F:						; called from other segments
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$F254
 	sta.b $8B
 	ldx.b $63
@@ -362,7 +362,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1EF, CODE_C4B211
 	lsr a
 	adc.w #$0080
 	sta.b $79
-	jsl.l $C4C536
+	jsl.l CODE_C4C536
 	phx
 	stz.b $73
 	lda.b $28,x
@@ -1200,7 +1200,7 @@ CODE_C4B97E:						; called from other segments
 	sta.b $9B
 	adc.w #$0480
 	sta.b $08
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$0060
 	sta.b $8B
 	lda.b $97
@@ -1296,9 +1296,9 @@ DATA8_C4BAD6:						; not traced: data between routines
 CODE_C4BAF6:						; called from other segments
 	ldy.w #$0004
 	lda.w #$0800
-	jsl.l $C4C547
+	jsl.l CODE_C4C547
 	sta.b $D3
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	lda.w #$2000
 	sta.b $D5
 	tya
@@ -1348,7 +1348,7 @@ CODE_C4BB54:						; from CODE_C4BB47
 	rtl
 CODE_C4BB5A:						; called from other segments
 	pha
-	jsl.l $C4C536
+	jsl.l CODE_C4C536
 	plx
 	phx
 	lda.l $C30000,x
@@ -1415,8 +1415,8 @@ CODE_C4BBD8:						; from CODE_C4BB7F
 	inx
 	bra CODE_C4BB7F
 CODE_C4BBDE:						; from CODE_C4BB7F
-	jsl.l $C4C2AA
-	jmp.w $C536
+	jsl.l CODE_C4C2AA
+	jmp.w CODE_C4C536
 CODE_C4BBE5:						; from CODE_C4BBAC and other segments
 	jsl.l CODE_C4BCC2
 	bra CODE_C4BBF5
@@ -1426,8 +1426,8 @@ CODE_C4BBEB:						; no caller found (not traced)
 CODE_C4BBF1:						; called from other segments
 	jsl.l CODE_C4BCC8
 CODE_C4BBF5:						; from CODE_C4BBE5, CODE_C4BBEB, CODE_C4BBFC, CODE_C4BC02, ...
-	jsl.l $C4C20C
-	jmp.w $C270
+	jsl.l CODE_C4C20C
+	jmp.w CODE_C4C270
 CODE_C4BBFC:						; from CODE_C4BBB7 and other segments
 	jsl.l CODE_C4BCE4
 	bra CODE_C4BBF5
@@ -1454,7 +1454,7 @@ CODE_C4BC26:						; from CODE_C4BDAE, CODE_C4BBC8 and other segments
 	bra CODE_C4BBF5
 CODE_C4BC2C:						; called from other segments
 	sta.b $38
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 CODE_C4BC32:						; from CODE_C4BC46
 	lda.w #$4003
 	sta.b $0E
@@ -1472,7 +1472,7 @@ CODE_C4BC46:						; called from other segments
 	bra CODE_C4BC32
 CODE_C4BC4E:						; no caller found (not traced)
 	sta.b $38
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 CODE_C4BC54:						; from CODE_C4BC68
 	lda.w #$4000
 	sta.b $0E
@@ -1502,7 +1502,7 @@ CODE_C4BC81:						; from CODE_C4BC77
 	rep #$20
 	tya
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	ply
 	plx
 	pha
@@ -1535,30 +1535,30 @@ CODE_C4BCBC:						; from CODE_C4BBD3 and other segments
 	jsl.l CODE_C4BD90
 	bra CODE_C4BC44
 CODE_C4BCC2:						; from CODE_C4BBE5, CODE_C4BBEB and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	bra CODE_C4BCD2
 CODE_C4BCC8:						; from CODE_C4BBF1 and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BCD2
 CODE_C4BCCE:						; no caller found (not traced)
-	jsl.l $C4C386
+	jsl.l CODE_C4C386
 CODE_C4BCD2:						; from CODE_C4BCC2, CODE_C4BCC8
 	stz.b $0E
 	lda.w #$1A39
 	sta.b $0C
 	phy
-	jsl.l $C4C46B
+	jsl.l CODE_C4C46B
 	jsl.l CODE_C4BE34
 	ply
 	rtl
 CODE_C4BCE4:						; from CODE_C4BBFC and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	bra CODE_C4BCF4
 CODE_C4BCEA:						; from CODE_C4BC08 and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BCF4
 CODE_C4BCF0:						; no caller found (not traced)
-	jsl.l $C4C386
+	jsl.l CODE_C4C386
 CODE_C4BCF4:						; from CODE_C4BCE4, CODE_C4BCEA
 	stz.b $0E
 	lda.w #$1A39
@@ -1569,19 +1569,19 @@ CODE_C4BCF4:						; from CODE_C4BCE4, CODE_C4BCEA
 	ply
 	rtl
 CODE_C4BD04:						; from CODE_C4BC0E and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	bra CODE_C4BD14
 CODE_C4BD0A:						; from CODE_C4BC1A and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BD14
 CODE_C4BD10:						; no caller found (not traced)
-	jsl.l $C4C386
+	jsl.l CODE_C4C386
 CODE_C4BD14:						; from CODE_C4BD04, CODE_C4BD0A
 	stz.b $0E
 	lda.w #$1A39
 	sta.b $0C
 	phy
-	jsl.l $C4C31D
+	jsl.l CODE_C4C31D
 	sec
 	lda.b $D1
 	sbc.b $0A
@@ -1589,13 +1589,13 @@ CODE_C4BD14:						; from CODE_C4BD04, CODE_C4BD0A
 	ply
 	rtl
 CODE_C4BD2B:						; from CODE_C4BC26 and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	bra CODE_C4BD3B
 CODE_C4BD31:						; from CODE_C4BC9E and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BD3B
 CODE_C4BD37:						; no caller found (not traced)
-	jsl.l $C4C386
+	jsl.l CODE_C4C386
 CODE_C4BD3B:						; from CODE_C4BD2B, CODE_C4BD31
 	lda.w #$0003
 	sta.b $0E
@@ -1607,30 +1607,30 @@ CODE_C4BD3B:						; from CODE_C4BD2B, CODE_C4BD31
 	ply
 	rtl
 CODE_C4BD4E:						; from CODE_C4BCAA and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	lda.w #$0005
 	sta.b $0E
 	lda.w #$3239
 	sta.b $0C
 	phy
-	jsl.l $C4C46B
+	jsl.l CODE_C4C46B
 	jsl.l CODE_C4BE34
 	ply
 	rtl
 CODE_C4BD67:						; from CODE_C4BCA4 and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 CODE_C4BD6B:						; from CODE_C4BCB0 and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BD75
 CODE_C4BD71:						; no caller found (not traced)
-	jsl.l $C4C386
+	jsl.l CODE_C4C386
 CODE_C4BD75:						; from CODE_C4BD6B
 	lda.w #$0003
 	sta.b $0E
 	lda.w #$1FF9
 	sta.b $0C
 	phy
-	jsl.l $C4C46B
+	jsl.l CODE_C4C46B
 	jsl.l CODE_C4BE34
 	ply
 	rtl
@@ -1638,14 +1638,14 @@ CODE_C4BD8A:						; from CODE_C4BC20 and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BD94
 CODE_C4BD90:						; from CODE_C4BCBC and other segments
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 CODE_C4BD94:						; from CODE_C4BD8A
 	lda.w #$0003
 	sta.b $0E
 	lda.w #$1FF9
 	sta.b $0C
 	phy
-	jsl.l $C4C31D
+	jsl.l CODE_C4C31D
 	sec
 	lda.b $D1
 	sbc.b $0A
@@ -1697,7 +1697,7 @@ CODE_C4BDF5:						; from CODE_C4BDE6
 	inc a
 	inc a
 	inc a
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pha
 	tax
 	sep #$20
@@ -1720,8 +1720,8 @@ CODE_C4BE07:						; from CODE_C4BE07
 	plx
 	jsl.l CODE_C4BE34
 	ply
-	jsl.l $C4C20C
-	jmp.w $C270
+	jsl.l CODE_C4C20C
+	jmp.w CODE_C4C270
 CODE_C4BE2E:						; from CODE_C4BDF5, CODE_C4BE07
 	sta.l $7E0000,x
 	inx
@@ -1740,7 +1740,7 @@ CODE_C4BE40:						; from CODE_C4BE34
 	ldy.w #$0200
 CODE_C4BE4B:						; from CODE_C4BE40
 	tya
-	jsl.l $C4C547
+	jsl.l CODE_C4C547
 	sta.b $A5
 	phx
 CODE_C4BE53:						; from CODE_C4C068
@@ -1748,7 +1748,7 @@ CODE_C4BE53:						; from CODE_C4C068
 	lda.w $0000,y
 	and.w #$00FF
 	bne CODE_C4BE5F
-	jmp.w $C070
+	jmp.w CODE_C4C070
 CODE_C4BE5F:						; from CODE_C4BE53
 	iny
 	phy
@@ -1758,10 +1758,10 @@ CODE_C4BE5F:						; from CODE_C4BE53
 	bit.w #$0004
 	beq CODE_C4BE73
 	lda.w #$0004
-	jmp.w $C068
+	jmp.w CODE_C4C068
 CODE_C4BE73:						; from CODE_C4BE5F
 	lda.w $18DE
-	jmp.w $C068
+	jmp.w CODE_C4C068
 CODE_C4BE79:						; from CODE_C4BE5F
 	sec
 	sbc.w #$0030
@@ -1782,15 +1782,15 @@ CODE_C4BE99:						; from CODE_C4BE79
 	lda.b $0E
 	bit.w #$0004
 	beq CODE_C4BEA6
-	lda.l $C4C4D7,x
+	lda.l DATA8_C4C4D7,x
 	bra CODE_C4BEB5
 CODE_C4BEA6:						; from CODE_C4BE99
 	bit.w #$0001
 	bne CODE_C4BEB1
-	lda.l $C4C502,x
+	lda.l DATA8_C4C502,x
 	bra CODE_C4BEB5
 CODE_C4BEB1:						; from CODE_C4BEA6
-	lda.l $C4C4B6,x
+	lda.l DATA8_C4C4B6,x
 CODE_C4BEB5:						; from CODE_C4BE79, CODE_C4BE99, CODE_C4BEA6
 	and.w #$00FF
 	bit.b $0E
@@ -1820,10 +1820,10 @@ CODE_C4BED1:						; from CODE_C4BEBE
 	cmp.b $12
 	bcc CODE_C4BF01
 	sta.b $0A
-	jsr.w $C08D
+	jsr.w CODE_C4C08D
 	bcc CODE_C4BF01
 	inc.b $0A
-	jsr.w $C08D
+	jsr.w CODE_C4C08D
 	bcc CODE_C4BF01
 	inc.b $0A
 	bra CODE_C4BF01
@@ -1832,7 +1832,7 @@ CODE_C4BEF4:						; from CODE_C4BED1
 	cmp.w #$007F
 	bne CODE_C4BF01
 	lda.w $18DE
-	jmp.w $C068
+	jmp.w CODE_C4C068
 CODE_C4BF01:						; from CODE_C4BEBE, CODE_C4BED1, CODE_C4BEF4
 	lda.w #$8000
 	trb.b $0E
@@ -1864,7 +1864,7 @@ CODE_C4BF1A:						; from CODE_C4BF01
 	and.w #$0007
 	asl a
 	tax
-	lda.l $C4C07D,x
+	lda.l DATA8_C4C07D,x
 	pha
 	ldx.b $38
 	rts

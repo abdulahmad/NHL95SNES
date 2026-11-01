@@ -117,7 +117,7 @@ CODE_C52053:						; from CODE_C52053
 	stx.b $00
 	lda.w #$01E0
 	pha
-	jsl.l $C4C558
+	jsl.l CODE_C4C558
 	pea.w $6360
 	ldx.w #$007E
 	phx
@@ -132,7 +132,7 @@ CODE_C52053:						; from CODE_C52053
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$792B
 	ldx.w #$00C2
 	jsl.l DecompressUnpackbuf
@@ -172,7 +172,7 @@ CODE_C52053:						; from CODE_C52053
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$CC6E
 	ldx.w #$00C2
 	jsl.l CODE_C58812
@@ -209,7 +209,7 @@ CODE_C52195:						; from CODE_C52195
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	stz.w $07E6
 	stz.w $07E4
 	lda.w #$FE90
@@ -219,7 +219,7 @@ CODE_C52195:						; from CODE_C52195
 	ldx.w #$00C0
 	jsl.l DecompressToVRAM
 	jsl.l CODE_C5897B
-	jsl.l $C4CEDB
+	jsl.l CODE_C4CEDB
 	lda.w #$FFFF
 	sta.w $151B
 	sta.w $151D
@@ -1594,7 +1594,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	ldx.w $18E0
 	phx
 	tax
-	jsl.l $C4C541
+	jsl.l CODE_C4C541
 	txa
 	ldx.w $1864
 	cpx.w #$0003
@@ -2036,7 +2036,7 @@ CODE_C52FFD:						; from CODE_C52F07, CODE_C52F1B
 	clc
 	adc.w #$0008
 	tax
-	jsl.l $C4C3BA
+	jsl.l CODE_C4C3BA
 	sep #$20
 CODE_C53032:						; from CODE_C53032
 	lda.w $0000,x
@@ -2088,7 +2088,7 @@ CODE_C5305C:						; from CODE_C5305C
 	cmp.b ($A1)
 	bcc CODE_C5305C
 CODE_C53084:						; from CODE_C5304C
-	jsl.l $C4C536
+	jsl.l CODE_C4C536
 	pla
 	sta.w $18E0
 	rts
