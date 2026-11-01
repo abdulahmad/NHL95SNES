@@ -4668,12 +4668,12 @@ $C4EE9B,.5,CODE_C4EE9B,new,"branch target only used in CODE_C4EC88",src/bankC4_E
 $C4EEAE,.loop,CODE_C4EEAE,new,"branch target only used in CODE_C4EE9D",src/bankC4_E000.asm
 $C4EEC4,.loop,CODE_C4EEC4,new,"branch target only used in CODE_C4EEC0",src/bankC4_E000.asm
 $C4EF8F,.1,CODE_C4EF8F,new,"branch target only used in CODE_C4EF41",src/bankC4_E000.asm
-$C4F028,.loop,CODE_C4F028,new,"branch target only used in CODE_C4F01E",src/bankC4_F000.asm
-$C4F05C,.1,CODE_C4F05C,new,"branch target only used in CODE_C4F01E",src/bankC4_F000.asm
-$C4F081,.loop2,CODE_C4F081,new,"branch target only used in CODE_C4F01E",src/bankC4_F000.asm
-$C4F099,.loop3,CODE_C4F099,new,"branch target only used in CODE_C4F01E",src/bankC4_F000.asm
-$C4F11F,.loop4,CODE_C4F11F,new,"branch target only used in CODE_C4F01E",src/bankC4_F000.asm
-$C4F128,.loop5,CODE_C4F128,new,"branch target only used in CODE_C4F01E",src/bankC4_F000.asm
+$C4F028,.loop,CODE_C4F028,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
+$C4F05C,.1,CODE_C4F05C,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
+$C4F081,.loop2,CODE_C4F081,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
+$C4F099,.loop3,CODE_C4F099,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
+$C4F11F,.loop4,CODE_C4F11F,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
+$C4F128,.loop5,CODE_C4F128,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
 $C4F1D2,.loop,CODE_C4F1D2,new,"branch target only used in CODE_C4F1CB",src/bankC4_F000.asm
 $C4F1E5,.loop,CODE_C4F1E5,new,"branch target only used in CODE_C4F1DE",src/bankC4_F000.asm
 $C4F204,.loop,CODE_C4F204,new,"branch target only used in CODE_C4F201",src/bankC4_F000.asm
@@ -4682,13 +4682,13 @@ $C4F232,.2,CODE_C4F232,new,"branch target only used in CODE_C4F201",src/bankC4_F
 $C4F243,.loop,CODE_C4F243,new,"branch target only used in CODE_C4F240",src/bankC4_F000.asm
 $C4F251,.1,CODE_C4F251,new,"branch target only used in CODE_C4F240",src/bankC4_F000.asm
 $C4F271,.2,CODE_C4F271,new,"branch target only used in CODE_C4F240",src/bankC4_F000.asm
-$C4F29A,.loop,CODE_C4F29A,new,"branch target only used in CODE_C4F27F",src/bankC4_F000.asm
-$C4F2AC,.1,CODE_C4F2AC,new,"branch target only used in CODE_C4F27F",src/bankC4_F000.asm
-$C4F2B6,.1,CODE_C4F2B6,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
-$C4F2D1,.2,CODE_C4F2D1,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
-$C4F2EE,.3,CODE_C4F2EE,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
-$C4F2F6,.4,CODE_C4F2F6,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
-$C4F2FB,.rts,CODE_C4F2FB,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
+$C4F29A,.loop,CODE_C4F29A,new,"branch target only used in RosterDiffers",src/bankC4_F000.asm
+$C4F2AC,.1,CODE_C4F2AC,new,"branch target only used in RosterDiffers",src/bankC4_F000.asm
+$C4F2B6,.1,CODE_C4F2B6,new,"branch target only used in RebuildChangedLines",src/bankC4_F000.asm
+$C4F2D1,.2,CODE_C4F2D1,new,"branch target only used in RebuildChangedLines",src/bankC4_F000.asm
+$C4F2EE,.3,CODE_C4F2EE,new,"branch target only used in RebuildChangedLines",src/bankC4_F000.asm
+$C4F2F6,.4,CODE_C4F2F6,new,"branch target only used in RebuildChangedLines",src/bankC4_F000.asm
+$C4F2FB,.rts,CODE_C4F2FB,new,"branch target only used in RebuildChangedLines",src/bankC4_F000.asm
 $C5000A,.loop,CODE_C5000A,new,"branch target only used in Opening",src/bankC5_0000.asm
 $C5008D,.1,CODE_C5008D,new,"branch target only used in Restart",src/bankC5_0000.asm
 $C500A2,.loop,CODE_C500A2,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
@@ -7974,3 +7974,6 @@ $C4B955,SetFadeTables,CODE_C4B955,code,"from the code",src/bankC4_B000.asm
 $C4B970,FillWords7E,CODE_C4B970,code,"from the code: the store loop",src/bankC4_B000.asm
 $C4D588,QueueFadeStep,CODE_C4D588,code,"from the code; the title screen's task routines call it",src/bankC4_D000.asm
 $C58AD9,DivAByX,CODE_C58AD9,code,"from the code: WRDIVL / WRDIVB, RDDIVL and RDMPYL",src/bankC5_8000.asm
+$C4F27F,RosterDiffers,CODE_C4F27F,code,"from the code: the compares, clc when all match",src/bankC4_F000.asm
+$C4F01E,BuildTeamLines,CODE_C4F01E,code,"from the code: the player loop into $364E / $368E, the slot fill with the pick routines after it",src/bankC4_F000.asm
+$C4F2AE,RebuildChangedLines,CODE_C4F2AE,code,"from the code: LoadDefaultRoster into $364E, RosterDiffers, BuildTeamLines; ScoutingReport calls it",src/bankC4_F000.asm

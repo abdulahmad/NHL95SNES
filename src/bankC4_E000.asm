@@ -155,7 +155,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .1
-	jsr.w CODE_C4F2AE
+	jsr.w RebuildChangedLines
 	rtl
 .1:									; BG2VScroll = $0002, Y = $5C00, call QueueClearVRAM, ...
 	lda.w #$0002
@@ -187,8 +187,8 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	bcc .3
 	ldy.w #$3207
 	jsr.w CODE_C4EF41
-.3:									; call CODE_C4F2AE, $CF = $0018, $D1 = $0060, A = $17CB, ...
-	jsr.w CODE_C4F2AE
+.3:									; call RebuildChangedLines, $CF = $0018, $D1 = $0060, A = $17CB, ...
+	jsr.w RebuildChangedLines
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$0060
@@ -1839,7 +1839,7 @@ CODE_C4EFD8:						; called from other segments
 	pei ($14)
 	pei ($2C)
 	pei ($2E)
-	jsr.w CODE_C4F01E
+	jsr.w BuildTeamLines
 	pla
 	sta.w $002E
 	pla

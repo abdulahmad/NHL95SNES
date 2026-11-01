@@ -1,7 +1,8 @@
 ; Segment bankC4_F000: game code (routines keep their address as a name, with their callers), then sound
 ; sample 2 and zeros to the end of the bank.
 org $C4F01E
-CODE_C4F01E:						; from CODE_C4F2AE and other segments
+BuildTeamLines:						; builds the line data of roster table Y from its players: each player's
+									; value (CODE_C5C6A2), then the line slots filled position by position
 	sty.b tmp0
 	stz.w $24DC
 	lda.w $0000,y
@@ -166,7 +167,7 @@ CODE_C4F191:						; from CODE_C4F197
 	ldx.b $14
 	sec
 	rts
-CODE_C4F197:						; from CODE_C4F01E, CODE_C4F197
+CODE_C4F197:						; from BuildTeamLines, CODE_C4F197
 	rep #$20
 	lda.b tmp2
 	cmp.b $0A
@@ -184,7 +185,7 @@ CODE_C4F1AE:						; from CODE_C4F1B4
 	ldx.b $14
 	sec
 	rts
-CODE_C4F1B4:						; from CODE_C4F01E, CODE_C4F1B4
+CODE_C4F1B4:						; from BuildTeamLines, CODE_C4F1B4
 	rep #$20
 	lda.b tmp2
 	cmp.b $A5
@@ -225,19 +226,19 @@ CODE_C4F1DE:						; from CODE_C4F1B4
 	bpl .loop
 	clc
 	rts
-CODE_C4F1EF:						; from CODE_C4F01E
+CODE_C4F1EF:						; from BuildTeamLines
 	ldy.b r0
 	sta.w $380E,y
 	iny
 	sty.b r0
 	rts
-CODE_C4F1F8:						; from CODE_C4F01E
+CODE_C4F1F8:						; from BuildTeamLines
 	ldy.b $2E
 	sta.w $384E,y
 	iny
 	sty.b $2E
 	rts
-CODE_C4F201:						; from CODE_C4F01E
+CODE_C4F201:						; from BuildTeamLines
 	ldy.w #$0000
 .loop:								; loop: if $370E,y < 0 go to .2, if $370E,y < $364E,x go to .1, Y + 1, ...
 	lda.w $370E,y
@@ -271,7 +272,7 @@ CODE_C4F201:						; from CODE_C4F01E
 	inc a
 	sta.w $36CE,y
 	rts
-CODE_C4F240:						; from CODE_C4F01E
+CODE_C4F240:						; from BuildTeamLines
 	ldy.w #$0000
 .loop:								; loop: if $378E,y < 0 go to .2, if $378E,y < $364E,x go to .1, Y + 1, ...
 	lda.w $378E,y
@@ -305,7 +306,8 @@ CODE_C4F240:						; from CODE_C4F01E
 	inc a
 	sta.w $374E,y
 	rts
-CODE_C4F27F:						; from CODE_C4F2AE
+RosterDiffers:						; carry set when the roster table at Y differs from the one at X (a count
+									; at +0 / +2 / +4 or a player index at +$3A)
 	lda.w $0002,x
 	cmp.w $0002,y
 	bne .1
@@ -332,7 +334,9 @@ CODE_C4F27F:						; from CODE_C4F2AE
 .1:									; return
 	sec
 	rts
-CODE_C4F2AE:						; called from other segments
+RebuildChangedLines:				; for both teams of the game ($17C9 into $2DC9, $17CB into $3207), in play
+									; mode 2 or 3, or 0 / 1 with $1872 set: BuildTeamLines when its roster
+									; differs from the cartridge one
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3
@@ -342,20 +346,20 @@ CODE_C4F2AE:						; called from other segments
 	jsl.l LoadDefaultRoster
 	ldy.w #$2DC9
 	ldx.w #$364E
-	jsr.w CODE_C4F27F
+	jsr.w RosterDiffers
 	bcc .2
 	ldy.w #$2DC9
-	jsr.w CODE_C4F01E
+	jsr.w BuildTeamLines
 .2:									; A = $17CB, Y = $364E, call LoadDefaultRoster, Y = $3207, ...
 	lda.w $17CB
 	ldy.w #$364E
 	jsl.l LoadDefaultRoster
 	ldy.w #$3207
 	ldx.w #$364E
-	jsr.w CODE_C4F27F
+	jsr.w RosterDiffers
 	bcc .rts
 	ldy.w #$3207
-	jsr.w CODE_C4F01E
+	jsr.w BuildTeamLines
 	bra .rts
 .3:									; if OptPlayMode = 0 go to .4, A - 1, if the result is not 0 go to .rts
 	lda.w OptPlayMode
