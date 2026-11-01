@@ -7614,3 +7614,52 @@ $2028,fofdata2,,94S+code,"RAM: 94S Endfaceoff side by side (fofdata2 and fofdata
 $2030,fofdata,,94S+code,"RAM: 94S updatefaceoff side by side (sta fofdata); four bytes before fox as in 94S",src/ram95s.asm
 $2038,ScoreSumbytes,,94S+code,"RAM: 5 of 5 votes from long operands (Goal); ShowGoalBox and ShowScoringSummary read it",src/ram95s.asm
 $203A,ScoreSum,,94S+code,"RAM: 94S Goal side by side: lda #ScoreSum plus ScoreSumbytes is the new entry; right after ScoreSumbytes as in 94S",src/ram95s.asm
+$058D,padchangeany,,94S+code,"RAM: 1 vote; padnew and repeatdelayframes on both sides have 94S's offset; ReadPads and the menu pad readers store it, GetMenuPadButtons reads it",src/ram95s.asm
+$05A4,padinputdone,,94S+code,"RAM: 2 votes; timestep and PadControlObj on both sides have 94S's offset; updateplayers and PadTakePosition use it",src/ram95s.asm
+$05C8,passpad,,94S+code,"RAM: 1 vote; puckpadnext and goalieflags on both sides have 94S's offset; dopass_count stores it as 94S dopass does",src/ram95s.asm
+$066A,dumpinplayer,,94S+code,"RAM: 2 votes; botgoalie and dumpintarget on both sides have 94S's offset",src/ram95s.asm
+$066E,passtargetx,,94S+code,"RAM: 2 votes; dumpintarget and passtargety on both sides have 94S's offset",src/ram95s.asm
+$06B4,goaliedivewait,,94S+code,"RAM: 2 votes; goalieturnwait and replaydelay on both sides have 94S's offset; set in the goalie code, counted down by timestep in updateplayers as in 94S",src/ram95s.asm
+$06EC,benchcheer,,94S+code,"RAM: 2 votes; goalieturnwait and replaydelay on both sides have 94S's offset; StartBenchCheer is a bare rtl here",src/ram95s.asm
+$06EE,benchrounds,,94S+code,"RAM: 1 vote; goalieturnwait and replaydelay on both sides have 94S's offset; FallDown sets 2 as in 94S",src/ram95s.asm
+$06F2,benchframe,,94S+code,"RAM: 5 of 6 votes; goalieturnwait and replaydelay on both sides have 94S's offset",src/ram95s.asm
+$0782,replaynewframe,,94S+code,"RAM: 1 vote; recsfxpitch2 and percue on both sides have 94S's offset; the same increment / clear as in 94S",src/ram95s.asm
+$07EA,shotplayer,,94S+code,"RAM: 4 of 4 votes (doshot, ChkShotStat, assscore); vramrow and demoflag on both sides have 94S's offset",src/ram95s.asm
+$07EC,sfxmutetime,,94S+code,"RAM: 2 votes; vramrow and demoflag on both sides have 94S's offset; the same Goal / Stop4Pen use",src/ram95s.asm
+$07EE,threat,,94S+code,"RAM: 2 votes; vramrow and demoflag on both sides have 94S's offset; chk4shot and chk4pass read it as in 94S",src/ram95s.asm
+$09E0,impactp,,94S+code,"RAM: 2 votes; puckvy and impact on both sides have 94S's offset; CollidePlayers and holdcheck store it",src/ram95s.asm
+$0BA0,radiusx,,94S+code,"RAM: 1 vote; temp2b and Wallcos on both sides have 94S's offset",src/ram95s.asm
+$0BC0,radiusy,,94S+code,"RAM: 1 vote; temp2b and Wallcos on both sides have 94S's offset",src/ram95s.asm
+$0C60,facefrac,,94S+code,"RAM: 2 votes; facedir and SPA on both sides have 94S's offset",src/ram95s.asm
+$0DE0,weight,,94S+code,"RAM: 1 vote; pnum and legstr on both sides have 94S's offset",src/ram95s.asm
+$0E20,legspd,,94S+code,"RAM: 1 vote; legstr and aioff on both sides have 94S's offset",src/ram95s.asm
+$0E80,shotspd,,94S+code,"RAM: 2 votes; aidef and shotacc on both sides have 94S's offset",src/ram95s.asm
+$0F40,endurance,,94S+code,"RAM: 2 votes; stickhand and checking on both sides have 94S's offset",src/ram95s.asm
+$0F60,aggress,,94S+code,"RAM: 2 votes; stickhand and checking on both sides have 94S's offset",src/ram95s.asm
+$0F80,fighting,,94S+code,"RAM: 1 vote; stickhand and checking on both sides have 94S's offset; only stored, as in 94S",src/ram95s.asm
+$1147,RefStep,,94S+code,"RAM: 1 vote; RefCnt and gsp on both sides have 94S's offset",src/ram95s.asm
+$1263,tmPwrPlays,,94S+code,"RAM: 1 vote; tmPwrGoals and tmPPShots on both sides have 94S's offset",src/ram95s.asm
+$126F,tmATOP,,94S+code,"RAM: 2 votes; tmPwrGoals and tmPPShots on both sides have 94S's offset",src/ram95s.asm
+$1273,tmPwrPlayTime,,94S+code,"RAM: 2 votes; tmPwrGoals and tmPPShots on both sides have 94S's offset",src/ram95s.asm
+$127F,tmSHGoals,,94S+code,"RAM: 2 votes; tmSHShots and tmsort on both sides have 94S's offset",src/ram95s.asm
+$1287,tmPerShots,,94S+code,"RAM: 2 votes; tmsort and tmscore on both sides have 94S's offset",src/ram95s.asm
+$129B,tmPerGoals,,94S+code,"RAM: 2 votes; tmsort and tmscore on both sides have 94S's offset",src/ram95s.asm
+$12D7,tmchecks,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12DF,tmpassatt,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12E3,tmBreakaways,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12E7,tmBreakawayGoals,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12EB,tmPenShots,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12EF,tmPenShotGoals,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12F3,tmOneTimerSwings,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12F7,tmOneTimers,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$12FB,tmOneTimerGoals,,94S+code,"RAM: 2 votes; tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
+$1303,tmtimeouts,,94S+code,"RAM: 2 votes; tmflags and tmpde on both sides have 94S's offset",src/ram95s.asm
+$1307,tmlcchoice,,94S+code,"RAM: 1 vote; tmflags and tmpde on both sides have 94S's offset",src/ram95s.asm
+$1413,tmgoals,,94S+code,"RAM: 2 votes; Goal increments it for the scorer as 94S does; tmassists and tmpshots follow at + $34 each as in 94S",src/ram95s.asm
+$1447,tmassists,,94S+code,"RAM: 2 votes; Goal increments it for the assists as 94S does",src/ram95s.asm
+$147B,tmpshots,,94S+code,"RAM: 2 votes; ChkShotStat increments it as 94S does",src/ram95s.asm
+$1535,mp5port1last,,94S+code,"RAM: 2 votes; mp5checktimer and mp5present on both sides have 94S's offset",src/ram95s.asm
+$1537,mp5port2last,,94S+code,"RAM: 2 votes; mp5checktimer and mp5present on both sides have 94S's offset",src/ram95s.asm
+$1539,mp5portchg,,94S+code,"RAM: 2 votes; mp5checktimer and mp5present on both sides have 94S's offset",src/ram95s.asm
+$2348,refwindow,,94S+code,"RAM: 1 vote from a long operand; ScoreSum and newperiod on both sides have 94S's offset",src/ram95s.asm
+$24C4,playoffRoundIdx,,94S+code,"RAM: 1 vote from a long operand; gsflags and gamenum on both sides have 94S's offset",src/ram95s.asm

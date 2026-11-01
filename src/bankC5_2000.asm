@@ -1514,7 +1514,7 @@ doinput:							; called from other segments
 	bne .24
 	bit.w #$0008
 	bne .25
-	lda.w $066A
+	lda.w dumpinplayer
 	cmp.b curobj
 	beq .rtl3
 	lda.b d1

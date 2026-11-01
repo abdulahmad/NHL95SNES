@@ -259,10 +259,10 @@ FindScoringLeaders:					; scan both team roster ranges for the leading scorers
 	rts
 InsertScoringLeader:				; insert a player into the top three by points then goals
 	tay
-	lda.w $1413,y
+	lda.w tmgoals,y
 	and.w #$00FF
 	sta.b tmp0
-	lda.w $1447,y
+	lda.w tmassists,y
 	and.w #$00FF
 	sta.b tmp1
 	clc
@@ -647,9 +647,9 @@ defaultsprites_0:					; clear object state, load initial fields and sort the obj
 	lda.l DATA8_C38660,x
 	sta.w attribute,y
 	lda.l DATA8_C38662,x
-	sta.w $0BA0,y
+	sta.w radiusx,y
 	lda.l DATA8_C38664,x
-	sta.w $0BC0,y
+	sta.w radiusy,y
 	lda.b d6
 	asl a
 	asl a
@@ -940,7 +940,7 @@ UpdatePA:							; advance the referee animation and penalty message timers
 SetPA:								; start the referee animation and message for penalty d0
 	lda.b d0
 	sta.w $1149
-	stz.w $1147
+	stz.w RefStep
 	jsl.l CODE_C481D5
 	lda.b d0
 	cmp.w #$000E
@@ -955,21 +955,21 @@ SetPA:								; start the referee animation and message for penalty d0
 	sta.w $1143
 SetPA2:								; step the referee animation and draw its next frame
 	phx
-	lda.w $1147
+	lda.w RefStep
 	bpl .2
 	lda.w shootoutmode
 	beq .1
 	lda.w #$0001
 	sta.w shootoutstop
-.1:									; A = $1147, pull X, return
-	lda.w $1147
+.1:									; A = RefStep, pull X, return
+	lda.w RefStep
 	plx
 	rtl
-.2:									; tmp0 = A, A + 1, A + 1, $1147 = A, ...
+.2:									; tmp0 = A, A + 1, A + 1, RefStep = A, ...
 	sta.b tmp0
 	inc a
 	inc a
-	sta.w $1147
+	sta.w RefStep
 	ldx.w $1149
 	beq .4
 	lda.l DATA8_C34499,x
@@ -987,7 +987,7 @@ SetPA2:								; step the referee animation and draw its next frame
 	eor.w #$FFFF
 	inc a
 	ldx.w #$FFFF
-	stx.w $1147
+	stx.w RefStep
 .3:									; tmp0 = A, A and $00FF, A * 2, A * 2, ...
 	sta.b tmp0
 	and.w #$00FF
@@ -1014,7 +1014,7 @@ PushRef:							; draw a referee frame or clear the referee window
 	cmp.w #$0014
 	beq .1
 	lda.w #$0001
-	sta.w $2348
+	sta.w refwindow
 .1:									; A = tmp0, A * 2, X = A, A = DATA8_C38D43,x, ...
 	lda.b tmp0
 	asl a
@@ -1037,7 +1037,7 @@ PushRef:							; draw a referee frame or clear the referee window
 	jsr.w CopyRefereeFrameToVRAM
 	lda.w #$0200
 	tsb.w sflags
-	stz.w $2348
+	stz.w refwindow
 	rtl
 DATA8_C38D43:						; not traced: a table read by PushRef
 	db $00,$00,$0E,$00,$1C,$00,$2A,$00,$38,$00,$46,$00,$54,$00,$10,$03

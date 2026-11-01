@@ -809,20 +809,20 @@ CODE_C53651:						; called from other segments
 	dey
 	dey
 	bpl .loop
-.2:									; $06EC = 0, X = $0016, A = $FFFF
-	stz.w $06EC
+.2:									; benchcheer = 0, X = $0016, A = $FFFF
+	stz.w benchcheer
 	ldx.w #$0016
 	lda.w #$FFFF
 .loop2:								; loop: playerpad,x = A, goalieflags,x = 0, goalieturnwait,x = 0, ...
 	sta.w playerpad,x
 	stz.w goalieflags,x
 	stz.w goalieturnwait,x
-	stz.w $06B4,x
+	stz.w goaliedivewait,x
 	stz.w $06D4,x
 	dex
 	dex
 	bpl .loop2
-	sta.w $066A
+	sta.w dumpinplayer
 	ldx.w #$0008
 .loop3:								; loop: c1playernum,x = A, X - 1, X - 1, ...
 	sta.w c1playernum,x
@@ -944,7 +944,7 @@ CODE_C5376A:						; called from other segments
 	rtl
 AssignPadPlayer:					; from PuckCarrierPad, CODE_C5376A, PadTakePosition, ...
 	lda.w #$FFFF
-	sta.w $066A
+	sta.w dumpinplayer
 	ldy.b d4
 	lda.w c1playernum,y
 	cmp.b d0
@@ -1203,9 +1203,9 @@ PadTakePosition:					; from PadTakeGoalie, PassPadToTeammate, PadTakeRightDefens
 	lda.w pflags,x
 	bit.w #$1000
 	bne .3
-	lda.w $05A4,y
+	lda.w padinputdone,y
 	inc a
-	sta.w $05A4,y
+	sta.w padinputdone,y
 	stx.b d0
 	jsl.l AssignPadPlayer
 .3:									; pull X, return
@@ -1677,7 +1677,7 @@ setplayer:							; from forcepldata and other segments
 	lda.w $0111,y
 	and.w #$00F0
 	lsr a
-	sta.w $0DE0,x
+	sta.w weight,x
 	sty.b a0
 	lda.w $0111,y
 	and.w #$0007
@@ -1703,7 +1703,7 @@ setplayer:							; from forcepldata and other segments
 	lsr a
 	ldy.w #$0001
 	jsr.w CODE_C53F66
-	sta.w $0E20,x
+	sta.w legspd,x
 	ldy.b a0
 	lda.w $0112,y
 	and.w #$0007
@@ -1770,7 +1770,7 @@ setplayer:							; from forcepldata and other segments
 	lsr a
 	ldy.w #$0004
 	jsr.w CODE_C53F66
-	sta.w $0E80,x
+	sta.w shotspd,x
 	ldy.b a0
 	lda.w $0114,y
 	lsr a
@@ -1798,7 +1798,7 @@ setplayer:							; from forcepldata and other segments
 	sta.w attribute,x
 	lda.w $0114,y
 	and.w #$000E
-	sta.w $0F80,x
+	sta.w fighting,x
 	lda.w $0115,y
 	lsr a
 	lsr a
@@ -1850,7 +1850,7 @@ setplayer:							; from forcepldata and other segments
 	lsr a
 	ldy.w #$0008
 	jsr.w CODE_C53F66
-	sta.w $0F40,x
+	sta.w endurance,x
 	ldy.b a0
 	lda.w $0116,y
 	and.w #$0007
@@ -1895,9 +1895,9 @@ setplayer:							; from forcepldata and other segments
 	lsr a
 	ldy.w #$000B
 	jsr.w CODE_C53F66
-	sta.w $0F60,x
+	sta.w aggress,x
 	txy
-	lda.w $0DE0,x
+	lda.w weight,x
 	lsr a
 	lsr a
 	lsr a

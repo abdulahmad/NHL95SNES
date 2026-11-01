@@ -966,7 +966,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sta.w puckc
 	lda.w #$8200
 	trb.w sflags
-	stz.w $2348
+	stz.w refwindow
 	stz.w $234A
 	lda.w #$0500
 	tsb.w sflags

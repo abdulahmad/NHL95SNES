@@ -173,7 +173,7 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .1
 	lda.b a1
@@ -935,7 +935,7 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .1
 	jmp.w CODE_C5CA27
@@ -1322,7 +1322,7 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .1
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .4
 	jmp.w GMDecisionScreen
@@ -1621,7 +1621,7 @@ GMDecisionScreen:					; the trade decision: DrawGMDecision, then start does an a
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .2
 	jsr.w CheckTrade

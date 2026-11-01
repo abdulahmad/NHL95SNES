@@ -733,8 +733,8 @@ AskNameOk:							; Is the player name ok: up / down Yes / No; start: No starts o
 	lda.w repeatdelayframes
 	beq .1
 	rts
-.1:									; A = $058D, if a $0400 bit set go to CODE_C596C0, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $0400 bit set go to CODE_C596C0, ...
+	lda.w padchangeany
 	bit.w #$0400
 	bne CODE_C596C0
 	bit.w #$0800
@@ -824,8 +824,8 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	bcc CODE_C59767
 	lda.w #$0010
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $0800 bit set go to .4, if a $0400 bit set go to .3, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $0800 bit set go to .4, ...
+	lda.w padchangeany
 	bit.w #$0800
 	bne .4
 	bit.w #$0400
@@ -1089,8 +1089,8 @@ CODE_C59998:						; from CODE_C59938
 	bcc CODE_C59997
 	lda.w #$0010
 	sta.w repeatdelayframes
-.1:									; A = $058D, if $0040 bits clear go to .2, go to CODE_C59D39
-	lda.w $058D
+.1:									; A = padchangeany, if $0040 bits clear go to .2, go to CODE_C59D39
+	lda.w padchangeany
 	bit.w #$0040
 	beq .2
 	jmp.w CODE_C59D39
@@ -1250,8 +1250,8 @@ CODE_C59ADD:						; from CODE_C59938
 	bcc CODE_C59ADC
 	lda.w #$0010
 	sta.w repeatdelayframes
-.1:									; A = $058D, if $0040 bits clear go to .2, go to CODE_C59D39
-	lda.w $058D
+.1:									; A = padchangeany, if $0040 bits clear go to .2, go to CODE_C59D39
+	lda.w padchangeany
 	bit.w #$0040
 	beq .2
 	jmp.w CODE_C59D39
@@ -1604,8 +1604,8 @@ CODE_C59DBE:						; from EditPlayerInfo
 	bcc .rts
 	lda.w #$000F
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $1000 bit set go to .8, if a $0800 bit set go to .4, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $1000 bit set go to .8, ...
+	lda.w padchangeany
 	bit.w #$1000
 	bne .8
 	bit.w #$0800
@@ -1622,7 +1622,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	asl a
 	tax
 	jsr (DATA8_C59EF2,x)
-	lda.w $058D
+	lda.w padchangeany
 .3:									; if $0100 bits clear go to .rts, A = d6, A * 2, X = A, ...
 	bit.w #$0100
 	beq .rts

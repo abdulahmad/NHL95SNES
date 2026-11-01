@@ -56,7 +56,7 @@ ReadjoyA:							; from ReadPausePad and other segments
 ReadPauseMenuPad:					; read the pause pad into the menu word and update the repeat timer
 	jsl.l ReadPausePad
 	lda.b d3
-	sta.w $058D
+	sta.w padchangeany
 	inc.w repeatdelayframes
 	cmp.w padlast
 	beq .rtl
@@ -89,7 +89,7 @@ ReadPausePad:						; read the controller that owns the pause menu
 	lsr a
 	jmp.w ReadjoyA
 GetMenuPadButtons:					; copy the menu button word to d1
-	lda.w $058D
+	lda.w padchangeany
 	sta.b d1
 	rtl
 ProcessInputWithRepeat:				; called from other segments
@@ -445,7 +445,7 @@ updatereplay:						; called from other segments
 	sta.b WMDATA&$FF
 	lda.w $00CE
 	sta.b WMDATA&$FF
-	lda.w $06F2
+	lda.w benchframe
 	sta.b WMDATA&$FF
 	lda.w $06F3
 	sta.b WMDATA&$FF
@@ -758,7 +758,7 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	sta.b $2A
 	jsl.l RenderReplayFrame
 	jsl.l WaitTransfers
-	stz.w $0782
+	stz.w replaynewframe
 ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	inc.w $2CE1
 	ldx.b d7
@@ -1114,7 +1114,7 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	beq .19
 	cmp.w #$0004
 	beq .19
-	lda.w $24C4
+	lda.w playoffRoundIdx
 	cmp.w #$0002
 	bcc .19
 	jmp.w .19
@@ -1479,7 +1479,7 @@ adda43:								; from adda4 and other segments
 	lda.b $80
 	sta.b $CE
 	lda.b $80
-	sta.w $06F2
+	sta.w benchframe
 	lda.b $80
 	sta.w $06F3
 	bra RestoreReplayFrame
@@ -1489,12 +1489,12 @@ adda43:								; from adda4 and other segments
 	lda.b $80
 	lda.b $80
 	lda.b $80
-	sta.w $06F2
+	sta.w benchframe
 	lda.b $80
 	sta.w $06F3
 RestoreReplayFrame:					; from suba4, adda4, ...
 	pei ($83)
-	inc.w $0782
+	inc.w replaynewframe
 	lda.b a4
 	sta.l WMADDL
 	sep #$20
@@ -1674,7 +1674,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.l WMDATA
 	sta.b $CE
 	lda.l WMDATA
-	sta.w $06F2
+	sta.w benchframe
 	lda.l WMDATA
 	sta.w $06F3
 	bra .12
@@ -1684,7 +1684,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.l WMDATA
 	lda.l WMDATA
 	lda.l WMDATA
-	sta.w $06F2
+	sta.w benchframe
 	lda.l WMDATA
 	sta.w $06F3
 .12:								; A 16-bit, A = recsfx, A and $00FF, if A < $0080 go to .13, ...

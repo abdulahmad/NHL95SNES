@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C54F05
 CODE_C54F05:						; called from other segments
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0200
 	beq .1
 	ldx.w $18F2
@@ -498,7 +498,7 @@ CODE_C55320:						; no caller found (not traced)
 	jsl.l GetPadTeam
 	lda.w #$5A08
 	ldx.b a2
-	ldy.w $1303,x
+	ldy.w tmtimeouts,x
 	bne .2
 	dec.w $18F4
 	ldy.w $18F6
@@ -749,7 +749,7 @@ CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
 	sta.w $0042,y
 	lda.w $0780,x
 	sta.w $0080,y
-	lda.w $0782,x
+	lda.w replaynewframe,x
 	sta.w $0082,y
 	ply
 	rts
@@ -1288,7 +1288,7 @@ ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed,
 	ldy.w #$5000
 	jsl.l QueueClearVRAM
 	jsl.l WaitTransfers
-	stz.w $058D
+	stz.w padchangeany
 	lda.w $190E
 	jmp.w CODE_C550E2
 SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both teams' logo
@@ -1572,7 +1572,7 @@ CODE_C55C86:						; from ScrollListDown
 	bra CODE_C55C93
 CODE_C55C8C:						; from CODE_C55C93
 	stz.w padlast
-	stz.w $058D
+	stz.w padchangeany
 CODE_C55C92:						; from ScrollListDown
 	rts
 CODE_C55C93:						; from ScrollListDown, CODE_C55C86
@@ -1683,9 +1683,9 @@ CODE_C55D14:						; from ScrollListUp
 	dec.w $4693
 	dec.w $4696
 	bra .loop
-.2:									; padlast = 0, $058D = 0
+.2:									; padlast = 0, padchangeany = 0
 	stz.w padlast
-	stz.w $058D
+	stz.w padchangeany
 CODE_C55D6A:						; from ScrollListUp
 	rts
 DATA8_C55D6B:						; jump table: the routine for each index (code in bankC5_6000 uses it)

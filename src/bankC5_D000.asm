@@ -194,7 +194,7 @@ NameEntryScreen:					; the Name Entry screen of a pad: the 8 user names (up / do
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$8000
 	beq .1
 	jsr.w EditUserName
@@ -466,7 +466,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0200
 	beq .1
 	jsr.w CODE_C5D56C
@@ -608,7 +608,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	asl a
 	adc.w #$0036
 	sta.b $08,x
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0040
 	bne .rts
 	lda.b $65

@@ -12,9 +12,9 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 	sta.b d2
 	lda.w Ypos,x
 	sta.b d3
-	lda.w $0BA0,x
+	lda.w radiusx,x
 	sta.w wcradiusx
-	lda.w $0BC0,x
+	lda.w radiusy,x
 	sta.w wcradiusy
 	jsl.l checkwallcoll
 	lda.w Wallcos,x
@@ -1182,7 +1182,7 @@ CollidePlayers:						; collides player X with player Y: their distance and closi
 	bcs .5
 	stz.w pfalock,x
 	stz.w pf2aip,x
-	ldy.w $09E0,x
+	ldy.w impactp,x
 	lda.w SPA,y
 	cmp.w #$2280
 	bcc .4
@@ -1202,7 +1202,7 @@ CollidePlayers:						; collides player X with player Y: their distance and closi
 	lda.w #$0000
 	sta.w pfalock,y
 	sta.w pf2aip,y
-	ldx.w $09E0,y
+	ldx.w impactp,y
 	lda.w SPA,x
 	cmp.w #$2280
 	bcc .6
@@ -1255,9 +1255,9 @@ CollidePlayers:						; collides player X with player Y: their distance and closi
 	adc.w impact,y
 	sta.w impact,y
 	txa
-	sta.w $09E0,y
+	sta.w impactp,y
 	tya
-	sta.w $09E0,x
+	sta.w impactp,x
 	lda.b d4
 	cmp.w #$0014
 	bcc .13
@@ -1310,12 +1310,12 @@ CollidePlayers:						; collides player X with player Y: their distance and closi
 	lda.b $84
 	sta.b d5
 	ldx.b a3
-	lda.w $0DE0,x
+	lda.w weight,x
 	clc
 	adc.w #$008C
 	sta.b d0
 	ldy.b a2
-	lda.w $0DE0,y
+	lda.w weight,y
 	clc
 	adc.w #$008C
 	sta.b d1
@@ -1817,12 +1817,12 @@ CODE_C44E0A:						; called from other segments
 	bne .6
 	lda.w #$0005
 	sta.w temp5,y
-.6:									; if a2 is not passReceiverPlayerNum go to .7, Y = a1, d4 = $05C8,y, ...
+.6:									; if a2 is not passReceiverPlayerNum go to .7, Y = a1, d4 = passpad,y, ...
 	lda.b a2
 	cmp.w passReceiverPlayerNum
 	bne .7
 	ldy.b a1
-	lda.w $05C8,y
+	lda.w passpad,y
 	sta.b d4
 	bmi .7
 	jsl.l CODE_C5376A

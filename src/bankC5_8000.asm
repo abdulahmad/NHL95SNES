@@ -1714,8 +1714,8 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	bra .3
 .2:									; $23BC = 0
 	stz.w $23BC
-.3:									; A = $058D, if $0800 bits clear go to .4, call CODE_C58EE0, go to .8
-	lda.w $058D
+.3:									; A = padchangeany, if $0800 bits clear go to .4, call CODE_C58EE0, ...
+	lda.w padchangeany
 	bit.w #$0800
 	beq .4
 	jsr.w CODE_C58EE0

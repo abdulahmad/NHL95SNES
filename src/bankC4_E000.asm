@@ -143,7 +143,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop2
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .loop2
 	rtl
@@ -338,11 +338,11 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	bne .7
 	jsr.w CODE_C4EBC8
 	lda.w #$0019
-.7:									; $2DA3 = A, if repeatdelayframes is not 0 go to .loop, A = $058D, ...
+.7:									; $2DA3 = A, if repeatdelayframes is not 0 go to .loop, ...
 	sta.w $2DA3
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne CODE_C4E387
 	bit.w #$0400

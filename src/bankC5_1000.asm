@@ -839,7 +839,7 @@ NewTicker2:							; the score ticker's next game: TickerNum counted down, skippi
 	sta.w printa
 	lda.b $01,s
 	sta.w printx
-	lda.w $24C4
+	lda.w playoffRoundIdx
 	inc a
 	sta.b d0
 	lda.w OptPlayMode
@@ -950,9 +950,9 @@ ShowGoalBox:						; the goal box after a goal: both line change boxes closed (Cl
 	ldx.b a2
 	beq .3
 	lda.w #$3207
-.3:									; a2 = A, A = $1413,y, A and $00FF, if A is not $0003 go to .4, ...
+.3:									; a2 = A, A = tmgoals,y, A and $00FF, if A is not $0003 go to .4, ...
 	sta.b a2
-	lda.w $1413,y
+	lda.w tmgoals,y
 	and.w #$00FF
 	cmp.w #$0003
 	bne .4

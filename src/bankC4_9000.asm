@@ -373,7 +373,7 @@ chk4shot:							; called from other segments
 	bne .2
 	jsl.l CODE_C42D98
 	bne .2
-	lda.w $07EE
+	lda.w threat
 	beq .2
 	lda.w Ypos,x
 	cmp.w #$FF0D
@@ -777,7 +777,7 @@ doshot:								; from ShotMode, CODE_C49E91, ...
 	lda.w #$0008
 	trb.w sflags
 	sta.w pfalock,x
-	stx.w $07EA
+	stx.w shotplayer
 	cpx.w puckc
 	beq .1
 	jmp.w .15
@@ -798,8 +798,8 @@ doshot:								; from ShotMode, CODE_C49E91, ...
 	bcc .3
 	lda.w #$0010
 	sta.b $01,s
-.3:									; A = $0E80,x, a0 = X, call makepde, A + $0014, ...
-	lda.w $0E80,x
+.3:									; A = shotspd,x, a0 = X, call makepde, A + $0014, ...
+	lda.w shotspd,x
 	stx.b a0
 	jsl.l makepde
 	adc.w #$0014
@@ -1391,14 +1391,14 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	cpx.w #$000C
 	bmi .1
 	ldy.w #$0002
-.1:									; A = $12F3,y, A + 1, $12F3,y = A, pull Y, ...
-	lda.w $12F3,y
+.1:									; A = tmOneTimerSwings,y, A + 1, tmOneTimerSwings,y = A, pull Y, ...
+	lda.w tmOneTimerSwings,y
 	inc a
-	sta.w $12F3,y
+	sta.w tmOneTimerSwings,y
 	ply
 	lda.w #$0000
 	sec
-	sbc.w $066E
+	sbc.w passtargetx
 	sta.b d0
 	lda.w pfgoal,x
 	bne .2
@@ -1487,10 +1487,10 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	cpx.w #$000C
 	bmi .11
 	ldy.w #$0002
-.11:								; A = $12F7,y, A + 1, $12F7,y = A, pull Y
-	lda.w $12F7,y
+.11:								; A = tmOneTimers,y, A + 1, tmOneTimers,y = A, pull Y
+	lda.w tmOneTimers,y
 	inc a
-	sta.w $12F7,y
+	sta.w tmOneTimers,y
 	ply
 .12:								; onetimer = $0001, A = CwdExciteLvl, A + $000A, ...
 	lda.w #$0001

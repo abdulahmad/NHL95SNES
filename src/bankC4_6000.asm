@@ -41,8 +41,8 @@ PlayerAccDir2x2:					; playeracc toward direction 2 (right), the step taken twic
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -92,7 +92,7 @@ PlayerAccDir2x2:					; playeracc toward direction 2 (right), the step taken twic
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -153,8 +153,8 @@ PlayerAccDir3:						; playeracc toward direction 3 (down-right), one step (Playe
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -208,7 +208,7 @@ PlayerAccDir3:						; playeracc toward direction 3 (down-right), one step (Playe
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -274,8 +274,8 @@ PlayerAccDir3x2:					; playeracc toward direction 3 (down-right), the step taken
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -329,7 +329,7 @@ PlayerAccDir3x2:					; playeracc toward direction 3 (down-right), the step taken
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -376,8 +376,8 @@ PlayerAccDir4:						; playeracc toward direction 4 (down), one step (PlayerAccOn
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -427,7 +427,7 @@ PlayerAccDir4:						; playeracc toward direction 4 (down), one step (PlayerAccOn
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -477,8 +477,8 @@ PlayerAccDir4x2:					; playeracc toward direction 4 (down), the step taken twice
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -528,7 +528,7 @@ PlayerAccDir4x2:					; playeracc toward direction 4 (down), the step taken twice
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -590,8 +590,8 @@ PlayerAccDir5:						; playeracc toward direction 5 (down-left), one step (Player
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -645,7 +645,7 @@ PlayerAccDir5:						; playeracc toward direction 5 (down-left), one step (Player
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -712,8 +712,8 @@ PlayerAccDir5x2:					; playeracc toward direction 5 (down-left), the step taken 
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -767,7 +767,7 @@ PlayerAccDir5x2:					; playeracc toward direction 5 (down-left), the step taken 
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -814,8 +814,8 @@ PlayerAccDir6:						; playeracc toward direction 6 (left), one step (PlayerAccOn
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -865,7 +865,7 @@ PlayerAccDir6:						; playeracc toward direction 6 (left), one step (PlayerAccOn
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -915,8 +915,8 @@ PlayerAccDir6x2:					; playeracc toward direction 6 (left), the step taken twice
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -966,7 +966,7 @@ PlayerAccDir6x2:					; playeracc toward direction 6 (left), the step taken twice
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1027,8 +1027,8 @@ PlayerAccDir7:						; playeracc toward direction 7 (up-left), one step (PlayerAc
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -1082,7 +1082,7 @@ PlayerAccDir7:						; playeracc toward direction 7 (up-left), one step (PlayerAc
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1148,8 +1148,8 @@ PlayerAccDir7x2:					; playeracc toward direction 7 (up-left), the step taken tw
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -1203,7 +1203,7 @@ PlayerAccDir7x2:					; playeracc toward direction 7 (up-left), the step taken tw
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1403,11 +1403,11 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	lda.w #$0000
 	sbc.b $91
 	sta.b $91
-.15:								; A = $0C60,x, A + d4, $0C60,x = A, A = facedir,x, ...
-	lda.w $0C60,x
+.15:								; A = facefrac,x, A + d4, facefrac,x = A, A = facedir,x, ...
+	lda.w facefrac,x
 	clc
 	adc.b d4
-	sta.w $0C60,x
+	sta.w facefrac,x
 	lda.w facedir,x
 	adc.b $91
 	and.w #$0007

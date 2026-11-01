@@ -37,7 +37,7 @@ Restart:							; starts over at the setup screen: the stack reset, StartMenuMusi
 	rep #$30
 	lda.w #$1FFF
 	tcs
-	stz.w $24C4
+	stz.w playoffRoundIdx
 	jsl.l StartMenuMusic
 	lda.w #$445C
 	sta.w jmlvector
@@ -102,8 +102,8 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	sta.w goaliemode1
 	sta.w goaliemode2
 	lda.w #$0001
-	sta.w $1303
-	sta.w $1305
+	sta.w tmtimeouts
+	sta.w tmtimeouts+2
 	sta.l $7E234C
 	stz.w penshot
 	stz.w penshotlive
@@ -455,15 +455,15 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	bmi .10
 	asl.b d0
 	jsl.l loadTeamStruct
-.10:								; if $06B4,x = 0 go to .12, A - timestep, ...
-	lda.w $06B4,x
+.10:								; if goaliedivewait,x = 0 go to .12, A - timestep, ...
+	lda.w goaliedivewait,x
 	beq .12
 	sec
 	sbc.w timestep
 	bpl .11
 	lda.w #$0000
-.11:								; $06B4,x = A
-	sta.w $06B4,x
+.11:								; goaliedivewait,x = A
+	sta.w goaliedivewait,x
 .12:								; if X is not passReceiverPlayerNum go to .13, ...
 	cpx.w passReceiverPlayerNum
 	bne .13
@@ -925,7 +925,7 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	sta.w $05B6
 	sta.w $05B8
 	sta.w $05BA
-	stz.w $05A4
+	stz.w padinputdone
 	stz.w $05A6
 	stz.w $05A8
 	stz.w $05AA
@@ -962,10 +962,10 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	lda.w playerpad,x
 	bmi .60
 	tay
-	lda.w $05A4,y
+	lda.w padinputdone,y
 	bne .60
 	lda.w #$0001
-	sta.w $05A4,y
+	sta.w padinputdone,y
 	lda.w PadRaw1,y
 	sta.b d3
 	lda.w padchange,y
@@ -1401,13 +1401,13 @@ CODE_C50BEC:						; from PeriodOver
 	lda.w $1299
 	sta.l $7F8F06,x
 	sta.l $7F8F2E,x
-	lda.w $12D7
+	lda.w tmchecks
 	sta.l $7F8F1E,x
-	lda.w $12D9
+	lda.w tmchecks+2
 	sta.l $7F8F08,x
-	lda.w $1263
+	lda.w tmPwrPlays
 	sta.l $7F8F20,x
-	lda.w $1265
+	lda.w tmPwrPlays+2
 	sta.l $7F8F0A,x
 	lda.w tmPwrGoals
 	sta.l $7F8F22,x
@@ -1417,17 +1417,17 @@ CODE_C50BEC:						; from PeriodOver
 	sta.l $7F8F24,x
 	lda.w $127D
 	sta.l $7F8F0E,x
-	lda.w $127F
+	lda.w tmSHGoals
 	sta.l $7F8F26,x
-	lda.w $1281
+	lda.w tmSHGoals+2
 	sta.l $7F8F10,x
-	lda.w $12FB
+	lda.w tmOneTimerGoals
 	sta.l $7F8F28,x
-	lda.w $12FD
+	lda.w tmOneTimerGoals+2
 	sta.l $7F8F12,x
-	lda.w $12F3
+	lda.w tmOneTimerSwings
 	sta.l $7F8F2A,x
-	lda.w $12F5
+	lda.w tmOneTimerSwings+2
 	sta.l $7F8F14,x
 	lda.w #$0000
 	sta.l $7F8EF8,x

@@ -263,7 +263,7 @@ ReadMenuPads:						; the buttons of all 5 pads ORed into the menu pad word; repe
 	ora.b $C5
 	ora.b $C7
 	ora.b $C9
-	sta.w $058D
+	sta.w padchangeany
 	inc.w repeatdelayframes
 	cmp.w padlast
 	beq .rtl
@@ -310,14 +310,14 @@ ReadActiveMenuPad:					; select the first enabled pad with held buttons for the 
 	lda.b $C9
 	and.w #$FFF0
 	bne .6
-.5:									; $058D = 0, padlast = 0, pausepad = $FFFF, return
-	stz.w $058D
+.5:									; padchangeany = 0, padlast = 0, pausepad = $FFFF, return
+	stz.w padchangeany
 	stz.w padlast
 	lda.w #$FFFF
 	sta.w pausepad
 	rtl
-.6:									; $058D = A, repeatdelayframes + 1, if A = padlast go to .rtl, ...
-	sta.w $058D
+.6:									; padchangeany = A, repeatdelayframes + 1, if A = padlast go to .rtl, ...
+	sta.w padchangeany
 	inc.w repeatdelayframes
 	cmp.w padlast
 	beq .rtl
@@ -368,7 +368,7 @@ ReadPads:							; once per frame: each pad's direction (PadDirection), then the 
 	ora.w $057D
 	ora.w $057F
 	ora.w $0581
-	sta.w $058D
+	sta.w padchangeany
 	rtl
 PadDirection:						; the d-pad bits (up, down, left, right) to a direction: 0 up, then
 									; clockwise to 7 up-left; 8 for none or opposite directions
@@ -538,15 +538,15 @@ Multi5Bios:							; called from other segments
 	lda.w JOYSER0
 	and.b #$02
 	tax
-	eor.w $1535
-	stx.w $1535
-	sta.w $1539
+	eor.w mp5port1last
+	stx.w mp5port1last
+	sta.w mp5portchg
 	lda.w $4017
 	and.b #$02
 	tax
-	eor.w $1537
-	stx.w $1537
-	ora.w $1539
+	eor.w mp5port2last
+	stx.w mp5port2last
+	ora.w mp5portchg
 	beq .7
 	lda.b #$10
 	sta.w mp5checktimer

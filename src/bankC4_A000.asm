@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C49FBD
 chk4pass:							; called from other segments
-	lda.w $07EE
+	lda.w threat
 	bne .1
 	lda.w #$0010
 	clc
@@ -315,9 +315,9 @@ dopass_count:						; from dopass and other segments
 	lda.w gmclock
 	bne .1
 	ldy.b a2
-	lda.w $12DF,y
+	lda.w tmpassatt,y
 	inc a
-	sta.w $12DF,y
+	sta.w tmpassatt,y
 .1:									; X = topgoalie,y, A = aidef,x, A / 2, A + $0001, ...
 	ldx.w topgoalie,y
 	lda.w aidef,x
@@ -482,7 +482,7 @@ dopass_count:						; from dopass and other segments
 	lda.b d2
 	clc
 	adc.w puckx
-	sta.w $066E
+	sta.w passtargetx
 	lda.b d3
 	clc
 	adc.w pucky
@@ -504,7 +504,7 @@ dopass_count:						; from dopass and other segments
 	sta.w nopuck,x
 	ldy.b a2
 	lda.w playerpad,x
-	sta.w $05C8,y
+	sta.w passpad,y
 	lda.w position,x
 	bne .rtl
 	lda.w playerpad,x
@@ -522,7 +522,7 @@ dopass_count:						; from dopass and other segments
 .rtl:								; return
 	rtl
 DumpInTarget:						; from assdumpin and other segments
-	stx.w $066A
+	stx.w dumpinplayer
 	lda.w position,x
 	beq .6
 	lda.w pfgoal,x
@@ -730,7 +730,7 @@ CODE_C4A52A:						; from assdumpin and other segments
 	jsl.l puckflip
 	ldx.b curobj
 	lda.w #$FFFF
-	sta.w $066A
+	sta.w dumpinplayer
 	sta.w puckc
 	lda.w #$001E
 	sta.w nopuck,x
@@ -928,7 +928,7 @@ puckgoalie:							; called from other segments
 	adc.b d2
 	asl a
 	sta.b d2
-	lda.w $0F60,y
+	lda.w aggress,y
 	sta.b d1
 	lda.b d2
 	beq .4
@@ -942,7 +942,7 @@ puckgoalie:							; called from other segments
 	lda.b d2
 	cmp.w #$0004
 	beq .4
-	lda.w $0F40,y
+	lda.w endurance,y
 	sta.b d1
 .4:									; A = d1, A + $000F, d1 = A, A = attribute,y, ...
 	lda.b d1
@@ -1081,10 +1081,10 @@ puckgoalie:							; called from other segments
 	rtl
 .20:								; go to .15
 	jmp.w .15
-.21:								; A = $0002, A + $0E80,y, A and $FF00, A * 2, ...
+.21:								; A = $0002, A + shotspd,y, A and $FF00, A * 2, ...
 	lda.w #$0002
 	clc
-	adc.w $0E80,y
+	adc.w shotspd,y
 	xba
 	and.w #$FF00
 	asl a
@@ -1120,7 +1120,7 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	lda.w gmclock
 	beq .2
 	jmp.w .rtl
-.2:									; push X, a3 = $07EA, a2 = 0, A = $0002
+.2:									; push X, a3 = shotplayer, a2 = 0, A = $0002
 	pei ($67)
 	pei ($69)
 	pei ($6B)
@@ -1130,7 +1130,7 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	pei ($7F)
 	pei ($81)
 	phx
-	ldx.w $07EA
+	ldx.w shotplayer
 	stx.b a3
 	stz.b a2
 	lda.w #$0002
@@ -1190,10 +1190,10 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	beq .9
 	inx
 	inx
-.9:									; A = $1287,x, A + 1, $1287,x = A, X = a3, ...
-	lda.w $1287,x
+.9:									; A = tmPerShots,x, A + 1, tmPerShots,x = A, X = a3, ...
+	lda.w tmPerShots,x
 	inc a
-	sta.w $1287,x
+	sta.w tmPerShots,x
 	ldx.b a3
 	lda.w pnum,x
 	sta.b d0
@@ -1208,7 +1208,7 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	beq .11
 	tax
 	sep #$20
-	inc.w $147B,x
+	inc.w tmpshots,x
 	rep #$20
 .11:								; X = a1, d0 = tmgoalie,x, if tmgoalie,x < 0 go to .13, ...
 	ldx.b a1
@@ -1218,12 +1218,12 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	lda.b a1
 	beq .12
 	lda.w #$001A
-.12:								; A + d0, X = A, A 8-bit, $147B,x + 1, ...
+.12:								; A + d0, X = A, A 8-bit, tmpshots,x + 1, ...
 	clc
 	adc.b d0
 	tax
 	sep #$20
-	inc.w $147B,x
+	inc.w tmpshots,x
 	rep #$20
 .13:								; pull X, pull A, $81 = A, pull A, ...
 	plx
@@ -1317,38 +1317,38 @@ Goal:								; called from other segments
 .9:									; if a2 is not 0 go to .11
 	ldy.b a2
 	bne .11
-.10:								; A = $127F,y, A + 1, $127F,y = A
-	lda.w $127F,y
+.10:								; A = tmSHGoals,y, A + 1, tmSHGoals,y = A
+	lda.w tmSHGoals,y
 	inc a
-	sta.w $127F,y
+	sta.w tmSHGoals,y
 .11:								; if penshot is not 0 go to .12, if breakaway = 0 go to .13, Y = a2, ...
 	lda.w penshot
 	bne .12
 	lda.w breakaway
 	beq .13
 	ldy.b a2
-	lda.w $12E7,y
+	lda.w tmBreakawayGoals,y
 	inc a
-	sta.w $12E7,y
+	sta.w tmBreakawayGoals,y
 	bra .13
-.12:								; Y = a2, A = $12EF,y, A + 1, $12EF,y = A
+.12:								; Y = a2, A = tmPenShotGoals,y, A + 1, tmPenShotGoals,y = A
 	ldy.b a2
-	lda.w $12EF,y
+	lda.w tmPenShotGoals,y
 	inc a
-	sta.w $12EF,y
-.13:								; if onetimer = 0 go to .14, Y = a2, A = $12FB,y, A + 1, ...
+	sta.w tmPenShotGoals,y
+.13:								; if onetimer = 0 go to .14, Y = a2, A = tmOneTimerGoals,y, A + 1, ...
 	lda.w onetimer
 	beq .14
 	ldy.b a2
-	lda.w $12FB,y
+	lda.w tmOneTimerGoals,y
 	inc a
-	sta.w $12FB,y
+	sta.w tmOneTimerGoals,y
 .14:								; A = $0009, call QueueSoundCmd, A = $00A2, call StartSound, ...
 	lda.w #$0009
 	jsl.l QueueSoundCmd
 	lda.w #$00A2
 	jsl.l StartSound
-	stz.w $06EC
+	stz.w benchcheer
 	ldy.b a2
 	beq .16
 	lda.w #$0004
@@ -1373,9 +1373,9 @@ Goal:								; called from other segments
 	sta.b crowdhold
 	lda.w #$0003
 	jsl.l PlayTeamSongNow
-.17:								; $07EC = Vcount, call EndPenaltyShot, breakaway = 0, onetimer = 0, ...
+.17:								; sfxmutetime = Vcount, call EndPenaltyShot, breakaway = 0, ...
 	lda.b Vcount
-	sta.w $07EC
+	sta.w sfxmutetime
 	jsl.l EndPenaltyShot
 	stz.w breakaway
 	stz.w onetimer
@@ -1399,10 +1399,10 @@ Goal:								; called from other segments
 	adc.w #$FFCE
 	bmi .19
 	sta.w CwdExciteLvl
-.19:								; A = $129B,x, A + 1, $129B,x = A, pull X, ...
-	lda.w $129B,x
+.19:								; A = tmPerGoals,x, A + 1, tmPerGoals,x = A, pull X, ...
+	lda.w tmPerGoals,x
 	inc a
-	sta.w $129B,x
+	sta.w tmPerGoals,x
 	plx
 	lda.w ScoreSumbytes
 	cmp.w #$0258
@@ -1451,12 +1451,12 @@ Goal:								; called from other segments
 	lda.b a2
 	beq .22
 	lda.w #$001A
-.22:								; A + d0, X = A, A 8-bit, $1413,x + 1, ...
+.22:								; A + d0, X = A, A 8-bit, tmgoals,x + 1, ...
 	clc
 	adc.b d0
 	tax
 	sep #$20
-	inc.w $1413,x
+	inc.w tmgoals,x
 	rep #$20
 .23:								; Y = a2, d0 = tmtouch2,y, if tmtouch2,y < 0 go to .26, A 8-bit, ...
 	ldy.b a2
@@ -1469,12 +1469,12 @@ Goal:								; called from other segments
 	lda.b a2
 	beq .24
 	lda.w #$001A
-.24:								; A + d0, X = A, A 8-bit, $1447,x + 1, ...
+.24:								; A + d0, X = A, A 8-bit, tmassists,x + 1, ...
 	clc
 	adc.b d0
 	tax
 	sep #$20
-	inc.w $1447,x
+	inc.w tmassists,x
 	rep #$20
 	inc.b a0
 	lda.w tmtouch3,y
@@ -1486,12 +1486,12 @@ Goal:								; called from other segments
 	lda.b a2
 	beq .25
 	lda.w #$001A
-.25:								; A + d0, X = A, A 8-bit, $1447,x + 1, ...
+.25:								; A + d0, X = A, A 8-bit, tmassists,x + 1, ...
 	clc
 	adc.b d0
 	tax
 	sep #$20
-	inc.w $1447,x
+	inc.w tmassists,x
 	rep #$20
 .26:								; Y = a1, d0 = tmgoalie,y, if tmgoalie,y < 0 go to .28, ...
 	ldy.b a1
@@ -1501,11 +1501,11 @@ Goal:								; called from other segments
 	lda.b a1
 	beq .27
 	lda.w #$001A
-.27:								; A + d0, X = A, $1413,x + 1
+.27:								; A + d0, X = A, tmgoals,x + 1
 	clc
 	adc.b d0
 	tax
-	inc.w $1413,x
+	inc.w tmgoals,x
 .28:								; call PenGoalStuff, call CODE_C539D7, X = a3, d0 = $0008, ...
 	jsl.l PenGoalStuff
 	jsl.l CODE_C539D7

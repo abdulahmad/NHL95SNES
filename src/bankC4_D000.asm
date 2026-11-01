@@ -754,11 +754,11 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	stz.w fadestep
 	stz.b $26
 	stz.b a0
-.loop:								; loop: call UpdateMenuSpritesTwice, call ReadMenuPads, A = $058D, A and
+.loop:								; loop: call UpdateMenuSpritesTwice, call ReadMenuPads, ...
 									; $FFF0, ...
 	jsl.l UpdateMenuSpritesTwice
 	jsl.l ReadMenuPads
-	lda.w $058D
+	lda.w padchangeany
 	and.w #$FFF0
 	tsb.b a0
 	lda.b $26
@@ -913,7 +913,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0100
 	beq .1
 	lda.b a0

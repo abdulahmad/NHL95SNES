@@ -370,10 +370,10 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 	lda.w #$0000
 .2:									; $17CB = A
 	sta.w $17CB
-.3:									; if A is not $17C9 go to CODE_C5A397, A = $058D, ...
+.3:									; if A is not $17C9 go to CODE_C5A397, A = padchangeany, ...
 	cmp.w $17C9
 	bne CODE_C5A397
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0200
 	beq .5
 	lda.w $17CB
@@ -456,10 +456,10 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 	lda.w #$0000
 .2:									; $17C9 = A
 	sta.w $17C9
-.3:									; if A is not $17CB go to CODE_C5A440, A = $058D, ...
+.3:									; if A is not $17CB go to CODE_C5A440, A = padchangeany, ...
 	cmp.w $17CB
 	bne CODE_C5A440
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0200
 	beq .5
 	lda.w $17C9
@@ -670,8 +670,8 @@ LeagueLeadersInput:					; the League Leaders screen each frame (screen state 8):
 	bcc .rts
 	lda.w #$0013
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $3000 bit set go to .4, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $3000 bit set go to .4, ...
+	lda.w padchangeany
 	bit.w #$3000
 	bne .4
 	bit.w #$0800
@@ -726,8 +726,8 @@ SeasonTeamStatsInput:				; the Season Team Stats screen each frame (screen state
 	bcc .rts
 	lda.w #$0013
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $0100 bit set go to .2, if a $0200 bit set go to .4, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $0100 bit set go to .2, ...
+	lda.w padchangeany
 	bit.w #$0100
 	bne .2
 	bit.w #$0200
@@ -765,8 +765,8 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	bcc .rts
 	lda.w #$0014
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $8000 bit set go to .7, if a $0100 bit set go to .5, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $8000 bit set go to .7, ...
+	lda.w padchangeany
 	bit.w #$8000
 	bne .7
 	bit.w #$0100
@@ -885,8 +885,8 @@ StandingsInput:						; the NHL Standings screen each frame (screen state 11): up
 	bcc .rts
 	lda.w #$0014
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $0400 bit set go to .2, if a $0800 bit set go to .4, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $0400 bit set go to .2, ...
+	lda.w padchangeany
 	bit.w #$0400
 	bne .2
 	bit.w #$0800
@@ -968,8 +968,8 @@ CODE_C5A821:						; from DATA8_C5A81B
 	bcc .rts
 	lda.w #$0010
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $0200 bit set go to .6, if a $0100 bit set go to .7, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $0200 bit set go to .6, ...
+	lda.w padchangeany
 	bit.w #$0200
 	bne .6
 	bit.w #$0100
@@ -1337,8 +1337,8 @@ NoGameSelectedInput:				; the A game must be selected warning each frame (screen
 	beq .1
 .rts:								; return
 	rts
-.1:									; A = $058D, if $3000 bits clear go to .rts, go to SeasonOptions
-	lda.w $058D
+.1:									; A = padchangeany, if $3000 bits clear go to .rts, go to SeasonOptions
+	lda.w padchangeany
 	bit.w #$3000
 	beq .rts
 	jmp.w SeasonOptions
@@ -1348,8 +1348,8 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	lda.w repeatdelayframes
 	beq .1
 	rts
-.1:									; A = $058D, if a $3000 bit set go to .5, if a $0800 bit set go to .2, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $3000 bit set go to .5, ...
+	lda.w padchangeany
 	bit.w #$3000
 	bne .5
 	bit.w #$0800
@@ -1444,8 +1444,8 @@ SeasonOptionsInput:					; the League Menu each frame (screen state 6): up / down
 	bcc .rts
 	lda.w #$000C
 	sta.w repeatdelayframes
-.1:									; A = $058D, if a $0800 bit set go to .4, if a $0400 bit set go to .6, ...
-	lda.w $058D
+.1:									; A = padchangeany, if a $0800 bit set go to .4, ...
+	lda.w padchangeany
 	bit.w #$0800
 	bne .4
 	bit.w #$0400

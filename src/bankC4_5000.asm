@@ -52,13 +52,13 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	beq .3
 	lda.w #$0002
 	sta.b a0
-.3:									; if gmclock is not 0 go to .4, Y = a0, A = $12D7,y, A + 1, ...
+.3:									; if gmclock is not 0 go to .4, Y = a0, A = tmchecks,y, A + 1, ...
 	lda.w gmclock
 	bne .4
 	ldy.b a0
-	lda.w $12D7,y
+	lda.w tmchecks,y
 	inc a
-	sta.w $12D7,y
+	sta.w tmchecks,y
 .4:									; Y = a2, nopuck,y = $0078, A = Xpos,x, A - Xpos,y, ...
 	ldy.b a2
 	lda.w #$0078
@@ -144,18 +144,18 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	adc.w #$000A
 	bmi .16
 	sta.w CwdExciteLvl
-.16:								; $06EC = 0, Y = a2, if pfteam,y = 0 go to .17, A = $0002
-	stz.w $06EC
+.16:								; benchcheer = 0, Y = a2, if pfteam,y = 0 go to .17, A = $0002
+	stz.w benchcheer
 	ldy.b a2
 	lda.w pfteam,y
 	beq .17
 	lda.w #$0002
-.17:								; A + $0006, call StartBenchCheer, $06EE = $0002, X = a3, ...
+.17:								; A + $0006, call StartBenchCheer, benchrounds = $0002, X = a3, ...
 	clc
 	adc.w #$0006
 	jsl.l StartBenchCheer
 	lda.w #$0002
-	sta.w $06EE
+	sta.w benchrounds
 	ldx.b a3
 	ldy.b a2
 	jmp.w .29
@@ -205,12 +205,12 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w pfteam,y
 	beq .25
 	lda.w #$0002
-.25:								; A + 1, A + 1, call StartBenchCheer, $06EE = $0002, ...
+.25:								; A + 1, A + 1, call StartBenchCheer, benchrounds = $0002, ...
 	inc a
 	inc a
 	jsl.l StartBenchCheer
 	lda.w #$0002
-	sta.w $06EE
+	sta.w benchrounds
 	lda.w #$2448
 	sta.b d1
 	ldy.b a2
@@ -292,7 +292,7 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	beq .34
 	lda.w #$FFFF
 	sta.w puckc
-	stz.w $06EC
+	stz.w benchcheer
 	ldy.b a2
 	lda.w pfteam,y
 	beq .30
@@ -635,9 +635,9 @@ CODE_C453E6:						; from checkcheck and other segments
 	sta.b d0
 	lda.b d0
 	sec
-	sbc.w $0DE0,x
+	sbc.w weight,x
 	clc
-	adc.w $0DE0,y
+	adc.w weight,y
 	lsr a
 	sec
 	sbc.w impact,y
@@ -936,7 +936,7 @@ holdcheck:							; from CODE_C453E3
 	sta.w Yvel,x
 	sta.w Yvel,y
 	tya
-	sta.w $09E0,x
+	sta.w impactp,x
 	lda.w #$2344
 	sta.w pfalock,x
 	jsl.l SetSPAFromA
@@ -945,7 +945,7 @@ holdcheck:							; from CODE_C453E3
 	sty.b a2
 	stx.b a3
 	tya
-	sta.w $09E0,x
+	sta.w impactp,x
 	lda.w #$2280
 	sta.w pfalock,x
 	ldy.w SPA,x
@@ -1426,8 +1426,8 @@ PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneF
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -1477,7 +1477,7 @@ PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneF
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1526,8 +1526,8 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -1577,7 +1577,7 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1740,8 +1740,8 @@ PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerA
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -1795,7 +1795,7 @@ PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerA
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1860,8 +1860,8 @@ PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken t
 	bne .5
 	lda.w #$1000
 	sta.b d0
-.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.5:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -1915,7 +1915,7 @@ PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken t
 	sta.b d0
 	cmp.w #$0C00
 	bmi .9
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0
@@ -1961,8 +1961,8 @@ PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccO
 	bne .3
 	lda.w #$1000
 	sta.b d0
-.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
-	lda.w $0E20,x
+.3:									; A = legspd,x, A * 2, X = A, A = d0, ...
+	lda.w legspd,x
 	asl a
 	tax
 	lda.b d0
@@ -2012,7 +2012,7 @@ PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccO
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w $0F40,x
+	lda.w endurance,x
 	sta.b d2
 	clc
 	adc.b d0

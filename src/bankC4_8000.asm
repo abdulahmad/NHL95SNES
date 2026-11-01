@@ -251,7 +251,7 @@ ClearPenaltyBuffer:					; clears the 32 words of PenBuf
 checkagr:							; called from other segments
 	lda.w #$0014
 	sec
-	sbc.w $0F60,x
+	sbc.w aggress,x
 	asl a
 	asl a
 	asl a
@@ -516,13 +516,13 @@ checkob:							; called from other segments
 	inc.b a0
 	dec.b d0
 	bpl .loop
-.5:									; d0 = $0040, A = $8000, if zero go to .6, if $2348 is not 0 go to .6, ...
+.5:									; d0 = $0040, A = $8000, if zero go to .6, ...
 	lda.w #$0040
 	sta.b d0
 	lda.w #$8000
 	trb.w sflags
 	beq .6
-	lda.w $2348
+	lda.w refwindow
 	bne .6
 	jsl.l CODE_C58944
 .6:									; pull A, $65 = A, pull A, a0 = A, ...
@@ -832,12 +832,12 @@ StartBreakaway:						; called from other segments
 	cmp.w #$000C
 	bmi .3
 	ldy.w #$0002
-.3:									; if penshot is not 0 go to .4, A = $12E3,y, A + 1, $12E3,y = A
+.3:									; if penshot is not 0 go to .4, A = tmBreakaways,y, A + 1, ...
 	lda.w penshot
 	bne .4
-	lda.w $12E3,y
+	lda.w tmBreakaways,y
 	inc a
-	sta.w $12E3,y
+	sta.w tmBreakaways,y
 .4:									; pull Y
 	ply
 .rtl:								; return
@@ -850,11 +850,11 @@ StartPenaltyShot:					; called from other segments
 	bmi .1
 	lda.w #$0002
 	sta.w BA_Team
-	inc.w $12ED
+	inc.w tmPenShots+2
 	bra .2
-.1:									; BA_Team = 0, $12EB + 1
+.1:									; BA_Team = 0, tmPenShots + 1
 	stz.w BA_Team
-	inc.w $12EB
+	inc.w tmPenShots
 .2:									; push Y, A = BA_Team, A xor $0002, Y = A, ...
 	phy
 	lda.w BA_Team
@@ -997,10 +997,10 @@ goalieacc:							; called from other segments
 	jsl.l SetSPAFromA
 	lda.w facedir,x
 	sta.b d2
-.13:								; if playerpad,x < 0 go to .14, A = $0E20,x, push A, A / 2, ...
+.13:								; if playerpad,x < 0 go to .14, A = legspd,x, push A, A / 2, ...
 	lda.w playerpad,x
 	bmi .14
-	lda.w $0E20,x
+	lda.w legspd,x
 	pha
 	lsr a
 	sta.b tmp0
@@ -1010,12 +1010,12 @@ goalieacc:							; called from other segments
 	sec
 	lda.b tmp0
 	sbc.b tmp1
-	sta.w $0E20,x
+	sta.w legspd,x
 	phx
 	jsl.l playeracc
 	plx
 	pla
-	sta.w $0E20,x
+	sta.w legspd,x
 	rtl
 .14:								; go to playeracc
 	jml.l playeracc
@@ -1576,7 +1576,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	dec.b d0
 	bpl .loop
 	lda.w #$0001
-	sta.w $07EE
+	sta.w threat
 	jsl.l chk4pass
 	lda.w puckc
 	bmi .rtl2
@@ -1601,12 +1601,12 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	lda.w #$15C4
 	jsl.l SetSPAFromA
 	lda.w #$00F0
-	sta.w $06B4,x
+	sta.w goaliedivewait,x
 	rtl
-.19:								; if playerpad,x < 0 go to .22, if $05A4,y is not $0001 go to .22, ...
+.19:								; if playerpad,x < 0 go to .22, ...
 	ldy.w playerpad,x
 	bmi .22
-	lda.w $05A4,y
+	lda.w padinputdone,y
 	cmp.w #$0001
 	bne .22
 	cpx.w puckc
@@ -1654,7 +1654,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	lda.w pfteam,y
 	cmp.w pfteam,x
 	beq .24
-	lda.w $06B4,x
+	lda.w goaliedivewait,x
 	bne .24
 	jsl.l RandomWord
 	cmp.w #$0A00
@@ -1700,7 +1700,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	tya
 	jsl.l SetSPAFromA
 	lda.w #$0168
-	sta.w $06B4,x
+	sta.w goaliedivewait,x
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000A

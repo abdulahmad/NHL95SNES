@@ -962,7 +962,7 @@ TaskStartKey:						; a task: start clears task flag bit 15 (so TaskEndCheck ends
 	jsl.l ReadMenuPads
 	lda.w repeatdelayframes
 	bne .rtl
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .rtl
 	lda.w #$8000

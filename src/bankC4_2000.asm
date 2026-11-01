@@ -628,11 +628,11 @@ CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .3
 	ora.w #$FF00
-.3:									; A + pucky, d3 = A, $07EE = 0, d4 = $0005, ...
+.3:									; A + pucky, d3 = A, threat = 0, d4 = $0005, ...
 	clc
 	adc.w pucky
 	sta.b d3
-	stz.w $07EE
+	stz.w threat
 	lda.w #$0005
 	sta.b d4
 	stz.b a0
@@ -670,7 +670,7 @@ CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	bmi .6
 	cmp.w #$0015
 	bpl .6
-	inc.w $07EE
+	inc.w threat
 	lda.w Xpos,x
 	sec
 	sbc.w Xpos,y

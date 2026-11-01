@@ -375,7 +375,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne .4
 	bit.w #$0800
@@ -455,7 +455,7 @@ ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches betw
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$8000
 	beq .1
 	lda.b $D3
@@ -583,7 +583,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	ldy.w #$2801
 	ldx.w #$5135
 	jsl.l MapTileBlock
-	stz.w $058D
+	stz.w padchangeany
 .1:									; $18 = $00D0, $1A = $0028, $CF = $00A8, $D1 = $00F0, ...
 	lda.w #$00D0
 	sta.b $18
@@ -593,7 +593,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$8000
 	bne .2
 	clc
@@ -653,7 +653,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .6
 	jmp.w ExitToPauseMenu
@@ -814,20 +814,20 @@ CODE_C566A1:						; from CODE_C5663A
 	jmp (DATA8_C566DE,x)
 CODE_C566AB:						; from DATA8_C566DE
 	plx
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	rts
 CODE_C566B3:						; from DATA8_C566DE
 	plx
-	lda.w $1447,x
+	lda.w tmassists,x
 	and.w #$00FF
 	rts
 CODE_C566BB:						; from DATA8_C566DE
 	plx
-	lda.w $1447,x
+	lda.w tmassists,x
 	and.w #$00FF
 	pha
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	clc
 	adc.b $01,s
@@ -835,7 +835,7 @@ CODE_C566BB:						; from DATA8_C566DE
 	rts
 CODE_C566CE:						; from DATA8_C566DE
 	plx
-	lda.w $147B,x
+	lda.w tmpshots,x
 	and.w #$00FF
 	rts
 CODE_C566D6:						; from DATA8_C566DE
@@ -869,17 +869,17 @@ CODE_C566E8:						; from ShowPlayerStats
 	clc
 	adc.b $A5
 	tax
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	sta.b $0A
 	ldy.b $0C
 	stz.b $0E
-.loop2:								; loop: A = Y, A + $A5, X = A, A = $1413,x, ...
+.loop2:								; loop: A = Y, A + $A5, X = A, A = tmgoals,x, ...
 	tya
 	clc
 	adc.b $A5
 	tax
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	cmp.b $0A
 	bcc .3
@@ -943,13 +943,13 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	clc
 	adc.w #$001A
 	sta.b $65
-.2:									; $CF = $0078, $D1 = $0090, X = $65, A = $1413,x, ...
+.2:									; $CF = $0078, $D1 = $0090, X = $65, A = tmgoals,x, ...
 	lda.w #$0078
 	sta.b $CF
 	lda.w #$0090
 	sta.b $D1
 	ldx.b $65
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	ldx.w #$0000
 	jsr.w CODE_C5680B
@@ -959,17 +959,17 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	lda.b $7D
 	cmp.w #$FFFF
 	beq CODE_C5683C
-	lda.w $1447,x
+	lda.w tmassists,x
 	and.w #$00FF
 	ldx.w #$0002
 	jsr.w CODE_C5680B
 	lda.w #$00C0
 	sta.b $D1
 	ldx.b $65
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	pha
-	lda.w $1447,x
+	lda.w tmassists,x
 	and.w #$00FF
 	clc
 	adc.b $01,s
@@ -979,7 +979,7 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	lda.w #$00D8
 	sta.b $D1
 	ldx.b $65
-	lda.w $147B,x
+	lda.w tmpshots,x
 	and.w #$00FF
 	ldx.w #$0006
 	jsr.w CODE_C5680B
@@ -1014,20 +1014,20 @@ CODE_C5680B:						; from DrawPlayerStatRow, CODE_C5683C
 	sta.b $CF
 	rts
 CODE_C5683C:						; from DrawPlayerStatRow
-	lda.w $147B,x
+	lda.w tmpshots,x
 	and.w #$00FF
 	ldx.w #$8000
 	jsr.w CODE_C5680B
 	lda.w #$00E0
 	sta.b $D1
 	ldx.b $65
-	lda.w $1413,x
+	lda.w tmgoals,x
 	and.w #$00FF
 	ldx.w #$0064
 	jsl.l Mul8U
 	sta.b r2
 	ldx.b $65
-	lda.w $147B,x
+	lda.w tmpshots,x
 	and.w #$00FF
 	sta.b r1
 	beq .1
@@ -1218,7 +1218,7 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne .6
 	ldx.b a1
@@ -1375,10 +1375,10 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 									; full energy (reenergizeteam) and prints Time Out by and the team's name
 	jsl.l GetPadTeam
 	ldx.b a2
-	lda.w $1303,x
+	lda.w tmtimeouts,x
 	beq CODE_C56B80
 	dec a
-	sta.w $1303,x
+	sta.w tmtimeouts,x
 	jsl.l reenergizeteam
 	ldx.w #$5D41
 	jsr.w CODE_C552AC
@@ -1545,7 +1545,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne .6
 	ldx.b a1
@@ -1750,7 +1750,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne .10
 	bit.w #$0100

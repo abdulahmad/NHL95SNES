@@ -103,7 +103,7 @@ SetLCmode2:							; draws the line change box of team a2: the frame, then a row 
 	bit.w #$0008
 	bne .1
 	lda.b $81
-	cmp.w $1307,y
+	cmp.w tmlcchoice,y
 	bne .2
 	ldx.w tmline,y
 .1:									; push X, A = $0006, call AllocWorkBuf2, Y = A, ...
@@ -1710,7 +1710,7 @@ lcfound:							; from lineinput and other segments
 	ldx.b a3
 	ldy.b a2
 	lda.b d2
-	sta.w $1307,y
+	sta.w tmlcchoice,y
 	jsr.w getlchoice
 	bmi .rtl
 	sta.b d0
@@ -1850,7 +1850,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	lda.w repeatdelayframes
 	bne .3
 	jsr.w CODE_C54F05
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$3000
 	beq .3
 .resume:							; start / select leave the pause screen: back to the game (CODE_C55513);

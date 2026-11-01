@@ -190,12 +190,12 @@ assscore:							; assignment (asstab entry 8): celebrate a goal
 	lda.w #$2824
 	sta.b d1
 	sta.w pfalock,x
-	cpx.w $07EA
+	cpx.w shotplayer
 	bne .6
 	lda.w #$27B2
 	sta.b d1
 	lda.w #$FFFF
-	sta.w $07EA
+	sta.w shotplayer
 .6:									; call SetSPA
 	jsl.l SetSPA
 CODE_C471E2:						; from assscore and other segments
@@ -229,11 +229,11 @@ chkatop:							; from CODE_C47FD4 and other segments
 	lda.b d1
 	eor.w #$0002
 	sta.b d1
-.2:									; Y = d1, A = $126F,y, A + 1, $126F,y = A
+.2:									; Y = d1, A = tmATOP,y, A + 1, tmATOP,y = A
 	ldy.b d1
-	lda.w $126F,y
+	lda.w tmATOP,y
 	inc a
-	sta.w $126F,y
+	sta.w tmATOP,y
 .rtl:								; return
 	rtl
 CountPowerPlayTime:					; from CODE_C47FD4 and other segments
@@ -245,11 +245,11 @@ CountPowerPlayTime:					; from CODE_C47FD4 and other segments
 	bpl .1
 	lda.w #$0002
 	sta.b d1
-.1:									; Y = d1, A = $1273,y, A + 1, $1273,y = A
+.1:									; Y = d1, A = tmPwrPlayTime,y, A + 1, tmPwrPlayTime,y = A
 	ldy.b d1
-	lda.w $1273,y
+	lda.w tmPwrPlayTime,y
 	inc a
-	sta.w $1273,y
+	sta.w tmPwrPlayTime,y
 .rtl:								; return
 	rtl
 checkfornewpen:						; from CODE_C471F0 and other segments
@@ -449,10 +449,10 @@ Stop4Pen:							; from checkfornewpen and other segments
 	lda.b d1
 	sta.w foy
 	jsl.l limitfo
-.7:									; A = Vcount, A - $07EC, if A < $003C go to .8
+.7:									; A = Vcount, A - sfxmutetime, if A < $003C go to .8
 	lda.b Vcount
 	sec
-	sbc.w $07EC
+	sbc.w sfxmutetime
 	cmp.w #$003C
 	bcc .8
 .8:									; if replaydelay is not 0 go to .9, replaydelay = $001E
@@ -536,7 +536,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w #$1C20
 	sta.w temp1,x
 	lda.w #$FF00
-	tsb.w $1147
+	tsb.w RefStep
 	stz.w RefCnt
 	jsl.l UpdatePA
 	lda.w #$0032
@@ -553,8 +553,8 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w RefCnt
 	bmi .4
 	jmp.w .rtl2
-.4:									; if $1147 < 0 go to .5, go to .rtl2
-	lda.w $1147
+.4:									; if RefStep < 0 go to .5, go to .rtl2
+	lda.w RefStep
 	bmi .5
 	jmp.w .rtl2
 .5:									; continue
@@ -944,7 +944,7 @@ updatepwrplay:						; called from other segments
 	bne .4
 	jsl.l CODE_C53A29
 	ldx.b a3
-	inc.w $1263,x
+	inc.w tmPwrPlays,x
 .4:									; A = $0005, call AllocWorkBuf2, X = A, $0000,x = $0004, ...
 	lda.w #$0005
 	jsl.l AllocWorkBuf2
@@ -1345,7 +1345,7 @@ CODE_C47ACD:						; from checkint and other segments
 	bne CODE_C47ACC
 	lda.w #$0014
 	sec
-	sbc.w $0F60,x
+	sbc.w aggress,x
 	jsl.l randoma8
 	cmp.w #$0002
 	bcs CODE_C47ACC

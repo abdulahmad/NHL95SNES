@@ -583,7 +583,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .7
 	jmp.w .15
@@ -833,7 +833,7 @@ CODE_C57578:						; from EditLinesScreen
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne .12
 	bit.w #$0800
@@ -1055,7 +1055,7 @@ CODE_C57779:						; from CODE_C57578
 	dex
 	bne .loop3
 	stz.w repeatdelayframes
-	stz.w $058D
+	stz.w padchangeany
 .rts:								; return
 	rts
 CODE_C577C3:						; from CODE_C57578
@@ -1230,7 +1230,7 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop2
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	bne .8
 	bit.w #$0800
@@ -1485,7 +1485,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop2
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$0040
 	bne .9
 	bit.w #$1000
@@ -1749,7 +1749,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop3
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$1000
 	beq .12
 	jmp.w ExitToPauseMenu

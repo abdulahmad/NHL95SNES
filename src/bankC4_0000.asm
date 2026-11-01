@@ -13,8 +13,8 @@ CODE_C40000:						; called from other segments
 	bcc .9
 	lda.w #$0007
 	sta.w repeatdelayframes
-.2:									; a2 = $058D, if $0100 bits clear go to .3, call CODE_C40085, A = a2
-	lda.w $058D
+.2:									; a2 = padchangeany, if $0100 bits clear go to .3, call CODE_C40085, ...
+	lda.w padchangeany
 	sta.b a2
 	bit.w #$0100
 	beq .3
@@ -864,13 +864,13 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	sta.b $08,x
 	stz.w fadestep
 	stz.w repeatdelayframes
-	stz.w $058D
+	stz.w padchangeany
 .loop:								; loop: call UpdateMenuSpritesTwice, call ReadMenuPads, ...
 	jsl.l UpdateMenuSpritesTwice
 	jsl.l ReadMenuPads
 	lda.w repeatdelayframes
 	bne .loop
-	lda.w $058D
+	lda.w padchangeany
 	bit.w #$3000
 	beq .loop
 	jsl.l FadeOutWait
@@ -883,7 +883,7 @@ GetShifter:							; called from other segments
 	sta.b d2
 	lda.w #$0010
 	sta.b d1
-	lda.w $24C4
+	lda.w playoffRoundIdx
 	tay
 .loop:								; loop: A = d2, A + d1, d2 = A, d1 / 2, ...
 	lda.b d2
