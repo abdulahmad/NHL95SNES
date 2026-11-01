@@ -86,10 +86,10 @@ assdefd:							; called from other segments
 	lda.w puckc
 	bmi .9
 	lsr a
-.9:									; d1 = A, if minus go to .10, call CODE_C42D98, if zero go to .10, ...
+.9:									; d1 = A, if minus go to .10, call chkpk, if zero go to .10, ...
 	sta.b d1
 	bmi .10
-	jsl.l CODE_C42D98
+	jsl.l chkpk
 	beq .10
 	lda.b d1
 	sec

@@ -368,10 +368,10 @@ chk4shot:							; called from other segments
 	cmp.w #$0005
 	bcs .1
 	jmp.w CompShoot
-.1:									; if PenShotActive is not 0 go to .2, call CODE_C42D98, ...
+.1:									; if PenShotActive is not 0 go to .2, call chkpk, ...
 	lda.w PenShotActive
 	bne .2
-	jsl.l CODE_C42D98
+	jsl.l chkpk
 	bne .2
 	lda.w threat
 	beq .2

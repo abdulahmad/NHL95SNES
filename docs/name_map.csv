@@ -3388,22 +3388,6 @@ $C42D16,.1,CODE_C42D16,new,"branch target only used in burst",src/bankC4_2000.as
 $C42D38,.2,CODE_C42D38,new,"branch target only used in burst",src/bankC4_2000.asm
 $C42DB1,.1,CODE_C42DB1,new,"branch target only used in chkpk2",src/bankC4_2000.asm
 $C42DC2,.1,CODE_C42DC2,new,"branch target only used in asspuckc",src/bankC4_2000.asm
-$C42DF5,.1,CODE_C42DF5,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E08,.2,CODE_C42E08,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E23,.3,CODE_C42E23,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E33,.4,CODE_C42E33,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E47,.5,CODE_C42E47,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E67,.6,CODE_C42E67,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E8B,.7,CODE_C42E8B,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42E99,.rtl,CODE_C42E99,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
-$C42EA7,.1,CODE_C42EA7,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42EB7,.2,CODE_C42EB7,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42ECB,.3,CODE_C42ECB,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42EE5,.loop,CODE_C42EE5,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42EF5,.4,CODE_C42EF5,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42F14,.5,CODE_C42F14,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42F56,.6,CODE_C42F56,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
-$C42F61,.rtl,CODE_C42F61,new,"branch target only used in CODE_C42E9A",src/bankC4_2000.asm
 $C42F7C,.rtl,CODE_C42F7C,new,"branch target only used in asscentero",src/bankC4_2000.asm
 $C42F7D,.1,CODE_C42F7D,new,"branch target only used in asscentero",src/bankC4_2000.asm
 $C42F80,.2,CODE_C42F80,new,"branch target only used in asscentero",src/bankC4_2000.asm
@@ -7742,3 +7726,25 @@ $C52CD0,LoadTeamRoster,CODE_C52CD0,code,"from the code: the team data pointer at
 $C52CC1,LoadGameRosters,CODE_C52CC1,code,"from the code: the two LoadTeamRoster calls (the second falls into it)",src/bankC5_2000.asm
 $C52CA3,LoadGameRostersLong,CODE_C52CA3,code,"jsr LoadGameRosters, rtl",src/bankC5_2000.asm
 $C52CA7,LoadDefaultRoster,CODE_C52CA7,code,"from the code: both kept on the stack, cleared, LoadTeamRoster, restored",src/bankC5_2000.asm
+$C42D98,chkpk,CODE_C42D98,94S+code,"94S chkpk instruction sequence: sflags and sf2pwrplay; branch to chkpk2; otherwise inc A and rtl",src/bankC4_2000.asm
+$C42DC6,PuckCarrierGlideStopped,CODE_C42DC6,code,"asspuckc stopped-clock path: GlideBack followed by donothing; 94S has only local .2",src/bankC4_2000.asm
+$C42DCD,PuckCarrierThink,CODE_C42DCD,code,"asspuckc computer path initializes timers, checks breakaway, line change, shot and pass, then skates to its position target; 94S local .clk",src/bankC4_2000.asm
+$C42DF5,.1,CODE_C42DF5,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E08,.2,CODE_C42E08,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E23,.3,CODE_C42E23,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E33,.4,CODE_C42E33,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E47,.5,CODE_C42E47,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E67,.6,CODE_C42E67,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E8B,.7,CODE_C42E8B,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E99,.rtl,CODE_C42E99,new,"branch target only used in PuckCarrierThink",src/bankC4_2000.asm
+$C42E9A,PuckCarrierAvoidThreats,CODE_C42E9A,code,"skateto callback predicts puck and opponent positions using velocity high bytes, counts nearby opponents and adjusts direction; 94S local .chkdir",src/bankC4_2000.asm
+$C42EA7,.1,CODE_C42EA7,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42EB7,.2,CODE_C42EB7,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42ECB,.3,CODE_C42ECB,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42EE5,.loop,CODE_C42EE5,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42EF5,.4,CODE_C42EF5,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42F14,.5,CODE_C42F14,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42F56,.6,CODE_C42F56,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C42F61,.rtl,CODE_C42F61,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
+$C4311C,CenterDefenceTopTarget,CODE_C4311C,code,"asscenterd top-end path averages target Y with pucky when pucky is below the blue-line threshold; 94S local .t2",src/bankC4_2000.asm
+$C43131,CenterDefenceSkate,CODE_C43131,code,"asscenterd tail loads the empty callback address and jumps to skateto; 94S local .3",src/bankC4_2000.asm

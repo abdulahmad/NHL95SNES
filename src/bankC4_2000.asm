@@ -483,13 +483,13 @@ burst:								; check button: a speed burst in the facing direction that costs e
 	lda.w #$21BC
 	sta.w pfalock,x
 	jml.l SetSPAFromA
-CODE_C42D98:						; from CODE_C431E9 and other segments
+chkpk:								; return zero if player X is killing a penalty
 	lda.w sflags
 	and.w #$2000
 	bne chkpk2
 	inc a
 	rtl
-chkpk2:								; from CODE_C42D98, assnearest and other segments
+chkpk2:								; from chkpk, assnearest and other segments
 	lda.w pfteam,x
 	bne .1
 	lda.w sflags
@@ -505,17 +505,17 @@ asspuckc:							; assignment (asstab entry 17): the puck carrier; others and pad
 	cpx.w puckc
 	bne .1
 	lda.w playerpad,x
-	bmi CODE_C42DCD
+	bmi PuckCarrierThink
 .1:									; go to assexit
 	jmp.w assexit
 DATA8_C42DC5:						; an rtl no traced code reaches
 	db $6B
-CODE_C42DC6:						; from CODE_C42DCD
+PuckCarrierGlideStopped:			; start backward glide and stand still while play is stopped
 	jsl.l GlideBack
 	jmp.w donothing
-CODE_C42DCD:						; from asspuckc
+PuckCarrierThink:					; update the computer puck carrier decisions and skating target
 	lda.w gmclock
-	bne CODE_C42DC6
+	bne PuckCarrierGlideStopped
 	lda.w pflags,x
 	bit.w #$0002
 	beq .1
@@ -598,15 +598,17 @@ CODE_C42DCD:						; from asspuckc
 	sec
 	sbc.b d1
 	sta.b d1
-.7:									; $65 = CODE_C42E9A>>16, a0 = CODE_C42E9A, go to skateto
-	lda.w #CODE_C42E9A>>16
+.7:									; $65 = PuckCarrierAvoidThreats>>16, a0 = PuckCarrierAvoidThreats, go to
+									; skateto
+	lda.w #PuckCarrierAvoidThreats>>16
 	sta.b $65
-	lda.w #CODE_C42E9A
+	lda.w #PuckCarrierAvoidThreats
 	sta.b a0
 	jml.l skateto
 .rtl:								; return
 	rtl
-CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
+PuckCarrierAvoidThreats:			; count opponents near the predicted puck position and adjust skating
+									; direction
 	lda.b d0
 	and.w #$00FF
 	bit.w #$0080
@@ -880,13 +882,13 @@ asscenterd:							; called from other segments
 	lda.w #$0084
 	sta.b d1
 	lda.w pfgoal,x
-	beq CODE_C4311C
+	beq CenterDefenceTopTarget
 	lda.w #$FF7C
 	sta.b d1
 	lda.w #$FFA4
 	sec
 	sbc.w pucky
-	bpl CODE_C43131
+	bpl CenterDefenceSkate
 	lda.w #$FF7C
 	clc
 	adc.w pucky
@@ -895,14 +897,14 @@ asscenterd:							; called from other segments
 	pla
 	ror a
 	sta.b d1
-	bra CODE_C43131
+	bra CenterDefenceSkate
 DATA8_C4311B:						; an rtl no traced code reaches
 	db $6B
-CODE_C4311C:						; from asscenterd
+CenterDefenceTopTarget:				; adjust the defensive center target toward the puck at the top end
 	lda.w #$005C
 	sec
 	sbc.w pucky
-	bmi CODE_C43131
+	bmi CenterDefenceSkate
 	lda.b d1
 	clc
 	adc.w pucky
@@ -911,7 +913,7 @@ CODE_C4311C:						; from asscenterd
 	pla
 	ror a
 	sta.b d1
-CODE_C43131:						; from asscenterd, CODE_C4311C
+CenterDefenceSkate:					; skate the defensive center toward d0 and d1 with an empty callback
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$883F
