@@ -18,7 +18,7 @@
   rink map set (IceRinkMap, IceRinkTiles). Bank $CD: the rest of the rink set (IceRinkPalette), the player photo sets of
   WSH, WPG, ANH, BOS, BUF, CGY, CHI, DAL, DET, EDM and FLA, HartPic, then DATA8_CDF94A (a per-frame table that runs into
   bank $CE). The remaining segments in banks $CE-$CF are incbin.
-- Next: segment bankCE_8000, org $CE8087 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CD are all source (the code banks $C4
+- Next: segment bankCE_9000, org $CE93D3 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CD are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
