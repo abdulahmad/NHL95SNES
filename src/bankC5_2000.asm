@@ -1233,7 +1233,7 @@ checkwindow:						; called from other segments
 	lda.w pfgoal,x
 	beq .1
 	lda.w yleader
-	adc.w $07A4
+	adc.w impactstep
 	sta.w yleader
 	cmp.w #$0020
 	bmi .2
@@ -1243,7 +1243,7 @@ checkwindow:						; called from other segments
 .1:									; A = yleader, A - $07A4, yleader = A, if A - $FFE1 >= 0 go to .2, ...
 	lda.w yleader
 	sec
-	sbc.w $07A4
+	sbc.w impactstep
 	sta.w yleader
 	cmp.w #$FFE1
 	bpl .2

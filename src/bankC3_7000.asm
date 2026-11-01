@@ -4,8 +4,8 @@ org $C36FF2
 GetNewPresses:						; the changed buttons (padchange) and the new presses (padnew) of the five
 									; pads, from their last state
 	lda.b PadRaw1
-	eor.w $0565
-	sta.w $0579
+	eor.w padlast
+	sta.w padchange
 	and.b PadRaw1
 	sta.w padnew
 	lda.b PadRaw2
@@ -29,7 +29,7 @@ GetNewPresses:						; the changed buttons (padchange) and the new presses (padne
 	and.b $C9
 	sta.w $058B
 	lda.b PadRaw1
-	sta.w $0565
+	sta.w padlast
 	lda.b PadRaw2
 	sta.w $0567
 	lda.b $C5
@@ -45,7 +45,7 @@ ReadjoyA:							; from CODE_C370A5 and other segments
 	tax
 	lda.b PadRaw1,x
 	sta.b d3
-	lda.w $0579,x
+	lda.w padchange,x
 	sta.b d2
 	lda.w padnew,x
 	sta.b d1
@@ -58,16 +58,16 @@ CODE_C37065:						; called from other segments
 	lda.b d3
 	sta.w $058D
 	inc.w repeatdelayframes
-	cmp.w $0565
+	cmp.w padlast
 	beq .rtl
 	stz.w repeatdelayframes
-	sta.w $0565
+	sta.w padlast
 .rtl:								; return
 	rtl
 ReadJoy1:							; called from other segments
 	lda.b PadRaw1
 	sta.b d3
-	lda.w $0579
+	lda.w padchange
 	sta.b d2
 	lda.w padnew
 	sta.b d1
@@ -266,7 +266,7 @@ CODE_C371AB:						; called from other segments
 	lda.w #$0480
 .4:									; A - $07A4, if the result >= 0 go to .5, A = $0000
 	sec
-	sbc.w $07A4
+	sbc.w impactstep
 	bpl .5
 	lda.w #$0000
 .5:									; $24CA = A, A / 2, A / 2, A / 2, ...
@@ -1106,7 +1106,7 @@ CODE_C377DB:						; from CODE_C37609
 	sta.w $079E
 	jsl.l CODE_C50E94
 	jsl.l forceblack
-	lda.w $189C
+	lda.w shootoutmode
 	bne .19
 	lda.w $0784
 	beq .19

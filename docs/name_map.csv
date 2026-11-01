@@ -2891,19 +2891,19 @@ $153D,mp5warning,,94S+code,"RAM: bit 0 multitap in port 1, bit 1 Super Scope, bi
 $17BB,cont4team,,94S+code,"RAM: pad 4 team word of the cont1team array (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $17BD,cont5team,,94S+code,"RAM: Pad 5 (multitap) team word, the last of the five the loops over (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $184C,lcpad,,94S+code,"RAM: Per team (y = 0/2) the pad (d4) that opened the line change box, negative (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
-$C092F0,.loop,CODE_C092F0,new,"branch target only used in CODE_C092B3",src/bankC0_9000.asm
-$C0930C,.1,CODE_C0930C,new,"branch target only used in CODE_C092B3",src/bankC0_9000.asm
-$C0934F,.1,CODE_C0934F,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C09363,.2,CODE_C09363,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C09366,.loop,CODE_C09366,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C0937C,.3,CODE_C0937C,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C0937F,.4,CODE_C0937F,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C0938A,.loop2,CODE_C0938A,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C09395,.5,CODE_C09395,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C093B2,.6,CODE_C093B2,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C093B5,.loop3,CODE_C093B5,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C093C0,.7,CODE_C093C0,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
-$C093D8,.8,CODE_C093D8,new,"branch target only used in CODE_C09336",src/bankC0_9000.asm
+$C092F0,.loop,CODE_C092F0,new,"branch target only used in PlayShootout",src/bankC0_9000.asm
+$C0930C,.1,CODE_C0930C,new,"branch target only used in PlayShootout",src/bankC0_9000.asm
+$C0934F,.1,CODE_C0934F,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C09363,.2,CODE_C09363,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C09366,.loop,CODE_C09366,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C0937C,.3,CODE_C0937C,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C0937F,.4,CODE_C0937F,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C0938A,.loop2,CODE_C0938A,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C09395,.5,CODE_C09395,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C093B2,.6,CODE_C093B2,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C093B5,.loop3,CODE_C093B5,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C093C0,.7,CODE_C093C0,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
+$C093D8,.8,CODE_C093D8,new,"branch target only used in ShootoutTurn",src/bankC0_9000.asm
 $C093E8,.1,CODE_C093E8,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
 $C093F5,.2,CODE_C093F5,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
 $C09401,.3,CODE_C09401,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
@@ -2928,8 +2928,8 @@ $C09623,.loop,CODE_C09623,new,"branch target only used in CODE_C095BF",src/bankC
 $C09654,.2,CODE_C09654,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
 $C09655,.3,CODE_C09655,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
 $C09678,.4,CODE_C09678,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
-$C096A3,.1,CODE_C096A3,new,"branch target only used in CODE_C09681",src/bankC0_9000.asm
-$C096AF,.loop,CODE_C096AF,new,"branch target only used in CODE_C09681",src/bankC0_9000.asm
+$C096A3,.1,CODE_C096A3,new,"branch target only used in InitShooters",src/bankC0_9000.asm
+$C096AF,.loop,CODE_C096AF,new,"branch target only used in InitShooters",src/bankC0_9000.asm
 $C096E1,.1,CODE_C096E1,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
 $C096F0,.2,CODE_C096F0,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
 $C096F7,.3,CODE_C096F7,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
@@ -5070,20 +5070,20 @@ $C4F2F6,.4,CODE_C4F2F6,new,"branch target only used in CODE_C4F2AE",src/bankC4_F
 $C4F2FB,.rts,CODE_C4F2FB,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
 $C5000A,.loop,CODE_C5000A,new,"branch target only used in Opening",src/bankC5_0000.asm
 $C5008D,.1,CODE_C5008D,new,"branch target only used in CODE_C50056",src/bankC5_0000.asm
-$C500A2,.loop,CODE_C500A2,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C500B1,.loop2,CODE_C500B1,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C500D2,.1,CODE_C500D2,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C50124,.2,CODE_C50124,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C50131,.3,CODE_C50131,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C50139,.4,CODE_C50139,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C5014C,.loop3,CODE_C5014C,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C5015B,.5,CODE_C5015B,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C50161,.6,CODE_C50161,new,"branch target only used in CODE_C5009B",src/bankC5_0000.asm
-$C50176,.1,CODE_C50176,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
-$C501AC,.2,CODE_C501AC,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
-$C501BC,.3,CODE_C501BC,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
-$C501FF,.4,CODE_C501FF,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
-$C50202,.5,CODE_C50202,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
+$C500A2,.loop,CODE_C500A2,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C500B1,.loop2,CODE_C500B1,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C500D2,.1,CODE_C500D2,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C50124,.2,CODE_C50124,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C50131,.3,CODE_C50131,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C50139,.4,CODE_C50139,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C5014C,.loop3,CODE_C5014C,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C5015B,.5,CODE_C5015B,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C50161,.6,CODE_C50161,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
+$C50176,.1,CODE_C50176,new,"branch target only used in StartPer",src/bankC5_0000.asm
+$C501AC,.2,CODE_C501AC,new,"branch target only used in StartPer",src/bankC5_0000.asm
+$C501BC,.3,CODE_C501BC,new,"branch target only used in StartPer",src/bankC5_0000.asm
+$C501FF,.4,CODE_C501FF,new,"branch target only used in StartPer",src/bankC5_0000.asm
+$C50202,.5,CODE_C50202,new,"branch target only used in StartPer",src/bankC5_0000.asm
 $C50226,.1,CODE_C50226,new,"branch target only used in Gameloop",src/bankC5_0000.asm
 $C50233,.2,CODE_C50233,new,"branch target only used in Gameloop",src/bankC5_0000.asm
 $C50269,.3,CODE_C50269,new,"branch target only used in Gameloop",src/bankC5_0000.asm
@@ -7239,3 +7239,19 @@ $C36CBF,ReadPads,CODE_C36CBF,94S+code,"the same code as 94S ReadPads, side by si
 $C36FF2,GetNewPresses,CODE_C36FF2,94S+code,"the same code as 94S GetNewPresses, side by side",src/bankC3_7000.asm
 $CF048A,PlayTeamSong,CODE_CF048A,94S+purpose,"same job as 94S PlayTeamSong (song A of the home team); waits up to 1000 polls for $7E on port 3, nothing when port 2 bits $38 are set, then StartSound with the byte at $50D4 + A; Gameloop calls it as 94S does",src/bankCF_0000.asm
 $CF0427,LoadTeamSongs,CODE_CF0427,code,"the list at $7E50D4 ended by $FF; LoadSounds for DATA8_CF0663 first; PlayTeamSong plays from it",src/bankCF_0000.asm
+$0565,padlast,,94S+code,"RAM: 5 words: each pad's buttons at the last ReadPads (the operand of 10 of 10 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0579,padchange,,94S+code,"RAM: 5 words: each pad's buttons that changed at the last ReadPads (the operand of 12 of 12 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07A4,impactstep,,94S+code,"RAM: d7*2: impact decay this game frame (Gameloop) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07A8,gravstep,,94S+code,"RAM: d7*96: gravity this game frame (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07AE,cheercnt,,94S+code,"RAM: crowd cheers still to play after a goal (one every 150 frames, Gameloop) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07B0,cheervc,,94S+code,"RAM: Vcount of the last crowd cheer (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$189C,shootoutmode,,94S+code,"RAM: Nonzero during the shootout: PlayShootout sets 1 and clears it at the (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$C092B3,PlayShootout,CODE_C092B3,94S+code,"the 94S PlayShootout structure: shootoutmode 1, InitShooters with a2 = 0 / 2, StartGame_go, StartPer, the round counter from 1, the decider flag from round 5, rounds while below 6 or tied, shootoutmode 0; 95 saves the two option words $186E / $186C, adds Create_HotCold_Table, CODE_C52CA3, CODE_C53980 and no Pausemode",src/bankC0_9000.asm
+$C09336,ShootoutTurn,CODE_C09336,code,"PlayShootout calls it for each team each round where 94S calls its .t1",src/bankC0_9000.asm
+$C09681,InitShooters,CODE_C09681,94S+code,"the same loop as 94S InitShooters (8 bytes to the home list $188C or the away list $1894); 95 reads them from the team data at $7E2E35 / $7E3273",src/bankC0_9000.asm
+$C5009B,StartGame_go,CODE_C5009B,94S+code,"94S StartGame_go's steps: FadeOut, two RAM ranges cleared, gamesstarted + 1, gmode 0, sflags $20 when the penalties option is 1, then the teams (restoreteams)",src/bankC5_0000.asm
+$C5016D,StartPer,CODE_C5016D,94S+code,"the same start as 94S StartPer, side by side: the shootoutmode test, the stack at $1FFF, reenergizeteam for a2 = 0 and 2",src/bankC5_0000.asm
+$188C,homeshooters,,94S+code,"RAM: 94S homeshooters: InitShooters copies 8 bytes here for a2 = 0 (the same loop as 94S), ShootoutTurn reads them",src/ram95s.asm
+$1894,awayshooters,,94S+code,"RAM: 94S awayshooters: InitShooters copies 8 bytes here for a2 = 2",src/ram95s.asm
+$18A0,shootoutround,,94S+code,"RAM: 94S shootoutround: PlayShootout sets 1, adds 1 each round, loops while below 6 (as 94S)",src/ram95s.asm
+$18A4,shootoutdecider,,94S+code,"RAM: 94S shootoutdecider: PlayShootout clears it each round and sets 1 from round 5 after the first shot (as 94S); ShootoutTurn tests it",src/ram95s.asm

@@ -1571,7 +1571,7 @@ CODE_C55C86:						; from ScrollListDown
 	jsl.l SendTextMap
 	bra CODE_C55C93
 CODE_C55C8C:						; from CODE_C55C93
-	stz.w $0565
+	stz.w padlast
 	stz.w $058D
 CODE_C55C92:						; from ScrollListDown
 	rts
@@ -1684,7 +1684,7 @@ CODE_C55D14:						; from ScrollListUp
 	dec.w $4696
 	bra .loop
 .2:									; $0565 = 0, $058D = 0
-	stz.w $0565
+	stz.w padlast
 	stz.w $058D
 CODE_C55D6A:						; from ScrollListUp
 	rts

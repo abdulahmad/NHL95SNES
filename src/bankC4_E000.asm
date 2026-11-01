@@ -350,13 +350,13 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w #$0001
 	sta.w $2DA3
 	lda.w #$0400
-	trb.w $0565
+	trb.w padlast
 .8:									; if $0800 bits clear go to .9, $2DA3 + 1, A = $0800
 	bit.w #$0800
 	beq .9
 	inc.w $2DA3
 	lda.w #$0800
-	trb.w $0565
+	trb.w padlast
 .9:									; if $0080 bits clear go to .10, A = $8000, call NextMatchup, go to .loop
 	bit.w #$0080
 	beq .10

@@ -1860,7 +1860,7 @@ SeatPenaltyBox:						; from chkprogress and other segments
 	beq .rtl
 	lda.w penshot
 	ora.w PenShotActive
-	ora.w $189C
+	ora.w shootoutmode
 	bne .rtl
 	phx
 	stz.w PBnum

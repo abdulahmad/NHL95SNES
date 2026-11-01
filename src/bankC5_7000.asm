@@ -1047,7 +1047,7 @@ CODE_C57779:						; from CODE_C57578
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	ldx.w #$0000
-	lda.w $0565
+	lda.w padlast
 	beq .rts
 .loop3:								; loop: X - 1, if the result is not 0 go to .loop3, ...
 	dex

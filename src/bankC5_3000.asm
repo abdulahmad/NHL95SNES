@@ -638,7 +638,7 @@ CODE_C534E8:						; called from other segments
 	rtl
 CODE_C53535:						; called from other segments
 	jsl.l CODE_C510F6
-	lda.w $189C
+	lda.w shootoutmode
 	beq .1
 	lda.w #$0019
 	sta.b d0

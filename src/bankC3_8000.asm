@@ -956,7 +956,7 @@ CODE_C38C95:						; from CODE_C38C4A, CODE_C38C6D and other segments
 	phx
 	lda.w $1147
 	bpl .2
-	lda.w $189C
+	lda.w shootoutmode
 	beq .1
 	lda.w #$0001
 	sta.w $189E

@@ -506,7 +506,7 @@ CODE_C5945E:						; from SetContTeams
 CODE_C59483:						; from SetContTeams
 	stz.b $7D
 	lda.w PadRaw1
-	cmp.w $0565
+	cmp.w padlast
 	beq .1
 	ldx.b a4
 	jsr.w CODE_C594C6

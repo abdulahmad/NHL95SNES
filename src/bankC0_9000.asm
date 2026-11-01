@@ -390,9 +390,11 @@ DivX8S:								; X / A (8 bits) into A, X signed
 	sec
 	sbc.l RDDIVL
 	rtl
-CODE_C092B3:						; called from CODE_C50056; the first game routine after the math
+PlayShootout:						; the shootout: shootoutmode set, two options saved, the shooters of both
+									; teams (InitShooters), the game and the period started, then rounds of a
+									; shot a team (ShootoutTurn) until a team leads after 5
 	lda.w #$0001
-	sta.w $189C
+	sta.w shootoutmode
 	lda.w $186E
 	pha
 	stz.w $186E
@@ -403,45 +405,45 @@ CODE_C092B3:						; called from CODE_C50056; the first game routine after the ma
 	jsl.l CODE_C52CA3
 	jsl.l CODE_C53980
 	stz.b a2
-	jsr.w CODE_C09681
+	jsr.w InitShooters
 	lda.w #$0002
 	sta.b a2
-	jsr.w CODE_C09681
-	jsl.l CODE_C5009B
-	jsl.l CODE_C5016D
+	jsr.w InitShooters
+	jsl.l StartGame_go
+	jsl.l StartPer
 	lda.w #$0001
-	sta.w $18A0
+	sta.w shootoutround
 	stz.b d1
-.loop:								; loop: $18A4 = 0, a2 = $0002, a1 = 0, call CODE_C09336, ...
-	stz.w $18A4
+.loop:								; loop: shootoutdecider = 0, a2 = $0002, a1 = 0, call ShootoutTurn, ...
+	stz.w shootoutdecider
 	lda.w #$0002
 	sta.b a2
 	stz.b a1
-	jsl.l CODE_C09336
-	lda.w $18A0
+	jsl.l ShootoutTurn
+	lda.w shootoutround
 	cmp.w #$0005
 	bmi .1
 	lda.w #$0001
-	sta.w $18A4
-.1:									; a2 = 0, a1 = $0002, call CODE_C09336, $18A0 + 1, ...
+	sta.w shootoutdecider
+.1:									; a2 = 0, a1 = $0002, call ShootoutTurn, shootoutround + 1, ...
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-	jsl.l CODE_C09336
-	inc.w $18A0
-	lda.w $18A0
+	jsl.l ShootoutTurn
+	inc.w shootoutround
+	lda.w shootoutround
 	cmp.w #$0006
 	bmi .loop
 	lda.w tmscore
-	cmp.w $12AD
+	cmp.w tmscore+2
 	beq .loop
-	stz.w $189C
+	stz.w shootoutmode
 	pla
 	sta.w $186C
 	pla
 	sta.w $186E
 	rtl
-CODE_C09336:						; called from CODE_C092B3
+ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	stz.w $189E
 	stz.w $18A2
 	pei ($6B)
@@ -451,8 +453,8 @@ CODE_C09336:						; called from CODE_C092B3
 	beq .1
 	lda.w #$0002
 	sta.w gmode
-.1:									; call CODE_C5016D, pull A, a2 = A, BA_Sktr_SCnum = 0, ...
-	jsl.l CODE_C5016D
+.1:									; call StartPer, pull A, a2 = A, BA_Sktr_SCnum = 0, ...
+	jsl.l StartPer
 	pla
 	sta.b a2
 	stz.w BA_Sktr_SCnum
@@ -475,21 +477,21 @@ CODE_C09336:						; called from CODE_C092B3
 	bra .4
 .3:									; $18B6 = Y
 	sty.w $18B6
-.4:									; call StartPenaltyShot, if a2 = 0 go to .6, A = $18A0
+.4:									; call StartPenaltyShot, if a2 = 0 go to .6, A = shootoutround
 	jsl.l StartPenaltyShot
 	lda.b a2
 	beq .6
-	lda.w $18A0
+	lda.w shootoutround
 .loop2:								; loop: if A - $0006 < 0 go to .5, A - $0005, go to .loop2
 	cmp.w #$0006
 	bmi .5
 	sec
 	sbc.w #$0005
 	bra .loop2
-.5:									; Y = A, A 8-bit, A = $1894,y, A 16-bit, ...
+.5:									; Y = A, A 8-bit, A = awayshooters,y, A 16-bit, ...
 	tay
 	sep #$20
-	lda.w $1894,y
+	lda.w awayshooters,y
 	rep #$20
 	and.w #$00FF
 	dec a
@@ -499,18 +501,18 @@ CODE_C09336:						; called from CODE_C092B3
 	lda.w #$0002
 	sta.w BA_Team
 	bra .8
-.6:									; A = $18A0
-	lda.w $18A0
+.6:									; A = shootoutround
+	lda.w shootoutround
 .loop3:								; loop: if A - $0006 < 0 go to .7, A - $0005, go to .loop3
 	cmp.w #$0006
 	bmi .7
 	sec
 	sbc.w #$0005
 	bra .loop3
-.7:									; Y = A, A 8-bit, A = $188C,y, A 16-bit, ...
+.7:									; Y = A, A 8-bit, A = homeshooters,y, A 16-bit, ...
 	tay
 	sep #$20
-	lda.w $188C,y
+	lda.w homeshooters,y
 	rep #$20
 	and.w #$00FF
 	dec a
@@ -523,29 +525,29 @@ CODE_C09336:						; called from CODE_C092B3
 	rtl
 ShootoutWonBy:						; jumps to its end at once: the shootout check after it is not reached
 	jmp.w .6
-	lda.w $189C
+	lda.w shootoutmode
 	bne .1
 	jmp.w .6
-.1:									; d0 = $000A, if $18A4 is not 0 go to .2, go to .6
+.1:									; d0 = $000A, if shootoutdecider is not 0 go to .2, go to .6
 	lda.w #$000A
 	sta.b d0
-	lda.w $18A4
+	lda.w shootoutdecider
 	bne .2
 	jmp.w .6
-.2:									; A = tmscore, A - $12AD, if the result is not 0 go to .3, go to .6
+.2:									; A = tmscore, A - tmscore+2, if the result is not 0 go to .3, go to .6
 	lda.w tmscore
 	sec
-	sbc.w $12AD
+	sbc.w tmscore+2
 	bne .3
 	jmp.w .6
-.3:									; push X, push Y, A = tmscore, A - $12AD, ...
+.3:									; push X, push Y, A = tmscore, A - tmscore+2, ...
 	phx
 	phy
 	pei ($83)
 	pei ($67)
 	lda.w tmscore
 	sec
-	sbc.w $12AD
+	sbc.w tmscore+2
 	bmi .4
 	ldy.w #$0000
 	bra .5
@@ -633,16 +635,16 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	bne .10
 .9:									; go to .loop
 	bra .loop
-.10:								; if a2 is not 0 go to .11, A 8-bit, A = $188C, A 16-bit, ...
+.10:								; if a2 is not 0 go to .11, A 8-bit, A = homeshooters, A 16-bit, ...
 	ldy.b a2
 	bne .11
 	sep #$20
-	lda.w $188C
+	lda.w homeshooters
 	rep #$20
 	bra .12
-.11:								; A 8-bit, A = $1894, A 16-bit
+.11:								; A 8-bit, A = awayshooters, A 16-bit
 	sep #$20
-	lda.w $1894
+	lda.w awayshooters
 	rep #$20
 .12:								; A and $00FF, A - 1, tmgoalie,y = A, return
 	and.w #$00FF
@@ -741,9 +743,9 @@ CODE_C095BF:						; called from ShootoutWonBy
 	lda.b d0
 	dec a
 	sta.b d1
-	lda.w #CODE_C09681>>16
+	lda.w #InitShooters>>16
 	sta.b $79
-	lda.w #CODE_C09681
+	lda.w #InitShooters
 	sta.b $77
 	lda.w #$00C0
 	sta.b $71
@@ -759,18 +761,18 @@ CODE_C095BF:						; called from ShootoutWonBy
 	sta.b d0
 	lda.w #$0000
 	sta.b $71
-	lda.w #$188C
+	lda.w #homeshooters
 	sta.b a3
 	lda.b a2
 	beq .1
 	lda.w #$0000
 	sta.b $71
-	lda.w #$1894
+	lda.w #awayshooters
 	sta.b a3
-.1:									; $79 = CODE_C09681>>16, $77 = CODE_C09681, d1 = $0005
-	lda.w #CODE_C09681>>16
+.1:									; $79 = InitShooters>>16, $77 = InitShooters, d1 = $0005
+	lda.w #InitShooters>>16
 	sta.b $79
-	lda.w #CODE_C09681
+	lda.w #InitShooters
 	sta.b $77
 	lda.w #$0005
 	sta.b d1
@@ -817,10 +819,10 @@ CODE_C095BF:						; called from ShootoutWonBy
 	rtl
 DATA8_C0967D:						; not traced: 1, 2, 3, 4
 	db $01,$02,$03,$04
-CODE_C09681:						; from CODE_C092B3; its address is stored as a long pointer
+InitShooters:						; the 8 shooters of team a2 (0 home, 2 visitors) into its shooter list
 	lda.w #$0000
 	sta.b $71
-	lda.w #$188C
+	lda.w #homeshooters
 	sta.b a3
 	lda.w #$2E35
 	sta.b a1
@@ -828,7 +830,7 @@ CODE_C09681:						; from CODE_C092B3; its address is stored as a long pointer
 	beq .1
 	lda.w #$0000
 	sta.b $71
-	lda.w #$1894
+	lda.w #awayshooters
 	sta.b a3
 	lda.w #$3273
 	sta.b a1
@@ -854,13 +856,13 @@ CODE_C096C0:						; called from ShootoutWonBy
 	jsl.l CODE_C48A41
 	lda.w #$0000
 	sta.b $69
-	lda.w #$188C
+	lda.w #homeshooters
 	sta.b a1
 	lda.b a2
 	beq .1
 	lda.w #$0000
 	sta.b $69
-	lda.w #$1894
+	lda.w #awayshooters
 	sta.b a1
 .1:									; A = [a1], A and $00FF, A + 1, if A = d0 go to .2, ...
 	lda.b [a1]
@@ -905,13 +907,13 @@ CODE_C096C0:						; called from ShootoutWonBy
 	sta.w $1884
 	lda.w #$0000
 	sta.b $71
-	lda.w #$188C
+	lda.w #homeshooters
 	sta.b a3
 	lda.b a2
 	beq .4
 	lda.w #$0000
 	sta.b $71
-	lda.w #$1894
+	lda.w #awayshooters
 	sta.b a3
 .4:									; A = a3, A + $1878, a3 = A, A = [a3], ...
 	lda.b a3
@@ -1159,13 +1161,13 @@ CODE_C0998F:						; called from CODE_C096C0
 	sta.b d0
 	lda.w #$0000
 	sta.b $69
-	lda.w #$188C
+	lda.w #homeshooters
 	sta.b a1
 	lda.b a2
 	beq .1
 	lda.w #$0000
 	sta.b $69
-	lda.w #$1894
+	lda.w #awayshooters
 	sta.b a1
 .1:									; Y = $1878, A 8-bit, A = [a1],y, A 16-bit, ...
 	ldy.w $1878

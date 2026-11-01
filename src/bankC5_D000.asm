@@ -1507,7 +1507,7 @@ CODE_C5DB38:						; from CODE_C5DAF3, CODE_C5DB30
 	bpl .1
 	pla
 	pla
-	stz.w $0565
+	stz.w padlast
 	stz.w repeatdelayframes
 	rts
 CODE_C5DB9F:						; called from other segments
@@ -1608,7 +1608,7 @@ CODE_C5DBE8:						; from CODE_C5DB9F, CODE_C5DBE0
 	bpl .1
 	pla
 	pla
-	stz.w $0565
+	stz.w padlast
 	stz.w repeatdelayframes
 	rts
 CODE_C5DC54:						; from CODE_C5DA58, CODE_C5DB38, CODE_C5DBE8, CODE_C5DB38, ...

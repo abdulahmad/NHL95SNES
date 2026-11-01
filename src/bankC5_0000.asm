@@ -45,18 +45,19 @@ CODE_C50056:						; from CODE_C50056, CODE_C50ADD, demoread and other segments
 	jsl.l GameSetUp
 	lda.w #$007E
 	sta.b $71
-	stz.w $189C
+	stz.w shootoutmode
 	lda.w $1864
 	cmp.w #$0004
 	bne .1
-	jsl.l CODE_C092B3
+	jsl.l PlayShootout
 	bra CODE_C50056
 .1:									; call Create_HotCold_Table, call CODE_C52CC1, call ScoutingReport, ...
 	jsl.l Create_HotCold_Table
 	jsr.w CODE_C52CC1
 	jsl.l ScoutingReport
 	jsr.w CODE_C53984
-CODE_C5009B:						; called from other segments
+StartGame_go:						; starts a game: fade out, the game RAM cleared, the games started count +
+									; 1, the penalties flag from the option
 	jsl.l FadeOutWait
 	ldx.w #$059E
 .loop:								; loop: $00,x = 0, X + 1, X + 1, if X < $1543 go to .loop, ...
@@ -139,14 +140,15 @@ CODE_C5009B:						; called from other segments
 .5:									; $17D1 = $0001
 	lda.w #$0001
 	sta.w $17D1
-.6:									; BA_Sktr_SCnum = $FFFF, if $189C = 0 go to CODE_C5016D, return
+.6:									; BA_Sktr_SCnum = $FFFF, if $189C = 0 go to StartPer, return
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
-	lda.w $189C
-	beq CODE_C5016D
+	lda.w shootoutmode
+	beq StartPer
 	rtl
-CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
-	lda.w $189C
+StartPer:							; starts a period: the stack reset (not in the shootout), both teams'
+									; energy full (reenergizeteam), then the period set up
+	lda.w shootoutmode
 	bne .1
 	lda.w #$1FFF
 	tcs
@@ -208,7 +210,7 @@ CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
 	stz.b $5F
 	stz.w $07F6
 	stz.w $07C6
-	lda.w $189C
+	lda.w shootoutmode
 	beq Gameloop
 	rtl
 Gameloop:							; the game loop: frame counts and the speed, a random team song, the time
@@ -256,16 +258,16 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	sta.b d7
 	sta.w timestep
 	asl a
-	sta.w $07A4
+	sta.w impactstep
 	asl a
 	asl a
 	asl a
 	sta.w $07A6
 	asl a
-	sta.w $07A8
+	sta.w gravstep
 	asl a
-	adc.w $07A8
-	sta.w $07A8
+	adc.w gravstep
+	sta.w gravstep
 	stx.w $07F6
 	stx.w $07C6
 	jsl.l ReadPads
@@ -274,7 +276,7 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	bne .8
 	lda.w gmclock
 	bne .8
-	lda.w $189C
+	lda.w shootoutmode
 	bne .6
 	lda.w PenShotActive
 	beq .6
@@ -312,18 +314,18 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 .7:									; call CODE_C50E9B
 	jsr.w CODE_C50E9B
 .8:									; if $07AE = 0 go to .9, A = Vcount, A - $07B0, if A < $0096 go to .9, ...
-	lda.w $07AE
+	lda.w cheercnt
 	beq .9
 	lda.b Vcount
 	sec
-	sbc.w $07B0
+	sbc.w cheervc
 	cmp.w #$0096
 	bcc .9
-	dec.w $07AE
-	lda.w $07B0
+	dec.w cheercnt
+	lda.w cheervc
 	clc
 	adc.w #$0096
-	sta.w $07B0
+	sta.w cheervc
 .9:									; call CODE_C5033D, call demoread, A = sflags, ...
 	jsl.l CODE_C5033D
 	jsl.l demoread
@@ -340,7 +342,7 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 .10:								; call Pausemode
 	jsl.l Pausemode
 .11:								; if $189C = 0 go to .12, if $18A2 = 0 go to .12, return
-	lda.w $189C
+	lda.w shootoutmode
 	beq .12
 	lda.w $18A2
 	beq .12
@@ -782,7 +784,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 .43:								; A = puckvz, A - $07A8, puckvz = A, X = A, ...
 	lda.w puckvz
 	sec
-	sbc.w $07A8
+	sbc.w gravstep
 	sta.w puckvz
 	tax
 	lda.w $07A6
@@ -961,7 +963,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sta.w $05A4,y
 	lda.w PadRaw1,y
 	sta.b d3
-	lda.w $0579,y
+	lda.w padchange,y
 	sta.b d2
 	lda.w padnew,y
 	sta.b d1
@@ -1095,7 +1097,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 .71:								; A = $0A00,x, A - $07A4, if the result >= 0 go to .72, A = $0000
 	lda.w $0A00,x
 	sec
-	sbc.w $07A4
+	sbc.w impactstep
 	bpl .72
 	lda.w #$0000
 .72:								; $0A00,x = A, X + 1, X + 1, if X = $0020 go to .73, ...
@@ -1215,11 +1217,11 @@ clockcont_0:						; called from other segments
 	lda.w #$0000
 	sta.l $7E24CA
 	lda.w #$0003
-	sta.w $07AE
+	sta.w cheercnt
 	lda.b Vcount
 	sec
 	sbc.w #$0096
-	sta.w $07B0
+	sta.w cheervc
 .4:									; call CODE_C380D1, d0 = $0004, call AddPenalty2, ...
 	jsl.l CODE_C380D1
 	lda.w #$0004
@@ -1304,7 +1306,7 @@ CODE_C50ADD:						; called from other segments
 	jsl.l CODE_C50E94
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
-	jmp.w CODE_C5016D
+	jmp.w StartPer
 .6:									; if $1864 = $0003 go to .7, if $1864 = $0002 go to .7, go to CODE_C50056
 	lda.w $1864
 	cmp.w #$0003
@@ -1475,7 +1477,7 @@ CODE_C50D0C:						; no caller found (not traced)
 	rtl
 startpause:							; from demoread
 	stz.w pausepad
-CODE_C50D18:						; from CODE_C5016D, PauseFromPad and other segments
+CODE_C50D18:						; from StartPer, PauseFromPad and other segments
 	lda.w $2CF5
 	bne .rtl
 	lda.w #$0001

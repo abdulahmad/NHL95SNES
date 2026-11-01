@@ -1415,7 +1415,7 @@ CODE_C51C58:						; called from other segments
 	jml.l SetSPAFromA
 CODE_C51CC1:						; asstab entry 27: an assignment routine
 	stz.w $14E5
-	lda.w $189C
+	lda.w shootoutmode
 	beq .1
 	lda.w $189E
 	beq .1

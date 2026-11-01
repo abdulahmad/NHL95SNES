@@ -265,10 +265,10 @@ ReadMenuPads:						; the buttons of all 5 pads ORed into the menu pad word; repe
 	ora.b $C9
 	sta.w $058D
 	inc.w repeatdelayframes
-	cmp.w $0565
+	cmp.w padlast
 	beq .rtl
 	stz.w repeatdelayframes
-	sta.w $0565
+	sta.w padlast
 .rtl:								; return
 	rtl
 CODE_C36C49:						; called from other segments
@@ -312,17 +312,17 @@ CODE_C36C49:						; called from other segments
 	bne .6
 .5:									; $058D = 0, $0565 = 0, pausepad = $FFFF, return
 	stz.w $058D
-	stz.w $0565
+	stz.w padlast
 	lda.w #$FFFF
 	sta.w pausepad
 	rtl
 .6:									; $058D = A, repeatdelayframes + 1, if A = $0565 go to .rtl, ...
 	sta.w $058D
 	inc.w repeatdelayframes
-	cmp.w $0565
+	cmp.w padlast
 	beq .rtl
 	stz.w repeatdelayframes
-	sta.w $0565
+	sta.w padlast
 .rtl:								; return
 	rtl
 ReadPads:							; once per frame: each pad's direction (PadDirection), then the changed
@@ -363,7 +363,7 @@ ReadPads:							; once per frame: each pad's direction (PadDirection), then the 
 	and.w #$00FF
 	sta.w $0577
 	jsr.w GetNewPresses
-	lda.w $0579
+	lda.w padchange
 	ora.w $057B
 	ora.w $057D
 	ora.w $057F

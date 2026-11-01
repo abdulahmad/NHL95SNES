@@ -1074,7 +1074,7 @@ CODE_C49B74:						; from CODE_C49B59
 	sta.b a0
 	lda.w temp2,x
 	sec
-	sbc.w $07A4
+	sbc.w impactstep
 	sta.w temp2,x
 	jml.l skateto
 .5:									; A = facedir,x, A - $18CE, if the result = 0 go to .3, A + 1, ...
