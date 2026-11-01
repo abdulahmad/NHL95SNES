@@ -1256,8 +1256,8 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	cpx.w puckc
 	bne .5
 	jmp.w .11
-.5:									; A = $0830, A - Xpos,x, d0 = A, d3 = Ypos,x, ...
-	lda.w $0830
+.5:									; A = puckx, A - Xpos,x, d0 = A, d3 = Ypos,x, ...
+	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -1550,7 +1550,7 @@ CODE_C46BF6:						; from CODE_C47040 and other segments
 	sty.b $42
 	lda.w #$010E
 	sta.b $46
-	lda.w $0664
+	lda.w topgoalie
 	sta.b $44
 	lda.b tmp2
 	bne .2
@@ -1563,7 +1563,7 @@ CODE_C46BF6:						; from CODE_C47040 and other segments
 	sty.b $42
 	lda.w #$FEF2
 	sta.b $46
-	lda.w $0666
+	lda.w botgoalie
 	sta.b $44
 	lda.b tmp2
 	bne .4

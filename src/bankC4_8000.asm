@@ -260,10 +260,10 @@ checkagr:							; called from other segments
 	lda.w playerpad,x
 	bmi .1
 	asl.b d0
-.1:									; A = Xpos,x, A - $0830, if A - $FFD7 < 0 go to .2, ...
+.1:									; A = Xpos,x, A - puckx, if A - $FFD7 < 0 go to .2, ...
 	lda.w Xpos,x
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	cmp.w #$FFD7
 	bmi .2
 	cmp.w #$0029
@@ -869,7 +869,7 @@ StartPenaltyShot:					; called from other segments
 	phx
 	ldx.w BA_Sktr_SCnum
 	lda.w pnum,x
-	sta.w $18B2
+	sta.w BA_Skater_Offset
 	plx
 	stz.w penshot
 	inc.w penshot
@@ -1202,9 +1202,9 @@ assgoalietopuck:					; called from other segments
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-.9:									; Y = a2, if $12CF,y < $0046 go to .6
+.9:									; Y = a2, if tmnear,y < $0046 go to .6
 	ldy.b a2
-	lda.w $12CF,y
+	lda.w tmnear,y
 	cmp.w #$0046
 	bcc .6
 .10:								; call GoaliePuckVector, call vtoa, call AdjustFacingDirection, ...
@@ -1231,9 +1231,9 @@ CODE_C489A5:						; from assgoalietopuck and other segments
 	bit.w #$0080
 	beq .2
 	ora.w #$FF00
-.2:									; A + $0830, d0 = A, A = puckvy, A and $00FF, ...
+.2:									; A + puckx, d0 = A, A = puckvy, A and $00FF, ...
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.b d0
 	lda.w puckvy
 	xba
@@ -1611,7 +1611,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bne .22
 	cpx.w puckc
 	beq .15
-	lda.w $0830
+	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -1638,8 +1638,8 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 .21:								; A and $0007, go to .26
 	and.w #$0007
 	jmp.w .26
-.22:								; A = $0830, A - Xpos,x, d0 = A, A = pucky, ...
-	lda.w $0830
+.22:								; A = puckx, A - Xpos,x, d0 = A, A = pucky, ...
+	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -1682,7 +1682,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	lda.b a2
 	eor.w #$0002
 	tay
-	lda.w $12CF,y
+	lda.w tmnear,y
 	cmp.w #$003C
 	bcs .28
 	jsl.l RandomWord
@@ -1755,8 +1755,8 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bmi .34
 	cmp.w #$010B
 	bpl .34
-.33:								; d0 = $0830, d1 = pucky, call CODE_C492F8, ...
-	lda.w $0830
+.33:								; d0 = puckx, d1 = pucky, call CODE_C492F8, ...
+	lda.w puckx
 	sta.b d0
 	lda.w pucky
 	sta.b d1
@@ -1824,13 +1824,13 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bit.w #$0080
 	beq .40
 	ora.w #$FF00
-.40:								; r3 = A, A + r3, A + $0830, d0 = A, ...
+.40:								; r3 = A, A + r3, A + puckx, d0 = A, ...
 	sta.b r3
 	cmp.w #$8000
 	ror a
 	adc.b r3
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.b d0
 	bra .46
 .41:								; A = puckvx, A / 2, A and $007F, if $0040 bits clear go to .42, ...
@@ -1841,9 +1841,9 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bit.w #$0040
 	beq .42
 	ora.w #$FF80
-.42:								; A + $0830, d0 = A, go to .46
+.42:								; A + puckx, d0 = A, go to .46
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.b d0
 	bra .46
 .43:								; A = seed, if the result = 0 go to .39
@@ -1857,9 +1857,9 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bit.w #$0080
 	beq .45
 	ora.w #$FF00
-.45:								; A + $0830, d0 = A
+.45:								; A + puckx, d0 = A
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.b d0
 .46:								; call CODE_C492F8
 	jsl.l CODE_C492F8
@@ -1973,9 +1973,9 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bit.w #$0020
 	beq .58
 	ora.w #$FFC0
-.58:								; A + $0830, A - Xpos,x, d0 = A, $2E = A, ...
+.58:								; A + puckx, A - Xpos,x, d0 = A, $2E = A, ...
 	clc
-	adc.w $0830
+	adc.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -2149,10 +2149,10 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	sec
 	sbc.w #$FEFE
 	bpl .78
-.77:								; d0 = $0018, if $0830 >= 0 go to .78, d0 = $FFE8
+.77:								; d0 = $0018, if puckx >= 0 go to .78, d0 = $FFE8
 	lda.w #$0018
 	sta.b d0
-	lda.w $0830
+	lda.w puckx
 	bpl .78
 	lda.w #$FFE8
 	sta.b d0
@@ -2282,7 +2282,7 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	lda.w iflags
 	bit.w #$0004
 	bne .92
-	lda.w $0830
+	lda.w puckx
 	bit.w #$8000
 	beq .94
 	eor.w #$FFFF
@@ -2321,13 +2321,13 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-.98:								; Y = a1, if $12CF,y < $0064 go to .99, Y = a2, ...
+.98:								; Y = a1, if tmnear,y < $0064 go to .99, Y = a2, ...
 	ldy.b a1
-	lda.w $12CF,y
+	lda.w tmnear,y
 	cmp.w #$0064
 	bcc .99
 	ldy.b a2
-	lda.w $12CF,y
+	lda.w tmnear,y
 	cmp.w #$0064
 	bcc .99
 	lda.w #$000F

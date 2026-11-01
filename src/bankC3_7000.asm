@@ -887,7 +887,7 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	sta.w Wallsin,y
 	tyx
 	lda.w #$0001
-	sta.w $07FA
+	sta.w wcradiusx
 	sta.w wcradiusy
 	jsl.l checkwallcoll
 	pla
@@ -982,10 +982,10 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	lda.w Ypos,x
 	sta.w $08B6
 	bra .6
-.1:									; $05BA = $000F, if $0830 - $FF65 >= 0 go to .2, A = $FF65
+.1:									; $05BA = $000F, if puckx - $FF65 >= 0 go to .2, A = $FF65
 	lda.w #$000F
 	sta.w $05BA
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$FF65
 	bpl .2
 	lda.w #$FF65

@@ -7505,3 +7505,20 @@ $C52037,setupice,CODE_C52037,94S+code,"called from StartGame_go where 94S StartG
 $C532C5,LoadTeamLines,CODE_C532C5,94S+code,"called twice from StartGame_go where 94S StartGame calls LoadTeamLines for both teams; calls GetTeamLines and tests OptLine as 94S LoadTeamLines does",src/bankC5_3000.asm
 $C5362C,InitScores,CODE_C5362C,94S+code,"called from StartGame_go where 94S StartGame calls InitScores (after restoreteams); the routine is a bare rtl",src/bankC5_3000.asm
 $C50D18,startpause,CODE_C50D18,94S+code,"StartPer calls it and PauseFromPad branches to it where 94S calls / jumps to startpause; sets sflags bit 0 (the pause bit); 95 skips it while sfhormode is set",src/bankC5_0000.asm
+$05C4,puckpadnext,,94S+code,"RAM: 4 of 4 aligned votes (puckfaceoff2, PuckCarrierPad): the pad search steps from it and stores the pad found",src/ram95s.asm
+$0664,topgoalie,,94S+code,"RAM: 3 of 3 aligned votes; updateplayers sets $FFFF, then the goalie object with Ypos >= 0, as 94S updateplayers does",src/ram95s.asm
+$0666,botgoalie,,94S+code,"RAM: updateplayers sets $FFFF, then the goalie object with Ypos < 0, beside topgoalie as in 94S (side by side); 2 of 2 aligned votes",src/ram95s.asm
+$078A,percue,,94S+code,"RAM: 5 of 5 aligned votes (StartPer, puckfaceoff2): puckfaceoff2 picks the team song slot by it and clears it",src/ram95s.asm
+$07FA,wcradiusx,,94S+code,"RAM: 4 of 4 aligned votes; beside wcradiusy",src/ram95s.asm
+$08DC,puckoldz,,94S+code,"RAM: 3 of 3 aligned votes; updateplayers copies puckz to it as 94S does",src/ram95s.asm
+$12CF,tmnear,,94S+code,"RAM: 4 of 4 aligned votes (updateplayers, assnearest and others)",src/ram95s.asm
+$12D3,tmnearpl,,94S+code,"RAM: 3 of 3 aligned votes",src/ram95s.asm
+$1525,padside,,94S+code,"RAM: 6 of 6 aligned votes; puckfaceoff2 compares it with BA_Team and sets bit 15 on the other pads of the team in a penalty shot",src/ram95s.asm
+$18B2,BA_Skater_Offset,,94S+code,"RAM: 3 of 3 aligned votes; stored by StartPenaltyShot and ShootoutTurn",src/ram95s.asm
+$18A2,shootoutturnover,,94S+code,"RAM: puckfaceoff increments it in the shootout (side by side with 94S puckfaceoff), ShootoutTurn clears it, Gameloop reads it; 2 of 2 aligned votes",src/ram95s.asm
+$0836,Xfrac,,94S+code,"RAM: $22 after Xpos as in 94S; updateplayers copies it to OldXfrac (side by side); 2 of 2 aligned votes",src/ram95s.asm
+$08B8,Yfrac,,94S+code,"RAM: $22 after Ypos as in 94S; updateplayers copies it to OldYfrac (side by side); 2 of 2 aligned votes",src/ram95s.asm
+$0920,OldXpos,,94S+code,"RAM: updateplayers copies Xpos,x to it as 94S does (side by side); $80 before Xvel as in 94S; 2 of 2 aligned votes",src/ram95s.asm
+$0940,OldXfrac,,94S+code,"RAM: updateplayers copies Xfrac,x to it as 94S does (side by side); 2 of 2 aligned votes",src/ram95s.asm
+$0980,OldYfrac,,94S+code,"RAM: updateplayers copies Yfrac,x to it as 94S does (side by side); 2 of 2 aligned votes",src/ram95s.asm
+$0830,puckx,,94S+code,"RAM: Xpos+$1C, as 94S defines puckx = Xpos+puckscnum beside pucky (Ypos+$1C, named before); 94S puck code reads it where 95 reads $0830",src/ram95s.asm

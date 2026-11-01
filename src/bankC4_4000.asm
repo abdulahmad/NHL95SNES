@@ -13,7 +13,7 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 	lda.w Ypos,x
 	sta.b d3
 	lda.w $0BA0,x
-	sta.w $07FA
+	sta.w wcradiusx
 	lda.w $0BC0,x
 	sta.w wcradiusy
 	jsl.l checkwallcoll
@@ -33,7 +33,7 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 	adc.b d1
 	sta.b d3
 	lda.w #$0001
-	sta.w $07FA
+	sta.w wcradiusx
 	sta.w wcradiusy
 	jsl.l checkwallcoll
 .1:									; pull A, d2 = A, pull A, d3 = A, ...
@@ -108,11 +108,11 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 	lda.b d3
 	sta.w Ylist,x
 	rtl
-.6:									; if SPA,x >= $28F6 go to .rtl, Xpos,x = $0920,x, Ypos,x = OldYpos,x
+.6:									; if SPA,x >= $28F6 go to .rtl, Xpos,x = OldXpos,x, Ypos,x = OldYpos,x
 	lda.w SPA,x
 	cmp.w #$28F6
 	bcs .rtl
-	lda.w $0920,x
+	lda.w OldXpos,x
 	sta.w Xpos,x
 	lda.w OldYpos,x
 	sta.w Ypos,x
@@ -130,7 +130,7 @@ checkwallcoll:						; from checkcoll and other segments
 	sta.b d5
 	lda.w #$009B
 	sec
-	sbc.w $07FA
+	sbc.w wcradiusx
 	pha
 	eor.w #$FFFF
 	inc a
@@ -310,10 +310,10 @@ wallcollb:							; from CODE_C441BE, CODE_C4414F and other segments
 	lda.w pucky
 	cmp.w #$012F
 	bmi CODE_C44212
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$000D
 	bmi CODE_C4420F
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$0010
 	bpl CODE_C4420F
 	lda.w puckvy
@@ -439,7 +439,7 @@ wallcoll:							; from CODE_C4420F, checkgoalp, checkgoal, ...
 	sta.b tmp0
 	xba
 	tsb.b tmp0
-	bit.w $0830
+	bit.w puckx
 	bpl .4
 	sep #$20
 	lsr a
@@ -606,10 +606,10 @@ checkgoal:							; from checkwallcoll and other segments
 	bmi .rtl
 	lda.w #$FFFF
 	sta.w collflag
-	lda.w $08DC
+	lda.w puckoldz
 	cmp.w #$000D
 	bmi .3
-	lda.w $08DC
+	lda.w puckoldz
 	sta.w puckz
 	jmp.w .18
 .rtl:								; return
@@ -636,14 +636,14 @@ checkgoal:							; from checkwallcoll and other segments
 	bpl .5
 	lda.w #$0001
 	sta.w $0FFC
-.5:									; d0 = $FF01, p0 = $FF01, A = $08B8,x, A - $0980,x, ...
+.5:									; d0 = $FF01, p0 = $FF01, A = Yfrac,x, A - OldYfrac,x, ...
 	lda.w #$FF01
 	sta.b d0
 	lda.w #$FF01
 	sta.b p0
-	lda.w $08B8,x
+	lda.w Yfrac,x
 	sec
-	sbc.w $0980,x
+	sbc.w OldYfrac,x
 	sta.b d1
 	lda.w Ypos,x
 	sbc.w OldYpos,x
@@ -671,12 +671,12 @@ checkgoal:							; from checkwallcoll and other segments
 	adc.b d3
 	sta.b d5
 	sta.b r2
-	lda.w $0836,x
+	lda.w Xfrac,x
 	sec
-	sbc.w $0940,x
+	sbc.w OldXfrac,x
 	sta.b d3
 	lda.w Xpos,x
-	sbc.w $0920,x
+	sbc.w OldXpos,x
 	sta.b $8D
 	lda.b $8C
 	sta.b d3
@@ -821,13 +821,13 @@ checkgoal:							; from checkwallcoll and other segments
 .21:								; puckvx = $0800
 	lda.w #$0800
 	sta.w puckvx
-.22:								; d0 = 0, d1 = $00FF, A = $0830, A - $093C, ...
+.22:								; d0 = 0, d1 = $00FF, A = puckx, A - OldXpos+$1C, ...
 	stz.b d0
 	lda.w #$00FF
 	sta.b d1
-	lda.w $0830
+	lda.w puckx
 	sec
-	sbc.w $093C
+	sbc.w OldXpos+$1C
 	sta.b d2
 	bmi .23
 	lda.w #$FF01
@@ -864,9 +864,9 @@ checkgoalp:							; from checkgoal
 	beq .4
 	eor.w #$FFFF
 	inc a
-.4:									; A - $07FA, if A - $0040 >= 0 go to .rtl, A = d3, push A, ...
+.4:									; A - wcradiusx, if A - $0040 >= 0 go to .rtl, A = d3, push A, ...
 	sec
-	sbc.w $07FA
+	sbc.w wcradiusx
 	cmp.w #$0040
 	bpl .rtl
 	lda.b d3
@@ -1494,7 +1494,7 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	clc
 	adc.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	bit.w #$8000
 	beq .4
 	eor.w #$FFFF
@@ -1545,10 +1545,10 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	lda.w position,y
 	bne .8
 	jmp.w CODE_C44CB1
-.8:									; A = Xpos,y, A - $0830, if $8000 bits clear go to .9, A xor $FFFF, ...
+.8:									; A = Xpos,y, A - puckx, if $8000 bits clear go to .9, A xor $FFFF, ...
 	lda.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	bit.w #$8000
 	beq .9
 	eor.w #$FFFF
@@ -1615,7 +1615,7 @@ CODE_C44C86:						; from checkpuckcoll_ccx, CODE_C44CB1
 CODE_C44CB1:						; from checkpuckcoll_ccx, CODE_C44D3D
 	lda.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d0
 	cmp.w #$FFF5
 	bmi CODE_C44C86
@@ -1670,7 +1670,7 @@ CODE_C44D3D:						; from checkpuckcoll_ccx
 	clc
 	adc.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	bit.w #$8000
 	beq .3
 	eor.w #$FFFF

@@ -501,7 +501,7 @@ SetPlList:							; from setpersonel and other segments
 	beq .4
 	lda.w penshot
 	beq .4
-	lda.w $18B2
+	lda.w BA_Skater_Offset
 	inc a
 	sta.b [a4],y
 .4:									; Y + 1, Y + 1, Y + 1, Y + 1, ...
@@ -1825,9 +1825,9 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	lda.w teampads
 	ora.w $14F7
 	bne .4
-	stz.w $1525
+	stz.w padside
 	jsl.l ReadActiveMenuPad
-	dec.w $1525
+	dec.w padside
 	bra .5
 .4:									; call ReadActiveMenuPad
 	jsl.l ReadActiveMenuPad

@@ -231,11 +231,11 @@ assnearest:							; called from other segments
 	eor.w pfteam,x
 	bne .6
 	jmp.w .7
-.6:									; Y = a2, d2 = $12CF,y, a1 = $12D3,y, if d2 < 0 go to .8
+.6:									; Y = a2, d2 = tmnear,y, a1 = tmnearpl,y, if d2 < 0 go to .8
 	ldy.b a2
-	lda.w $12CF,y
+	lda.w tmnear,y
 	sta.b d2
-	lda.w $12D3,y
+	lda.w tmnearpl,y
 	sta.b a1
 	lda.b d2
 	bmi .8
@@ -302,7 +302,7 @@ assnearest:							; called from other segments
 	bmi .14
 	lda.w position,y
 	bne .14
-	lda.w $0830
+	lda.w puckx
 	sta.b d0
 	lda.w #$005C
 	ldy.w pfgoal,x
@@ -617,9 +617,9 @@ CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .2
 	ora.w #$FF00
-.2:									; A + $0830, d2 = A, A = $09C1,x, A and $00FF, ...
+.2:									; A + puckx, d2 = A, A = $09C1,x, A and $00FF, ...
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.b d2
 	lda.w $09C1,x
 	and.w #$00FF
@@ -868,8 +868,8 @@ asscenterd:							; called from other segments
 	bpl .4
 	lda.w aidef,x
 	sta.w temp1,x
-.4:									; A = $0830, push A, A * 2, pull A, ...
-	lda.w $0830
+.4:									; A = puckx, push A, A * 2, pull A, ...
+	lda.w puckx
 	pha
 	asl a
 	pla

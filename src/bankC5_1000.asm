@@ -1112,7 +1112,7 @@ CODE_C51999:						; called from other segments
 CODE_C51A13:						; called from other segments
 	jsr.w CODE_C51A4E
 	lda.w $2034
-	sta.w $0830
+	sta.w puckx
 	lda.w $2036
 	sta.w pucky
 	stz.b d4
@@ -1123,8 +1123,8 @@ CODE_C51A13:						; called from other segments
 	rtl
 CODE_C51A30:						; from CODE_C51A13
 	ldy.w #$0008
-.loop:								; loop: if $1525,y < 0 go to .1, if $1525,y = d4 go to .2
-	lda.w $1525,y
+.loop:								; loop: if padside,y < 0 go to .1, if padside,y = d4 go to .2
+	lda.w padside,y
 	bmi .1
 	cmp.b d4
 	beq .2
@@ -1141,7 +1141,7 @@ CODE_C51A30:						; from CODE_C51A13
 .rts:								; return
 	rts
 CODE_C51A4E:						; from CODE_C51A13, CODE_C51A61
-	stz.w $0830
+	stz.w puckx
 	stz.w pucky
 	stz.w puckz
 	stz.w puckvx
@@ -1175,8 +1175,8 @@ CODE_C51A61:						; called from other segments
 	lda.w $17C1,x
 	beq .4
 	ldy.w #$0000
-.loop:								; loop: if $1525,y < 0 go to .2, if $1525,y = d4 go to .3
-	lda.w $1525,y
+.loop:								; loop: if padside,y < 0 go to .2, if padside,y = d4 go to .3
+	lda.w padside,y
 	bmi .2
 	cmp.b d4
 	beq .3
@@ -1425,7 +1425,7 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	beq .1
 	lda.w $189E
 	beq .1
-	inc.w $18A2
+	inc.w shootoutturnover
 	rtl
 .1:									; puckc = $FFFF, call pucknorm_move, A = pflags,x, ...
 	lda.w #$FFFF
@@ -1718,8 +1718,8 @@ CODE_C51EB8:						; from CODE_C51E81 and other segments
 	rtl
 CODE_C51F48:						; from CODE_C51F60, CODE_C51F6E and other segments
 	ldy.w #$0000
-.loop:								; loop: if $1525,y = a2 go to .1, Y + 1, Y + 1, ...
-	lda.w $1525,y
+.loop:								; loop: if padside,y = a2 go to .1, Y + 1, Y + 1, ...
+	lda.w padside,y
 	cmp.b a2
 	beq .1
 	iny

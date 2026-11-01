@@ -121,10 +121,10 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	cmp.w #$0002
 	bne .4
 	inc.w $14F7
-.4:									; A - 1, A * 2, $1525,x = A, X - 1, ...
+.4:									; A - 1, A * 2, padside,x = A, X - 1, ...
 	dec a
 	asl a
-	sta.w $1525,x
+	sta.w padside,x
 	dex
 	dex
 	bpl .2
@@ -192,7 +192,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	lda.w #$FFFF
 	sta.w recsfx
 	sta.w recsfx2
-	sta.w $078A
+	sta.w percue
 	lda.w $1864
 	cmp.w #$0004
 	beq .4
@@ -202,8 +202,8 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	sta.w $07E2
 	stz.w recbpr
 	bra .5
-.4:									; $078A = 0
-	stz.w $078A
+.4:									; percue = 0
+	stz.w percue
 .5:									; $079C = $FFFF, $079E = 0, Vcount = 0, $5F = 0, ...
 	lda.w #$FFFF
 	sta.w $079C
@@ -343,10 +343,10 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	tsb.w sflags
 .10:								; call Pausemode
 	jsl.l Pausemode
-.11:								; if shootoutmode = 0 go to .12, if $18A2 = 0 go to .12, return
+.11:								; if shootoutmode = 0 go to .12, if shootoutturnover = 0 go to .12, return
 	lda.w shootoutmode
 	beq .12
-	lda.w $18A2
+	lda.w shootoutturnover
 	beq .12
 	rtl
 .12:								; go to Gameloop
@@ -388,25 +388,25 @@ periodicevents:						; from DoGameFrame and other segments
 updateplayers:						; every object's frame: the old positions kept, the goalie at each end
 									; found, then updateanim, doinput and checkcoll among its steps
 	lda.w #$FFFF
-	sta.w $0664
-	sta.w $0666
-	sta.w $12CF
+	sta.w topgoalie
+	sta.w botgoalie
+	sta.w tmnear
 	sta.w $12D1
-	sta.w $12D3
+	sta.w tmnearpl
 	sta.w $12D5
 	lda.w puckz
-	sta.w $08DC
+	sta.w puckoldz
 	ldx.w #$001E
-.1:									; curobj = X, $0920,x = Xpos,x, $0940,x = $0836,x, OldYpos,x = Ypos,x, ...
+.1:									; curobj = X, OldXpos,x = Xpos,x, OldXfrac,x = Xfrac,x, ...
 	stx.b curobj
 	lda.w Xpos,x
-	sta.w $0920,x
-	lda.w $0836,x
-	sta.w $0940,x
+	sta.w OldXpos,x
+	lda.w Xfrac,x
+	sta.w OldXfrac,x
 	lda.w Ypos,x
 	sta.w OldYpos,x
-	lda.w $08B8,x
-	sta.w $0980,x
+	lda.w Yfrac,x
+	sta.w OldYfrac,x
 	cpx.w #$0018
 	beq .2
 	cpx.w #$001A
@@ -417,14 +417,14 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	lda.w position,x
 	bpl .4
 	jmp.w .44
-.4:									; if not zero go to .6, if Ypos,x >= 0 go to .5, $0666 = X, go to .6
+.4:									; if not zero go to .6, if Ypos,x >= 0 go to .5, botgoalie = X, go to .6
 	bne .6
 	lda.w Ypos,x
 	bpl .5
-	stx.w $0666
+	stx.w botgoalie
 	bra .6
-.5:									; $0664 = X
-	stx.w $0664
+.5:									; topgoalie = X
+	stx.w topgoalie
 .6:									; call updateanim, A = nopuck,x, A - timestep, ...
 	jsl.l updateanim
 	lda.w nopuck,x
@@ -647,8 +647,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	rol.b $36
 	asl a
 	rol.b $36
-	adc.w $0836,x
-	sta.w $0836,x
+	adc.w Xfrac,x
+	sta.w Xfrac,x
 	lda.w Xpos,x
 	adc.b $36
 	sta.w Xpos,x
@@ -666,8 +666,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	asl a
 	rol.b $36
 	clc
-	adc.w $0836,x
-	sta.w $0836,x
+	adc.w Xfrac,x
+	sta.w Xfrac,x
 	lda.w Xpos,x
 	adc.b $36
 	sta.w Xpos,x
@@ -685,8 +685,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	rol.b $36
 	asl a
 	rol.b $36
-	adc.w $08B8,x
-	sta.w $08B8,x
+	adc.w Yfrac,x
+	sta.w Yfrac,x
 	lda.w Ypos,x
 	adc.b $36
 	sta.w Ypos,x
@@ -704,8 +704,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	asl a
 	rol.b $36
 	clc
-	adc.w $08B8,x
-	sta.w $08B8,x
+	adc.w Yfrac,x
+	sta.w Yfrac,x
 	lda.w Ypos,x
 	adc.b $36
 	sta.w Ypos,x
@@ -722,8 +722,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	rol.b $36
 	asl a
 	rol.b $36
-	adc.w $0836,x
-	sta.w $0836,x
+	adc.w Xfrac,x
+	sta.w Xfrac,x
 	lda.w Xpos,x
 	adc.b $36
 	sta.w Xpos,x
@@ -739,8 +739,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	asl a
 	rol.b $36
 	clc
-	adc.w $0836,x
-	sta.w $0836,x
+	adc.w Xfrac,x
+	sta.w Xfrac,x
 	lda.w Xpos,x
 	adc.b $36
 	sta.w Xpos,x
@@ -756,8 +756,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	rol.b $36
 	asl a
 	rol.b $36
-	adc.w $08B8,x
-	sta.w $08B8,x
+	adc.w Yfrac,x
+	sta.w Yfrac,x
 	lda.w Ypos,x
 	adc.b $36
 	sta.w Ypos,x
@@ -773,8 +773,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	asl a
 	rol.b $36
 	clc
-	adc.w $08B8,x
-	sta.w $08B8,x
+	adc.w Yfrac,x
+	sta.w Yfrac,x
 	lda.w Ypos,x
 	adc.b $36
 	sta.w Ypos,x
@@ -819,9 +819,9 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	tsb.b tmp0
 	lda.w #$000D
 	jsl.l StartSoundVolume
-.44:								; A = $0830, A - Xpos,x, d0 = A, if plus go to .45, ...
+.44:								; A = puckx, A - Xpos,x, d0 = A, if plus go to .45, ...
 	sec
-	lda.w $0830
+	lda.w puckx
 	sbc.w Xpos,x
 	sta.b d0
 	bpl .45
@@ -858,10 +858,10 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	lda.b r3
 	cpx.w #$000C
 	bcs .48
-	cmp.w $12CF
+	cmp.w tmnear
 	bcs .49
-	sta.w $12CF
-	stx.w $12D3
+	sta.w tmnear
+	stx.w tmnearpl
 	bra .49
 .48:								; if A >= $12D1 go to .49, $12D1 = A, $12D5 = X
 	cmp.w $12D1
@@ -1045,7 +1045,7 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	sta.b d3
 	lda.w Xpos,x
 	sta.b d2
-	cmp.w $0920,x
+	cmp.w OldXpos,x
 	bne .66
 	lda.b d3
 	cmp.w OldYpos,x
@@ -1094,8 +1094,8 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	bcc .71
 	cmp.w #$011D
 	bcs .71
-.70:								; Xpos,x = $0920,x, Ypos,x = OldYpos,x
-	lda.w $0920,x
+.70:								; Xpos,x = OldXpos,x, Ypos,x = OldYpos,x
+	lda.w OldXpos,x
 	sta.w Xpos,x
 	lda.w OldYpos,x
 	sta.w Ypos,x
@@ -1112,25 +1112,25 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	cpx.w #$0020
 	beq .73
 	jmp.w .56
-.73:								; if puckz >= $0018 go to .75, if $0830 - $FF65 >= 0 go to .74, ...
+.73:								; if puckz >= $0018 go to .75, if puckx - $FF65 >= 0 go to .74, ...
 	lda.w puckz
 	cmp.w #$0018
 	bcs .75
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$FF65
 	bpl .74
 	lda.w #$FF65
-	sta.w $0830
+	sta.w puckx
 	ldx.w $0872
 	cpx.w #$01B3
 	bne .74
 	sta.w $0832
-.74:								; if $0830 - $009B < 0 go to .75, $0830 = $009B, ...
-	lda.w $0830
+.74:								; if puckx - $009B < 0 go to .75, puckx = $009B, ...
+	lda.w puckx
 	cmp.w #$009B
 	bmi .75
 	lda.w #$009B
-	sta.w $0830
+	sta.w puckx
 	ldx.w $0872
 	cpx.w #$01B3
 	bne .75

@@ -771,9 +771,9 @@ ApproxLength:						; called from other segments
 	rtl
 CalcPuckDistances:					; update every object distance and direction to the puck
 	ldx.w #$0000
-.loop:								; loop: A = $0830, A - Xpos,x, d0 = A, if plus go to .1, ...
+.loop:								; loop: A = puckx, A - Xpos,x, d0 = A, if plus go to .1, ...
 	sec
-	lda.w $0830
+	lda.w puckx
 	sbc.w Xpos,x
 	sta.b d0
 	bpl .1

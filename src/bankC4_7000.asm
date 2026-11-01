@@ -71,7 +71,7 @@ skatetopuck:						; called from other segments
 	sbc.w Ypos,x
 	sta.b d1
 	pha
-	lda.w $0830
+	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -384,7 +384,7 @@ Stop4Pen:							; from checkfornewpen and other segments
 	pla
 	cmp.w #$0006
 	beq .2
-	ldy.w $0830
+	ldy.w puckx
 	sty.b d0
 	ldy.w pucky
 	sty.b d1
@@ -1277,13 +1277,13 @@ CODE_C47A7C:						; from PenGoalStuff
 	cpy.w #$000A
 	bne .1
 	ldy.w #$0000
-.1:									; if $1525,y >= 0 go to .loop, A and $00FF, ...
-	lda.w $1525,y
+.1:									; if padside,y >= 0 go to .loop, A and $00FF, ...
+	lda.w padside,y
 	bpl .loop
 	and.w #$00FF
 	cmp.b a1
 	bne .loop
-	sta.w $1525,y
+	sta.w padside,y
 	inc a
 	inc a
 	lsr a
@@ -1418,13 +1418,13 @@ CODE_C47B3F:						; called from other segments
 	cpy.w #$000A
 	bne .5
 	ldy.w #$0000
-.5:									; if $1525,y >= 0 go to .loop, A and $00FF, ...
-	lda.w $1525,y
+.5:									; if padside,y >= 0 go to .loop, A and $00FF, ...
+	lda.w padside,y
 	bpl .loop
 	and.w #$00FF
 	cmp.b a2
 	bne .loop
-	sta.w $1525,y
+	sta.w padside,y
 	inc a
 	inc a
 	lsr a
@@ -1757,13 +1757,13 @@ CODE_C47E65:						; from asspenalty and other segments
 	cpy.w #$000A
 	bne .5
 	ldy.w #$0000
-.5:									; if $1525,y >= 0 go to .loop2, A and $00FF, ...
-	lda.w $1525,y
+.5:									; if padside,y >= 0 go to .loop2, A and $00FF, ...
+	lda.w padside,y
 	bpl .loop2
 	and.w #$00FF
 	cmp.b a2
 	bne .loop2
-	sta.w $1525,y
+	sta.w padside,y
 	inc a
 	inc a
 	lsr a
@@ -1778,12 +1778,12 @@ CODE_C47E65:						; from asspenalty and other segments
 	cpy.w #$000A
 	bne .7
 	ldy.w #$0000
-.7:									; if $1525,y is not a2 go to .loop3, A or $FF00, $1525,y = A, ...
-	lda.w $1525,y
+.7:									; if padside,y is not a2 go to .loop3, A or $FF00, padside,y = A, ...
+	lda.w padside,y
 	cmp.b a2
 	bne .loop3
 	ora.w #$FF00
-	sta.w $1525,y
+	sta.w padside,y
 	lda.w #$0000
 	sta.w cont1team,y
 	phy

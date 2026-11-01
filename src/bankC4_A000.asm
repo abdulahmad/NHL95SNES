@@ -19,10 +19,10 @@ chk4pass:							; called from other segments
 	clc
 	adc.w #$0006
 	sta.b d0
-.2:									; if position,x = 0 go to .3, if $0830 - $FFD7 < 0 go to .3, ...
+.2:									; if position,x = 0 go to .3, if puckx - $FFD7 < 0 go to .3, ...
 	lda.w position,x
 	beq .3
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$FFD7
 	bmi .3
 	cmp.w #$0029
@@ -318,8 +318,8 @@ dopass_count:						; from dopass and other segments
 	lda.w $12DF,y
 	inc a
 	sta.w $12DF,y
-.1:									; X = $0664,y, A = aidef,x, A / 2, A + $0001, ...
-	ldx.w $0664,y
+.1:									; X = topgoalie,y, A = aidef,x, A / 2, A + $0001, ...
+	ldx.w topgoalie,y
 	lda.w aidef,x
 	lsr a
 	clc
@@ -370,7 +370,7 @@ dopass_count:						; from dopass and other segments
 	clc
 	adc.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d0
 	lda.w #$0018
 	sta.b d6
@@ -481,7 +481,7 @@ dopass_count:						; from dopass and other segments
 	sta.w puckvy
 	lda.b d2
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.w $066E
 	lda.b d3
 	clc
@@ -658,7 +658,7 @@ CODE_C4A52A:						; from assdumpin and other segments
 	clc
 	adc.l DATA8_C4A62D,x
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d0
 	lda.l DATA8_C4A615,x
 	clc
@@ -766,10 +766,10 @@ CODE_C4A65D:						; called from other segments
 	jsl.l QueueFrameTiles
 	plx
 	lda.w $0874
-.1:									; if A is not $01B3 go to .2, $0832 = $0830, A = pucky, A + 1, ...
+.1:									; if A is not $01B3 go to .2, $0832 = puckx, A = pucky, A + 1, ...
 	cmp.w #$01B3
 	bne .2
-	lda.w $0830
+	lda.w puckx
 	sta.w $0832
 	lda.w pucky
 	inc a
@@ -1524,11 +1524,11 @@ Goal:								; called from other segments
 	stz.w puckvx
 	stz.w puckvy
 	ldy.w #$0006
-	lda.w $0830
+	lda.w puckx
 	bpl .30
 	ldy.w #$FFFA
-.30:								; $0830 = Y, Y = $0116, if pucky >= 0 go to .31, Y = $FEEA
-	sty.w $0830
+.30:								; puckx = Y, Y = $0116, if pucky >= 0 go to .31, Y = $FEEA
+	sty.w puckx
 	ldy.w #$0116
 	lda.w pucky
 	bpl .31

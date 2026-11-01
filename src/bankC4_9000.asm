@@ -66,7 +66,7 @@ AdjustFacingDirection:				; called from other segments
 .rtl:								; return
 	rtl
 GoaliePuckVector:					; called from other segments
-	lda.w $0830
+	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -76,7 +76,7 @@ GoaliePuckVector:					; called from other segments
 	sta.b d1
 	bra CODE_C4939D
 CODE_C49390:						; no caller found (not traced); it runs on into the next routine
-	lda.w $0830
+	lda.w puckx
 	sta.b d0
 	lda.w pucky
 	sec
@@ -111,7 +111,7 @@ CODE_C493CA:						; called from other segments
 	lda.w #$0002
 	trb.w $0D7C
 	beq pucknorm_move
-	stz.w $0AFC
+	stz.w temp1+$1C
 	stz.w $0B1C
 	lda.w #$0078
 	sta.w $0B9C
@@ -125,13 +125,13 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	sec
 	sbc.b d7
 	sta.w puckcross+6
-	lda.w $0AFC
+	lda.w temp1+$1C
 	sec
 	sbc.b d7
-	sta.w $0AFC
+	sta.w temp1+$1C
 	bpl .1
 	adc.w #$0005
-	sta.w $0AFC
+	sta.w temp1+$1C
 	jsl.l CODE_C494E6
 .1:									; if puckc < 0 go to .4, a2 = A, call a2touchpuck, A = a2, ...
 	lda.w puckc
@@ -145,16 +145,16 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	clc
 	adc.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	lsr a
 	lsr a
 	bit.w #$2000
 	beq .2
 	ora.w #$C000
-.2:									; A + $0830, $0830 = A, A = d1, A + Ypos,y, ...
+.2:									; A + puckx, puckx = A, A = d1, A + Ypos,y, ...
 	clc
-	adc.w $0830
-	sta.w $0830
+	adc.w puckx
+	sta.w puckx
 	lda.b d1
 	clc
 	adc.w Ypos,y
@@ -208,9 +208,9 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	jsl.l EndPenaltyShot
 .9:									; $234E = 0
 	stz.w $234E
-.10:								; if $0830 is not $093C go to .12, ...
-	lda.w $0830
-	cmp.w $093C
+.10:								; if puckx is not OldXpos+$1C go to .12, ...
+	lda.w puckx
+	cmp.w OldXpos+$1C
 	bne .12
 	lda.w pucky
 	cmp.w OldYpos+$1C
@@ -285,7 +285,7 @@ CODE_C49504:						; from CODE_C494E6 and other segments
 	asl a
 	ldx.w puckvx
 	jsl.l Mul16XS
-	adc.w $0830
+	adc.w puckx
 	sta.b d0
 	cmp.w #$009B
 	bmi .2
@@ -344,9 +344,9 @@ skatetopuckinit:					; called from other segments
 	bit.w #$0040
 	beq .1
 	ora.w #$FF80
-.1:									; A + $0830, d0 = A, A = puckvy, A / 2, ...
+.1:									; A + puckx, d0 = A, A = puckvy, A / 2, ...
 	clc
-	adc.w $0830
+	adc.w puckx
 	sta.b d0
 	lda.w puckvy
 	xba
@@ -406,7 +406,7 @@ chk4shot:							; called from other segments
 	bpl .5
 	cmp.w #$FF9C
 	bmi .5
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$0064
 	bpl .5
 	cmp.w #$FF9C
@@ -535,7 +535,7 @@ shotdiradj:							; from doshot and other segments
 	clc
 	adc.w Xpos,y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d0
 	lda.w $09C1,y
 	and.w #$00FF
@@ -612,7 +612,7 @@ shotdiradj:							; from doshot and other segments
 CalcAngleOffset:					; from shotdiradj
 	lda.b d3
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d3
 	lda.b d4
 	sec
@@ -839,7 +839,7 @@ doshot:								; from CODE_C498D3, CODE_C49E91, ...
 	sta.b $65
 	lda.b [a0],y
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d0
 	iny
 	iny
@@ -1291,7 +1291,7 @@ DATA8_C49DBF:						; not traced: a table read by Findhittype
 setpassmode:						; called from other segments
 	lda.w position,x
 	bne .2
-	lda.w $0830
+	lda.w puckx
 	cmp.w #$FFF0
 	bmi .2
 	cmp.w #$0010
@@ -1436,7 +1436,7 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	clc
 	adc.b d0
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	tay
 	lda.w Ypos,x
 	clc
@@ -1448,10 +1448,10 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	sta.w $0674
 	bcs .8
 	jmp.w .14
-.8:									; A = Xpos,x, A - $0830, Y = A, A = Ypos,x, ...
+.8:									; A = Xpos,x, A - puckx, Y = A, A = Ypos,x, ...
 	lda.w Xpos,x
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	tay
 	lda.w Ypos,x
 	sec

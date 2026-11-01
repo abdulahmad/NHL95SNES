@@ -793,14 +793,14 @@ CODE_C53651:						; called from other segments
 	lda.w penshot
 	bne .2
 	ldy.w #$0008
-.loop:								; loop: A = $1525,y, A and $FF00, if A is not $8000 go to .1, ...
-	lda.w $1525,y
+.loop:								; loop: A = padside,y, A and $FF00, if A is not $8000 go to .1, ...
+	lda.w padside,y
 	and.w #$FF00
 	cmp.w #$8000
 	bne .1
-	lda.w $1525,y
+	lda.w padside,y
 	and.w #$00FF
-	sta.w $1525,y
+	sta.w padside,y
 	inc a
 	inc a
 	lsr a
@@ -840,8 +840,8 @@ CODE_C53651:						; called from other segments
 	dex
 	bpl .loop4
 	ldx.w #$0008
-.loop4:								; loop: if $1525,x is not 0 go to .4, d4 = X, push X, ...
-	lda.w $1525,x
+.loop4:								; loop: if padside,x is not 0 go to .4, d4 = X, push X, ...
+	lda.w padside,x
 	bne .4
 	stx.b d4
 	phx
@@ -871,8 +871,8 @@ CODE_C53651:						; called from other segments
 	dex
 	bpl .loop5
 	ldx.w #$0008
-.loop5:								; loop: if $1525,x is not $0002 go to .8, d4 = X, push X, ...
-	lda.w $1525,x
+.loop5:								; loop: if padside,x is not $0002 go to .8, d4 = X, push X, ...
+	lda.w padside,x
 	cmp.w #$0002
 	bne .8
 	stx.b d4
@@ -902,10 +902,10 @@ PuckCarrierPad:						; called from other segments
 	cpy.w #$000C
 	bcc .1
 	ldx.w #$0002
-.1:									; if teampads,x = 0 go to .4, Y = $05C4,x, Y - 1, Y - 1, ...
+.1:									; if teampads,x = 0 go to .4, Y = puckpadnext,x, Y - 1, Y - 1, ...
 	lda.w teampads,x
 	beq .4
-	ldy.w $05C4,x
+	ldy.w puckpadnext,x
 	dey
 	dey
 	bpl .2
@@ -914,12 +914,12 @@ PuckCarrierPad:						; called from other segments
 	lda.w #$0005
 	sta.b r3
 	txa
-.3:									; if A is not $1525,y go to .5, d4 = Y, A = Y, $05C4,x = A, ...
-	cmp.w $1525,y
+.3:									; if A is not padside,y go to .5, d4 = Y, A = Y, puckpadnext,x = A, ...
+	cmp.w padside,y
 	bne .5
 	sty.b d4
 	tya
-	sta.w $05C4,x
+	sta.w puckpadnext,x
 	jsl.l AssignPadPlayer
 .4:									; pull X, return
 	plx
@@ -1004,8 +1004,8 @@ CODE_C537DE:						; no caller found (not traced)
 	lda.w playerpad,y
 	bmi .2
 	tay
-	lda.w $1525,y
-	cmp.w $1525,x
+	lda.w padside,y
+	cmp.w padside,x
 	beq CODE_C53813
 .2:									; Y = $0000, if pfgoal,x is not 0 go to .3, Y = $0004
 	ldy.w #$0000

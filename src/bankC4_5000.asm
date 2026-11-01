@@ -1302,7 +1302,7 @@ skateto:							; called from other segments
 	lda.w Xvel,x
 	ora.w Yvel,x
 	bne .9
-	lda.w $0830
+	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0

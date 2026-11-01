@@ -273,7 +273,7 @@ ReadMenuPads:						; the buttons of all 5 pads ORed into the menu pad word; repe
 	rtl
 ReadActiveMenuPad:					; select the first enabled pad with held buttons for the menu
 	stz.w pausepad
-	bit.w $1525
+	bit.w padside
 	bmi .1
 	lda.b PadRaw1
 	and.w #$FFF0

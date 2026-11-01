@@ -445,7 +445,7 @@ PlayShootout:						; the shootout: shootoutmode set, two options saved, the shoo
 	rtl
 ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	stz.w $189E
-	stz.w $18A2
+	stz.w shootoutturnover
 	pei ($6B)
 	jsl.l CODE_C4818C
 	stz.w gmode
@@ -464,8 +464,8 @@ ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	sta.w BA_Sktr_SCnum
 .2:									; Y = $0000
 	ldy.w #$0000
-.loop:								; loop: if $1525,y = a2 go to .3, Y + 1, Y + 1, ...
-	lda.w $1525,y
+.loop:								; loop: if padside,y = a2 go to .3, Y + 1, Y + 1, ...
+	lda.w padside,y
 	cmp.b a2
 	beq .3
 	iny
@@ -495,7 +495,7 @@ ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	rep #$20
 	and.w #$00FF
 	dec a
-	sta.w $18B2
+	sta.w BA_Skater_Offset
 	lda.w #$000C
 	sta.w BA_Sktr_SCnum
 	lda.w #$0002
@@ -516,7 +516,7 @@ ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	rep #$20
 	and.w #$00FF
 	dec a
-	sta.w $18B2
+	sta.w BA_Skater_Offset
 	lda.w #$0000
 	sta.w BA_Sktr_SCnum
 	stz.w BA_Team

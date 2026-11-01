@@ -167,10 +167,10 @@ assdefd:							; called from other segments
 	bpl .16
 	lda.w #$FF24
 	sta.b d0
-.16:								; temp4,x = d0, d0 = $0830, A = temp3,x, A xor d0, ...
+.16:								; temp4,x = d0, d0 = puckx, A = temp3,x, A xor d0, ...
 	lda.b d0
 	sta.w temp4,x
-	lda.w $0830
+	lda.w puckx
 	sta.b d0
 	lda.w temp3,x
 	eor.b d0
@@ -230,7 +230,7 @@ CODE_C432A1:						; from assdefd, CODE_C432A1
 	sec
 	sbc.w temp3,x
 	sta.w temp3,x
-	lda.w $0830
+	lda.w puckx
 	sta.b d0
 	lda.w temp3,x
 	eor.b d0
@@ -313,17 +313,17 @@ CODE_C43350:						; from assdefo
 	eor.w #$FFFF
 	inc a
 	tay
-.6:									; d0 = Y, A = $0830, if the result < 0 go to CODE_C433C4, A = $0830, ...
+.6:									; d0 = Y, A = puckx, if the result < 0 go to CODE_C433C4, A = puckx, ...
 	sty.b d0
-	lda.w $0830
+	lda.w puckx
 	eor.b d0
 	bmi CODE_C433C4
-	lda.w $0830
+	lda.w puckx
 	bra CODE_C433CE
 DATA8_C433C3:						; an rtl no traced code reaches
 	db $6B
 CODE_C433C4:						; from CODE_C43350
-	lda.w $0830
+	lda.w puckx
 	pha
 	asl a
 	pla
@@ -387,11 +387,11 @@ EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq .1
 	ora.w #$FF00
-.1:									; A + Xpos,x, A - $0830, if A - $FFD7 < 0 go to .rtl, ...
+.1:									; A + Xpos,x, A - puckx, if A - $FFD7 < 0 go to .rtl, ...
 	clc
 	adc.w Xpos,x
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	cmp.w #$FFD7
 	bmi .rtl
 	cmp.w #$0029
@@ -414,7 +414,7 @@ EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	bpl .rtl
 	lda.w Xpos,x
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	sta.b d0
 	lda.w Ypos,x
 	sec
@@ -537,11 +537,11 @@ CODE_C43575:						; from asswingd, CODE_C4353E, CODE_C43531
 	sta.b $65
 	lda.w #$883F
 	sta.b a0
-	lda.w $0830
+	lda.w puckx
 	eor.b d0
 	sta.b d2
 	bmi .1
-	lda.w $0830
+	lda.w puckx
 	sta.b d0
 .1:									; go to skateto
 	jmp.w skateto
@@ -819,7 +819,7 @@ assfaceoffpl:						; called from other segments
 	bne .rtl
 	lda.w #$24FA
 	sta.b d1
-	lda.w $0AFC
+	lda.w temp1+$1C
 	cmp.w #$0011
 	bcc .6
 	jsl.l RandomWord
@@ -930,8 +930,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w #$0001
 	jsl.l PlayTeamSong
 	bra .7
-.4:									; if $078A is not 0 go to .5, if $1864 = $0004 go to .7, ...
-	ldy.w $078A
+.4:									; if percue is not 0 go to .5, if $1864 = $0004 go to .7, ...
+	ldy.w percue
 	bne .5
 	lda.w $1864
 	cmp.w #$0004
@@ -939,14 +939,14 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	jsl.l RandomWord
 	and.w #$0003
 	bne .7
-.5:									; A = $0000, if $078A is not 0 go to .6, A = $0002
+.5:									; A = $0000, if percue is not 0 go to .6, A = $0002
 	lda.w #$0000
-	ldy.w $078A
+	ldy.w percue
 	bne .6
 	lda.w #$0002
-.6:									; call PlayTeamSong, $078A = 0
+.6:									; call PlayTeamSong, percue = 0
 	jsl.l PlayTeamSong
-	stz.w $078A
+	stz.w percue
 .7:									; A = $000D, A = $0001, iflags = 0, replaydelay = 0, ...
 	lda.w #$000D
 	trb.w sflags
@@ -979,7 +979,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	stz.b Vpos
 	stz.b Hpos
 	lda.w $2034
-	sta.w $0830
+	sta.w puckx
 	lda.w $2036
 	sta.w pucky
 	stz.w puckvx
@@ -1085,8 +1085,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w BA_Team
 	beq .14
 	ldx.w #$0014
-.14:								; pnum,x = $18B2, d3 = A, pull X
-	lda.w $18B2
+.14:								; pnum,x = BA_Skater_Offset, d3 = A, pull X
+	lda.w BA_Skater_Offset
 	sta.w pnum,x
 	sta.b d3
 	plx
@@ -1219,11 +1219,11 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	clc
 	adc.w $2036
 	sta.b d1
-.27:								; Xpos,x = d0, A - $0830, A xor $FFFF, A + 1, ...
+.27:								; Xpos,x = d0, A - puckx, A xor $FFFF, A + 1, ...
 	lda.b d0
 	sta.w Xpos,x
 	sec
-	sbc.w $0830
+	sbc.w puckx
 	eor.w #$FFFF
 	inc a
 	sta.b d0
@@ -1271,14 +1271,14 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w penshot
 	beq .35
 	ldx.w #$0008
-.loop2:								; loop: if $1525,x is not BA_Team go to .32, if X = $18B6 go to .32, ...
-	lda.w $1525,x
+.loop2:								; loop: if padside,x is not BA_Team go to .32, if X = $18B6 go to .32, ...
+	lda.w padside,x
 	cmp.w BA_Team
 	bne .32
 	cpx.w $18B6
 	beq .32
 	ora.w #$8000
-	sta.w $1525,x
+	sta.w padside,x
 	stz.w cont1team,x
 .32:								; X - 1, X - 1, if the result >= 0 go to .loop2, A = BA_Team, ...
 	dex
@@ -1290,29 +1290,29 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	tax
 	lda.w teampads,x
 	beq .35
-	ldy.w $05C4,x
+	ldy.w puckpadnext,x
 .loop3:								; loop: Y + 1, Y + 1, if Y is not $000A go to .33, Y = $0000
 	iny
 	iny
 	cpy.w #$000A
 	bne .33
 	ldy.w #$0000
-.33:								; if $1525,y is not d0 go to .loop3, d1 = Y, A = Y, $05C4,x = A, ...
-	lda.w $1525,y
+.33:								; if padside,y is not d0 go to .loop3, d1 = Y, A = Y, ...
+	lda.w padside,y
 	cmp.b d0
 	bne .loop3
 	sty.b d1
 	tya
-	sta.w $05C4,x
+	sta.w puckpadnext,x
 	ldx.w #$0008
-.loop4:								; loop: if $1525,x is not d0 go to .34, if X = d1 go to .34, ...
-	lda.w $1525,x
+.loop4:								; loop: if padside,x is not d0 go to .34, if X = d1 go to .34, ...
+	lda.w padside,x
 	cmp.b d0
 	bne .34
 	cpx.b d1
 	beq .34
 	ora.w #$8000
-	sta.w $1525,x
+	sta.w padside,x
 	stz.w cont1team,x
 .34:								; X - 1, X - 1, if the result >= 0 go to .loop4
 	dex
@@ -1657,8 +1657,8 @@ CODE_C43F0D:						; from puckfaceoff2
 	ldy.w BA_Team
 	beq .1
 	ldx.w #$3207
-.1:									; A = $18B2, call CODE_C533EF, call CODE_C43FAD, A + $58A6, ...
-	lda.w $18B2
+.1:									; A = BA_Skater_Offset, call CODE_C533EF, call CODE_C43FAD, A + $58A6, ...
+	lda.w BA_Skater_Offset
 	jsl.l CODE_C533EF
 	jsr.w CODE_C43FAD
 	adc.w #$58A6
