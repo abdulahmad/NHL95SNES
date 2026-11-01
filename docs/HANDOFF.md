@@ -13,16 +13,16 @@
   engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies), bankC0_9000 ($C09005-$C09A23: the rest of
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
-  Bank $C6: frame source and placement tables, raw frame tiles, and a trophy map set.
-  The remaining segments in banks $C7-$CF are incbin.
-- Next: segment bankC7_F000, org $C7F09E (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C6 are all source (the code banks $C4
+  Bank $C6: frame source and placement tables, raw frame tiles, and a trophy map set. Bank $C7: raw frame tiles and a
+  second trophy map set. The remaining segments in banks $C8-$CF are incbin.
+- Next: segment bankC8_0000, org $C80559 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C7 are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
   $C3: the team database (TeamList, PlayerList, the player and team records as labels and ROM cuts, since the names are
   licensed), data tables and text, PhotoPaletteTable, game code ($C36B83-$C38EFD), then samples 03, 04, 05, 28, 07, 08, 24, 25,
   30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Remaining: banks
-  $C7-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
+  $C8-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -30,14 +30,14 @@
 
 ## Notes for the next segments
 
-- Bank $C6 frame tables: DATA8_C60000 / DATA8_C60848 are 1060 parallel low-word and bank/layout words.
-  CODE_C5F368 uses A as a frame index; it queues raw ROM transfers to VRAM, without an unpacker. A layout word at
-  $CFF27C gives two equal transfers of twice its low byte, followed by a transfer of its high byte (zero parts skipped).
-  There are 759 nonzero-bank pointers in banks $C6-$CC, with 95 in $C6 ($C62968-$C6FDE7). Within each bank their
+- Bank $C6 frame tables: DATA8_C60000 / DATA8_C60848 are 1060 parallel low-word and bank/layout words. CODE_C5F368 uses A as
+  a frame index; it queues raw ROM transfers to VRAM, without an unpacker. A layout word at $CFF27C gives two equal
+  transfers of twice its low byte, followed by a transfer of its high byte (zero parts skipped). There are 759 nonzero-bank
+  pointers in banks $C6-$CC, with 95 in $C6 ($C62968-$C6FDE7) and 105 in $C7 ($C7053E-$C7FE7D). Within each bank their
   transfer extents exactly meet the next pointer. Entries with bank zero are retained literally (including 0 and 1).
-  CODE_C382B8 updates changed frame indices; CODE_C521EB and the bankC5_5000 setup also queue fixed frame indices.
-  Three more word tables start at $C61090, $C618D8 and $C62120, each 1060 words, read by the bank $CF frame code.
-  The code uses the first and second on its normal path, the second and third on its mirrored path.
+  CODE_C382B8 updates changed frame indices; CODE_C521EB and the bankC5_5000 setup also queue fixed frame indices. Three
+  more word tables start at $C61090, $C618D8 and $C62120, each 1060 words, read by the bank $CF frame code. The code uses
+  the first and second on its normal path, the second and third on its mirrored path.
 
 - Code runs in banks $C0-$CF (reset `jml $C580C6`, NMI `jml $C08B45`), mostly with DB = $80. The engine is not the 94S engine: the
   unpacker, the transfer queues and the sound driver are different code, so 94S names need a purpose match, not a code match.
@@ -82,6 +82,9 @@
 - Trophy map set: DATA8_C6FDE8 is its map (9 x 13 tiles), DATA8_C6FE87 its packed tiles (59), and
   DATA8_C70517 its palette. LZSS sizes and chunk ends verified; the set ends at $C7053E. bankC6_F000 owns
   the complete set, and bankC7_0000 begins at the next raw frame there. DATA8_C4DA55 uses its label now.
+- Second trophy map set: DATA8_C7FE7E is its map (9 x 13 tiles), DATA8_C7FF65 its packed tiles (47), DATA8_C80532 its
+  palette; the set ends at $C80559, in bankC7_F000. It is the second entry of DATA8_C4DA55. Banks $C8-$CB end the same way
+  (raw frames, then the next DATA8_C4DA55 map set); the frames of bank $CC end at $CCEEA5 with none after them.
 
 ## Setup notes
 
@@ -96,11 +99,11 @@
 
 ## Unsure
 
-- Bank $C6: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
-  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The trophy
-  map set after the raw frames is rendered and loaded through DATA8_C4DA55 by CODE_C4D99C; the specific award is not
-  identified. The bank $CF readers are still incbin; their operands must use the new table labels when that code is
-  converted (including DATA8_C60848+1).
+- Banks $C6 / $C7: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
+  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The trophy map
+  set after the raw frames is rendered and loaded through DATA8_C4DA55 by CODE_C4D99C; the specific award is not identified,
+  nor is the award of the second trophy (DATA8_C7FE7E). The bank $CF readers are still incbin; their operands must use the
+  new table labels when that code is converted (including DATA8_C60848+1).
 
 - ArrowFontTiles and MeterFontTiles are named from their rendered tiles; the screens that load them (VRAM $4A00 from $C5521E,
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.

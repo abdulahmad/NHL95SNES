@@ -1080,8 +1080,9 @@ DATA8_C4DA55:						; not traced: a table read by CODE_C4D99C
 	dw DATA8_C6FDE8&$FFFF
 DATA8_C4DA57:						; not traced: a table read by CODE_C4D99C
 	dw DATA8_C6FDE8>>16
-	db $7E,$FE,$C7,$00,$39,$FE,$C8,$00,$EB,$FF,$C9,$00,$2B,$F3
-	db $CD,$00,$F9,$FD,$CA,$00,$D5,$FD,$CB,$00,$AB,$F0,$CE,$00
+	dw DATA8_C7FE7E&$FFFF,DATA8_C7FE7E>>16
+	db $39,$FE,$C8,$00,$EB,$FF,$C9,$00,$2B,$F3,$CD,$00,$F9,$FD,$CA,$00
+	db $D5,$FD,$CB,$00,$AB,$F0,$CE,$00
 DATA8_C4DA75:						; not traced: a table read by CODE_C4D99C
 	db $3B,$2F,$4C,$5F,$31,$52,$42,$22
 DATA8_C4DA7D:						; not traced: a table read by CODE_C4D963
