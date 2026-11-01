@@ -739,7 +739,7 @@ CODE_C095BF:						; called from ShootoutWonBy
 	lda.w $24C0
 	sta.b d2
 	jsl.l CODE_C528D4
-	jsl.l CODE_C48A41
+	jsl.l GoalieCount
 	lda.b d0
 	dec a
 	sta.b d1
@@ -853,7 +853,7 @@ InitShooters:						; the 8 shooters of team a2 (0 home, 2 visitors) into its sho
 CODE_C096C0:						; called from ShootoutWonBy
 	lda.w $1878
 	bne .3
-	jsl.l CODE_C48A41
+	jsl.l GoalieCount
 	lda.w #$0000
 	sta.b $69
 	lda.w #homeshooters
@@ -896,7 +896,7 @@ CODE_C096C0:						; called from ShootoutWonBy
 	jsl.l CODE_C5362E
 	lda.b d0
 	sta.w $187C
-	jsl.l CODE_C48A41
+	jsl.l GoalieCount
 	lda.w $187C
 	sec
 	sbc.b d0
@@ -1132,7 +1132,7 @@ CODE_C09910:						; called from CODE_C09855
 	sta.b d0
 	sta.b r1
 	stz.b r2
-	jsl.l CODE_C48A41
+	jsl.l GoalieCount
 	lda.b r1
 	cmp.b d0
 	bpl .4

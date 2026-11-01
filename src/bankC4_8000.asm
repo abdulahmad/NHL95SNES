@@ -1027,11 +1027,11 @@ ChkGoalies:							; called from other segments
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-	jsl.l CODE_C48802
+	jsl.l CheckTeamGoaliePull
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-CODE_C48802:						; from ChkGoalies and other segments
+CheckTeamGoaliePull:				; check whether team a2 should pull its goalie
 	ldy.b a2
 	lda.w tmgoalie,y
 	bmi rtss
@@ -1062,11 +1062,11 @@ ReturnGoalies:						; called from other segments
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-	jsl.l CODE_C48852
+	jsl.l ReturnTeamGoalie
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-CODE_C48852:						; from ReturnGoalies and other segments
+ReturnTeamGoalie:					; return team a2 goalie and reconsider the computer pull rule
 	ldy.b a2
 	lda.w tmgoalie,y
 	bpl .rtl
@@ -1081,7 +1081,7 @@ CODE_C48852:						; from ReturnGoalies and other segments
 	jmp.w CPgoalie
 .rtl:								; return
 	rtl
-CPgoalie:							; from CODE_C48802, CODE_C48852 and other segments
+CPgoalie:							; from CheckTeamGoaliePull, ReturnTeamGoalie and other segments
 	lda.w gsp
 	cmp.w #$0002
 	bne .rtl
@@ -1214,10 +1214,10 @@ assgoalietopuck:					; called from other segments
 	jsl.l vtoa
 	jsl.l AdjustFacingDirection
 	asl.w legstr,x
-	jsl.l CODE_C489A5
+	jsl.l GoalieChasePuck
 	lsr.w legstr,x
 	rtl
-CODE_C489A5:						; from assgoalietopuck and other segments
+GoalieChasePuck:					; steer the goalie toward the predicted puck position
 	lda.w temp2,x
 	sec
 	sbc.b d7
@@ -1292,7 +1292,7 @@ CODE_C489A5:						; from assgoalietopuck and other segments
 	lda.w temp2b,x
 	sta.b d0
 	jml.l doplayeracc
-CODE_C48A41:						; called from other segments
+GoalieCount:						; count the goalie odds nibbles for team a2 into d0
 	ldy.b a2
 	stz.b d0
 	lda.w #$00C3
@@ -1378,9 +1378,9 @@ assgoalie:							; assignment (asstab entry 7): the goalie
 	sta.w temp2b,x
 	lda.w #$FFFF
 	sta.w temp4,x
-.5:									; if playerpad,x >= 0 go to CODE_C48B48, ...
+.5:									; if playerpad,x >= 0 go to GoalieCheckManualState, ...
 	ldy.w playerpad,x
-	bpl CODE_C48B48
+	bpl GoalieCheckManualState
 	lda.w Xpos,x
 	cmp.w #$FFCB
 	bmi .7
@@ -1391,11 +1391,11 @@ assgoalie:							; assignment (asstab entry 7): the goalie
 	beq .6
 	eor.w #$FFFF
 	inc a
-.6:									; if A >= $0115 go to .7, if A >= $00D9 go to CODE_C48B5E
+.6:									; if A >= $0115 go to .7, if A >= $00D9 go to GoalieUpdateStateJump
 	cmp.w #$0115
 	bcs .7
 	cmp.w #$00D9
-	bcs CODE_C48B5E
+	bcs GoalieUpdateStateJump
 .7:									; $65 = rtss>>16, a0 = rtss, Y = $0004, if Xpos,x >= 0 go to .8, ...
 	lda.w #rtss>>16
 	sta.b $65
@@ -1417,19 +1417,19 @@ assgoalie:							; assignment (asstab entry 7): the goalie
 	jml.l skateto
 DATA8_C48B47:						; an rtl no traced code reaches
 	db $6B
-CODE_C48B48:						; from assgoalie
+GoalieCheckManualState:				; update the goalie control state before movement
 	lda.w gmclock
 	bne .1
 	cpx.w puckc
 	beq .1
-	jmp.w CODE_C48B8E
+	jmp.w GoalieCheckPadDirection
 .1:									; A = goalieflags,x, A or $0001, goalieflags,x = A
 	lda.w goalieflags,x
 	ora.w #$0001
 	sta.w goalieflags,x
-CODE_C48B5E:						; from assgoalie, CODE_C48B8E
-	jmp.w CODE_C48BAA
-CODE_C48B61:						; from CODE_C48B8E
+GoalieUpdateStateJump:				; continue into the goalie animation and decision update
+	jmp.w GoalieUpdateState
+GoalieReturnToCrease:				; skate the goalie back toward the crease
 	lda.w #rtss>>16
 	sta.b $65
 	lda.w #rtss
@@ -1449,18 +1449,18 @@ CODE_C48B61:						; from CODE_C48B8E
 .2:									; temp2,x = 0, go to skateto
 	stz.w temp2,x
 	jml.l skateto
-CODE_C48B8E:						; from CODE_C48B48
+GoalieCheckPadDirection:			; check manual goalie direction and stop when no direction is pressed
 	lda.w goalieflags,x
 	bit.w #$0001
-	bne CODE_C48B5E
+	bne GoalieUpdateStateJump
 	bit.w #$0002
-	bne CODE_C48B61
+	bne GoalieReturnToCrease
 	ldy.w playerpad,x
 	lda.w paddir,y
 	cmp.w #$0008
-	bne CODE_C48BAA
+	bne GoalieUpdateState
 	jsl.l stopna
-CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
+GoalieUpdateState:					; update goalie animation, puck holding, saves and computer movement
 	lda.w pf2aip,x
 	bne .1
 	lda.w #$121E
@@ -1757,12 +1757,12 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bmi .34
 	cmp.w #$010B
 	bpl .34
-.33:								; d0 = puckx, d1 = pucky, call CODE_C492F8, ...
+.33:								; d0 = puckx, d1 = pucky, call ClampGoalieTargetY, ...
 	lda.w puckx
 	sta.b d0
 	lda.w pucky
 	sta.b d1
-	jsl.l CODE_C492F8
+	jsl.l ClampGoalieTargetY
 	lda.b d1
 	cmp.w #$FFD2
 	bmi .36
@@ -1863,8 +1863,8 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	clc
 	adc.w puckx
 	sta.b d0
-.46:								; call CODE_C492F8
-	jsl.l CODE_C492F8
+.46:								; call ClampGoalieTargetY
+	jsl.l ClampGoalieTargetY
 	pei ($83)
 	pei ($7F)
 .47:								; A = d0, Y = d1, call ApproxLength, d0 = A, ...
@@ -2158,10 +2158,10 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bpl .78
 	lda.w #$FFE8
 	sta.b d0
-.78:								; if playerpad,x < 0 go to .79, go to CODE_C4932B
+.78:								; if playerpad,x < 0 go to .79, go to GoalieTargetReturn
 	lda.w playerpad,x
 	bmi .79
-	jmp.w CODE_C4932B
+	jmp.w GoalieTargetReturn
 .79:								; if puckc < 0 go to .83, if pfteam,x = pfteam,y go to .83, ...
 	ldy.w puckc
 	bmi .83

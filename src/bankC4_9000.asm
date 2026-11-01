@@ -1,7 +1,7 @@
 ; Segment bankC4_9000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C492F8
-CODE_C492F8:						; called from other segments
+ClampGoalieTargetY:					; clamp the goalie target between goal lines and make its Y relative to d3
 	lda.w Ypos,x
 	cmp.w #$010E
 	bpl .3
@@ -27,7 +27,7 @@ CODE_C492F8:						; called from other segments
 	sec
 	sbc.b d3
 	sta.b d1
-CODE_C4932B:						; called from other segments
+GoalieTargetReturn:					; return from goalie targeting
 	rtl
 DATA8_C4932C:						; not traced: data between routines
 	db $02,$13,$34,$13,$CA,$13,$0C,$14,$66,$13,$98,$13,$2C,$18,$9A,$17
@@ -74,7 +74,7 @@ GoaliePuckVector:					; called from other segments
 	sec
 	sbc.w Ypos,x
 	sta.b d1
-	bra CODE_C4939D
+	bra AdjustGoalieVectorAtNet
 CODE_C49390:						; no caller found (not traced); it runs on into the next routine
 	lda.w puckx
 	sta.b d0
@@ -82,7 +82,7 @@ CODE_C49390:						; no caller found (not traced); it runs on into the next routi
 	sec
 	sbc.b d4
 	sta.b d1
-CODE_C4939D:						; from GoaliePuckVector
+AdjustGoalieVectorAtNet:			; adjust the puck vector when the puck lies behind the goal line
 	lda.w Ypos,x
 	bpl .3
 	cmp.w #$FEF2
@@ -133,7 +133,7 @@ pucknorm_move:						; from pucknorm and other segments
 	bpl .1
 	adc.w #$0005
 	sta.w temp1+$1C
-	jsl.l CODE_C494E6
+	jsl.l UpdatePuckGoalCrossings
 .1:									; if puckc < 0 go to .4, a2 = A, call a2touchpuck, A = a2, ...
 	lda.w puckc
 	bmi .4
@@ -236,29 +236,29 @@ pucknorm_move:						; from pucknorm and other segments
 .14:								; call pucknothing, go to checkpuckcoll
 	jsl.l pucknothing
 	jmp.w checkpuckcoll
-CODE_C494E6:						; from pucknorm_move and other segments
+UpdatePuckGoalCrossings:			; predict puck crossings of both goal lines
 	phx
 	lda.w #$010E
 	sta.b d4
 	ldy.w #$0000
-	jsl.l CODE_C49504
+	jsl.l PredictPuckGoalCrossing
 	lda.w #$FEF2
 	sta.b d4
 	ldy.w #$0004
-	jsl.l CODE_C49504
+	jsl.l PredictPuckGoalCrossing
 	plx
 	rtl
-CODE_C49501:						; from CODE_C49504
-	jmp.w CODE_C4956B
-CODE_C49504:						; from CODE_C494E6 and other segments
+PuckCrossingInvalidJump:			; continue to invalidate the puck crossing time
+	jmp.w InvalidatePuckGoalCrossing
+PredictPuckGoalCrossing:			; predict puck crossing time and X at the goal line in d4
 	lda.b d4
 	sec
 	sbc.w pucky
 	sta.b d0
 	lda.w puckvy
-	beq CODE_C49501
+	beq PuckCrossingInvalidJump
 	eor.b d0
-	bmi CODE_C49501
+	bmi PuckCrossingInvalidJump
 	lda.b d0
 	stz.b r2
 	lsr a
@@ -302,7 +302,7 @@ CODE_C49504:						; from CODE_C494E6 and other segments
 	lda.b d0
 	sta.w puckcross,y
 	rtl
-CODE_C4956B:						; from CODE_C49501
+InvalidatePuckGoalCrossing:			; mark the selected puck goal crossing time invalid
 	lda.w #$FFFF
 	sta.w puckcross+2,y
 	rtl
