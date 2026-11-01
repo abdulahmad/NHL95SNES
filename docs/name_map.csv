@@ -1994,3 +1994,10 @@ $CA6939,DATA8_CA6939,,new,"raw frame tiles for transfer index $26B; pose not tra
 $CA6B39,DATA8_CA6B39,,new,"raw frame tiles for transfer index $26C; pose not traced",src/bankCA_6000.asm
 $CA6D39,DATA8_CA6D39,,new,"raw frame tiles for transfer index $26D; pose not traced",src/bankCA_6000.asm
 $CA6F39,DATA8_CA6F39,,new,"raw frame tiles for transfer index $26E; pose not traced",src/bankCA_6000.asm
+$CA7199,DATA8_CA7199,,new,"raw frame tiles for transfer index $26F; pose not traced",src/bankCA_7000.asm
+$CA7419,DATA8_CA7419,,new,"raw frame tiles for transfer index $270; pose not traced",src/bankCA_7000.asm
+$CA7679,DATA8_CA7679,,new,"raw frame tiles for transfer index $271; pose not traced",src/bankCA_7000.asm
+$CA78D9,DATA8_CA78D9,,new,"raw frame tiles for transfer index $272; pose not traced",src/bankCA_7000.asm
+$CA7B39,DATA8_CA7B39,,new,"raw frame tiles for transfer index $273; pose not traced",src/bankCA_7000.asm
+$CA7D99,DATA8_CA7D99,,new,"raw frame tiles for transfer index $274; pose not traced",src/bankCA_7000.asm
+$CA7F99,DATA8_CA7F99,,new,"raw frame tiles for transfer index $275; pose not traced",src/bankCA_7000.asm
