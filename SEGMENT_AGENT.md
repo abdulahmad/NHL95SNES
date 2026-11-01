@@ -718,6 +718,11 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
   asspassrec, asspenalty, SetupTeamForIntermission.
 - 2026-10-31: naming pass 6: 7 more by call-graph propagation from the new names (instruction match 0.89-1.00, start checked):
   skatetopuckinit, check4check, skateto, a2touchpuck, Goal, skatetopuck, makepde.
+- 2026-10-31: naming pass 7: 39 labels whose first six instructions and whole body match an unused 94S routine
+  (../work/startmatch.py; 0.85 or more, one name per label; short ones checked side by side). Most were reached by fall through
+  or a jump table, so the call-target pass had missed them: the assignment routines assdefd, asswingo, asscentero, asswingd,
+  asscenterd, assdefo (by code, not by asstab order), chk4pass, chk4shot, checkwindow, puckgoalie, RemapTiles, Sroot and others;
+  NewTicker2_next and clockcont_0 by their place.
 
 ## ROM map
 

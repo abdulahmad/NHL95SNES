@@ -4,9 +4,9 @@
 org $C09A24
 asstab:								; the assignment routines, by assignment number (as 94S asstab; the
 									; first is an rtl); the code calls one through a long call patched in RAM
-	dd rtss,CODE_C4332A,CODE_C4313E,CODE_C4348E
-	dd CODE_C43590,CODE_C43099,CODE_C42F62,CODE_C48A71
-	dd CODE_C47122,CODE_C45A47,CODE_C5474A,CODE_C47B3F
+	dd rtss,assdefo,assdefd,asswingd
+	dd asswingo,asscenterd,asscentero,CODE_C48A71
+	dd CODE_C47122,assstanley,asseben,CODE_C47B3F
 	dd CODE_C545C7,asspenalty,assdopen,CODE_C488BB
 	dd CODE_C49B59,CODE_C42DB8,assnearest,CODE_C498A1
 	dd assdumpin,asspassrec,CODE_C4375B,CODE_C4376F

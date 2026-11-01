@@ -349,7 +349,7 @@ CODE_C5033D:						; from CODE_C50308 and other segments
 	jsl.l CODE_C382B7
 	jsl.l periodicevents
 	jsl.l CODE_C50393
-	jsl.l CODE_C529D7
+	jsl.l checkwindow
 	jsl.l CODE_C371F9
 CODE_C50351:						; from CODE_C50351
 	lda.w TransfersReady
@@ -362,7 +362,7 @@ CODE_C50351:						; from CODE_C50351
 periodicevents:						; from CODE_C5033D and other segments
 	jsl.l CODE_C471F0
 	jsl.l CODE_C371AB
-	jsl.l CODE_C51801
+	jsl.l clockcont
 	lda.w $07BC
 	sec
 	sbc.b $9B
@@ -1157,7 +1157,7 @@ CODE_C509FF:						; from CODE_C509F4
 DATA8_C50A00:						; not traced: data between routines
 	db $FD,$FA,$F7,$F4,$F1,$EE,$EB,$E8,$E6,$E3,$FF,$FF,$FE,$FE,$FE,$FD
 	db $FD,$FD,$FC,$FC
-CODE_C50A14:						; called from other segments
+clockcont_0:						; called from other segments
 	ldx.w #$001C
 	stx.b $6F
 	lda.w #$0018
@@ -1170,7 +1170,7 @@ CODE_C50A14:						; called from other segments
 	cmp.w #$0002
 	bcs CODE_C50A36
 	jmp.w CODE_C50AC3
-CODE_C50A36:						; from CODE_C50A14
+CODE_C50A36:						; from clockcont_0
 	lda.w #$0008
 	sta.b $7F
 	ldx.w #$0000
@@ -1230,7 +1230,7 @@ CODE_C50AA8:						; from CODE_C50A6C
 	jsl.l AddPenalty2
 CODE_C50AC2:						; from CODE_C50AA8
 	rtl
-CODE_C50AC3:						; from CODE_C50A14, CODE_C50A36
+CODE_C50AC3:						; from clockcont_0, CODE_C50A36
 	lda.w $114B
 	cmp.w #$0003
 	bne CODE_C50AD0
@@ -1696,7 +1696,7 @@ CODE_C50EC2:						; from CODE_C50E9B
 	sta.w $14E3
 CODE_C50ED7:						; from CODE_C50E9B, CODE_C50EC2
 	rts
-CODE_C50ED8:						; no caller found (not traced)
+UpdateScores:						; no caller found (not traced)
 	jsl.l CODE_C4075F
 	lda.b $83
 	sta.w $07F2
@@ -1962,7 +1962,7 @@ DATA8_C510AF:						; not traced: a table read by CODE_C51012
 	db $00,$00,$00,$09,$02,$02,$09,$09,$02,$02,$02,$02,$02,$02,$02,$02
 DATA8_C510CF:						; not traced: a table read by CODE_C50FDC
 	db $00,$00,$00,$01,$01,$01,$01,$01,$01,$00,$01,$01,$01,$01,$01,$01
-CODE_C510DF:						; called from other segments
+GetPeriodTimeRemaining:				; called from other segments
 	lda.w $114B
 	xba
 	and.w #$FF00

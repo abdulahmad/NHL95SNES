@@ -70,7 +70,7 @@ CODE_C51183:						; from CODE_C51136
 	adc.w #$0030
 	sta.w $04F8
 	rtl
-CODE_C5118E:						; no caller found (not traced)
+AlignBigNumber:						; no caller found (not traced)
 	ldy.w #$0002
 CODE_C51191:						; from CODE_C511A1
 	dec.w $07D4
@@ -683,7 +683,7 @@ CODE_C51672:						; from CODE_C51668
 	bmi CODE_C51667
 CODE_C5167D:						; from CODE_C51668
 	jmp.w CODE_C51752
-CODE_C51680:						; no caller found (not traced)
+Intermission_tick:					; no caller found (not traced)
 	lda.w $07F0
 	beq CODE_C516A6
 	lda.b $5D
@@ -691,27 +691,27 @@ CODE_C51680:						; no caller found (not traced)
 	sbc.w $07F4
 	cmp.w #$0150
 	bcc CODE_C516A6
-	jsl.l CODE_C516AA
+	jsl.l NewTicker2_next
 	lda.w $24C8
 	cmp.w $07F2
-	bne CODE_C51680
+	bne Intermission_tick
 	jsl.l CODE_C51811
 	lda.w #$0008
 	trb.w $10F7
-CODE_C516A6:						; from CODE_C51680, CODE_C516B4
+CODE_C516A6:						; from Intermission_tick, CODE_C516B4
 	lda.w #$0000
 	rtl
-CODE_C516AA:						; from CODE_C51680 and other segments
+NewTicker2_next:					; from Intermission_tick and other segments
 	lda.w $07F2
 	bmi CODE_C516B4
 	ora.w $24C6
 	bne CODE_C516BF
-CODE_C516B4:						; from CODE_C516AA
+CODE_C516B4:						; from NewTicker2_next
 	jsl.l CODE_C4075F
 	lda.b $83
 	sta.w $07F2
 	bmi CODE_C516A6
-CODE_C516BF:						; from CODE_C516AA
+CODE_C516BF:						; from NewTicker2_next
 	jmp.w CODE_C51752
 CODE_C516C2:						; called from other segments
 	lda.w #$0020
@@ -836,7 +836,7 @@ CODE_C5177C:						; from CODE_C51766
 CODE_C517C2:						; from CODE_C5177C
 	pla
 	rtl
-CODE_C517C4:						; no caller found (not traced)
+waitxsr:							; no caller found (not traced)
 	phx
 	pei ($7F)
 CODE_C517C7:						; from CODE_C517F1
@@ -873,15 +873,15 @@ CODE_C517FE:						; from CODE_C517CA
 	pla
 	plx
 	rtl
-CODE_C51801:						; called from other segments
+clockcont:							; called from other segments
 	lda.w $10F3
 	ora.w $114D
 	bne CODE_C51810
 	jsl.l freezewindow
-	jmp.w CODE_C50A14
-CODE_C51810:						; from CODE_C51801
+	jmp.w clockcont_0
+CODE_C51810:						; from clockcont
 	rtl
-CODE_C51811:						; from CODE_C51680 and other segments
+CODE_C51811:						; from Intermission_tick and other segments
 	rtl
 CODE_C51812:						; no caller found (not traced)
 	lda.w #$0013
@@ -1444,7 +1444,7 @@ CODE_C51D02:						; from CODE_C51CF6
 	lda.w $12AB
 	cmp.w $12AD
 	beq CODE_C51D16
-	jml.l CODE_C50A14
+	jml.l clockcont_0
 CODE_C51D16:						; from CODE_C51D02
 	lda.w $10F1
 	bit.w #$0008

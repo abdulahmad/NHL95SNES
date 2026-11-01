@@ -174,7 +174,7 @@ CODE_C4944A:						; from CODE_C4942F
 	lda.w $09C0,y
 	sta.w $09DC
 CODE_C4945D:						; from CODE_C49408
-	jsl.l CODE_C4AE9C
+	jsl.l PuckIChk
 	jsl.l CODE_C4AED5
 	lda.w $10F3
 	bne CODE_C494D1
@@ -231,10 +231,10 @@ CODE_C494D1:						; from CODE_C4945D, CODE_C494A8
 	and.w #$FF00
 	ora.w $08D8
 	beq CODE_C494DF
-	jmp.w CODE_C44B0F
+	jmp.w checkpuckcoll
 CODE_C494DF:						; from CODE_C494D1
 	jsl.l pucknothing
-	jmp.w CODE_C44B0F
+	jmp.w checkpuckcoll
 CODE_C494E6:						; from CODE_C493E1 and other segments
 	phx
 	lda.w #$010E
@@ -360,14 +360,14 @@ CODE_C495E1:						; from CODE_C495CB
 	adc.w $08B2
 	sta.b $83
 	rtl
-CODE_C495E8:						; called from other segments
+chk4shot:							; called from other segments
 	lda.w $10F3
 	bne CODE_C495F8
 	lda.w $114D
 	cmp.w #$0005
 	bcs CODE_C495F8
 	jmp.w CompShoot
-CODE_C495F8:						; from CODE_C495E8
+CODE_C495F8:						; from chk4shot
 	lda.w $1157
 	bne CODE_C49620
 	jsl.l CODE_C42D98
@@ -639,7 +639,7 @@ CalcAngleOffset:					; from CODE_C49785
 	lda.b $2C
 	sta.b $8F
 	rts
-CompShoot:							; from CODE_C495E8, CODE_C496FE and other segments
+CompShoot:							; from chk4shot, CODE_C496FE and other segments
 	pla
 	sep #$20
 	pla
@@ -670,7 +670,7 @@ CODE_C49846:						; from CODE_C49835
 	lda.w #$0013
 	sta.b $7F
 	jmp.w assreplace
-CODE_C49858:						; from CODE_C498A1 and other segments
+SetShotMode:						; from CODE_C498A1 and other segments
 	lda.w #$0008
 	sta.w $07C8
 	lda.w #$0008
@@ -682,7 +682,7 @@ CODE_C49858:						; from CODE_C498A1 and other segments
 	bne CODE_C49875
 	lda.w #$FED8
 	sta.b $83
-CODE_C49875:						; from CODE_C49858
+CODE_C49875:						; from SetShotMode
 	lda.b $7F
 	sec
 	sbc.w $0814,x
@@ -707,7 +707,7 @@ CODE_C498A1:						; called from other segments
 	beq CODE_C498B1
 	and.w #$FFFD
 	sta.w $0D60,x
-	bra CODE_C49858
+	bra SetShotMode
 CODE_C498B1:						; from CODE_C498A1
 	lda.w $10F5
 	bit.w #$0008
@@ -1288,7 +1288,7 @@ DATA8_C49DBC:						; not traced: a table read by Findhittype
 	db $00,$00,$00
 DATA8_C49DBF:						; not traced: a table read by CODE_C49DB0
 	db $00,$01,$01,$01,$01,$00,$00,$00
-CODE_C49DC7:						; called from other segments
+setpassmode:						; called from other segments
 	lda.w $0A20,x
 	bne CODE_C49DEB
 	lda.w $0830
@@ -1301,10 +1301,10 @@ CODE_C49DC7:						; called from other segments
 	bpl CODE_C49DE6
 	cmp.w #$FEF2
 	bpl CODE_C49DEB
-CODE_C49DE6:						; from CODE_C49DC7
+CODE_C49DE6:						; from setpassmode
 	cmp.w #$0116
 	bcc CODE_C49DFA
-CODE_C49DEB:						; from CODE_C49DC7
+CODE_C49DEB:						; from setpassmode
 	lda.w $0C40,x
 	and.w #$0007
 	sta.w $07C8

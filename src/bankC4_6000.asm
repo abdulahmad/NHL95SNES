@@ -97,7 +97,7 @@ CODE_C46048:						; from CODE_C4603E
 	adc.b $7F
 	sta.b $7F
 CODE_C46070:						; from CODE_C46048
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C46074:						; from CODE_C46048
 	rtl
 CODE_C46075:						; called from other segments
@@ -213,7 +213,7 @@ CODE_C46132:						; from CODE_C4612C
 	adc.b $7F
 	sta.b $7F
 CODE_C4615A:						; from CODE_C46132
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C4615E:						; from CODE_C46132
 	rtl
 CODE_C4615F:						; called from other segments
@@ -333,7 +333,7 @@ CODE_C46222:						; from CODE_C4621C
 	adc.b $7F
 	sta.b $7F
 CODE_C4624A:						; from CODE_C46222
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C4624E:						; from CODE_C46222
 	rtl
 CODE_C4624F:						; called from other segments
@@ -431,7 +431,7 @@ CODE_C462EA:						; from CODE_C462E0
 	adc.b $7F
 	sta.b $7F
 CODE_C46312:						; from CODE_C462EA
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C46316:						; from CODE_C462EA
 	rtl
 CODE_C46317:						; called from other segments
@@ -531,7 +531,7 @@ CODE_C463B6:						; from CODE_C463AC
 	adc.b $7F
 	sta.b $7F
 CODE_C463DE:						; from CODE_C463B6
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C463E2:						; from CODE_C463B6
 	rtl
 CODE_C463E3:						; called from other segments
@@ -648,7 +648,7 @@ CODE_C464A1:						; from CODE_C4649B
 	adc.b $7F
 	sta.b $7F
 CODE_C464C9:						; from CODE_C464A1
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C464CD:						; from CODE_C464A1
 	rtl
 CODE_C464CE:						; called from other segments
@@ -769,7 +769,7 @@ CODE_C46594:						; from CODE_C4658E
 	adc.b $7F
 	sta.b $7F
 CODE_C465BC:						; from CODE_C46594
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C465C0:						; from CODE_C46594
 	rtl
 CODE_C465C1:						; called from other segments
@@ -867,7 +867,7 @@ CODE_C4665C:						; from CODE_C46652
 	adc.b $7F
 	sta.b $7F
 CODE_C46684:						; from CODE_C4665C
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C46688:						; from CODE_C4665C
 	rtl
 CODE_C46689:						; called from other segments
@@ -967,7 +967,7 @@ CODE_C46728:						; from CODE_C4671E
 	adc.b $7F
 	sta.b $7F
 CODE_C46750:						; from CODE_C46728
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C46754:						; from CODE_C46728
 	rtl
 CODE_C46755:						; called from other segments
@@ -1083,7 +1083,7 @@ CODE_C46812:						; from CODE_C4680C
 	adc.b $7F
 	sta.b $7F
 CODE_C4683A:						; from CODE_C46812
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C4683E:						; from CODE_C46812
 	rtl
 CODE_C4683F:						; called from other segments
@@ -1203,7 +1203,7 @@ CODE_C46902:						; from CODE_C468FC
 	adc.b $7F
 	sta.b $7F
 CODE_C4692A:						; from CODE_C46902
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C4692E:						; from CODE_C46902
 	rtl
 DATA8_C4692F:						; not traced: a table read by CODE_C45FAC, CODE_C46075, CODE_C4615F, ...

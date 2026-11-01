@@ -1218,7 +1218,7 @@ CODE_C529CC:						; from CODE_C528D5
 	adc.w #$00C0
 	sta.w $04C0
 	rtl
-CODE_C529D7:						; called from other segments
+checkwindow:						; called from other segments
 	lda.w $080C
 	sta.b $87
 	lda.w $080A
@@ -1240,7 +1240,7 @@ CODE_C529D7:						; called from other segments
 	lda.w #$0020
 	sta.w $080E
 	bra CODE_C52A22
-CODE_C52A0D:						; from CODE_C529D7
+CODE_C52A0D:						; from checkwindow
 	lda.w $080E
 	sec
 	sbc.w $07A4
@@ -1249,7 +1249,7 @@ CODE_C52A0D:						; from CODE_C529D7
 	bpl CODE_C52A22
 	lda.w #$FFE0
 	sta.w $080E
-CODE_C52A22:						; from CODE_C529D7, CODE_C52A0D
+CODE_C52A22:						; from checkwindow, CODE_C52A0D
 	lda.w $09C0,x
 	lsr a
 	lsr a
@@ -1271,7 +1271,7 @@ CODE_C52A34:						; from CODE_C52A22
 	lda.w $0814,x
 	sta.b $8B
 	sta.w $080A
-CODE_C52A49:						; from CODE_C529D7
+CODE_C52A49:						; from checkwindow
 	lda.b $87
 	sec
 	sbc.b $CD
@@ -1451,7 +1451,7 @@ CODE_C52B9B:						; from CODE_C52B0D
 CODE_C52B9F:						; from CODE_C52B45
 	jml.l CODE_C54541
 CODE_C52BA3:						; from CODE_C52B5D
-	jml.l CODE_C45610
+	jml.l Holdplayer
 CODE_C52BA7:						; from CODE_C52B5D
 	jml.l findpc
 CODE_C52BAB:						; from CODE_C52B5D
@@ -1529,11 +1529,11 @@ CODE_C52C45:						; from CODE_C52C0D
 	sta.b $7F
 	jml.l CODE_C43734
 CODE_C52C4E:						; from CODE_C52C0D
-	jml.l CODE_C49DC7
+	jml.l setpassmode
 CODE_C52C52:						; from CODE_C52C5E
 	jml.l findpc
 CODE_C52C56:						; from CODE_C52C0D
-	jml.l CODE_C49858
+	jml.l SetShotMode
 CODE_C52C5A:						; from CODE_C52C0D
 	jmp.w CODE_C52BB3
 CODE_C52C5D:						; from CODE_C52C0D, CODE_C52C5E, CODE_C52C72

@@ -902,7 +902,7 @@ CODE_C54734:						; from CODE_C546F0 and other segments
 	sta.w $0D40,x
 	sta.w $0D20,x
 	rtl
-CODE_C5474A:						; asstab entry 10: an assignment routine
+asseben:							; asstab entry 10: an assignment routine
 	lda.w $1000,x
 	bne CODE_C5479D
 	lda.w $0D60,x
@@ -919,7 +919,7 @@ CODE_C5474A:						; asstab entry 10: an assignment routine
 	sbc.w #$0006
 	bmi CODE_C5476F
 	inc a
-CODE_C5476F:						; from CODE_C5474A
+CODE_C5476F:						; from asseben
 	phx
 	tax
 	lda.w #$000E
@@ -937,9 +937,9 @@ CODE_C5476F:						; from CODE_C5474A
 	sta.w $1000,x
 	lda.w #$18EC
 	jml.l SetSPAUpdate
-CODE_C5479D:						; from CODE_C5474A
+CODE_C5479D:						; from asseben
 	rtl
-CODE_C5479E:						; from CODE_C5474A
+CODE_C5479E:						; from asseben
 	lda.w #$0004
 	sta.w $0C40,x
 	lda.w $0D60,x
@@ -1229,11 +1229,11 @@ CODE_C54A26:						; from CODE_C54A1F
 	lda.w $130B,y
 	sta.b $7F
 	rtl
-CODE_C54A2F:						; called from other segments
+setpde:								; called from other segments
 	lda.b $6B
 	beq CODE_C54A36
 	lda.w #$0034
-CODE_C54A36:						; from CODE_C54A2F
+CODE_C54A36:						; from setpde
 	clc
 	adc.b $83
 	tay

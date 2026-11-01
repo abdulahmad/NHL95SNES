@@ -427,7 +427,7 @@ CODE_C42D16:						; from CODE_C42D10
 	sec
 	sbc.w #$00CC
 	sta.b $7F
-	jsl.l CODE_C54A2F
+	jsl.l setpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C42D38
@@ -556,11 +556,11 @@ CODE_C42E23:						; from CODE_C42E08
 	bra CODE_C42E99
 CODE_C42E33:						; from CODE_C42E08, CODE_C42E23
 	jsl.l CODE_C5492E
-	jsl.l CODE_C495E8
+	jsl.l chk4shot
 	lda.w $0644,x
 	cmp.w #$0011
 	bne CODE_C42E47
-	jsl.l CODE_C49FBD
+	jsl.l chk4pass
 CODE_C42E47:						; from CODE_C42DF5, CODE_C42E33
 	lda.w #$0006
 	clc
@@ -696,7 +696,7 @@ CODE_C42F56:						; from CODE_C42EF5, CODE_C42F14
 	jmp.w CODE_C42EE5
 CODE_C42F61:						; from CODE_C42F56
 	rtl
-CODE_C42F62:						; called from other segments
+asscentero:							; called from other segments
 	cpx.w $05A0
 	beq CODE_C42F80
 	ldy.w $05A0
@@ -711,11 +711,11 @@ CODE_C42F7C:						; from CODE_C42F88
 	rtl
 CODE_C42F7D:						; from CODE_C42F88
 	jmp.w donothing
-CODE_C42F80:						; from CODE_C42F62
+CODE_C42F80:						; from asscentero
 	lda.w #$0011
 	sta.b $7F
 	jmp.w CODE_C43734
-CODE_C42F88:						; from CODE_C42F62
+CODE_C42F88:						; from asscentero
 	lda.w $10F3
 	bne CODE_C42F7D
 	jsl.l check4bench
@@ -832,7 +832,7 @@ DATA8_C43078:						; an rtl no traced code reaches
 DATA8_C43079:						; not traced: a table read by CODE_C43021
 	db $00,$00,$3C,$00,$BA,$FF,$0A,$00,$00,$00,$3C,$00,$3C,$00,$0A,$00
 	db $00,$00,$28,$00,$AA,$00,$1E,$00,$00,$00,$50,$00,$AA,$00,$14,$00
-CODE_C43099:						; called from other segments
+asscenterd:							; called from other segments
 	ldy.w $05A0
 	bmi CODE_C430B2
 	lda.w $1020,x
@@ -845,7 +845,7 @@ CODE_C430AE:						; from CODE_C430B2
 	rtl
 CODE_C430AF:						; from CODE_C430B2
 	jmp.w donothing
-CODE_C430B2:						; from CODE_C43099
+CODE_C430B2:						; from asscenterd
 	lda.w $10F3
 	bne CODE_C430AF
 	jsl.l check4bench

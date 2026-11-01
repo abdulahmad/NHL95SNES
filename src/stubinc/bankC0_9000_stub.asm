@@ -7,7 +7,7 @@ incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 CODE_C370A5 = $C370A5
-CODE_C370B2 = $C370B2
+ProcessInputWithRepeat = $C370B2
 CODE_C36CBF = $C36CBF
 CODE_C4C3BA = $C4C3BA
 CODE_C4C561 = $C4C561

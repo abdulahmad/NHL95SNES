@@ -1,7 +1,7 @@
 ; Segment bankC4_A000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C49FBD
-CODE_C49FBD:						; called from other segments
+chk4pass:							; called from other segments
 	lda.w $07EE
 	bne CODE_C49FD2
 	lda.w #$0010
@@ -10,7 +10,7 @@ CODE_C49FBD:						; called from other segments
 	jsl.l CODE_C37EAA
 	cmp.w #$0009
 	bcs CODE_C4A00B
-CODE_C49FD2:						; from CODE_C49FBD
+CODE_C49FD2:						; from chk4pass
 	lda.w #$0006
 	jsl.l CODE_C37EAA
 	sta.b $7F
@@ -36,7 +36,7 @@ CODE_C4A005:						; from CODE_C49FE6
 	asl.b $7F
 	cpx.b $7F
 	bne CODE_C4A00C
-CODE_C4A00B:						; from CODE_C49FBD, CODE_C49FE6, CODE_C4A00C, CODE_C4A041
+CODE_C4A00B:						; from chk4pass, CODE_C49FE6, CODE_C4A00C, CODE_C4A041
 	rtl
 CODE_C4A00C:						; from CODE_C4A005
 	ldy.b $7F
@@ -790,7 +790,7 @@ CODE_C4A6AD:						; from CODE_C4A693
 	sta.w $08B4
 CODE_C4A6B0:						; from CODE_C4A693
 	rtl
-CODE_C4A6B1:						; called from other segments
+puckbody:							; called from other segments
 	lda.w $08D8
 	cmp.w #$0008
 	bpl CODE_C4A6C3
@@ -798,7 +798,7 @@ CODE_C4A6B1:						; called from other segments
 	and.w #$000F
 	beq CODE_C4A6C3
 	jmp.w puckstick
-CODE_C4A6C3:						; from CODE_C4A6B1
+CODE_C4A6C3:						; from puckbody
 	jsl.l a2touchpuck
 	lda.w $09BC
 	ldy.w $09DC
@@ -883,12 +883,12 @@ CODE_C4A76B:						; from CODE_C4A711
 	jsl.l SetSPAFromA
 	ldx.b $6F
 	rtl
-CODE_C4A782:						; called from other segments
+puckgoalie:							; called from other segments
 	lda.w $10F1
 	bit.w #$0010
 	beq CODE_C4A78D
 	jmp.w CODE_C4A91E
-CODE_C4A78D:						; from CODE_C4A782
+CODE_C4A78D:						; from puckgoalie
 	stz.b $87
 	lda.w $08D8
 	cmp.w #$0008
@@ -1075,7 +1075,7 @@ CODE_C4A90D:						; from CODE_C4A8FC
 	sta.w $09C1,x
 	rep #$20
 	jmp.w puckflip
-CODE_C4A91E:						; from CODE_C4A782, CODE_C4A815
+CODE_C4A91E:						; from puckgoalie, CODE_C4A815
 	rtl
 CODE_C4A91F:						; from CODE_C4A922
 	jmp.w CODE_C4A8BC
@@ -1418,7 +1418,7 @@ CODE_C4ABBE:						; from CODE_C4ABA7
 	lda.w $2038
 	adc.w #$0006
 	sta.w $2038
-	jsl.l CODE_C510DF
+	jsl.l GetPeriodTimeRemaining
 	lda.b $7F
 	sta.b [$63]
 	inc.b $63
@@ -1505,7 +1505,7 @@ CODE_C4AC76:						; from CODE_C4AC66
 	tax
 	inc.w $1413,x
 CODE_C4AC7D:						; from CODE_C4AC66
-	jsl.l CODE_C4797A
+	jsl.l PenGoalStuff
 	jsl.l CODE_C539D7
 	ldx.b $6F
 	lda.w #$0008
@@ -1579,7 +1579,7 @@ CODE_C4AD1E:						; from CODE_C4AD10
 	plx
 CODE_C4AD25:						; from CODE_C4AA97
 	rtl
-puckstick:							; from CODE_C4A6B1 and other segments
+puckstick:							; from puckbody and other segments
 	ldy.b $6B
 	lda.w $0A20,y
 	bne CODE_C4AD36
@@ -1748,7 +1748,7 @@ deflect:							; from CODE_C4ADD6
 	and.w #$0FFF
 	sta.w $08DE
 	jmp.w puckflip
-CODE_C4AE9C:						; called from other segments
+PuckIChk:							; called from other segments
 	lda.w $07B6
 	bit.w #$0004
 	beq CODE_C4AEC4
@@ -1765,14 +1765,14 @@ CODE_C4AE9C:						; called from other segments
 	sec
 	sbc.w $08B2
 	bpl CODE_C4AECE
-CODE_C4AEC4:						; from CODE_C4AE9C, CODE_C4AEC5
+CODE_C4AEC4:						; from PuckIChk, CODE_C4AEC5
 	rtl
-CODE_C4AEC5:						; from CODE_C4AE9C
+CODE_C4AEC5:						; from PuckIChk
 	lda.w #$010E
 	sec
 	sbc.w $08B2
 	bpl CODE_C4AEC4
-CODE_C4AECE:						; from CODE_C4AE9C
+CODE_C4AECE:						; from PuckIChk
 	lda.w #$0001
 	tsb.w $07B6
 	rtl

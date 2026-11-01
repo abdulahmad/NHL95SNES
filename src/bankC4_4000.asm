@@ -1397,7 +1397,7 @@ CODE_C44B0B:						; from CODE_C44908
 	pla
 	pla
 	bra CODE_C44AF5
-CODE_C44B0F:						; called from other segments
+checkpuckcoll:						; called from other segments
 	lda.w $08D8
 	sec
 	sbc.w #$0010
@@ -1438,7 +1438,7 @@ CODE_C44B44:						; from CODE_C44B44
 	ldy.b $83
 	dey
 	bne CODE_C44B44
-CODE_C44B63:						; from CODE_C44B0F, CODE_C44B3F, CODE_C44B44
+CODE_C44B63:						; from checkpuckcoll, CODE_C44B3F, CODE_C44B44
 	rtl
 CODE_C44B64:						; from CODE_C44B1B, CODE_C44B44 and other segments
 	sty.b $6B
@@ -1577,7 +1577,7 @@ CODE_C44C5D:						; from CODE_C44C46
 	ldx.b $6F
 	cmp.w #$0091
 	bcs CODE_C44C86
-	jsl.l CODE_C4A6B1
+	jsl.l puckbody
 CODE_C44C86:						; from CODE_C44C22, CODE_C44C46, CODE_C44C5D, CODE_C44CB1
 	pla
 	sta.b $99
@@ -1625,7 +1625,7 @@ CODE_C44CB1:						; from CODE_C44C2E, CODE_C44DC4, CODE_C44E07
 	bmi CODE_C44C86
 	cmp.w #$000B
 	bpl CODE_C44C86
-	jsl.l CODE_C4A782
+	jsl.l puckgoalie
 	bra CODE_C44C86
 DATA8_C44CDD:						; not traced: a table read by CODE_C44D4D, CODE_C44D62
 	db $00,$00,$01,$00,$01,$00,$02,$00,$03,$00,$03,$00,$04,$00,$05,$00
@@ -1824,7 +1824,7 @@ CODE_C44EC0:						; from CODE_C44E99
 	jsl.l CODE_C5376A
 	bra CODE_C44EDA
 CODE_C44ED6:						; from CODE_C44EC0
-	jsl.l CODE_C53724
+	jsl.l PuckCarrierPad
 CODE_C44EDA:						; from CODE_C44EC0
 	lda.w #$FFFF
 	sta.w $07CC

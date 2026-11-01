@@ -334,7 +334,7 @@ CODE_C48241:						; called from other segments
 	jmp.w CODE_C482D9
 CODE_C48249:						; from CODE_C48241
 	rtl
-CODE_C4824A:						; called from other segments
+setInjuryType:						; called from other segments
 	ldy.b $6B
 	lda.w $0D60,y
 	ora.w #$1000
@@ -362,7 +362,7 @@ CODE_C4824A:						; called from other segments
 	sta.b $83
 	lda.w #$0002
 	sta.b $63
-CODE_C48294:						; from CODE_C4824A
+CODE_C48294:						; from setInjuryType
 	lda.w $0DC0,y
 	and.w #$00FF
 	ora.b $83
@@ -1311,14 +1311,14 @@ CODE_C48A5A:						; from CODE_C48A5A
 	asl a
 	bne CODE_C48A5A
 	rtl
-CODE_C48A63:						; no caller found (not traced)
+AdvanceStringPtr:					; no caller found (not traced)
 	bra CODE_C48A6C
 CODE_C48A65:						; from CODE_C48A6C
 	lda.b $67
 	clc
 	adc.b [$67]
 	sta.b $67
-CODE_C48A6C:						; from CODE_C48A63
+CODE_C48A6C:						; from AdvanceStringPtr
 	dec.b $7F
 	bpl CODE_C48A65
 	rtl
@@ -1577,7 +1577,7 @@ CODE_C48C9D:						; from CODE_C48C8B
 	bpl CODE_C48C8B
 	lda.w #$0001
 	sta.w $07EE
-	jsl.l CODE_C49FBD
+	jsl.l chk4pass
 	lda.w $05A0
 	bmi CODE_C48CCC
 CODE_C48CB4:						; from CODE_C48CE7, CODE_C48C62, CODE_C48CB7

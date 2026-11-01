@@ -64,7 +64,7 @@ CODE_C38043:						; called from other segments
 	rtl
 DATA8_C3804B:						; not traced: data between routines
 	db $6B,$6B
-CODE_C3804D:						; no caller found (not traced)
+SetupScrollIRQ:						; no caller found (not traced)
 	sta.w $04C9
 	stx.w $04CB
 	sty.w $04CD

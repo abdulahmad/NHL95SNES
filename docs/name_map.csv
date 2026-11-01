@@ -2670,3 +2670,42 @@ $C4843B,a2touchpuck,CODE_C4843B,94S+code,"takes a2 = player; called when a playe
 $C4AA65,Goal,CODE_C4AA65,94S+code,"the puck is in the net: score, log, scoreboard, celebration; called where 94S checkgoal calls Goal; the same code (instruction match 0.917, start checked)",src/bankC4_A000.asm
 $C4702E,skatetopuck,CODE_C4702E,94S+code,"player X skates to the puck; called where 94S assnearest calls skatetopuck; the same code (instruction match 0.896, start checked)",src/bankC4_7000.asm
 $C54A47,makepde,CODE_C54A47,94S+code,"d0 = rating A scaled by player a0's energy; called where 94S puckstick calls makepde; the same code (instruction match 0.885, start checked)",src/bankC5_4000.asm
+$C54A2F,setpde,CODE_C54A2F,94S+code,"set the energy of player d1 of team a2 to d0; the same code as 94S setpde from its first instruction (whole-body match 1.000)",src/bankC5_4000.asm
+$C538DE,PassPadToTeammate,CODE_C538DE,94S+code,"Pad d4 (of a penalized player X) takes the first teammate on the ice with no pad (PadTakePosition with his position); the same code as 94S PassPadToTeammate from its first instruction (whole-body match 1.000)",src/bankC5_3000.asm
+$C53724,PuckCarrierPad,CODE_C53724,94S+code,"When player d0 has the puck and no pad: give him the next pad of his team in turn (puckpadnext), if that team has pads (teampads); the same code as 94S PuckCarrierPad from its first instruction (whole-body match 1.000)",src/bankC5_3000.asm
+$C5363E,ChkShotStat_add,CODE_C5363E,94S+code,"adds d0 to a team stat; the same code as 94S ChkShotStat_add from its first instruction (whole-body match 1.000)",src/bankC5_3000.asm
+$C51801,clockcont,CODE_C51801,94S+code,"end of period check, once per game loop; the same code as 94S clockcont from its first instruction (whole-body match 1.000)",src/bankC5_1000.asm
+$C5118E,AlignBigNumber,CODE_C5118E,94S+code,"Move printx left by the width of String [a1] in the big font after its first character (one column for a 1, else two), so printbig ends it at the old printx; the same code as 94S AlignBigNumber from its first instruction (whole-body match 1.000)",src/bankC5_1000.asm
+$C510DF,GetPeriodTimeRemaining,CODE_C510DF,94S+code,"d0 = the period and the time into it, for the goal and penalty logs; the same code as 94S GetPeriodTimeRemaining from its first instruction (whole-body match 1.000)",src/bankC5_0000.asm
+$C4AE9C,PuckIChk,CODE_C4AE9C,94S+code,"icing check; the same code as 94S PuckIChk from its first instruction (whole-body match 1.000)",src/bankC4_A000.asm
+$C49FBD,chk4pass,CODE_C49FBD,94S+code,"A computer player looks for a good pass; the same code as 94S chk4pass from its first instruction (whole-body match 1.000)",src/bankC4_A000.asm
+$C49DC7,setpassmode,CODE_C49DC7,94S+code,"pass direction from the facing of player X; the same code as 94S setpassmode from its first instruction (whole-body match 1.000)",src/bankC4_9000.asm
+$C49858,SetShotMode,CODE_C49858,94S+code,"start a shot by player X; the same code as 94S SetShotMode from its first instruction (whole-body match 1.000)",src/bankC4_9000.asm
+$C48A63,AdvanceStringPtr,CODE_C48A63,94S+code,"a1 = string d0 of the string list [a1]; the same code as 94S AdvanceStringPtr from its first instruction (whole-body match 1.000)",src/bankC4_8000.asm
+$C4824A,setInjuryType,CODE_C4824A,94S+code,"player a2 is injured; the same code as 94S setInjuryType from its first instruction (whole-body match 1.000)",src/bankC4_8000.asm
+$C44B0F,checkpuckcoll,CODE_C44B0F,94S+code,"Puck collision with the players near it; the same code as 94S checkpuckcoll from its first instruction (whole-body match 1.000)",src/bankC4_4000.asm
+$C4342A,EvadePC,CODE_C4342A,94S+code,"callback: steer away from the puck carrier; the same code as 94S EvadePC from its first instruction (whole-body match 1.000)",src/bankC4_3000.asm
+$C370B2,ProcessInputWithRepeat,CODE_C370B2,94S+code,"Read the pads with key repeat. A held button repeats after a delay; the same code as 94S ProcessInputWithRepeat from its first instruction (whole-body match 1.000)",src/bankC3_7000.asm
+$C4313E,assdefd,CODE_C4313E,94S+code,"assignment: defenseman on defense; the same code as 94S assdefd from its first instruction (whole-body match 0.998)",src/bankC4_3000.asm
+$C43590,asswingo,CODE_C43590,94S+code,"X = wing; asstab entry, skates to a spot via skateto; the same code as 94S asswingo from its first instruction (whole-body match 0.997)",src/bankC4_3000.asm
+$C42F62,asscentero,CODE_C42F62,94S+code,"X = center; asstab entry, skates to a spot via skateto; the same code as 94S asscentero from its first instruction (whole-body match 0.996)",src/bankC4_2000.asm
+$C4348E,asswingd,CODE_C4348E,94S+code,"assignment: wing on defense; the same code as 94S asswingd from its first instruction (whole-body match 0.995)",src/bankC4_3000.asm
+$C43099,asscenterd,CODE_C43099,94S+code,"X = center; asstab entry; teammate has puck: assignment 6; the same code as 94S asscenterd from its first instruction (whole-body match 0.993)",src/bankC4_2000.asm
+$C4332A,assdefo,CODE_C4332A,94S+code,"assignment: defenseman on offense; the same code as 94S assdefo from its first instruction (whole-body match 0.986)",src/bankC4_3000.asm
+$C370D1,RemapTiles,CODE_C370D1,94S+code,"Copy tiles to video memory with each pixel colour remapped through a table; the same code as 94S RemapTiles from its first instruction (whole-body match 0.984)",src/bankC3_7000.asm
+$C37FBC,SuperAdd,CODE_C37FBC,94S+code,"password bits += d0; the same code as 94S SuperAdd from its first instruction (whole-body match 0.971)",src/bankC3_7000.asm
+$C37EE2,Sroot,CODE_C37EE2,94S+code,"d0 = the square root of $A7:d0 (binary search, the range narrowed first); the same code as 94S Sroot from its first instruction (whole-body match 0.971)",src/bankC3_7000.asm
+$C4797A,PenGoalStuff,CODE_C4797A,94S+code,"handles the penalties after a goal; the same code as 94S PenGoalStuff from its first instruction (whole-body match 0.954)",src/bankC4_7000.asm
+$C4A6B1,puckbody,CODE_C4A6B1,94S+code,"The puck hits player a2: a fast high puck knocks him down, a slower one is caught; the same code as 94S puckbody from its first instruction (whole-body match 0.945)",src/bankC4_A000.asm
+$C529D7,checkwindow,CODE_C529D7,94S+code,"Move the view so the screen follows the puck; the same code as 94S checkwindow from its first instruction (whole-body match 0.933)",src/bankC5_2000.asm
+$C45A47,assstanley,CODE_C45A47,94S+code,"assignment: Stanley Cup celebration; the same code as 94S assstanley from its first instruction (whole-body match 0.928)",src/bankC4_5000.asm
+$C495E8,chk4shot,CODE_C495E8,94S+code,"A computer player looks for a shot; the same code as 94S chk4shot from its first instruction (whole-body match 0.922)",src/bankC4_9000.asm
+$C517C4,waitxsr,CODE_C517C4,94S+code,"Wait d0 frames or until a button in d1 is pressed; the same code as 94S waitxsr from its first instruction (whole-body match 0.903)",src/bankC5_1000.asm
+$C3804D,SetupScrollIRQ,CODE_C3804D,94S+code,"set up the three-way scroll IRQ; the same code as 94S SetupScrollIRQ from its first instruction (whole-body match 0.889)",src/bankC3_8000.asm
+$C4A782,puckgoalie,CODE_C4A782,94S+code,"The puck hits goalie a2: a save or not, by his save ratings; the same code as 94S puckgoalie from its first instruction (whole-body match 0.882)",src/bankC4_A000.asm
+$C45610,Holdplayer,CODE_C45610,94S+code,"hold button for player X; the same code as 94S Holdplayer from its first instruction (whole-body match 0.877)",src/bankC4_5000.asm
+$C5474A,asseben,CODE_C5474A,94S+code,"assignment: skate on from the bench; the same code as 94S asseben from its first instruction (whole-body match 0.870)",src/bankC5_4000.asm
+$C51680,Intermission_tick,CODE_C51680,94S+code,"the intermission ticker timer; the same code as 94S Intermission_tick from its first instruction (whole-body match 0.867)",src/bankC5_1000.asm
+$C50ED8,UpdateScores,CODE_C50ED8,94S+code,"updates the other games; the same code as 94S UpdateScores from its first instruction (whole-body match 0.850)",src/bankC5_0000.asm
+$C516AA,NewTicker2_next,CODE_C516AA,94S+code,"steps the ticker to the next game; Intermission_tick calls it where 94S calls NewTicker2_next; the same code (match 0.80)",src/bankC5_1000.asm
+$C50A14,clockcont_0,CODE_C50A14,94S+code,"period over: end of period scene, then the period or game over message; clockcont jumps to it where 94S jumps to clockcont_0; the same opening (whole-body match 0.75)",src/bankC5_0000.asm

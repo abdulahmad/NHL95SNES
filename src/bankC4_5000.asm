@@ -317,7 +317,7 @@ CODE_C451BF:						; from CODE_C45147
 	cmp.w #$8000
 	ror a
 	sta.w $09C0,x
-	jsl.l CODE_C4824A
+	jsl.l setInjuryType
 	lda.w #$0004
 	sta.w $1141
 	lda.w #$0016
@@ -799,7 +799,7 @@ CODE_C45606:						; called from other segments
 	lda.w #$2082
 	sta.w $1060,x
 	jml.l SetSPAFromA
-CODE_C45610:						; called from other segments
+Holdplayer:							; called from other segments
 	lda.w $0A20,x
 	beq CODE_C45622
 	lda.w $1000,x
@@ -807,9 +807,9 @@ CODE_C45610:						; called from other segments
 	lda.w $0C80,x
 	cmp.w #$21BC
 	bne CODE_C45623
-CODE_C45622:						; from CODE_C45610
+CODE_C45622:						; from Holdplayer
 	rtl
-CODE_C45623:						; from CODE_C45610
+CODE_C45623:						; from Holdplayer
 	lda.w #$FFFF
 	sta.b $8B
 	sta.b $63
@@ -1314,7 +1314,7 @@ CODE_C45A3E:						; from skateto, CODE_C45A08
 	lda.w $0B80,x
 	sta.b $7F
 	jml.l doplayeracc
-CODE_C45A47:						; called from other segments
+assstanley:							; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
 	beq CODE_C45A71
@@ -1326,12 +1326,12 @@ CODE_C45A47:						; called from other segments
 	bpl CODE_C45A65
 	lda.w #$FFA6
 	sta.w $0B20,x
-CODE_C45A65:						; from CODE_C45A47
+CODE_C45A65:						; from assstanley
 	lda.b $CD
 	sta.w $0B40,x
 	sta.w $1000,x
 	jsl.l SetSPAFromA
-CODE_C45A71:						; from CODE_C45A47
+CODE_C45A71:						; from assstanley
 	lda.w $0B20,x
 	sec
 	sbc.w $0814,x
@@ -1479,7 +1479,7 @@ CODE_C45B87:						; from CODE_C45B7D
 	adc.b $7F
 	sta.b $7F
 CODE_C45BAF:						; from CODE_C45B87
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C45BB3:						; from CODE_C45B87
 	rtl
 CODE_C45BB4:						; from DATA8_C45ADD
@@ -1578,7 +1578,7 @@ CODE_C45C50:						; from CODE_C45C46
 	adc.b $7F
 	sta.b $7F
 CODE_C45C78:						; from CODE_C45C50
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C45C7C:						; from CODE_C45C50
 	rtl
 DATA8_C45C7D:						; jump table: the routine for each index
@@ -1796,7 +1796,7 @@ CODE_C45DCB:						; from CODE_C45DC5
 	adc.b $7F
 	sta.b $7F
 CODE_C45DF3:						; from CODE_C45DCB
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C45DF7:						; from CODE_C45DCB
 	rtl
 CODE_C45DF8:						; from DATA8_C45ADD
@@ -1915,7 +1915,7 @@ CODE_C45EB8:						; from CODE_C45EB2
 	adc.b $7F
 	sta.b $7F
 CODE_C45EE0:						; from CODE_C45EB8
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C45EE4:						; from CODE_C45EB8
 	rtl
 CODE_C45EE5:						; from DATA8_C45ACD
@@ -2012,6 +2012,6 @@ CODE_C45F7F:						; from CODE_C45F75
 	adc.b $7F
 	sta.b $7F
 CODE_C45FA7:						; from CODE_C45F7F
-	jml.l CODE_C54A2F
+	jml.l setpde
 CODE_C45FAB:						; from CODE_C45F7F
 	rtl

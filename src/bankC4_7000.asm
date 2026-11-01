@@ -645,7 +645,7 @@ CODE_C4756C:						; from CODE_C47560
 	pei ($71)
 	pei ($73)
 	pei ($75)
-	jsl.l CODE_C510DF
+	jsl.l GetPeriodTimeRemaining
 	lda.b ($63)
 	xba
 	and.w #$00FF
@@ -708,7 +708,7 @@ CODE_C475E3:						; from CODE_C475BA
 	asl a
 	asl a
 	tay
-	jsl.l CODE_C510DF
+	jsl.l GetPeriodTimeRemaining
 	lda.b $7F
 	sta.w $115B,y
 	iny
@@ -1136,7 +1136,7 @@ CODE_C47967:						; from CODE_C47915, CODE_C4792C
 	sta.b $83
 CODE_C47979:						; from AddPenalty2
 	rtl
-CODE_C4797A:						; called from other segments
+PenGoalStuff:						; called from other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1198,7 +1198,7 @@ CODE_C479EC:						; from CODE_C479B1
 	inc.b $63
 	inc.b $63
 	bra CODE_C4799B
-CODE_C479FB:						; from CODE_C4797A
+CODE_C479FB:						; from PenGoalStuff
 	jsl.l CODE_C4818C
 CODE_C479FF:						; from CODE_C4799B
 	ldy.b $6B
@@ -1744,7 +1744,7 @@ CODE_C47E91:						; from CODE_C47E65, CODE_C47EFA
 	jmp.w CODE_C47E64
 CODE_C47E9B:						; from CODE_C47E91
 	sta.b $8F
-	jsl.l CODE_C538DE
+	jsl.l PassPadToTeammate
 	rtl
 CODE_C47EA2:						; from CODE_C47E85
 	cpy.w #$0003

@@ -769,13 +769,13 @@ CODE_C53638:						; from CODE_C5362E
 	lda.w $0000,y
 	sta.b $7F
 	rtl
-CODE_C5363E:						; no caller found (not traced)
+ChkShotStat_add:					; no caller found (not traced)
 	ldy.b $83
 	lda.w $1020,x
 	beq CODE_C53647
 	iny
 	iny
-CODE_C53647:						; from CODE_C5363E
+CODE_C53647:						; from ChkShotStat_add
 	lda.w $0000,y
 	clc
 	adc.b $7F
@@ -889,7 +889,7 @@ CODE_C5371F:						; from CODE_C53718
 	bne CODE_C53700
 CODE_C53723:						; from CODE_C536E6
 	rtl
-CODE_C53724:						; called from other segments
+PuckCarrierPad:						; called from other segments
 	ldy.b $7F
 	lda.w $14F9,y
 	bpl CODE_C53769
@@ -898,7 +898,7 @@ CODE_C53724:						; called from other segments
 	cpy.w #$000C
 	bcc CODE_C53737
 	ldx.w #$0002
-CODE_C53737:						; from CODE_C53724
+CODE_C53737:						; from PuckCarrierPad
 	lda.w $14F5,x
 	beq CODE_C5375B
 	ldy.w $05C4,x
@@ -929,7 +929,7 @@ CODE_C53764:						; from CODE_C5375D
 	dec.b $40
 	bne CODE_C5374C
 	plx
-CODE_C53769:						; from CODE_C53724
+CODE_C53769:						; from PuckCarrierPad
 	rtl
 CODE_C5376A:						; called from other segments
 	ldy.b $7F
@@ -1119,12 +1119,12 @@ CODE_C538C5:						; from CODE_C5386A, CODE_C53882
 	pla
 	sta.b $7F
 	rtl
-CODE_C538DE:						; called from other segments
+PassPadToTeammate:					; called from other segments
 	ldy.w #$0000
 	cpx.w #$000C
 	bcc CODE_C538E9
 	ldy.w #$000C
-CODE_C538E9:						; from CODE_C538DE, CODE_C538F3
+CODE_C538E9:						; from PassPadToTeammate, CODE_C538F3
 	lda.w $14F9,y
 	bpl CODE_C538F3
 	lda.w $0A20,y

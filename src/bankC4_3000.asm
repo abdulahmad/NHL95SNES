@@ -1,7 +1,7 @@
 ; Segment bankC4_3000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4313E
-CODE_C4313E:						; called from other segments
+assdefd:							; called from other segments
 	ldy.w $05A0
 	bmi CODE_C43157
 	lda.w $1020,x
@@ -14,7 +14,7 @@ CODE_C43153:						; from CODE_C43157
 	rtl
 CODE_C43154:						; from CODE_C43157
 	jmp.w donothing
-CODE_C43157:						; from CODE_C4313E
+CODE_C43157:						; from assdefd
 	lda.w $10F3
 	bne CODE_C43154
 	jsl.l check4bench
@@ -248,7 +248,7 @@ CODE_C4330F:						; from CODE_C4317F, CODE_C43288, CODE_C432EF
 	sta.b $63
 	jsl.l skateto
 	jmp.w check4check
-CODE_C4332A:						; called from other segments
+assdefo:							; called from other segments
 	cpx.w $05A0
 	beq CODE_C43348
 	ldy.w $05A0
@@ -263,11 +263,11 @@ CODE_C43344:						; from CODE_C43358
 	rtl
 DATA8_C43345:						; not traced: data between routines
 	db $4C,$FD,$36
-CODE_C43348:						; from CODE_C4332A
+CODE_C43348:						; from assdefo
 	lda.w #$0011
 	sta.b $7F
 	jmp.w CODE_C43734
-CODE_C43350:						; from CODE_C4332A
+CODE_C43350:						; from assdefo
 	lda.w $10F3
 	beq CODE_C43358
 	jmp.w donothing
@@ -297,9 +297,9 @@ CODE_C4337B:						; from CODE_C43358
 CODE_C4338F:						; from CODE_C4337B
 	sta.w $0AE0,x
 CODE_C43392:						; from CODE_C4337B
-	lda.w #CODE_C4342A>>16
+	lda.w #EvadePC>>16
 	sta.b $65
-	lda.w #CODE_C4342A
+	lda.w #EvadePC
 	sta.b $63
 	ldy.w #$0050
 	lda.w $0A20,x
@@ -377,7 +377,7 @@ CODE_C4341B:						; from CODE_C433CE
 CODE_C43426:						; from CODE_C4341B
 	sty.b $83
 	bra CODE_C43418
-CODE_C4342A:						; passed as a long pointer (lda #bank, lda #low) to skateto
+EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	lda.w $05A0
 	bmi CODE_C4348D
 	lda.w $09A1,x
@@ -387,7 +387,7 @@ CODE_C4342A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	bit.w #$0080
 	beq CODE_C43441
 	ora.w #$FF00
-CODE_C43441:						; from CODE_C4342A
+CODE_C43441:						; from EvadePC
 	clc
 	adc.w $0814,x
 	sec
@@ -421,9 +421,9 @@ CODE_C43465:						; from CODE_C43441
 	sbc.w $08B2
 	sta.b $83
 	jml.l vtoa
-CODE_C4348D:						; from CODE_C4342A, CODE_C43441, CODE_C43465
+CODE_C4348D:						; from EvadePC, CODE_C43441, CODE_C43465
 	rtl
-CODE_C4348E:						; called from other segments
+asswingd:							; called from other segments
 	ldy.w $05A0
 	bmi CODE_C434A7
 	lda.w $1020,x
@@ -436,7 +436,7 @@ CODE_C434A3:						; from CODE_C434A7
 	rtl
 CODE_C434A4:						; from CODE_C434A7
 	jmp.w donothing
-CODE_C434A7:						; from CODE_C4348E
+CODE_C434A7:						; from asswingd
 	lda.w $10F3
 	bne CODE_C434A4
 	jsl.l check4bench
@@ -545,7 +545,7 @@ CODE_C43575:						; from CODE_C434F8, CODE_C4353E, CODE_C43531, CODE_C43566
 	sta.b $7F
 CODE_C4358D:						; from CODE_C43575
 	jmp.w skateto
-CODE_C43590:						; called from other segments
+asswingo:							; called from other segments
 	cpx.w $05A0
 	beq CODE_C435AE
 	ldy.w $05A0
@@ -560,11 +560,11 @@ CODE_C435AA:						; from CODE_C435B6
 	rtl
 CODE_C435AB:						; from CODE_C435B6
 	jmp.w donothing
-CODE_C435AE:						; from CODE_C43590
+CODE_C435AE:						; from asswingo
 	lda.w #$0011
 	sta.b $7F
 	jmp.w CODE_C43734
-CODE_C435B6:						; from CODE_C43590
+CODE_C435B6:						; from asswingo
 	lda.w $10F3
 	bne CODE_C435AB
 	jsl.l check4bench
@@ -701,9 +701,9 @@ CODE_C436B4:						; from CODE_C4369F
 	sbc.b $83
 	sta.b $83
 CODE_C436CE:						; from CODE_C436B4
-	lda.w #CODE_C4342A>>16
+	lda.w #EvadePC>>16
 	sta.b $65
-	lda.w #CODE_C4342A
+	lda.w #EvadePC
 	sta.b $63
 	jml.l skateto
 DATA8_C436DC:						; an rtl no traced code reaches
@@ -745,7 +745,7 @@ CODE_C43734:						; from CODE_C43348, CODE_C435AE, CODE_C43A96 and other segment
 	dec a
 	and.w #$0007
 	sta.w $0A40,x
-assreplace:							; from CODE_C4313E, CODE_C4332A, CODE_C4348E, ...
+assreplace:							; from assdefd, assdefo, asswingd, ...
 	lda.w $0D60,x
 	ora.w #$0002
 	sta.w $0D60,x
@@ -1004,7 +1004,7 @@ CODE_C438FD:						; from CODE_C4389A, CODE_C438D5, CODE_C438CC
 	lda.w #$0064
 	sta.b $8F
 CODE_C439A2:						; from CODE_C439A2
-	jsl.l CODE_C529D7
+	jsl.l checkwindow
 	dec.b $8F
 	bpl CODE_C439A2
 	lda.w #$003C

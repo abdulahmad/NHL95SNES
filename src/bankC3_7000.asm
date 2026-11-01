@@ -91,7 +91,7 @@ CODE_C370AC:						; called from other segments
 	lda.w $058D
 	sta.b $83
 	rtl
-CODE_C370B2:						; called from other segments
+ProcessInputWithRepeat:				; called from other segments
 	lda.b $8B
 	beq CODE_C370C9
 	lda.b $87
@@ -102,13 +102,13 @@ CODE_C370B2:						; called from other segments
 	sta.w $058F
 	lda.b $8B
 	sta.b $83
-CODE_C370C9:						; from CODE_C370B2
+CODE_C370C9:						; from ProcessInputWithRepeat
 	rtl
-CODE_C370CA:						; from CODE_C370B2
+CODE_C370CA:						; from ProcessInputWithRepeat
 	lda.w #$0014
 	sta.w $058F
 	rtl
-CODE_C370D1:						; no caller found (not traced)
+RemapTiles:							; no caller found (not traced)
 	lda.w #$000E
 	sta.b $A4
 	sta.b $A4
@@ -177,7 +177,7 @@ CODE_C3712E:						; from CODE_C3712E
 	adc.w #$0020
 	sta.b $63
 	dec.b $7F
-	bne CODE_C370D1
+	bne RemapTiles
 	rtl
 CODE_C37149:						; no caller found (not traced)
 	phx
@@ -1775,7 +1775,7 @@ randomd0sd0:						; called from other segments
 	sta.b $7F
 	clc
 	rtl
-CODE_C37EE2:						; no caller found (not traced)
+Sroot:								; no caller found (not traced)
 	phx
 	lda.b $81
 	beq CODE_C37F40
@@ -1788,10 +1788,10 @@ CODE_C37EE2:						; no caller found (not traced)
 	bcs CODE_C37EFF
 	ldy.w #$04B1
 	bra CODE_C37F14
-CODE_C37EFF:						; from CODE_C37EE2
+CODE_C37EFF:						; from Sroot
 	ldx.w #$04B0
 	bra CODE_C37F14
-CODE_C37F04:						; from CODE_C37EE2
+CODE_C37F04:						; from Sroot
 	ldx.w #$087C
 	cmp.w #$0096
 	bcs CODE_C37F11
@@ -1799,7 +1799,7 @@ CODE_C37F04:						; from CODE_C37EE2
 	bra CODE_C37F14
 CODE_C37F11:						; from CODE_C37F04
 	ldx.w #$0C3F
-CODE_C37F14:						; from CODE_C37EE2, CODE_C37F04, CODE_C37EFF
+CODE_C37F14:						; from Sroot, CODE_C37F04, CODE_C37EFF
 	stx.b $38
 	sty.b $3C
 CODE_C37F18:						; from CODE_C37F18, CODE_C37F37
@@ -1828,7 +1828,7 @@ CODE_C37F3C:						; from CODE_C37F18
 	plx
 	sta.b $7F
 	rtl
-CODE_C37F40:						; from CODE_C37EE2
+CODE_C37F40:						; from Sroot
 	stz.b $38
 	lda.w #$00FF
 	sta.b $3C
@@ -1906,7 +1906,7 @@ CODE_C37FB6:						; from CODE_C37FA6
 	lda.w #$0008
 	sta.b $7F
 	rtl
-CODE_C37FBC:						; no caller found (not traced)
+SuperAdd:							; no caller found (not traced)
 	phx
 	lda.l $7E23F8
 	clc
@@ -1923,7 +1923,7 @@ CODE_C37FCD:						; from CODE_C37FCD
 	inx
 	cpx.w #$0010
 	bne CODE_C37FCD
-CODE_C37FDF:						; from CODE_C37FBC, CODE_C37FCD
+CODE_C37FDF:						; from SuperAdd, CODE_C37FCD
 	plx
 	clc
 	rtl
