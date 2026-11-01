@@ -10,8 +10,8 @@ asstab:								; the assignment routines, by assignment number (as 94S asstab; t
 	dd assbench,asspenalty,assdopen,assgoalietopuck
 	dd CODE_C49B59,CODE_C42DB8,assnearest,CODE_C498A1
 	dd assdumpin,asspassrec,CODE_C4375B,assfaceoffpl
-	dd CODE_C493CA,CODE_C4A65D,pucknothing,CODE_C51CC1
-	dd CODE_C43826
+	dd CODE_C493CA,CODE_C4A65D,pucknothing,puckfaceoff
+	dd puckfaceoff2
 asspuckc_postab:					; 10 positions (x, y) as 94S asspuckc_postab
 	dw -100,-20
 	dw 100,-20

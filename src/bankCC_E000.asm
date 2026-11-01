@@ -13,7 +13,7 @@ DATA8_CCEA45:						; raw frame tiles for transfer index $422; pose not traced
 	incbin "../Extracted/segments/bankCC_E000.bin":$A45..$CA5
 DATA8_CCECA5:						; raw frame tiles for transfer index $423; pose not traced
 	incbin "../Extracted/segments/bankCC_E000.bin":$CA5..$EA5
-IceRinkMap:							; the rink, 32 x 170 tiles (both halves); CODE_C52037 loads it
+IceRinkMap:							; the rink, 32 x 170 tiles (both halves); setupice loads it
 	dw IceRinkTiles-IceRinkMap-2	; map chunk length
 	db $20,$AA						; width and height in tiles
 	db $8C							; packed word map; other flag bits not traced

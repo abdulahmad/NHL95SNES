@@ -1418,7 +1418,8 @@ CODE_C51C58:						; called from other segments
 .4:									; A = $2524, go to SetSPAFromA
 	lda.w #$2524
 	jml.l SetSPAFromA
-CODE_C51CC1:						; asstab entry 27: an assignment routine
+puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play; PeriodOver
+									; when the clock has run out, Stop4Pen for a penalty
 	stz.w $14E5
 	lda.w shootoutmode
 	beq .1
@@ -1490,7 +1491,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	beq .9
 	lda.w #$0040
 	tsb.w sflags
-	jsl.l CODE_C52264
+	jsl.l ClrHor
 .9:									; if $234C is not 0 go to .10, if teampads = 0 go to .10, ...
 	lda.w $234C
 	bne .10
@@ -1517,7 +1518,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	sta.b d0
 	jsl.l CODE_C51DB8
 	jmp.w CODE_C51E81
-CODE_C51DB8:						; from CODE_C51E81, CODE_C51CC1 and other segments
+CODE_C51DB8:						; from CODE_C51E81, puckfaceoff and other segments
 	lda.w OptLine
 	bne .1
 	jmp.w CODE_C51E80
@@ -1546,7 +1547,7 @@ CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DB8
 	jsl.l CompLine
 	jsl.l setpersonel
 	jml.l CODE_C5111A
-CODE_C51DF6:						; from CODE_C51CC1 and other segments
+CODE_C51DF6:						; from puckfaceoff and other segments
 	lda.w OptLine
 	cmp.w #$0002
 	bne CODE_C51E1F
@@ -1556,7 +1557,7 @@ CODE_C51DF6:						; from CODE_C51CC1 and other segments
 	lda.w #$0001
 	sta.b d0
 	bra CODE_C51DEA
-CODE_C51E0C:						; from CODE_C51CC1 and other segments
+CODE_C51E0C:						; from puckfaceoff and other segments
 	lda.w OptLine
 	cmp.w #$0002
 	bne CODE_C51E1F
@@ -1731,14 +1732,14 @@ CODE_C51F48:						; from CODE_C51F60, CODE_C51F6E and other segments
 	tya
 .rtl:								; return
 	rtl
-CODE_C51F60:						; from CODE_C51CC1 and other segments
+CODE_C51F60:						; from puckfaceoff and other segments
 	lda.w #$0000
 	sta.b a2
 	jsl.l CODE_C51F48
 	tay
 	lda.w c1playernum,y
 	rtl
-CODE_C51F6E:						; from CODE_C51CC1 and other segments
+CODE_C51F6E:						; from puckfaceoff and other segments
 	lda.w #$0002
 	sta.b a2
 	jsl.l CODE_C51F48

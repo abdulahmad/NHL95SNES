@@ -27,13 +27,13 @@ asswingd = $C4348E
 asswingo = $C43590
 CODE_C4375B = $C4375B
 assfaceoffpl = $C4376F
-CODE_C43826 = $C43826
+puckfaceoff2 = $C43826
 assnearest = $C42B25
 CODE_C42DB8 = $C42DB8
 asscentero = $C42F62
 asscenterd = $C43099
 assbench = $C545C7
 asseben = $C5474A
-CODE_C51CC1 = $C51CC1
+puckfaceoff = $C51CC1
 
 incsrc "../bankC0_A000.asm"

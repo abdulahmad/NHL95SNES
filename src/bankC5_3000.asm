@@ -313,7 +313,8 @@ CODE_C532B5:						; no caller found (not traced)
 	lda.w $0004,x
 	sta.b d0
 	rtl
-CODE_C532C5:						; called from other segments
+LoadTeamLines:						; copies team a2's lines into RAM through GetTeamLines; OptLine tested as
+									; in 94S
 	pei ($6F)
 	pei ($67)
 	phx
@@ -759,7 +760,7 @@ loadTeamStruct:						; from CODE_C5404A and other segments
 	rtl
 DATA8_C5362B:						; not traced: data between routines
 	db $6B
-CODE_C5362C:						; called from other segments
+InitScores:							; an rtl: called where 94S sets random scores for the round's other games
 	rtl
 DATA8_C5362D:						; not traced: data between routines
 	db $6B

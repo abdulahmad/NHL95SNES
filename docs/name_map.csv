@@ -2872,7 +2872,7 @@ $C38043,setpads,CODE_C38043,94S+code,"pad marker d4 follows player X; doinput ca
 $C50D24,PauseFromPad,CODE_C50D24,94S+code,"Pause for pad A: pausepad = A, then startpause; doinput jumps to it where 94S does; the same code",src/bankC5_0000.asm
 $C4AF5A,ChkOffsides_loop,CODE_C4AF5A,94S+code,"skater a0: skip empty spots, flag if his Ypos is past the line; the same code (start match 0.79, side by side)",src/bankC4_A000.asm
 $C37EAA,randoma8,CODE_C37EAA,94S+code,"random number below A; Create_HotCold_Table calls it where 94S calls randoma8; randoma8 with its fall-through tail",src/bankC3_7000.asm
-$C50D15,startpause,CODE_C50D15,94S+code,"set the pause mode flag and return; PauseFromPad branches to it where 94S jumps to startpause; sets the pause bit of sflags (95 clears the pause pad first)",src/bankC5_0000.asm
+$C50D15,startpause1,CODE_C50D15,94S+code,"94S startpause1 (stz pausepad, jmp startpause); demoread jumps to it when Start is pressed, as 94S demoread does; named startpause before, which is the 94S name of CODE_C50D18 that it falls into",src/bankC5_0000.asm
 $C54541,lineinput,CODE_C54541,94S+code,"pad input for the line change box; called where 94S doinput calls lineinput; the same code (instruction match 0.866, start checked)",src/bankC5_4000.asm
 $0595,mp5padsig,,94S+code,"RAM: Multi5Bios: 5 bytes, one per pad: the low nibble of JOYxL (controller (the operand of 17 of 17 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $0778,recsfxpitch,,94S+code,"RAM: StartSoundVoice / PuckSfx / updatepwrplay store the voice pitch (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
@@ -3494,51 +3494,51 @@ $C43803,.6,CODE_C43803,new,"branch target only used in assfaceoffpl",src/bankC4_
 $C4380F,.7,CODE_C4380F,new,"branch target only used in assfaceoffpl",src/bankC4_3000.asm
 $C43819,.8,CODE_C43819,new,"branch target only used in assfaceoffpl",src/bankC4_3000.asm
 $C43825,.rtl,CODE_C43825,new,"branch target only used in assfaceoffpl",src/bankC4_3000.asm
-$C43831,.1,CODE_C43831,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C4389A,.2,CODE_C4389A,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C438CC,.3,CODE_C438CC,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C438D5,.4,CODE_C438D5,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C438EB,.5,CODE_C438EB,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C438F6,.6,CODE_C438F6,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C438FD,.7,CODE_C438FD,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C439A2,.loop,CODE_C439A2,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C439C6,.8,CODE_C439C6,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C439FF,.9,CODE_C439FF,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A17,.10,CODE_C43A17,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A24,.11,CODE_C43A24,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A32,.12,CODE_C43A32,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A4D,.13,CODE_C43A4D,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A60,.14,CODE_C43A60,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A69,.15,CODE_C43A69,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A80,.16,CODE_C43A80,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A96,.17,CODE_C43A96,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43A9A,.18,CODE_C43A9A,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43AAB,.19,CODE_C43AAB,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43AC4,.20,CODE_C43AC4,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43AE0,.21,CODE_C43AE0,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43B16,.22,CODE_C43B16,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43B37,.23,CODE_C43B37,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43B40,.24,CODE_C43B40,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43B4D,.25,CODE_C43B4D,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43B56,.26,CODE_C43B56,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43B66,.27,CODE_C43B66,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43BAC,.28,CODE_C43BAC,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43BAF,.29,CODE_C43BAF,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43BB7,.30,CODE_C43BB7,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43BC5,.31,CODE_C43BC5,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43BD7,.loop2,CODE_C43BD7,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43BED,.32,CODE_C43BED,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C02,.loop3,CODE_C43C02,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C0C,.33,CODE_C43C0C,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C1C,.loop4,CODE_C43C1C,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C30,.34,CODE_C43C30,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C34,.35,CODE_C43C34,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C4E,.36,CODE_C43C4E,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C74,.37,CODE_C43C74,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43C7F,.38,CODE_C43C7F,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43CB4,.loop5,CODE_C43CB4,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43D3A,.39,CODE_C43D3A,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
-$C43D64,.40,CODE_C43D64,new,"branch target only used in CODE_C43826",src/bankC4_3000.asm
+$C43831,.1,CODE_C43831,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C4389A,.2,CODE_C4389A,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C438CC,.3,CODE_C438CC,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C438D5,.4,CODE_C438D5,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C438EB,.5,CODE_C438EB,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C438F6,.6,CODE_C438F6,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C438FD,.7,CODE_C438FD,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C439A2,.loop,CODE_C439A2,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C439C6,.8,CODE_C439C6,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C439FF,.9,CODE_C439FF,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A17,.10,CODE_C43A17,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A24,.11,CODE_C43A24,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A32,.12,CODE_C43A32,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A4D,.13,CODE_C43A4D,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A60,.14,CODE_C43A60,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A69,.15,CODE_C43A69,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A80,.16,CODE_C43A80,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A96,.17,CODE_C43A96,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43A9A,.18,CODE_C43A9A,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43AAB,.19,CODE_C43AAB,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43AC4,.20,CODE_C43AC4,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43AE0,.21,CODE_C43AE0,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43B16,.22,CODE_C43B16,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43B37,.23,CODE_C43B37,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43B40,.24,CODE_C43B40,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43B4D,.25,CODE_C43B4D,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43B56,.26,CODE_C43B56,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43B66,.27,CODE_C43B66,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43BAC,.28,CODE_C43BAC,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43BAF,.29,CODE_C43BAF,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43BB7,.30,CODE_C43BB7,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43BC5,.31,CODE_C43BC5,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43BD7,.loop2,CODE_C43BD7,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43BED,.32,CODE_C43BED,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C02,.loop3,CODE_C43C02,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C0C,.33,CODE_C43C0C,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C1C,.loop4,CODE_C43C1C,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C30,.34,CODE_C43C30,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C34,.35,CODE_C43C34,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C4E,.36,CODE_C43C4E,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C74,.37,CODE_C43C74,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43C7F,.38,CODE_C43C7F,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43CB4,.loop5,CODE_C43CB4,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43D3A,.39,CODE_C43D3A,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
+$C43D64,.40,CODE_C43D64,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
 $C43D7D,.1,CODE_C43D7D,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
 $C43D80,.2,CODE_C43D80,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
 $C43D8B,.3,CODE_C43D8B,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
@@ -5202,7 +5202,7 @@ $C50BF9,.1,CODE_C50BF9,new,"branch target only used in CODE_C50BEC",src/bankC5_0
 $C50D02,.rts,CODE_C50D02,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
 $C50D0B,.rtl,CODE_C50D0B,new,"branch target only used in CODE_C50D03",src/bankC5_0000.asm
 $C50D14,.rtl,CODE_C50D14,new,"branch target only used in CODE_C50D0C",src/bankC5_0000.asm
-$C50D23,.rtl,CODE_C50D23,new,"branch target only used in CODE_C50D18",src/bankC5_0000.asm
+$C50D23,.rtl,CODE_C50D23,new,"branch target only used in startpause",src/bankC5_0000.asm
 $C50DDD,.1,CODE_C50DDD,new,"branch target only used in Pausemode",src/bankC5_0000.asm
 $C50E02,.2,CODE_C50E02,new,"branch target only used in Pausemode",src/bankC5_0000.asm
 $C50E42,.1,CODE_C50E42,new,"branch target only used in demoread",src/bankC5_0000.asm
@@ -5329,17 +5329,17 @@ $C51C8F,.rtl,CODE_C51C8F,new,"branch target only used in CODE_C51C58",src/bankC5
 $C51C90,.2,CODE_C51C90,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
 $C51CB1,.3,CODE_C51CB1,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
 $C51CBA,.4,CODE_C51CBA,new,"branch target only used in CODE_C51C58",src/bankC5_1000.asm
-$C51CD2,.1,CODE_C51CD2,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51CE7,.2,CODE_C51CE7,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51CF6,.3,CODE_C51CF6,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D02,.4,CODE_C51D02,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D16,.5,CODE_C51D16,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D22,.6,CODE_C51D22,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D37,.7,CODE_C51D37,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D42,.8,CODE_C51D42,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D7B,.9,CODE_C51D7B,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51D90,.10,CODE_C51D90,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
-$C51DA5,.11,CODE_C51DA5,new,"branch target only used in CODE_C51CC1",src/bankC5_1000.asm
+$C51CD2,.1,CODE_C51CD2,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51CE7,.2,CODE_C51CE7,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51CF6,.3,CODE_C51CF6,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D02,.4,CODE_C51D02,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D16,.5,CODE_C51D16,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D22,.6,CODE_C51D22,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D37,.7,CODE_C51D37,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D42,.8,CODE_C51D42,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D7B,.9,CODE_C51D7B,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51D90,.10,CODE_C51D90,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
+$C51DA5,.11,CODE_C51DA5,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
 $C51DC0,.1,CODE_C51DC0,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
 $C51DCA,.2,CODE_C51DCA,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
 $C51DD2,.3,CODE_C51DD2,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
@@ -5363,10 +5363,10 @@ $C51FE6,.1,CODE_C51FE6,new,"branch target only used in CODE_C51FBA",src/bankC5_1
 $C51FF3,.2,CODE_C51FF3,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
 $C52002,.3,CODE_C52002,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
 $C52007,.rtl,CODE_C52007,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
-$C52053,.loop,CODE_C52053,new,"branch target only used in CODE_C52037",src/bankC5_2000.asm
-$C52195,.loop2,CODE_C52195,new,"branch target only used in CODE_C52037",src/bankC5_2000.asm
-$C52251,.loop,CODE_C52251,new,"branch target only used in CODE_C52227",src/bankC5_2000.asm
-$C5225E,.1,CODE_C5225E,new,"branch target only used in CODE_C52227",src/bankC5_2000.asm
+$C52053,.loop,CODE_C52053,new,"branch target only used in setupice",src/bankC5_2000.asm
+$C52195,.loop2,CODE_C52195,new,"branch target only used in setupice",src/bankC5_2000.asm
+$C52251,.loop,CODE_C52251,new,"branch target only used in setupice_reset",src/bankC5_2000.asm
+$C5225E,.1,CODE_C5225E,new,"branch target only used in setupice_reset",src/bankC5_2000.asm
 $C5236C,.1,CODE_C5236C,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
 $C52373,.2,CODE_C52373,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
 $C5237B,.3,CODE_C5237B,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
@@ -5539,9 +5539,9 @@ $C53284,.9,CODE_C53284,new,"branch target only used in CODE_C531C7",src/bankC5_3
 $C5328C,.10,CODE_C5328C,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
 $C5329F,.11,CODE_C5329F,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
 $C532BF,.1,CODE_C532BF,new,"branch target only used in CODE_C532B5",src/bankC5_3000.asm
-$C532DB,.1,CODE_C532DB,new,"branch target only used in CODE_C532C5",src/bankC5_3000.asm
-$C532E5,.loop,CODE_C532E5,new,"branch target only used in CODE_C532C5",src/bankC5_3000.asm
-$C53316,.2,CODE_C53316,new,"branch target only used in CODE_C532C5",src/bankC5_3000.asm
+$C532DB,.1,CODE_C532DB,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
+$C532E5,.loop,CODE_C532E5,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
+$C53316,.2,CODE_C53316,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
 $C53339,.1,CODE_C53339,new,"branch target only used in CODE_C5331F",src/bankC5_3000.asm
 $C533B4,.loop,CODE_C533B4,new,"branch target only used in PlayerShortName",src/bankC5_3000.asm
 $C533C0,.loop2,CODE_C533C0,new,"branch target only used in PlayerShortName",src/bankC5_3000.asm
@@ -7495,3 +7495,13 @@ $C528D5,updatescroll_rows,CODE_C528D5,94S+code,"94S updatescroll_rows' steps: (V
 $C43FC8,checkcoll,CODE_C43FC8,94S+code,"94S checkcoll's steps side by side: collflag cleared, checkwallcoll with the body radius, GetFrameHot and checkwallcoll again, checkplcoll, the OOlistpos loop; called from updateplayers",src/bankC4_4000.asm
 $C382B6,StartBenchCheer,CODE_C382B6,94S+code,"called from FallDown (3), Goal (3) and CODE_C47122 where 94S calls StartBenchCheer; the routine is a bare rtl",src/bankC3_8000.asm
 $C382B7,UpdateBenchCheer,CODE_C382B7,94S+code,"called first in DoGameFrame where 94S calls UpdateBenchCheer; the routine is a bare rtl",src/bankC3_8000.asm
+$2CF5,sfhormode,,94S+code,"RAM: SetHor increments it and ClrHor / setupice_reset clear it where 94S SetHor / ClrHor set and clear sfhormode; Pausemode saves it where 94S Pausemode saves sfhormode; startpause does nothing while it is set; 2 of 2 aligned votes",src/ram95s.asm
+$C51CC1,puckfaceoff,CODE_C51CC1,94S+code,"94S puckfaceoff's steps side by side: CrowdLoud cleared, the shootout turnover, puckc $FFFF and pucknorm_move, pfna, gameclock 0 or gmode $40 to PeriodOver, the overtime tie to clockcont_0, gmode 8 to Stop4Pen, ReturnGoalies; it calls ClrHor where 94S does",src/bankC5_1000.asm
+$C43826,puckfaceoff2,CODE_C43826,94S+code,"94S puckfaceoff2's steps side by side: pfna, the d / a registers saved, hattrick 0, Crowdlevel capped at $258, FadeOutWait, the team song choice (percue, PlayTeamSong), the sflags / RefCnt / puckz resets, ClrHor, Hpos / Vpos 0, the puck at the face off spot",src/bankC4_3000.asm
+$C5226A,SetHor,CODE_C5226A,94S+code,"called from Pausemode, PeriodOver, ProcessReplayPlayback and chkprogress where 94S calls SetHor (which switches to the horizontal rink there); 95 keeps only the puck speed halving and the mode flag (sfhormode + 1)",src/bankC5_2000.asm
+$C52264,ClrHor,CODE_C52264,94S+code,"called from Pausemode, ReplayMode, puckfaceoff and puckfaceoff2 where 94S calls ClrHor (back to the vertical rink there); 95 keeps only the clear of sfhormode",src/bankC5_2000.asm
+$C52227,setupice_reset,CODE_C52227,94S+code,"94S setupice_reset's steps (forceblack, Oldrow $03E7, sflags bit 0, Hpos / Vpos, vcountmark+2, defaultsprites_0, the pfgoal flip on the gmode direction bit); then sfhormode = 0 and a jump to CODE_C539D7 where 94S sets the colours and fades in; called from StartPer as in 94S",src/bankC5_2000.asm
+$C52037,setupice,CODE_C52037,94S+code,"called from StartGame_go where 94S StartGame calls setupice (after clearTeamStats, restoreteams and LoadTeamLines); forceblack, TM, IceRinkMap through MapSetToUnpackbuf, LinePieceTiles, then CODE_C539D7 and CODE_C53A29",src/bankC5_2000.asm
+$C532C5,LoadTeamLines,CODE_C532C5,94S+code,"called twice from StartGame_go where 94S StartGame calls LoadTeamLines for both teams; calls GetTeamLines and tests OptLine as 94S LoadTeamLines does",src/bankC5_3000.asm
+$C5362C,InitScores,CODE_C5362C,94S+code,"called from StartGame_go where 94S StartGame calls InitScores (after restoreteams); the routine is a bare rtl",src/bankC5_3000.asm
+$C50D18,startpause,CODE_C50D18,94S+code,"StartPer calls it and PauseFromPad branches to it where 94S calls / jumps to startpause; sets sflags bit 0 (the pause bit); 95 skips it while sfhormode is set",src/bankC5_0000.asm

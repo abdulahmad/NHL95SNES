@@ -25,7 +25,8 @@ CODE_C52008:						; called from other segments
 	rtl
 DATA8_C5202F:						; not traced: a table read by CODE_C52008
 	db $00,$00,$80,$02,$00,$05,$80,$07
-CODE_C52037:						; called from other segments
+setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the tiles and
+									; the scoreboard
 	jsl.l forceblack
 	sep #$20
 	lda.b #$13
@@ -235,7 +236,9 @@ CODE_C52037:						; called from other segments
 	jsl.l Decompress
 	jsl.l CODE_C539D7
 	jmp.w CODE_C53A29
-CODE_C52227:						; called from other segments
+setupice_reset:						; resets the rink state: Oldrow $03E7, the pause bit cleared, Hpos / Vpos
+									; 0, the sort objects, pfgoal turned with the direction of play, sfhormode
+									; 0, then the scoreboard
 	jsl.l forceblack
 	lda.w #$03E7
 	sta.w Oldrow
@@ -259,14 +262,15 @@ CODE_C52227:						; called from other segments
 	dex
 	dex
 	bpl .loop
-.1:									; $2CF5 = 0, go to CODE_C539D7
-	stz.w $2CF5
+.1:									; sfhormode = 0, go to CODE_C539D7
+	stz.w sfhormode
 	jmp.w CODE_C539D7
-CODE_C52264:						; called from other segments
-	stz.w $2CF5
+ClrHor:								; what is left of 94S ClrHor: sfhormode = 0; X = a3
+	stz.w sfhormode
 	ldx.b a3
 	rtl
-CODE_C5226A:						; called from other segments
+SetHor:								; what is left of 94S SetHor: halves the puck speed and counts sfhormode
+									; up; X = a3
 	lda.w puckvx
 	pha
 	asl a
@@ -279,7 +283,7 @@ CODE_C5226A:						; called from other segments
 	pla
 	ror a
 	sta.w puckvy
-	inc.w $2CF5
+	inc.w sfhormode
 	ldx.b a3
 	rtl
 freezewindow:						; called from other segments

@@ -740,7 +740,7 @@ assexit:							; from CODE_C4375B, assfaceoffpl and other segments
 	ora.w #$0002
 	sta.w pflags,x
 	rtl
-CODE_C43734:						; from CODE_C43348, asswingo, CODE_C43826 and other segments
+CODE_C43734:						; from CODE_C43348, asswingo, puckfaceoff2 and other segments
 	lda.w assnum,x
 	dec a
 	and.w #$0007
@@ -854,7 +854,8 @@ assfaceoffpl:						; called from other segments
 	jml.l SetSPA
 .rtl:								; return
 	rtl
-CODE_C43826:						; called from other segments
+puckfaceoff2:						; assignment: the face off and the setup for play; on a new assignment the
+									; crowd, the music, the puck and the scroll are reset (ClrHor)
 	lda.w pflags,x
 	bit.w #$0002
 	bne .1
@@ -967,7 +968,7 @@ CODE_C43826:						; called from other segments
 	stz.w $234A
 	lda.w #$0500
 	tsb.w sflags
-	jsl.l CODE_C52264
+	jsl.l ClrHor
 	lda.w #$0008
 	tsb.w tmflags
 	tsb.w $1301
@@ -1616,7 +1617,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	sta.b d0
 	ldx.b a3
 	rtl
-CODE_C43EC6:						; from CODE_C43826
+CODE_C43EC6:						; from puckfaceoff2
 	lda.b d7
 	sta.b tmp0
 	cmp.w temp1,x
@@ -1646,7 +1647,7 @@ CODE_C43EC6:						; from CODE_C43826
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jml.l CODE_C51AFF
-CODE_C43F0D:						; from CODE_C43826
+CODE_C43F0D:						; from puckfaceoff2
 	jsl.l WaitTransfers
 	ldx.w #$0014
 	ldy.w #$0008
@@ -1715,6 +1716,6 @@ CODE_C43FAD:						; from CODE_C43F0D
 	lsr a
 	clc
 	rts
-CODE_C43FC1:						; from CODE_C43826
+CODE_C43FC1:						; from puckfaceoff2
 	jsl.l CODE_C53A29
 	jmp.w CODE_C43D6C

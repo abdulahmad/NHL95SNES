@@ -294,7 +294,7 @@ CODE_C481D5:						; called from other segments
 	dec a
 	beq .rtl
 	phx
-	ldx.w $2CF5
+	ldx.w sfhormode
 	beq .3
 	jsl.l CODE_C54BAF
 	ldx.w #$0012

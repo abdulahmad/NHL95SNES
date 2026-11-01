@@ -946,10 +946,10 @@ SetPA:								; start the referee animation and message for penalty d0
 	cmp.w #$000E
 	bne .1
 	jsl.l CODE_C51825
-.1:									; $1143 = $7FFF, if $2CF5 = 0 go to SetPA2, $1143 = $003C
+.1:									; $1143 = $7FFF, if sfhormode = 0 go to SetPA2, $1143 = $003C
 	lda.w #$7FFF
 	sta.w $1143
-	lda.w $2CF5
+	lda.w sfhormode
 	beq SetPA2
 	lda.w #$003C
 	sta.w $1143

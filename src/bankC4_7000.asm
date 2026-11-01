@@ -253,7 +253,7 @@ CountPowerPlayTime:					; from CODE_C47FD4 and other segments
 .rtl:								; return
 	rtl
 checkfornewpen:						; from CODE_C471F0 and other segments
-	lda.w $2CF5
+	lda.w sfhormode
 	beq .1
 	jmp.w .rtl
 .1:									; a0 = $10F9
@@ -520,7 +520,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w #$0400
 	tsb.w sflags
 	jsl.l FadeOutWait
-	jsl.l CODE_C5226A
+	jsl.l SetHor
 	lda.w #$0038
 	sta.b Hpos
 	stz.b Vpos
@@ -819,10 +819,10 @@ chkprogress:						; from CODE_C471F0 and other segments
 	bra .24
 .20:								; call StartPenaltyShot
 	jsl.l StartPenaltyShot
-.21:								; (a0) = $0000, if $2CF5 = 0 go to .22, go to .6
+.21:								; (a0) = $0000, if sfhormode = 0 go to .22, go to .6
 	lda.w #$0000
 	sta.b (a0)
-	lda.w $2CF5
+	lda.w sfhormode
 	beq .22
 	jmp.w .6
 .22:								; call SetPA, go to .24
@@ -1043,7 +1043,7 @@ AddPenalty:							; from CODE_C47ACD, CODE_C47C8C and other segments
 .rtl:								; return
 	rtl
 AddPenalty2:						; from AddPenalty and other segments
-	lda.w $2CF5
+	lda.w sfhormode
 	beq .1
 	jmp.w .rtl
 .1:									; if d0 is not $000E go to .2

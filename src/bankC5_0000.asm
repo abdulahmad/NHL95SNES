@@ -84,20 +84,20 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	bne .1
 	lda.w #$0020
 	tsb.w gmode
-.1:									; call clearTeamStats, call restoreteams, call CODE_C5362C, ...
+.1:									; call clearTeamStats, call restoreteams, call InitScores, ...
 	jsl.l clearTeamStats
 	jsl.l restoreteams
-	jsl.l CODE_C5362C
+	jsl.l InitScores
 	lda.w #$007F
 	sta.w $07E2
 	stz.w recbpr
 	lda.w #$0010
 	trb.w sflags
 	stz.b a2
-	jsl.l CODE_C532C5
+	jsl.l LoadTeamLines
 	lda.w #$0002
 	sta.b a2
-	jsl.l CODE_C532C5
+	jsl.l LoadTeamLines
 	lda.w $1870
 	sta.w $17C1
 	sta.w $17C3
@@ -128,7 +128,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	dex
 	dex
 	bpl .2
-	jsl.l CODE_C52037
+	jsl.l setupice
 	stz.w $17D1
 	ldx.w #$0008
 .loop3:								; loop: if cont1team,x is not 0 go to .5, X - 1, X - 1, ...
@@ -160,7 +160,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	lda.w #$0002
 	sta.b a2
 	jsl.l reenergizeteam
-	jsl.l CODE_C52227
+	jsl.l setupice_reset
 	jsl.l ResetClock
 	jsl.l InitCrowdExcite
 	lda.w #$FFFF
@@ -172,12 +172,12 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	ora.w cont5team
 	bne .2
 	jsl.l SoundVolumeUp
-.2:									; if $17D1 = 0 go to .3, Y = $5800, call ClearVRAM, call CODE_C50D18
+.2:									; if $17D1 = 0 go to .3, Y = $5800, call ClearVRAM, call startpause
 	lda.w $17D1
 	beq .3
 	ldy.w #$5800
 	jsl.l ClearVRAM
-	jsl.l CODE_C50D18
+	jsl.l startpause
 .3:									; $2034 = 0, $2036 = 0, a3 = $001C, d0 = $001B, ...
 	stz.w $2034
 	stz.w $2036
@@ -1265,12 +1265,12 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	bne .1
 	lda.w #$FFFE
 	sta.w tmpdst,y
-.1:									; Y + 1, Y + 1, if Y < $0068 go to .loop, call CODE_C5226A, ...
+.1:									; Y + 1, Y + 1, if Y < $0068 go to .loop, call SetHor, ...
 	iny
 	iny
 	cpy.w #$0068
 	bcc .loop
-	jsl.l CODE_C5226A
+	jsl.l SetHor
 	jsl.l setvideo
 	inc.w gsp
 	lda.w gsp
@@ -1482,10 +1482,10 @@ CODE_C50D0C:						; no caller found (not traced)
 	sta.w $079E
 .rtl:								; return
 	rtl
-startpause:							; from demoread
+startpause1:						; pause from pad 1: pausepad = 0, then startpause
 	stz.w pausepad
-CODE_C50D18:						; from StartPer, PauseFromPad and other segments
-	lda.w $2CF5
+startpause:							; starts a pause: the sflags pause bit, unless sfhormode is set
+	lda.w sfhormode
 	bne .rtl
 	lda.w #$0001
 	tsb.w sflags
@@ -1493,12 +1493,12 @@ CODE_C50D18:						; from StartPer, PauseFromPad and other segments
 	rtl
 PauseFromPad:						; from demoread and other segments
 	sta.w pausepad
-	bra CODE_C50D18
+	bra startpause
 Pausemode:							; the game loop's pause (the sflags pause bit): the game state saved,
 									; Pausemode_menu, the state back
-	lda.w $2CF5
+	lda.w sfhormode
 	pha
-	jsl.l CODE_C5226A
+	jsl.l SetHor
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1593,9 +1593,9 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	jsl.l CODE_C558CC
 	jsl.l CODE_C5589E
 	pla
-	sta.w $2CF5
+	sta.w sfhormode
 	bne .1
-	jsl.l CODE_C52264
+	jsl.l ClrHor
 .1:									; Vcount = 0, OldVcount = 0, call WaitTransfers, $2372 = 0, ...
 	stz.b Vcount
 	stz.w OldVcount
@@ -1663,7 +1663,7 @@ demoread:							; from Gameloop and other segments
 	lda.b d1
 	bit.w #$1000
 	beq .4
-	jmp.w startpause
+	jmp.w startpause1
 .4:									; if d1 is not 0 go to .5
 	lda.b d1
 	bne .5

@@ -237,6 +237,7 @@ BA_Sktr_SCnum		=	$18B0		; Penalty shot / shootout shooter object (SCnum*2, $FFFF
 BA_Team				=	$18B4		; Shooting team of the penalty shot / shootout turn (0 home, 2 visitors):
 penshot				=	$18BE		; Penalty shot pending / under way: StartPenaltyShot sets 1, ...
 BlockMove			=	$18FA		; RAM routine phb, mvn, plb, rtl; the mvn banks at +2 (ClearRAM7E)
+sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set
 
 ; work RAM, long addresses
 unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)
