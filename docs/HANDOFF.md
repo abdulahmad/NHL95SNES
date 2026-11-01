@@ -157,8 +157,10 @@
   the handler of the state from DATA8_C5967A each frame. The setup screen's start runs DATA8_C58DD0 by play mode
   ($1864: Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player). The start-up screens run a task list
   (StartTasks, AddTask, RunTasks through jmlvector, RemoveTask). The pause: Pausemode (game loop) and Intermission
-  call Pausemode_menu, as in 94S. Not named yet: the print variants around CODE_C4BBE5, the sprite and frame routines
-  of bank $C5 (CODE_C5F368 ...), the game screens of bank $C4.
+  call Pausemode_menu, as in 94S. The text: Print<Font><Align>[Str] (UnpackText or CopyString, then DrawText,
+  QueueTextTiles, MapTextTiles), the fonts by label; the flag $4000 print variants (CODE_C4BC2C ...) are not named.
+  Sound calls: QueueSoundCmd, StartSound, LoadSounds (the driver is not 94S's). Not named yet: the frame and OAM
+  routines of bank $C5 (CODE_C5F368, CODE_C5F3DB ...), the sprite script interpreter, the game screens of bank $C4.
 
 ## Setup notes
 
