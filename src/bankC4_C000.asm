@@ -609,21 +609,21 @@ UnpackText2:						; as UnpackText, into the second work buffer (AllocWorkBuf2)
 	stx.b $16
 	lda.w #$003C
 	jsl.l AllocWorkBuf2
-	bra CODE_C4C3C4
+	bra DecodePackedText
 UnpackText:							; unpacks the packed text at X in bank $C3 into a new work buffer ($3C
 									; bytes, AllocWorkBuf); returns X = the text, zero ended
 	phy
 	stx.b $16
 	lda.w #$003C
 	jsl.l AllocWorkBuf
-CODE_C4C3C4:						; from UnpackText2
+DecodePackedText:					; decode packed text symbols into the allocated string buffer
 	pha
 	tay
 	lda.w #$0041
 	sta.b $14
 	stz.b $0A
-.1:									; call CODE_C4C43D, if A < $1A go to .5, if A = $1B go to .7, ...
-	jsr.w CODE_C4C43D
+.1:									; call ReadTextFiveBits, if A < $1A go to .5, if A = $1B go to .7, ...
+	jsr.w ReadTextFiveBits
 	cmp.b #$1A
 	bcc .5
 	cmp.b #$1B
@@ -634,12 +634,12 @@ CODE_C4C3C4:						; from UnpackText2
 	bcc .3
 	cmp.b #$1F
 	bcc .2
-	jsr.w CODE_C4C431
+	jsr.w ReadTextThreeBits
 	clc
 	adc.b #$10
 	bra .10
-.2:									; call CODE_C4C431, A + $08, go to .10
-	jsr.w CODE_C4C431
+.2:									; call ReadTextThreeBits, A + $08, go to .10
+	jsr.w ReadTextThreeBits
 	clc
 	adc.b #$08
 	bra .10
@@ -667,27 +667,27 @@ CODE_C4C3C4:						; from UnpackText2
 	plx
 	ply
 	rtl
-.9:									; call CODE_C4C431
-	jsr.w CODE_C4C431
+.9:									; call ReadTextThreeBits
+	jsr.w ReadTextThreeBits
 .10:								; X = A, A = DATA8_C4C420,x, go to .6
 	tax
 	lda.l DATA8_C4C420,x
 	bra .6
-DATA8_C4C420:						; not traced: a table read by CODE_C4C3C4
+DATA8_C4C420:						; not traced: a table read by DecodePackedText
 	db $30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$3A,$3B,$3C,$3D,$3E,$3F
 	db $40
-CODE_C4C431:						; from CODE_C4C3C4
-	jsr.w CODE_C4C45A
+ReadTextThreeBits:					; read a three-bit packed text extension
+	jsr.w PeekTextBits
 	and.w #$0007
 	pha
 	lda.w #$0003
-	bra CODE_C4C447
-CODE_C4C43D:						; from CODE_C4C3C4
-	jsr.w CODE_C4C45A
+	bra AdvanceTextBits
+ReadTextFiveBits:					; read a five-bit packed text symbol
+	jsr.w PeekTextBits
 	and.w #$001F
 	pha
 	lda.w #$0005
-CODE_C4C447:						; from CODE_C4C431
+AdvanceTextBits:					; advance the packed text bit cursor and return the saved symbol
 	clc
 	adc.b $0A
 	cmp.w #$0008
@@ -699,7 +699,7 @@ CODE_C4C447:						; from CODE_C4C431
 	pla
 	sep #$20
 	rts
-CODE_C4C45A:						; from CODE_C4C43D, CODE_C4C431
+PeekTextBits:						; peek the packed text bits at the current source position
 	rep #$20
 	ldx.b $16
 	lda.l $C30000,x

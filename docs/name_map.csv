@@ -4508,19 +4508,6 @@ $C4C350,.4,CODE_C4C350,new,"branch target only used in TextWidth",src/bankC4_C00
 $C4C357,.5,CODE_C4C357,new,"branch target only used in TextWidth",src/bankC4_C000.asm
 $C4C35B,.6,CODE_C4C35B,new,"branch target only used in TextWidth",src/bankC4_C000.asm
 $C4C375,.7,CODE_C4C375,new,"branch target only used in TextWidth",src/bankC4_C000.asm
-$C4C3CD,.1,CODE_C4C3CD,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C3EC,.2,CODE_C4C3EC,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C3F4,.3,CODE_C4C3F4,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C3FC,.4,CODE_C4C3FC,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C400,.5,CODE_C4C400,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C402,.6,CODE_C4C402,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C408,.7,CODE_C4C408,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C40C,.8,CODE_C4C40C,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C416,.9,CODE_C4C416,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C419,.10,CODE_C4C419,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
-$C4C454,.1,CODE_C4C454,new,"branch target only used in CODE_C4C447",src/bankC4_C000.asm
-$C4C466,.loop,CODE_C4C466,new,"branch target only used in CODE_C4C45A",src/bankC4_C000.asm
-$C4C46A,.rts,CODE_C4C46A,new,"branch target only used in CODE_C4C45A",src/bankC4_C000.asm
 $C4C485,.loop,CODE_C4C485,new,"branch target only used in CopyString2",src/bankC4_C000.asm
 $C4C48F,.1,CODE_C4C48F,new,"branch target only used in CopyString2",src/bankC4_C000.asm
 $C4C5A8,.1,CODE_C4C5A8,new,"branch target only used in CODE_C4C58B",src/bankC4_C000.asm
@@ -7906,3 +7893,21 @@ $C4C1C9,.15,CODE_C4C1C9,new,"branch target only used in CheckGlyphLeftOverlap",s
 $C4C1DE,.16,CODE_C4C1DE,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
 $C4C1F3,.17,CODE_C4C1F3,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
 $C4C209,.18,CODE_C4C209,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C3C4,DecodePackedText,CODE_C4C3C4,code,"UnpackText2 continuation reads five-bit symbols: letters, terminator, space, case toggle and three-bit punctuation extension",src/bankC4_C000.asm
+$C4C3CD,.1,CODE_C4C3CD,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C3EC,.2,CODE_C4C3EC,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C3F4,.3,CODE_C4C3F4,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C3FC,.4,CODE_C4C3FC,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C400,.5,CODE_C4C400,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C402,.6,CODE_C4C402,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C408,.7,CODE_C4C408,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C40C,.8,CODE_C4C40C,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C416,.9,CODE_C4C416,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C419,.10,CODE_C4C419,new,"branch target only used in DecodePackedText",src/bankC4_C000.asm
+$C4C431,ReadTextThreeBits,CODE_C4C431,code,"peeks shifted source word, masks to 7 and consumes three bits",src/bankC4_C000.asm
+$C4C43D,ReadTextFiveBits,CODE_C4C43D,code,"peeks shifted source word, masks to 31 and consumes five bits",src/bankC4_C000.asm
+$C4C447,AdvanceTextBits,CODE_C4C447,code,"adds A to bit cursor, advances source byte when it crosses eight, returns saved symbol in 8-bit A",src/bankC4_C000.asm
+$C4C454,.1,CODE_C4C454,new,"branch target only used in AdvanceTextBits",src/bankC4_C000.asm
+$C4C45A,PeekTextBits,CODE_C4C45A,code,"loads source word from bank C3 and shifts right by current bit offset",src/bankC4_C000.asm
+$C4C466,.loop,CODE_C4C466,new,"branch target only used in PeekTextBits",src/bankC4_C000.asm
+$C4C46A,.rts,CODE_C4C46A,new,"branch target only used in PeekTextBits",src/bankC4_C000.asm
