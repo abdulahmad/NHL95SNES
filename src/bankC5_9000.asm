@@ -150,7 +150,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #$0001
 	sta.w $059E
 	jsl.l CODE_C4C574
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	lda.w #$007F
 	sta.b $2E
 	lda.w #$D80A
@@ -228,7 +228,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	stz.b QueueBusy
 	jsl.l CODE_C4BAF6
 	lda.w #$56CE
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	lda.w #BlueColoursHook&$FFFF
 	ldx.w #BlueColoursHook>>16
@@ -255,7 +255,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	sta.w DMAEnShadow
 	lda.w #$2C46
 	ldy.w #$0078
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C3716D
 	rts
 CODE_C59217:						; from setoptions
@@ -305,12 +305,12 @@ CODE_C592A9:						; from setoptions
 	sta.w $17CB
 	sta.l $306043
 	jsr.w CODE_C5A3C1
-.3:									; A = $0480, A + $D3, Y = $0200, call CODE_C58B11, ...
+.3:									; A = $0480, A + $D3, Y = $0200, call ClearRAM7E, ...
 	clc
 	lda.w #$0480
 	adc.b $D3
 	ldy.w #$0200
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.w $1864
@@ -479,7 +479,7 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	sta.b $0A,x
 	stz.b $20
 	stz.b $1E
-	jml.l CODE_C4C530
+	jml.l ResetWorkBuf
 CODE_C5945E:						; from SetContTeams
 	ldy.w #$0004
 .loop:								; loop: push Y, A = mp5padsig,y, A and $00FF, A - 1, ...
@@ -621,14 +621,14 @@ ControllerSetupScreen:				; builds the controller setup screen: a sprite for eac
 	stz.b $20
 	lda.b $D3
 	ldy.w #$0340
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	clc
 	lda.b $D3
 	adc.w #$03C0
 	ldy.w #$0340
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$57FC
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	lda.w #$0005
 	sta.w fadestep
 	rts
@@ -639,12 +639,12 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	ora.l $306051
 	bne .1
 	jmp.w CODE_C5963A
-.1:									; Y = $0280, A = $D3, A + $0400, call CODE_C58B11, ...
+.1:									; Y = $0280, A = $D3, A + $0400, call ClearRAM7E, ...
 	ldy.w #$0280
 	lda.b $D3
 	clc
 	adc.w #$0400
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -781,11 +781,11 @@ CODE_C596D3:						; from AskNameOk
 	mvn $7E,$7E
 	lda.b $D3
 	ldy.w #$0700
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
 	lda.w #$5746
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$04F5
@@ -972,10 +972,10 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	clc
 	lda.b $D3
 	adc.w #$0300
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4CEDB
 	lda.w #$56DC
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	inc.b $99
 	jmp.w CODE_C596AF
 CODE_C598C9:						; from NameEntry
@@ -988,12 +988,12 @@ CODE_C598C9:						; from NameEntry
 	pha
 	ldy.w #$0022
 	phy
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ply
 	pla
 	clc
 	adc.w #$0040
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	rts
 CODE_C598EB:						; from NameEntry
@@ -1671,15 +1671,15 @@ CODE_C59DBE:						; from EditPlayerInfo
 	lda.b $D3
 	adc.w #$0180
 	ldy.w #$0580
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
 	lda.w #$576C
 	ldx.b d0
 	beq .9
 	lda.w #$57AE
-.9:									; call CODE_C4BB5A, call CODE_C4CEDB, X = a0, A = $0003, ...
-	jsl.l CODE_C4BB5A
+.9:									; call PrintTextPage, call CODE_C4CEDB, X = a0, A = $0003, ...
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	ldx.b a0
 	lda.w #$0003

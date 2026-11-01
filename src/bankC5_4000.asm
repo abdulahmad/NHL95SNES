@@ -69,7 +69,7 @@ CODE_C54070:						; from CODE_C5404A, lineinput and other segments
 	jsl.l CODE_C58C36
 	lda.b a2
 	jsr.w CODE_C56104
-	jsl.l CODE_C4C3AE
+	jsl.l UnpackText2
 	jsr.w CODE_C56262
 	lda.b d0
 	clc
@@ -102,10 +102,10 @@ CODE_C54070:						; from CODE_C5404A, lineinput and other segments
 	cmp.w $1307,y
 	bne .2
 	ldx.w tmline,y
-.1:									; push X, A = $0006, call CODE_C4C561, Y = A, ...
+.1:									; push X, A = $0006, call AllocWorkBuf2, Y = A, ...
 	phx
 	lda.w #$0006
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	tay
 	lda.w #$0005
 	sta.w $0000,y
@@ -1634,7 +1634,7 @@ CODE_C54D03:						; from CODE_C54070
 	lsr a
 	tax
 	lda.w #$0003
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	pha
 	tay
 	lda.w #$A0A0

@@ -99,7 +99,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldy.w #$0043
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.b $08
 	sta.b $69
 	lda.w #$0022
@@ -109,7 +109,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldy.w #$0043
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.b $08
 	sta.b $6D
 	lda.w #$0023
@@ -119,7 +119,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldy.w #$007C
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.b $08
 	sta.b $71
 	lda.w #$0024
@@ -129,14 +129,14 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldy.w #$0094
 	jsr.w CODE_C4B280
 	jsl.l AnimateSprites
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$0025
 	jsl.l CreateSprite
 	stx.b $7B
 	lda.w #$0080
 	ldy.w #$00B4
 	jsr.w CODE_C4B280
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$0010
 	sta.w $18D8
 	jsl.l AnimateSprites
@@ -364,7 +364,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lsr a
 	adc.w #$0080
 	sta.b $79
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	phx
 	stz.b a4
 	lda.b $28,x
@@ -1203,7 +1203,7 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	sta.b d7
 	adc.w #$0480
 	sta.b $08
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$0060
 	sta.b d3
 	lda.b d6
@@ -1299,9 +1299,9 @@ DATA8_C4BAD6:						; not traced: data between routines
 CODE_C4BAF6:						; called from other segments
 	ldy.w #$0004
 	lda.w #$0800
-	jsl.l CODE_C4C547
+	jsl.l AllocClearWorkBuf
 	sta.b $D3
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$2000
 	sta.b $D5
 	tya
@@ -1349,9 +1349,10 @@ CODE_C4BB43:						; no caller found (not traced)
 	sta.w $0000,y
 	rep #$20
 	rtl
-CODE_C4BB5A:						; called from other segments
+PrintTextPage:						; prints the text page whose descriptor is at A in bank $C3: the margins,
+									; a title, then texts with their rows and print flags to a zero
 	pha
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	plx
 	phx
 	lda.l $C30000,x
@@ -1417,10 +1418,10 @@ CODE_C4BB5A:						; called from other segments
 	inx
 	inx
 	bra .2
-.11:								; call CODE_C4C2AA, go to CODE_C4C536
+.11:								; call CODE_C4C2AA, go to RestoreWorkBuf
 	jsl.l CODE_C4C2AA
-	jmp.w CODE_C4C536
-CODE_C4BBE5:						; from CODE_C4BB5A and other segments
+	jmp.w RestoreWorkBuf
+CODE_C4BBE5:						; from PrintTextPage and other segments
 	jsl.l CODE_C4BCC2
 	bra CODE_C4BBF5
 CODE_C4BBEB:						; no caller found (not traced)
@@ -1431,7 +1432,7 @@ CODE_C4BBF1:						; called from other segments
 CODE_C4BBF5:						; from CODE_C4BBE5, CODE_C4BBEB, CODE_C4BBFC, CODE_C4BC02, ...
 	jsl.l CODE_C4C20C
 	jmp.w CODE_C4C270
-CODE_C4BBFC:						; from CODE_C4BB5A and other segments
+CODE_C4BBFC:						; from PrintTextPage and other segments
 	jsl.l CODE_C4BCE4
 	bra CODE_C4BBF5
 CODE_C4BC02:						; no caller found (not traced)
@@ -1440,7 +1441,7 @@ CODE_C4BC02:						; no caller found (not traced)
 CODE_C4BC08:						; called from other segments
 	jsl.l CODE_C4BCEA
 	bra CODE_C4BBF5
-CODE_C4BC0E:						; from CODE_C4BB5A and other segments
+CODE_C4BC0E:						; from PrintTextPage and other segments
 	jsl.l CODE_C4BD04
 	bra CODE_C4BBF5
 CODE_C4BC14:						; no caller found (not traced)
@@ -1452,12 +1453,12 @@ CODE_C4BC1A:						; called from other segments
 CODE_C4BC20:						; called from other segments
 	jsl.l CODE_C4BD8A
 	bra CODE_C4BBF5
-CODE_C4BC26:						; from CODE_C4BDAE, CODE_C4BB5A and other segments
+CODE_C4BC26:						; from CODE_C4BDAE, PrintTextPage and other segments
 	jsl.l CODE_C4BD2B
 	bra CODE_C4BBF5
 CODE_C4BC2C:						; called from other segments
 	sta.b p0
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 CODE_C4BC32:						; from CODE_C4BC46
 	lda.w #$4003
 	sta.b $0E
@@ -1475,7 +1476,7 @@ CODE_C4BC46:						; called from other segments
 	bra CODE_C4BC32
 CODE_C4BC4E:						; no caller found (not traced)
 	sta.b p0
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 CODE_C4BC54:						; from CODE_C4BC68
 	lda.w #$4000
 	sta.b $0E
@@ -1501,11 +1502,11 @@ CODE_C4BC70:						; from CODE_C4BC46, CODE_C4BC68, CODE_C4BCC8, CODE_C4BCEA, ...
 	inx
 	iny
 	bra .loop
-.1:									; A 16-bit, A = Y, push A, call CODE_C4C558, ...
+.1:									; A 16-bit, A = Y, push A, call AllocWorkBuf, ...
 	rep #$20
 	tya
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	ply
 	plx
 	pha
@@ -1522,7 +1523,7 @@ CODE_C4BC98:						; no caller found (not traced)
 CODE_C4BC9E:						; from CODE_C4BDCA and other segments
 	jsl.l CODE_C4BD31
 	bra CODE_C4BC44
-CODE_C4BCA4:						; from CODE_C4BB5A and other segments
+CODE_C4BCA4:						; from PrintTextPage and other segments
 	jsl.l CODE_C4BD67
 	bra CODE_C4BC44
 CODE_C4BCAA:						; called from other segments
@@ -1534,11 +1535,11 @@ CODE_C4BCB0:						; called from other segments
 CODE_C4BCB6:						; no caller found (not traced)
 	jsl.l CODE_C4BD71
 	bra CODE_C4BC44
-CODE_C4BCBC:						; from CODE_C4BB5A and other segments
+CODE_C4BCBC:						; from PrintTextPage and other segments
 	jsl.l CODE_C4BD90
 	bra CODE_C4BC44
 CODE_C4BCC2:						; from CODE_C4BBE5, CODE_C4BBEB and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	bra CODE_C4BCD2
 CODE_C4BCC8:						; from CODE_C4BBF1 and other segments
 	jsl.l CODE_C4BC70
@@ -1555,7 +1556,7 @@ CODE_C4BCD2:						; from CODE_C4BCC2, CODE_C4BCC8
 	ply
 	rtl
 CODE_C4BCE4:						; from CODE_C4BBFC and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	bra CODE_C4BCF4
 CODE_C4BCEA:						; from CODE_C4BC08 and other segments
 	jsl.l CODE_C4BC70
@@ -1572,7 +1573,7 @@ CODE_C4BCF4:						; from CODE_C4BCE4, CODE_C4BCEA
 	ply
 	rtl
 CODE_C4BD04:						; from CODE_C4BC0E and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	bra CODE_C4BD14
 CODE_C4BD0A:						; from CODE_C4BC1A and other segments
 	jsl.l CODE_C4BC70
@@ -1592,7 +1593,7 @@ CODE_C4BD14:						; from CODE_C4BD04, CODE_C4BD0A
 	ply
 	rtl
 CODE_C4BD2B:						; from CODE_C4BC26 and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	bra CODE_C4BD3B
 CODE_C4BD31:						; from CODE_C4BC9E and other segments
 	jsl.l CODE_C4BC70
@@ -1610,7 +1611,7 @@ CODE_C4BD3B:						; from CODE_C4BD2B, CODE_C4BD31
 	ply
 	rtl
 CODE_C4BD4E:						; from CODE_C4BCAA and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	lda.w #$0005
 	sta.b $0E
 	lda.w #$3239
@@ -1621,7 +1622,7 @@ CODE_C4BD4E:						; from CODE_C4BCAA and other segments
 	ply
 	rtl
 CODE_C4BD67:						; from CODE_C4BCA4 and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 CODE_C4BD6B:						; from CODE_C4BCB0 and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BD75
@@ -1641,7 +1642,7 @@ CODE_C4BD8A:						; from CODE_C4BC20 and other segments
 	jsl.l CODE_C4BC70
 	bra CODE_C4BD94
 CODE_C4BD90:						; from CODE_C4BCBC and other segments
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 CODE_C4BD94:						; from CODE_C4BD8A
 	lda.w #$0003
 	sta.b $0E
@@ -1655,7 +1656,7 @@ CODE_C4BD94:						; from CODE_C4BD8A
 	jsl.l CODE_C4BE34
 	ply
 	rtl
-CODE_C4BDAE:						; from CODE_C4BB5A and other segments
+CODE_C4BDAE:						; from PrintTextPage and other segments
 	pei ($D5)
 	lda.w #$2400
 	sta.b $D5
@@ -1700,7 +1701,7 @@ CODE_C4BDE6:						; from CODE_C4BDAE, CODE_C4BDCA and other segments
 	inc a
 	inc a
 	inc a
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	tax
 	sep #$20
@@ -1741,9 +1742,9 @@ CODE_C4BE34:						; from CODE_C4BC32, CODE_C4BC54, CODE_C4BCD2, CODE_C4BCF4, ...
 	lsr a
 	bcs .2
 	ldy.w #$0200
-.2:									; A = Y, call CODE_C4C547, $A5 = A, push X
+.2:									; A = Y, call AllocClearWorkBuf, $A5 = A, push X
 	tya
-	jsl.l CODE_C4C547
+	jsl.l AllocClearWorkBuf
 	sta.b $A5
 	phx
 CODE_C4BE53:						; from CODE_C4C068

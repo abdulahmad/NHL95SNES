@@ -1351,16 +1351,16 @@ CODE_C43826:						; called from other segments
 	cmp.w #$0001
 	bne .38
 	jmp.w CODE_C43FC1
-.38:								; $2016 = $0001, call CODE_C4CEDB, call CODE_C4C536, A = $0A00, ...
+.38:								; $2016 = $0001, call CODE_C4CEDB, call RestoreWorkBuf, A = $0A00, ...
 	lda.w #$0001
 	sta.w $2016
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	lda.w #$0A00
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.w $2024
 	sta.b r1
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$007E
 	sta.b $32
 	lda.w #FaceOffMap&$FFFF
@@ -1477,13 +1477,13 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	beq .4
 	txy
 	ldx.w $12B9
-.4:									; d0 = X, d1 = Y, A = $000B, call CODE_C4C558, ...
+.4:									; d0 = X, d1 = Y, A = $000B, call AllocWorkBuf, ...
 	stx.b d0
 	sty.b d1
 	lda.w #$000B
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	tay
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$000A
 	sta.w $0000,y
 	lda.b d0

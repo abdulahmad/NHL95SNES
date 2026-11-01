@@ -201,9 +201,9 @@ CODE_C3817D:						; from CODE_C380D1
 	cpx.w #$001A
 	bcc .1
 	inc a
-.1:									; call CODE_C56100, call CODE_C4C3AE, call CODE_C5625E, A = X, ...
+.1:									; call CODE_C56100, call UnpackText2, call CODE_C5625E, A = X, ...
 	jsl.l CODE_C56100
-	jsl.l CODE_C4C3AE
+	jsl.l UnpackText2
 	jsl.l CODE_C5625E
 	txa
 	ldx.w #$007E
@@ -826,11 +826,11 @@ CODE_C387F2:						; from CODE_C387D8 and other segments
 	rtl
 CODE_C387FF:						; called from other segments
 	lda.w #$01FE
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.w $3648
 	tay
 	lda.w #$0210
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	lda.w #$01FD
 	ldx.w #$1912
 	mvn $7E,$7E

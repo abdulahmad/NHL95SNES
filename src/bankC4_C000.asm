@@ -566,9 +566,9 @@ CODE_C4C31D:						; from CODE_C4C46B and other segments
 	lsr a
 	bcs .7
 	ldy.w #$0200
-.7:									; A = Y, call CODE_C4C56A, A = $0A, pull A, ...
+.7:									; A = Y, call FreeWorkBuf, A = $0A, pull A, ...
 	tya
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	lda.b $0A
 	pla
 	sta.w $18DC
@@ -587,11 +587,11 @@ CODE_C4C386:						; called from other segments
 	inx
 	iny
 	bra .loop
-.1:									; A 16-bit, A = Y, push A, call CODE_C4C558, ...
+.1:									; A 16-bit, A = Y, push A, call AllocWorkBuf, ...
 	rep #$20
 	tya
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	ply
 	plx
 	pha
@@ -602,18 +602,19 @@ CODE_C4C386:						; called from other segments
 	plx
 	ply
 	rtl
-CODE_C4C3AE:						; called from other segments
+UnpackText2:						; as UnpackText, into the second work buffer (AllocWorkBuf2)
 	phy
 	stx.b $16
 	lda.w #$003C
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	bra CODE_C4C3C4
-CODE_C4C3BA:						; called from other segments
+UnpackText:							; unpacks the packed text at X in bank $C3 into a new work buffer ($3C
+									; bytes, AllocWorkBuf); returns X = the text, zero ended
 	phy
 	stx.b $16
 	lda.w #$003C
-	jsl.l CODE_C4C558
-CODE_C4C3C4:						; from CODE_C4C3AE
+	jsl.l AllocWorkBuf
+CODE_C4C3C4:						; from UnpackText2
 	pha
 	tay
 	lda.w #$0041
@@ -731,11 +732,11 @@ CODE_C4C47E:						; called from other segments
 	inx
 	iny
 	bra .loop
-.1:									; A 16-bit, A = Y, push A, call CODE_C4C561, ...
+.1:									; A 16-bit, A = Y, push A, call AllocWorkBuf2, ...
 	rep #$20
 	tya
 	pha
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	ply
 	plx
 	pha
@@ -762,46 +763,49 @@ DATA8_C4C502:						; not traced: a table read by CODE_C4BEA6
 	db $86,$85,$86,$86,$87,$86,$86,$86,$86,$86,$83,$83,$88,$83,$85,$83
 	db $83,$88,$87,$88,$87,$86,$86,$88,$87,$83,$86,$87,$87,$88,$87,$88
 	db $87,$88,$88,$87,$87,$87,$88,$88,$87,$87,$87,$02,$03,$01
-CODE_C4C530:						; from TitleScreen and other segments
+ResetWorkBuf:						; both work buffer pointers back to their starts, the saved mark too
 	lda.w #$50DC
 	sta.w $18E0
-CODE_C4C536:						; called from other segments
+RestoreWorkBuf:						; the work buffer pointer back to the saved mark (MarkWorkBuf), the second
+									; one to its start
 	lda.w $18E0
 	sta.b $08
 	lda.w #$E000
 	sta.b $D7
 	rtl
-CODE_C4C541:						; called from other segments
+MarkWorkBuf:						; saves the work buffer pointer as the mark RestoreWorkBuf goes back to
 	lda.b $08
 	sta.w $18E0
 	rtl
-CODE_C4C547:						; called from other segments
+AllocClearWorkBuf:					; takes A bytes from the work buffer (AllocWorkBuf) and clears them
+									; (ClearRAM7E); returns A = their start
 	phx
 	phy
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	ply
 	pha
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	ply
 	plx
 	rtl
-CODE_C4C558:						; from CODE_C4C3BA, CODE_C4C547, CODE_C4C386 and other segments
+AllocWorkBuf:						; takes A bytes from the work buffer in bank $7E: returns A = their start
+									; (the buffer pointer moves on)
 	pei ($08)
 	clc
 	adc.b $08
 	sta.b $08
 	pla
 	rtl
-CODE_C4C561:						; from CODE_C4C3AE, CODE_C4C47E and other segments
+AllocWorkBuf2:						; as AllocWorkBuf, from the second work buffer (from $E000)
 	pei ($D7)
 	clc
 	adc.b $D7
 	sta.b $D7
 	pla
 	rtl
-CODE_C4C56A:						; from CODE_C4C31D and other segments
+FreeWorkBuf:						; gives the last A bytes back to the work buffer (AllocWorkBuf)
 	sec
 	sbc.b $08
 	eor.w #$FFFF

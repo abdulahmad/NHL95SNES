@@ -945,9 +945,9 @@ updatepwrplay:						; called from other segments
 	jsl.l CODE_C53A29
 	ldx.b a3
 	inc.w $1263,x
-.4:									; A = $0005, call CODE_C4C561, X = A, $0000,x = $0004, ...
+.4:									; A = $0005, call AllocWorkBuf2, X = A, $0000,x = $0004, ...
 	lda.w #$0005
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	tax
 	lda.w #$0004
 	sta.w $0000,x

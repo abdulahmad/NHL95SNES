@@ -257,7 +257,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	sta.b $08,x
 	lda.b $D3
 	ldy.w #$0700
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ldy.w #$5000
 	jsl.l CODE_C589B0
 	ldy.w #$2801
@@ -287,7 +287,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	and.w #$FFFE
 	sta.w $0022,y
 	lda.w #$542B
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	lda.w #$00A8
 	sta.b $CF
 	lda.w #$00F0
@@ -570,7 +570,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	adc.b $D3
 	adc.w #$0188
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w $04F5
 	and.w #$00FF
 	beq .15
@@ -582,12 +582,12 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	sta.b $CF
 	ldx.w #$04F5
 	jsl.l CODE_C4BC08
-.15:								; A = $D3, A + $0380, Y = $0380, call CODE_C58B11, ...
+.15:								; A = $D3, A + $0380, Y = $0380, call ClearRAM7E, ...
 	lda.b $D3
 	clc
 	adc.w #$0380
 	ldy.w #$0380
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$4F40
@@ -620,7 +620,7 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	clc
 	adc.w #$0380
 	ldy.w #$0380
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$2C00
@@ -640,7 +640,7 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$543D
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	ldx.w #$0000
 	stx.b $69
 	cpx.w #$000C
@@ -716,7 +716,7 @@ CODE_C5D5A5:						; from DrawNameGrid, EditUserName
 	adc.b $D3
 	adc.w #$0188
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$0020
 	sta.b $CF
 	lda.b $65
@@ -1405,7 +1405,7 @@ CODE_C5DAC2:						; from CODE_C5DAAF, CODE_C5DAE2
 	jmp ($008F)
 CODE_C5DAE2:						; from CODE_C5DAC2
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	lda.b $91
 	inc a
 	bra CODE_C5DAC2
@@ -1960,7 +1960,7 @@ CODE_C5DE9B:						; called from other segments
 	pei ($A3)
 	pea.w $7F7E
 	plb
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	jsr.w CODE_C52CC1
 	ldy.w #$2DC9
 	jsl.l CODE_C4EFD8

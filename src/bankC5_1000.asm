@@ -715,7 +715,7 @@ NewTicker2_next:					; from Intermission_tick and other segments
 	jmp.w CODE_C51752
 CODE_C516C2:						; called from other segments
 	lda.w #$0020
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	clc
 	adc.w #$001F
 	sta.b a1

@@ -534,10 +534,10 @@ CODE_C5E37E:						; called from other segments
 	txa
 	sta.w $0002,y
 	bra .loop
-.1:									; pull X, $0002,x = 0, go to CODE_C4C541
+.1:									; pull X, $0002,x = 0, go to MarkWorkBuf
 	plx
 	stz.w $0002,x
-	jml.l CODE_C4C541
+	jml.l MarkWorkBuf
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3AE:						; no caller found (not traced)
 	lda.l $3075B4

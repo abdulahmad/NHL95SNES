@@ -8,7 +8,7 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 DATA8_C4C4A6 = $C4C4A6
 CODE_C4C2AA = $C4C2AA
-CODE_C4C541 = $C4C541
+MarkWorkBuf = $C4C541
 CODE_C4CEDB = $C4CEDB
 CODE_C4BCA4 = $C4BCA4
 CODE_C40A6D = $C40A6D

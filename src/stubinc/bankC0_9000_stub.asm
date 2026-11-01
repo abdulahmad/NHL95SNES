@@ -9,8 +9,8 @@ incsrc "../ram95s.asm"
 CODE_C370A5 = $C370A5
 ProcessInputWithRepeat = $C370B2
 CODE_C36CBF = $C36CBF
-CODE_C4C3BA = $C4C3BA
-CODE_C4C561 = $C4C561
+UnpackText = $C4C3BA
+AllocWorkBuf2 = $C4C561
 CODE_C4818C = $C4818C
 StartPenaltyShot = $C4866D
 CODE_C48A41 = $C48A41

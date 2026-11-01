@@ -91,17 +91,17 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	phx
 	ldx.w #$50B4
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	txy
 	plx
 	jsl.l CODE_C56005
 	ldy.w #$0015
 	jsl.l CODE_C4BBF1
 	ldx.w #$50C4
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	phx
 	lda.b $65
 	asl a
@@ -110,13 +110,13 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	txy
 	plx
 	jsl.l CODE_C56005
 	phx
 	ldx.w #$50CC
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	txy
 	plx
 	jsl.l CODE_C56005
@@ -150,7 +150,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 ScoutingReport:						; the pregame scouting report: both teams' names and logos, the matchups
 									; (ShowMatchups; the next every 300 frames, A next, Y previous) and the
 									; commentary (BuildScoutingText) scrolling, X restarts it; start leaves
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
 	lda.w $1864
 	cmp.w #$0001
@@ -423,7 +423,7 @@ CODE_C4E3CB:						; from ScoutingReport
 	clc
 	adc.w #$0440
 	ldy.w #$02C0
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.w #$5C11
@@ -445,7 +445,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	clc
 	adc.w #$0140
 	ldy.w #$0240
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	ldx.b d7
@@ -464,7 +464,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	ldx.w $2DA5
 	cpx.w #$0005
 	bcc .2
@@ -672,7 +672,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	rts
 .7:									; a0 = $2EA7, A and $00FF, $6D = A, X = A, ...
 	lda.w $2EA7
@@ -831,7 +831,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	rts
 .12:								; $04F5 = 0, $364E = 0, X = $364E, Y = $3650, ...
 	stz.w $04F5
@@ -1087,7 +1087,7 @@ CODE_C4E8CD:						; from CODE_C4E885
 BuildScoutingText:					; writes the scouting report's commentary into the text buffer: welcome to
 									; a sold out ..., tonight's national hockey league game features the ...,
 									; the hot and cold players
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	stz.b $81
 	ldx.w #$4DB9
 	jsr.w AppendScoutText
@@ -1213,12 +1213,12 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	iny
 	iny
 	sty.b $81
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	tya
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.b $7B
 	tax
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	ldy.w #$0000
 	sep #$20
 .loop:								; loop: $0000,x = $364E,y, X + 1, Y + 1, if Y is not $81 go to .loop, ...
@@ -1266,9 +1266,9 @@ CODE_C4EB5C:						; from CODE_C4EB23
 	adc.w #$0118
 	tax
 	bra CODE_C4EB6C
-AppendScoutText:					; unpacks text X (CODE_C4C3BA) and appends it to the scouting report's
+AppendScoutText:					; unpacks text X (UnpackText) and appends it to the scouting report's
 									; text buffer
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 CODE_C4EB6C:						; from CODE_C4EB5C
 	ldy.b $81
 	sep #$20
@@ -1424,7 +1424,7 @@ CODE_C4EC88:						; from ShowMatchups, ShowMatchups, ...
 	sta.b r2
 	lda.b [r2]
 	sta.b d0
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	sta.b r0
 	lda.w #$007E
@@ -1728,7 +1728,7 @@ CODE_C4EECD:						; from ShowMatchups
 	pea.w $0370
 	pea.w $007E
 	lda.w #$0480
-	jsl.l CODE_C4C547
+	jsl.l AllocClearWorkBuf
 	pha
 	lda.b $00
 	tsx
@@ -1756,7 +1756,7 @@ CODE_C4EF07:						; from ShowMatchups
 	pea.w $0130
 	pea.w $007E
 	lda.w #$0480
-	jsl.l CODE_C4C547
+	jsl.l AllocClearWorkBuf
 	pha
 	lda.b $00
 	tsx

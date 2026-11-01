@@ -4728,17 +4728,17 @@ $C4BA56,.loop,CODE_C4BA56,new,"branch target only used in DeveloperCredits",src/
 $C4BB2C,.1,CODE_C4BB2C,new,"branch target only used in CODE_C4BAF6",src/bankC4_B000.asm
 $C4BB47,.loop,CODE_C4BB47,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
 $C4BB54,.1,CODE_C4BB54,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
-$C4BB7E,.1,CODE_C4BB7E,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BB7F,.2,CODE_C4BB7F,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BB92,.3,CODE_C4BB92,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBAC,.4,CODE_C4BBAC,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBB7,.5,CODE_C4BBB7,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBBD,.6,CODE_C4BBBD,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBC8,.7,CODE_C4BBC8,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBD3,.8,CODE_C4BBD3,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBD7,.9,CODE_C4BBD7,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBD8,.10,CODE_C4BBD8,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
-$C4BBDE,.11,CODE_C4BBDE,new,"branch target only used in CODE_C4BB5A",src/bankC4_B000.asm
+$C4BB7E,.1,CODE_C4BB7E,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BB7F,.2,CODE_C4BB7F,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BB92,.3,CODE_C4BB92,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBAC,.4,CODE_C4BBAC,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBB7,.5,CODE_C4BBB7,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBBD,.6,CODE_C4BBBD,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBC8,.7,CODE_C4BBC8,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBD3,.8,CODE_C4BBD3,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBD7,.9,CODE_C4BBD7,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBD8,.10,CODE_C4BBD8,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
+$C4BBDE,.11,CODE_C4BBDE,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
 $C4BC77,.loop,CODE_C4BC77,new,"branch target only used in CODE_C4BC70",src/bankC4_B000.asm
 $C4BC81,.1,CODE_C4BC81,new,"branch target only used in CODE_C4BC70",src/bankC4_B000.asm
 $C4BDF5,.1,CODE_C4BDF5,new,"branch target only used in CODE_C4BDE6",src/bankC4_B000.asm
@@ -7154,3 +7154,14 @@ $C4B09F,IntroSequence,CODE_C4B09F,94S+purpose,"same job as 94S IntroSequence (th
 $C4B97E,DeveloperCredits,CODE_C4B97E,code,"Opening calls it after IntroSequence; the two map sets of bank $C2; CODE_C4B8D1 fades the colours (VisualConceptsPalette+7)",src/bankC4_B000.asm
 $C4D657,CopyrightScreen,CODE_C4D657,code,"Opening calls it after DeveloperCredits; the page at $C354F9 (NHL '95, 1994 Electronic Arts, licensed by Nintendo, the NHL and NHLPA notices); the sound list DATA8_CF05D4",src/bankC4_D000.asm
 $C4D193,TitleScreen,CODE_C4D193,94S+purpose,"same job as 94S TitleScreen; Opening calls it after CopyrightScreen; the three title map sets of bank $C2",src/bankC4_D000.asm
+$C4C558,AllocWorkBuf,CODE_C4C558,code,"adds A to the pointer at $08 (bank $7E, reset to $50DC by ResetWorkBuf) and returns the old value; UnpackText, the map set unpackers and the screens use it",src/bankC4_C000.asm
+$C4C561,AllocWorkBuf2,CODE_C4C561,code,"adds A to the pointer at $D7 (ResetWorkBuf sets $E000); UnpackText2 uses it",src/bankC4_C000.asm
+$C4C56A,FreeWorkBuf,CODE_C4C56A,code,"subtracts A from the pointer at $08",src/bankC4_C000.asm
+$C4C530,ResetWorkBuf,CODE_C4C530,code,"the mark $18E0 = $50DC, then RestoreWorkBuf ($08 = the mark, $D7 = $E000)",src/bankC4_C000.asm
+$C4C536,RestoreWorkBuf,CODE_C4C536,code,"$08 = $18E0, $D7 = $E000; falls through from ResetWorkBuf",src/bankC4_C000.asm
+$C4C541,MarkWorkBuf,CODE_C4C541,code,"$18E0 = $08",src/bankC4_C000.asm
+$C4C547,AllocClearWorkBuf,CODE_C4C547,code,"X and Y kept",src/bankC4_C000.asm
+$C58B11,ClearRAM7E,CODE_C58B11,code,"stores 0 at $7E:A, sets the banks word $18FC = $7E7E and jumps to the mvn routine at $0018FA with Y - 1 bytes",src/bankC5_8000.asm
+$C4C3BA,UnpackText,CODE_C4C3BA,code,"5-bit codes read by CODE_C4C43D / CODE_C4C431: 0-25 letters, $1A end, $1B space, $1C case toggle, $1D-$1F a 3-bit index into DATA8_C4C420; ../work/textdec.py models it",src/bankC4_C000.asm
+$C4C3AE,UnpackText2,CODE_C4C3AE,code,"the same decoder (CODE_C4C3C4) after AllocWorkBuf2",src/bankC4_C000.asm
+$C4BB5A,PrintTextPage,CODE_C4BB5A,code,"the descriptor: left ($CF), right ($D1), title text and row (printed by CODE_C4BDAE when nonzero), then (text, row with flags) pairs, $FFFF to set the left margin, 0 to end; ../work/pages.py lists them",src/bankC4_B000.asm

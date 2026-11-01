@@ -26,11 +26,11 @@ CODE_C56009:						; from CODE_C56005, CODE_C56F98, CODE_C56FC1
 	iny
 	inx
 	bra .loop2
-.2:									; A 16-bit, A = Y, A + 1, call CODE_C4C558, ...
+.2:									; A 16-bit, A = Y, A + 1, call AllocWorkBuf, ...
 	rep #$20
 	tya
 	inc a
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	tay
 	lda.b $03,s
@@ -462,7 +462,7 @@ ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches betw
 	clc
 	adc.w #$03C0
 	ldy.w #$0340
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.b $7B
 	eor.w #$0001
 	sta.b $7B
@@ -577,7 +577,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	lda.w #$533B
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l GetPadTeam
 	stz.b $7D
 	ldy.w #$2801
@@ -601,12 +601,12 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	adc.w #$026A
 	pha
 	ldy.w #$0012
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	clc
 	adc.w #$0040
 	ldy.w #$0012
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 .2:									; call CODE_C55E57, X = $2DC9, if a2 = 0 go to .3, X = $3207
 	jsr.w CODE_C55E57
@@ -716,7 +716,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	clc
 	adc.w #$02C0
 	ldy.w #$0040
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsr.w CODE_C5660A
 	lda.w #$FFFF
 	cmp.b $7D
@@ -734,19 +734,19 @@ CODE_C5660A:						; from ShowPlayerStats
 	adc.b $D3
 	pha
 	ldy.w #$0380
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	pla
 	sec
 	sbc.w #$0100
 	pha
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	clc
 	adc.w #$0040
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4CEDB
 	rts
 CODE_C5663A:						; from ShowPlayerStats
@@ -1050,12 +1050,12 @@ CODE_C56880:						; from ShowPlayerStats
 	clc
 	adc.b $D3
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$0240
 	clc
 	adc.b $D3
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ldy.w #$000B
 	sty.b $6D
 	ldx.b $7D
@@ -1400,7 +1400,7 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	tax
 	lda.l DATA8_C3585C,x
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	lda.w #$007E
 	sta.b $2E
 	stx.b r0
@@ -1713,7 +1713,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	lda.w #$5369
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l GetPadTeam
 	stz.b $7D
 	stz.b $79
@@ -1799,7 +1799,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	clc
 	adc.b $D3
 	ldy.w #$0080
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.b a2
 	eor.w #$0002
 	sta.b a2

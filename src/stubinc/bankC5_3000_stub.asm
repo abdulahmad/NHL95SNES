@@ -8,9 +8,9 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 CODE_C38799 = $C38799
 PlayerList = $C30038
-CODE_C4C3BA = $C4C3BA
-CODE_C4C530 = $C4C530
-CODE_C4C561 = $C4C561
+UnpackText = $C4C3BA
+ResetWorkBuf = $C4C530
+AllocWorkBuf2 = $C4C561
 CODE_C45606 = $C45606
 CODE_C43734 = $C43734
 assreplace = $C4373E

@@ -290,10 +290,10 @@ CODE_C5C214:						; called from other segments
 	ldx.b a0
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$53AB
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$008C
@@ -454,7 +454,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	tax
 	lda.w #$0024
 	sta.b $CF
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
@@ -1061,10 +1061,10 @@ CODE_C5C826:						; from ReleasePlayers
 	ldx.b a0
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$53D5
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$008C
@@ -1400,10 +1400,10 @@ CODE_C5CB36:						; from TradePlayers
 	ldx.b a0
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$56F2
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5084
@@ -1661,10 +1661,10 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	ldx.b $8D
 	jsl.l CODE_C5E596
 	stz.b $8D
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$53FF
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5084

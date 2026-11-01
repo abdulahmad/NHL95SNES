@@ -19,7 +19,7 @@ CODE_C5AFCC:						; called from other segments
 	jsl.l CODE_C5E596
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	jsl.l CODE_C4CEDB
 	pla
@@ -44,7 +44,7 @@ CODE_C5AFCC:						; called from other segments
 	jsr.w CODE_C5D804
 	beq .loop
 	lda.w #$0010
-	jsl.l CODE_C4C547
+	jsl.l AllocClearWorkBuf
 	sta.b d0
 	sta.b $81
 	tay
@@ -55,7 +55,7 @@ CODE_C5AFCC:						; called from other segments
 	jsr.w CODE_C5B558
 	dec.b tmp0
 	bpl .loop2
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.b $81
 	ldy.w #$FFFE
 .loop3:								; loop: X = A, A = $0006,x, if the result is not 0 go to .2, Y + 1, ...
@@ -74,7 +74,7 @@ CODE_C5AFCC:						; called from other segments
 	lsr a
 	sta.b a1
 	lda.w #$556D
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	stz.b $69
 	lda.w #CODE_C5B6A1
@@ -105,10 +105,10 @@ SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (recor
 	lda.b #$11
 	sta.l TM
 	rep #$20
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$55F1
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$50A8
@@ -145,10 +145,10 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	lda.b #$11
 	sta.l TM
 	rep #$20
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$5583
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$50A8
@@ -189,10 +189,10 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 	sta.w DMAEnShadow
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$5553
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	stz.b d0
 	jsl.l CODE_C5E37E
@@ -260,7 +260,7 @@ CODE_C5B22D:						; called from other segments
 	asl a
 	adc.b $D3
 	ldy.w #$0540
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	ldy.w #$5000
 	jsl.l CODE_C589E4
@@ -382,7 +382,7 @@ CODE_C5B33C:						; from CODE_C5B22D
 	lda.l DATA8_C5B35D,x
 	adc.b $D3
 	ldy.w #$01C0
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	plx
 	lda.l DATA8_C5B363,x
 	tay
@@ -639,7 +639,7 @@ CODE_C5B53D:						; from CODE_C5B4C2
 	rts
 CODE_C5B558:						; from CODE_C5AFCC
 	lda.w #$0010
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	tay
 	lda.b tmp0
 	jsr.w CODE_C5B4C2
@@ -775,12 +775,12 @@ CODE_C5B631:						; from CODE_C5AFCC
 	pha
 	ldy.w #$0016
 	phy
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ply
 	pla
 	clc
 	adc.w #$0040
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	plx
 	ldy.w #$0007
 	lda.w #$00F6
@@ -964,13 +964,13 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ldx.b $16
 	lda.b $0A
 	beq .15
 	inx
-.15:								; call CODE_C4C3BA, $CF = $00A8, Y = $6D, call CODE_C4BC08, ...
-	jsl.l CODE_C4C3BA
+.15:								; call UnpackText, $CF = $00A8, Y = $6D, call CODE_C4BC08, ...
+	jsl.l UnpackText
 	lda.w #$00A8
 	sta.b $CF
 	ldy.b $6D
@@ -1154,7 +1154,7 @@ CODE_C5B95A:						; called from other segments
 CODE_C5B96D:						; from CODE_C5B7F1, CODE_C5B96D
 	pha
 	ldy.w #$0014
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	clc
 	adc.w #$0040
@@ -1167,7 +1167,7 @@ CODE_C5B97F:						; called from other segments
 CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	tax
 	lda.w #$0032
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	tay
 	txa
 	sta.w $000C,y
@@ -1589,7 +1589,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	lda.b $D3
 	adc.w #$0180
 	ldy.w #$0080
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	lda.w $17C9
 	asl a

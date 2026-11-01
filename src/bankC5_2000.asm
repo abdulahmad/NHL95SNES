@@ -117,7 +117,7 @@ CODE_C52037:						; called from other segments
 	stx.b $00
 	lda.w #$01E0
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pea.w $6360
 	ldx.w #$007E
 	phx
@@ -1594,7 +1594,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	ldx.w $18E0
 	phx
 	tax
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	txa
 	ldx.w $1864
 	cpx.w #$0003
@@ -2036,7 +2036,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	clc
 	adc.w #$0008
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	sep #$20
 .loop9:								; loop: $0118,y = $0000,x, if $0000,x = 0 go to .30, X + 1, Y + 1, ...
 	lda.w $0000,x
@@ -2087,8 +2087,8 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	inc a
 	cmp.b (tmp1)
 	bcc .loop10
-.34:								; call CODE_C4C536, pull A, $18E0 = A, return
-	jsl.l CODE_C4C536
+.34:								; call RestoreWorkBuf, pull A, $18E0 = A, return
+	jsl.l RestoreWorkBuf
 	pla
 	sta.w $18E0
 	rts

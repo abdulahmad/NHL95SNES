@@ -219,7 +219,7 @@ CODE_C40153:						; from CODE_C40000
 CODE_C401E5:						; called from other segments
 	lda.w #$0000
 	sta.l $306051
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsr.w CODE_C409E3
 	pea.w $7E7F
 	plb
@@ -539,7 +539,7 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l CODE_C5E596
 	stz.b a0
 	jsl.l CODE_C5BBBC
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	lda.w #PlayoffBracketMap&$FFFF
 	ldx.w #PlayoffBracketMap>>16
 	jsl.l CODE_C58812
@@ -587,8 +587,8 @@ CODE_C40444:						; from CODE_C40000
 	ldx.w #TeamNameBarsMap>>16
 	jsl.l CODE_C58812
 	lda.w #$04E0
-	jsl.l CODE_C4C558
-	jsl.l CODE_C4C541
+	jsl.l AllocWorkBuf
+	jsl.l MarkWorkBuf
 	ldx.w #$04DE
 .loop2:								; loop: A = $50DC,x, A or $3400, $50DC,x = A, X - 1, ...
 	lda.w $50DC,x
@@ -670,13 +670,13 @@ CODE_C40444:						; from CODE_C40000
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ldx.b $16
 	lda.b $0A
 	beq .1
 	inx
-.1:									; call CODE_C4C3BA, Y = tmp0, call CODE_C4BC08, tmp0 - 1, ...
-	jsl.l CODE_C4C3BA
+.1:									; call UnpackText, Y = tmp0, call CODE_C4BC08, tmp0 - 1, ...
+	jsl.l UnpackText
 	ldy.b tmp0
 	jsl.l CODE_C4BC08
 	dec.b tmp0
@@ -761,12 +761,12 @@ CODE_C4064B:						; from CODE_C4062A, CODE_C403C2
 .1:									; A and $001F, A or $5000
 	and.w #$001F
 	ora.w #$5000
-.2:									; push A, A = $0038, call CODE_C4C558, push A, ...
+.2:									; push A, A = $0038, call AllocWorkBuf, push A, ...
 	pha
 	pea.w $1801
 	pea.w $007E
 	lda.w #$0038
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	tay
 	lda.b $02
@@ -854,10 +854,10 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	jsl.l CODE_C5E596
 	stz.b $9D
 	jsl.l CODE_C5A507
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	pla
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	ldx.b a0
 	lda.w #$FF80
 	sta.b $05,x
@@ -1214,7 +1214,7 @@ CODE_C409E3:						; from CODE_C401E5, CODE_C40444
 	jsl.l CODE_C4CEDB
 	lda.w #$364E
 	ldy.w #$1000
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	dec.w $3D5E
 	lda.w #$0040
 	ldx.w #$3D5E
@@ -1283,7 +1283,7 @@ CODE_C40A6D:						; called from other segments
 	pea.w $7E7E
 	plb
 	plb
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	jsl.l CODE_C52CA3
 	ply
 	phy
@@ -1701,8 +1701,8 @@ CODE_C40D96:						; called from other segments
 	bne .rtl
 	lda.w #$2C46
 	ldy.w #$0078
-	jsl.l CODE_C58B11
-	jsl.l CODE_C4C536
+	jsl.l ClearRAM7E
+	jsl.l RestoreWorkBuf
 	jsl.l CODE_C5E37E
 	lda.w #$0002
 	sta.b tmp0

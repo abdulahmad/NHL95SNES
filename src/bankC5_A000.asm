@@ -124,10 +124,10 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	jsl.l CODE_C5E596
 	ldx.b $75
 	jsl.l CODE_C5E596
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$5714
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	sec
 	lda.b $CF
 	sbc.w #$0008
@@ -320,12 +320,12 @@ CODE_C5A304:						; from CODE_C5A291, CODE_C5A2B4, CODE_C5A2D3, CODE_C5A2EC
 	adc.w #$0020
 	pha
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	clc
 	adc.w #$0040
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	rts
 CODE_C5A321:						; from CODE_C5A2B4, CODE_C5A2D3
 	tax
@@ -434,12 +434,12 @@ CODE_C5A3E6:						; from CODE_C5A3C1, CODE_C5A46A
 	ldy.w #$0020
 	pha
 	phy
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ply
 	pla
 	clc
 	adc.w #$0040
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	rts
 DATA8_C5A3FD:						; a pointer to CODE_C5A402 (its reader is not traced)
 	dw CODE_C5A402
@@ -624,10 +624,10 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	ldx.b $9D
 	jsl.l CODE_C5E596
 	jsr.w CODE_C5A50B
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$56A4
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	clc
 	lda.b $D3
 	adc.w #$0240
@@ -820,7 +820,7 @@ CODE_C5A66E:						; called from other segments
 	clc
 	adc.w #$0280
 	ldy.w #$0380
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsr.w CODE_C5BCD9
 	jsr.w CODE_C52CC1
@@ -849,17 +849,17 @@ CODE_C5A72D:						; from CODE_C5A66E
 	pla
 	pea.w $55AD
 	pea.w $55D7
-.1:									; A = $0240, A + $D3, Y = $0040, call CODE_C58B11, ...
+.1:									; A = $0240, A + $D3, Y = $0040, call ClearRAM7E, ...
 	clc
 	lda.w #$0240
 	adc.b $D3
 	ldy.w #$0040
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	clc
 	lda.w #$0600
 	adc.b $D3
 	ldy.w #$0040
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$0018
 	sta.b $CF
 	ldy.w #$0009
@@ -946,7 +946,7 @@ CODE_C5A80B:						; from CODE_C5A773
 CODE_C5A80E:						; from CODE_C5A773
 	clc
 	adc.b $D3
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	rts
 CODE_C5A816:						; called from other segments
 	ldx.b $89
@@ -1284,7 +1284,7 @@ CODE_C5AA94:						; from CODE_C5A821
 	lda.l DATA8_C5B35D,x
 	adc.b $D3
 	ldy.w #$01C0
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	plx
 	lda.l DATA8_C5B363,x
 	tay
@@ -1313,7 +1313,7 @@ CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	clc
 	adc.w #$0140
 	ldy.w #$0080
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.b d0
 	jsr.w CODE_C56168
 	lda.w #$0030
@@ -1397,7 +1397,7 @@ CODE_C5ABAE:						; from CODE_C5AB27
 	lda.w #$0400
 	adc.b $D3
 	ldy.w #$0280
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	rts
@@ -1598,10 +1598,10 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	ldx.b a0
 	lda.w #$002D
 	sta.b $05,x
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$568E
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	lda.l $306050
 	and.w #$00FF
@@ -1627,7 +1627,7 @@ NoGameSelected:						; the warning A game must be selected. / Okay (screen state
 	clc
 	adc.w #$0180
 	ldy.w #$0580
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.w #$2C00
@@ -1763,7 +1763,7 @@ CODE_C5AF07:						; from MenuPlayGames and other segments
 	jsr.w CODE_C5E49A
 	jsr.w CODE_C5DD47
 	jsr.w CODE_C5DE9B
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	lda.w #$0001
 	sta.w $190E
 	stz.w $1910
@@ -1796,7 +1796,7 @@ CODE_C5AF07:						; from MenuPlayGames and other segments
 	sta.w $17CB
 	stx.w $2C44
 	jsl.l CODE_C4C574
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	wai

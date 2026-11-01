@@ -38,7 +38,7 @@ CODE_C5800C:						; called from other segments
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ply
 	jsr.w CODE_C5809A
 	lda.w #$7620
@@ -55,7 +55,7 @@ CODE_C5800C:						; called from other segments
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ply
 	jsr.w CODE_C5809A
 	lda.w #$0000
@@ -696,7 +696,7 @@ CODE_C5852B:						; from MapSetToVRAM
 	inc a
 	inc a
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	inc a
 	inc a
@@ -769,9 +769,9 @@ CODE_C5852B:						; from MapSetToVRAM
 	sta.b tmp0
 	dec.b $A5
 	bne .loop2
-.7:									; pull A, call CODE_C4C56A, call CODE_C586B6, Y = $0004, ...
+.7:									; pull A, call FreeWorkBuf, call CODE_C586B6, Y = $0004, ...
 	pla
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	jsr.w CODE_C586B6
 	ldy.w #$0004
 	lda.b [r1],y
@@ -806,7 +806,7 @@ CODE_C5852B:						; from MapSetToVRAM
 	sta.b $0A
 	lsr.b $0A
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	ldx.w #$007E
 	jsr.w DecompressLZSS
@@ -825,7 +825,7 @@ CODE_C5852B:						; from MapSetToVRAM
 	cpy.b $A5
 	bcc .loop5
 	pla
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	jsr.w CODE_C586B6
 	ldy.w #$0005
 	lda.b [r1],y
@@ -885,7 +885,7 @@ CODE_C586CA:						; from CODE_C5852B
 	sta.b $2E
 	lda.b [r1],y
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	ldx.w #$007E
 	jsr.w DecompressLZSS
@@ -925,7 +925,7 @@ CODE_C586CA:						; from CODE_C5852B
 	bne .loop
 	rep #$20
 	pla
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	jsr.w CODE_C586B6
 	ldy.w #$0004
 	lda.b [r1],y
@@ -962,7 +962,7 @@ CODE_C586CA:						; from CODE_C5852B
 	lda.b [r1],y
 	sta.b $A5
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	ldx.w #$007E
 	stx.b $2E
@@ -985,7 +985,7 @@ CODE_C586CA:						; from CODE_C5852B
 	bcc .loop3
 	rep #$20
 	pla
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	jsr.w CODE_C586B6
 	ldy.w #$0002
 	lda.b [r1],y
@@ -1324,7 +1324,7 @@ DecompressToVRAM:					; Decompress A:X into a $1000 byte heap block and queue it
 	phy
 	tay
 	lda.w #$1000
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	sta.b r0
 	lda.w #$007E
@@ -1414,7 +1414,8 @@ CODE_C58AF3:						; called from other segments
 	sta.b $03,s
 	pla
 	rtl
-CODE_C58B11:						; from CODE_C58F75
+ClearRAM7E:							; clears Y bytes at A in bank $7E: a zero, then a block move through the
+									; RAM routine
 	phy
 	tax
 	inc a
@@ -1446,7 +1447,7 @@ CODE_C58B2E:						; called from other segments
 CODE_C58B48:						; called from other segments
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
 	pea.w $7E80
 	plb
@@ -1493,7 +1494,7 @@ CODE_C58BB9:						; called from other segments
 	and.w #$00FF
 	sta.b tmp0
 	inc a
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	pha
 	tax
 	ldy.w #$0001
@@ -1512,7 +1513,7 @@ CODE_C58BB9:						; called from other segments
 	rtl
 CODE_C58BE4:						; called from other segments
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
 	jsr.w SetBGMapRegs
 	db $58,$51,$5C,$5C,$02,$43		; inline parameters
@@ -1944,7 +1945,7 @@ CODE_C58F75:						; from CODE_C58EE0
 	lsr a
 	adc.b $D3
 	ldy.w #$0080
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$0010
 	sta.b $CF
 	lda.b d6

@@ -7,12 +7,12 @@ CODE_C56F5C:						; called from other segments
 	adc.b $D3
 	pha
 	ldy.w #$0300
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	sec
 	pla
 	sbc.w #$0040
 	ldy.w #$0028
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.w #$0010
@@ -28,11 +28,11 @@ CODE_C56F5C:						; called from other segments
 	tax
 	lda.l DATA8_C35E37,x
 	tax
-.2:									; call CODE_C4C3BA, push X, X = $4E7D, call CODE_C4C3BA, ...
-	jsl.l CODE_C4C3BA
+.2:									; call UnpackText, push X, X = $4E7D, call UnpackText, ...
+	jsl.l UnpackText
 	phx
 	ldx.w #$4E7D
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ply
 	jsr.w CODE_C56009
 	ldy.w #$000A
@@ -46,12 +46,12 @@ CODE_C56F5C:						; called from other segments
 	bra .4
 .3:									; A = DATA8_C35E67,x
 	lda.l DATA8_C35E67,x
-.4:									; X = A, call CODE_C4C3BA, push X, X = $4EC1, ...
+.4:									; X = A, call UnpackText, push X, X = $4EC1, ...
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	phx
 	ldx.w #$4EC1
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ply
 	jsr.w CODE_C56009
 	ldy.w #$000B
@@ -548,9 +548,9 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	ldy.w #$0018
 	ldx.w #$4F06
 	jsl.l CODE_C4BBFC
-.3:									; A = $537F, call CODE_C4BB5A, X = $2DC9, Y = $17DB, ...
+.3:									; A = $537F, call PrintTextPage, X = $2DC9, Y = $17DB, ...
 	lda.w #$537F
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	ldx.w #$2DC9
 	ldy.w #$17DB
 	lda.b a2
@@ -646,7 +646,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	clc
 	adc.w #$0300
 	ldy.w #$02C0
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	stz.b $69
@@ -783,7 +783,7 @@ CODE_C57578:						; from EditLinesScreen
 	clc
 	adc.w #$0300
 	ldy.w #$0400
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	stz.b $7D
@@ -916,7 +916,7 @@ CODE_C57578:						; from EditLinesScreen
 	clc
 	adc.w #$0300
 	ldy.w #$0400
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.w #$8000
@@ -935,16 +935,16 @@ CODE_C576CC:						; from CODE_C57578
 	adc.w #$0320
 	pha
 	ldy.w #$0020
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	clc
 	adc.w #$004C
 	ldx.w #$000B
-.loop:								; loop: push X, push A, Y = $0014, call CODE_C58B11, ...
+.loop:								; loop: push X, push A, Y = $0014, call ClearRAM7E, ...
 	phx
 	pha
 	ldy.w #$0014
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	pla
 	clc
 	adc.w #$0040
@@ -1179,7 +1179,7 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	lda.w #$5395
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l GetPadTeam
 	ldy.w #$2801
 	ldx.w #$5135
@@ -1282,7 +1282,7 @@ CODE_C57997:						; from PauseGoalie
 	clc
 	adc.b $D3
 	ldy.w #$0280
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	lda.w #$000C
 	sta.b $6D
 	lda.w #$0010
@@ -1700,9 +1700,9 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	tax
 	dec.b tmp0
 	bne .loop2
-.8:									; A = $545F, call CODE_C4BB5A
+.8:									; A = $545F, call PrintTextPage
 	lda.w #$545F
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 .9:									; if a1 is not 0 go to .10, $CF = $0010, $D1 = $00F0, $D5 = $2400, ...
 	lda.b a1
 	bne .10
@@ -1718,12 +1718,12 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	lda.w #$2000
 	sta.b $D5
 	bra .11
-.10:								; A = $D3, A + $0180, Y = $02C0, call CODE_C58B11, ...
+.10:								; A = $D3, A + $0180, Y = $02C0, call ClearRAM7E, ...
 	lda.b $D3
 	clc
 	adc.w #$0180
 	ldy.w #$02C0
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	ldx.b $7D
@@ -1987,7 +1987,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ply
 	jsr.w CODE_C57FC7
 	lda.w #$7620
@@ -2004,7 +2004,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	and.w #$00FF
 	tax
 	jsr.w CODE_C580B7
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	ply
 	jsr.w CODE_C57FC7
 	lda.w #$0000

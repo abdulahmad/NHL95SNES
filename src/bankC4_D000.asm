@@ -148,7 +148,7 @@ DATA8_C4D10A:						; not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_
 	db $52,$09,$53,$02,$F3,$52,$13,$53,$00
 TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayersMap, run by
 									; tasks
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	jsl.l CODE_C4C574
 	jsl.l CODE_C5E50E
@@ -268,7 +268,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	sta.b d5
 	adc.w #$0180
 	sta.b $08
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$0010
 	sta.b d3
 	lda.b d4
@@ -603,7 +603,7 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	jsl.l CODE_C4B8D1
 	lda.b $D3
 	ldy.w #$0700
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	ldx.b $95
 	lda.l DATA8_C4D10A,x
 	and.w #$00FF
@@ -678,7 +678,7 @@ CODE_C4D636:						; from TitleScreen
 CopyrightScreen:					; the copyright and licence page at start, with logo sprites: a sound at
 									; frame 60; from frame 195 a key pressed leaves, else frame 1200 does
 	jsl.l CODE_C4C574
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	stz.w DMAEnShadow
 	wai
 	ldx.w #$0070
@@ -747,7 +747,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	lda.w #$0004
 	sta.w $18DE
 	lda.w #$54F9
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -780,7 +780,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	jsl.l CODE_C4C574
 	jsl.l CODE_C5E50E
-	jsl.l CODE_C4C530
+	jsl.l ResetWorkBuf
 	lda.w #$007F
 	sta.b $2E
 	lda.w #$D80A
@@ -855,7 +855,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	lda.w #$FFFF
 	sta.b $75
 	lda.w #$0240
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.b r0
 	sta.b r2
 	lda.w #$007E
@@ -885,11 +885,11 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
 	lda.w #$0240
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	lda.w #$0002
 	sta.w BG2VScroll
 	lda.w #$5419
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C2AA
 	stz.w fadestep
@@ -934,7 +934,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	clc
 	adc.w #$0140
 	ldy.w #$0480
-	jsl.l CODE_C58B11
+	jsl.l ClearRAM7E
 	jsr.w DrawAward
 	jsr.w FindAwardWinner
 	ldx.b a0

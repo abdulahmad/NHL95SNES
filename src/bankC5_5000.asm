@@ -159,12 +159,12 @@ DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Qui
 CODE_C5503C:						; called from other segments
 	jsl.l forceblack
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	lda.w #$FFFF
 	sta.w $2372
 	sta.w $18F2
 	lda.w #$0802
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.l $7E364A
 	dec.b QueueBusy
 	lda.b $02
@@ -186,10 +186,10 @@ CODE_C5503C:						; called from other segments
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C387FF
 	lda.w #$2D60
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.w $18EE
 	sta.b r1
-	jsl.l CODE_C4C541
+	jsl.l MarkWorkBuf
 	lda.w #$007E
 	sta.b $32
 	lda.w #PauseScreenMap&$FFFF
@@ -297,7 +297,7 @@ CODE_C550E2:						; from CODE_C55A09
 	stx.b $04
 	stz.b QueueBusy
 	lda.w #$4100
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.b r0
 	pha
 	lda.w #$007E
@@ -356,7 +356,7 @@ CODE_C550E2:						; from CODE_C55A09
 	jsr.w CODE_C55367
 	jsl.l CODE_C4CEDB
 	lda.w #$4100
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	ldy.w #$4A00
 	lda.w #ArrowFontTiles&$FFFF
 	ldx.w #ArrowFontTiles>>16
@@ -634,7 +634,7 @@ CODE_C553D6:						; from CODE_C553CC
 	sta.w $04F4,x
 	rep #$20
 	lda.w #$0020
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	tay
 	ldx.w #$0000
@@ -765,7 +765,7 @@ CODE_C55513:						; called from other segments
 	lda.w #$007E
 	sta.b $32
 	lda.w #$21F0
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pha
 	sta.b r1
 	lda.w #RefsMap&$FFFF
@@ -802,7 +802,7 @@ CODE_C55513:						; called from other segments
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	lda.w #$21F0
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	ldx.w #$20A0
 	stx.b tmp2
 	ldx.w #$2000
@@ -913,7 +913,7 @@ CODE_C55513:						; called from other segments
 	stx.b $00
 	lda.w #$01E0
 	pha
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	pea.w $6360
 	ldx.w #$007E
 	phx
@@ -930,7 +930,7 @@ CODE_C55513:						; called from other segments
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	lda.w #$01E0
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	lda.w #IceRinkMap&$FFFF
 	sta.b r1
 	lda.w #IceRinkMap>>16
@@ -966,10 +966,10 @@ CODE_C55513:						; called from other segments
 	adc.w #$0008
 	bcc .6
 	inc.b $2E
-.6:									; r0 = A, A = $4100, call CODE_C4C558, $364C = A, ...
+.6:									; r0 = A, A = $4100, call AllocWorkBuf, $364C = A, ...
 	sta.b r0
 	lda.w #$4100
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.w $364C
 	ldx.w #$007E
 	jsr.w DecompressLZSS
@@ -1026,9 +1026,9 @@ CODE_C55513:						; called from other segments
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	lda.w #$4100
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	lda.w #$4E00
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.w $364C
 	sta.b r0
 	lda.w #$007E
@@ -1074,7 +1074,7 @@ CODE_C55513:						; called from other segments
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	lda.w #$4E00
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	lda.w #$03E7
 	sta.w $07E4
 	ldy.w #$4800
@@ -1082,7 +1082,7 @@ CODE_C55513:						; called from other segments
 	ldx.w #MeterFontTiles>>16
 	jsl.l DecompressToVRAM
 	lda.w #$13E0
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.w $364C
 	sta.b r1
 	lda.w #$007E
@@ -1119,14 +1119,14 @@ CODE_C55513:						; called from other segments
 	stx.b $04
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	sep #$20
 	lda.b #$13
 	sta.l TM
 	rep #$20
 	jsl.l CODE_C53A29
 	jsl.l CODE_C4CEDB
-	jml.l CODE_C4C536
+	jml.l RestoreWorkBuf
 CODE_C5589E:						; called from other segments
 	dec.b QueueBusy
 	lda.b $00
@@ -1147,12 +1147,12 @@ CODE_C5589E:						; called from other segments
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	lda.w #$0802
-	jsl.l CODE_C4C56A
-	jml.l CODE_C4C541
+	jsl.l FreeWorkBuf
+	jml.l MarkWorkBuf
 CODE_C558CC:						; called from other segments
 	lda.w #$040E
-	jsl.l CODE_C4C56A
-	jsl.l CODE_C4C541
+	jsl.l FreeWorkBuf
+	jsl.l MarkWorkBuf
 CODE_C558D7:						; from CODE_C55A09 and other segments
 	ldx.w $3648
 	ldy.w #$1912
@@ -1202,7 +1202,7 @@ CODE_C558D7:						; from CODE_C55A09 and other segments
 	ora.w #$00B9
 	jsl.l CODE_C5EE9B
 	jsl.l CODE_C4CEDB
-	jml.l CODE_C4C536
+	jml.l RestoreWorkBuf
 CODE_C55951:						; from CODE_C55A40 and other segments
 	stz.w DMAEnShadow
 	stz.b $22
@@ -1239,7 +1239,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	lda.w #$001F
 	sta.l TM
 	lda.w #$0240
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	sta.b r0
 	sta.b r2
 	lda.w #$007E
@@ -1265,7 +1265,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	jsr.w CODE_C5A4E2
 	jsl.l CODE_C4CEDB
 	lda.w #$0240
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	lda.w #$0002
 	sta.w BG2VScroll
 	rts
@@ -1275,10 +1275,10 @@ CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
 	lda.w $190E
 	beq .1
 	rts
-.1:									; call ClearNMIHook, A = $0800, call CODE_C4C56A, $18E0 = A, ...
+.1:									; call ClearNMIHook, A = $0800, call FreeWorkBuf, $18E0 = A, ...
 	jsl.l ClearNMIHook
 	lda.w #$0800
-	jsl.l CODE_C4C56A
+	jsl.l FreeWorkBuf
 	sta.w $18E0
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C558D7
@@ -1294,7 +1294,7 @@ CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
 	pla
-	jsl.l CODE_C4BB5A
+	jsl.l PrintTextPage
 	lda.w #$0040
 	sta.b $18
 	sta.b $1A
@@ -1456,7 +1456,7 @@ CODE_C55BC8:						; from CODE_C55BD1
 	jmp ($0075)
 CODE_C55BD1:						; from CODE_C55BC8
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	inc.b $6D
 	inc.b a3
 	lda.b a3
@@ -1524,7 +1524,7 @@ CODE_C55C25:						; from CODE_C55C12, CODE_C55C45
 	jmp ($0075)
 CODE_C55C45:						; from CODE_C55C25
 	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C536
+	jsl.l RestoreWorkBuf
 	lda.b a3
 	inc a
 	bra CODE_C55C25
@@ -1967,14 +1967,14 @@ CODE_C55F22:						; from CODE_C55F8A and other segments
 CODE_C55F8A:						; called from other segments
 	pha
 	adc.w #$0002
-	jsl.l CODE_C4C558
+	jsl.l AllocWorkBuf
 	tay
 	pla
 	jsr.w CODE_C55F22
 	rtl
 CODE_C55F98:						; called from other segments
 	sta.b r0
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	stx.b $2E
 	ldy.w #$0000
 	sep #$20

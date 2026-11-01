@@ -561,7 +561,7 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	tax
 	lda.l $C30002,x
 	tax
-	jsl.l CODE_C4C3BA
+	jsl.l UnpackText
 	jsl.l CODE_C099F4
 	phx
 	ldx.w #$0010
@@ -1212,7 +1212,7 @@ CODE_C099F4:						; called from ShootoutWonBy
 	bne .loop
 	rep #$20
 	tya
-	jsl.l CODE_C4C561
+	jsl.l AllocWorkBuf2
 	tax
 	tya
 	sta.w $0000,x
