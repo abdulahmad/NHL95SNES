@@ -1082,7 +1082,7 @@ AwardPictures:						; the picture (map set) of each award, a long pointer; read 
 	dw ConnSmythePicMap&$FFFF,ConnSmythePicMap>>16	; 2: Conn Smythe Trophy
 	dw JenningsPicMap&$FFFF,JenningsPicMap>>16	; 3: William M. Jennings Trophy
 	dw $F32B,$00CD					; 4: Hart Memorial Trophy (HartPicMap, not yet source)
-	dw $FDF9,$00CA					; 5: Art Ross Trophy (ArtRossPicMap, not yet source)
+	dw ArtRossPicMap&$FFFF,ArtRossPicMap>>16	; 5: Art Ross Trophy
 	dw $FDD5,$00CB					; 6: James Norris Memorial Trophy (NorrisPicMap, not yet source)
 	dw $F0AB,$00CE					; 7: Presidents Trophy (PresidentsPicMap, not yet source)
 DATA8_C4DA75:						; not traced: a table read by CODE_C4D99C
