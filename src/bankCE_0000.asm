@@ -1,7 +1,7 @@
 ; Segment bankCE_0000: DATA8_CE0192 (a per-frame offset table), then the Hartford player photos
 ; (PhotoPalettesHFD, PlayerPhotosHFD).
 org $CE0192
-DATA8_CE0192:						; per frame number (1060 words): a signed offset; CODE_C37FE2 puts
+DATA8_CE0192:						; per frame number (1060 words): a signed offset; GetFrameHot puts
 									; it negated in $83
 	dw $0000,$FFF9,$FFFB,$FFFA,$FFFA,$FFF2,$FFF0,$FFF6
 	dw $FFF6,$0005,$FFFF,$FFFE,$FFFD,$FFF8,$FFF6,$FFFA

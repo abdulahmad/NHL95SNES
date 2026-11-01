@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C38799 = $C38799
+CalcPuckDistances = $C38799			; update every object distance and direction to the puck
 PlayerList = $C30038
 UnpackText = $C4C3BA
 ResetWorkBuf = $C4C530

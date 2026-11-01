@@ -22,7 +22,7 @@ CODE_C43FC8:						; called from other segments
 	cpx.w #$0018
 	bcs .1
 	txa
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	lda.w Xpos,x
 	clc
 	adc.b d0
@@ -1487,7 +1487,7 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	cmp.w #$0100
 	bpl .1
 	tya
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	ldy.b a2
 	lda.b d0
 	clc
@@ -1639,7 +1639,7 @@ DATA8_C44CDD:						; not traced: a table read by CODE_C44D3D, CODE_C44D3D
 	db $1B,$00,$1B,$00,$1C,$00,$1D,$00,$1D,$00,$1E,$00,$1F,$00,$1F,$00
 CODE_C44D3D:						; from checkpuckcoll_ccx
 	tya
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	lda.b d0
 	bit.w #$8000
 	beq .1
@@ -1663,7 +1663,7 @@ CODE_C44D3D:						; from checkpuckcoll_ccx
 	sta.b d3
 	ldx.b curobj
 	lda.b a2
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	ldy.b a2
 	lda.b d0
 	clc

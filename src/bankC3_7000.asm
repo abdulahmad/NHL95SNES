@@ -208,9 +208,9 @@ WaitPadsRelease:					; wait until every standard pad has released its buttons
 	pla
 	plx
 	rtl
-CODE_C3716D:						; called from other segments
-	jsl.l CODE_C37171
-CODE_C37171:						; from CODE_C3716D and other segments
+UpdateMenuSpritesTwice:				; run the menu sprite update and transfer wait twice
+	jsl.l UpdateMenuSprites
+UpdateMenuSprites:					; animate menu sprites, build their OAM and wait for transfers
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -456,7 +456,7 @@ updatereplay:						; called from other segments
 	pld
 .rtl:								; return
 	rtl
-CODE_C3736B:						; called from other segments
+ReplayMode:							; open instant replay and restore the live frame on exit
 	bit.w pausepad
 	bpl .1
 	stz.w pausepad
@@ -611,7 +611,7 @@ CODE_C3736B:						; called from other segments
 	sta.b d7
 	lda.w #$0002
 	trb.w sflags3
-CODE_C374CF:						; from CODE_C37609, CODE_C377DB
+UpdateReplayCamera:					; track the replay camera, render the frame and continue input
 	lda.w $0774
 	bpl .1
 	jmp.w .12
@@ -756,10 +756,10 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l CODE_C37E57
+	jsl.l RenderReplayFrame
 	jsl.l WaitTransfers
 	stz.w $0782
-CODE_C37609:						; from CODE_C377DB
+ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	inc.w $2CE1
 	ldx.b d7
 	bne .1
@@ -778,11 +778,11 @@ CODE_C37609:						; from CODE_C377DB
 	and.w #$FFF8
 	ora.w #$0008
 	sta.b d0
-.2:									; A = d0, if $0008 bits clear go to .3, go to CODE_C377DB
+.2:									; A = d0, if $0008 bits clear go to .3, go to ProcessReplayPlayback
 	lda.b d0
 	bit.w #$0008
 	beq .3
-	jmp.w CODE_C377DB
+	jmp.w ProcessReplayPlayback
 .3:									; d5 = A, d4 = $FFFF, $91 = A, $0774 = A, ...
 	sta.b d5
 	lda.w #$FFFF
@@ -850,7 +850,7 @@ CODE_C37609:						; from CODE_C377DB
 	sta.b d7
 	lda.w #$0020
 	trb.w sflags
-	jmp.w CODE_C374CF
+	jmp.w UpdateReplayCamera
 .6:									; call ReadPausePad, $0774 = $FFFE, A = $0020, d0 * 2, ...
 	jsl.l ReadPausePad
 	lda.w #$FFFE
@@ -960,13 +960,13 @@ CODE_C37609:						; from CODE_C377DB
 	sta.b $CD
 	lda.w #$0010
 	sta.w $05BA
-	jmp.w CODE_C374CF
-DATA8_C377BB:						; not traced: a table read by CODE_C37609
+	jmp.w UpdateReplayCamera
+DATA8_C377BB:						; not traced: a table read by ReadReplayCameraInput
 	db $00,$00
-DATA8_C377BD:						; not traced: a table read by CODE_C37609
+DATA8_C377BD:						; not traced: a table read by ReadReplayCameraInput
 	db $02,$00,$00,$00,$02,$00,$02,$00,$00,$00,$02,$00,$00,$00,$00,$00
 	db $FE,$FF,$00,$00,$FE,$FF,$FE,$FF,$00,$00,$FE,$FF,$00,$00
-CODE_C377DB:						; from CODE_C37609
+ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	lda.w $0774
 	cmp.w #$FFFF
 	bne .6
@@ -1044,12 +1044,12 @@ CODE_C377DB:						; from CODE_C37609
 	bra .14
 .10:								; go to .18
 	jmp.w .18
-.11:								; $0774 = $FFFF, A = $0020, go to CODE_C37609
+.11:								; $0774 = $FFFF, A = $0020, go to ReadReplayCameraInput
 	lda.w #$FFFF
 	sta.w $0774
 	lda.w #$0020
 	trb.w sflags
-	jmp.w CODE_C37609
+	jmp.w ReadReplayCameraInput
 .12:								; call adda4, call adda4, go to .15
 	jsl.l adda4
 	jsl.l adda4
@@ -1064,22 +1064,22 @@ CODE_C377DB:						; from CODE_C37609
 .14:								; Y = $0000, call WaitFrames_Inc
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc
-.15:								; d7 = $0001, A = $0002, go to CODE_C374CF
+.15:								; d7 = $0001, A = $0002, go to UpdateReplayCamera
 	lda.w #$0001
 	sta.b d7
 	lda.w #$0002
 	trb.w sflags3
-	jmp.w CODE_C374CF
-.16:								; A = sflags3, if a $0002 bit set go to .17, go to CODE_C37609
+	jmp.w UpdateReplayCamera
+.16:								; A = sflags3, if a $0002 bit set go to .17, go to ReadReplayCameraInput
 	lda.w sflags3
 	bit.w #$0002
 	bne .17
-	jmp.w CODE_C37609
-.17:								; call adda4, if d7 = 0 go to .15, go to CODE_C374CF
+	jmp.w ReadReplayCameraInput
+.17:								; call adda4, if d7 = 0 go to .15, go to UpdateReplayCamera
 	jsl.l adda4
 	lda.b d7
 	beq .15
-	jmp.w CODE_C374CF
+	jmp.w UpdateReplayCamera
 .18:								; $05BA = $000F, pull A, $CB = A, pull A, ...
 	lda.w #$000F
 	sta.w $05BA
@@ -1122,7 +1122,7 @@ CODE_C377DB:						; from CODE_C37609
 	lda.w $2CDF
 	sta.b $48
 	rtl
-suba4:								; from CODE_C3736B, CODE_C377DB and other segments
+suba4:								; from ReplayMode, ProcessReplayPlayback and other segments
 	lda.b a4
 	cmp.w #$0000
 	bne .1
@@ -1176,7 +1176,7 @@ suba4:								; from CODE_C3736B, CODE_C377DB and other segments
 	jsl.l RestoreReplayFrame
 	stz.b d7
 	rtl
-adda4:								; from CODE_C3736B, CODE_C377DB, CODE_C377DB, ...
+adda4:								; from ReplayMode, ProcessReplayPlayback, ProcessReplayPlayback, ...
 	stz.b d7
 	lda.w sflags
 	bit.w #$0400
@@ -1706,7 +1706,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	pla
 	sta.b d1
 	rtl
-CODE_C37E57:						; from CODE_C374CF and other segments
+RenderReplayFrame:					; build the replay frame sprites and queue display updates
 	lda.w $2CE1
 	sta.b $48
 	sta.b $26
@@ -1721,8 +1721,8 @@ CODE_C37E57:						; from CODE_C374CF and other segments
 	stx.b tmp1
 	sta.w $0894
 	jsl.l QueueFrameTiles
-.1:									; call CODE_C382B8, call PackOAMHigh, TransfersReady + 1, ...
-	jsl.l CODE_C382B8
+.1:									; call UpdateGameObjectSprites, call PackOAMHigh, TransfersReady + 1, ...
+	jsl.l UpdateGameObjectSprites
 	jsl.l PackOAMHigh
 	inc.w TransfersReady
 	jsl.l CODE_C38CF5
@@ -1858,7 +1858,7 @@ Sroot:								; no caller found (not traced)
 	plx
 	sta.b d0
 	rtl
-vtoa:								; from CODE_C37609 and other segments
+vtoa:								; from ReadReplayCameraInput and other segments
 	lda.w #$FFFF
 	bit.b d0
 	bpl .3

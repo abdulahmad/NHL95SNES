@@ -9,7 +9,7 @@ incsrc "../ram95s.asm"
 QueueSoundCmd = $CF00E3
 DATA8_C3884A = $C3884A
 DATA8_C38A4A = $C38A4A
-CODE_C382B8 = $C382B8
+UpdateGameObjectSprites = $C382B8	; queue changed player frames and build sorted object sprites
 SprSort = $C384FC
 CODE_C38CF5 = $C38CF5
 AnimateSprites = $C5E9C7

@@ -256,7 +256,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #$2C46
 	ldy.w #$0078
 	jsl.l ClearRAM7E
-	jsl.l CODE_C3716D
+	jsl.l UpdateMenuSpritesTwice
 	rts
 CODE_C59217:						; from setoptions
 	lda.w #$0010

@@ -9,8 +9,8 @@ incsrc "../ram95s.asm"
 CODE_CFEE6C = $CFEE6C
 IceRinkMap = $CCEEA5				; the rink map set
 setpads = $C38043
-CODE_C382B8 = $C382B8
-CODE_C3856E = $C3856E
+UpdateGameObjectSprites = $C382B8	; queue changed player frames and build sorted object sprites
+defaultsprites_0 = $C3856E			; clear object state, load initial fields and sort the objects
 CODE_C38CF5 = $C38CF5
 PhotoPaletteTable = $C35EAB
 UnpackText = $C4C3BA

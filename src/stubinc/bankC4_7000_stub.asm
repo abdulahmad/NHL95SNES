@@ -8,7 +8,7 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 StartSound = $CF040B
 DATA8_C38A4A = $C38A4A
-CODE_C37FE2 = $C37FE2
+GetFrameHot = $C37FE2				; return the current frame hot spot in d0 and d1
 setpads = $C38043
 CODE_C382B6 = $C382B6
 SprSort = $C384FC

@@ -1250,7 +1250,7 @@ CODE_C489A5:						; from assgoalietopuck and other segments
 	lda.b d0
 	pha
 	txa
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	lda.b d0
 	eor.w #$FFFF
 	inc a

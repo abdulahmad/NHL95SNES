@@ -754,8 +754,9 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	stz.w fadestep
 	stz.b $26
 	stz.b a0
-.loop:								; loop: call CODE_C3716D, call ReadMenuPads, A = $058D, A and $FFF0, ...
-	jsl.l CODE_C3716D
+.loop:								; loop: call UpdateMenuSpritesTwice, call ReadMenuPads, A = $058D, A and
+									; $FFF0, ...
+	jsl.l UpdateMenuSpritesTwice
 	jsl.l ReadMenuPads
 	lda.w $058D
 	and.w #$FFF0

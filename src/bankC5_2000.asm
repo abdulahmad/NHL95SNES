@@ -247,7 +247,7 @@ CODE_C52227:						; called from other segments
 	dec a
 	dec a
 	sta.w vcountmark+2
-	jsl.l CODE_C3856E
+	jsl.l defaultsprites_0
 	lda.w gmode
 	bit.w #$0002
 	beq .1
@@ -294,7 +294,7 @@ CODE_C52295:						; called from other segments
 	jsl.l AnimateSprites
 	jsl.l CODE_C526E8
 	jsl.l CODE_C526FB
-	jsl.l CODE_C382B8
+	jsl.l UpdateGameObjectSprites
 	jsl.l CODE_C522BF
 	jsl.l BuildSpriteOAM
 	jsl.l PackOAMHigh

@@ -783,7 +783,7 @@ ChkShotStat_add:					; no caller found (not traced)
 	sta.w $0000,y
 	rtl
 CODE_C53651:						; called from other segments
-	jsl.l CODE_C38799
+	jsl.l CalcPuckDistances
 	lda.w $1864
 	cmp.w #$0001
 	beq .2

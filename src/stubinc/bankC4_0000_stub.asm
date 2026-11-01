@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C3716D = $C3716D
+UpdateMenuSpritesTwice = $C3716D	; run the menu sprite update and transfer wait twice
 ReadMenuPads = $C36C2D
 StanleyCupScreen = $C4DFD6
 SeasonAwards = $C4D818

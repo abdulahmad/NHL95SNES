@@ -356,7 +356,7 @@ dopass_count:						; from dopass and other segments
 	ldy.b a0
 	sta.w frame,y
 	lda.b a0
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	ldy.b a0
 	pla
 	sta.w frame,y
@@ -830,7 +830,7 @@ puckbody:							; called from other segments
 	sta.b d1
 	bne .4
 	tya
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 .4:									; d2 = Xvel,x, d3 = Yvel,x, A 8-bit, $09A1,x = d0, ...
 	lda.w Xvel,x
 	sta.b d2
@@ -1046,7 +1046,7 @@ puckgoalie:							; called from other segments
 	sta.b d1
 	bne .16
 	lda.b a2
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 .16:								; A = d1, A and $00FF, if $0080 bits clear go to .17, A or $FF00
 	lda.b d1
 	and.w #$00FF

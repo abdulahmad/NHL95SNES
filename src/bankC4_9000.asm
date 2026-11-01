@@ -139,7 +139,7 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	sta.b a2
 	jsl.l a2touchpuck
 	lda.b a2
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	ldy.b a2
 	lda.b d0
 	clc
@@ -1431,7 +1431,7 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	bit.w $0674
 	bmi .6
 	txa
-	jsl.l CODE_C37FE2
+	jsl.l GetFrameHot
 	lda.w Xpos,x
 	clc
 	adc.b d0

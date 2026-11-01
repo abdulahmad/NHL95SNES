@@ -506,7 +506,7 @@ CODE_C57329:						; called from other segments
 	sta.w vcountmark+2
 	lda.w $17D1
 	bne .1
-	jsl.l CODE_C3736B
+	jsl.l ReplayMode
 .1:									; pull A, d7 = A, $A2 = A, pull A, ...
 	pla
 	sta.b d7

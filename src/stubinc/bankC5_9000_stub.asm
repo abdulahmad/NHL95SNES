@@ -7,7 +7,7 @@ incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 SoundVolumeDown = $CF039E
-CODE_C3716D = $C3716D
+UpdateMenuSpritesTwice = $C3716D	; run the menu sprite update and transfer wait twice
 ReadMenuPads = $C36C2D
 ReadPads = $C36CBF
 DATA8_C4C4A6 = $C4C4A6

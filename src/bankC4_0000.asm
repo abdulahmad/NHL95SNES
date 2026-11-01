@@ -865,8 +865,8 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	stz.w fadestep
 	stz.w repeatdelayframes
 	stz.w $058D
-.loop:								; loop: call CODE_C3716D, call ReadMenuPads, ...
-	jsl.l CODE_C3716D
+.loop:								; loop: call UpdateMenuSpritesTwice, call ReadMenuPads, ...
+	jsl.l UpdateMenuSpritesTwice
 	jsl.l ReadMenuPads
 	lda.w repeatdelayframes
 	bne .loop

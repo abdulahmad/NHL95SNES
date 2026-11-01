@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $CFEE1D
 CODE_CFEE1D:						; no caller found (not traced): jml to bank $C3
-	jml.l CODE_C3846C
+	jml.l NextSortedGameObject
 CODE_CFEE21:						; no caller found (not traced): jml to bank $C5
 	jml.l CODE_C5287A
 CODE_CFEE25:						; called from other segments

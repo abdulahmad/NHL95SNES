@@ -1,7 +1,7 @@
 ; Segment bankC3_8000: the rest of bank $C3's game code (routines keep their address as a name, with their
 ; callers) and the data tables it reads; the sound samples start after it.
 org $C37FE2
-CODE_C37FE2:						; called from other segments
+GetFrameHot:						; return the current frame hot spot in d0 and d1
 	phx
 	tay
 	lda.w frame,y
@@ -25,7 +25,7 @@ CODE_C37FE2:						; called from other segments
 	sta.b d0
 	plx
 	rtl
-CODE_C3800F:						; no caller found (not traced)
+projxy:								; project rink coordinates and height into screen coordinates
 	lda.b d0
 	sec
 	sbc.b $CB
@@ -348,7 +348,7 @@ CODE_C382B6:						; called from other segments
 	rtl
 CODE_C382B7:						; called from other segments
 	rtl
-CODE_C382B8:						; called from other segments
+UpdateGameObjectSprites:			; queue changed player frames and build sorted object sprites
 	lda.b $48
 	lsr a
 	bcc .1
@@ -493,7 +493,7 @@ CODE_C382B8:						; called from other segments
 	lda.w #$EE1D
 	sta.b $A5
 	ldx.w #$000F
-CODE_C38415:						; from CODE_C3846C
+DrawSortedGameObject:				; draw the current sorted object with its frame and flip attributes
 	lda.w OOlist,x
 	stx.b $1A
 	and.w #$00FF
@@ -518,8 +518,8 @@ CODE_C38415:						; from CODE_C3846C
 	lda.l DATA8_C384DC,x
 	sta.b tmp2
 	lda.w $0876,x
-	bmi CODE_C3846C
-	beq CODE_C3846C
+	bmi NextSortedGameObject
+	beq NextSortedGameObject
 	jml.l CODE_CFEE25
 .1:									; tmp1 = DATA8_C3847C,x, tmp2 = DATA8_C3849C,x, ...
 	lda.l DATA8_C3847C,x
@@ -527,13 +527,13 @@ CODE_C38415:						; from CODE_C3846C
 	lda.l DATA8_C3849C,x
 	sta.b tmp2
 	lda.w $0876,x
-	bmi CODE_C3846C
-	beq CODE_C3846C
+	bmi NextSortedGameObject
+	beq NextSortedGameObject
 	jml.l CODE_CFEE6C
-CODE_C3846C:						; from CODE_C38415 and other segments
+NextSortedGameObject:				; advance the sorted object loop or restore the caller stack
 	ldx.b $1A
 	dex
-	bpl CODE_C38415
+	bpl DrawSortedGameObject
 	tsc
 	sta.b $28
 	lda.b $1C
@@ -541,19 +541,19 @@ CODE_C3846C:						; from CODE_C38415 and other segments
 	sty.b $2A
 	stz.b QueueBusy
 	rtl
-DATA8_C3847C:						; not traced: a table read by CODE_C38415
+DATA8_C3847C:						; not traced: a table read by DrawSortedGameObject
 	db $00,$20,$04,$20,$08,$20,$0C,$20,$10,$20,$14,$20,$18,$22,$1C,$22
 	db $20,$22,$24,$22,$28,$22,$2C,$22,$30,$20,$30,$20,$34,$20,$35,$20
-DATA8_C3849C:						; not traced: a table read by CODE_C38415
+DATA8_C3849C:						; not traced: a table read by DrawSortedGameObject
 	db $A0,$20,$A8,$20,$C0,$20,$C8,$20,$E0,$20,$E8,$20,$00,$23,$08,$23
 	db $20,$23,$28,$23,$40,$23,$48,$23,$60,$21,$68,$21,$80,$21,$80,$35
-DATA8_C384BC:						; not traced: a table read by CODE_C38415
+DATA8_C384BC:						; not traced: a table read by DrawSortedGameObject
 	db $00,$60,$04,$60,$08,$60,$0C,$60,$10,$60,$14,$60,$18,$62,$1C,$62
 	db $20,$62,$24,$62,$28,$62,$2C,$62,$30,$60,$30,$60,$34,$60,$35,$60
-DATA8_C384DC:						; not traced: a table read by CODE_C38415
+DATA8_C384DC:						; not traced: a table read by DrawSortedGameObject
 	db $A0,$60,$A8,$60,$C0,$60,$C8,$60,$E0,$60,$E8,$60,$00,$63,$08,$63
 	db $20,$63,$28,$63,$40,$63,$48,$63,$60,$61,$68,$61,$80,$61,$80,$75
-SprSort:							; from CODE_C3856E and other segments
+SprSort:							; from defaultsprites_0 and other segments
 	phx
 	phy
 	pei ($7F)
@@ -616,7 +616,7 @@ SprSort:							; from CODE_C3856E and other segments
 	ply
 	plx
 	rtl
-CODE_C3856E:						; called from other segments
+defaultsprites_0:					; clear object state, load initial fields and sort the objects
 	ldx.w #$0000
 .loop:								; loop: Xpos,x = 0, X + 1, X + 1, if X is not $07CC go to .loop, ...
 	stz.w Xpos,x
@@ -714,21 +714,21 @@ CODE_C3856E:						; called from other segments
 	lda.w $0874
 	sta.w $0894
 	jmp.w SprSort
-DATA8_C38658:						; not traced: a table read by CODE_C3856E
+DATA8_C38658:						; not traced: a table read by defaultsprites_0
 	db $60,$01
-DATA8_C3865A:						; not traced: a table read by CODE_C3856E
+DATA8_C3865A:						; not traced: a table read by defaultsprites_0
 	db $C0,$00,$00,$00
-DATA8_C3865E:						; not traced: a table read by CODE_C3856E
+DATA8_C3865E:						; not traced: a table read by defaultsprites_0
 	db $01,$00
-DATA8_C38660:						; not traced: a table read by CODE_C3856E
+DATA8_C38660:						; not traced: a table read by defaultsprites_0
 	db $00,$00
-DATA8_C38662:						; not traced: a table read by CODE_C3856E
+DATA8_C38662:						; not traced: a table read by defaultsprites_0
 	db $08,$00
-DATA8_C38664:						; not traced: a table read by CODE_C3856E
+DATA8_C38664:						; not traced: a table read by defaultsprites_0
 	db $04,$00
-DATA8_C38666:						; not traced: a table read by CODE_C3856E
+DATA8_C38666:						; not traced: a table read by defaultsprites_0
 	db $00,$00
-DATA8_C38668:						; not traced: a table read by CODE_C3856E
+DATA8_C38668:						; not traced: a table read by defaultsprites_0
 	db $00,$00,$38,$FF,$9C,$FF,$00,$00,$01,$00,$00,$00,$08,$00,$04,$00
 	db $00,$00,$00,$00,$38,$FF,$B0,$FF,$00,$00,$01,$00,$00,$00,$08,$00
 	db $04,$00,$00,$00,$00,$00,$38,$FF,$C4,$FF,$00,$00,$01,$00,$00,$00
@@ -769,7 +769,7 @@ ApproxLength:						; called from other segments
 	clc
 	adc.b tmp0
 	rtl
-CODE_C38799:						; called from other segments
+CalcPuckDistances:					; update every object distance and direction to the puck
 	ldx.w #$0000
 .loop:								; loop: A = $0830, A - Xpos,x, d0 = A, if plus go to .1, ...
 	sec
