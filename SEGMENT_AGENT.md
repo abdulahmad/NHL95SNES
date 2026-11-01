@@ -351,33 +351,31 @@ bankC7_F000 (org $C7F09E): banks $C0-$C6 are all source. <- CURRENT
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankC7_1000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_E000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_D000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_C000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_B000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_A000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_9000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_8000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_7000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_6000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_5000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
-  lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_4000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+- 2026-10-31: bankC7_2000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankC7_3000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_2000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+- 2026-10-31: bankC7_4000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
-- 2026-10-31: bankC7_1000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+- 2026-10-31: bankC7_5000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_6000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_7000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_8000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_9000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_A000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_B000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_C000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_D000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_E000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
 
 ## ROM map
