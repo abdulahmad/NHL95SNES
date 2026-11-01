@@ -2306,3 +2306,5 @@ $CD8229,PhotoPalettesCGY,DATA8_CD8229,code,"Calgary: 16 colours for each of its 
 $CD82E9,PlayerPhotosCGY,DATA8_CD82E9,code,"Calgary: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_8000.asm
 $CD9411,PhotoPalettesCHI,DATA8_CD9411,code,"Chicago: 16 colours for each of its 6 player photos; entry 4 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_9000.asm
 $CD94D1,PlayerPhotosCHI,DATA8_CD94D1,code,"Chicago: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_9000.asm
+$CDA5BB,PhotoPalettesDAL,DATA8_CDA5BB,code,"Dallas: 16 colours for each of its 6 player photos; entry 5 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_A000.asm
+$CDA67B,PlayerPhotosDAL,DATA8_CDA67B,code,"Dallas: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_A000.asm
