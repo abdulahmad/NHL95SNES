@@ -1603,3 +1603,12 @@ $C6E6E8,DATA8_C6E6E8,,new,"raw frame tiles for transfer index $08E; pose not tra
 $C6E968,DATA8_C6E968,,new,"raw frame tiles for transfer index $08F; pose not traced",src/bankC6_E000.asm
 $C6EBE8,DATA8_C6EBE8,,new,"raw frame tiles for transfer index $090; pose not traced",src/bankC6_E000.asm
 $C6EE68,DATA8_C6EE68,,new,"raw frame tiles for transfer index $091; pose not traced",src/bankC6_E000.asm
+$C6F068,DATA8_C6F068,,new,"raw frame tiles for transfer index $092; pose not traced",src/bankC6_F000.asm
+$C6F2E8,DATA8_C6F2E8,,new,"raw frame tiles for transfer index $093; pose not traced",src/bankC6_F000.asm
+$C6F4E8,DATA8_C6F4E8,,new,"raw frame tiles for transfer index $094; pose not traced",src/bankC6_F000.asm
+$C6F6E8,DATA8_C6F6E8,,new,"raw frame tiles for transfer index $095; pose not traced",src/bankC6_F000.asm
+$C6F968,DATA8_C6F968,,new,"raw frame tiles for transfer index $096; pose not traced",src/bankC6_F000.asm
+$C6FB68,DATA8_C6FB68,,new,"raw frame tiles for transfer index $097; pose not traced",src/bankC6_F000.asm
+$C6FDE8,DATA8_C6FDE8,,new,"trophy map loaded by CODE_C4D99C; specific award not traced",src/bankC6_F000.asm
+$C6FE87,DATA8_C6FE87,,new,"tiles of the trophy map; LZSS stream continues into the next bank",src/bankC6_F000.asm
+$C70517,DATA8_C70517,,new,"colours of the trophy map",src/bankC6_F000.asm

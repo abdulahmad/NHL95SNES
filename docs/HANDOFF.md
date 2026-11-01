@@ -13,15 +13,16 @@
   engine start: NMI, IRQ, hooks, waits, RandomWord, screen routines, multiplies), bankC0_9000 ($C09005-$C09A23: the rest of
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
-  The other segments are incbin.
-- Next: segment bankC6_F000, org $C6F068 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C5 are all source (the code banks $C4
+  Bank $C6: frame source and placement tables, raw frame tiles, and a trophy map set.
+  The remaining segments in banks $C7-$CF are incbin.
+- Next: segment bankC7_0000, org $C7053E (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C6 are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
   $C3: the team database (TeamList, PlayerList, the player and team records as labels and ROM cuts, since the names are
   licensed), data tables and text, PhotoPaletteTable, game code ($C36B83-$C38EFD), then samples 03, 04, 05, 28, 07, 08, 24, 25,
   30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Remaining: banks
-  $C6-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
+  $C7-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -78,6 +79,10 @@
   the names; RAM names go in `src/ram95s.asm`. Hooks: SetNMIHook / SetFrameHook take X:A; the NMI calls NMIHook first, then
   FrameHook, both with M 16, X 8. Code still in incbin segments is called by number (jsl.l $C4C58B ...). Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
 
+- Trophy map set: DATA8_C6FDE8 is its map (9 x 13 tiles), DATA8_C6FE87 its packed tiles (59), and
+  DATA8_C70517 its palette. LZSS sizes and chunk ends verified; the set ends at $C7053E. bankC6_F000 owns
+  the complete set, and bankC7_0000 begins at the next raw frame there. DATA8_C4DA55 uses its label now.
+
 ## Setup notes
 
 - asar 1.91 on PATH or in `tools/bin/` (`tools/setup.sh`). Python 3.
@@ -92,9 +97,10 @@
 ## Unsure
 
 - Bank $C6: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
-  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The bytes
-  after the last frame transfer in this bank are not yet classified. The bank $CF readers are still incbin; their
-  operands must use the new table labels when that code is converted (including DATA8_C60848+1).
+  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The trophy
+  map set after the raw frames is rendered and loaded through DATA8_C4DA55 by CODE_C4D99C; the specific award is not
+  identified. The bank $CF readers are still incbin; their operands must use the new table labels when that code is
+  converted (including DATA8_C60848+1).
 
 - ArrowFontTiles and MeterFontTiles are named from their rendered tiles; the screens that load them (VRAM $4A00 from $C5521E,
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.
