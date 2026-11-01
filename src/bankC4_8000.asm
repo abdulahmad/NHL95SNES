@@ -645,7 +645,7 @@ CODE_C484D5:						; from CODE_C484ED
 	tax
 	lda.w #$000C
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 	plx
 	stx.b $6F
 CODE_C484EC:						; from CODE_C4843B, CODE_C48510, CODE_C4852A
@@ -723,14 +723,14 @@ CODE_C48564:						; from CODE_C48551
 	stx.b $6F
 	lda.w #$0012
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 	ldx.b $6B
 	ldy.b $6F
 	sty.b $6B
 	stx.b $6F
 CODE_C4858F:						; from a2offsides, CODE_C48551, CODE_C48564
 	rtl
-CheckBreakaway:						; from CODE_C4862C, CODE_C480CC and other segments
+CheckBreakaway:						; from StartBreakaway, CODE_C480CC and other segments
 	stz.w $1155
 	lda.w $05A0
 	bpl CODE_C4859B
@@ -810,7 +810,7 @@ CODE_C48625:						; from CODE_C485E7
 	inc.w $1155
 CODE_C4862B:						; from CheckBreakaway, CODE_C485EF, CODE_C48610, CODE_C485B7, ...
 	rtl
-CODE_C4862C:						; called from other segments
+StartBreakaway:						; called from other segments
 	jsl.l CheckBreakaway
 	lda.w $1155
 	sta.w $18AE
@@ -819,7 +819,7 @@ CODE_C4862C:						; called from other segments
 	bne CODE_C48644
 	lda.w #$0001
 	jsl.l CODE_CF040B
-CODE_C48644:						; from CODE_C4862C
+CODE_C48644:						; from StartBreakaway
 	lda.w $14E3
 	clc
 	adc.w #$0014
@@ -840,7 +840,7 @@ CODE_C4865F:						; from CODE_C48650
 	sta.w $12E3,y
 CODE_C4866B:						; from CODE_C4865F
 	ply
-CODE_C4866C:						; from CODE_C4862C
+CODE_C4866C:						; from StartBreakaway
 	rtl
 CODE_C4866D:						; called from other segments
 	lda.w $18BE
@@ -881,7 +881,7 @@ CODE_C4868B:						; from CODE_C4866D
 	stz.w $2036
 CODE_C486C6:						; from CODE_C4866D
 	rtl
-CODE_C486C7:						; called from other segments
+EndPenaltyShot:						; called from other segments
 	lda.w $1157
 	beq CODE_C486FC
 	lda.w $18BE
@@ -895,15 +895,15 @@ CODE_C486C7:						; called from other segments
 	sta.w $18B0
 	lda.w #$000A
 	sta.b $7F
-	jsl.l CODE_C093DD
+	jsl.l ShootoutWonBy
 	lda.w $18BA
 	sta.w $2004
 	lda.w $18BC
 	sta.w $2006
 	plx
-CODE_C486FC:						; from CODE_C486C7
+CODE_C486FC:						; from EndPenaltyShot
 	rtl
-CODE_C486FD:						; called from other segments
+goalieacc:							; called from other segments
 	lda.w #$121E
 	sta.b $83
 	lda.b $7F
@@ -915,17 +915,17 @@ CODE_C486FD:						; called from other segments
 	bpl CODE_C48718
 	cmp.w #$0009
 	bne CODE_C48720
-CODE_C48718:						; from CODE_C486FD
+CODE_C48718:						; from goalieacc
 	lda.w $09A0,x
 	ora.w $09C0,x
 	bne CODE_C4876D
-CODE_C48720:						; from CODE_C486FD
+CODE_C48720:						; from goalieacc
 	lda.w $1060,x
 	bne CODE_C48729
 	jml.l SetSPA
 CODE_C48729:						; from CODE_C48720
 	rtl
-CODE_C4872A:						; from CODE_C486FD
+CODE_C4872A:						; from goalieacc
 	cpx.w $05A0
 	beq CODE_C48770
 	lda.w $0644,x
@@ -1053,7 +1053,7 @@ CODE_C48832:						; from CODE_C48802
 	lda.w $12CB,y
 	ora.w #$FF00
 	sta.w $12CB,y
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 rtss:								; an rtl: asstab entry 0 (no assignment), as 94S rtss
 	rtl
 CODE_C48840:						; called from other segments
@@ -1110,7 +1110,7 @@ CODE_C488A7:						; from CPgoalie
 	lda.w $12CB,y
 	ora.w #$FF00
 	sta.w $12CB,y
-	jml.l CODE_C541D3
+	jml.l setpersonel
 CODE_C488BA:						; from CPgoalie, CODE_C488A7
 	rtl
 CODE_C488BB:						; called from other segments
@@ -1209,7 +1209,7 @@ CODE_C48985:						; from CODE_C4896D
 	bcc CODE_C48956
 CODE_C4898F:						; from CODE_C4893B
 	jsr.w GoaliePuckVector
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	jsl.l AdjustFacingDirection
 	asl.w $0E00,x
 	jsl.l CODE_C489A5
@@ -1283,7 +1283,7 @@ CODE_C48A24:						; from CODE_C48A06
 	sta.b $83
 	pla
 	pla
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sta.w $0B80,x
 CODE_C48A38:						; from CODE_C489A5
@@ -1491,7 +1491,7 @@ CODE_C48BE0:						; from CODE_C48BB6
 	bpl CODE_C48BF4
 	lda.w #$0008
 	sta.b $7F
-	jsl.l CODE_C478C3
+	jsl.l AddPenalty2
 CODE_C48BF4:						; from CODE_C48BB6, CODE_C48BD7, CODE_C48BE0
 	lda.w $1060,x
 	beq CODE_C48BFC
@@ -1593,7 +1593,7 @@ CODE_C48CB7:						; from CODE_C48C8B
 CODE_C48CCC:						; from CODE_C48C9D
 	rtl
 CODE_C48CCD:						; from CODE_C48CE7, CODE_C48D39
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 CODE_C48CD3:						; from CODE_C48CE7
 	sta.w $0C40,x
@@ -1692,7 +1692,7 @@ CODE_C48D80:						; from CODE_C48D39
 CODE_C48DB3:						; from CODE_C48D39, CODE_C48D80
 	jmp.w CODE_C48DEE
 CODE_C48DB6:						; from CODE_C48D28, CODE_C48D80
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 CODE_C48DBC:						; from CODE_C48D33
 	sta.w $0C40,x
@@ -1737,7 +1737,7 @@ CODE_C48E15:						; from CODE_C48DEE
 	cpx.w $05A0
 	beq CODE_C48E27
 	jsr.w GoaliePuckVector
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	jsl.l AdjustFacingDirection
 	bra CODE_C48E3A
 CODE_C48E27:						; from CODE_C48E15
@@ -1868,7 +1868,7 @@ CODE_C48F22:						; from CODE_C48EDD, CODE_C48EFD
 CODE_C48F2A:						; from CODE_C48E47
 	lda.b $7F
 	ldy.b $83
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	sta.b $7F
 	cmp.w #$001E
 	bcs CODE_C48F41
@@ -2006,7 +2006,7 @@ CODE_C49035:						; from CODE_C49022
 	inc a
 CODE_C49048:						; from CODE_C49035
 	sta.b $30
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	cmp.w #$0008
 	beq CODE_C49078
@@ -2257,7 +2257,7 @@ CODE_C49248:						; from CODE_C49239
 	stz.b $7F
 	stz.b $83
 CODE_C49250:						; from CODE_C49239, CODE_C49248
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sta.w $0B80,x
 CODE_C49259:						; from CODE_C48BFC

@@ -705,6 +705,11 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
 - 2026-10-31: naming pass 2: 24 more routines take their NHL94SNES names (instruction match 0.85-0.95, each checked side by side
   with 94S; call graph and immediates agree). Where the best match was an inner loop (94S .r / .rb / .cc / .ci), the name goes
   on the routine that calls it, as in 94S: restoreteams, ResetBench, checkcheck, checkint, RestoreBenchEnergy, CalcAttrib.
+- 2026-10-31: naming pass 3: 22 names by call-graph propagation (../work/prop94.py): an unnamed routine called where the 94S
+  routine of the same name calls a named one, checked side by side (puckflip, randomd0s, randomd0sd0, randomd0A, StartBreakaway,
+  goalieacc, assdopen, revplayeracc, EndPenaltyShot, RestoreReplayFrame, setpersonel, pplpen, ReadJoy1, findpc, updatepwrplay,
+  updatepwrplay_clr, ApproxLength, dostop, vtoa, AddPenalty, AddPenalty2, ShootoutWonBy). ShootoutWonBy starts with a jmp to its
+  end in 95. vtoa is a purpose match (sign tests only).
 
 ## ROM map
 

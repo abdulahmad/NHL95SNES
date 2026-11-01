@@ -717,12 +717,12 @@ DATA8_C38668:						; not traced: a table read by CODE_C38585
 	db $BF,$01,$00,$00,$17,$00,$0A,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	db $00,$00,$B4,$01,$00,$00,$05,$00,$05,$00,$18,$00,$01,$00,$00,$00
 	db $00,$00,$00,$00,$B3,$01,$00,$00,$03,$00,$03,$00,$19,$00,$00,$00
-CODE_C38778:						; called from other segments
+ApproxLength:						; called from other segments
 	cmp.w #$0000
 	bpl CODE_C38781
 	eor.w #$FFFF
 	inc a
-CODE_C38781:						; from CODE_C38778
+CODE_C38781:						; from ApproxLength
 	sta.b $9F
 	tya
 	bpl CODE_C3878A
@@ -768,7 +768,7 @@ CODE_C387C3:						; from CODE_C387BC
 	lsr a
 	adc.b $40
 	sta.w $05E4,x
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	sta.w $0624,x
 	inx
 	inx

@@ -287,7 +287,7 @@ CODE_C4A20F:						; from dopass_swing, CODE_C4A203
 	sta.b $7F
 	lda.w $09DC
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	ldy.w #$144E
 	lda.w $0A20,x
 	beq CODE_C4A231
@@ -307,7 +307,7 @@ CODE_C4A231:						; from CODE_C4A20F
 	stz.w $09A0,x
 	stz.w $09C0,x
 	sta.b $8F
-	jsl.l CODE_C537C4
+	jsl.l findpc
 CODE_C4A253:						; from CODE_C4A231
 	rtl
 dopass_count:						; from CODE_C4A181 and other segments
@@ -398,7 +398,7 @@ CODE_C4A2A3:						; from CODE_C4A266
 	adc.b $83
 	sta.b $8B
 	ldy.b $87
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	sta.b $8F
 	asl a
 	tax
@@ -446,7 +446,7 @@ CODE_C4A33F:						; from CODE_C4A2A3
 	adc.b $83
 	sta.b $8B
 	ldy.b $87
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	sta.b $8F
 	pla
 CODE_C4A373:						; from CODE_C4A2A3
@@ -456,7 +456,7 @@ CODE_C4A373:						; from CODE_C4A2A3
 	lda.w #$0010
 	sec
 	sbc.w $0EC0,x
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	clc
 	adc.b $93
 	sta.b $93
@@ -518,7 +518,7 @@ CODE_C4A373:						; from CODE_C4A2A3
 	jsl.l CODE_C5376A
 	lda.w $14F9,x
 	bmi CODE_C4A41B
-	jsl.l CODE_C537C4
+	jsl.l findpc
 CODE_C4A41B:						; from CODE_C4A373
 	rtl
 DumpInTarget:						; from CODE_C4A4B3 and other segments
@@ -654,7 +654,7 @@ CODE_C4A52A:						; from CODE_C4A523 and other segments
 	lda.l DATA8_C4A5FD,x
 	clc
 	adc.b $8F
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	clc
 	adc.l DATA8_C4A62D,x
 	sec
@@ -663,14 +663,14 @@ CODE_C4A52A:						; from CODE_C4A523 and other segments
 	lda.l DATA8_C4A615,x
 	clc
 	adc.b $8F
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	clc
 	adc.l DATA8_C4A645,x
 	sec
 	sbc.w $08B2
 	sta.b $83
 	ldy.b $7F
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	sta.b $87
 	asl a
 	asl a
@@ -723,11 +723,11 @@ CODE_C4A599:						; from CODE_C4A58F, CODE_C4A591
 	lda.w #$03C0
 	sec
 	sbc.b $8F
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	clc
 	adc.w #$10E0
 	sta.w $08DE
-	jsl.l CODE_C49572
+	jsl.l puckflip
 	ldx.b $B7
 	lda.w #$FFFF
 	sta.w $066A
@@ -802,7 +802,7 @@ CODE_C4A6C3:						; from CODE_C4A6B1
 	jsl.l CODE_C4843B
 	lda.w $09BC
 	ldy.w $09DC
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	and.w #$7F00
 	sta.b $9F
 	xba
@@ -842,7 +842,7 @@ CODE_C4A711:						; from CODE_C4A6E9
 	lda.b $83
 	sta.w $09C1,x
 	rep #$30
-	jsl.l CODE_C49572
+	jsl.l puckflip
 	lda.w $08D8
 	cmp.w #$0008
 	bmi CODE_C4A76A
@@ -904,7 +904,7 @@ CODE_C4A79B:						; from CODE_C4A78D
 	sec
 	sbc.b $83
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	ldy.b $6B
 	lda.b $7F
 	sec
@@ -1074,7 +1074,7 @@ CODE_C4A90D:						; from CODE_C4A8FC
 	lda.b $83
 	sta.w $09C1,x
 	rep #$20
-	jmp.w CODE_C49572
+	jmp.w puckflip
 CODE_C4A91E:						; from CODE_C4A782, CODE_C4A815
 	rtl
 CODE_C4A91F:						; from CODE_C4A922
@@ -1086,7 +1086,7 @@ CODE_C4A922:						; from CODE_C4A88F, CODE_C4A896
 	xba
 	and.w #$FF00
 	asl a
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	adc.w #$2000
 	sta.b $7F
 	cmp.w $09BC
@@ -1273,7 +1273,7 @@ CODE_C4AA92:						; from CODE_C4AA74, CODE_C4AA88
 	lda.w $18B4
 	beq CODE_C4AAA3
 CODE_C4AA97:						; from CODE_C4AA9E
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	jmp.w CODE_C4AD25
 CODE_C4AA9E:						; from CODE_C4AA74, CODE_C4AA88
 	lda.w $18B4
@@ -1374,7 +1374,7 @@ CODE_C4AB55:						; from CODE_C4AB26
 CODE_C4AB73:						; from CODE_C4AB4F
 	lda.b $5D
 	sta.w $07EC
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	stz.w $18AE
 	stz.w $18AC
 	phx
@@ -1554,7 +1554,7 @@ CODE_C4ACC4:						; from CODE_C4ACB6
 	stx.b $6F
 	lda.w #$000E
 	sta.b $7F
-	jsl.l CODE_C478C3
+	jsl.l AddPenalty2
 	ldx.w #$001C
 	stx.b $6F
 	rtl
@@ -1627,7 +1627,7 @@ CODE_C4AD47:						; from CODE_C4AD36
 	sbc.b $7F
 	clc
 	adc.w #$0024
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	cmp.w #$0003
 	bcs CODE_C4AD35
 CODE_C4AD97:						; from CODE_C4AD47
@@ -1747,7 +1747,7 @@ deflect:							; from CODE_C4ADD6
 	jsl.l RandomWord
 	and.w #$0FFF
 	sta.w $08DE
-	jmp.w CODE_C49572
+	jmp.w puckflip
 CODE_C4AE9C:						; called from other segments
 	lda.w $07B6
 	bit.w #$0004
@@ -1806,7 +1806,7 @@ CODE_C4AF0A:						; from CODE_C4AEF8
 	sbc.w $097C
 	bmi CODE_C4AF74
 CODE_C4AF12:						; from CODE_C4AEF8
-	jsl.l CODE_C4862C
+	jsl.l StartBreakaway
 	lda.w $10F1
 	bit.w #$0020
 	bne CODE_C4AF21
@@ -1881,7 +1881,7 @@ CODE_C4AF98:						; from ChkOffsides_other
 	sbc.w $097C
 	bmi CODE_C4AF74
 CODE_C4AFA0:						; from ChkOffsides_other
-	jsl.l CODE_C4862C
+	jsl.l StartBreakaway
 	lda.w $10F1
 	bit.w #$0020
 	bne CODE_C4AFAF

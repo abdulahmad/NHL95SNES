@@ -420,7 +420,7 @@ CODE_C43465:						; from CODE_C43441
 	sec
 	sbc.w $08B2
 	sta.b $83
-	jml.l CODE_C37F6D
+	jml.l vtoa
 CODE_C4348D:						; from CODE_C4342A, CODE_C43441, CODE_C43465
 	rtl
 CODE_C4348E:						; called from other segments
@@ -664,7 +664,7 @@ CODE_C4366D:						; from CODE_C4365E
 	lda.b [$63],y
 	dey
 	dey
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	adc.b [$63],y
 	sta.w $0B20,x
 	tya
@@ -674,7 +674,7 @@ CODE_C4366D:						; from CODE_C4365E
 	lda.b [$63],y
 	dey
 	dey
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	adc.b [$63],y
 	sta.w $0B40,x
 CODE_C4369F:						; from CODE_C435E4, CODE_C4365E
@@ -1021,11 +1021,11 @@ CODE_C439A2:						; from CODE_C439A2
 CODE_C439C6:						; from CODE_C439A2
 	jsl.l ResetBench
 	stz.b $6B
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 	jsl.l CODE_C53B51
 	inc.b $6B
 	inc.b $6B
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 	jsl.l CODE_C53B51
 	jsl.l CODE_C53F8D
 	lda.w #$FFFF
@@ -1235,7 +1235,7 @@ CODE_C43B66:						; from CODE_C43B16
 	sta.b $83
 	stz.w $09A0,x
 	stz.w $09C0,x
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sta.w $0C40,x
 	lda.w $0D60,x

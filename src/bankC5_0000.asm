@@ -287,7 +287,7 @@ CODE_C502B1:						; from CODE_C50269
 	sbc.b $9B
 	sta.w $18C2
 	bpl CODE_C502BF
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	bra CODE_C502EB
 CODE_C502BF:						; from CODE_C502B1
 	sta.b $34
@@ -374,7 +374,7 @@ periodicevents:						; from CODE_C5033D and other segments
 	jsl.l CODE_C487EB
 	jsl.l RestoreBenchEnergy
 	jsl.l CODE_C48241
-	jsl.l CODE_C47787
+	jsl.l updatepwrplay
 CODE_C50392:						; from periodicevents
 	rtl
 CODE_C50393:						; from CODE_C5033D and other segments
@@ -889,7 +889,7 @@ CODE_C5077D:						; from CODE_C50755
 	lda.w #$0005
 	trb.w $07B6
 CODE_C50798:						; from CODE_C50755, CODE_C50778, CODE_C5077D
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	sta.w $0624,x
 	dex
 	dex
@@ -1222,12 +1222,12 @@ CODE_C50AA8:						; from CODE_C50A6C
 	jsl.l CODE_C380D1
 	lda.w #$0004
 	sta.b $7F
-	jsl.l CODE_C478C3
+	jsl.l AddPenalty2
 	lda.b $38
 	beq CODE_C50AC2
 	lda.w #$0032
 	sta.b $7F
-	jsl.l CODE_C478C3
+	jsl.l AddPenalty2
 CODE_C50AC2:						; from CODE_C50AA8
 	rtl
 CODE_C50AC3:						; from CODE_C50A14, CODE_C50A36
@@ -1237,10 +1237,10 @@ CODE_C50AC3:						; from CODE_C50A14, CODE_C50A36
 	lda.w $1864
 	beq CODE_C50A6C
 CODE_C50AD0:						; from CODE_C50AC3
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	lda.w #$0002
 	sta.b $7F
-	jml.l CODE_C093DD
+	jml.l ShootoutWonBy
 CODE_C50ADD:						; called from other segments
 	jsl.l CODE_C50E94
 	jsl.l forceblack
@@ -1647,7 +1647,7 @@ CODE_C50E62:						; from demoread
 	ora.w $17BB
 	ora.w $17BD
 	bne CODE_C50E85
-	jsl.l CODE_C3707D
+	jsl.l ReadJoy1
 	lda.b $83
 	bit.w #$1000
 	beq CODE_C50E81

@@ -1213,7 +1213,7 @@ DATA8_C4693F:						; not traced: a table read by CODE_C46075, CODE_C4615F, CODE_
 doplayeracc:						; from CODE_C470E7 and other segments
 	lda.w $0A20,x
 	bne CODE_C46957
-	jmp.w CODE_C486FD
+	jmp.w goalieacc
 CODE_C46957:						; from doplayeracc
 	lda.w $0C80,x
 	cmp.w #$2082
@@ -1235,7 +1235,7 @@ CODE_C4696E:						; from CODE_C46957
 	lda.w $09A0,x
 	ora.w $09C0,x
 	beq CODE_C4698A
-	jmp.w CODE_C458A2
+	jmp.w dostop
 CODE_C4698A:						; from CODE_C4696E
 	lda.w $1060,x
 	bne CODE_C46992
@@ -1293,7 +1293,7 @@ CODE_C469EB:						; from CODE_C469BE
 	lda.b $87
 	cmp.w #$0004
 	bne CODE_C46A50
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	inc a
 	and.w #$0007
 	cmp.w #$0003
@@ -1306,7 +1306,7 @@ CODE_C46A0A:						; from CODE_C469EB
 	and.w #$0007
 	cmp.w #$0003
 	bcs CODE_C46A50
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	inc a
 	inc a
 	and.w #$0007
@@ -1321,7 +1321,7 @@ CODE_C46A26:						; from CODE_C469EB
 	beq CODE_C46A4A
 	lda.w $09C0,x
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	sec
 	sbc.b $01,s
 	inc a
@@ -1432,7 +1432,7 @@ CODE_C46B1B:						; from CODE_C46B0C
 	lda.b $8B
 	cmp.w #$0003
 	bcc CODE_C46B25
-	jmp.w CODE_C46BE7
+	jmp.w revplayeracc
 CODE_C46B25:						; from CODE_C46B1B
 	rtl
 DATA8_C46B26:						; not traced: a table read by CODE_C46A53
@@ -1454,7 +1454,7 @@ CODE_C46B4C:						; from noturn0
 	sta.b $7F
 	lda.w $09C0,x
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	bit.w #$0008
 	bne CODE_C46B77
 	sec
@@ -1465,7 +1465,7 @@ CODE_C46B4C:						; from noturn0
 	sta.b $7F
 	cmp.w #$0004
 	bcs CODE_C46B77
-	jmp.w CODE_C458A2
+	jmp.w dostop
 CODE_C46B77:						; from CODE_C46B4C
 	inc.w $0C40,x
 	lda.w $08E0,x
@@ -1509,17 +1509,17 @@ CODE_C46BCD:						; from CODE_C46BA8
 	sta.b $83
 CODE_C46BDA:						; from CODE_C46BA8, CODE_C46BCD
 	lda.w $1060,x
-	bne CODE_C46BE7
+	bne revplayeracc
 	tya
 	sta.w $1060,x
 	jsl.l SetSPA
-CODE_C46BE7:						; from CODE_C46B1B, CODE_C46BDA
+revplayeracc:						; from CODE_C46B1B, CODE_C46BDA
 	lda.w $1040,x
 	beq CODE_C46BF3
 	lda.b $87
 	eor.w #$0004
 	sta.b $87
-CODE_C46BF3:						; from CODE_C46BE7
+CODE_C46BF3:						; from revplayeracc
 	jmp.w CODE_C45ABE
 CODE_C46BF6:						; from CODE_C47040 and other segments
 	stz.b $A3

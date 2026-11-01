@@ -216,7 +216,7 @@ DATA8_C54194:						; not traced: a table read by CODE_C54171
 	db $01,$02,$00,$01,$02,$03,$04,$FF,$03,$04,$FF,$03,$04,$FF,$03,$04
 	db $FF,$04,$03,$FF,$03,$04,$FF,$03,$04,$FF,$05,$06,$FF,$05,$06,$FF
 	db $05,$06,$FF,$05,$06,$FF,$05,$06,$FF,$05,$06,$FF,$06,$05,$FF
-CODE_C541D3:						; from CODE_C54982, CODE_C54DA4 and other segments
+setpersonel:						; from CODE_C54982, CODE_C54DA4 and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1161,7 +1161,7 @@ CODE_C54982:						; from CODE_C54966
 	lda.w $186E
 	beq CODE_C549A7
 	jsl.l CODE_C547CB
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 	jsl.l CODE_C5111A
 	jml.l CompShoot
 CODE_C549A7:						; from CODE_C5492E, CODE_C54948, CODE_C54966, CODE_C54982
@@ -1716,7 +1716,7 @@ CODE_C54DA4:						; from CODE_C545B8 and other segments
 	sta.w $12B7,y
 	lda.w #$FFFF
 	sta.w $184C,y
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 	lda.w #$0000
 CODE_C54DDE:						; from CODE_C54DA4
 	rtl

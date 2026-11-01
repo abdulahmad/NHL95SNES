@@ -70,7 +70,7 @@ CODE_C44FA0:						; from CODE_C44F81, CODE_C44F92
 	sec
 	sbc.w $0896,y
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.w $0814,y
 	cmp.w #$007B
 	bpl CODE_C44FE4
@@ -330,15 +330,15 @@ CODE_C451BF:						; from CODE_C45147
 CODE_C4520C:						; from CODE_C451BF
 	lda.w $0A20,x
 	bne CODE_C45214
-	jmp.w CODE_C478C3
+	jmp.w AddPenalty2
 CODE_C45214:						; from CODE_C4520C
 	lda.w $186C
 	bne CODE_C4521C
-	jmp.w CODE_C478C3
+	jmp.w AddPenalty2
 CODE_C4521C:						; from CODE_C45214
 	lda.w #$0014
 	sta.b $7F
-	jsl.l CODE_C478C3
+	jsl.l AddPenalty2
 	jmp.w Stop4Pen
 CODE_C45228:						; from CODE_C45147, CODE_C45144
 	ldy.b $6B
@@ -410,7 +410,7 @@ CODE_C452AC:						; from CODE_C452A5
 	sbc.b $85
 	sta.b $83
 	ldy.b $7F
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	ldy.b $6B
 	sta.b $8F
 	cmp.w #$0014
@@ -584,7 +584,7 @@ CODE_C45413:						; from CODE_C453FD
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sec
 	sbc.w $0C40,x
@@ -660,7 +660,7 @@ CODE_C45476:						; from CODE_C45413, CODE_C4546A
 	clc
 	adc.w #$0018
 	sta.b $7F
-	jmp.w CODE_C4789D
+	jmp.w AddPenalty
 CODE_C454D3:						; from CODE_C45476
 	rtl
 CODE_C454D4:						; from CODE_C45476
@@ -676,7 +676,7 @@ CODE_C454D4:						; from CODE_C45476
 	clc
 	adc.w #$001C
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 CODE_C454F7:						; from CODE_C454D4
 	jsl.l PenShotChk
 	beq CODE_C45516
@@ -688,7 +688,7 @@ CODE_C454F7:						; from CODE_C454D4
 	sta.w $18B6
 	lda.w #$0024
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 CODE_C45516:						; from CODE_C454F7
 	jmp.w CODE_C44F20
 DATA8_C45519:						; not traced: a table read by CODE_C45413
@@ -703,11 +703,11 @@ CODE_C45529:						; called from other segments
 	asl.b $7F
 CODE_C45539:						; from CODE_C45529
 	lda.b $7F
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	cmp.w #$0004
 	bcc CODE_C4554F
 	lda.b $7F
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	cmp.w #$0004
 	bcs CODE_C45580
 CODE_C4554F:						; from CODE_C45539
@@ -754,7 +754,7 @@ CODE_C45581:						; from CODE_C4555F, CODE_C45573
 	bmi CODE_C45578
 	cmp.w #$0022
 	bpl CODE_C45578
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	cmp.w $0C40,x
 	bne CODE_C45578
@@ -835,9 +835,9 @@ CODE_C4563A:						; from CODE_C45687
 	sta.b $83
 	ldy.b $83
 	lda.b $7F
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	sta.b $8F
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sec
 	sbc.w $0C40,x
@@ -895,7 +895,7 @@ holdcheck:							; from CODE_C453E3
 	sec
 	sbc.w $0896,y
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	ldy.b $6B
 	lda.b $7F
 	sec
@@ -963,7 +963,7 @@ CODE_C4574C:						; from CODE_C456F8
 	sta.w $18B6
 	lda.w #$0024
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 	bra CODE_C45792
 CODE_C45771:						; from CODE_C4574C
 	jsl.l checkagr
@@ -978,7 +978,7 @@ CODE_C45771:						; from CODE_C4574C
 	lda.w #$0020
 	sta.b $7F
 CODE_C4578E:						; from CODE_C45771
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 CODE_C45792:						; from CODE_C4574C, CODE_C45771
 	ldx.b $6B
 	ldy.b $6F
@@ -1110,7 +1110,7 @@ CODE_C45881:						; from CODE_C45814
 	lda.w #$18EC
 	jsl.l SetSPAUpdate
 	bra CODE_C4587F
-CODE_C458A2:						; called from other segments
+dostop:								; called from other segments
 	lda.w $09A0,x
 	cmp.w #$DFFF
 	bmi CODE_C458BC
@@ -1121,7 +1121,7 @@ CODE_C458A2:						; called from other segments
 	bmi CODE_C458BC
 	cmp.w #$2001
 	bmi CODE_C458E4
-CODE_C458BC:						; from CODE_C458A2
+CODE_C458BC:						; from dostop
 	lda.w #$1958
 	ldy.w $1040,x
 	bne CODE_C458E0
@@ -1138,7 +1138,7 @@ CODE_C458DA:						; from CODE_C458BC
 	stz.w $1060,x
 CODE_C458E0:						; from CODE_C458BC
 	jsl.l SetSPAFromA
-CODE_C458E4:						; from CODE_C458A2 and other segments
+CODE_C458E4:						; from dostop and other segments
 	lda.w $0A20,x
 	bne CODE_C45908
 	lda.w $14F9,x
@@ -1252,7 +1252,7 @@ CODE_C459BA:						; from CODE_C4599E
 	pei ($83)
 	ldy.w $09A0,x
 	lda.w $09C0,x
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	pha
 	lda.b $40
 	clc
@@ -1265,7 +1265,7 @@ CODE_C459BA:						; from CODE_C4599E
 	adc.b $85
 	sec
 	sbc.w $0896,x
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	tay
 	pla
 	sta.b $40
@@ -1287,7 +1287,7 @@ CODE_C459FD:						; from CODE_C459BA
 	sta.b $7F
 	bra CODE_C45A08
 CODE_C45A04:						; from CODE_C4599E, CODE_C459BA, CODE_C459F8
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 CODE_C45A08:						; from CODE_C459FD
 	lda.b $63
 	sta.w $1851
@@ -1309,7 +1309,7 @@ CODE_C45A08:						; from CODE_C459FD
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 CODE_C45A3E:						; from CODE_C45950, CODE_C45A08
 	lda.w $0B80,x
 	sta.b $7F
@@ -1340,7 +1340,7 @@ CODE_C45A71:						; from CODE_C45A47
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	cmp.w #$0008
 	bpl CODE_C45A9E

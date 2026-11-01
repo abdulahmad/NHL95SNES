@@ -63,7 +63,7 @@ CODE_C37065:						; called from other segments
 	sta.w $0565
 CODE_C3707C:						; from CODE_C37065
 	rtl
-CODE_C3707D:						; called from other segments
+ReadJoy1:							; called from other segments
 	lda.b $C1
 	sta.b $8B
 	lda.w $0579
@@ -804,7 +804,7 @@ CODE_C3764F:						; from CODE_C376AA
 	sbc.w $08B6
 	sta.b $83
 	sta.b $8B
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	cmp.w #$0008
 	beq CODE_C376AA
 	sec
@@ -1096,7 +1096,7 @@ CODE_C378E7:						; from CODE_C3788F
 	sta.b $75
 	lda.w $07E0
 	sta.b $73
-	jsl.l CODE_C37C62
+	jsl.l RestoreReplayFrame
 	lda.w #$0800
 	trb.w $10F5
 	jsl.l CODE_C5226A
@@ -1146,12 +1146,12 @@ CODE_C3796F:						; from suba4
 	lda.b $73
 	cmp.w $07E0
 	beq CODE_C37989
-	jml.l CODE_C37C62
+	jml.l RestoreReplayFrame
 CODE_C37989:						; from CODE_C3796F
 	lda.b $75
 	cmp.w $07E2
 	beq CODE_C37994
-	jml.l CODE_C37C62
+	jml.l RestoreReplayFrame
 CODE_C37994:						; from CODE_C37989
 	lda.b $73
 	clc
@@ -1172,7 +1172,7 @@ CODE_C379B3:						; from CODE_C379A0
 	stz.b $9B
 	rtl
 CODE_C379B6:						; from suba4
-	jsl.l CODE_C37C62
+	jsl.l RestoreReplayFrame
 	stz.b $9B
 	rtl
 CODE_C379BD:						; from CODE_C3749B, CODE_C378AB, CODE_C378A1, ...
@@ -1207,7 +1207,7 @@ CODE_C379EC:						; from CODE_C379BD
 	bne CODE_C379FB
 	rtl
 CODE_C379FB:						; from CODE_C379EC
-	jsl.l CODE_C37C62
+	jsl.l RestoreReplayFrame
 adda43:								; from CODE_C379BD and other segments
 	lda.b $73
 	clc
@@ -1481,7 +1481,7 @@ CODE_C37C29:						; from CODE_C37B9F
 	sta.w $06F2
 	lda.b $80
 	sta.w $06F3
-	bra CODE_C37C62
+	bra RestoreReplayFrame
 CODE_C37C50:						; from CODE_C37C29
 	lda.b $80
 	lda.b $80
@@ -1491,7 +1491,7 @@ CODE_C37C50:						; from CODE_C37C29
 	sta.w $06F2
 	lda.b $80
 	sta.w $06F3
-CODE_C37C62:						; from CODE_C3796F, CODE_C379B6, CODE_C37989, CODE_C379FB, ...
+RestoreReplayFrame:					; from CODE_C3796F, CODE_C379B6, CODE_C37989, CODE_C379FB, ...
 	pei ($83)
 	inc.w $0782
 	lda.b $73
@@ -1728,7 +1728,7 @@ CODE_C37E7F:						; from CODE_C37E57
 	jsl.l CODE_C528D5
 	ldx.b $6F
 	rtl
-CODE_C37E95:						; from CODE_C37EBF, CODE_C37EC8, CODE_C37ED4 and other segments
+randomd0A:							; from CODE_C37EBF, randomd0s, randomd0sd0 and other segments
 	phx
 	pha
 	cmp.w #$0100
@@ -1743,7 +1743,7 @@ CODE_C37E95:						; from CODE_C37EBF, CODE_C37EC8, CODE_C37ED4 and other segment
 CODE_C37EAA:						; called from other segments
 	phx
 	pha
-CODE_C37EAC:						; from CODE_C37E95
+CODE_C37EAC:						; from randomd0A
 	jsl.l RandomWord
 	and.w #$00FF
 	plx
@@ -1755,21 +1755,21 @@ CODE_C37EAC:						; from CODE_C37E95
 	rtl
 CODE_C37EBF:						; called from other segments
 	lda.b $7F
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	sta.b $7F
 	rtl
-CODE_C37EC8:						; called from other segments
+randomd0s:							; called from other segments
 	sta.b $40
 	asl a
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	sec
 	sbc.b $40
 	clc
 	rtl
-CODE_C37ED4:						; called from other segments
+randomd0sd0:						; called from other segments
 	lda.b $7F
 	asl a
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	sec
 	sbc.b $7F
 	sta.b $7F
@@ -1857,7 +1857,7 @@ CODE_C37F69:						; from CODE_C37F47
 	plx
 	sta.b $7F
 	rtl
-CODE_C37F6D:						; from CODE_C3764F and other segments
+vtoa:								; from CODE_C3764F and other segments
 	lda.w #$FFFF
 	bit.b $7F
 	bpl CODE_C37F8C
@@ -1866,7 +1866,7 @@ CODE_C37F6D:						; from CODE_C3764F and other segments
 	lda.w #$0005
 	sta.b $7F
 	rtl
-CODE_C37F7E:						; from CODE_C37F6D
+CODE_C37F7E:						; from vtoa
 	beq CODE_C37F86
 	lda.w #$0007
 	sta.b $7F
@@ -1875,7 +1875,7 @@ CODE_C37F86:						; from CODE_C37F7E
 	lda.w #$0006
 	sta.b $7F
 	rtl
-CODE_C37F8C:						; from CODE_C37F6D
+CODE_C37F8C:						; from vtoa
 	beq CODE_C37FA6
 	bit.b $83
 	bpl CODE_C37F98

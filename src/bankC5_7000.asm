@@ -1272,7 +1272,7 @@ CODE_C5797D:						; from CODE_C5796C
 CODE_C5798B:						; from CODE_C5797D
 	ldx.b $6B
 	sta.w $12CB,x
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 CODE_C57994:						; from CODE_C57912
 	jmp.w CODE_C55A09
 CODE_C57997:						; from CODE_C57905

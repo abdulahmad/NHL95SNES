@@ -359,11 +359,11 @@ CODE_C4428D:						; from wallcollb_out
 	tax
 	lda.w #$0006
 	sta.b $7F
-	jsl.l CODE_C093DD
+	jsl.l ShootoutWonBy
 	ldx.w #$001C
 	stx.b $6F
 CODE_C442AA:						; from CODE_C4428D
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	stz.w $18AE
 	stz.w $18AC
 	rtl
@@ -430,10 +430,10 @@ CODE_C44325:						; from CODE_C4431B
 	inc a
 	sta.w $08DE
 	sta.b $7F
-	jsl.l CODE_C49572
+	jsl.l puckflip
 	lda.w $09BC
 	ldy.w $09DC
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	and.w #$7F00
 	sta.b $9F
 	xba
@@ -560,7 +560,7 @@ CODE_C44428:						; from CODE_C4430E, CODE_C443E4, CODE_C4439E
 	bne CODE_C44444
 	lda.w $05A0
 	bpl CODE_C44444
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	stz.w $18AE
 	stz.w $18AC
 CODE_C44444:						; from CODE_C44428
@@ -796,7 +796,7 @@ CODE_C44621:						; from CODE_C4460B
 	sec
 	sbc.w #$1000
 	sta.w $08DE
-	jmp.w CODE_C49572
+	jmp.w puckflip
 CODE_C44645:						; from CODE_C44457
 	lda.w $08DE
 	bit.w #$8000
@@ -912,7 +912,7 @@ CODE_C44710:						; from CODE_C446C7
 	pei ($87)
 	lda.b $30
 	ldy.b $32
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	inc a
 	sta.b $87
 	lda.b $7F
@@ -1033,7 +1033,7 @@ CODE_C447EF:						; from CODE_C447D2
 	pla
 	lda.w #$0008
 	sta.b $7F
-	jmp.w CODE_C478C3
+	jmp.w AddPenalty2
 CODE_C44817:						; from CODE_C4401D and other segments
 	lda.w $0D60,x
 	bit.w #$8000
@@ -1131,7 +1131,7 @@ CODE_C448BB:						; from CODE_C4482A, CODE_C44878 and other segments
 	sbc.w $0896,x
 	sta.b $8B
 	ldy.b $87
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	cmp.w #$0010
 	bmi CODE_C448EB
 	jmp.w CODE_C44AF5
@@ -1742,7 +1742,7 @@ CODE_C44E0A:						; called from other segments
 	ldy.b $6B
 	cpy.w $05A0
 	beq CODE_C44E1B
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 	stz.w $18AE
 	stz.w $18AC
 CODE_C44E1B:						; from CODE_C44E0A
@@ -1841,7 +1841,7 @@ CODE_C44EE1:						; from CODE_C45141, CODE_C449FE and other segments
 	sbc.w $09C0,y
 	tay
 	pla
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	xba
 	and.w #$00F0
 	sta.b $9F

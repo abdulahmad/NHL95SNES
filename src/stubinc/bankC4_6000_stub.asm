@@ -7,11 +7,11 @@ incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 DATA8_C38A4A = $C38A4A
-CODE_C37F6D = $C37F6D
-CODE_C486FD = $C486FD
+vtoa = $C37F6D
+goalieacc = $C486FD
 SetSPA = $C457A1
 SetSPAFromA = $C457B5
-CODE_C458A2 = $C458A2
+dostop = $C458A2
 CODE_C45ABE = $C45ABE
 getpde = $C54A0E
 CODE_C54A2F = $C54A2F

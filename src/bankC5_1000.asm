@@ -423,7 +423,7 @@ CODE_C513F4:						; called from other segments
 	pla
 	sta.b $7F
 	ldx.b $6F
-CODE_C5147D:						; from CODE_C514E4, CODE_C514BA
+CODE_C5147D:						; from pplpen, CODE_C514BA
 	rtl
 DispPen:							; from CODE_C513F4 and other segments
 	lda.b $6B
@@ -449,7 +449,7 @@ CODE_C5149F:						; from CODE_C51487
 	lda.w $1373,y
 	bit.w #$4000
 	bne CODE_C51487
-	jsl.l CODE_C514E4
+	jsl.l pplpen
 	bra CODE_C51487
 CODE_C514B1:						; from CODE_C51487
 	lda.b $6B
@@ -475,16 +475,16 @@ CODE_C514D2:						; from CODE_C514BA
 	lda.w $1373,y
 	bit.w #$4000
 	beq CODE_C514BA
-	jsl.l CODE_C514E4
+	jsl.l pplpen
 	bra CODE_C514BA
-CODE_C514E4:						; from CODE_C5149F, CODE_C514D2 and other segments
+pplpen:								; from CODE_C5149F, CODE_C514D2 and other segments
 	lda.w $07D6
 	cmp.w #$000B
 	bcs CODE_C5147D
 	lda.b $6B
 	beq CODE_C514F3
 	lda.w #$0034
-CODE_C514F3:						; from CODE_C514E4
+CODE_C514F3:						; from pplpen
 	adc.b $7F
 	tay
 	lda.w $1373,y
@@ -1536,7 +1536,7 @@ CODE_C51DE2:						; from CODE_C51DDA
 	jmp.w CODE_C51E80
 CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DE2
 	jsl.l CODE_C547CB
-	jsl.l CODE_C541D3
+	jsl.l setpersonel
 	jml.l CODE_C5111A
 CODE_C51DF6:						; from CODE_C51D7B and other segments
 	lda.w $186E

@@ -1453,7 +1453,7 @@ CODE_C52B9F:						; from CODE_C52B45
 CODE_C52BA3:						; from CODE_C52B5D
 	jml.l CODE_C45610
 CODE_C52BA7:						; from CODE_C52B5D
-	jml.l CODE_C537C4
+	jml.l findpc
 CODE_C52BAB:						; from CODE_C52B5D
 	jml.l CODE_C53921
 CODE_C52BAF:						; from CODE_C52B5D
@@ -1531,7 +1531,7 @@ CODE_C52C45:						; from CODE_C52C0D
 CODE_C52C4E:						; from CODE_C52C0D
 	jml.l CODE_C49DC7
 CODE_C52C52:						; from CODE_C52C5E
-	jml.l CODE_C537C4
+	jml.l findpc
 CODE_C52C56:						; from CODE_C52C0D
 	jml.l CODE_C49858
 CODE_C52C5A:						; from CODE_C52C0D

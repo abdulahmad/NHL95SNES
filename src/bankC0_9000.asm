@@ -388,7 +388,7 @@ DivX8S:								; X / A (8 bits) into A, X signed
 	sec
 	sbc.l RDDIVL
 	rtl
-CODE_C092B3:						; called from $C50087; the first game routine after the math
+CODE_C092B3:						; called from CODE_C50056; the first game routine after the math
 	lda.w #$0001
 	sta.w $189C
 	lda.w $186E
@@ -519,12 +519,12 @@ CODE_C093C0:						; from CODE_C093B5
 CODE_C093D8:						; from CODE_C09395
 	jsl.l CODE_C5021B
 	rtl
-CODE_C093DD:						; called from $C442A1, $C486EB, $C50AD9
+ShootoutWonBy:						; jumps to its end at once: the shootout check after it is not reached
 	jmp.w CODE_C09465
 	lda.w $189C
 	bne CODE_C093E8
 	jmp.w CODE_C09465
-CODE_C093E8:						; from CODE_C093DD
+CODE_C093E8:						; from ShootoutWonBy
 	lda.w #$000A
 	sta.b $7F
 	lda.w $18A4
@@ -582,8 +582,8 @@ CODE_C09418:						; from CODE_C09401
 	plx
 	lda.w #$0010
 	sta.b $7F
-CODE_C09465:						; from CODE_C093DD, CODE_C093E8, CODE_C093F5
-	jml.l CODE_C478C3
+CODE_C09465:						; from ShootoutWonBy, CODE_C093E8, CODE_C093F5
+	jml.l AddPenalty2
 	jsl.l CODE_C53ABC
 	lda.w #$0001
 	sta.b $7F

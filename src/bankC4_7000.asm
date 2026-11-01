@@ -49,7 +49,7 @@ CODE_C47086:						; from CODE_C47068
 	sta.b $83
 	pla
 	pla
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sta.w $0B80,x
 	lda.w $0A20,x
@@ -58,7 +58,7 @@ CODE_C47086:						; from CODE_C47068
 	sta.b $7F
 	lda.w $09DC
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	cmp.w #$0008
 	beq CODE_C470BC
@@ -76,7 +76,7 @@ CODE_C470BC:						; from CODE_C47086
 	sbc.w $0814,x
 	sta.b $7F
 	pha
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.b $7F
 	sta.b $9F
 	pla
@@ -903,7 +903,7 @@ CODE_C47779:						; from CODE_C4775A
 	lda.b $83
 	sta.w $12C7,y
 	rtl
-CODE_C47787:						; called from other segments
+updatepwrplay:						; called from other segments
 	lda.w $1864
 	cmp.w #$0001
 	beq CODE_C477BA
@@ -915,17 +915,17 @@ CODE_C47787:						; called from other segments
 	sbc.w $12C9
 	sta.b $7F
 	bne CODE_C477A4
-	jmp.w CODE_C47856
-CODE_C477A4:						; from CODE_C47787
+	jmp.w updatepwrplay_clr
+CODE_C477A4:						; from updatepwrplay
 	bpl CODE_C477BB
 	lda.w $10F5
 	bit.w #$4000
 	bne CODE_C477D5
-	jsl.l CODE_C47856
+	jsl.l updatepwrplay_clr
 	lda.w #$4000
 	tsb.w $10F5
 	bra CODE_C477D5
-CODE_C477BA:						; from CODE_C47787
+CODE_C477BA:						; from updatepwrplay
 	rtl
 CODE_C477BB:						; from CODE_C477A4
 	ldx.b $6B
@@ -935,7 +935,7 @@ CODE_C477BB:						; from CODE_C477A4
 	lda.w $10F5
 	bit.w #$4000
 	beq CODE_C477D5
-	jsl.l CODE_C47856
+	jsl.l updatepwrplay_clr
 	lda.w #$4000
 	trb.w $10F5
 CODE_C477D5:						; from CODE_C477A4, CODE_C477BB
@@ -989,7 +989,7 @@ CODE_C4784A:						; from CODE_C4782C
 	jsl.l CODE_C53A71
 	ldy.w #$5AE1
 	jml.l QueueVRAMDMALen
-CODE_C47856:						; from CODE_C47787, CODE_C477A4, CODE_C477BB and other segments
+updatepwrplay_clr:					; from updatepwrplay, CODE_C477A4, CODE_C477BB and other segments
 	lda.w #$2000
 	trb.w $10F5
 	beq CODE_C4789C
@@ -1022,31 +1022,31 @@ CODE_C47880:						; from CODE_C47880
 	stx.b $00
 	stz.b QueueBusy
 	jml.l CODE_C53A29
-CODE_C4789C:						; from CODE_C47856
+CODE_C4789C:						; from updatepwrplay_clr
 	rtl
-CODE_C4789D:						; from CODE_C47AE9, CODE_C47CB6, CODE_C47D0B and other segments
+AddPenalty:							; from CODE_C47AE9, CODE_C47CB6, CODE_C47D0B and other segments
 	lda.w $10F3
 	bne CODE_C478C2
 	lda.w $1157
 	bne CODE_C478C2
 	lda.b $7F
 	cmp.w #$000C
-	beq CODE_C478C3
+	beq AddPenalty2
 	lda.w $186C
 	beq CODE_C478C2
 	lda.w $10F1
 	bit.w #$0020
-	bne CODE_C478C3
+	bne AddPenalty2
 	lda.b $7F
 	cmp.w #$0012
-	bne CODE_C478C3
-CODE_C478C2:						; from CODE_C4789D
+	bne AddPenalty2
+CODE_C478C2:						; from AddPenalty
 	rtl
-CODE_C478C3:						; from CODE_C4789D and other segments
+AddPenalty2:						; from AddPenalty and other segments
 	lda.w $2CF5
 	beq CODE_C478CB
 	jmp.w CODE_C47979
-CODE_C478CB:						; from CODE_C478C3
+CODE_C478CB:						; from AddPenalty2
 	pei ($83)
 	pei ($85)
 	pei ($63)
@@ -1134,7 +1134,7 @@ CODE_C47967:						; from CODE_C47915, CODE_C4792C
 	sta.b $85
 	pla
 	sta.b $83
-CODE_C47979:						; from CODE_C478C3
+CODE_C47979:						; from AddPenalty2
 	rtl
 CODE_C4797A:						; called from other segments
 	pei ($7F)
@@ -1357,7 +1357,7 @@ CODE_C47AE9:						; from CODE_C47ACD
 	bne CODE_C47ACC
 	lda.w #$0026
 	sta.b $7F
-	jmp.w CODE_C4789D
+	jmp.w AddPenalty
 CODE_C47B3F:						; called from other segments
 	lda.w $08E0,x
 	and.w #$F7FF
@@ -1542,7 +1542,7 @@ CODE_C47CB6:						; from CODE_C47C8C
 	sec
 	sbc.w $0896,y
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	ldy.b $6B
 	lda.b $7F
 	sec
@@ -1566,7 +1566,7 @@ CODE_C47CB6:						; from CODE_C47C8C
 	sta.w $18B6
 	lda.w #$0024
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 	bra CODE_C47D1F
 CODE_C47D0A:						; from CODE_C47C8C, CODE_C47CB6
 	rtl
@@ -1577,7 +1577,7 @@ CODE_C47D0B:						; from CODE_C47CB6
 	bcs CODE_C47D1F
 	lda.w #$0022
 	sta.b $7F
-	jsl.l CODE_C4789D
+	jsl.l AddPenalty
 CODE_C47D1F:						; from CODE_C47CB6, CODE_C47D0B
 	ldx.b $6B
 	ldy.b $6F
@@ -1834,14 +1834,14 @@ CODE_C47F3B:						; from CODE_C47F2A
 	jsl.l Mul16S
 	plx
 	rtl
-CODE_C47F4C:						; from CODE_C47F94 and other segments
+assdopen:							; from CODE_C47F94 and other segments
 	lda.w #$0010
 	sta.b $7F
 	lda.w $1020,x
 	beq CODE_C47F5B
 	lda.w #$0001
 	sta.b $7F
-CODE_C47F5B:						; from CODE_C47F4C
+CODE_C47F5B:						; from assdopen
 	lda.w $113F
 	clc
 	adc.b $7F
@@ -1873,7 +1873,7 @@ CODE_C47F94:						; from CODE_C47FAC
 	sta.w $0896,x
 	lda.w #$009B
 	sta.w $0814,x
-	jsl.l CODE_C47F4C
+	jsl.l assdopen
 CODE_C47FAC:						; from CODE_C47F94
 	inx
 	inx

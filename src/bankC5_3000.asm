@@ -845,7 +845,7 @@ CODE_C536C6:						; from CODE_C536A5, CODE_C536E2
 	bpl CODE_C536D6
 	stx.w $05BC
 CODE_C536D6:						; from CODE_C536C6
-	jsl.l CODE_C537C4
+	jsl.l findpc
 	plx
 CODE_C536DB:						; from CODE_C536C6
 	dex
@@ -877,7 +877,7 @@ CODE_C53700:						; from CODE_C536E6, CODE_C5371F
 	bpl CODE_C53713
 	stx.w $05BE
 CODE_C53713:						; from CODE_C53700
-	jsl.l CODE_C537C4
+	jsl.l findpc
 	plx
 CODE_C53718:						; from CODE_C53700
 	dex
@@ -972,7 +972,7 @@ CODE_C537A8:						; from AssignPadPlayer
 	sta.w $1511,y
 CODE_C537C3:						; from AssignPadPlayer, CODE_C537A8
 	rtl
-CODE_C537C4:						; from CODE_C536D6, CODE_C53713 and other segments
+findpc:								; from CODE_C536D6, CODE_C53713 and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1010,7 +1010,7 @@ CODE_C53806:						; from CODE_C537F8
 	ldy.w #$0004
 CODE_C53811:						; from CODE_C53806
 	sty.b $2C
-CODE_C53813:						; from CODE_C537C4, CODE_C537F8
+CODE_C53813:						; from findpc, CODE_C537F8
 	lda.w #$0006
 	sta.b $83
 	ldy.b $8F

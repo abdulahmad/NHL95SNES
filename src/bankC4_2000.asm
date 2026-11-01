@@ -677,7 +677,7 @@ CODE_C42F14:						; from CODE_C42EF5
 	sec
 	sbc.w $0896,y
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.w $0C40,x
 	eor.w #$0004
 	cmp.b $7F
@@ -797,7 +797,7 @@ CODE_C43021:						; from CODE_C43012
 	lda.b [$63],y
 	dey
 	dey
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	adc.b [$63],y
 	sta.w $0B20,x
 	tya
@@ -807,7 +807,7 @@ CODE_C43021:						; from CODE_C43012
 	lda.b [$63],y
 	dey
 	dey
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	adc.b [$63],y
 	sta.w $0B40,x
 CODE_C43053:						; from CODE_C42FB6, CODE_C43012

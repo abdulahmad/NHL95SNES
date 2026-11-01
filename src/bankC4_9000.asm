@@ -205,7 +205,7 @@ CODE_C49495:						; from CODE_C49488
 	sta.w $234E
 	cmp.w #$0030
 	bcc CODE_C494A8
-	jsl.l CODE_C486C7
+	jsl.l EndPenaltyShot
 CODE_C494A5:						; from CODE_C4945D, CODE_C49488, CODE_C4948F
 	stz.w $234E
 CODE_C494A8:						; from CODE_C49495
@@ -219,7 +219,7 @@ CODE_C494A8:						; from CODE_C49495
 	sta.b $7F
 	dec.w $0B9C
 	bpl CODE_C494D1
-	jsl.l CODE_C478C3
+	jsl.l AddPenalty2
 	bra CODE_C494D1
 CODE_C494C8:						; from CODE_C4945D
 	stz.w $234E
@@ -305,7 +305,7 @@ CODE_C4956B:						; from CODE_C49501
 	lda.w #$FFFF
 	sta.w $07DA,y
 	rtl
-CODE_C49572:						; called from other segments
+puckflip:							; called from other segments
 	lda.b $7F
 	and.w #$0001
 	sta.b $7F
@@ -431,7 +431,7 @@ CODE_C49638:						; from CODE_C49620
 	lsr.b $8F
 	lsr.b $8F
 	lsr.b $8F
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	sta.b $93
 	lda.w #$0005
 	sta.b $8B
@@ -465,7 +465,7 @@ CODE_C496BC:						; from CODE_C49697, CODE_C496B0
 	bpl CODE_C49697
 CODE_C496C2:						; from CODE_C49638, CODE_C496AE
 	lda.b $8F
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	cmp.w #$0009
 	bcs CODE_C49709
 	lda.w $08B2
@@ -553,7 +553,7 @@ CODE_C4975F:						; from CODE_C49743
 	sbc.w $08B2
 	sta.b $83
 	ldy.b $7F
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	sta.b $87
 	lda.w #$0012
 	sta.b $8B
@@ -691,7 +691,7 @@ CODE_C49875:						; from CODE_C49858
 	sec
 	sbc.w $0896,x
 	sta.b $83
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	lda.w #$000F
 	sta.w $07CA
 	ldy.w #$1C24
@@ -854,7 +854,7 @@ CODE_C499CC:						; from CODE_C499AE
 	lda.b $7F
 	pha
 	ldy.b $83
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	cmp.w #$0000
 	bne CODE_C49A05
 	inc a
@@ -901,7 +901,7 @@ CODE_C49A4C:						; from CODE_C49A28
 	lda.w #$009B
 CODE_C49A54:						; from CODE_C49A4C
 	pha
-	jsl.l CODE_C37EC8
+	jsl.l randomd0s
 	adc.b $03,s
 	sta.b $03,s
 	lda.b $01,s
@@ -915,12 +915,12 @@ CODE_C49A69:						; from CODE_C49A54
 	bpl CODE_C49A71
 	lsr.b $7F
 CODE_C49A71:						; from CODE_C49A69
-	jsl.l CODE_C37ED4
+	jsl.l randomd0sd0
 	adc.b $05,s
 	sta.b $05,s
 	pla
 	lsr a
-	jsl.l CODE_C37E95
+	jsl.l randomd0A
 	adc.b $05,s
 	sta.b $05,s
 CODE_C49A83:						; from CODE_C49A05, CODE_C49A12
@@ -1128,7 +1128,7 @@ CODE_C49C5A:						; from CODE_C49C36
 	sbc.w $0896,x
 	sta.b $83
 CODE_C49C63:						; from CODE_C49C36
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	jsl.l Findhittype
 	beq CODE_C49C72
 	lda.w #$1EFA
@@ -1410,7 +1410,7 @@ CODE_C49ECB:						; from CODE_C49EAA
 	sbc.w $0670
 	sta.b $83
 CODE_C49ED4:						; from CODE_C49EAA
-	jsl.l CODE_C37F6D
+	jsl.l vtoa
 	jsl.l Findhittype
 	beq CODE_C49EE3
 	lda.w #$1EFA
@@ -1443,7 +1443,7 @@ CODE_C49EF0:						; from CODE_C49E91
 	adc.b $83
 	sec
 	sbc.w $08B2
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	cmp.w $0674
 	sta.w $0674
 	bcs CODE_C49F2C
@@ -1456,7 +1456,7 @@ CODE_C49F2C:						; from CODE_C49EF0
 	lda.w $0896,x
 	sec
 	sbc.w $08B2
-	jsl.l CODE_C38778
+	jsl.l ApproxLength
 	cmp.w #$001C
 	bcs CODE_C49FAF
 	lda.w #$FFFF
