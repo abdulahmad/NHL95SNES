@@ -2174,3 +2174,12 @@ $CBE895,DATA8_CBE895,,new,"raw frame tiles for transfer index $371; pose not tra
 $CBEAF5,DATA8_CBEAF5,,new,"raw frame tiles for transfer index $372; pose not traced",src/bankCB_E000.asm
 $CBECF5,DATA8_CBECF5,,new,"raw frame tiles for transfer index $373; pose not traced",src/bankCB_E000.asm
 $CBEF75,DATA8_CBEF75,,new,"raw frame tiles for transfer index $374; pose not traced",src/bankCB_E000.asm
+$CBF175,DATA8_CBF175,,new,"raw frame tiles for transfer index $375; pose not traced",src/bankCB_F000.asm
+$CBF3D5,DATA8_CBF3D5,,new,"raw frame tiles for transfer index $376; pose not traced",src/bankCB_F000.asm
+$CBF5D5,DATA8_CBF5D5,,new,"raw frame tiles for transfer index $377; pose not traced",src/bankCB_F000.asm
+$CBF7D5,DATA8_CBF7D5,,new,"raw frame tiles for transfer index $378; pose not traced",src/bankCB_F000.asm
+$CBF9D5,DATA8_CBF9D5,,new,"raw frame tiles for transfer index $379; pose not traced",src/bankCB_F000.asm
+$CBFBD5,DATA8_CBFBD5,,new,"raw frame tiles for transfer index $37A; pose not traced",src/bankCB_F000.asm
+$CBFDD5,NorrisPicMap,DATA8_CBFDD5,render+genesis+code,"the picture of award 6 (James Norris Memorial Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 6, whose AwardNames text reads James Norris Memorial Trophy. 95G NorrisPic",src/bankCB_F000.asm
+$CBFE83,NorrisPicTiles,DATA8_CBFE83,render+genesis+code,"its tiles (66, 4bpp, LZSS)",src/bankCB_F000.asm
+$CC05BE,NorrisPicPalette,DATA8_CC05BE,render+genesis+code,"its colours (16)",src/bankCB_F000.asm

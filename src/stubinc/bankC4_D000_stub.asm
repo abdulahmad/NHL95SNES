@@ -11,6 +11,7 @@ SelkePicMap = $C7FE7E				; award 1 picture
 ConnSmythePicMap = $C8FE39			; award 2 picture
 JenningsPicMap = $C9FFEB			; award 3 picture
 ArtRossPicMap = $CAFDF9				; award 5 picture
+NorrisPicMap = $CBFDD5				; award 6 picture
 CODE_C387D8 = $C387D8
 CODE_C3716D = $C3716D
 DATA8_C3585C = $C3585C
