@@ -28,9 +28,9 @@ CODE_C53FE5:						; called from other segments
 	bra .4
 .3:									; A = $1958
 	lda.w #$1958
-.4:									; call SetSPAFromA, $0A00,x = 0, nopuck,x = 0, A = pflags,x, ...
+.4:									; call SetSPAFromA, impact,x = 0, nopuck,x = 0, A = pflags,x, ...
 	jsl.l SetSPAFromA
-	stz.w $0A00,x
+	stz.w impact,x
 	stz.w nopuck,x
 	lda.w pflags,x
 	and.w #$FFF6

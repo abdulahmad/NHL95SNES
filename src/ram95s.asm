@@ -129,6 +129,7 @@ Xvel				=	$09A0		; x speed (puckvx is Xvel+puckscnum)
 puckvx				=	$09BC		; puck x speed
 Yvel				=	$09C0		; y speed
 puckvy				=	$09DC		; puck y speed
+impact				=	$0A00		; per object: impact value; collisions add to it, FallDown tests it
 position			=	$0A20		; player's position
 assnum				=	$0A40		; index of the current assignment (0-7)
 temp1				=	$0AE0		; assignment scratch, per object
@@ -144,6 +145,7 @@ SPA					=	$0C80		; current animation (offset into the animation data)
 SPAnum				=	$0CA0		; index into animation (4 per frame)
 SPAcnt				=	$0CC0		; count down to the next animation frame (-1 = restart)
 nopuck				=	$0CE0		; no puck collision until zero
+nopuckb				=	$0D00		; per object: a count down FallDown sets to $3C
 newpos				=	$0D20		; requested next position (negative = none)
 newpnum				=	$0D40		; requested next roster player (negative = none)
 pflags				=	$0D60		; pflags (bits 0-7) and pflags2 (bit n at bit n+10); some flags have their

@@ -429,15 +429,15 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sbc.w timestep
 	bpl .7
 	lda.w #$0000
-.7:									; nopuck,x = A, A = $0D00,x, A - timestep, ...
+.7:									; nopuck,x = A, A = nopuckb,x, A - timestep, ...
 	sta.w nopuck,x
-	lda.w $0D00,x
+	lda.w nopuckb,x
 	sec
 	sbc.w timestep
 	bpl .8
 	lda.w #$0000
-.8:									; $0D00,x = A, A = sflags3, if $0020 bits clear go to .10, A = pnum,x, ...
-	sta.w $0D00,x
+.8:									; nopuckb,x = A, A = sflags3, if $0020 bits clear go to .10, ...
+	sta.w nopuckb,x
 	lda.w sflags3
 	bit.w #$0020
 	beq .10
@@ -1096,14 +1096,14 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sta.w Xpos,x
 	lda.w $0960,x
 	sta.w Ypos,x
-.71:								; A = $0A00,x, A - impactstep, if the result >= 0 go to .72, A = $0000
-	lda.w $0A00,x
+.71:								; A = impact,x, A - impactstep, if the result >= 0 go to .72, A = $0000
+	lda.w impact,x
 	sec
 	sbc.w impactstep
 	bpl .72
 	lda.w #$0000
-.72:								; $0A00,x = A, X + 1, X + 1, if X = $0020 go to .73, ...
-	sta.w $0A00,x
+.72:								; impact,x = A, X + 1, X + 1, if X = $0020 go to .73, ...
+	sta.w impact,x
 	inx
 	inx
 	cpx.w #$0020

@@ -495,7 +495,7 @@ wallcoll:							; from CODE_C4420F, checkgoalp, checkgoal, ...
 	sec
 	sbc.w #$F000
 	bpl .11
-	lda.w $0A00,x
+	lda.w impact,x
 	sec
 	sbc.w #$000A
 	bmi .11
@@ -1244,15 +1244,15 @@ CollidePlayers:						; collides player X with player Y: their distance and closi
 	bcc .11
 	cmp.w #$21BD
 	bcc .9
-.11:								; A = d4, A + $0A00,x, $0A00,x = A, A = d4, ...
+.11:								; A = d4, A + impact,x, impact,x = A, A = d4, ...
 	lda.b d4
 	clc
-	adc.w $0A00,x
-	sta.w $0A00,x
+	adc.w impact,x
+	sta.w impact,x
 	lda.b d4
 	clc
-	adc.w $0A00,y
-	sta.w $0A00,y
+	adc.w impact,y
+	sta.w impact,y
 	txa
 	sta.w $09E0,y
 	tya

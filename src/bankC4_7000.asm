@@ -1318,12 +1318,12 @@ CODE_C47ACD:						; from checkint and other segments
 	lda.w puckc
 	cmp.b a3
 	beq .1
-	lda.w $0A00,x
+	lda.w impact,x
 	sec
 	sbc.w #$001A
 	bmi CODE_C47ACC
-.1:									; A = $0A00,x, A - $0003, if the result < 0 go to CODE_C47ACC, X = a2, ...
-	lda.w $0A00,x
+.1:									; A = impact,x, A - $0003, if the result < 0 go to CODE_C47ACC, ...
+	lda.w impact,x
 	sec
 	sbc.w #$0003
 	bmi CODE_C47ACC
@@ -1336,7 +1336,7 @@ CODE_C47ACD:						; from checkint and other segments
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	lda.w $0A00,y
+	lda.w impact,y
 	sec
 	sbc.w #$001F
 	bmi CODE_C47ACC

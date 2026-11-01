@@ -30,17 +30,17 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w stickhand,y
 	cmp.w #$000C
 	bcc .2
-	lda.w $0D00,y
+	lda.w nopuckb,y
 	bne .2
 	lda.w seed
 	and.w #$000F
 	adc.w #$000A
 	sta.b d0
 	sec
-	sbc.w $0A00,y
+	sbc.w impact,y
 	bmi .2
 	lda.w #$003C
-	sta.w $0D00,y
+	sta.w nopuckb,y
 	jmp.w .26
 .rtl:								; return
 	rtl
@@ -283,7 +283,7 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	asl a
 	ldy.b a2
 	sec
-	sbc.w $0A00,y
+	sbc.w impact,y
 	bpl .28
 	lda.w gmclock
 	bne .28
@@ -574,8 +574,8 @@ CODE_C453E6:						; from checkcheck and other segments
 	lda.w gmclock
 	beq .2
 	lda.w #$0100
-	sta.w $0A00,x
-	sta.w $0A00,y
+	sta.w impact,x
+	sta.w impact,y
 .2:									; A = Xpos,y, A - Xpos,x, d0 = A, A = Ypos,y, ...
 	lda.w Xpos,y
 	sec
@@ -640,7 +640,7 @@ CODE_C453E6:						; from checkcheck and other segments
 	adc.w $0DE0,y
 	lsr a
 	sec
-	sbc.w $0A00,y
+	sbc.w impact,y
 	beq .6
 	bmi .6
 	sta.b d0
