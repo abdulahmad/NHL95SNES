@@ -616,7 +616,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	tax
 	lda.l DATA8_C35F60,x
 	bne .1
-	jsl.l CODE_C40D96
+	jsl.l SetupPlayoffs
 	inc.w OptPlayMode
 .1:									; X = d7, call DeleteSprite, X = $9D, call DeleteSprite, ...
 	ldx.b d7
@@ -1697,7 +1697,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	tax
 	lda.l DATA8_C35F60,x
 	bne .2
-	jsl.l CODE_C40D96
+	jsl.l SetupPlayoffs
 	inc.w OptPlayMode
 	jmp.w CODE_C5ADDC
 .2:									; A = d0, A * 2, X = A, A = DATA8_C360D4,x, ...

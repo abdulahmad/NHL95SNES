@@ -1239,7 +1239,8 @@ CODE_C409E3:						; from BuildPlayoffDay, SetupPlayoffBracket
 	iny
 	mvn $7E,$7E
 	jmp.w CODE_C40999
-CODE_C40A02:						; called from other segments
+AddIntermissionGoals:				; in season and playoff play (OptPlayMode 2 / 3), adds a random 0-1 goals
+									; to each team of each of the day's computer games not yet done
 	lda.w OptPlayMode
 	cmp.w #$0002
 	beq .1
@@ -1283,7 +1284,7 @@ CODE_C40A02:						; called from other segments
 	bne .loop
 	plb
 	rtl
-CODE_C40A60:						; from CODE_C40A02
+CODE_C40A60:						; from AddIntermissionGoals
 	lda.w #$0002
 	pea.w $7F7E
 	plb
@@ -1718,7 +1719,9 @@ CODE_C40CE3:						; from CODE_C40CB3
 DATA8_C40D76:						; not traced: a table read by CODE_C40CE3
 	db $00,$00,$AF,$00,$5E,$01,$0D,$02,$BC,$02,$6B,$03,$1A,$04,$C9,$04
 	db $78,$05,$27,$06,$D6,$06,$85,$07,$34,$08,$E3,$08,$92,$09,$41,$0A
-CODE_C40D96:						; called from other segments
+SetupPlayoffs:						; starts the playoffs once the schedule has no more games: the marks
+									; cleared and the 16 playoff teams chosen into the list at $3075A4 (once,
+									; while it is empty)
 	lda.l $3075A4
 	bne .rtl
 	lda.w #$2C46
@@ -1758,7 +1761,7 @@ CODE_C40D96:						; called from other segments
 	jsr.w CODE_C40DFB
 .rtl:								; return
 	rtl
-CODE_C40DFB:						; from CODE_C40D96
+CODE_C40DFB:						; from SetupPlayoffs
 	sep #$20
 	ldy.w #$000E
 .loop:								; loop: X = $364E,y, [r0] = $000C,x, X = r0, X + 1, ...
@@ -1773,7 +1776,7 @@ CODE_C40DFB:						; from CODE_C40D96
 	bpl .loop
 	rep #$20
 	rts
-CODE_C40E14:						; from CODE_C40D96
+CODE_C40E14:						; from SetupPlayoffs
 	ldy.w #$000C
 .loop:								; loop: X = $364E,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
 	ldx.w $364E,y
@@ -1789,18 +1792,18 @@ CODE_C40E14:						; from CODE_C40D96
 	iny
 .rts:								; return
 	rts
-CODE_C40E2D:						; from CODE_C40D96
+CODE_C40E2D:						; from SetupPlayoffs
 	lda.w $365A
 	ldx.w $364E,y
 	sta.w $364E,y
 	stx.w $365A
 	rts
-CODE_C40E3A:						; from CODE_C40D96
+CODE_C40E3A:						; from SetupPlayoffs
 	ldy.w $365C
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
 	rts
-CODE_C40E45:						; from CODE_C40D96
+CODE_C40E45:						; from SetupPlayoffs
 	jsr.w CODE_C40ECA
 	ldy.b $81
 .loop:								; loop: X = $000C,y, A = DATA8_C40EDA,x, if tmp0 bits clear go to .1, ...

@@ -575,8 +575,8 @@ Intermission:						; the intermission between periods: the teams set up
 	lda.w $23BA
 	beq .4
 	jmp.w .5
-.4:									; call CODE_C40A02
-	jsl.l CODE_C40A02
+.4:									; call AddIntermissionGoals
+	jsl.l AddIntermissionGoals
 	pei ($7F)
 	pei ($81)
 	pei ($83)

@@ -3318,10 +3318,10 @@ $C40988,.loop,CODE_C40988,new,"branch target only used in ToggleTeamBarRow",src/
 $C4099C,.loop,CODE_C4099C,new,"branch target only used in CODE_C40999",src/bankC4_0000.asm
 $C409B4,.1,CODE_C409B4,new,"branch target only used in CODE_C40999",src/bankC4_0000.asm
 $C409BD,.loop2,CODE_C409BD,new,"branch target only used in CODE_C40999",src/bankC4_0000.asm
-$C40A10,.1,CODE_C40A10,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
-$C40A1C,.loop,CODE_C40A1C,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
-$C40A51,.2,CODE_C40A51,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
-$C40A54,.3,CODE_C40A54,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
+$C40A10,.1,CODE_C40A10,new,"branch target only used in AddIntermissionGoals",src/bankC4_0000.asm
+$C40A1C,.loop,CODE_C40A1C,new,"branch target only used in AddIntermissionGoals",src/bankC4_0000.asm
+$C40A51,.2,CODE_C40A51,new,"branch target only used in AddIntermissionGoals",src/bankC4_0000.asm
+$C40A54,.3,CODE_C40A54,new,"branch target only used in AddIntermissionGoals",src/bankC4_0000.asm
 $C40AAF,.1,CODE_C40AAF,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
 $C40AEF,.2,CODE_C40AEF,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
 $C40B3C,.3,CODE_C40B3C,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
@@ -3343,9 +3343,9 @@ $C40CF2,.1,CODE_C40CF2,new,"branch target only used in CODE_C40CE3",src/bankC4_0
 $C40D02,.loop2,CODE_C40D02,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
 $C40D2D,.loop3,CODE_C40D2D,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
 $C40D3A,.2,CODE_C40D3A,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
-$C40DC4,.1,CODE_C40DC4,new,"branch target only used in CODE_C40D96",src/bankC4_0000.asm
-$C40DEF,.2,CODE_C40DEF,new,"branch target only used in CODE_C40D96",src/bankC4_0000.asm
-$C40DFA,.rtl,CODE_C40DFA,new,"branch target only used in CODE_C40D96",src/bankC4_0000.asm
+$C40DC4,.1,CODE_C40DC4,new,"branch target only used in SetupPlayoffs",src/bankC4_0000.asm
+$C40DEF,.2,CODE_C40DEF,new,"branch target only used in SetupPlayoffs",src/bankC4_0000.asm
+$C40DFA,.rtl,CODE_C40DFA,new,"branch target only used in SetupPlayoffs",src/bankC4_0000.asm
 $C40E00,.loop,CODE_C40E00,new,"branch target only used in CODE_C40DFB",src/bankC4_0000.asm
 $C40E17,.loop,CODE_C40E17,new,"branch target only used in CODE_C40E14",src/bankC4_0000.asm
 $C40E2C,.rts,CODE_C40E2C,new,"branch target only used in CODE_C40E14",src/bankC4_0000.asm
@@ -7964,3 +7964,5 @@ $C401E5,BuildPlayoffDay,CODE_C401E5,code,"from the code: the 16 series at $3D5E 
 $C40280,PlayoffTeamAtRound,CODE_C40280,code,"from the code: the search over the 16 slots",src/bankC4_0000.asm
 $C40296,RecordPlayoffDay,CODE_C40296,code,"from the code: the record loop, AdvancePlayoffTeam for the winner, $3075B4 + 1; FinishSeasonDay goes here in play mode 3; 95 Genesis RecordPlayoffGame's job for one game",src/bankC4_0000.asm
 $C40305,AdvancePlayoffTeam,CODE_C40305,code,"from the code: the search over the 16 slots, the round byte + 1",src/bankC4_0000.asm
+$C40D96,SetupPlayoffs,CODE_C40D96,genesis+purpose,"95 Genesis SetupPlayoffs's job (start the playoffs, round 1) at the same point of the season flow (the schedule day without games, then play mode 3); the SNES seeds the list from the standings by its helpers",src/bankC4_0000.asm
+$C40A02,AddIntermissionGoals,CODE_C40A02,code,"from the code: the record loop with RandomBelowA 2 (CODE_C40A60) into +$A and +8; Intermission calls it before Pausemode_menu",src/bankC4_0000.asm
