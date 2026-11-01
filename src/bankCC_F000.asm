@@ -1,5 +1,5 @@
 ; The tiles chunk of the rink map set (IceRinkMap ends bankCC_E000). Its LZSS stream runs on through
-; bankCD_0000 and bankCD_1000 to IceRinkPalette in bankCD_2000.
+; bankCD_0000 and into bankCD_1000, which ends with IceRinkPalette.
 org $CCFE36
 IceRinkTiles:						; its tiles (520), LZSS; the stream continues in the next bank
 	dw IceRinkPalette-IceRinkTiles-2	; tiles chunk length

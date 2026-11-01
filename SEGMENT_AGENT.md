@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCD_1000 (org $CD1000): banks $C0-$CC are all source. <- CURRENT
+bankCD_2000 (org $CD25E0): banks $C0-$CC are all source. <- CURRENT
 
 ## Sources
 
@@ -556,6 +556,7 @@ bankCD_1000 (org $CD1000): banks $C0-$CC are all source. <- CURRENT
   of its stream, which runs on through bankCD_0000 and bankCD_1000 to IceRinkPalette ($CD2559, labelled in the incbin file of
   bankCD_2000). Bank $CC is all source.
 - 2026-10-31: bankCD_0000 matched: the rest of the IceRinkTiles stream.
+- 2026-10-31: bankCD_1000 matched: the rest of the IceRinkTiles stream, then IceRinkPalette.
 
 ## ROM map
 
@@ -772,8 +773,8 @@ The first row that is still incbin is the current segment.
 | bankCC_E000 | matched 7249 bytes | $CCE1E5 | $CCFE35 | raw frame tiles (poses not traced), then IceRinkMap (the rink map chunk); org moved to $CCE1E5, end moved +$E36 |
 | bankCC_F000 | matched 458 bytes | $CCFE36 | $CCFFFF | IceRinkTiles: the rink tiles chunk header and the start of its LZSS stream (continues in bank $CD); org moved to $CCFE36 |
 | bankCD_0000 | matched 4096 bytes | $CD0000 | $CD0FFF | the rest of the IceRinkTiles stream |
-| bankCD_1000 | incbin | $CD1000 | $CD1FFF | <- CURRENT |
-| bankCD_2000 | incbin | $CD2000 | $CD2FFF | |
+| bankCD_1000 | matched 5600 bytes | $CD1000 | $CD25DF | the rest of the IceRinkTiles stream, then IceRinkPalette; end moved +$5E0 |
+| bankCD_2000 | incbin | $CD25E0 | $CD2FFF | <- CURRENT |
 | bankCD_3000 | incbin | $CD3000 | $CD3FFF | |
 | bankCD_4000 | incbin | $CD4000 | $CD4FFF | |
 | bankCD_5000 | incbin | $CD5000 | $CD5FFF | |

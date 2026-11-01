@@ -4,6 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-IceRinkPalette = $CD2559			; colours chunk, in bankCD_2000
+IceRinkPalette = $CD2559			; colours chunk, in bankCD_1000
 
 incsrc "../bankCC_F000.asm"
