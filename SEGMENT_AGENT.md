@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC6_C000 (org $C6C0A8): next segment in ROM order. <- CURRENT
+bankC6_D000 (org $C6D0E8): next segment in ROM order. <- CURRENT
 
 ## Sources
 
@@ -338,6 +338,8 @@ bankC6_C000 (org $C6C0A8): next segment in ROM order. <- CURRENT
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankC6_B000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC6_C000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -453,8 +455,8 @@ The first row that is still incbin is the current segment.
 | bankC6_9000 | matched 4384 bytes | $C69088 | $C6A1A7 | raw frame tiles (poses not traced); org moved to $C69088, end moved +$1A8 |
 | bankC6_A000 | matched 3936 bytes | $C6A1A8 | $C6B107 | raw frame tiles (poses not traced); org moved to $C6A1A8, end moved +$108 |
 | bankC6_B000 | matched 4000 bytes | $C6B108 | $C6C0A7 | raw frame tiles (poses not traced); org moved to $C6B108, end moved +$A8 |
-| bankC6_C000 | incbin | $C6C0A8 | $C6CFFF | <- CURRENT |
-| bankC6_D000 | incbin | $C6D000 | $C6DFFF | |
+| bankC6_C000 | matched 4160 bytes | $C6C0A8 | $C6D0E7 | raw frame tiles (poses not traced); org moved to $C6C0A8, end moved +$E8 |
+| bankC6_D000 | incbin | $C6D0E8 | $C6DFFF | <- CURRENT |
 | bankC6_E000 | incbin | $C6E000 | $C6EFFF | |
 | bankC6_F000 | incbin | $C6F000 | $C6FFFF | |
 | bankC7_0000 | incbin | $C70000 | $C70FFF | |
