@@ -2873,3 +2873,4 @@ $C50D24,PauseFromPad,CODE_C50D24,94S+code,"Pause for pad A: pausepad = A, then s
 $C4AF5A,ChkOffsides_loop,CODE_C4AF5A,94S+code,"skater a0: skip empty spots, flag if his Ypos is past the line; the same code (start match 0.79, side by side)",src/bankC4_A000.asm
 $C37EAA,randoma8,CODE_C37EAA,94S+code,"random number below A; Create_HotCold_Table calls it where 94S calls randoma8; randoma8 with its fall-through tail",src/bankC3_7000.asm
 $C50D15,startpause,CODE_C50D15,94S+code,"set the pause mode flag and return; PauseFromPad branches to it where 94S jumps to startpause; sets the pause bit of sflags (95 clears the pause pad first)",src/bankC5_0000.asm
+$C54541,lineinput,CODE_C54541,94S+code,"pad input for the line change box; called where 94S doinput calls lineinput; the same code (instruction match 0.866, start checked)",src/bankC5_4000.asm

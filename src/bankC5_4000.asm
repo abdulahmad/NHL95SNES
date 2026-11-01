@@ -675,14 +675,14 @@ CODE_C5453B:						; from CODE_C544F5, CODE_C54503, CODE_C54515
 	lda.w #$0000
 	sta.b d1
 	rtl
-CODE_C54541:						; called from other segments
+lineinput:							; called from other segments
 	pei ($83)
 	stz.b a2
 	lda.w pfteam,x
 	beq CODE_C5454E
 	inc.b a2
 	inc.b a2
-CODE_C5454E:						; from CODE_C54541
+CODE_C5454E:						; from lineinput
 	ldy.b a2
 	lda.w tmflags,y
 	bit.w #$0001
