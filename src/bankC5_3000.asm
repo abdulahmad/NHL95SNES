@@ -3,47 +3,47 @@
 org $C5308D
 CODE_C5308D:						; called from other segments
 	cmp.b $0C
-	bcc CODE_C53095
+	bcc .1
 	cmp.b $A5
-	bcc CODE_C5309F
-CODE_C53095:						; from CODE_C5308D
+	bcc .rts
+.1:									; A = $0C
 	lda.b $0C
-CODE_C53097:						; from CODE_C53097
+.loop:								; loop: call CODE_C530B3, if carry clear go to .rts, A + 1, go to .loop
 	jsr.w CODE_C530B3
-	bcc CODE_C5309F
+	bcc .rts
 	inc a
-	bra CODE_C53097
-CODE_C5309F:						; from CODE_C5308D, CODE_C53097
+	bra .loop
+.rts:								; return
 	rts
 CODE_C530A0:						; called from other segments
 	cmp.b $0A
-	bcc CODE_C530A8
+	bcc .1
 	cmp.b $0C
-	bcc CODE_C530B2
-CODE_C530A8:						; from CODE_C530A0
+	bcc .rts
+.1:									; A = $0A
 	lda.b $0A
-CODE_C530AA:						; from CODE_C530AA
+.loop:								; loop: call CODE_C530B3, if carry clear go to .rts, A + 1, go to .loop
 	jsr.w CODE_C530B3
-	bcc CODE_C530B2
+	bcc .rts
 	inc a
-	bra CODE_C530AA
-CODE_C530B2:						; from CODE_C530A0, CODE_C530AA
+	bra .loop
+.rts:								; return
 	rts
-CODE_C530B3:						; from CODE_C53097, CODE_C530AA
+CODE_C530B3:						; from CODE_C5308D, CODE_C530A0
 	cmp.w $006D,y
-	beq CODE_C530CD
+	beq .rts
 	cmp.w $006E,y
-	beq CODE_C530CD
+	beq .rts
 	cmp.w a3,y
-	beq CODE_C530CD
+	beq .rts
 	cmp.w $0070,y
-	beq CODE_C530CD
+	beq .rts
 	cmp.w $0071,y
-	beq CODE_C530CD
+	beq .rts
 	clc
-CODE_C530CD:						; from CODE_C530B3
+.rts:								; return
 	rts
-CODE_C530CE:						; from CODE_C5324F, CODE_C5328C
+CODE_C530CE:						; from CODE_C531C7
 	lda.w $0008,x
 	pha
 	lda.w $003A,x
@@ -57,7 +57,7 @@ CODE_C530CE:						; from CODE_C5324F, CODE_C5328C
 	pla
 	sta.w $0008,y
 	rts
-CODE_C530EB:						; from CODE_C531EA, CODE_C531F8
+CODE_C530EB:						; from CODE_C531C7
 	phx
 	lda.b (tmp1)
 	inc a
@@ -94,13 +94,13 @@ CODE_C5311F:						; from CODE_C53106, CODE_C53136
 	lda.l $C30000,x
 	xba
 	ldx.w #$0000
-CODE_C5312D:						; from CODE_C5312D
+.loop:								; loop: X + 1, A * 2, A * 2, A * 2, ...
 	inx
 	asl a
 	asl a
 	asl a
 	asl a
-	bne CODE_C5312D
+	bne .loop
 	txa
 	rts
 CODE_C53136:						; no caller found (not traced)
@@ -195,17 +195,17 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	stz.b tmp2
 	ldx.w #$0000
 	ldy.b tmp1
-CODE_C531EA:						; from CODE_C53214
+.loop:								; loop: A = $306A56,x, A and $001F, if A is not tmp0 go to .1, ...
 	lda.l $306A56,x
 	and.w #$001F
 	cmp.b tmp0
-	bne CODE_C531F8
+	bne .1
 	jsr.w CODE_C530EB
-CODE_C531F8:						; from CODE_C531EA
+.1:									; A = tmp2, A + 1, if A >= $027E go to .3, tmp2 = A, ...
 	lda.b tmp2
 	inc a
 	cmp.w #$027E
-	bcs CODE_C53221
+	bcs .3
 	sta.b tmp2
 	lda.l $306A57,x
 	lsr a
@@ -214,9 +214,9 @@ CODE_C531F8:						; from CODE_C531EA
 	lsr a
 	and.w #$001F
 	cmp.b tmp0
-	bne CODE_C53214
+	bne .2
 	jsr.w CODE_C530EB
-CODE_C53214:						; from CODE_C531F8
+.2:									; X + 1, X + 1, X + 1, A = tmp2, ...
 	inx
 	inx
 	inx
@@ -224,31 +224,31 @@ CODE_C53214:						; from CODE_C531F8
 	inc a
 	sta.b tmp2
 	cmp.w #$027E
-	bcc CODE_C531EA
-CODE_C53221:						; from CODE_C531F8
+	bcc .loop
+.3:									; tmp2 = (tmp1), Y = tmp1
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-CODE_C53227:						; from CODE_C53261
+.4:									; A = $003A,y, if A < $026A go to .5, push Y, call CODE_C5D7CD, ...
 	lda.w $003A,y
 	cmp.w #$026A
-	bcc CODE_C53241
+	bcc .5
 	phy
 	jsr.w CODE_C5D7CD
 	jsr.w CODE_C5D7E9
 	ply
 	cmp.w #$0000
-	bne CODE_C53261
+	bne .7
 	pea.w $0000
-	bra CODE_C5324F
-CODE_C53241:						; from CODE_C53227
+	bra .6
+.5:									; A * 2, X = A, A = PlayerList,x, if a $C000 bit set go to .7, ...
 	asl a
 	tax
 	lda.l PlayerList,x
 	bit.w #$C000
-	bne CODE_C53261
+	bne .7
 	pea.w $0000
-CODE_C5324F:						; from CODE_C53227
+.6:									; X = tmp1, A = $0002,x, $0002,x + 1, A * 2, ...
 	ldx.b tmp1
 	lda.w $0002,x
 	inc.w $0002,x
@@ -257,32 +257,32 @@ CODE_C5324F:						; from CODE_C53227
 	tax
 	jsr.w CODE_C530CE
 	plx
-	bra CODE_C53261
-CODE_C53261:						; from CODE_C53227, CODE_C53241, CODE_C5324F
+	bra .7
+.7:									; Y + 1, Y + 1, tmp2 - 1, if the result is not 0 go to .4, ...
 	iny
 	iny
 	dec.b tmp2
-	bne CODE_C53227
+	bne .4
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-CODE_C5326D:						; from CODE_C5329F
+.8:									; A = $003A,y, if A < $026A go to .9, push Y, call CODE_C5D7CD, ...
 	lda.w $003A,y
 	cmp.w #$026A
-	bcc CODE_C53284
+	bcc .9
 	phy
 	jsr.w CODE_C5D7CD
 	jsr.w CODE_C5D7E9
 	ply
 	cmp.w #$0003
-	bcc CODE_C5329F
-	bra CODE_C5328C
-CODE_C53284:						; from CODE_C5326D
+	bcc .11
+	bra .10
+.9:									; A * 2, X = A, if PlayerList,x >= 0 go to .11
 	asl a
 	tax
 	lda.l PlayerList,x
-	bpl CODE_C5329F
-CODE_C5328C:						; from CODE_C5326D
+	bpl .11
+.10:								; X = tmp1, A = $0004,x, $0004,x + 1, A + $0002,x, ...
 	ldx.b tmp1
 	lda.w $0004,x
 	inc.w $0004,x
@@ -292,11 +292,11 @@ CODE_C5328C:						; from CODE_C5326D
 	adc.b tmp1
 	tax
 	jsr.w CODE_C530CE
-CODE_C5329F:						; from CODE_C5326D, CODE_C53284
+.11:								; Y + 1, Y + 1, tmp2 - 1, if the result is not 0 go to .8, ...
 	iny
 	iny
 	dec.b tmp2
-	bne CODE_C5326D
+	bne .8
 	ldx.b tmp1
 	lda.w $0000,x
 	sec
@@ -307,9 +307,9 @@ CODE_C5329F:						; from CODE_C5326D, CODE_C53284
 CODE_C532B5:						; no caller found (not traced)
 	ldx.w #$2DC9
 	lda.b a2
-	beq CODE_C532BF
+	beq .1
 	ldx.w #$3207
-CODE_C532BF:						; from CODE_C532B5
+.1:									; d0 = $0004,x, return
 	lda.w $0004,x
 	sta.b d0
 	rtl
@@ -322,15 +322,15 @@ CODE_C532C5:						; called from other segments
 	pei ($6F)
 	lda.w #$2DC9
 	ldx.b a2
-	beq CODE_C532DB
+	beq .1
 	lda.w #$3207
-CODE_C532DB:						; from CODE_C532C5
+.1:									; a1 = A, A + $0008, X = A, Y = $001C
 	sta.b a1
 	clc
 	adc.w #$0008
 	tax
 	ldy.w #$001C
-CODE_C532E5:						; from CODE_C532E5
+.loop:								; loop: (a3) = $006C,x, X + 1, X + 1, a3 + 1, ...
 	lda.w $006C,x
 	sta.b (a3)
 	inx
@@ -338,10 +338,10 @@ CODE_C532E5:						; from CODE_C532E5
 	inc.b a3
 	inc.b a3
 	dey
-	bne CODE_C532E5
+	bne .loop
 	ply
 	lda.w $186E
-	bne CODE_C53316
+	bne .2
 	stz.w $18AA
 	ldx.b a1
 	lda.w $006C,x
@@ -352,7 +352,7 @@ CODE_C532E5:						; from CODE_C532E5
 	sta.w $0004,y
 	lda.w $0072,x
 	sta.w QueueBusy,y
-CODE_C53316:						; from CODE_C532E5
+.2:									; pull Y, pull X, pull A, a1 = A, ...
 	ply
 	plx
 	pla
@@ -368,12 +368,12 @@ CODE_C5331F:						; no caller found (not traced)
 	stz.b a2
 	lda.w TempPlOffset
 	sta.b d0
-	bpl CODE_C53339
+	bpl .1
 	and.w #$00FF
 	sta.b d0
 	inc.b a2
 	inc.b a2
-CODE_C53339:						; from CODE_C5331F
+.1:									; call PlayerShortName, pull A, $6D = A, pull A, ...
 	jsl.l PlayerShortName
 	pla
 	sta.b $6D
@@ -384,7 +384,7 @@ CODE_C53339:						; from CODE_C5331F
 	pla
 	sta.b d0
 	rtl
-PlayerShortName:					; from CODE_C53339 and other segments
+PlayerShortName:					; from CODE_C5331F and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($6B)
@@ -435,20 +435,20 @@ PlayerShortName:					; from CODE_C53339 and other segments
 	lda.w #$0020
 	sta.b [a1]
 	inc.b a1
-CODE_C533B4:						; from CODE_C533B4
+.loop:								; loop: A = [a0], a0 + 1, A and $00FF, if A is not $0020 go to .loop
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
 	cmp.w #$0020
-	bne CODE_C533B4
-CODE_C533C0:						; from CODE_C533C0
+	bne .loop
+.loop2:								; loop: A = [a0], a0 + 1, [a1] = A, a1 + 1, ...
 	lda.b [a0]
 	inc.b a0
 	sta.b [a1]
 	inc.b a1
 	lda.b a0
 	cmp.b a2
-	bne CODE_C533C0
+	bne .loop2
 	pla
 	sta.b $65
 	pla
@@ -501,32 +501,32 @@ CODE_C533EF:						; from CODE_C533E1 and other segments
 	sep #$21
 	lda.w $0118,x
 	cmp.b #$3D
-	bne CODE_C53432
+	bne .1
 	lda.b #$2E
-CODE_C53432:						; from CODE_C533EF
+.1:									; A xor $80, $0004,y = A, $0005,y = $AE, QueueBusy,y = $A0
 	eor.b #$80
 	sta.w $0004,y
 	lda.b #$AE
 	sta.w $0005,y
 	lda.b #$A0
 	sta.w QueueBusy,y
-CODE_C53441:						; from CODE_C53441
+.loop:								; loop: A = $0119,x, X + 1, if A is not $20 go to .loop
 	lda.w $0119,x
 	inx
 	cmp.b #$20
-	bne CODE_C53441
-CODE_C53449:						; from CODE_C53454
+	bne .loop
+.loop2:								; loop: X + 1, Y + 1, A = $0118,x, if A is not $3D go to .2, ...
 	inx
 	iny
 	lda.w $0118,x
 	cmp.b #$3D
-	bne CODE_C53454
+	bne .2
 	lda.b #$2E
-CODE_C53454:						; from CODE_C53449
+.2:									; A xor $80, QueueBusy,y = A, if the result is not 0 go to .loop2, ...
 	eor.b #$80
 	sta.w QueueBusy,y
 	eor.b #$80
-	bne CODE_C53449
+	bne .loop2
 	sta.w QueueBusy,y
 	rep #$21
 	tya
@@ -553,7 +553,7 @@ PutDigits2:							; from PlayerShortName and other segments
 	lda.b d0
 	and.w #$00FF
 	cmp.w #$000A
-	bcc CODE_C534A1
+	bcc .1
 	lsr a
 	lsr a
 	lsr a
@@ -561,7 +561,7 @@ PutDigits2:							; from PlayerShortName and other segments
 	clc
 	adc.w #$0030
 	sta.b tmp0
-CODE_C534A1:						; from PutDigits2
+.1:									; A = d0, A and $000F, A + $0030, $A0 = A, ...
 	lda.b d0
 	and.w #$000F
 	clc
@@ -578,7 +578,7 @@ CODE_C534B5:						; no caller found (not traced)
 	lda.w #$0513
 	sta.b a1
 	lda.b d0
-CODE_C534BF:						; from CODE_C534BF
+.loop:								; loop: r2 = A, r1 = $000A, call Div16x8U, a1 - 1, ...
 	sta.b r2
 	lda.w #$000A
 	sta.b r1
@@ -589,7 +589,7 @@ CODE_C534BF:						; from CODE_C534BF
 	sta.b [a1]
 	rep #$30
 	lda.b r0
-	bne CODE_C534BF
+	bne .loop
 	dec.b a1
 	dec.b a1
 	lda.w #$0513
@@ -603,13 +603,13 @@ CODE_C534E8:						; called from other segments
 	ldy.b d1
 	lda.b d0
 	cpy.w #$0002
-	bne CODE_C534FC
-CODE_C534F2:						; from CODE_C534F2
+	bne .1
+.loop:								; loop: if A < $0064 go to .1, A - $0064, go to .loop
 	cmp.w #$0064
-	bcc CODE_C534FC
+	bcc .1
 	sbc.w #$0064
-	bra CODE_C534F2
-CODE_C534FC:						; from CODE_C534E8, CODE_C534F2
+	bra .loop
+.1:									; Y + 1, Y + 1, $0559 = Y, Y - 1, ...
 	iny
 	iny
 	sty.w $0559
@@ -621,7 +621,7 @@ CODE_C534FC:						; from CODE_C534E8, CODE_C534F2
 	stx.w $0561
 	ldx.w #$000A
 	stx.b r1
-CODE_C53516:						; from CODE_C53516
+.loop2:								; loop: r2 = A, call Div16x8U, A = RDMPYL, Y - 1, ...
 	sta.b r2
 	jsl.l Div16x8U
 	lda.l RDMPYL
@@ -629,7 +629,7 @@ CODE_C53516:						; from CODE_C53516
 	dey
 	sta.w $0559,y
 	lda.b r0
-	bne CODE_C53516
+	bne .loop2
 	ldx.w #$0559
 	stx.b a1
 	ldx.w #$0000
@@ -639,25 +639,25 @@ CODE_C53516:						; from CODE_C53516
 CODE_C53535:						; called from other segments
 	jsl.l CODE_C510F6
 	lda.w $189C
-	beq CODE_C5354B
+	beq .1
 	lda.w #$0019
 	sta.b d0
 	lda.w #$0025
 	sta.w $1151
-	bra CODE_C53568
-CODE_C5354B:						; from CODE_C53535
+	bra .2
+.1:									; $1151 = tmp0, A = gsp, if A is not $0003 go to .2, ...
 	lda.b tmp0
 	sta.w $1151
 	lda.w gsp
 	cmp.w #$0003
-	bne CODE_C53568
+	bne .2
 	lda.w $1864
-	bne CODE_C53568
+	bne .2
 	lda.w #$0500
 	sta.w $1151
 	lda.w #$012C
 	sta.b d0
-CODE_C53568:						; from CODE_C53535, CODE_C5354B
+.2:									; gameclock = d0, $17B3 = A, gmclock = A, return
 	lda.b d0
 	sta.w gameclock
 	sta.w $17B3
@@ -669,11 +669,11 @@ CODE_C53574:						; called from other segments
 	lda.w $12CD
 	pha
 	ldx.w #$01AE
-CODE_C5357F:						; from CODE_C5357F
+.loop:								; loop: $125F,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
 	stz.w $125F,x
 	dex
 	dex
-	bpl CODE_C5357F
+	bpl .loop
 	pla
 	sta.w $12CD
 	pla
@@ -708,11 +708,11 @@ CODE_C535CA:						; from restoreteams and other segments
 	sta.w tmap,y
 	lda.w #$0032
 	sta.b d0
-CODE_C535D7:						; from CODE_C535DE
+.loop:								; loop: if a2 = 0 go to .1, A = $0034
 	lda.b a2
-	beq CODE_C535DE
+	beq .1
 	lda.w #$0034
-CODE_C535DE:						; from CODE_C535D7
+.1:									; A + d0, Y = A, tmpdst,y = $FFFE, d0 - 1, ...
 	clc
 	adc.b d0
 	tay
@@ -720,7 +720,7 @@ CODE_C535DE:						; from CODE_C535D7
 	sta.w tmpdst,y
 	dec.b d0
 	dec.b d0
-	bpl CODE_C535D7
+	bpl .loop
 	rtl
 CODE_C535EF:						; from PlayerShortName and other segments
 	ldy.b a2
@@ -744,12 +744,12 @@ CODE_C535EF:						; from PlayerShortName and other segments
 	rtl
 loadTeamStruct:						; from CODE_C5404A and other segments
 	lda.w pfteam,x
-	beq CODE_C53623
+	beq .1
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
 	rtl
-CODE_C53623:						; from loadTeamStruct
+.1:									; a1 = $0002, a2 = 0, return
 	lda.w #$0002
 	sta.b a1
 	stz.b a2
@@ -763,19 +763,19 @@ DATA8_C5362D:						; not traced: data between routines
 CODE_C5362E:						; called from other segments
 	ldy.w #$2DC9
 	lda.b a2
-	beq CODE_C53638
+	beq .1
 	ldy.w #$3207
-CODE_C53638:						; from CODE_C5362E
+.1:									; d0 = $0000,y, return
 	lda.w $0000,y
 	sta.b d0
 	rtl
 ChkShotStat_add:					; no caller found (not traced)
 	ldy.b d1
 	lda.w pfteam,x
-	beq CODE_C53647
+	beq .1
 	iny
 	iny
-CODE_C53647:						; from ChkShotStat_add
+.1:									; A = $0000,y, A + d0, $0000,y = A, return
 	lda.w $0000,y
 	clc
 	adc.b d0
@@ -785,15 +785,15 @@ CODE_C53651:						; called from other segments
 	jsl.l CODE_C38799
 	lda.w $1864
 	cmp.w #$0001
-	beq CODE_C53683
+	beq .2
 	lda.w penshot
-	bne CODE_C53683
+	bne .2
 	ldy.w #$0008
-CODE_C53665:						; from CODE_C5367F
+.loop:								; loop: A = $1525,y, A and $FF00, if A is not $8000 go to .1, ...
 	lda.w $1525,y
 	and.w #$FF00
 	cmp.w #$8000
-	bne CODE_C5367F
+	bne .1
 	lda.w $1525,y
 	and.w #$00FF
 	sta.w $1525,y
@@ -801,15 +801,15 @@ CODE_C53665:						; from CODE_C5367F
 	inc a
 	lsr a
 	sta.w cont1team,y
-CODE_C5367F:						; from CODE_C53665
+.1:									; Y - 1, Y - 1, if the result >= 0 go to .loop
 	dey
 	dey
-	bpl CODE_C53665
-CODE_C53683:						; from CODE_C53651
+	bpl .loop
+.2:									; $06EC = 0, X = $0016, A = $FFFF
 	stz.w $06EC
 	ldx.w #$0016
 	lda.w #$FFFF
-CODE_C5368C:						; from CODE_C5368C
+.loop2:								; loop: playerpad,x = A, goalieflags,x = 0, goalieturnwait,x = 0, ...
 	sta.w playerpad,x
 	stz.w goalieflags,x
 	stz.w goalieturnwait,x
@@ -817,16 +817,16 @@ CODE_C5368C:						; from CODE_C5368C
 	stz.w $06D4,x
 	dex
 	dex
-	bpl CODE_C5368C
+	bpl .loop2
 	sta.w $066A
 	ldx.w #$0008
-CODE_C536A5:						; from CODE_C536A5
+.loop3:								; loop: c1playernum,x = A, X - 1, X - 1, ...
 	sta.w c1playernum,x
 	dex
 	dex
-	bpl CODE_C536A5
+	bpl .loop3
 	lda.w teampads
-	beq CODE_C536E6
+	beq .6
 	lda.w #$0005
 	sta.b p0
 	ldx.w $05BC
@@ -834,30 +834,30 @@ CODE_C536A5:						; from CODE_C536A5
 	sta.w $05BC
 	dex
 	dex
-	bpl CODE_C536C6
+	bpl .loop4
 	ldx.w #$0008
-CODE_C536C6:						; from CODE_C536A5, CODE_C536E2
+.loop4:								; loop: if $1525,x is not 0 go to .4, d4 = X, push X, ...
 	lda.w $1525,x
-	bne CODE_C536DB
+	bne .4
 	stx.b d4
 	phx
 	lda.w $05BC
-	bpl CODE_C536D6
+	bpl .3
 	stx.w $05BC
-CODE_C536D6:						; from CODE_C536C6
+.3:									; call findpc, pull X
 	jsl.l findpc
 	plx
-CODE_C536DB:						; from CODE_C536C6
+.4:									; X - 1, X - 1, if the result >= 0 go to .5, X = $0008
 	dex
 	dex
-	bpl CODE_C536E2
+	bpl .5
 	ldx.w #$0008
-CODE_C536E2:						; from CODE_C536DB
+.5:									; p0 - 1, if the result is not 0 go to .loop4
 	dec.b p0
-	bne CODE_C536C6
-CODE_C536E6:						; from CODE_C536A5
+	bne .loop4
+.6:									; if $14F7 = 0 go to .rtl, p0 = $0005, X = $05BE, $05BE = $FFFF, ...
 	lda.w $14F7
-	beq CODE_C53723
+	beq .rtl
 	lda.w #$0005
 	sta.b p0
 	ldx.w $05BE
@@ -865,89 +865,89 @@ CODE_C536E6:						; from CODE_C536A5
 	sta.w $05BE
 	dex
 	dex
-	bpl CODE_C53700
+	bpl .loop5
 	ldx.w #$0008
-CODE_C53700:						; from CODE_C536E6, CODE_C5371F
+.loop5:								; loop: A = $1525,x, if A is not $0002 go to .8, d4 = X, push X, ...
 	lda.w $1525,x
 	cmp.w #$0002
-	bne CODE_C53718
+	bne .8
 	stx.b d4
 	phx
 	lda.w $05BE
-	bpl CODE_C53713
+	bpl .7
 	stx.w $05BE
-CODE_C53713:						; from CODE_C53700
+.7:									; call findpc, pull X
 	jsl.l findpc
 	plx
-CODE_C53718:						; from CODE_C53700
+.8:									; X - 1, X - 1, if the result >= 0 go to .9, X = $0008
 	dex
 	dex
-	bpl CODE_C5371F
+	bpl .9
 	ldx.w #$0008
-CODE_C5371F:						; from CODE_C53718
+.9:									; p0 - 1, if the result is not 0 go to .loop5
 	dec.b p0
-	bne CODE_C53700
-CODE_C53723:						; from CODE_C536E6
+	bne .loop5
+.rtl:								; return
 	rtl
 PuckCarrierPad:						; called from other segments
 	ldy.b d0
 	lda.w playerpad,y
-	bpl CODE_C53769
+	bpl .rtl
 	phx
 	ldx.w #$0000
 	cpy.w #$000C
-	bcc CODE_C53737
+	bcc .1
 	ldx.w #$0002
-CODE_C53737:						; from PuckCarrierPad
+.1:									; if teampads,x = 0 go to .4, Y = $05C4,x, Y - 1, Y - 1, ...
 	lda.w teampads,x
-	beq CODE_C5375B
+	beq .4
 	ldy.w $05C4,x
 	dey
 	dey
-	bpl CODE_C53746
+	bpl .2
 	ldy.w #$0008
-CODE_C53746:						; from CODE_C53737
+.2:									; r3 = $0005, A = X
 	lda.w #$0005
 	sta.b r3
 	txa
-CODE_C5374C:						; from CODE_C53764
+.3:									; if A is not $1525,y go to .5, d4 = Y, A = Y, $05C4,x = A, ...
 	cmp.w $1525,y
-	bne CODE_C5375D
+	bne .5
 	sty.b d4
 	tya
 	sta.w $05C4,x
 	jsl.l AssignPadPlayer
-CODE_C5375B:						; from CODE_C53737
+.4:									; pull X, return
 	plx
 	rtl
-CODE_C5375D:						; from CODE_C5374C
+.5:									; Y - 1, Y - 1, if the result >= 0 go to .6, Y = $0008
 	dey
 	dey
-	bpl CODE_C53764
+	bpl .6
 	ldy.w #$0008
-CODE_C53764:						; from CODE_C5375D
+.6:									; r3 - 1, if the result is not 0 go to .3, pull X
 	dec.b r3
-	bne CODE_C5374C
+	bne .3
 	plx
-CODE_C53769:						; from PuckCarrierPad
+.rtl:								; return
 	rtl
 CODE_C5376A:						; called from other segments
 	ldy.b d0
 	lda.w playerpad,y
-	bpl CODE_C53775
+	bpl .rtl
 	jsl.l AssignPadPlayer
-CODE_C53775:						; from CODE_C5376A
+.rtl:								; return
 	rtl
-AssignPadPlayer:					; from CODE_C5374C, CODE_C5376A, CODE_C53964, ...
+AssignPadPlayer:					; from PuckCarrierPad, CODE_C5376A, PadTakePosition, ...
 	lda.w #$FFFF
 	sta.w $066A
 	ldy.b d4
 	lda.w c1playernum,y
 	cmp.b d0
-	beq CODE_C537C3
+	beq .rtl
 	tay
 	cpy.w #$0018
-	bcs CODE_C537A8
+	bcs .1
 	lda.w pflags,y
 	and.w #$FFF7
 	ora.w #$0002
@@ -955,13 +955,13 @@ AssignPadPlayer:					; from CODE_C5374C, CODE_C5376A, CODE_C53964, ...
 	lda.w #$FFFF
 	sta.w playerpad,y
 	lda.w position,y
-	bne CODE_C537A8
+	bne .1
 	lda.w #$0000
 	sta.w goalieflags,y
-CODE_C537A8:						; from AssignPadPlayer
+.1:									; Y = d0, if Y >= $0018 go to .rtl, A = pflags,y, A or $0008, ...
 	ldy.b d0
 	cpy.w #$0018
-	bcs CODE_C537C3
+	bcs .rtl
 	lda.w pflags,y
 	ora.w #$0008
 	sta.w pflags,y
@@ -970,9 +970,9 @@ CODE_C537A8:						; from AssignPadPlayer
 	tay
 	lda.b d0
 	sta.w c1playernum,y
-CODE_C537C3:						; from AssignPadPlayer, CODE_C537A8
+.rtl:								; return
 	rtl
-findpc:								; from CODE_C536D6, CODE_C53713 and other segments
+findpc:								; from CODE_C53651 and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -987,30 +987,30 @@ findpc:								; from CODE_C536D6, CODE_C53713 and other segments
 	bra CODE_C53813
 CODE_C537DE:						; no caller found (not traced)
 	lda.w position,x
-	beq CODE_C537F8
+	beq .1
 	lda.w playerpad,x
-	bmi CODE_C537F8
+	bmi .1
 	lda.w pfalock,x
-	bne CODE_C537F8
+	bne .1
 	lda.w $05E4,x
 	cmp.w #$0028
-	bcs CODE_C537F8
+	bcs .1
 	jmp.w CODE_C53882
-CODE_C537F8:						; from CODE_C537DE
+.1:									; if playerpad,y < 0 go to .2, Y = A, A = $1525,y, ...
 	lda.w playerpad,y
-	bmi CODE_C53806
+	bmi .2
 	tay
 	lda.w $1525,y
 	cmp.w $1525,x
 	beq CODE_C53813
-CODE_C53806:						; from CODE_C537F8
+.2:									; Y = $0000, if pfgoal,x is not 0 go to .3, Y = $0004
 	ldy.w #$0000
 	lda.w pfgoal,x
-	bne CODE_C53811
+	bne .3
 	ldy.w #$0004
-CODE_C53811:						; from CODE_C53806
+.3:									; r0 = Y
 	sty.b r0
-CODE_C53813:						; from findpc, CODE_C537F8
+CODE_C53813:						; from findpc, CODE_C537DE
 	lda.w #$0006
 	sta.b d1
 	ldy.b d4
@@ -1019,42 +1019,42 @@ CODE_C53813:						; from findpc, CODE_C537F8
 	ldx.w #$0000
 	lda.w cont1team,y
 	cmp.w #$0001
-	beq CODE_C5382D
+	beq .loop
 	ldx.w #$000C
-CODE_C5382D:						; from CODE_C53813, CODE_C5386A
+.loop:								; loop: if position,x < 0 go to .4, if zero go to .4, A = pflags,x, ...
 	lda.w position,x
-	bmi CODE_C5386A
-	beq CODE_C5386A
+	bmi .4
+	beq .4
 	lda.w pflags,x
 	bit.w #$1000
-	bne CODE_C5386A
+	bne .4
 	lda.w SPA,x
 	cmp.w #$2030
-	bcc CODE_C53849
+	bcc .1
 	cmp.w #$21BD
-	bcc CODE_C53854
-CODE_C53849:						; from CODE_C5382D
+	bcc .2
+.1:									; A = pflags,x, A and $1000, if the result is not 0 go to .4
 	lda.w pflags,x
 	and.w #$1000
 	ora.w pfalock,x
-	bne CODE_C5386A
-CODE_C53854:						; from CODE_C5382D
+	bne .4
+.2:									; if playerpad,x < 0 go to .3, if A is not d4 go to .4
 	lda.w playerpad,x
-	bmi CODE_C5385D
+	bmi .3
 	cmp.b d4
-	bne CODE_C5386A
-CODE_C5385D:						; from CODE_C53854
+	bne .4
+.3:									; r3 = 0, A = $05E4,x, if A >= d2 go to .4, d3 = X, ...
 	stz.b r3
 	lda.w $05E4,x
 	cmp.b d2
-	bcs CODE_C5386A
+	bcs .4
 	stx.b d3
 	sta.b d2
-CODE_C5386A:						; from CODE_C5382D, CODE_C53849, CODE_C53854, CODE_C5385D
+.4:									; X + 1, X + 1, d1 - 1, if the result is not 0 go to .loop, ...
 	inx
 	inx
 	dec.b d1
-	bne CODE_C5382D
+	bne .loop
 	ldx.b a3
 	lda.b d2
 	cmp.w #$FFFF
@@ -1098,10 +1098,10 @@ CODE_C53882:						; from CODE_C537DE
 	pla
 	sta.b d4
 	bra CODE_C538C5
-CODE_C538BF:						; from CODE_C5386A
+CODE_C538BF:						; from CODE_C53813
 	sta.b d0
 	jsl.l AssignPadPlayer
-CODE_C538C5:						; from CODE_C5386A, CODE_C53882
+CODE_C538C5:						; from CODE_C53813, CODE_C53882
 	pla
 	sta.b $8D
 	pla
@@ -1122,18 +1122,18 @@ CODE_C538C5:						; from CODE_C5386A, CODE_C53882
 PassPadToTeammate:					; called from other segments
 	ldy.w #$0000
 	cpx.w #$000C
-	bcc CODE_C538E9
+	bcc .loop
 	ldy.w #$000C
-CODE_C538E9:						; from PassPadToTeammate, CODE_C538F3
+.loop:								; loop: if playerpad,y >= 0 go to .1, if position,y >= 0 go to .2
 	lda.w playerpad,y
-	bpl CODE_C538F3
+	bpl .1
 	lda.w position,y
-	bpl CODE_C538F7
-CODE_C538F3:						; from CODE_C538E9
+	bpl .2
+.1:									; Y + 1, Y + 1, go to .loop
 	iny
 	iny
-	bra CODE_C538E9
-CODE_C538F7:						; from CODE_C538E9
+	bra .loop
+.2:									; push X, call PadTakePosition, pull X, return
 	phx
 	jsl.l PadTakePosition
 	plx
@@ -1144,13 +1144,13 @@ CODE_C538FE:						; called from other segments
 CODE_C53903:						; called from other segments
 	ldy.w #$0000
 	cpx.w #$000C
-	bcc CODE_C5390E
+	bcc .1
 	ldy.w #$0002
-CODE_C5390E:						; from CODE_C53903
+.1:									; if $17C5,y is not 0 go to .2, return
 	lda.w $17C5,y
-	bne CODE_C53914
+	bne .2
 	rtl
-CODE_C53914:						; from CODE_C5390E
+.2:									; A = $0002, if pfgoal,x is not 0 go to PadTakePosition, A = $0001, ...
 	lda.w #$0002
 	ldy.w pfgoal,x
 	bne PadTakePosition
@@ -1159,50 +1159,50 @@ CODE_C53914:						; from CODE_C5390E
 CODE_C53921:						; called from other segments
 	ldy.w #$0000
 	cpx.w #$000C
-	bcc CODE_C5392C
+	bcc .1
 	ldy.w #$0002
-CODE_C5392C:						; from CODE_C53921
+.1:									; if $17C5,y is not 0 go to .2, return
 	lda.w $17C5,y
-	bne CODE_C53932
+	bne .2
 	rtl
-CODE_C53932:						; from CODE_C5392C
+.2:									; A = $0001, if pfgoal,x is not 0 go to PadTakePosition, A = $0002
 	lda.w #$0001
 	ldy.w pfgoal,x
 	bne PadTakePosition
 	lda.w #$0002
-PadTakePosition:					; from CODE_C538FE, CODE_C538F7, CODE_C53914, ...
+PadTakePosition:					; from CODE_C538FE, PassPadToTeammate, CODE_C53903, ...
 	sta.b d1
 	phx
 	ldy.b d4
 	ldx.w #$0000
 	lda.w cont1team,y
 	cmp.w #$0001
-	beq CODE_C53950
+	beq .1
 	ldx.w #$000C
-CODE_C53950:						; from PadTakePosition
+.1:									; d0 = $0005
 	lda.w #$0005
 	sta.b d0
-CODE_C53955:						; from CODE_C53955
+.loop:								; loop: A = position,x, if A = d1 go to .2, X + 1, X + 1, ...
 	lda.w position,x
 	cmp.b d1
-	beq CODE_C53964
+	beq .2
 	inx
 	inx
 	dec.b d0
-	bpl CODE_C53955
-	bra CODE_C5397E
-CODE_C53964:						; from CODE_C53955
+	bpl .loop
+	bra .3
+.2:									; if playerpad,x >= 0 go to .3, A = pflags,x, ...
 	lda.w playerpad,x
-	bpl CODE_C5397E
+	bpl .3
 	lda.w pflags,x
 	bit.w #$1000
-	bne CODE_C5397E
+	bne .3
 	lda.w $05A4,y
 	inc a
 	sta.w $05A4,y
 	stx.b d0
 	jsl.l AssignPadPlayer
-CODE_C5397E:						; from CODE_C53955, CODE_C53964
+.3:									; pull X, return
 	plx
 	rtl
 CODE_C53980:						; called from other segments
@@ -1276,12 +1276,12 @@ CODE_C53A29:						; called from other segments
 	jsl.l QueueVRAMDMALen
 	lda.w sflags
 	bit.w #$2000
-	bne CODE_C53A54
+	bne .1
 	ldx.w #$000A
 	ldy.w #$0002
 	lda.w #$5B00
 	jml.l CODE_C58C36
-CODE_C53A54:						; from CODE_C53A29
+.1:									; X = $000A, Y = $0004, A = $5AC0, go to CODE_C58C36
 	ldx.w #$000A
 	ldy.w #$0004
 	lda.w #$5AC0
@@ -1301,9 +1301,9 @@ CODE_C53A75:						; from CODE_C539D7, CODE_C53A71
 	jsl.l CODE_C4C3BA
 	ldx.b $16
 	lda.b $0A
-	beq CODE_C53A8C
+	beq .1
 	inx
-CODE_C53A8C:						; from CODE_C53A75
+.1:									; call CODE_C4C3BA
 	jsl.l CODE_C4C3BA
 CODE_C53A90:						; from CODE_C539D7
 	lda.w #$0004
@@ -1311,15 +1311,15 @@ CODE_C53A90:						; from CODE_C539D7
 	pha
 	tay
 	sep #$20
-CODE_C53A9B:						; from CODE_C53A9B
+.loop:								; loop: if $0000,x = 0 go to .1, A xor $80, $0001,y = A, X + 1, ...
 	lda.w $0000,x
-	beq CODE_C53AA9
+	beq .1
 	eor.b #$80
 	sta.w $0001,y
 	inx
 	iny
-	bra CODE_C53A9B
-CODE_C53AA9:						; from CODE_C53A9B
+	bra .loop
+.1:									; A 16-bit, A = Y, A - $01,s, pull X, ...
 	rep #$20
 	sec
 	tya
@@ -1334,24 +1334,24 @@ CODE_C53AA9:						; from CODE_C53A9B
 CODE_C53ABC:						; called from other segments
 	stz.b a2
 	ldx.w $0591
-	bpl CODE_C53AD5
+	bpl .1
 	txa
 	eor.w #$FFFF
 	inc a
 	ldx.w #$0008
-CODE_C53ACB:						; from CODE_C53ACB
+.loop:								; loop: if A = cont1team,x go to .1, X - 1, X - 1, ...
 	cmp.w cont1team,x
-	beq CODE_C53AD5
+	beq .1
 	dex
 	dex
-	bpl CODE_C53ACB
+	bpl .loop
 	rtl
-CODE_C53AD5:						; from CODE_C53ABC, CODE_C53ACB
+.1:									; A = $0002, if A is not cont1team,x go to .rtl, a2 = A
 	lda.w #$0002
 	cmp.w cont1team,x
-	bne CODE_C53ADF
+	bne .rtl
 	sta.b a2
-CODE_C53ADF:						; from CODE_C53AD5
+.rtl:								; return
 	rtl
 ResetBench:							; called from other segments
 	stz.w PBnum
@@ -1366,46 +1366,46 @@ ResetBench:							; called from other segments
 CODE_C53AF8:						; from ResetBench and other segments
 	lda.w #$0032
 	sta.b d0
-CODE_C53AFD:						; from CODE_C53B4A
+.1:									; A = PBnum, A + d1, PBnum = A, if a0 = 0 go to .2, ...
 	lda.w PBnum
 	clc
 	adc.b d1
 	sta.w PBnum
 	lda.b a0
-	beq CODE_C53B0D
+	beq .2
 	lda.w #$0034
-CODE_C53B0D:						; from CODE_C53AFD
+.2:									; A + d0, Y = A, if tmpdst,y < 0 go to .3, if zero go to .3, ...
 	adc.b d0
 	tay
 	lda.w tmpdst,y
-	bmi CODE_C53B2E
-	beq CODE_C53B2E
+	bmi .3
+	beq .3
 	bit.w #$1000
-	beq CODE_C53B4A
+	beq .4
 	and.w #$07FF
 	sta.b d2
-	bne CODE_C53B4A
+	bne .4
 	lda.w PBnum
 	sec
 	sbc.b d1
 	sta.w PBnum
-	bra CODE_C53B4A
-CODE_C53B2E:						; from CODE_C53B0D
+	bra .4
+.3:									; A = PBnum, A - d1, PBnum = A, A = tmpdst,y, ...
 	lda.w PBnum
 	sec
 	sbc.b d1
 	sta.w PBnum
 	lda.w tmpdst,y
 	cmp.w #$FFFD
-	beq CODE_C53B4A
+	beq .4
 	cmp.w #$FFFC
-	beq CODE_C53B4A
+	beq .4
 	lda.w #$FFFE
 	sta.w tmpdst,y
-CODE_C53B4A:						; from CODE_C53B0D, CODE_C53B2E
+.4:									; d0 - 1, d0 - 1, if the result >= 0 go to .1, return
 	dec.b d0
 	dec.b d0
-	bpl CODE_C53AFD
+	bpl .1
 	rtl
 CODE_C53B51:						; called from other segments
 	pei ($7F)
@@ -1431,36 +1431,36 @@ CODE_C53B51:						; called from other segments
 	sta.b a3
 	lda.w #$0005
 	sta.b d4
-CODE_C53B81:						; from CODE_C53BD4
+.loop:								; loop: X = a3, A = newpos,x, A and $00FF, ...
 	ldx.b a3
 	lda.w newpos,x
 	and.w #$00FF
 	bit.w #$0080
-	beq CODE_C53B91
+	beq .1
 	ora.w #$FF00
-CODE_C53B91:						; from CODE_C53B81
+.1:									; d0 = A, position,x = A, if minus go to .4, call Setplass, ...
 	sta.b d0
 	sta.w position,x
 	cmp.w #$0000
-	bmi CODE_C53BD4
+	bmi .4
 	jsl.l Setplass
 	ldx.b a3
 	lda.w position,x
 	cmp.w #$0004
-	bne CODE_C53BB2
+	bne .2
 	lda.w #$0012
 	sta.b d0
 	jsl.l CODE_C43734
-CODE_C53BB2:						; from CODE_C53B91
+.2:									; X = a3, A = newpnum,x, A and $00FF, A * 2, ...
 	ldx.b a3
 	lda.w newpnum,x
 	and.w #$00FF
 	asl a
 	sta.b d3
 	lda.b a2
-	beq CODE_C53BC4
+	beq .3
 	lda.w #$0034
-CODE_C53BC4:						; from CODE_C53BB2
+.3:									; A + d3, Y = A, tmpdst,y = $FFFF, d3 / 2, ...
 	clc
 	adc.b d3
 	tay
@@ -1468,7 +1468,7 @@ CODE_C53BC4:						; from CODE_C53BB2
 	sta.w tmpdst,y
 	lsr.b d3
 	jsl.l setplayer
-CODE_C53BD4:						; from CODE_C53B91
+.4:									; X = a3, newpnum,x = $FFFF, newpos,x = A, a3 + 1, ...
 	ldx.b a3
 	lda.w #$FFFF
 	sta.w newpnum,x
@@ -1476,7 +1476,7 @@ CODE_C53BD4:						; from CODE_C53B91
 	inc.b a3
 	inc.b a3
 	dec.b d4
-	bpl CODE_C53B81
+	bpl .loop
 	pla
 	sta.b $71
 	pla
@@ -1515,10 +1515,10 @@ CODE_C53BD4:						; from CODE_C53B91
 	sta.b d0
 	ldx.b a3
 	rtl
-Setplass:							; from CODE_C53B91 and other segments
+Setplass:							; from CODE_C53B51 and other segments
 	lda.w position,x
 	sta.b d0
-	bmi CODE_C53C3E
+	bmi .rtl
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$3C3F
@@ -1528,11 +1528,11 @@ Setplass:							; from CODE_C53B91 and other segments
 	and.w #$00FF
 	sta.b d0
 	jml.l assreplace
-CODE_C53C3E:						; from Setplass
+.rtl:								; return
 	rtl
 DATA8_C53C3F:						; not traced: data between routines
 	db $07,$02,$02,$03,$05,$03,$05
-setplayer:							; from CODE_C53BC4 and other segments
+setplayer:							; from CODE_C53B51 and other segments
 	phx
 	phy
 	lda.w pflags,x
@@ -1540,9 +1540,9 @@ setplayer:							; from CODE_C53BC4 and other segments
 	sta.w pflags,x
 	ldy.w #$0000
 	lda.w pfteam,x
-	beq CODE_C53C5C
+	beq .1
 	ldy.w #$0002
-CODE_C53C5C:						; from setplayer
+.1:									; a0 = Y, A = d3, A and $00FF, pnum,x = A, ...
 	sty.b a0
 	lda.b d3
 	and.w #$00FF
@@ -1552,9 +1552,9 @@ CODE_C53C5C:						; from setplayer
 	lda.w #$000B
 	sta.b d0
 	lda.b a0
-	beq CODE_C53C75
+	beq .2
 	lda.w #$0034
-CODE_C53C75:						; from CODE_C53C5C
+.2:									; A + d3, Y = A, d1 = tmpdst,y, A = Y, ...
 	adc.b d3
 	tay
 	lda.w tmpdst,y
@@ -1566,21 +1566,21 @@ CODE_C53C75:						; from CODE_C53C5C
 	asl a
 	sta.b r3
 	lda.b d1
-	bpl CODE_C53C96
+	bpl .3
 	lda.w #$000A
 	sta.b d0
 	lda.b d1
 	cmp.w #$FFFE
-	bne CODE_C53CA0
-CODE_C53C96:						; from CODE_C53C75
+	bne .4
+.3:									; call CODE_C43734, pfalock,x = 0, SPA,x = 0
 	jsl.l CODE_C43734
 	stz.w pfalock,x
 	stz.w SPA,x
-CODE_C53CA0:						; from CODE_C53C75
+.4:									; if a0 = 0 go to .5, A = $0034
 	lda.b a0
-	beq CODE_C53CA7
+	beq .5
 	lda.w #$0034
-CODE_C53CA7:						; from CODE_C53CA0
+.5:									; A + d3, Y = A, tmpdst,y = $FFFF, d3 / 2, ...
 	clc
 	adc.b d3
 	tay
@@ -1589,68 +1589,68 @@ CODE_C53CA7:						; from CODE_C53CA0
 	lsr.b d3
 	ldy.w #$2DC9
 	lda.b a0
-	beq CODE_C53CBD
+	beq .6
 	ldy.w #$3207
-CODE_C53CBD:						; from CODE_C53CA7
+.6:									; a0 = Y, PPBonus = 0, PKBonus = 0, ThirdPBonus = 0, ...
 	sty.b a0
 	stz.w PPBonus
 	stz.w PKBonus
 	stz.w ThirdPBonus
 	stz.w HmAwBonus
 	lda.w position,x
-	bne CODE_C53CD3
-	jmp.w CODE_C53D3C
-CODE_C53CD3:						; from CODE_C53CBD
+	bne .7
+	jmp.w .14
+.7:									; A = sflags, if $2000 bits clear go to .9, call chkpk2, ...
 	lda.w sflags
 	bit.w #$2000
-	beq CODE_C53CEF
+	beq .9
 	jsl.l chkpk2
-	beq CODE_C53CE9
+	beq .8
 	lda.w $0436,y
 	sta.w PPBonus
-	bra CODE_C53CEF
-CODE_C53CE9:						; from CODE_C53CD3
+	bra .9
+.8:									; PKBonus = $0434,y
 	lda.w $0434,y
 	sta.w PKBonus
-CODE_C53CEF:						; from CODE_C53CD3
+.9:									; HmAwBonus = $043A,y, if pfteam,x is not 0 go to .10, HmAwBonus = $0430,y
 	lda.w $043A,y
 	sta.w HmAwBonus
 	lda.w pfteam,x
-	bne CODE_C53D00
+	bne .10
 	lda.w $0430,y
 	sta.w HmAwBonus
-CODE_C53D00:						; from CODE_C53CEF
+.10:								; A = gsp, A - $0002, if the result < 0 go to .14, ...
 	lda.w gsp
 	sec
 	sbc.w #$0002
-	bmi CODE_C53D3C
-	bne CODE_C53D1A
+	bmi .14
+	bne .11
 	jsl.l CODE_C510F6
 	lda.b d0
 	lsr a
 	sec
 	sbc.w gameclock
-	beq CODE_C53D1A
-	bpl CODE_C53D3C
-CODE_C53D1A:						; from CODE_C53D00
+	beq .11
+	bpl .14
+.11:								; A = tmscore, A - $12AD, tmp0 = A, if zero go to .13, ...
 	lda.w tmscore
 	sec
 	sbc.w $12AD
 	sta.b tmp0
-	beq CODE_C53D36
+	beq .13
 	lda.w pfteam,x
-	beq CODE_C53D32
+	beq .12
 	lda.w #$0000
 	sec
 	sbc.b tmp0
 	sta.b tmp0
-CODE_C53D32:						; from CODE_C53D1A
+.12:								; if tmp0 >= 0 go to .14
 	lda.b tmp0
-	bpl CODE_C53D3C
-CODE_C53D36:						; from CODE_C53D1A
+	bpl .14
+.13:								; ThirdPBonus = $0002
 	lda.w #$0002
 	sta.w ThirdPBonus
-CODE_C53D3C:						; from CODE_C53CBD, CODE_C53D00, CODE_C53D32
+.14:								; A = d3, A / 2, A / 2, A / 2, ...
 	lda.b d3
 	xba
 	lsr a
@@ -1737,21 +1737,21 @@ CODE_C53D3C:						; from CODE_C53CBD, CODE_C53D00, CODE_C53D32
 	jsr.w CODE_C53F66
 	pha
 	lda.w position,x
-	beq CODE_C53DF6
+	beq .15
 	pla
 	eor.w #$000F
 	clc
 	adc.w #$0007
 	sta.w aidef,x
-	bra CODE_C53E02
-CODE_C53DF6:						; from CODE_C53D3C
+	bra .16
+.15:								; pull A, A xor $000F, A + $000F, A / 2, ...
 	pla
 	eor.w #$000F
 	clc
 	adc.w #$000F
 	lsr a
 	sta.w aidef,x
-CODE_C53E02:						; from CODE_C53D3C
+.16:								; Y = a0, A = $0113,y, A and $0007, r0 = A, ...
 	ldy.b a0
 	lda.w $0113,y
 	and.w #$0007
@@ -1905,13 +1905,13 @@ CODE_C53E02:						; from CODE_C53D3C
 	adc.b r3
 	sta.b r3
 	lda.w position,x
-	bne CODE_C53F49
+	bne .17
 	lda.w legstr,x
 	asl a
 	adc.b r3
 	adc.w #$0008
 	sta.b r3
-CODE_C53F49:						; from CODE_C53E02
+.17:								; A = r3, X = $0007, call Mul8U, A * 2, ...
 	lda.b r3
 	ldx.w #$0007
 	jsl.l Mul8U
@@ -1925,7 +1925,7 @@ CODE_C53F49:						; from CODE_C53E02
 	ply
 	plx
 	rtl
-CODE_C53F66:						; from CODE_C53D3C, CODE_C53E02
+CODE_C53F66:						; from setplayer
 	sta.b $42
 	tya
 	clc
@@ -1936,18 +1936,18 @@ CODE_C53F66:						; from CODE_C53D3C, CODE_C53E02
 	lsr a
 	lsr a
 	bit.b #$00
-	beq CODE_C53F7A
+	beq .1
 	ora.b #$00
-CODE_C53F7A:						; from CODE_C53F66
+.1:									; A + $42, if the result >= 0 go to .2, A = $00
 	clc
 	adc.b $42
-	bpl CODE_C53F81
+	bpl .2
 	lda.b #$00
-CODE_C53F81:						; from CODE_C53F7A
+.2:									; if A < $0F go to .3, A = $0F
 	cmp.b #$0F
-	bcc CODE_C53F87
+	bcc .3
 	lda.b #$0F
-CODE_C53F87:						; from CODE_C53F81
+.3:									; A 16-bit, A and $00FF, return
 	rep #$20
 	and.w #$00FF
 	rts

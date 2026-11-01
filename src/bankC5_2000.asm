@@ -36,12 +36,12 @@ CODE_C52037:						; called from other segments
 	jsl.l CODE_C58812
 	ldx.w #$2A7E
 	clc
-CODE_C52053:						; from CODE_C52053
+.loop:								; loop: $7F9C7A,x = $50DC,x, X - 1, X - 1, ...
 	lda.w $50DC,x
 	sta.l $7F9C7A,x
 	dex
 	dex
-	bpl CODE_C52053
+	bpl .loop
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -178,13 +178,13 @@ CODE_C52053:						; from CODE_C52053
 	jsl.l CODE_C58812
 	ldx.w #$092E
 	clc
-CODE_C52195:						; from CODE_C52195
+.loop2:								; loop: A = $50DC,x, A + $3420, $7FC6FA,x = A, X - 1, ...
 	lda.w $50DC,x
 	adc.w #$3420
 	sta.l $7FC6FA,x
 	dex
 	dex
-	bpl CODE_C52195
+	bpl .loop2
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -250,16 +250,16 @@ CODE_C52227:						; called from other segments
 	jsl.l CODE_C3856E
 	lda.w gmode
 	bit.w #$0002
-	beq CODE_C5225E
+	beq .1
 	ldx.w #$0016
-CODE_C52251:						; from CODE_C52251
+.loop:								; loop: A = pfgoal,x, A xor $0001, pfgoal,x = A, X - 1, ...
 	lda.w pfgoal,x
 	eor.w #$0001
 	sta.w pfgoal,x
 	dex
 	dex
-	bpl CODE_C52251
-CODE_C5225E:						; from CODE_C52227
+	bpl .loop
+.1:									; $2CF5 = 0, go to CODE_C539D7
 	stz.w $2CF5
 	jmp.w CODE_C539D7
 CODE_C52264:						; called from other segments
@@ -364,50 +364,50 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	clc
 	adc.w #$005E
 	sta.b $0C
-	bmi CODE_C5237E
+	bmi .4
 	cmp.w #$00E0
-	bcc CODE_C5236C
-	jmp.w CODE_C523EE
-CODE_C5236C:						; from CODE_C52348
+	bcc .1
+	jmp.w .10
+.1:									; if $0A >= 0 go to .2, go to .20
 	lda.b $0A
-	bpl CODE_C52373
-	jmp.w CODE_C524C7
-CODE_C52373:						; from CODE_C5236C
+	bpl .2
+	jmp.w .20
+.2:									; if A < $0100 go to .3, go to .16
 	cmp.w #$0100
-	bcc CODE_C5237B
-	jmp.w CODE_C52464
-CODE_C5237B:						; from CODE_C52373
+	bcc .3
+	jmp.w .16
+.3:									; jump through $00A5
 	jmp ($00A5)
-CODE_C5237E:						; from CODE_C52348
+.4:									; tmp2 = $C4FFF6,x, tmp1 = $C4FFF8,x, if $0A >= 0 go to .5, go to .24
 	lda.l $C4FFF6,x
 	sta.b tmp2
 	lda.l $C4FFF8,x
 	sta.b tmp1
 	lda.b $0A
-	bpl CODE_C52391
-	jmp.w CODE_C52530
-CODE_C52391:						; from CODE_C5237E
+	bpl .5
+	jmp.w .24
+.5:									; if A < $0100 go to .6, go to .26
 	cmp.w #$0100
-	bcc CODE_C52399
-	jmp.w CODE_C52571
-CODE_C52399:						; from CODE_C52391
+	bcc .6
+	jmp.w .26
+.6:									; A = $C4FFF2,x, Y = A, if $0000,y = 0 go to .7, $0000,y = $0000, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w $0000,y
-	beq CODE_C523AC
+	beq .7
 	lda.w #$0000
 	sta.w $0000,y
 	jsr.w CODE_C52628
-CODE_C523AC:						; from CODE_C52399
+.7:									; A = $0A, if A < $00E9 go to .8, A = $00E8
 	lda.b $0A
 	cmp.w #$00E9
-	bcc CODE_C523B6
+	bcc .8
 	lda.w #$00E8
-CODE_C523B6:						; from CODE_C523AC
+.8:									; if A >= $0009 go to .9, A = $0009
 	cmp.w #$0009
-	bcs CODE_C523BE
+	bcs .9
 	lda.w #$0009
-CODE_C523BE:						; from CODE_C523B6
+.9:									; A or $0800, $0A = A, push A, X = $2A, ...
 	ora.w #$0800
 	sta.b $0A
 	clc
@@ -434,7 +434,7 @@ CODE_C523BE:						; from CODE_C523B6
 	adc.w #$080C
 	pha
 	jmp ($00A5)
-CODE_C523EE:						; from CODE_C52348
+.10:								; A = $C4FFF6,x, A or $8000, tmp2 = A, A = $C4FFF8,x, ...
 	lda.l $C4FFF6,x
 	ora.w #$8000
 	sta.b tmp2
@@ -442,30 +442,30 @@ CODE_C523EE:						; from CODE_C52348
 	ora.w #$8000
 	sta.b tmp1
 	lda.b $0A
-	bpl CODE_C52407
-	jmp.w CODE_C525AC
-CODE_C52407:						; from CODE_C523EE
+	bpl .11
+	jmp.w .28
+.11:								; if A < $0100 go to .12, go to .30
 	cmp.w #$0100
-	bcc CODE_C5240F
-	jmp.w CODE_C525ED
-CODE_C5240F:						; from CODE_C52407
+	bcc .12
+	jmp.w .30
+.12:								; A = $C4FFF2,x, Y = A, if $0000,y = 0 go to .13, $0000,y = $0000, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w $0000,y
-	beq CODE_C52422
+	beq .13
 	lda.w #$0000
 	sta.w $0000,y
 	jsr.w CODE_C52628
-CODE_C52422:						; from CODE_C5240F
+.13:								; A = $0A, if A < $00E9 go to .14, A = $00E8
 	lda.b $0A
 	cmp.w #$00E9
-	bcc CODE_C5242C
+	bcc .14
 	lda.w #$00E8
-CODE_C5242C:						; from CODE_C52422
+.14:								; if A >= $0009 go to .15, A = $0009
 	cmp.w #$0009
-	bcs CODE_C52434
+	bcs .15
 	lda.w #$0009
-CODE_C52434:						; from CODE_C5242C
+.15:								; A or $C800, $0A = A, push A, X = $2A, ...
 	ora.w #$C800
 	sta.b $0A
 	clc
@@ -492,7 +492,7 @@ CODE_C52434:						; from CODE_C5242C
 	adc.w #$F80B
 	pha
 	jmp ($00A5)
-CODE_C52464:						; from CODE_C52373
+.16:								; tmp2 = $C4FFF6,x, tmp1 = $C4FFF8,x, A = $C4FFF2,x, Y = A, ...
 	lda.l $C4FFF6,x
 	sta.b tmp2
 	lda.l $C4FFF8,x
@@ -501,20 +501,20 @@ CODE_C52464:						; from CODE_C52373
 	tay
 	lda.w #$0002
 	cmp.w $0000,y
-	beq CODE_C52484
+	beq .17
 	sta.w $0000,y
 	clc
 	jsr.w CODE_C526A7
-CODE_C52484:						; from CODE_C52464
+.17:								; A = $0C, if A >= $0009 go to .18, A = $0009
 	lda.b $0C
 	cmp.w #$0009
-	bcs CODE_C5248E
+	bcs .18
 	lda.w #$0009
-CODE_C5248E:						; from CODE_C52484
+.18:								; if A < $00C8 go to .19, A = $00C7
 	cmp.w #$00C8
-	bcc CODE_C52496
+	bcc .19
 	lda.w #$00C7
-CODE_C52496:						; from CODE_C5248E
+.19:								; A or $00E8, $0C = A, push A, X = $2A, ...
 	xba
 	ora.w #$00E8
 	sta.b $0C
@@ -542,7 +542,7 @@ CODE_C52496:						; from CODE_C5248E
 	adc.w #$F3F5
 	pha
 	jmp ($00A5)
-CODE_C524C7:						; from CODE_C5236C
+.20:								; A = $C4FFF6,x, A or $4000, tmp2 = A, A = $C4FFF8,x, ...
 	lda.l $C4FFF6,x
 	ora.w #$4000
 	sta.b tmp2
@@ -553,20 +553,20 @@ CODE_C524C7:						; from CODE_C5236C
 	tay
 	lda.w #$0002
 	cmp.w $0000,y
-	beq CODE_C524ED
+	beq .21
 	sta.w $0000,y
 	clc
 	jsr.w CODE_C526A7
-CODE_C524ED:						; from CODE_C524C7
+.21:								; A = $0C, if A >= $0009 go to .22, A = $0009
 	lda.b $0C
 	cmp.w #$0009
-	bcs CODE_C524F7
+	bcs .22
 	lda.w #$0009
-CODE_C524F7:						; from CODE_C524ED
+.22:								; if A < $00C8 go to .23, A = $00C7
 	cmp.w #$00C8
-	bcc CODE_C524FF
+	bcc .23
 	lda.w #$00C7
-CODE_C524FF:						; from CODE_C524F7
+.23:								; A or $0008, $0C = A, push A, X = $2A, ...
 	xba
 	ora.w #$0008
 	sta.b $0C
@@ -594,16 +594,16 @@ CODE_C524FF:						; from CODE_C524F7
 	adc.w #$F40B
 	pha
 	jmp ($00A5)
-CODE_C52530:						; from CODE_C5237E
+.24:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .25, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
 	cmp.w $0000,y
 	clc
-	beq CODE_C52544
+	beq .25
 	sta.w $0000,y
 	jsr.w CODE_C52666
-CODE_C52544:						; from CODE_C52530
+.25:								; A = $4000, A or tmp2, push A, X = $2A, ...
 	lda.w #$4000
 	tsb.b tmp1
 	ora.b tmp2
@@ -626,16 +626,16 @@ CODE_C52544:						; from CODE_C52530
 	phy
 	pea.w $1514
 	jmp ($00A5)
-CODE_C52571:						; from CODE_C52391
+.26:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .27, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
 	cmp.w $0000,y
 	clc
-	beq CODE_C52585
+	beq .27
 	sta.w $0000,y
 	jsr.w CODE_C52666
-CODE_C52585:						; from CODE_C52571
+.27:								; X = $2A, $00,x = $0002, $02,x = 0, A = X, ...
 	pei ($A3)
 	pea.w $09E8
 	ldx.b $2A
@@ -655,16 +655,16 @@ CODE_C52585:						; from CODE_C52571
 	phy
 	pea.w $15E4
 	jmp ($00A5)
-CODE_C525AC:						; from CODE_C523EE
+.28:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .29, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
 	cmp.w $0000,y
 	clc
-	beq CODE_C525C0
+	beq .29
 	sta.w $0000,y
 	jsr.w CODE_C52666
-CODE_C525C0:						; from CODE_C525AC
+.29:								; A = $4000, A or tmp2, push A, X = $2A, ...
 	lda.w #$4000
 	tsb.b tmp1
 	ora.b tmp2
@@ -687,16 +687,16 @@ CODE_C525C0:						; from CODE_C525AC
 	phy
 	pea.w $C314
 	jmp ($00A5)
-CODE_C525ED:						; from CODE_C52407
+.30:								; A = $C4FFF2,x, Y = A, A = $0001, if zero go to .31, ...
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0001
 	cmp.w $0000,y
 	clc
-	beq CODE_C52601
+	beq .31
 	sta.w $0000,y
 	jsr.w CODE_C52666
-CODE_C52601:						; from CODE_C525ED
+.31:								; X = $2A, $00,x = $0002, $02,x = 0, A = X, ...
 	pei ($A3)
 	pea.w $C7E8
 	ldx.b $2A
@@ -716,7 +716,7 @@ CODE_C52601:						; from CODE_C525ED
 	phy
 	pea.w $C3E4
 	jmp ($00A5)
-CODE_C52628:						; from CODE_C52399, CODE_C5240F
+CODE_C52628:						; from CODE_C52348
 	tsc
 	sta.b $28
 	lda.b $00
@@ -747,7 +747,7 @@ CODE_C52628:						; from CODE_C52399, CODE_C5240F
 	lda.b $28
 	tcs
 	rts
-CODE_C52666:						; from CODE_C52530, CODE_C525AC, CODE_C52571, CODE_C525ED
+CODE_C52666:						; from CODE_C52348
 	tsc
 	sta.b $28
 	lda.b $00
@@ -779,7 +779,7 @@ CODE_C52666:						; from CODE_C52530, CODE_C525AC, CODE_C52571, CODE_C525ED
 	lda.b $28
 	tcs
 	rts
-CODE_C526A7:						; from CODE_C524C7, CODE_C52464
+CODE_C526A7:						; from CODE_C52348
 	tsc
 	sta.b $28
 	lda.b $00
@@ -832,9 +832,9 @@ CODE_C52706:						; from CODE_C52832
 	sty.b $10
 	lda.w PadControlObj,y
 	cmp.w #$000F
-	bne CODE_C52713
+	bne .1
 	jmp.w CODE_C52832
-CODE_C52713:						; from CODE_C52706
+.1:									; A * 2, X = A, A = Xpos,x, A + $0074, ...
 	php
 	asl a
 	tax
@@ -850,18 +850,18 @@ CODE_C52713:						; from CODE_C52706
 	adc.w #$006A
 	sta.b $0C
 	plp
-	bcc CODE_C52733
+	bcc .2
 	jmp.w CODE_C52842
-CODE_C52733:						; from CODE_C52713
+.2:									; A = position,x, A and $0007, A * 2, $0E = A, ...
 	lda.w position,x
 	and.w #$0007
 	asl a
 	sta.b $0E
-	bne CODE_C52745
+	bne .3
 	lda.b $0A
 	adc.w #$0004
 	sta.b $0A
-CODE_C52745:						; from CODE_C52733
+.3:									; A = rostnum,x, X = A, A and $00F0, A / 2, ...
 	lda.w rostnum,x
 	tax
 	and.w #$00F0
@@ -909,15 +909,15 @@ CODE_C52794:						; a continuation: CODE_C52898 jumps back here through a pointe
 	lda.b $0A
 	sbc.w #$0004
 	ldx.b $0E
-	bne CODE_C527A9
+	bne .1
 	sbc.w #$0004
-CODE_C527A9:						; from CODE_C52794
+.1:									; $0A = A, X = $10, if X is not $000C go to .2, go to CODE_C52852
 	sta.b $0A
 	ldx.b $10
 	cpx.w #$000C
-	bne CODE_C527B5
+	bne .2
 	jmp.w CODE_C52852
-CODE_C527B5:						; from CODE_C527A9
+.2:									; tmp2 = DATA8_C52880,x, Y = $2A, X = $0002, A = $FFF0, ...
 	lda.l DATA8_C52880,x
 	sta.b tmp2
 	ldy.b $2A
@@ -926,81 +926,81 @@ CODE_C527B5:						; from CODE_C527A9
 	clc
 	lda.w #$FFF0
 	adc.b $0A
-	bpl CODE_C527D3
+	bpl .3
 	cmp.w #$FFF1
-	bcc CODE_C527E6
+	bcc .4
 	inx
 	and.w #$00FF
-CODE_C527D3:						; from CODE_C527B5
+.3:									; if A >= $0100 go to .4, tmp0 = A, if $0C >= 0 go to .5, ...
 	cmp.w #$0100
-	bcs CODE_C527E6
+	bcs .4
 	sta.b tmp0
 	lda.b $0C
-	bpl CODE_C527E9
+	bpl .5
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_C527EE
-CODE_C527E6:						; from CODE_C527B5, CODE_C527D3, CODE_C527E9
+	bcs .6
+.4:									; pull A, go to .7
 	pla
-	bra CODE_C527F5
-CODE_C527E9:						; from CODE_C527D3
+	bra .7
+.5:									; if A >= $00E0 go to .4
 	cmp.w #$00E0
-	bcs CODE_C527E6
-CODE_C527EE:						; from CODE_C527D3
+	bcs .4
+.6:									; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_C527F5:						; from CODE_C527E6
+.7:									; A = tmp2, A + $4000, push A, X = $0002, ...
 	clc
 	lda.b tmp2
 	adc.w #$4000
 	pha
 	ldx.w #$0002
 	lda.b $0A
-	bpl CODE_C5280C
+	bpl .8
 	cmp.w #$FFF1
-	bcc CODE_C5281F
+	bcc .9
 	inx
 	and.w #$00FF
-CODE_C5280C:						; from CODE_C527F5
+.8:									; if A >= $0100 go to .9, tmp0 = A, if $0C >= 0 go to .10, ...
 	cmp.w #$0100
-	bcs CODE_C5281F
+	bcs .9
 	sta.b tmp0
 	lda.b $0C
-	bpl CODE_C52822
+	bpl .10
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_C52827
-CODE_C5281F:						; from CODE_C527F5, CODE_C5280C, CODE_C52822
+	bcs .11
+.9:									; pull A, go to .12
 	pla
-	bra CODE_C5282E
-CODE_C52822:						; from CODE_C5280C
+	bra .12
+.10:								; if A >= $00E0 go to .9
 	cmp.w #$00E0
-	bcs CODE_C5281F
-CODE_C52827:						; from CODE_C5280C
+	bcs .9
+.11:								; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_C5282E:						; from CODE_C5281F
+.12:								; $2A = Y, Y = $10
 	sty.b $2A
 	ldy.b $10
 CODE_C52832:						; from CODE_C52706, CODE_C5287A
 	dey
 	dey
-	bmi CODE_C52839
+	bmi .1
 	jmp.w CODE_C52706
-CODE_C52839:						; from CODE_C52832
+.1:									; $28 = A, A = $1C, QueueBusy = 0, return
 	tsc
 	sta.b $28
 	lda.b $1C
 	tcs
 	stz.b QueueBusy
 	rtl
-CODE_C52842:						; from CODE_C52713
+CODE_C52842:						; from CODE_C52706
 	lda.b $0A
 	clc
 	adc.w #$000C
@@ -1009,7 +1009,7 @@ CODE_C52842:						; from CODE_C52713
 	sec
 	sbc.w #$0014
 	sta.b $0C
-CODE_C52852:						; from CODE_C527A9
+CODE_C52852:						; from CODE_C52794
 	lda.w #$2454
 	sta.b tmp1
 	lda.w #$25E0
@@ -1031,42 +1031,42 @@ CODE_C5287A:						; called from other segments
 	sty.b $2A
 	ldy.b $10
 	bra CODE_C52832
-DATA8_C52880:						; not traced: a table read by CODE_C527B5
+DATA8_C52880:						; not traced: a table read by CODE_C52794
 	db $88,$25,$8C,$25,$8E,$25,$8A,$25,$8C,$27
 DATA8_C5288A:						; not traced: a table read by CODE_C5277A
 	db $8E,$27,$40,$24,$40,$24,$41,$24,$42,$24,$43,$24,$44,$24
-CODE_C52898:						; from CODE_C52766, CODE_C5277A, CODE_C52745
+CODE_C52898:						; from CODE_C52766, CODE_C5277A, CODE_C52706
 	ldy.b $2A
 	pei ($A1)
 	ldx.w #$0000
 	lda.b $0A
-	bpl CODE_C528AC
+	bpl .1
 	cmp.w #$FFF9
-	bcc CODE_C528BF
+	bcc .2
 	inx
 	and.w #$00FF
-CODE_C528AC:						; from CODE_C52898
+.1:									; if A >= $0100 go to .2, tmp0 = A, if $0C >= 0 go to .3, ...
 	cmp.w #$0100
-	bcs CODE_C528BF
+	bcs .2
 	sta.b tmp0
 	lda.b $0C
-	bpl CODE_C528C2
+	bpl .3
 	cmp.w #$FFF9
 	and.w #$00FF
-	bcs CODE_C528C7
-CODE_C528BF:						; from CODE_C52898, CODE_C528AC, CODE_C528C2
+	bcs .4
+.2:									; pull A, go to .5
 	pla
-	bra CODE_C528CE
-CODE_C528C2:						; from CODE_C528AC
+	bra .5
+.3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
-	bcs CODE_C528BF
-CODE_C528C7:						; from CODE_C528AC
+	bcs .2
+.4:									; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_C528CE:						; from CODE_C528BF
+.5:									; $2A = Y, jump through $00A5
 	sty.b $2A
 	jmp ($00A5)
 CODE_C528D3:						; called from other segments
@@ -1084,14 +1084,14 @@ CODE_C528D5:						; from CODE_C52295 and other segments
 	tax
 	sec
 	sbc.w $07E4
-	bne CODE_C528EC
-	jmp.w CODE_C529CC
-CODE_C528EC:						; from CODE_C528D5
-	bpl CODE_C52926
+	bne .1
+	jmp.w .6
+.1:									; if plus go to .3, A xor $FFFF, A + 1, if A >= $0019 go to .2, ...
+	bpl .3
 	eor.w #$FFFF
 	inc a
 	cmp.w #$0019
-	bcs CODE_C52911
+	bcs .2
 	and.w #$001F
 	sta.b tmp1
 	stx.w $07E4
@@ -1102,8 +1102,8 @@ CODE_C528EC:						; from CODE_C528D5
 	sta.w $07E6
 	sta.b tmp2
 	stx.b tmp0
-	bra CODE_C5294E
-CODE_C52911:						; from CODE_C528EC, CODE_C52926
+	bra .4
+.2:									; tmp1 = $001D, A = X, A and $001F, $07E6 = A, ...
 	lda.w #$001D
 	sta.b tmp1
 	txa
@@ -1112,11 +1112,11 @@ CODE_C52911:						; from CODE_C528EC, CODE_C52926
 	sta.b tmp2
 	stx.b tmp0
 	stx.w $07E4
-	bra CODE_C5294E
-CODE_C52926:						; from CODE_C528EC
+	bra .4
+.3:									; $07E4 = X, if A >= $0019 go to .2, tmp1 = A, A + $07E6, ...
 	stx.w $07E4
 	cmp.w #$0019
-	bcs CODE_C52911
+	bcs .2
 	sta.b tmp1
 	adc.w $07E6
 	and.w #$001F
@@ -1132,7 +1132,7 @@ CODE_C52926:						; from CODE_C528EC
 	sec
 	sbc.b tmp1
 	sta.b tmp0
-CODE_C5294E:						; from CODE_C528EC, CODE_C52911
+.4:									; QueueBusy - 1, A = $00, $00 = X, A = $0020, ...
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1143,7 +1143,7 @@ CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	sbc.b tmp2
 	tax
 	sbc.b tmp1
-	bpl CODE_C5299A
+	bpl .5
 	eor.w #$FFFF
 	inc a
 	sta.b tmp1
@@ -1179,7 +1179,7 @@ CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	lda.b tmp0
 	adc.b $A5
 	sta.b tmp0
-CODE_C5299A:						; from CODE_C5294E
+.5:									; A = tmp1, A / 2, A / 2, push A, ...
 	lda.b tmp1
 	xba
 	lsr a
@@ -1212,7 +1212,7 @@ CODE_C5299A:						; from CODE_C5294E
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-CODE_C529CC:						; from CODE_C528D5
+.6:									; A = $07B2, A + $00C0, BG2HScroll = A, return
 	lda.w $07B2
 	clc
 	adc.w #$00C0
@@ -1225,31 +1225,31 @@ checkwindow:						; called from other segments
 	sta.b d3
 	lda.w sflags
 	bit.w #$0040
-	bne CODE_C52A49
+	bne .4
 	ldx.w #$001C
 	lda.w puckc
-	bmi CODE_C52A22
+	bmi .2
 	tax
 	lda.w pfgoal,x
-	beq CODE_C52A0D
+	beq .1
 	lda.w yleader
 	adc.w $07A4
 	sta.w yleader
 	cmp.w #$0020
-	bmi CODE_C52A22
+	bmi .2
 	lda.w #$0020
 	sta.w yleader
-	bra CODE_C52A22
-CODE_C52A0D:						; from checkwindow
+	bra .2
+.1:									; A = yleader, A - $07A4, yleader = A, if plus go to .2, ...
 	lda.w yleader
 	sec
 	sbc.w $07A4
 	sta.w yleader
 	cmp.w #$FFE1
-	bpl CODE_C52A22
+	bpl .2
 	lda.w #$FFE0
 	sta.w yleader
-CODE_C52A22:						; from checkwindow, CODE_C52A0D
+.2:									; A = Yvel,x, A / 2, A / 2, A / 2, ...
 	lda.w Yvel,x
 	lsr a
 	lsr a
@@ -1259,9 +1259,9 @@ CODE_C52A22:						; from checkwindow, CODE_C52A0D
 	lsr a
 	lsr a
 	bit.w #$0100
-	beq CODE_C52A34
+	beq .3
 	ora.w #$FE00
-CODE_C52A34:						; from CODE_C52A22
+.3:									; A + Ypos,x, A + yleader, d2 = A, yc1 = A, ...
 	clc
 	adc.w Ypos,x
 	clc
@@ -1271,103 +1271,103 @@ CODE_C52A34:						; from CODE_C52A22
 	lda.w Xpos,x
 	sta.b d3
 	sta.w xc1
-CODE_C52A49:						; from checkwindow
+.4:									; A = d2, A - $CD, d0 = A, if plus go to .5, ...
 	lda.b d2
 	sec
 	sbc.b $CD
 	sta.b d0
 	cmp.w #$FFF7
-	bpl CODE_C52A69
+	bpl .5
 	lda.b d2
 	sec
 	sbc.w #$FFF6
 	sta.b d1
 	cmp.w #$FF39
-	bpl CODE_C52A82
+	bpl .6
 	lda.w #$FF39
 	sta.b d1
-	bra CODE_C52A82
-CODE_C52A69:						; from CODE_C52A49
+	bra .6
+.5:									; A = d0, if minus go to .9, A = d2, A - $000A, ...
 	lda.b d0
 	cmp.w #$000B
-	bmi CODE_C52AA0
+	bmi .9
 	lda.b d2
 	sec
 	sbc.w #$000A
 	sta.b d1
 	cmp.w #$0100
-	bmi CODE_C52A82
+	bmi .6
 	lda.w #$0100
 	sta.b d1
-CODE_C52A82:						; from CODE_C52A49, CODE_C52A69
+.6:									; A = d1, A - $CD, if the result = 0 go to .9, A / 2, ...
 	lda.b d1
 	sec
 	sbc.b $CD
-	beq CODE_C52AA0
+	beq .9
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	bit.w #$0800
-	beq CODE_C52A95
+	beq .7
 	ora.w #$F000
-CODE_C52A95:						; from CODE_C52A82
+.7:									; if A is not $0000 go to .8, A + 1
 	cmp.w #$0000
-	bne CODE_C52A9B
+	bne .8
 	inc a
-CODE_C52A9B:						; from CODE_C52A95
+.8:									; A + $CD, $CD = A
 	clc
 	adc.b $CD
 	sta.b $CD
-CODE_C52AA0:						; from CODE_C52A69, CODE_C52A82
+.9:									; A = d3, A - $CB, d0 = A, if plus go to .10, ...
 	lda.b d3
 	sec
 	sbc.b $CB
 	sta.b d0
 	cmp.w #$FFD8
-	bpl CODE_C52AC0
+	bpl .10
 	lda.b d3
 	sec
 	sbc.w #$FFD8
 	sta.b d1
 	cmp.w #$FFC8
-	bpl CODE_C52AD9
+	bpl .11
 	lda.w #$FFC8
 	sta.b d1
-	bra CODE_C52AD9
-CODE_C52AC0:						; from CODE_C52AA0
+	bra .11
+.10:								; A = d0, if minus go to .rtl, A = d3, A - $0028, ...
 	lda.b d0
 	cmp.w #$0029
-	bmi CODE_C52AF7
+	bmi .rtl
 	lda.b d3
 	sec
 	sbc.w #$0028
 	sta.b d1
 	cmp.w #$0039
-	bmi CODE_C52AD9
+	bmi .11
 	lda.w #$0038
 	sta.b d1
-CODE_C52AD9:						; from CODE_C52AA0, CODE_C52AC0
+.11:								; A = d1, A - $CB, if the result = 0 go to .rtl, A / 2, ...
 	lda.b d1
 	sec
 	sbc.b $CB
-	beq CODE_C52AF7
+	beq .rtl
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	bit.w #$0800
-	beq CODE_C52AEC
+	beq .12
 	ora.w #$F000
-CODE_C52AEC:						; from CODE_C52AD9
+.12:								; if A is not $0000 go to .13, A + 1
 	cmp.w #$0000
-	bne CODE_C52AF2
+	bne .13
 	inc a
-CODE_C52AF2:						; from CODE_C52AEC
+.13:								; A + $CB, $CB = A
 	clc
 	adc.b $CB
 	sta.b $CB
-CODE_C52AF7:						; from CODE_C52AC0, CODE_C52AD9
+.rtl:								; return
 	rtl
 doinput:							; called from other segments
 	jsl.l setpads
@@ -1375,192 +1375,192 @@ doinput:							; called from other segments
 	dec.b d4
 	lda.b d3
 	bit.w #$1000
-	beq CODE_C52B0D
+	beq .1
 	lda.b d4
 	jmp.w PauseFromPad
-CODE_C52B0C:						; from CODE_C52B18
+.rtl:								; return
 	rtl
-CODE_C52B0D:						; from doinput
+.1:									; A = sflags, if $0100 bits clear go to .2, go to .9
 	lda.w sflags
 	bit.w #$0100
-	beq CODE_C52B18
-	jmp.w CODE_C52B9B
-CODE_C52B18:						; from CODE_C52B0D
+	beq .2
+	jmp.w .9
+.2:									; A = asscur,x, if A = $7D2E go to .rtl, push Y, Y = $0000, ...
 	lda.w asscur,x
 	cmp.w #$7D2E
-	beq CODE_C52B0C
+	beq .rtl
 	phy
 	ldy.w #$0000
 	lda.w pfteam,x
-	beq CODE_C52B2C
+	beq .3
 	ldy.w #$0002
-CODE_C52B2C:						; from CODE_C52B18
+.3:									; A = lcpad,y, pull Y, if minus go to .4, if A is not d4 go to .6
 	lda.w lcpad,y
 	ply
 	cmp.w #$0000
-	bmi CODE_C52B39
+	bmi .4
 	cmp.b d4
-	bne CODE_C52B4E
-CODE_C52B39:						; from CODE_C52B2C
+	bne .6
+.4:									; push Y, Y = $0000, if pfteam,x = 0 go to .5, Y = $0002
 	phy
 	ldy.w #$0000
 	lda.w pfteam,x
-	beq CODE_C52B45
+	beq .5
 	ldy.w #$0002
-CODE_C52B45:						; from CODE_C52B39
+.5:									; A = tmflags,y, pull Y, if a $0008 bit set go to .10
 	lda.w tmflags,y
 	ply
 	bit.w #$0008
-	bne CODE_C52B9F
-CODE_C52B4E:						; from CODE_C52B2C
+	bne .10
+.6:									; A = d1, if a $2000 bit set go to .17, if X is not puckc go to .7, ...
 	lda.b d1
 	bit.w #$2000
-	bne CODE_C52BC5
+	bne .17
 	cpx.w puckc
-	bne CODE_C52B5D
-	jmp.w CODE_C52BFA
-CODE_C52B5D:						; from CODE_C52B4E
+	bne .7
+	jmp.w .22
+.7:									; A = d1, if a $4000 bit set go to .11, ...
 	lda.b d1
 	bit.w #$4000
-	bne CODE_C52BA3
+	bne .11
 	lda.w pfalock,x
-	bne CODE_C52B98
+	bne .8
 	lda.b d1
 	bit.w #$0040
-	bne CODE_C52BE6
+	bne .20
 	bit.w #$8000
-	bne CODE_C52BA7
+	bne .12
 	lda.w position,x
-	beq CODE_C52BB3
+	beq .15
 	lda.b d1
 	bit.w #$0020
-	bne CODE_C52BAB
+	bne .13
 	bit.w #$0010
-	bne CODE_C52BAF
+	bne .14
 	lda.w passReceiverPlayerNum
 	cmp.b curobj
-	beq CODE_C52B98
+	beq .8
 	lda.b d1
 	bit.w #$0080
-	bne CODE_C52BE2
+	bne .19
 	jml.l doplayeracc
-CODE_C52B98:						; from CODE_C52B5D, CODE_C52BFA
-	jmp.w CODE_C52C5E
-CODE_C52B9B:						; from CODE_C52B0D
+.8:									; go to .31
+	jmp.w .31
+.9:									; go to CODE_C51C58
 	jml.l CODE_C51C58
-CODE_C52B9F:						; from CODE_C52B45
+.10:								; go to lineinput
 	jml.l lineinput
-CODE_C52BA3:						; from CODE_C52B5D
+.11:								; go to Holdplayer
 	jml.l Holdplayer
-CODE_C52BA7:						; from CODE_C52B5D
+.12:								; go to findpc
 	jml.l findpc
-CODE_C52BAB:						; from CODE_C52B5D
+.13:								; go to CODE_C53921
 	jml.l CODE_C53921
-CODE_C52BAF:						; from CODE_C52B5D
+.14:								; go to CODE_C53903
 	jml.l CODE_C53903
-CODE_C52BB3:						; from CODE_C52B5D, CODE_C52C5A
+.15:								; A = goalieflags,x, if a $0001 bit set go to .16, ...
 	lda.w goalieflags,x
 	bit.w #$0001
-	bne CODE_C52BC0
+	bne .16
 	and.w #$0002
-	bne CODE_C52BC4
-CODE_C52BC0:						; from CODE_C52BB3
+	bne .rtl2
+.16:								; go to doplayeracc
 	jml.l doplayeracc
-CODE_C52BC4:						; from CODE_C52BC5, CODE_C52BD5, CODE_C52BFA, CODE_C52BF1, ...
+.rtl2:								; return
 	rtl
-CODE_C52BC5:						; from CODE_C52B4E
+.17:								; if gmclock is not 0 go to .rtl2, Y = $0000, ...
 	lda.w gmclock
-	bne CODE_C52BC4
+	bne .rtl2
 	ldy.w #$0000
 	lda.w pfteam,x
-	beq CODE_C52BD5
+	beq .18
 	ldy.w #$0002
-CODE_C52BD5:						; from CODE_C52BC5
+.18:								; if lcpad,y >= 0 go to .rtl2, lcpad,y = d4, go to CODE_C5404A
 	lda.w lcpad,y
-	bpl CODE_C52BC4
+	bpl .rtl2
 	lda.b d4
 	sta.w lcpad,y
 	jmp.w CODE_C5404A
-CODE_C52BE2:						; from CODE_C52B5D
+.19:								; go to CODE_C42D10
 	jml.l CODE_C42D10
-CODE_C52BE6:						; from CODE_C52B5D, CODE_C52C5E
+.20:								; Y = $0000, if minus go to .21, Y = $0002
 	ldy.w #$0000
 	cpx.w #$000C
-	bmi CODE_C52BF1
+	bmi .21
 	ldy.w #$0002
-CODE_C52BF1:						; from CODE_C52BE6
+.21:								; if $17C1,y = 0 go to .rtl2, go to CODE_C538FE
 	lda.w $17C1,y
-	beq CODE_C52BC4
+	beq .rtl2
 	jml.l CODE_C538FE
-CODE_C52BFA:						; from CODE_C52B4E
+.22:								; if pfalock,x is not 0 go to .8, call checkob, ...
 	lda.w pfalock,x
-	bne CODE_C52B98
+	bne .8
 	jsl.l checkob
 	lda.w position,x
-	bne CODE_C52C0D
+	bne .23
 	lda.w pf2aip,x
-	bne CODE_C52BC4
-CODE_C52C0D:						; from CODE_C52BFA
+	bne .rtl2
+.23:								; A = sflags, if a $0004 bit set go to .24, ...
 	lda.w sflags
 	bit.w #$0004
-	bne CODE_C52C3D
+	bne .24
 	bit.w #$0008
-	bne CODE_C52C41
+	bne .25
 	lda.w $066A
 	cmp.b curobj
-	beq CODE_C52C5D
+	beq .rtl3
 	lda.b d1
 	bit.w #$8000
-	bne CODE_C52C4E
+	bne .27
 	bit.w #$4000
-	bne CODE_C52C45
+	bne .26
 	lda.w position,x
-	beq CODE_C52C5A
+	beq .30
 	lda.b d1
 	bit.w #$0080
-	bne CODE_C52C56
+	bne .29
 	jml.l doplayeracc
-CODE_C52C3D:						; from CODE_C52C0D
+.24:								; go to CODE_C4A0C1
 	jml.l CODE_C4A0C1
-CODE_C52C41:						; from CODE_C52C0D
+.25:								; go to CODE_C498D3
 	jml.l CODE_C498D3
-CODE_C52C45:						; from CODE_C52C0D
+.26:								; d0 = $0014, go to CODE_C43734
 	lda.w #$0014
 	sta.b d0
 	jml.l CODE_C43734
-CODE_C52C4E:						; from CODE_C52C0D
+.27:								; go to setpassmode
 	jml.l setpassmode
-CODE_C52C52:						; from CODE_C52C5E
+.28:								; go to findpc
 	jml.l findpc
-CODE_C52C56:						; from CODE_C52C0D
+.29:								; go to SetShotMode
 	jml.l SetShotMode
-CODE_C52C5A:						; from CODE_C52C0D
-	jmp.w CODE_C52BB3
-CODE_C52C5D:						; from CODE_C52C0D, CODE_C52C5E, CODE_C52C72
+.30:								; go to .15
+	jmp.w .15
+.rtl3:								; return
 	rtl
-CODE_C52C5E:						; from CODE_C52B98
+.31:								; if X = puckc go to .rtl3, A = d1, if a $8000 bit set go to .28, ...
 	cpx.w puckc
-	beq CODE_C52C5D
+	beq .rtl3
 	lda.b d1
 	bit.w #$8000
-	bne CODE_C52C52
+	bne .28
 	bit.w #$0040
-	beq CODE_C52C72
-	jmp.w CODE_C52BE6
-CODE_C52C72:						; from CODE_C52C5E
+	beq .32
+	jmp.w .20
+.32:								; if $0080 bits clear go to .rtl3, ...
 	bit.w #$0080
-	beq CODE_C52C5D
+	beq .rtl3
 	ldy.w passReceiverPlayerNum
-	bmi CODE_C52C5D
+	bmi .rtl3
 	lda.w pflags,y
 	and.w #$1000
 	ora.w pfalock,y
-	bne CODE_C52C5D
+	bne .rtl3
 	lda.w playerpad,y
-	bpl CODE_C52C5D
+	bpl .rtl3
 	lda.w pfteam,y
 	cmp.w pfteam,x
-	bne CODE_C52C5D
+	bne .rtl3
 	sty.b d0
 	inc.w onetimerreq
 	lda.w #$7FFF
@@ -1598,15 +1598,15 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	txa
 	ldx.w $1864
 	cpx.w #$0003
-	beq CODE_C52CEB
+	beq .1
 	cpx.w #$0002
-	bne CODE_C52CF0
-CODE_C52CEB:						; from CODE_C52CD0, CODE_C52CF0
+	bne .2
+.1:									; call CODE_C531C7, go to .3
 	jsr.w CODE_C531C7
-	bra CODE_C52D69
-CODE_C52CF0:						; from CODE_C52CD0
+	bra .3
+.2:									; if $1872 is not 0 go to .1, A * 2, X = A, A = $C30000,x, ...
 	ldx.w $1872
-	bne CODE_C52CEB
+	bne .1
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1643,19 +1643,19 @@ CODE_C52CF0:						; from CODE_C52CD0
 	lda.l $C30000,x
 	xba
 	ldx.w #$0000
-CODE_C52D3D:						; from CODE_C52D3D
+.loop:								; loop: X + 1, A * 2, A * 2, A * 2, ...
 	inx
 	asl a
 	asl a
 	asl a
 	asl a
-	bne CODE_C52D3D
+	bne .loop
 	txa
 	sta.w $0002,y
 	lda.b $0E
 	and.w #$07FF
 	tax
-CODE_C52D4E:						; from CODE_C52D4E
+.loop2:								; loop: A = $C30000,x, A and $3FFF, $0008,y = A, A = X, ...
 	lda.l $C30000,x
 	and.w #$3FFF
 	sta.w $0008,y
@@ -1669,8 +1669,8 @@ CODE_C52D4E:						; from CODE_C52D4E
 	iny
 	iny
 	dec.b $10
-	bne CODE_C52D4E
-CODE_C52D69:						; from CODE_C52CEB
+	bne .loop2
+.3:									; Y = tmp1, A = tmp0, A * 2, X = A, ...
 	ldy.b tmp1
 	lda.b tmp0
 	asl a
@@ -1683,7 +1683,7 @@ CODE_C52D69:						; from CODE_C52CEB
 	tax
 	sep #$20
 	stz.b tmp2
-CODE_C52D7F:						; from CODE_C52D7F
+.loop3:								; loop: $006C,y = $C30000,x, X + 1, Y + 1, A = tmp2, ...
 	lda.l $C30000,x
 	sta.w $006C,y
 	inx
@@ -1692,7 +1692,7 @@ CODE_C52D7F:						; from CODE_C52D7F
 	inc a
 	sta.b tmp2
 	cmp.b #$08
-	bne CODE_C52D7F
+	bne .loop3
 	rep #$20
 	plx
 	txa
@@ -1700,7 +1700,7 @@ CODE_C52D7F:						; from CODE_C52D7F
 	adc.l $C30004,x
 	tax
 	sep #$20
-CODE_C52D9D:						; from CODE_C52D9D
+.loop4:								; loop: $006C,y = $C30000,x, X + 1, Y + 1, A = tmp2, ...
 	lda.l $C30000,x
 	sta.w $006C,y
 	inx
@@ -1709,7 +1709,7 @@ CODE_C52D9D:						; from CODE_C52D9D
 	inc a
 	sta.b tmp2
 	cmp.b #$40
-	bne CODE_C52D9D
+	bne .loop4
 	rep #$20
 	ldy.b tmp1
 	lda.w $0000,y
@@ -1722,7 +1722,7 @@ CODE_C52D9D:						; from CODE_C52D9D
 	adc.w $0004,y
 	sta.b $0C
 	stz.b tmp2
-CODE_C52DC7:						; from CODE_C52DC7
+.loop5:								; loop: A 8-bit, A = $006D,y, call CODE_C5308D, $006D,y = A, ...
 	sep #$20
 	lda.w $006D,y
 	jsr.w CODE_C5308D
@@ -1748,19 +1748,19 @@ CODE_C52DC7:						; from CODE_C52DC7
 	inc a
 	sta.b tmp2
 	cmp.w #$0007
-	bne CODE_C52DC7
+	bne .loop5
 	lda.b (tmp1)
 	sta.b tmp2
 	ldy.b tmp1
-CODE_C52E0E:						; from CODE_C52EF9
+.4:									; A = $003A,y, if A < $026A go to .5, go to .10
 	lda.w $003A,y
 	cmp.w #$026A
-	bcc CODE_C52E1C
+	bcc .5
 	pea.w $0000
-	jmp.w CODE_C52EC7
-CODE_C52E1C:						; from CODE_C52E0E
+	jmp.w .10
+.5:									; X = $0038
 	ldx.w #$0038
-CODE_C52E1F:						; from CODE_C52EF0
+.6:									; push X, A = $C2FFFE,x, push A, call CODE_C53106, ...
 	phx
 	lda.l $C2FFFE,x
 	pha
@@ -1784,13 +1784,13 @@ CODE_C52E1F:						; from CODE_C52EF0
 	sta.b $0A
 	lda.w $003A,y
 	cmp.b $A5
-	bcs CODE_C52E55
-	jmp.w CODE_C52EF0
-CODE_C52E55:						; from CODE_C52E1F
+	bcs .7
+	jmp.w .13
+.7:									; if A < $0A go to .8, go to .13
 	cmp.b $0A
-	bcc CODE_C52E5C
-	jmp.w CODE_C52EF0
-CODE_C52E5C:						; from CODE_C52E55
+	bcc .8
+	jmp.w .13
+.8:									; A = $01,s, X = A, A = $C30000,x, A and $07FF, ...
 	lda.b $01,s
 	tax
 	lda.l $C30000,x
@@ -1799,11 +1799,11 @@ CODE_C52E5C:						; from CODE_C52E55
 	lda.l $C30000,x
 	and.w #$3FFF
 	cmp.w $0008,y
-	bne CODE_C52E79
+	bne .9
 	pla
 	lda.w #$0500
-	bra CODE_C52ED6
-CODE_C52E79:						; from CODE_C52E5C
+	bra .12
+.9:									; A = $003A,y, A - $A5, A + 1, $A5 = A, ...
 	lda.w $003A,y
 	sec
 	sbc.b $A5
@@ -1818,37 +1818,37 @@ CODE_C52E79:						; from CODE_C52E5C
 	lda.l $C30000,x
 	and.w #$00FF
 	cmp.b $A5
-	beq CODE_C52ED2
+	beq .11
 	inx
 	lda.l $C30000,x
 	and.w #$00FF
 	cmp.b $A5
-	beq CODE_C52ED2
+	beq .11
 	inx
 	lda.l $C30000,x
 	and.w #$00FF
 	cmp.b $A5
-	beq CODE_C52ED2
+	beq .11
 	inx
 	lda.l $C30000,x
 	and.w #$00FF
 	cmp.b $A5
-	beq CODE_C52ED2
+	beq .11
 	inx
 	lda.l $C30000,x
 	and.w #$00FF
 	cmp.b $A5
-	beq CODE_C52ED2
-CODE_C52EC7:						; from CODE_C52E0E
+	beq .11
+.10:								; $00AC,y = $FFFF, $00DE,y = A, go to .14
 	lda.w #$FFFF
 	sta.w $00AC,y
 	sta.w $00DE,y
-	bra CODE_C52EF9
-CODE_C52ED2:						; from CODE_C52E79
+	bra .14
+.11:								; A = X, A - $0A
 	txa
 	sbc.b $0A
 	xba
-CODE_C52ED6:						; from CODE_C52E5C
+.12:								; $00DE,y = A, A = $01,s, A * 2, X = A, ...
 	sta.w $00DE,y
 	lda.b $01,s
 	asl a
@@ -1858,40 +1858,40 @@ CODE_C52ED6:						; from CODE_C52E5C
 	lda.l PhotoPaletteTable-2,x
 	ora.w $00DE,y
 	sta.w $00DE,y
-	bra CODE_C52EF9
-CODE_C52EF0:						; from CODE_C52E1F, CODE_C52E55
+	bra .14
+.13:								; pull A, pull X, X - 1, X - 1, ...
 	pla
 	plx
 	dex
 	dex
-	beq CODE_C52EF9
-	jmp.w CODE_C52E1F
-CODE_C52EF9:						; from CODE_C52EC7, CODE_C52EF0, CODE_C52ED6
+	beq .14
+	jmp.w .6
+.14:								; pull X, Y + 1, Y + 1, tmp2 - 1, ...
 	plx
 	iny
 	iny
 	dec.b tmp2
-	beq CODE_C52F03
-	jmp.w CODE_C52E0E
-CODE_C52F03:						; from CODE_C52EF9
+	beq .15
+	jmp.w .4
+.15:								; tmp2 = 0, A = tmp2
 	stz.b tmp2
 	lda.b tmp2
-CODE_C52F07:						; from CODE_C53040
+.16:								; A * 2, A + tmp1, Y = A, A = $1864, ...
 	asl a
 	adc.b tmp1
 	tay
 	lda.w $1864
 	cmp.w #$0002
-	bcs CODE_C52F1B
+	bcs .17
 	lda.w $1872
-	bne CODE_C52F1B
-	jmp.w CODE_C52FFD
-CODE_C52F1B:						; from CODE_C52F07
+	bne .17
+	jmp.w .29
+.17:								; A = $003A,y, if A >= $026A go to .18, go to .29
 	lda.w $003A,y
 	cmp.w #$026A
-	bcs CODE_C52F26
-	jmp.w CODE_C52FFD
-CODE_C52F26:						; from CODE_C52F1B
+	bcs .18
+	jmp.w .29
+.18:								; push Y, A = tmp2, A * 2, A * 2, ...
 	phy
 	lda.b tmp2
 	asl a
@@ -1909,20 +1909,20 @@ CODE_C52F26:						; from CODE_C52F1B
 	jsr.w CODE_C5D7E9
 	stz.b $0C
 	pei ($A5)
-CODE_C52F43:						; from CODE_C52F5D
+.19:								; call CODE_C5D804, X = $A5, if A = $0000 go to .22, ...
 	jsr.w CODE_C5D804
 	ldx.b $A5
 	cmp.w #$0000
-	beq CODE_C52F73
+	beq .22
 	cmp.w #$001D
-	bne CODE_C52F57
+	bne .20
 	lda.w #$003D
-	bra CODE_C52F5D
-CODE_C52F57:						; from CODE_C52F43
+	bra .21
+.20:								; A + $0040, A + $0C
 	clc
 	adc.w #$0040
 	adc.b $0C
-CODE_C52F5D:						; from CODE_C52F43
+.21:								; $0118,x = A, $0C = $0020, X + 1, $A5 = X, ...
 	sta.w $0118,x
 	lda.w #$0020
 	sta.b $0C
@@ -1932,24 +1932,24 @@ CODE_C52F5D:						; from CODE_C52F43
 	sec
 	sbc.b $01,s
 	cmp.w #$0008
-	bcc CODE_C52F43
-	bra CODE_C52F86
-CODE_C52F73:						; from CODE_C52F43
+	bcc .19
+	bra .24
+.22:								; push X
 	phx
-CODE_C52F74:						; from CODE_C52F74
+.loop6:								; loop: A = X, A - $03,s, if A = $0007 go to .23, push X, ...
 	txa
 	sec
 	sbc.b $03,s
 	cmp.w #$0007
-	beq CODE_C52F85
+	beq .23
 	phx
 	jsr.w CODE_C5D804
 	plx
 	inx
-	bra CODE_C52F74
-CODE_C52F85:						; from CODE_C52F74
+	bra .loop6
+.23:								; pull X
 	plx
-CODE_C52F86:						; from CODE_C52F5D
+.24:								; pull A, $0118,x = $0020, $0C = 0, X + 1, ...
 	pla
 	lda.w #$0020
 	sta.w $0118,x
@@ -1957,20 +1957,20 @@ CODE_C52F86:						; from CODE_C52F5D
 	inx
 	stx.b $A5
 	phx
-CODE_C52F93:						; from CODE_C52FAD
+.25:								; call CODE_C5D804, X = $A5, if A = $0000 go to .loop7, ...
 	jsr.w CODE_C5D804
 	ldx.b $A5
 	cmp.w #$0000
-	beq CODE_C52FC3
+	beq .loop7
 	cmp.w #$001D
-	bne CODE_C52FA7
+	bne .26
 	lda.w #$003D
-	bra CODE_C52FAD
-CODE_C52FA7:						; from CODE_C52F93
+	bra .27
+.26:								; A + $0040, A + $0C
 	clc
 	adc.w #$0040
 	adc.b $0C
-CODE_C52FAD:						; from CODE_C52F93
+.27:								; $0118,x = A, $0C = $0020, X + 1, $A5 = X, ...
 	sta.w $0118,x
 	lda.w #$0020
 	sta.b $0C
@@ -1980,20 +1980,20 @@ CODE_C52FAD:						; from CODE_C52F93
 	sec
 	sbc.b $01,s
 	cmp.w #$000A
-	bcc CODE_C52F93
-	bra CODE_C52FD6
-CODE_C52FC3:						; from CODE_C52F93, CODE_C52FC3
+	bcc .25
+	bra .28
+.loop7:								; loop: A = X, A - $01,s, if A = $0009 go to .28, call CODE_C5D804, ...
 	txa
 	sec
 	sbc.b $01,s
 	cmp.w #$0009
-	beq CODE_C52FD6
+	beq .28
 	jsr.w CODE_C5D804
 	ldx.b $A5
 	inx
 	stx.b $A5
-	bra CODE_C52FC3
-CODE_C52FD6:						; from CODE_C52FC3, CODE_C52FAD
+	bra .loop7
+.28:								; pull X, pull A, $A5 = A, call CODE_C5D821, ...
 	plx
 	pla
 	sta.b $A5
@@ -2002,7 +2002,7 @@ CODE_C52FD6:						; from CODE_C52FC3, CODE_C52FAD
 	sta.w $0110,x
 	lda.w #$0006
 	sta.b $0A
-CODE_C52FE7:						; from CODE_C52FE7
+.loop8:								; loop: call CODE_C5D83F, A 8-bit, X = $A5, X + 1, ...
 	jsr.w CODE_C5D83F
 	sep #$20
 	ldx.b $A5
@@ -2011,10 +2011,10 @@ CODE_C52FE7:						; from CODE_C52FE7
 	sta.w $0110,x
 	rep #$20
 	dec.b $0A
-	bpl CODE_C52FE7
+	bpl .loop8
 	ply
-	bra CODE_C53040
-CODE_C52FFD:						; from CODE_C52F07, CODE_C52F1B
+	bra .31
+.29:								; X = $0008,y, A = tmp2, A * 2, A * 2, ...
 	ldx.w $0008,y
 	lda.b tmp2
 	asl a
@@ -2038,31 +2038,31 @@ CODE_C52FFD:						; from CODE_C52F07, CODE_C52F1B
 	tax
 	jsl.l CODE_C4C3BA
 	sep #$20
-CODE_C53032:						; from CODE_C53032
+.loop9:								; loop: $0118,y = $0000,x, if $0000,x = 0 go to .30, X + 1, Y + 1, ...
 	lda.w $0000,x
 	sta.w $0118,y
-	beq CODE_C5303E
+	beq .30
 	inx
 	iny
-	bra CODE_C53032
-CODE_C5303E:						; from CODE_C53032
+	bra .loop9
+.30:								; A 16-bit
 	rep #$20
-CODE_C53040:						; from CODE_C52FE7
+.31:								; A = tmp2, A + 1, tmp2 = A, if A = (tmp1) go to .32, ...
 	lda.b tmp2
 	inc a
 	sta.b tmp2
 	cmp.b (tmp1)
-	beq CODE_C5304C
-	jmp.w CODE_C52F07
-CODE_C5304C:						; from CODE_C53040
+	beq .32
+	jmp.w .16
+.32:								; if $1872 is not 0 go to .33, A = $1864, if A is not $0002 go to .34
 	lda.w $1872
-	bne CODE_C53059
+	bne .33
 	lda.w $1864
 	cmp.w #$0002
-	bne CODE_C53084
-CODE_C53059:						; from CODE_C5304C
+	bne .34
+.33:								; A = $0000
 	lda.w #$0000
-CODE_C5305C:						; from CODE_C5305C
+.loop10:							; loop: tmp2 = A, A * 2, A + tmp1, Y = A, ...
 	sta.b tmp2
 	asl a
 	adc.b tmp1
@@ -2086,8 +2086,8 @@ CODE_C5305C:						; from CODE_C5305C
 	lda.b tmp2
 	inc a
 	cmp.b (tmp1)
-	bcc CODE_C5305C
-CODE_C53084:						; from CODE_C5304C
+	bcc .loop10
+.34:								; call CODE_C4C536, pull A, $18E0 = A, return
 	jsl.l CODE_C4C536
 	pla
 	sta.w $18E0

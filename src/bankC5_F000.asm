@@ -23,9 +23,9 @@ CODE_C5F097:						; the copy built in the DMA registers jumps back here
 CODE_C5F099:						; the command loop, run through the bank $85 mirror
 	lda.b [$12]
 	bit.w #$0080
-	beq CODE_C5F0BC
+	beq .1
 	and.w #$007F
-	beq CODE_C5F0C5
+	beq .2
 	sta.b $15
 	inc.b $12
 	lda.b [$12]
@@ -37,24 +37,24 @@ CODE_C5F099:						; the command loop, run through the bank $85 mirror
 	lda.b $15
 	mvn $7E,$7E
 	bra CODE_C5F099
-CODE_C5F0BC:						; from CODE_C5F099
+.1:									; A and $007F, X = $12, X + 1, go to DMAP2
 	and.w #$007F
 	ldx.b $12
 	inx
 	jmp.w DMAP2						; run the literal copy built in the DMA registers
-CODE_C5F0C5:						; from CODE_C5F099
+.2:									; X = $12, X + 1, A = $0000, go to .rts
 	ldx.b $12
 	inx
 	lda.w #$0000
 	tcd
-	jml.l CODE_C5F0D0
-CODE_C5F0D0:						; from CODE_C5F0C5 and other segments
+	jml.l .rts
+.rts:								; return
 	rts
 BuildSpriteOAM:						; build the OAM entries of all sprite objects (frames, SpritePieces)
 	lda.w $1B02
-	bne CODE_C5F0D7
+	bne .1
 	rtl
-CODE_C5F0D7:						; from BuildSpriteOAM
+.1:									; QueueBusy - 1, $16 = X, X = $28, A - 1, ...
 	dec.b QueueBusy
 	tsx
 	stx.b $16
@@ -63,22 +63,22 @@ CODE_C5F0D7:						; from BuildSpriteOAM
 	dec a
 	asl a
 	tay
-CODE_C5F0E2:						; from CODE_C5F0E2, CODE_C5F35C
+.loop:								; loop: X = $1AE2,y, A = $22,x, A / 2, if carry set go to .3, ...
 	ldx.w $1AE2,y
 	lda.b $22,x
 	lsr a
-	bcs CODE_C5F0F7
+	bcs .3
 	dey
 	dey
-	bpl CODE_C5F0E2
-CODE_C5F0EE:						; from CODE_C5F365
+	bpl .loop
+.2:									; $28 = A, X = $16, QueueBusy = 0, return
 	tsc
 	sta.b $28
 	ldx.b $16
 	txs
 	stz.b QueueBusy
 	rtl
-CODE_C5F0F7:						; from CODE_C5F0E2
+.3:									; $0E = X, $10 = X, $2E = Y, A = $05,x, ...
 	stx.b $0E
 	stx.b $10
 	sty.b $2E
@@ -91,14 +91,14 @@ CODE_C5F0F7:						; from CODE_C5F0E2
 	sbc.b $24
 	sta.b $14
 	lda.b $28,x
-	bpl CODE_C5F112
-	jmp.w CODE_C5F35C
-CODE_C5F112:						; from CODE_C5F0F7
+	bpl .4
+	jmp.w .40
+.4:									; A = $36,x, if $4000 bits clear go to .5, go to .23
 	lda.b $36,x
 	bit.w #$4000
-	beq CODE_C5F11C
-	jmp.w CODE_C5F234
-CODE_C5F11C:						; from CODE_C5F112
+	beq .5
+	jmp.w .23
+.5:									; A = $10,x, A / 2, A / 2, A / 2, ...
 	lda.b $10,x
 	lsr a
 	lsr a
@@ -120,7 +120,7 @@ CODE_C5F11C:						; from CODE_C5F112
 	tsb.b tmp2
 	tsb.b $A5
 	lda.b $28,x
-CODE_C5F140:						; from CODE_C5F22B
+.6:									; A * 2, A + $26,x, X = A, A = $00,x, ...
 	asl a
 	adc.b $26,x
 	tax
@@ -142,37 +142,37 @@ CODE_C5F140:						; from CODE_C5F22B
 	adc.b $14
 	sta.b $0C
 	dec.b tmp0
-	bmi CODE_C5F1BE
-CODE_C5F16D:						; from CODE_C5F1B6
+	bmi .13
+.7:									; Y = $0000, A = SpritePieces+4,x, A and $00FF, A + $0A, ...
 	pei ($A3)
 	ldy.w #$0000
 	clc
 	lda.l SpritePieces+4,x
 	and.w #$00FF
 	adc.b $0A
-	bpl CODE_C5F187
+	bpl .8
 	cmp.w #$FFF9
-	bcc CODE_C5F1A1
+	bcc .9
 	iny
 	and.w #$00FF
-CODE_C5F187:						; from CODE_C5F16D
+.8:									; if A >= $0100 go to .9, r0 = A, A = SpritePieces+5,x, A and $00FF, ...
 	cmp.w #$0100
-	bcs CODE_C5F1A1
+	bcs .9
 	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
-	bpl CODE_C5F1A4
+	bpl .10
 	cmp.w #$FFF9
 	and.w #$00FF
-	bcs CODE_C5F1A9
-CODE_C5F1A1:						; from CODE_C5F16D, CODE_C5F187, CODE_C5F1A4
+	bcs .11
+.9:									; pull A, go to .12
 	pla
-	bra CODE_C5F1B6
-CODE_C5F1A4:						; from CODE_C5F187
+	bra .12
+.10:								; if A >= $00E0 go to .9
 	cmp.w #$00E0
-	bcs CODE_C5F1A1
-CODE_C5F1A9:						; from CODE_C5F187
+	bcs .9
+.11:								; A or r0, push A, A = Y, Y = $2A, ...
 	xba
 	ora.b r0
 	pha
@@ -181,45 +181,45 @@ CODE_C5F1A9:						; from CODE_C5F187
 	sta.w $0000,y
 	iny
 	sty.b $2A
-CODE_C5F1B6:						; from CODE_C5F1A1
+.12:								; tmp2 + 1, X + 1, X + 1, tmp0 - 1, ...
 	inc.b tmp2
 	inx
 	inx
 	dec.b tmp0
-	bpl CODE_C5F16D
-CODE_C5F1BE:						; from CODE_C5F140
+	bpl .7
+.13:								; tmp1 - 1, if the result < 0 go to .21
 	dec.b tmp1
-	bmi CODE_C5F220
-CODE_C5F1C2:						; from CODE_C5F218
+	bmi .21
+.14:								; Y = $0002, A = SpritePieces+4,x, A and $00FF, A + $0A, ...
 	pei ($A5)
 	ldy.w #$0002
 	clc
 	lda.l SpritePieces+4,x
 	and.w #$00FF
 	adc.b $0A
-	bpl CODE_C5F1DC
+	bpl .15
 	cmp.w #$FFF1
-	bcc CODE_C5F1F6
+	bcc .16
 	iny
 	and.w #$00FF
-CODE_C5F1DC:						; from CODE_C5F1C2
+.15:								; if A >= $0100 go to .16, r0 = A, A = SpritePieces+5,x, A and $00FF, ...
 	cmp.w #$0100
-	bcs CODE_C5F1F6
+	bcs .16
 	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
-	bpl CODE_C5F1F9
+	bpl .17
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_C5F1FE
-CODE_C5F1F6:						; from CODE_C5F1C2, CODE_C5F1DC, CODE_C5F1F9
+	bcs .18
+.16:								; pull A, go to .19
 	pla
-	bra CODE_C5F20B
-CODE_C5F1F9:						; from CODE_C5F1DC
+	bra .19
+.17:								; if A >= $00E0 go to .16
 	cmp.w #$00E0
-	bcs CODE_C5F1F6
-CODE_C5F1FE:						; from CODE_C5F1DC
+	bcs .16
+.18:								; A or r0, push A, A = Y, Y = $2A, ...
 	xba
 	ora.b r0
 	pha
@@ -228,33 +228,33 @@ CODE_C5F1FE:						; from CODE_C5F1DC
 	sta.w $0000,y
 	iny
 	sty.b $2A
-CODE_C5F20B:						; from CODE_C5F1F6
+.19:								; A = $A5, A + 1, A + 1, if $0010 bits clear go to .20, ...
 	lda.b $A5
 	inc a
 	inc a
 	bit.w #$0010
-	beq CODE_C5F218
+	beq .20
 	clc
 	adc.w #$0010
-CODE_C5F218:						; from CODE_C5F20B
+.20:								; $A5 = A, X + 1, X + 1, tmp1 - 1, ...
 	sta.b $A5
 	inx
 	inx
 	dec.b tmp1
-	bpl CODE_C5F1C2
-CODE_C5F220:						; from CODE_C5F1BE
+	bpl .14
+.21:								; A, X / Y 16-bit, X = $0E, if $2A,x >= 0 go to .22, go to .40
 	rep #$30
 	ldx.b $0E
 	lda.b $2A,x
-	bpl CODE_C5F22B
-	jmp.w CODE_C5F35C
-CODE_C5F22B:						; from CODE_C5F220
+	bpl .22
+	jmp.w .40
+.22:								; X + 1, X + 1, $0E = X, X = $10, ...
 	inx
 	inx
 	stx.b $0E
 	ldx.b $10
-	jmp.w CODE_C5F140
-CODE_C5F234:						; from CODE_C5F112
+	jmp.w .6
+.23:								; A = $10,x, A / 2, A / 2, A / 2, ...
 	lda.b $10,x
 	lsr a
 	lsr a
@@ -276,7 +276,7 @@ CODE_C5F234:						; from CODE_C5F112
 	tsb.b $A5
 	tsb.b tmp2
 	lda.b $28,x
-CODE_C5F258:						; from CODE_C5F34B
+.24:								; A * 2, A + $26,x, X = A, A = $00,x, ...
 	asl a
 	adc.b $26,x
 	tax
@@ -301,8 +301,8 @@ CODE_C5F258:						; from CODE_C5F34B
 	adc.b $14
 	sta.b $0C
 	dec.b tmp0
-	bmi CODE_C5F2DE
-CODE_C5F28A:						; from CODE_C5F2D6
+	bmi .31
+.25:								; Y = $0000, A = SpritePieces+4,x, A and $00FF, A xor $FFFF, ...
 	pei ($A3)
 	ldy.w #$0000
 	sec
@@ -310,29 +310,29 @@ CODE_C5F28A:						; from CODE_C5F2D6
 	and.w #$00FF
 	eor.w #$FFFF
 	adc.b $0A
-	bpl CODE_C5F2A7
+	bpl .26
 	cmp.w #$FFF9
-	bcc CODE_C5F2C1
+	bcc .27
 	iny
 	and.w #$00FF
-CODE_C5F2A7:						; from CODE_C5F28A
+.26:								; if A >= $0100 go to .27, r0 = A, A = SpritePieces+5,x, A and $00FF, ...
 	cmp.w #$0100
-	bcs CODE_C5F2C1
+	bcs .27
 	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
-	bpl CODE_C5F2C4
+	bpl .28
 	cmp.w #$FFF9
 	and.w #$00FF
-	bcs CODE_C5F2C9
-CODE_C5F2C1:						; from CODE_C5F28A, CODE_C5F2A7, CODE_C5F2C4
+	bcs .29
+.27:								; pull A, go to .30
 	pla
-	bra CODE_C5F2D6
-CODE_C5F2C4:						; from CODE_C5F2A7
+	bra .30
+.28:								; if A >= $00E0 go to .27
 	cmp.w #$00E0
-	bcs CODE_C5F2C1
-CODE_C5F2C9:						; from CODE_C5F2A7
+	bcs .27
+.29:								; A or r0, push A, A = Y, Y = $2A, ...
 	xba
 	ora.b r0
 	pha
@@ -341,20 +341,20 @@ CODE_C5F2C9:						; from CODE_C5F2A7
 	sta.w $0000,y
 	iny
 	sty.b $2A
-CODE_C5F2D6:						; from CODE_C5F2C1
+.30:								; tmp2 + 1, X + 1, X + 1, tmp0 - 1, ...
 	inc.b tmp2
 	inx
 	inx
 	dec.b tmp0
-	bpl CODE_C5F28A
-CODE_C5F2DE:						; from CODE_C5F258
+	bpl .25
+.31:								; A = $0A, A - $0008, $0A = A, tmp1 - 1, ...
 	sec
 	lda.b $0A
 	sbc.w #$0008
 	sta.b $0A
 	dec.b tmp1
-	bmi CODE_C5F34B
-CODE_C5F2EA:						; from CODE_C5F343
+	bmi .39
+.32:								; Y = $0002, A = SpritePieces+4,x, A and $00FF, A xor $FFFF, ...
 	pei ($A5)
 	ldy.w #$0002
 	sec
@@ -362,29 +362,29 @@ CODE_C5F2EA:						; from CODE_C5F343
 	and.w #$00FF
 	eor.w #$FFFF
 	adc.b $0A
-	bpl CODE_C5F307
+	bpl .33
 	cmp.w #$FFF1
-	bcc CODE_C5F321
+	bcc .34
 	iny
 	and.w #$00FF
-CODE_C5F307:						; from CODE_C5F2EA
+.33:								; if A >= $0100 go to .34, r0 = A, A = SpritePieces+5,x, A and $00FF, ...
 	cmp.w #$0100
-	bcs CODE_C5F321
+	bcs .34
 	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
-	bpl CODE_C5F324
+	bpl .35
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_C5F329
-CODE_C5F321:						; from CODE_C5F2EA, CODE_C5F307, CODE_C5F324
+	bcs .36
+.34:								; pull A, go to .37
 	pla
-	bra CODE_C5F336
-CODE_C5F324:						; from CODE_C5F307
+	bra .37
+.35:								; if A >= $00E0 go to .34
 	cmp.w #$00E0
-	bcs CODE_C5F321
-CODE_C5F329:						; from CODE_C5F307
+	bcs .34
+.36:								; A or r0, push A, A = Y, Y = $2A, ...
 	xba
 	ora.b r0
 	pha
@@ -393,38 +393,38 @@ CODE_C5F329:						; from CODE_C5F307
 	sta.w $0000,y
 	iny
 	sty.b $2A
-CODE_C5F336:						; from CODE_C5F321
+.37:								; A = $A5, A + 1, A + 1, if $0010 bits clear go to .38, ...
 	lda.b $A5
 	inc a
 	inc a
 	bit.w #$0010
-	beq CODE_C5F343
+	beq .38
 	clc
 	adc.w #$0010
-CODE_C5F343:						; from CODE_C5F336
+.38:								; $A5 = A, X + 1, X + 1, tmp1 - 1, ...
 	sta.b $A5
 	inx
 	inx
 	dec.b tmp1
-	bpl CODE_C5F2EA
-CODE_C5F34B:						; from CODE_C5F2DE
+	bpl .32
+.39:								; X = $0E, if $2A,x < 0 go to .40, X + 1, X + 1, ...
 	rep #$31
 	ldx.b $0E
 	lda.b $2A,x
-	bmi CODE_C5F35C
+	bmi .40
 	inx
 	inx
 	stx.b $0E
 	ldx.b $10
-	jmp.w CODE_C5F258
-CODE_C5F35C:						; from CODE_C5F0F7, CODE_C5F220, CODE_C5F34B
+	jmp.w .24
+.40:								; Y = $2E, Y - 1, Y - 1, if the result < 0 go to .41, ...
 	ldy.b $2E
 	dey
 	dey
-	bmi CODE_C5F365
-	jmp.w CODE_C5F0E2
-CODE_C5F365:						; from CODE_C5F35C
-	jmp.w CODE_C5F0EE
+	bmi .41
+	jmp.w .loop
+.41:								; go to .2
+	jmp.w .2
 CODE_C5F368:						; called from other segments
 	sta.b tmp0
 	dec.b QueueBusy
@@ -446,10 +446,10 @@ CODE_C5F368:						; called from other segments
 	lda.l DATA8_CFF27C,x
 	sta.b tmp0
 	and.w #$00FF
-	bne CODE_C5F397
+	bne .1
 	ldx.b r0
-	bra CODE_C5F3BA
-CODE_C5F397:						; from CODE_C5F368
+	bra .2
+.1:									; A * 2, push A, Y = A, A = tmp2, ...
 	asl a
 	pha
 	tay
@@ -473,10 +473,10 @@ CODE_C5F397:						; from CODE_C5F368
 	pha
 	adc.b $07,s
 	tax
-CODE_C5F3BA:						; from CODE_C5F368
+.2:									; A = $A0, if the result = 0 go to .3, push A, A = tmp1, ...
 	lda.b $A0
 	and.w #$00FF
-	beq CODE_C5F3D2
+	beq .3
 	pha
 	lda.b tmp1
 	and.w #$01FF
@@ -488,7 +488,7 @@ CODE_C5F3BA:						; from CODE_C5F368
 	pha
 	pei ($2E)
 	phx
-CODE_C5F3D2:						; from CODE_C5F3BA
+.3:									; A = $00, $00 = X, QueueBusy = 0, return
 	lda.b $00
 	tsx
 	tcs
