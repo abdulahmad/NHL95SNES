@@ -15,4 +15,4 @@ IceRinkPalette:						; its colours (64), 4 palettes
 	dw $03E0,$13F6,$27FF,$03ED,$03E9,$03FF,$03FB,$7FF2
 	dw $7F76,$0000,$4880,$6D20,$7E40,$4A5B,$35B6,$5AD6
 	dw $7FFF,$1016,$241F,$012D,$0089,$03FF,$025B,$7ED2
-.end:								; continue
+.end:								; end of the map set

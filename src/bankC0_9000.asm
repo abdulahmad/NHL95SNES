@@ -116,7 +116,7 @@ Mul16U_Go:							; entry used by the routines after it
 	bcc .1
 	inc.b r2+3
 	clc
-.1:									; A = r1, A + r2, r2 = A, A = r1+2, ...
+.1:									; add the partial products
 	lda.b r1
 	adc.b r2
 	sta.b r2
@@ -131,7 +131,7 @@ Div16S:								; r2 / r1 into r0, signed
 	lda.b r2
 	bmi .dividendneg
 	jmp.w Div16U
-.divneg:							; A xor $FFFF, A + 1, r1 = A, if r2 >= 0 go to .negate, ...
+.divneg:							; divisor negative
 	eor.w #$FFFF
 	inc a
 	sta.b r1
@@ -142,11 +142,11 @@ Div16S:								; r2 / r1 into r0, signed
 	sbc.b r2
 	sta.b r2
 	jmp.w Div16U
-.dividendneg:						; A xor $FFFF, A + 1, r2 = A
+.dividendneg:						; dividend negative
 	eor.w #$FFFF
 	inc a
 	sta.b r2
-.negate:							; call Div16U, A = $0000, A - r0, r0 = A, ...
+.negate:							; one of them negative: negate the quotient
 	jsl.l Div16U
 	lda.w #$0000
 	sec
@@ -161,12 +161,12 @@ Div32x32U:							; r2 (4 bytes) / r1 (4 bytes) into r0, remainder in r2, unsigne
 	ldy.w #$0000
 	lda.b r1+2
 	bmi .loop
-.norm:								; Y + 1, r1 * 2, if the result >= 0 go to .norm
+.norm:								; shift the divisor up to bit 31
 	iny
 	asl.b r1
 	rol.b r1+2
 	bpl .norm
-.loop:								; loop: A = r2, A - r1, X = A, A = r2+2, ...
+.loop:								; one quotient bit
 	lda.b r2
 	sec
 	sbc.b r1
@@ -176,7 +176,7 @@ Div32x32U:							; r2 (4 bytes) / r1 (4 bytes) into r0, remainder in r2, unsigne
 	bcc .bit
 	stx.b r2
 	sta.b r2+2
-.bit:								; r1+2 / 2, Y - 1, if the result >= 0 go to .loop, pull Y, ...
+.bit:								; the bit into r0
 	rol.b r0
 	rol.b r0+2
 	lsr.b r1+2
@@ -192,7 +192,7 @@ Div32S:								; r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit
 	lda.b r2+2
 	bmi .dividendneg
 	jmp.w Div32U
-.divneg:							; A xor $FFFF, A + 1, r1 = A, if r2+2 >= 0 go to .negate, ...
+.divneg:							; divisor negative
 	eor.w #$FFFF
 	inc a
 	sta.b r1
@@ -206,7 +206,7 @@ Div32S:								; r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit
 	sbc.b r2+2
 	sta.b r2+2
 	jmp.w Div32U
-.dividendneg:						; A = $0000, A - r2, r2 = A, A = $0000, ...
+.dividendneg:						; dividend negative
 	lda.w #$0000
 	sec
 	sbc.b r2
@@ -214,7 +214,7 @@ Div32S:								; r2 (4 bytes) / r1 into r0, signed; $7FFF if it does not fit
 	lda.w #$0000
 	sbc.b r2+2
 	sta.b r2+2
-.negate:							; call Div32U, A = $0000, A - r0, r0 = A, ...
+.negate:							; one of them negative: negate the quotient
 	jsl.l Div32U
 	lda.w #$0000
 	sec
@@ -228,26 +228,26 @@ Div32U:								; r2 (4 bytes) / r1 into r0, unsigned; $7FFF if it does not fit
 	cmp.b r1+1
 	bcc .go
 	jmp.w Div_Overflow
-.go:								; A 16-bit, A = r2+2, X = $0010
+.go:								; 16 quotient bits
 	rep #$20
 	lda.b r2+2
 	ldx.w #$0010
-.loop:								; loop: r2 * 2, if carry set go to .sub, if A < r1 go to .bit
+.loop:								; one quotient bit
 	asl.b r2
 	rol a
 	bcs .sub
 	cmp.b r1
 	bcc .bit
-.sub:								; A - r1
+.sub:								; subtract
 	sbc.b r1
 	sec
-.bit:								; X - 1, if the result is not 0 go to .loop, return
+.bit:								; the bit into r0
 	rol.b r0
 	dex
 	bne .loop
 	rtl
 	sep #$20
-.hi0:								; if r1+1 = 0 go to Div32U_ByteDivisor, if r2+2 = 0 go to Div16U_Go, ...
+.hi0:								; top byte 0
 	lda.b r1+1
 	beq Div32U_ByteDivisor
 	lda.b r2+2
@@ -258,16 +258,16 @@ Div32U:								; r2 (4 bytes) / r1 into r0, unsigned; $7FFF if it does not fit
 	lda.b r2+2
 	and.w #$00FF
 	ldx.w #$0010
-.loop2:								; loop: r2 * 2, if carry set go to .sub2, if A < r1 go to .bit2
+.loop2:								; one quotient bit
 	asl.b r2
 	rol a
 	bcs .sub2
 	cmp.b r1
 	bcc .bit2
-.sub2:								; A - r1
+.sub2:								; subtract
 	sbc.b r1
 	sec
-.bit2:								; X - 1, if the result is not 0 go to .loop2, return
+.bit2:								; the bit into r0
 	rol.b r0
 	dex
 	bne .loop2
@@ -277,16 +277,16 @@ Div_8Bits:							; r2+1 (with r2) / r1 when the quotient fits in 8 bits
 	rep #$20
 	lda.b r2+1
 	ldx.w #$0008
-.loop:								; loop: r1+3 * 2, if carry set go to .sub, if A < r1 go to .bit
+.loop:								; one quotient bit
 	asl.b r1+3
 	rol a
 	bcs .sub
 	cmp.b r1
 	bcc .bit
-.sub:								; A - r1
+.sub:								; subtract
 	sbc.b r1
 	sec
-.bit:								; X - 1, if the result is not 0 go to .loop, return
+.bit:								; the bit into r0
 	rol.b r0
 	dex
 	bne .loop

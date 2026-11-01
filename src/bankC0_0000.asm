@@ -30,10 +30,10 @@ SoundRAMClear:						; sound CPU program as upload blocks (length, sound RAM addr
 									; length 0 ends with the start address): sent before the sound driver,
 									; it silences the DSP, clears sound RAM and returns to the boot ROM
 	dw .end-.code,.start
-.code:								; continue
+.code:								; the block's bytes
 	arch spc700
 	base $0020
-.start:								; continue
+.start:								; DSP muted, echo buffer set, sound RAM above the program cleared
 	clrp
 	mov.b SPC_DSPADDR,#DSP_FLG
 	mov.b SPC_DSPDATA,#$FF			; reset, mute, echo writes off
@@ -44,7 +44,7 @@ SoundRAMClear:						; sound CPU program as upload blocks (length, sound RAM addr
 	mov a,#$00
 	mov y,#$FE						; pages to clear
 	mov x,a
-.loop:								; loop: x + 1, if the result is not 0 go to .loop, .loop+2 + 1, y - 1, ...
+.loop:								; clear a page; the store's high address byte is the page number
 	mov $0100+x,a
 	inc x
 	bne .loop
@@ -63,5 +63,5 @@ SoundRAMClear:						; sound CPU program as upload blocks (length, sound RAM addr
 	pcall SPC_IPLROM-$FF00			; boot ROM: wait for the next upload
 	base off
 	arch 65816
-.end:								; continue
+.end:								; end block: start at .start
 	dw $0000,.start
