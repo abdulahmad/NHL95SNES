@@ -106,7 +106,7 @@ CODE_C59052:						; called from other segments
 	rts
 CODE_C5909A:						; called from other segments
 	lda.w $010E
-CODE_C5909D:						; from CODE_C59588, CODE_C596C0, CODE_C596AF, CODE_C59DBE, ...
+CODE_C5909D:						; from StartSeason, CODE_C596C0, CODE_C596AF, CODE_C59DBE, ...
 	xba
 	lsr a
 	lsr a
@@ -143,7 +143,8 @@ CODE_C590BB:						; from CODE_C596C0, CODE_C596AF, CODE_C59DBE
 	bpl .loop
 	jsl.l CODE_C4C2AA
 	rts
-CODE_C590DA:						; called from other segments
+setoptions:							; builds the game setup screen: its graphics and HDMA, then the Game Setup
+									; page
 	jsl.l CODE_C58D05
 	jsl.l FadeOutWait
 	lda.w #$0001
@@ -257,7 +258,7 @@ CODE_C590DA:						; called from other segments
 	jsl.l CODE_C58B11
 	jsl.l CODE_C3716D
 	rts
-CODE_C59217:						; from CODE_C590DA
+CODE_C59217:						; from setoptions
 	lda.w #$0010
 	sta.b $18
 	lda.w #$0079
@@ -283,7 +284,7 @@ DATA8_C59249:						; not reached by the traced code (data or unused code)
 	db $00,$AD,$08,$19,$8F,$47,$60,$30,$D0,$23,$AD,$06,$19,$D0,$1E,$1A
 	db $8D,$06,$19,$D4,$97,$AD,$0E,$01,$48,$3A,$3A,$8D,$0E,$01,$C6,$97
 	db $20,$75,$8F,$20,$9A,$90,$68,$8D,$0E,$01,$68,$85,$97,$60,$00,$00
-CODE_C592A9:						; from CODE_C590DA
+CODE_C592A9:						; from setoptions
 	lda.w $1864
 	beq .1
 	dec a
@@ -631,7 +632,9 @@ ControllerSetupScreen:				; builds the controller setup screen: a sprite for eac
 	lda.w #$0005
 	sta.w fadestep
 	rts
-CODE_C59588:						; called from other segments
+StartSeason:						; play mode Season: with a season saved, WARNING A Season is in progress
+									; ... Continue Old / Start New (screen state 13); else straight to the
+									; League Menu (SeasonOptions)
 	lda.l $306050
 	ora.l $306051
 	bne .1
@@ -692,7 +695,7 @@ CODE_C59588:						; called from other segments
 	lda.w #$000D
 	sta.b $99
 	bra CODE_C59651
-CODE_C5963A:						; from CODE_C59588
+CODE_C5963A:						; from StartSeason
 	jsl.l FadeOutWait
 	jsr.w SeasonOptions
 	bra CODE_C59651
@@ -702,7 +705,7 @@ CreatePlayer:						; play mode Make Player: CheckCreateSlots, the Create Player 
 	jsl.l CheckCreateSlots
 	jsr.w DrawNameEntry
 	stz.w fadestep
-CODE_C59651:						; from CODE_C59651, CODE_C59588, CODE_C5963A
+CODE_C59651:						; from CODE_C59651, StartSeason, CODE_C5963A
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C36C2D
 	inc.b $26
@@ -1519,7 +1522,7 @@ CODE_C59D3A:						; from CODE_C59DBE
 	pla
 CODE_C59D3B:						; from NameEntry
 	pla
-	jmp.w CODE_C58D32
+	jmp.w GameSetUp
 CODE_C59D3F:						; from CODE_C59B36
 	jsr.w CODE_C59D51
 	jsr.w CODE_C59D51

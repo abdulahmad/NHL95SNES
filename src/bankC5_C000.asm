@@ -182,8 +182,8 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 .1:									; if $0040 bits clear go to .3
 	bit.w #$0040
 	beq .3
-.2:									; go to CODE_C58D32
-	jmp.w CODE_C58D32
+.2:									; go to GameSetUp
+	jmp.w GameSetUp
 .3:									; if a1 = 0 go to .loop, if $0800 bits clear go to .5, ...
 	ldx.b a1
 	beq .loop
@@ -691,10 +691,10 @@ CODE_C5C58A:						; from SignFreeAgents
 	asl a
 	sta.b tmp1
 	ldx.b a1
-.1:									; X - 1, if the result >= 0 go to .2, go to CODE_C58D32
+.1:									; X - 1, if the result >= 0 go to .2, go to GameSetUp
 	dex
 	bpl .2
-	jmp.w CODE_C58D32
+	jmp.w GameSetUp
 .2:									; a1 = X, $65 = X, A = $364E,x, if $0040 bits clear go to .1, ...
 	stx.b a1
 	stx.b $65
@@ -937,10 +937,10 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	bit.w #$1000
 	beq .1
 	jmp.w CODE_C5CA27
-.1:									; if $0040 bits clear go to .2, go to CODE_C58D32
+.1:									; if $0040 bits clear go to .2, go to GameSetUp
 	bit.w #$0040
 	beq .2
-	jmp.w CODE_C58D32
+	jmp.w GameSetUp
 .2:									; if $0800 bits clear go to .4, if $85 = 0 go to .3, A - 1, $85 = A, ...
 	bit.w #$0800
 	beq .4
@@ -1252,11 +1252,11 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	rts
 CODE_C5CA27:						; from ReleasePlayers
 	ldy.w #$FFFF
-.1:									; Y + 1, if Y is not a1 go to .2, go to CODE_C58D32
+.1:									; Y + 1, if Y is not a1 go to .2, go to GameSetUp
 	iny
 	cpy.b a1
 	bne .2
-	jmp.w CODE_C58D32
+	jmp.w GameSetUp
 .2:									; A = $364E,y, if $0001 bits clear go to .1, A = Y, A * 2, ...
 	lda.w $364E,y
 	bit.w #$0001
@@ -1322,10 +1322,10 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	bit.w #$1000
 	beq .4
 	jmp.w GMDecisionScreen
-.4:									; if $0040 bits clear go to .5, go to CODE_C58D32
+.4:									; if $0040 bits clear go to .5, go to GameSetUp
 	bit.w #$0040
 	beq .5
-	jmp.w CODE_C58D32
+	jmp.w GameSetUp
 .5:									; if $0800 bits clear go to .7, if $85 = 0 go to .6, A - 1, $85 = A, ...
 	bit.w #$0800
 	beq .7
@@ -1621,8 +1621,8 @@ GMDecisionScreen:					; the trade decision: DrawGMDecision, then start does an a
 	jsr.w CheckTrade
 	bcs .1
 	jsr.w ExecuteTrade
-.1:									; go to CODE_C58D32
-	jmp.w CODE_C58D32
+.1:									; go to GameSetUp
+	jmp.w GameSetUp
 .2:									; if $0040 bits clear go to .3, X = a0, $05,x = $0008, go to TradePlayers
 	bit.w #$0040
 	beq .3
@@ -1644,7 +1644,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	plp
 	pla
 	pla
-	jmp.w CODE_C58D32
+	jmp.w GameSetUp
 .1:									; call FadeOutWait, DMAEnShadow = $8000, Y = $5000, call CODE_C589E4, ...
 	jsl.l FadeOutWait
 	lda.w #$8000

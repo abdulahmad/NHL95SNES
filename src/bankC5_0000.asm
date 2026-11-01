@@ -42,7 +42,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50ADD, demoread and other segments
 	lda.w #$C08B
 	sta.w $1852
 	jsl.l CODE_C36C2C
-	jsl.l CODE_C58D32
+	jsl.l GameSetUp
 	lda.w #$007E
 	sta.b $71
 	stz.w $189C

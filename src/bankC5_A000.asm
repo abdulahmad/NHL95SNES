@@ -1479,7 +1479,7 @@ CODE_C5AC07:						; the League Menu each frame: up / down move, B / start / sele
 	jmp.w CODE_C5A599
 SeasonMenuJumps:					; the routine of each League Menu item: Play Games, NHL Standings, Games
 									; Today, League Leaders, Team Stats, Player Stats
-	dw CODE_C5AE48,StandingsScreen,GamesToday,LeagueLeadersScreen
+	dw MenuPlayGames,StandingsScreen,GamesToday,LeagueLeadersScreen
 	dw SeasonTeamStats,SeasonPlayerStats
 CODE_C5AC7F:						; from CODE_C5AC07
 	lda.w #$0C00
@@ -1617,12 +1617,12 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	rts
 CODE_C5ADD8:						; called from other segments
 	bit.b tmp0
-	bpl CODE_C5ADE3
-CODE_C5ADDC:						; from CODE_C5AF07, CODE_C5AE48 and other segments
+	bpl NoGameSelected
+CODE_C5ADDC:						; from CODE_C5AF07, MenuPlayGames and other segments
 	pla
-	jsr.w CODE_C590DA
+	jsr.w setoptions
 	jmp.w CODE_C5963A
-CODE_C5ADE3:						; from CODE_C5ADD8
+NoGameSelected:						; the warning A game must be selected. / Okay (screen state 12)
 	lda.b $D3
 	clc
 	adc.w #$0180
@@ -1658,7 +1658,8 @@ CODE_C5ADE3:						; from CODE_C5ADD8
 	rts
 DATA8_C5AE40:						; not traced: data between routines
 	db $FF,$FE,$FC,$F8,$F0,$E0,$C0,$80
-CODE_C5AE48:						; from SeasonMenuJumps, CODE_C5AF07
+MenuPlayGames:						; League Menu Play Games: when the season is over (play mode 3), the end
+									; of season (CODE_C401E5); else the day's games from the schedule
 	stz.b tmp0
 	lda.w $1864
 	cmp.w #$0003
@@ -1745,7 +1746,7 @@ CODE_C5AE48:						; from SeasonMenuJumps, CODE_C5AF07
 	lda.l $306051
 	beq CODE_C5AF07
 	jsr.w CODE_C5E336
-CODE_C5AF07:						; from CODE_C5AE48 and other segments
+CODE_C5AF07:						; from MenuPlayGames and other segments
 	lda.l $7E2C42
 	sta.b tmp0
 	lda.w #$8EF8
@@ -1785,8 +1786,8 @@ CODE_C5AF07:						; from CODE_C5AE48 and other segments
 	bit.w $1910
 	bpl .2
 	jmp.w CODE_C5ADDC
-.2:									; go to CODE_C5AE48
-	jmp.w CODE_C5AE48
+.2:									; go to MenuPlayGames
+	jmp.w MenuPlayGames
 .3:									; $0017C9 = $0004,x, A = $0002,x, $17CB = A, $2C44 = X, ...
 	lda.w $0004,x
 	sta.l $0017C9

@@ -836,7 +836,7 @@ CheckTradesFrozen:					; returns when trading is open; when its save RAM flag is
 .1:									; continue
 	pea.w $54B1
 ShowAlert:							; prints the Alert page on the stack, waits for start / select, then goes
-									; back to the setup screen (CODE_C58D32)
+									; back to the setup screen (GameSetUp)
 	jsl.l FadeOutWait
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -877,7 +877,7 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	phb
 	pla
 	pla
-	jml.l CODE_C58D32
+	jml.l GameSetUp
 GetShifter:							; called from other segments
 	lda.w #$FFF0
 	sta.b d2

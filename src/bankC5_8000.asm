@@ -1667,8 +1667,10 @@ CODE_C58D05:						; from CODE_C58D05
 	ora.w $4670
 	beq CODE_C58D05
 	rtl
-CODE_C58D32:						; called from other segments
-	jsr.w CODE_C590DA
+GameSetUp:							; the game setup screen (setoptions builds it): up / down pick a line,
+									; left / right change it, start / select run the play mode (DATA8_C58DD0);
+									; 360 frames with no key start the demo (StartDemo)
+	jsr.w setoptions
 	lda.w $23BA
 	beq .1
 	jsl.l CODE_C36B83
@@ -1731,19 +1733,20 @@ CODE_C58D32:						; called from other segments
 	asl a
 	tax
 	jmp (DATA8_C58DD0,x)
-.8:									; A = $23BC, A + 1, if A >= $0168 go to CODE_C58DE0, $23BC = A, ...
+.8:									; A = $23BC, A + 1, if A >= $0168 go to StartDemo, $23BC = A, ...
 	lda.w $23BC
 	inc a
 	cmp.w #$0168
-	bcs CODE_C58DE0
+	bcs StartDemo
 	sta.w $23BC
 	jmp.w .loop
 DATA8_C58DD0:						; the routine of each play mode, run on start in the setup screen:
 									; Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player,
 									; then an eighth
-	dw CODE_C593B1,CODE_C5939D,CODE_C59588,TradePlayers
+	dw CODE_C593B1,CODE_C5939D,StartSeason,TradePlayers
 	dw SignFreeAgents,ReleasePlayers,CreatePlayer,CODE_C5ABA1
-CODE_C58DE0:						; from CODE_C58D32
+StartDemo:							; starts the demo: the demo flag set, user records off, play mode
+									; Exhibition, then the controller setup (CODE_C593B1)
 	lda.w #$0001
 	sta.l $7E23BA
 	stz.w $1904
@@ -1857,7 +1860,7 @@ CODE_C58E71:						; from DATA8_C58DF0
 	sta.w $0108
 	stz.b $99
 	rts
-CODE_C58EE0:						; from CODE_C58D32
+CODE_C58EE0:						; from GameSetUp
 	lda.b d6
 	beq .rts
 	dec a
@@ -1895,7 +1898,7 @@ CODE_C58EE0:						; from CODE_C58D32
 	jsr.w CODE_C590B8
 .rts:								; return
 	rts
-CODE_C58F28:						; from CODE_C58D32
+CODE_C58F28:						; from GameSetUp
 	lda.b d6
 	inc a
 	cmp.b $69

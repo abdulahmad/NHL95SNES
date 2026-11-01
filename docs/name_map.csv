@@ -6203,16 +6203,16 @@ $C58C4A,.loop,CODE_C58C4A,new,"branch target only used in CODE_C58C36",src/bankC
 $C58C67,.loop2,CODE_C58C67,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
 $C58C81,.loop3,CODE_C58C81,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
 $C58CAF,.loop4,CODE_C58CAF,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
-$C58D3E,.1,CODE_C58D3E,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58D47,.loop,CODE_C58D47,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58D4A,.loop2,CODE_C58D4A,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58D86,.2,CODE_C58D86,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58D89,.3,CODE_C58D89,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58D96,.4,CODE_C58D96,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58DA0,.5,CODE_C58DA0,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58DAA,.6,CODE_C58DAA,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58DB4,.7,CODE_C58DB4,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
-$C58DC1,.8,CODE_C58DC1,new,"branch target only used in CODE_C58D32",src/bankC5_8000.asm
+$C58D3E,.1,CODE_C58D3E,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58D47,.loop,CODE_C58D47,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58D4A,.loop2,CODE_C58D4A,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58D86,.2,CODE_C58D86,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58D89,.3,CODE_C58D89,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58D96,.4,CODE_C58D96,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58DA0,.5,CODE_C58DA0,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58DAA,.6,CODE_C58DAA,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58DB4,.7,CODE_C58DB4,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
+$C58DC1,.8,CODE_C58DC1,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
 $C58E3A,.1,CODE_C58E3A,new,"branch target only used in CODE_C58DF6",src/bankC5_8000.asm
 $C58E6B,.2,CODE_C58E6B,new,"branch target only used in CODE_C58DF6",src/bankC5_8000.asm
 $C58E88,.1,CODE_C58E88,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
@@ -6264,7 +6264,7 @@ $C5950B,.7,CODE_C5950B,new,"branch target only used in CODE_C594C6",src/bankC5_9
 $C59515,.8,CODE_C59515,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
 $C5951A,.rts,CODE_C5951A,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
 $C59544,.loop,CODE_C59544,new,"branch target only used in ControllerSetupScreen",src/bankC5_9000.asm
-$C59595,.1,CODE_C59595,new,"branch target only used in CODE_C59588",src/bankC5_9000.asm
+$C59595,.1,CODE_C59595,new,"branch target only used in StartSeason",src/bankC5_9000.asm
 $C5969C,.1,CODE_C5969C,new,"branch target only used in AskNameOk",src/bankC5_9000.asm
 $C596DB,.1,CODE_C596DB,new,"branch target only used in CODE_C596D3",src/bankC5_9000.asm
 $C59778,.1,CODE_C59778,new,"branch target only used in NameEntry",src/bankC5_9000.asm
@@ -6452,10 +6452,10 @@ $C5AC59,.6,CODE_C5AC59,new,"branch target only used in CODE_C5AC07",src/bankC5_A
 $C5AC67,.7,CODE_C5AC67,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
 $C5AC92,.loop,CODE_C5AC92,new,"branch target only used in CODE_C5AC84",src/bankC5_A000.asm
 $C5ACBE,.1,CODE_C5ACBE,new,"branch target only used in GamesToday",src/bankC5_A000.asm
-$C5AE56,.1,CODE_C5AE56,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
-$C5AE8D,.2,CODE_C5AE8D,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
-$C5AEA9,.loop,CODE_C5AEA9,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
-$C5AEEB,.3,CODE_C5AEEB,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
+$C5AE56,.1,CODE_C5AE56,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
+$C5AE8D,.2,CODE_C5AE8D,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
+$C5AEA9,.loop,CODE_C5AEA9,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
+$C5AEEB,.3,CODE_C5AEEB,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
 $C5AF11,.loop,CODE_C5AF11,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
 $C5AF50,.1,CODE_C5AF50,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
 $C5AF6E,.2,CODE_C5AF6E,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
@@ -7144,3 +7144,9 @@ $C5D156,NameEntryScreen,CODE_C5D156,genesis+purpose,"same job as 95G NameEntrySc
 $C5D1EF,DrawNameLog,CODE_C5D1EF,code,"the page at $C3542B (Name Entry); CODE_C5D2B4 fetches each name; NameEntryScreen calls it",src/bankC5_D000.asm
 $C5D36F,EditUserName,CODE_C5D36F,code,"NameEntryScreen calls it on B; the keys are the page at $C3543D",src/bankC5_D000.asm
 $C5D4D5,DrawNameGrid,CODE_C5D4D5,code,"the page at $C3543D and the grid rows $C3490D / $C34914 / $C34922",src/bankC5_D000.asm
+$C58D32,GameSetUp,CODE_C58D32,genesis+purpose,"same job as 95G GameSetUp (the game setup screen: up / down move, left / right step the values, start goes on); the screens go back to it when they leave; CODE_C58FD8 / CODE_C59012 step a line's value from its descriptor in bank $C3",src/bankC5_8000.asm
+$C590DA,setoptions,CODE_C590DA,genesis+purpose,"same job as 95G setoptions (build the game setup screen); the page at $C356CE (Game Setup, VS.); GameSetUp calls it first",src/bankC5_9000.asm
+$C58DE0,StartDemo,CODE_C58DE0,code,"GameSetUp after 360 ($168) frames with no key; sets $7E23BA = 1, clears $1904 and $1864; SetContTeams does not wait for start / select when the flag is set",src/bankC5_8000.asm
+$C59588,StartSeason,CODE_C59588,code,"DATA8_C58DD0 entry 2; the save RAM words at $306050 / $306051; the texts $C3479B-$C3476E; state 13 is CODE_C5AB27",src/bankC5_9000.asm
+$C5AE48,MenuPlayGames,CODE_C5AE48,genesis+purpose,"same job as 95G MenuPlayGames (the Play Games item of the season menu); SeasonMenuJumps entry 0",src/bankC5_A000.asm
+$C5ADE3,NoGameSelected,CODE_C5ADE3,code,"prints $C347A1 / $C347AB / $C347B3; reached through CODE_C5ADD8; sets $99 = 12",src/bankC5_A000.asm
