@@ -1435,42 +1435,42 @@ PrintTextPage:						; prints the text page whose descriptor is at A in bank $C3:
 	jmp.w RestoreWorkBuf
 PrintBoldCentred:					; prints the packed text X at row Y in BoldFontGlyphs, centred between the
 									; margins
-	jsl.l CODE_C4BCC2
-	bra CODE_C4BBF5
+	jsl.l RenderBoldCentred
+	bra UploadAndMapText
 CODE_C4BBEB:						; no caller found (not traced)
-	jsl.l CODE_C4BCC2
-	bra CODE_C4BBF5
+	jsl.l RenderBoldCentred
+	bra UploadAndMapText
 PrintBoldCentredStr:				; PrintBoldCentred for the string X in RAM (CopyString)
-	jsl.l CODE_C4BCC8
-CODE_C4BBF5:						; from PrintBoldCentred, CODE_C4BBEB, PrintBoldLeft, CODE_C4BC02, ...
+	jsl.l RenderBoldCentredStr
+UploadAndMapText:					; queue rendered text tiles and map them onto the screen
 	jsl.l QueueTextTiles
 	jmp.w MapTextTiles
 PrintBoldLeft:						; prints the packed text X at row Y in BoldFontGlyphs from the left margin
-	jsl.l CODE_C4BCE4
-	bra CODE_C4BBF5
-CODE_C4BC02:						; no caller found (not traced)
-	jsl.l CODE_C4BCF0
-	bra CODE_C4BBF5
+	jsl.l RenderBoldLeft
+	bra UploadAndMapText
+PrintBoldLeftROMStr:				; print a left-aligned ROM string in the bold font
+	jsl.l RenderBoldLeftROMStr
+	bra UploadAndMapText
 PrintBoldLeftStr:					; PrintBoldLeft for the string X in RAM
-	jsl.l CODE_C4BCEA
-	bra CODE_C4BBF5
+	jsl.l RenderBoldLeftStr
+	bra UploadAndMapText
 PrintBoldRight:						; prints the packed text X at row Y in BoldFontGlyphs, ending at the right
 									; margin
-	jsl.l CODE_C4BD04
-	bra CODE_C4BBF5
-CODE_C4BC14:						; no caller found (not traced)
-	jsl.l CODE_C4BD10
-	bra CODE_C4BC44
+	jsl.l RenderBoldRight
+	bra UploadAndMapText
+PrintBoldRightROMStr:				; print a right-aligned ROM string in the bold font
+	jsl.l RenderBoldRightROMStr
+	bra UploadAndMapTextJump
 PrintBoldRightStr:					; PrintBoldRight for the string X in RAM
-	jsl.l CODE_C4BD0A
-	bra CODE_C4BBF5
+	jsl.l RenderBoldRightStr
+	bra UploadAndMapText
 PrintItalicRightStr:				; PrintItalicRight for the string X in RAM
-	jsl.l CODE_C4BD8A
-	bra CODE_C4BBF5
+	jsl.l RenderItalicRightStr
+	bra UploadAndMapText
 PrintItalicLeft:					; prints the packed text X at row Y in ItalicFontGlyphs from the left
 									; margin
-	jsl.l CODE_C4BD2B
-	bra CODE_C4BBF5
+	jsl.l RenderItalicLeft
+	bra UploadAndMapText
 CODE_C4BC2C:						; called from other segments
 	sta.b p0
 	jsl.l UnpackText
@@ -1483,8 +1483,8 @@ CODE_C4BC32:						; from CODE_C4BC46
 	lda.b $CF
 	jsl.l DrawText
 	ply
-CODE_C4BC44:						; from CODE_C4BC14, CODE_C4BC54, CODE_C4BC98, PrintItalicLeftStr, ...
-	bra CODE_C4BBF5
+UploadAndMapTextJump:				; continue to queue and map the rendered text
+	bra UploadAndMapText
 CODE_C4BC46:						; called from other segments
 	sta.b p0
 	jsl.l CopyString
@@ -1501,7 +1501,7 @@ CODE_C4BC54:						; from CODE_C4BC68
 	lda.b $CF
 	jsl.l DrawText
 	ply
-	bra CODE_C4BC44
+	bra UploadAndMapTextJump
 CODE_C4BC68:						; called from other segments
 	sta.b p0
 	jsl.l CopyString
@@ -1533,39 +1533,39 @@ CopyString:							; copies the zero ended string at X (bank $7E) into a new work
 	plx
 	ply
 	rtl
-CODE_C4BC98:						; no caller found (not traced)
-	jsl.l CODE_C4BD37
-	bra CODE_C4BC44
+PrintItalicLeftROMStr:				; print a left-aligned ROM string in the italic font
+	jsl.l RenderItalicLeftROMStr
+	bra UploadAndMapTextJump
 PrintItalicLeftStr:					; PrintItalicLeft for the string X in RAM
-	jsl.l CODE_C4BD31
-	bra CODE_C4BC44
+	jsl.l RenderItalicLeftStr
+	bra UploadAndMapTextJump
 PrintItalicCentred:					; prints the packed text X at row Y in ItalicFontGlyphs, centred between
 									; the margins
-	jsl.l CODE_C4BD67
-	bra CODE_C4BC44
+	jsl.l RenderItalicCentred
+	bra UploadAndMapTextJump
 PrintThinCentred:					; prints the packed text X at row Y in ThinFontGlyphs, centred between the
 									; margins
-	jsl.l CODE_C4BD4E
-	bra CODE_C4BC44
+	jsl.l RenderThinCentred
+	bra UploadAndMapTextJump
 PrintItalicCentredStr:				; PrintItalicCentred for the string X in RAM
-	jsl.l CODE_C4BD6B
-	bra CODE_C4BC44
-CODE_C4BCB6:						; no caller found (not traced)
-	jsl.l CODE_C4BD71
-	bra CODE_C4BC44
+	jsl.l RenderItalicCentredStr
+	bra UploadAndMapTextJump
+PrintItalicCentredROMStr:			; print a centred ROM string in the italic font
+	jsl.l RenderItalicCentredROMStr
+	bra UploadAndMapTextJump
 PrintItalicRight:					; prints the packed text X at row Y in ItalicFontGlyphs, ending at the
 									; right margin
-	jsl.l CODE_C4BD90
-	bra CODE_C4BC44
-CODE_C4BCC2:						; from PrintBoldCentred, CODE_C4BBEB and other segments
+	jsl.l RenderItalicRight
+	bra UploadAndMapTextJump
+RenderBoldCentred:					; render centred packed text in the bold font
 	jsl.l UnpackText
-	bra CODE_C4BCD2
-CODE_C4BCC8:						; from PrintBoldCentredStr and other segments
+	bra DrawBoldCentredBuffer
+RenderBoldCentredStr:				; render a centred RAM string in the bold font
 	jsl.l CopyString
-	bra CODE_C4BCD2
-CODE_C4BCCE:						; no caller found (not traced)
-	jsl.l CODE_C4C386
-CODE_C4BCD2:						; from CODE_C4BCC2, CODE_C4BCC8
+	bra DrawBoldCentredBuffer
+RenderBoldCentredROMStr:			; render a centred ROM string in the bold font
+	jsl.l CopyROMString
+DrawBoldCentredBuffer:				; draw the prepared text buffer centred in the bold font
 	stz.b $0E
 	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
@@ -1574,15 +1574,15 @@ CODE_C4BCD2:						; from CODE_C4BCC2, CODE_C4BCC8
 	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BCE4:						; from PrintBoldLeft and other segments
+RenderBoldLeft:						; render left-aligned packed text in the bold font
 	jsl.l UnpackText
-	bra CODE_C4BCF4
-CODE_C4BCEA:						; from PrintBoldLeftStr and other segments
+	bra DrawBoldLeftBuffer
+RenderBoldLeftStr:					; render a left-aligned RAM string in the bold font
 	jsl.l CopyString
-	bra CODE_C4BCF4
-CODE_C4BCF0:						; no caller found (not traced)
-	jsl.l CODE_C4C386
-CODE_C4BCF4:						; from CODE_C4BCE4, CODE_C4BCEA
+	bra DrawBoldLeftBuffer
+RenderBoldLeftROMStr:				; render a left-aligned ROM string in the bold font
+	jsl.l CopyROMString
+DrawBoldLeftBuffer:					; draw the prepared text buffer from the left margin in the bold font
 	stz.b $0E
 	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
@@ -1591,15 +1591,16 @@ CODE_C4BCF4:						; from CODE_C4BCE4, CODE_C4BCEA
 	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD04:						; from PrintBoldRight and other segments
+RenderBoldRight:					; render right-aligned packed text in the bold font
 	jsl.l UnpackText
-	bra CODE_C4BD14
-CODE_C4BD0A:						; from PrintBoldRightStr and other segments
+	bra DrawBoldRightBuffer
+RenderBoldRightStr:					; render a right-aligned RAM string in the bold font
 	jsl.l CopyString
-	bra CODE_C4BD14
-CODE_C4BD10:						; no caller found (not traced)
-	jsl.l CODE_C4C386
-CODE_C4BD14:						; from CODE_C4BD04, CODE_C4BD0A
+	bra DrawBoldRightBuffer
+RenderBoldRightROMStr:				; render a right-aligned ROM string in the bold font
+	jsl.l CopyROMString
+DrawBoldRightBuffer:				; draw the prepared text buffer ending at the right margin in the bold
+									; font
 	stz.b $0E
 	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
@@ -1611,15 +1612,15 @@ CODE_C4BD14:						; from CODE_C4BD04, CODE_C4BD0A
 	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD2B:						; from PrintItalicLeft and other segments
+RenderItalicLeft:					; render left-aligned packed text in the italic font
 	jsl.l UnpackText
-	bra CODE_C4BD3B
-CODE_C4BD31:						; from PrintItalicLeftStr and other segments
+	bra DrawItalicLeftBuffer
+RenderItalicLeftStr:				; render a left-aligned RAM string in the italic font
 	jsl.l CopyString
-	bra CODE_C4BD3B
-CODE_C4BD37:						; no caller found (not traced)
-	jsl.l CODE_C4C386
-CODE_C4BD3B:						; from CODE_C4BD2B, CODE_C4BD31
+	bra DrawItalicLeftBuffer
+RenderItalicLeftROMStr:				; render a left-aligned ROM string in the italic font
+	jsl.l CopyROMString
+DrawItalicLeftBuffer:				; draw the prepared text buffer from the left margin in the italic font
 	lda.w #$0003
 	sta.b $0E
 	lda.w #ItalicFontGlyphs&$FFFF
@@ -1629,7 +1630,7 @@ CODE_C4BD3B:						; from CODE_C4BD2B, CODE_C4BD31
 	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD4E:						; from PrintThinCentred and other segments
+RenderThinCentred:					; render centred packed text in the thin font
 	jsl.l UnpackText
 	lda.w #$0005
 	sta.b $0E
@@ -1640,14 +1641,14 @@ CODE_C4BD4E:						; from PrintThinCentred and other segments
 	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD67:						; from PrintItalicCentred and other segments
+RenderItalicCentred:				; unpack and render centred text in the italic font
 	jsl.l UnpackText
-CODE_C4BD6B:						; from PrintItalicCentredStr and other segments
+RenderItalicCentredStr:				; render a centred RAM string in the italic font
 	jsl.l CopyString
-	bra CODE_C4BD75
-CODE_C4BD71:						; no caller found (not traced)
-	jsl.l CODE_C4C386
-CODE_C4BD75:						; from CODE_C4BD6B
+	bra DrawItalicCentredBuffer
+RenderItalicCentredROMStr:			; render a centred ROM string in the italic font
+	jsl.l CopyROMString
+DrawItalicCentredBuffer:			; draw the prepared text buffer centred in the italic font
 	lda.w #$0003
 	sta.b $0E
 	lda.w #ItalicFontGlyphs&$FFFF
@@ -1657,12 +1658,13 @@ CODE_C4BD75:						; from CODE_C4BD6B
 	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD8A:						; from PrintItalicRightStr and other segments
+RenderItalicRightStr:				; render a right-aligned RAM string in the italic font
 	jsl.l CopyString
-	bra CODE_C4BD94
-CODE_C4BD90:						; from PrintItalicRight and other segments
+	bra DrawItalicRightBuffer
+RenderItalicRight:					; render right-aligned packed text in the italic font
 	jsl.l UnpackText
-CODE_C4BD94:						; from CODE_C4BD8A
+DrawItalicRightBuffer:				; draw the prepared text buffer ending at the right margin in the italic
+									; font
 	lda.w #$0003
 	sta.b $0E
 	lda.w #ItalicFontGlyphs&$FFFF
@@ -1727,16 +1729,17 @@ PrintTitleBar:						; prints a bar at row Y as wide as A says: its left end, mid
 	tax
 	sep #$20
 	lda.b #$5B
-	jsr.w CODE_C4BE2E
+	jsr.w AppendTitleBarByte
 	inc a
-.loop:								; loop: call CODE_C4BE2E, Y - 1, if the result is not 0 go to .loop, ...
-	jsr.w CODE_C4BE2E
+.loop:								; loop: call AppendTitleBarByte, Y - 1, if the result is not 0 go to
+									; .loop, ...
+	jsr.w AppendTitleBarByte
 	dey
 	bne .loop
 	inc a
-	jsr.w CODE_C4BE2E
+	jsr.w AppendTitleBarByte
 	lda.b #$00
-	jsr.w CODE_C4BE2E
+	jsr.w AppendTitleBarByte
 	rep #$20
 	stz.b $0E
 	lda.w #BoldFontGlyphs&$FFFF
@@ -1747,7 +1750,7 @@ PrintTitleBar:						; prints a bar at row Y as wide as A says: its left end, mid
 	ply
 	jsl.l QueueTextTiles
 	jmp.w MapTextTiles
-CODE_C4BE2E:						; from PrintTitleBar
+AppendTitleBarByte:					; append one byte to the title bar string
 	sta.l $7E0000,x
 	inx
 	rts

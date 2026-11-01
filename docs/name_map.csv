@@ -4556,8 +4556,6 @@ $C4C350,.4,CODE_C4C350,new,"branch target only used in TextWidth",src/bankC4_C00
 $C4C357,.5,CODE_C4C357,new,"branch target only used in TextWidth",src/bankC4_C000.asm
 $C4C35B,.6,CODE_C4C35B,new,"branch target only used in TextWidth",src/bankC4_C000.asm
 $C4C375,.7,CODE_C4C375,new,"branch target only used in TextWidth",src/bankC4_C000.asm
-$C4C38D,.loop,CODE_C4C38D,new,"branch target only used in CODE_C4C386",src/bankC4_C000.asm
-$C4C397,.1,CODE_C4C397,new,"branch target only used in CODE_C4C386",src/bankC4_C000.asm
 $C4C3CD,.1,CODE_C4C3CD,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
 $C4C3EC,.2,CODE_C4C3EC,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
 $C4C3F4,.3,CODE_C4C3F4,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
@@ -7853,3 +7851,37 @@ $C4952D,.1,CODE_C4952D,new,"branch target only used in PredictPuckGoalCrossing",
 $C49559,.2,CODE_C49559,new,"branch target only used in PredictPuckGoalCrossing",src/bankC4_9000.asm
 $C49565,.3,CODE_C49565,new,"branch target only used in PredictPuckGoalCrossing",src/bankC4_9000.asm
 $C4956B,InvalidatePuckGoalCrossing,CODE_C4956B,code,"94S pucknorm local .17 stores -1 in puckcross+2,y",src/bankC4_9000.asm
+$C4C386,CopyROMString,CODE_C4C386,code,"same allocation and zero-terminated scan as CopyString but source bank is C3; copies through CODE_C58AF3 into work buffer",src/bankC4_C000.asm
+$C4C38D,.loop,CODE_C4C38D,new,"branch target only used in CopyROMString",src/bankC4_C000.asm
+$C4C397,.1,CODE_C4C397,new,"branch target only used in CopyROMString",src/bankC4_C000.asm
+$C4BBF5,UploadAndMapText,CODE_C4BBF5,code,"shared print tail calls QueueTextTiles then jumps to MapTextTiles",src/bankC4_B000.asm
+$C4BC44,UploadAndMapTextJump,CODE_C4BC44,code,"shared branch-only print tail branches to UploadAndMapText",src/bankC4_B000.asm
+$C4BCC2,RenderBoldCentred,CODE_C4BCC2,code,"UnpackText followed by bold font setup, CentreText and DrawText without upload",src/bankC4_B000.asm
+$C4BCC8,RenderBoldCentredStr,CODE_C4BCC8,code,"CopyString then bold font setup, CentreText and DrawText",src/bankC4_B000.asm
+$C4BCCE,RenderBoldCentredROMStr,CODE_C4BCCE,code,"CopyROMString then bold font setup, CentreText and DrawText; no caller found",src/bankC4_B000.asm
+$C4BCD2,DrawBoldCentredBuffer,CODE_C4BCD2,code,"sets BoldFontGlyphs and flags zero, saves Y, calls CentreText and DrawText",src/bankC4_B000.asm
+$C4BCE4,RenderBoldLeft,CODE_C4BCE4,code,"UnpackText then bold left-margin DrawText path",src/bankC4_B000.asm
+$C4BCEA,RenderBoldLeftStr,CODE_C4BCEA,code,"CopyString then bold left-margin DrawText path",src/bankC4_B000.asm
+$C4BCF0,RenderBoldLeftROMStr,CODE_C4BCF0,code,"CopyROMString then bold left-margin DrawText path",src/bankC4_B000.asm
+$C4BCF4,DrawBoldLeftBuffer,CODE_C4BCF4,code,"BoldFontGlyphs with zero flags, DrawText starting at left margin",src/bankC4_B000.asm
+$C4BD04,RenderBoldRight,CODE_C4BD04,code,"UnpackText then bold TextWidth and right-margin-minus-width DrawText",src/bankC4_B000.asm
+$C4BD0A,RenderBoldRightStr,CODE_C4BD0A,code,"CopyString then bold TextWidth and right-margin-minus-width DrawText",src/bankC4_B000.asm
+$C4BD10,RenderBoldRightROMStr,CODE_C4BD10,code,"CopyROMString then bold right-margin-minus-width DrawText",src/bankC4_B000.asm
+$C4BD14,DrawBoldRightBuffer,CODE_C4BD14,code,"BoldFontGlyphs, TextWidth, subtract width from right margin and DrawText",src/bankC4_B000.asm
+$C4BD2B,RenderItalicLeft,CODE_C4BD2B,code,"UnpackText then ItalicFontGlyphs flags 3 and left-margin DrawText",src/bankC4_B000.asm
+$C4BD31,RenderItalicLeftStr,CODE_C4BD31,code,"CopyString then italic left-margin DrawText",src/bankC4_B000.asm
+$C4BD37,RenderItalicLeftROMStr,CODE_C4BD37,code,"CopyROMString then italic left-margin DrawText",src/bankC4_B000.asm
+$C4BD3B,DrawItalicLeftBuffer,CODE_C4BD3B,code,"ItalicFontGlyphs flags 3 and DrawText at left margin, preserving Y",src/bankC4_B000.asm
+$C4BD4E,RenderThinCentred,CODE_C4BD4E,code,"UnpackText, ThinFontGlyphs flags 5, CentreText and DrawText",src/bankC4_B000.asm
+$C4BD67,RenderItalicCentred,CODE_C4BD67,code,"UnpackText then falls through CopyString and italic centred DrawText",src/bankC4_B000.asm
+$C4BD6B,RenderItalicCentredStr,CODE_C4BD6B,code,"CopyString then italic centred DrawText",src/bankC4_B000.asm
+$C4BD71,RenderItalicCentredROMStr,CODE_C4BD71,code,"CopyROMString then italic centred DrawText",src/bankC4_B000.asm
+$C4BD75,DrawItalicCentredBuffer,CODE_C4BD75,code,"ItalicFontGlyphs flags 3, CentreText and DrawText preserving Y",src/bankC4_B000.asm
+$C4BD8A,RenderItalicRightStr,CODE_C4BD8A,code,"CopyString then italic right-margin-minus-width DrawText",src/bankC4_B000.asm
+$C4BD90,RenderItalicRight,CODE_C4BD90,code,"UnpackText then italic right-margin-minus-width DrawText",src/bankC4_B000.asm
+$C4BD94,DrawItalicRightBuffer,CODE_C4BD94,code,"ItalicFontGlyphs flags 3, TextWidth and right margin minus width passed to DrawText",src/bankC4_B000.asm
+$C4BC02,PrintBoldLeftROMStr,CODE_C4BC02,code,"RenderBoldLeftROMStr followed by shared QueueTextTiles and MapTextTiles tail",src/bankC4_B000.asm
+$C4BC14,PrintBoldRightROMStr,CODE_C4BC14,code,"RenderBoldRightROMStr followed by shared upload and map tail",src/bankC4_B000.asm
+$C4BC98,PrintItalicLeftROMStr,CODE_C4BC98,code,"RenderItalicLeftROMStr followed by shared upload and map tail",src/bankC4_B000.asm
+$C4BCB6,PrintItalicCentredROMStr,CODE_C4BCB6,code,"RenderItalicCentredROMStr followed by shared upload and map tail",src/bankC4_B000.asm
+$C4BE2E,AppendTitleBarByte,CODE_C4BE2E,code,"8-bit store A to bank 7E at X then increment X and rts",src/bankC4_B000.asm

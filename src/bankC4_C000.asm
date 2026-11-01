@@ -578,7 +578,7 @@ TextWidth:							; the width in pixels of the text at X in the font of $0E (per 
 	sta.w $18DA
 	plx
 	rtl
-CODE_C4C386:						; called from other segments
+CopyROMString:						; copy the zero-terminated ROM string at X into a new work buffer
 	phy
 	phx
 	ldy.w #$0001
