@@ -7468,7 +7468,7 @@ $C5C826,DrawReleasePage,CODE_C5C826,code,"the page at $C353D5; ReleasePlayers ca
 $C5CB36,DrawTradePage,CODE_C5CB36,code,"the page at $C356F2; TradePlayers calls it",src/bankC5_C000.asm
 $C5AFCC,DrawLeagueLeaders,CODE_C5AFCC,code,"LeagueLeadersScreen falls into it, LeagueLeadersInput comes back to it; the page at $C3556D",src/bankC5_B000.asm
 $C5B7F1,DrawSeasonTeamStats,CODE_C5B7F1,code,"SeasonTeamStats calls it, SeasonTeamStatsInput comes back to it on left / right",src/bankC5_B000.asm
-$C5881C,MapSetToWRAM,CODE_C5881C,code,"the three chunks of a map set (HANDOFF) through DecompressLZSS and CODE_C58467; MapSetToVRAM's counterpart for a buffer; the award, cup, rink, bracket and pad button sets use it",src/bankC5_8000.asm
+$C5881C,MapSetToWRAM,CODE_C5881C,code,"the three chunks of a map set (HANDOFF) through DecompressLZSS and CODE_C58467; MapSetToVRAM's counterpart for a buffer; used for AwardPictures, StanleyCupMap, PadButtonsMap, FaceOffMap, PauseScreenMap, RefsMap (MapSetToUnpackbuf for IceRinkMap, PlayoffBracketMap, TeamNameBarsMap)",src/bankC5_8000.asm
 $C58812,MapSetToUnpackbuf,CODE_C58812,code,"sets r1 / $32 to unpackbuf, then the same steps as MapSetToWRAM",src/bankC5_8000.asm
 $C58CCD,RandomBelowA,CODE_C58CCD,code,"a shift generator in $466E-$4671; WRDIVL / WRDIVB, then RDMPYL (the remainder) after the divide's wait",src/bankC5_8000.asm
 $C58B48,SetupMode7Screen,CODE_C58B48,code,"IntroSequence calls it first",src/bankC5_8000.asm

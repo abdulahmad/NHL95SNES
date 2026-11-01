@@ -1196,14 +1196,14 @@ CODE_C58944:						; called from other segments
 	pea.w $0000
 	pea.w $5800
 	pea.w $1808
-	pea.w $00C5
-	pea.w $8942
+	pea.w DATA8_C58942>>16
+	pea.w DATA8_C58942&$FFFF
 	pea.w $0200
 	pea.w $0080
 	pea.w $5800
 	pea.w $1908
-	pea.w $00C5
-	pea.w $8943
+	pea.w DATA8_C58942>>16
+	pea.w (DATA8_C58942+1)&$FFFF
 	lda.b $02
 	tsx
 	tcs
@@ -1221,14 +1221,14 @@ CODE_C5897B:						; called from other segments
 	pea.w $0000
 	pea.w $5800
 	pea.w $1808
-	pea.w $00C5
-	pea.w $8942
+	pea.w DATA8_C58942>>16
+	pea.w DATA8_C58942&$FFFF
 	pea.w $0400
 	pea.w $0080
 	pea.w $5800
 	pea.w $1908
-	pea.w $00C5
-	pea.w $8943
+	pea.w DATA8_C58942>>16
+	pea.w (DATA8_C58942+1)&$FFFF
 	lda.b $02
 	tsx
 	tcs
