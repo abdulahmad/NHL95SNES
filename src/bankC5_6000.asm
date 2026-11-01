@@ -582,7 +582,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	stz.b $7D
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	stz.w $058D
 .1:									; $18 = $00D0, $1A = $0028, $CF = $00A8, $D1 = $00F0, ...
 	lda.w #$00D0
@@ -1719,7 +1719,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	stz.b $79
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 .1:									; call CODE_C56F5C, $18 = $00D0, $1A = $0028, $CF = $00A8, ...
 	jsr.w CODE_C56F5C
 	lda.w #$00D0

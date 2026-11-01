@@ -1233,7 +1233,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	lda.w #BlueColoursHook&$FFFF
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$8000
 	sta.w DMAEnShadow
 	lda.w #$001F
@@ -1307,10 +1307,10 @@ CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	inc.b $38,x
 	ldy.w #$2801
 	ldx.w #$5194
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$2C01
 	ldx.w #$5184
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	lda.w #$0020
 	sta.b $CF
 	lda.w #$0068
@@ -1433,7 +1433,7 @@ CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
 	jsl.l CreateSprite
 	stx.b $77
 	lda.w #$0001
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.b a4
 	clc
 	adc.b $71
@@ -1446,7 +1446,7 @@ CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
 	jsl.l CreateSprite
 	stx.b $79
 	lda.w #$0002
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	stz.b a3
 	lda.b a4
 	sta.b $6D

@@ -149,7 +149,7 @@ DATA8_C4D10A:						; not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_
 TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayersMap, run by
 									; tasks
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	jsl.l CODE_C4C574
 	jsl.l CODE_C5E50E
 	lda.w #$FFFF
@@ -597,8 +597,8 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	sta.b a3
 	ldy.w #$0000
 	jsl.l CODE_C4B970
-	ldx.w #DATA8_C4BAD6>>16
-	lda.w #DATA8_C4BAD6&$FFFF
+	ldx.w #TextPalettes>>16
+	lda.w #TextPalettes&$FFFF
 	ldy.b d5
 	jsl.l CODE_C4B8D1
 	lda.b $D3
@@ -726,7 +726,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	lda.w #$001C
 	jsl.l CreateSprite
 	lda.w #$0005
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w #$0018
 	sta.b $1A
 	lda.w #$0039
@@ -734,7 +734,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	lda.w #$001C
 	jsl.l CreateSprite
 	lda.w #$0004
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w #$00A8
 	sta.b $1A
 	lda.w #$00B1
@@ -742,8 +742,8 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	lda.w #$001C
 	jsl.l CreateSprite
 	lda.w #$0004
-	jsl.l CODE_C5ECBD
-	jsl.l CODE_C4BAF6
+	jsl.l SetSpriteAnim
+	jsl.l InitTextMap
 	lda.w #$0004
 	sta.w $18DE
 	lda.w #$54F9
@@ -813,7 +813,7 @@ CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	jsl.l QueueClearVRAM
 	ldy.w #$5C00
 	jsl.l QueueClearVRAM
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	jsl.l WaitTransfers
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -880,7 +880,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	jsl.l WaitTransfers
 	ldy.w #$2864
 	ldx.w #$5245
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$3076
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
@@ -1237,7 +1237,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	jsl.l WaitTransfers
 	ldy.w #$2864
 	ldx.w #$5245
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$3076
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
@@ -1289,7 +1289,7 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	jsl.l WaitTransfers
 	ldy.w #$2864
 	ldx.w #$5245
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	rts
 FindAwardWinner:					; A = the winner of award a0, from its routine in AwardScanTbl
 	lda.w #$0030

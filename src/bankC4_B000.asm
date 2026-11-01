@@ -1302,10 +1302,13 @@ CODE_C4BAC8:						; a task routine: stored as the next routine of a task
 	trb.b $85
 CODE_C4BAD5:						; from CODE_C4BA67, CODE_C4BA75, CODE_C4BAC8
 	rtl
-DATA8_C4BAD6:						; not traced: data between routines
+TextPalettes:						; the 4 text palettes, 4 colours each, that InitTextMap queues to CGRAM
+									; colour 0
 	db $00,$00,$00,$00,$CE,$39,$FF,$7F,$40,$01,$00,$00,$BF,$02,$FF,$03
 	db $40,$01,$00,$00,$0A,$14,$1F,$00,$40,$01,$00,$00,$C6,$18,$EF,$3D
-CODE_C4BAF6:						; called from other segments
+InitTextMap:						; a new text map: $800 bytes cleared from the work buffer, the text
+									; palettes (TextPalettes) to CGRAM, the margins 0 / $100 and the space
+									; width 9
 	ldy.w #$0004
 	lda.w #$0800
 	jsl.l AllocClearWorkBuf

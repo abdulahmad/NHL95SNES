@@ -804,7 +804,8 @@ CODE_C38799:						; called from other segments
 	cpx.w #$0020
 	bcc .loop
 	rtl
-CODE_C387D8:						; called from other segments
+MapTileBlock:						; writes 2 rows of 9 tile entries, numbered on from Y, to the VRAM map at
+									; X (the second row at X + $20)
 	lda.w #$0080
 	sta.l VMAIN
 	txa
@@ -815,7 +816,7 @@ CODE_C387D8:						; called from other segments
 	clc
 	adc.w #$0020
 	sta.l VMADDL
-CODE_C387F2:						; from CODE_C387D8 and other segments
+CODE_C387F2:						; from MapTileBlock and other segments
 	tya
 	ldy.w #$0008
 .loop:								; loop: VMDATAL = A, A + 1, Y - 1, if the result >= 0 go to .loop, ...

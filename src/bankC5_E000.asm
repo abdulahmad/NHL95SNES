@@ -1780,7 +1780,8 @@ CODE_C5ECA5:						; no caller found (not traced)
 	and.w #$7FFF
 	sta.b $36,x
 	rts
-CODE_C5ECBD:						; called from other segments
+SetSpriteAnim:						; starts animation script A of sprite object X (from its record's script
+									; list); when it already has A, restarts it only if it was stopped
 	cmp.b $1E,x
 	beq .1
 	sta.b $1E,x

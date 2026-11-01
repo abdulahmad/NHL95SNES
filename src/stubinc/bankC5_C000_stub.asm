@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C387D8 = $C387D8
+MapTileBlock = $C387D8
 DATA8_C3585C = $C3585C
 DATA8_C35E5B = $C35E5B
 PlayerList = $C30038
@@ -15,7 +15,7 @@ SendTextMap = $C4C2AA
 UnpackText = $C4C3BA
 ResetWorkBuf = $C4C530
 WaitTransfers = $C4CEDB
-CODE_C4BAF6 = $C4BAF6
+InitTextMap = $C4BAF6
 PrintTextPage = $C4BB5A
 PrintBoldCentred = $C4BBE5
 PrintBoldCentredStr = $C4BBF1
@@ -42,7 +42,7 @@ BuildSpriteOAM = $C5F0D1
 CODE_C5F3DB = $C5F3DB
 AnimateSprites = $C5E9C7
 DeleteSprite = $C5E596
-CODE_C5ECBD = $C5ECBD
+SetSpriteAnim = $C5ECBD
 CreateSprite = $C5E665
 TradeValue = $C5D00D
 ExecuteTrade = $C5D08C

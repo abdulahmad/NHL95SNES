@@ -226,7 +226,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$56CE
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
@@ -267,7 +267,7 @@ CODE_C59217:						; from setoptions
 	jsl.l CreateSprite
 	stx.b a4
 	lda.w #$0001
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w #$00C4
 	sta.b $1A
 	lda.w #$001C
@@ -275,7 +275,7 @@ CODE_C59217:						; from setoptions
 	stx.b $75
 	inc.b $38,x
 	lda.w #$0002
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	rts
 DATA8_C59249:						; not reached by the traced code (data or unused code)
 	db $00,$00,$AD,$06,$19,$8F,$45,$60,$30,$D0,$23,$AD,$08,$19,$D0,$1E
@@ -613,7 +613,7 @@ ControllerSetupScreen:				; builds the controller setup screen: a sprite for eac
 	sta.b $1A
 	tya
 	lsr a
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	dey
 	dey
 	bpl .loop
@@ -1683,7 +1683,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	jsl.l WaitTransfers
 	ldx.b a0
 	lda.w #$0003
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.b $36,x
 	and.w #$BFFF
 	sta.b $36,x

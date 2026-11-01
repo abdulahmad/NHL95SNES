@@ -245,7 +245,7 @@ CODE_C5D1C5:						; from UserNameEntry
 	jsl.l CreateSprite
 	stx.b a0
 	lda.w #$0003
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	rts
 DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user names,
 									; numbered
@@ -265,9 +265,9 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	cmp.w $17C9
 	beq .1
 	ldy.w #$2C01
-.1:									; X = $5115, call CODE_C387D8, X = d7, Y = $9D, ...
+.1:									; X = $5115, call MapTileBlock, X = d7, Y = $9D, ...
 	ldx.w #$5115
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldx.b d7
 	ldy.b $9D
 	lda.b a2
@@ -599,7 +599,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	jsl.l SendTextMap
 	ldx.b a0
 	lda.w #$0003
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w #$0010
 	sta.b $05,x
 	lda.b $65
@@ -654,11 +654,11 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	sta.w $04F5,x
 	inx
 	bra .loop
-.2:									; call CODE_C5D5A5, X = a0, A = $0000, call CODE_C5ECBD, ...
+.2:									; call CODE_C5D5A5, X = a0, A = $0000, call SetSpriteAnim, ...
 	jsr.w CODE_C5D5A5
 	ldx.b a0
 	lda.w #$0000
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	stz.b a1
 	jsr.w CODE_C5D54B
 	rts
@@ -1262,12 +1262,12 @@ CODE_C5D8E7:						; called from other segments
 	jsl.l CreateSprite
 	stx.b d3
 	lda.w #$0001
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w #$001C
 	jsl.l CreateSprite
 	stx.b $8D
 	lda.w #$0002
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.b $77
 	sta.b $91
 	lda.b a4

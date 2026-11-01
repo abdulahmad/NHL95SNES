@@ -20,7 +20,7 @@ CODE_C5AFCC:						; called from other segments
 	ldy.w #$5C00
 	jsl.l ClearVRAM
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	jsl.l WaitTransfers
 	pla
 	jsr.w CODE_C5B631
@@ -106,13 +106,13 @@ SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (recor
 	sta.l TM
 	rep #$20
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$55F1
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$50A8
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	stz.w $17C9
 	stz.b d7
 	jsr.w CODE_C5B7F1
@@ -146,13 +146,13 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	sta.l TM
 	rep #$20
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$5583
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$50A8
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	lda.w #$0002
 	sta.w $1864
 	stz.w $17C9
@@ -190,7 +190,7 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 	ldy.w #$5C00
 	jsl.l ClearVRAM
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$5553
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers

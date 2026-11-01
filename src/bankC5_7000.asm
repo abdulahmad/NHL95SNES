@@ -521,7 +521,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	jsl.l GetPadTeam
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	lda.w #$00D0
 	sta.b $18
 	lda.w #$0028
@@ -1183,7 +1183,7 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	jsl.l GetPadTeam
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	lda.w #$00D0
 	sta.b $18
 	lda.w #$0028

@@ -162,7 +162,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.w BG2VScroll
 	ldy.w #$5C00
 	jsl.l QueueClearVRAM
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -278,10 +278,10 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b $36,x
 	ldy.w #$2801
 	ldx.w #$51D4
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$2C01
 	ldx.w #$51C3
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	jsl.l CODE_C5A4B5
 	jsl.l CODE_C5A4DE
 	jsl.l WaitTransfers

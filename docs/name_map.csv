@@ -724,7 +724,7 @@ $C4A615,DATA8_C4A615,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A0
 $C4A62D,DATA8_C4A62D,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A000)",src/bankC4_A000.asm
 $C4A645,DATA8_C4A645,,new,"not traced: a table read by CODE_C4A52A (in bankC4_A000)",src/bankC4_A000.asm
 $C4B35D,DATA8_C4B35D,,new,"not traced: a table read by CODE_C4B32D (in bankC4_B000)",src/bankC4_B000.asm
-$C4BAD6,DATA8_C4BAD6,,new,"not traced: data between routines (in bankC4_B000)",src/bankC4_B000.asm
+$C4BAD6,TextPalettes,DATA8_C4BAD6,code,"32 bytes; InitTextMap queues Y * 8 of them",src/bankC4_B000.asm
 $C4C07D,DATA8_C4C07D,,new,"the 8 routines CODE_C4BF1A runs (address - 1: pushed, then rts) (in bankC4_C000)",src/bankC4_C000.asm
 $C4C420,DATA8_C4C420,,new,"not traced: a table read by CODE_C4C419 (in bankC4_C000)",src/bankC4_C000.asm
 $C4C4A6,DATA8_C4C4A6,,new,"not traced: data between routines (in bankC4_C000)",src/bankC4_C000.asm
@@ -4725,7 +4725,7 @@ $C4B946,.1,CODE_C4B946,new,"branch target only used in CODE_C4B93A",src/bankC4_B
 $C4B953,.2,CODE_C4B953,new,"branch target only used in CODE_C4B93A",src/bankC4_B000.asm
 $C4B974,.loop,CODE_C4B974,new,"branch target only used in CODE_C4B970",src/bankC4_B000.asm
 $C4BA56,.loop,CODE_C4BA56,new,"branch target only used in DeveloperCredits",src/bankC4_B000.asm
-$C4BB2C,.1,CODE_C4BB2C,new,"branch target only used in CODE_C4BAF6",src/bankC4_B000.asm
+$C4BB2C,.1,CODE_C4BB2C,new,"branch target only used in InitTextMap",src/bankC4_B000.asm
 $C4BB47,.loop,CODE_C4BB47,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
 $C4BB54,.1,CODE_C4BB54,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
 $C4BB7E,.1,CODE_C4BB7E,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
@@ -6873,8 +6873,8 @@ $C5EBA5,.1,CODE_C5EBA5,new,"branch target only used in CODE_C5EB88",src/bankC5_E
 $C5EBC6,.1,CODE_C5EBC6,new,"branch target only used in CODE_C5EBB8",src/bankC5_E000.asm
 $C5EC2E,.1,CODE_C5EC2E,new,"branch target only used in CODE_C5EC1A",src/bankC5_E000.asm
 $C5EC97,.1,CODE_C5EC97,new,"branch target only used in CODE_C5EC89",src/bankC5_E000.asm
-$C5ECDF,.rtl,CODE_C5ECDF,new,"branch target only used in CODE_C5ECBD",src/bankC5_E000.asm
-$C5ECE0,.1,CODE_C5ECE0,new,"branch target only used in CODE_C5ECBD",src/bankC5_E000.asm
+$C5ECDF,.rtl,CODE_C5ECDF,new,"branch target only used in SetSpriteAnim",src/bankC5_E000.asm
+$C5ECE0,.1,CODE_C5ECE0,new,"branch target only used in SetSpriteAnim",src/bankC5_E000.asm
 $C5ED06,.1,CODE_C5ED06,new,"branch target only used in CODE_C5ECF1",src/bankC5_E000.asm
 $C5ED52,.2,CODE_C5ED52,new,"branch target only used in CODE_C5ECF1",src/bankC5_E000.asm
 $C5ED5D,.3,CODE_C5ED5D,new,"branch target only used in CODE_C5ECF1",src/bankC5_E000.asm
@@ -7222,3 +7222,6 @@ $CF040B,StartSound,CODE_CF040B,code,"QueueSoundCmd 1; the songs come with their 
 $CF0134,LoadSounds,CODE_CF0134,code,"waits for the command queue to empty first; then sends the tables at $7E4CC8 / $48B8 / $5052 (CODE_CF02A5)",src/bankCF_0000.asm
 $CF03D0,SoundVolumeUp,CODE_CF03D0,code,"from 0 by $0808; $059C = $7F after; nothing when it is already $7F",src/bankCF_0000.asm
 $CF039E,SoundVolumeDown,CODE_CF039E,code,"from the value in $059C, a sixteenth each step; $059C = 0 after",src/bankCF_0000.asm
+$C5ECBD,SetSpriteAnim,CODE_C5ECBD,code,"the object's $1E (script), $32 (pointer from the list at $2E), $30 (position), $0E (timer), $22 bit $4000",src/bankC5_E000.asm
+$C4BAF6,InitTextMap,CODE_C4BAF6,code,"$D3 = the map, $D5 = $2000 (map bits), MarkWorkBuf; Y = 4 palettes queued (Y = 0 none)",src/bankC4_B000.asm
+$C387D8,MapTileBlock,CODE_C387D8,code,"VMAIN $80, VMADDL, VMDATAL; CODE_C387F2 writes one row",src/bankC3_8000.asm

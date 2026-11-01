@@ -648,7 +648,7 @@ CODE_C40444:						; from CODE_C40000
 	sta.b COLDATA&$FF
 	rep #$20
 	pld
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	ldx.w #$4777
 	ldy.w #$0001
 	stz.b $CF
@@ -855,7 +855,7 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	stz.b $9D
 	jsl.l CODE_C5A507
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	pla
 	jsl.l PrintTextPage
 	ldx.b a0

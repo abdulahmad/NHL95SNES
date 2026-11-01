@@ -1440,7 +1440,7 @@ CODE_C43826:						; called from other segments
 	sta.b $36,x
 	inc.b $38,x
 	lda.w #$0001
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w gsp
 	lsr a
 	lda.w $17CF

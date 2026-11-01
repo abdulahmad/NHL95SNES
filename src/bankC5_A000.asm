@@ -125,7 +125,7 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	ldx.b $75
 	jsl.l DeleteSprite
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$5714
 	jsl.l PrintTextPage
 	sec
@@ -625,7 +625,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	jsl.l DeleteSprite
 	jsr.w CODE_C5A50B
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$56A4
 	jsl.l PrintTextPage
 	clc
@@ -1586,7 +1586,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	jsl.l CreateSprite
 	stx.b a4
 	lda.w #$0001
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	lda.w #$00A4
 	sta.b $1A
 	lda.w #$001C
@@ -1594,12 +1594,12 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	stx.b $75
 	inc.b $38,x
 	lda.w #$0002
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	ldx.b a0
 	lda.w #$002D
 	sta.b $05,x
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$568E
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers

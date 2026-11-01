@@ -130,10 +130,10 @@ CODE_C5C0BE:						; called from other segments
 	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5194
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$2C01
 	ldx.w #$5184
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	lda.w $17C9
 	jsl.l CreateSprite
 	stx.b d7
@@ -274,7 +274,7 @@ CODE_C5C1F6:						; from SignFreeAgents
 CODE_C5C214:						; called from other segments
 	ldy.w #$2C01
 	ldx.w #$5115
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldx.b d7
 	jsl.l DeleteSprite
 	stz.b d7
@@ -289,9 +289,9 @@ CODE_C5C214:						; called from other segments
 	sta.b $08,x
 	ldx.b a0
 	lda.w #$0003
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$53AB
 	jsl.l PrintTextPage
 	lda.w #$0010
@@ -1046,7 +1046,7 @@ CODE_C5C826:						; from ReleasePlayers
 	jsl.l WaitTransfers
 	ldy.w #$2C01
 	ldx.w #$5115
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldx.b d7
 	jsl.l DeleteSprite
 	ldx.b a4
@@ -1060,9 +1060,9 @@ CODE_C5C826:						; from ReleasePlayers
 	sta.b $08,x
 	ldx.b a0
 	lda.w #$0003
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$53D5
 	jsl.l PrintTextPage
 	lda.w #$0010
@@ -1399,18 +1399,18 @@ CODE_C5CB36:						; from TradePlayers
 	jsl.l DeleteSprite
 	ldx.b a0
 	lda.w #$0003
-	jsl.l CODE_C5ECBD
+	jsl.l SetSpriteAnim
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$56F2
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5084
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$2C01
 	ldx.w #$51A4
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$0005
 	lda.w $17C9
 	jsr.w CODE_C5A4A5
@@ -1662,16 +1662,16 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	jsl.l DeleteSprite
 	stz.b $8D
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C4BAF6
+	jsl.l InitTextMap
 	lda.w #$53FF
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5084
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$2C01
 	ldx.w #$5094
-	jsl.l CODE_C387D8
+	jsl.l MapTileBlock
 	ldy.w #$0005
 	lda.w $17C9
 	jsr.w CODE_C5A4A5
