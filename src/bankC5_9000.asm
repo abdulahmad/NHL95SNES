@@ -770,7 +770,7 @@ CODE_C596D3:						; from AskNameOk
 	and.w #$00FF
 	dec a
 	ldx.w #$4673
-	ldy.w #$04F5
+	ldy.w #mesarea
 	mvn $7E,$7E
 	lda.w #$0020
 	sta.w $0000,y
@@ -788,7 +788,7 @@ CODE_C596D3:						; from AskNameOk
 	jsl.l PrintTextPage
 	lda.w #$0010
 	sta.b $CF
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0002
 	jsl.l PrintTitleStr
 	jsl.l SendTextMap
@@ -889,14 +889,14 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	dey
 	cpy.b a3
 	bne .10
-	cmp.w $04F5,y
+	cmp.w mesarea,y
 	bne .11
 .10:								; if a3 = 0 go to .11, Y - 1
 	ldy.b a3
 	beq .11
 	dey
-.11:								; $04F5,y = A, a3 = Y, go to .14
-	sta.w $04F5,y
+.11:								; mesarea,y = A, a3 = Y, go to .14
+	sta.w mesarea,y
 	sty.b a3
 	bra .14
 .12:								; A, X / Y 8-bit, X = d6, A = DATA8_C598FA,x, if a3 = 0 go to .13, ...
@@ -906,17 +906,17 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	ldy.b a3
 	beq .13
 	lda.l $C59915,x
-.13:								; $04F5,y = A, Y + 1, if Y >= $69 go to .14, a3 = Y
-	sta.w $04F5,y
+.13:								; mesarea,y = A, Y + 1, if Y >= $69 go to .14, a3 = Y
+	sta.w mesarea,y
 	iny
 	cpy.b $69
 	bcs .14
 	sty.b a3
-.14:								; A, X / Y 16-bit, A = $000F, Y = $71, X = $04F5, ...
+.14:								; A, X / Y 16-bit, A = $000F, Y = $71, X = mesarea, ...
 	rep #$30
 	lda.w #$000F
 	ldy.b $71
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l CODE_C4BC46
 	jsl.l WaitTransfers
 	rts
@@ -931,10 +931,10 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	jsr.w CODE_C598C9
 	jsr.w CODE_C598EB
 	tyx
-	stz.w $04F5,x
+	stz.w mesarea,x
 	tya
 	sta.w $4672
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$4673
 	mvn $7E,$7E
 	ldy.b $71
@@ -942,12 +942,12 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	jsl.l PrintItalicLeftStr
 	jsl.l SendTextMap
 	lda.w #$3E3E
-	sta.w $04F5
-	sta.w $04F7
-	sta.w $04F9
-	sta.w $04FB
-	sta.w $04FD
-	stz.w $04FF
+	sta.w mesarea
+	sta.w mesarea+2
+	sta.w mesarea+4
+	sta.w mesarea+6
+	sta.w mesarea+8
+	stz.w mesarea+10
 	lda.w #$0008
 	sta.b $71
 	lda.w #$000A
@@ -955,14 +955,14 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	stz.b a3
 	jsl.l WaitTransfers
 	rts
-.17:								; call CODE_C598C9, call CODE_C598EB, X = Y, $04F5,x = 0, ...
+.17:								; call CODE_C598C9, call CODE_C598EB, X = Y, mesarea,x = 0, ...
 	jsr.w CODE_C598C9
 	jsr.w CODE_C598EB
 	tyx
-	stz.w $04F5,x
+	stz.w mesarea,x
 	tya
 	sta.w $467C
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$467D
 	mvn $7E,$7E
 	ldy.b $71
@@ -1000,7 +1000,7 @@ CODE_C598EB:						; from NameEntry
 	sep #$30
 	ldy.b a3
 	lda.b #$3E
-	cmp.w $04F5,y
+	cmp.w mesarea,y
 	beq .1
 	iny
 .1:									; A, X / Y 16-bit, return
@@ -1159,8 +1159,8 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	lda.b d0
 	bne .3
 	iny
-.3:									; X = $04F5, call PrintBoldRightStr, go to CODE_C59F79
-	ldx.w #$04F5
+.3:									; X = mesarea, call PrintBoldRightStr, go to CODE_C59F79
+	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
 	jmp.w CODE_C59F79
 DATA8_C59A4A:						; not reached by the traced code (data or unused code)
@@ -1213,8 +1213,8 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	lda.b d0
 	bne .3
 	iny
-.3:									; X = $04F5, call PrintBoldRightStr, go to CODE_C59F79
-	ldx.w #$04F5
+.3:									; X = mesarea, call PrintBoldRightStr, go to CODE_C59F79
+	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
 	jmp.w CODE_C59F79
 CODE_C59AB0:						; from CODE_C599E7, CODE_C59A4B
@@ -1722,7 +1722,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	adc.w #$0019
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
 	ply
 	plx

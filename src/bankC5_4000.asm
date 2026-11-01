@@ -1495,11 +1495,11 @@ CODE_C54BE8:						; no caller found (not traced)
 	cmp.w #$0020
 	bcc .1
 	lda.w #$001F
-.1:									; d0 = A, Y = $0002, $04F5 = $0006, d3 = $0003
+.1:									; d0 = A, Y = $0002, mesarea = $0006, d3 = $0003
 	sta.b d0
 	ldy.w #$0002
 	lda.w #$0006
-	sta.w $04F5
+	sta.w mesarea
 	lda.w #$0003
 	sta.b d3
 .loop:								; loop: d2 = $FFFF, if d0 < 0 go to .2, d2 = A, ...
@@ -1519,8 +1519,8 @@ CODE_C54BE8:						; no caller found (not traced)
 	and.w #$00FF
 	bne .3
 	lda.w #$0020
-.3:									; $04F5,y = A, Y + 1, A = d0, A - $0008, ...
-	sta.w $04F5,y
+.3:									; mesarea,y = A, Y + 1, A = d0, A - $0008, ...
+	sta.w mesarea,y
 	iny
 	lda.b d0
 	sec
@@ -1532,9 +1532,9 @@ CODE_C54BE8:						; no caller found (not traced)
 	beq .4
 	lda.w #$0C00
 	tsb.w printa
-.4:									; $69 = 0, a1 = $04F5, A = printx, A - $000B, ...
+.4:									; $69 = 0, a1 = mesarea, A = printx, A - $000B, ...
 	stz.b $69
-	lda.w #$04F5
+	lda.w #mesarea
 	sta.b a1
 	lda.w printx
 	sec
@@ -1543,17 +1543,17 @@ CODE_C54BE8:						; no caller found (not traced)
 	lda.w #$4000
 	tsb.w printa
 	stz.b $69
-	lda.w #$04F5
+	lda.w #mesarea
 	sta.b a1
 	sep #$20
-	lda.w $04FA
-	ldy.w $04F7
-	sty.w $04FA
-	sta.w $04F7
+	lda.w mesarea+5
+	ldy.w mesarea+2
+	sty.w mesarea+5
+	sta.w mesarea+2
 	rep #$30
-	lda.w $04F8
+	lda.w mesarea+3
 	xba
-	sta.w $04F8
+	sta.w mesarea+3
 	lda.w #$4000
 	trb.w printa
 	pla

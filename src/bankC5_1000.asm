@@ -50,12 +50,12 @@ CODE_C5111D:						; no caller found (not traced)
 	sta.b d0
 	jsl.l Mod100
 	stz.b $69
-	lda.w #$04F5
+	lda.w #mesarea
 	sta.b a1
 	lda.w #$0004
 	sta.b [a1]
 	lda.w #$0020
-	sta.w $04F7
+	sta.w mesarea+2
 	lda.b d0
 	sta.b r2
 	lda.w #$000A
@@ -66,11 +66,11 @@ CODE_C5111D:						; no caller found (not traced)
 	lda.b r0
 	beq .2
 	adc.w #$0030
-	sta.w $04F7
+	sta.w mesarea+2
 .2:									; A = RDMPYL, A + $0030, $04F8 = A, return
 	lda.l RDMPYL
 	adc.w #$0030
-	sta.w $04F8
+	sta.w mesarea+3
 	rtl
 AlignBigNumber:						; no caller found (not traced)
 	ldy.w #$0002
@@ -1024,10 +1024,10 @@ CODE_C51911:						; from ShowGoalBox
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$0020
-	sta.w $04F5,x
+	sta.w mesarea,x
 	txa
 	sec
-	adc.w #$04F5
+	adc.w #mesarea
 	tay
 	lda.b $71
 	clc
@@ -1035,7 +1035,7 @@ CODE_C51911:						; from ShowGoalBox
 	tax
 	lda.w #$000D
 	jsr.w CODE_C55F22
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsr.w CODE_C56262
 	jsl.l CopyString2
 	txa

@@ -25,11 +25,11 @@ CODE_C5800C:						; called from other segments
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$6220
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	inx
 	lda.w #$2079
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	inx
 	phx
@@ -42,11 +42,11 @@ CODE_C5800C:						; called from other segments
 	ply
 	jsr.w CODE_C5809A
 	lda.w #$7620
-	sta.w $04F5,y
+	sta.w mesarea,y
 	iny
 	iny
 	lda.w #$2073
-	sta.w $04F5,y
+	sta.w mesarea,y
 	iny
 	iny
 	phy
@@ -59,8 +59,8 @@ CODE_C5800C:						; called from other segments
 	ply
 	jsr.w CODE_C5809A
 	lda.w #$0000
-	sta.w $04F5,y
-	ldx.w #$04F5
+	sta.w mesarea,y
+	ldx.w #mesarea
 	ldy.b $6D
 CODE_C58091:						; from CODE_C5800C
 	jsl.l PrintBoldCentredStr
@@ -69,10 +69,10 @@ CODE_C58091:						; from CODE_C5800C
 	rts
 CODE_C5809A:						; from CODE_C5800C
 	sep #$20
-.loop:								; loop: if $0000,x = 0 go to .1, $04F5,y = A, X + 1, Y + 1, ...
+.loop:								; loop: if $0000,x = 0 go to .1, mesarea,y = A, X + 1, Y + 1, ...
 	lda.w $0000,x
 	beq .1
-	sta.w $04F5,y
+	sta.w mesarea,y
 	inx
 	iny
 	bra .loop

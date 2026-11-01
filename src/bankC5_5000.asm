@@ -617,7 +617,7 @@ CODE_C553D6:						; from CODE_C553CC
 	and.w #$000F
 	jsr.w BCDTextAt
 	lda.w #$0020
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	pla
 	and.w #$07FF
@@ -625,8 +625,8 @@ CODE_C553D6:						; from CODE_C553CC
 	jsr.w CODE_C560AC
 	plx
 	sep #$20
-.loop:								; loop: A = $04F5,x, X + 1, if $04F5,x is not $3F go to .loop, ...
-	lda.w $04F5,x
+.loop:								; loop: A = mesarea,x, X + 1, if mesarea,x is not $3F go to .loop, ...
+	lda.w mesarea,x
 	inx
 	cmp.b #$3F
 	bne .loop
@@ -638,8 +638,8 @@ CODE_C553D6:						; from CODE_C553CC
 	pha
 	tay
 	ldx.w #$0000
-.loop2:								; loop: A = $04F5,x, if the result = 0 go to .2, A + $0080, ...
-	lda.w $04F5,x
+.loop2:								; loop: A = mesarea,x, if the result = 0 go to .2, A + $0080, ...
+	lda.w mesarea,x
 	and.w #$00FF
 	beq .2
 	clc
@@ -1718,7 +1718,7 @@ CODE_C55D8A:						; from DATA8_C55D6B
 	and.w #$00FF
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55DAC:						; from DATA8_C55D6B
@@ -1733,7 +1733,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003E
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	txy
 	ldx.b $65
@@ -1748,7 +1748,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	tyx
 	jsr.w BCDTextAt
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55DEF:						; from DATA8_C55D6B
@@ -1778,12 +1778,12 @@ CODE_C55DEF:						; from DATA8_C55D6B
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-.2:									; call BCDText, $04F5,x = $003C, Y = $6D, X = $04F5, ...
+.2:									; call BCDText, mesarea,x = $003C, Y = $6D, X = mesarea, ...
 	jsr.w BCDText
 	lda.w #$003C
-	sta.w $04F5,x
+	sta.w mesarea,x
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55E3D:						; from DATA8_C55D6B
@@ -1795,7 +1795,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	lda.b (tmp0)
 	jsr.w CODE_C5605D
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55E57:						; called from other segments
@@ -1867,7 +1867,7 @@ BCDTextAt:							; the BCD number A as text (no leading zeros, zero ended) at X 
 	lsr a
 	lsr a
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	iny
 .1:									; A = $01,s, if the result is not 0 go to .2, if Y = $0000 go to .3
@@ -1877,10 +1877,10 @@ BCDTextAt:							; the BCD number A as text (no leading zeros, zero ended) at X 
 	bne .2
 	cpy.w #$0000
 	beq .3
-.2:									; A + $0030, $04F5,x = A, X + 1, Y + 1
+.2:									; A + $0030, mesarea,x = A, X + 1, Y + 1
 	clc
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	iny
 .3:									; A = $01,s, if the result is not 0 go to .4, if Y = $0000 go to .5
@@ -1895,21 +1895,21 @@ BCDTextAt:							; the BCD number A as text (no leading zeros, zero ended) at X 
 	lsr a
 	lsr a
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	iny
-.5:									; A = $01,s, A and $000F, A + $0030, $04F5,x = A, ...
+.5:									; A = $01,s, A and $000F, A + $0030, mesarea,x = A, ...
 	lda.b $01,s
 	and.w #$000F
 	clc
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	pla
 	ply
 	rts
 CODE_C55F1F:						; called from other segments
-	ldy.w #$04F5
+	ldy.w #mesarea
 CODE_C55F22:						; from CODE_C55F8A and other segments
 	sty.b $2E
 	sta.b r0

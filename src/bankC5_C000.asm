@@ -448,7 +448,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	and.w #$00FF
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	lda.b $01,s
 	clc
@@ -463,9 +463,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	jsl.l PrintBoldLeftStr
 	plx
 	ldy.w #$0000
-.loop:								; loop: $04F5,y = $C30000,x, X + 1, X + 1, Y + 1, ...
+.loop:								; loop: mesarea,y = $C30000,x, X + 1, X + 1, Y + 1, ...
 	lda.l $C30000,x
-	sta.w $04F5,y
+	sta.w mesarea,y
 	inx
 	inx
 	iny
@@ -492,8 +492,8 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	clc
 	adc.w #$0040
 	adc.b $A5
-.7:									; $04F5,x = A, $A5 = $0020, X + 1, if X is not $0008 go to .5, ...
-	sta.w $04F5,x
+.7:									; mesarea,x = A, $A5 = $0020, X + 1, if X is not $0008 go to .5, ...
+	sta.w mesarea,x
 	lda.w #$0020
 	sta.b $A5
 	inx
@@ -512,9 +512,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	bra .loop2
 .9:									; pull X
 	plx
-.10:								; $04F5,x = $0020, $A5 = 0, X + 1, push X
+.10:								; mesarea,x = $0020, $A5 = 0, X + 1, push X
 	lda.w #$0020
-	sta.w $04F5,x
+	sta.w mesarea,x
 	stz.b $A5
 	inx
 	phx
@@ -532,8 +532,8 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	clc
 	adc.w #$0040
 	adc.b $A5
-.13:								; $04F5,x = A, $A5 = $0020, X + 1, A = X, ...
-	sta.w $04F5,x
+.13:								; mesarea,x = A, $A5 = $0020, X + 1, A = X, ...
+	sta.w mesarea,x
 	lda.w #$0020
 	sta.b $A5
 	inx
@@ -554,12 +554,12 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	plx
 	inx
 	bra .loop3
-.14:								; pull X, $65 = Y, $CF = $0024, X = $04F5, ...
+.14:								; pull X, $65 = Y, $CF = $0024, X = mesarea, ...
 	plx
 	sty.b $65
 	lda.w #$0024
 	sta.b $CF
-	ldx.w #$04F5
+	ldx.w #mesarea
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
@@ -574,7 +574,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	lda.w #$0010
 	sta.b $CF
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	ldy.b $65
 	ldx.w #$0001
@@ -583,7 +583,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	jsr.w CODE_C5D83F
 	plx
 	sep #$20
-	sta.w $04F5,x
+	sta.w mesarea,x
 	rep #$20
 	inx
 	cpx.w #$0008
@@ -604,7 +604,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
 	lda.w #$2000
@@ -865,7 +865,7 @@ CODE_C5C6B7:						; from CODE_C5C6A2, DrawTradeRow, DrawFreeAgentRow, DrawReleas
 	lda.b $0A
 	lsr a
 	tax
-	lda.w $04F5,x
+	lda.w mesarea,x
 	bcs .2
 	lsr a
 	lsr a
@@ -1209,7 +1209,7 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	jsr.w BCDText
 	lda.w #$0010
 	sta.b $CF
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.w #$0024
@@ -1234,13 +1234,13 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	asl a
 	tax
 	lda.w $3317,x
-	sta.w $04F5
+	sta.w mesarea
 	lda.w $3319,x
-	sta.w $04F7
+	sta.w mesarea+2
 	lda.w $331B,x
-	sta.w $04F9
+	sta.w mesarea+4
 	lda.w $331D,x
-	sta.w $04FB
+	sta.w mesarea+6
 	jsr.w CODE_C5C6B7
 	jsr.w BinToBCD
 	jsr.w BCDText
@@ -1248,7 +1248,7 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
 	lda.w #$2000
@@ -1556,7 +1556,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	jsr.w BCDText
 	lda.w #$0010
 	sta.b $CF
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.w #$0024
@@ -1583,13 +1583,13 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	adc.b d2
 	tax
 	lda.w $0110,x
-	sta.w $04F5
+	sta.w mesarea
 	lda.w $0112,x
-	sta.w $04F7
+	sta.w mesarea+2
 	lda.w $0114,x
-	sta.w $04F9
+	sta.w mesarea+4
 	lda.w $0116,x
-	sta.w $04FB
+	sta.w mesarea+6
 	jsr.w CODE_C5C6B7
 	jsr.w BinToBCD
 	jsr.w BCDText
@@ -1597,7 +1597,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
 	lda.w #$2000

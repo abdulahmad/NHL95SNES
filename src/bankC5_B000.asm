@@ -834,7 +834,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	lda.w #$0022
 	sta.b $CF
@@ -867,8 +867,8 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	clc
 	adc.w #$0040
 	adc.b tmp1
-.4:									; $04F5,x = A, tmp1 = $0020, X + 1, if X is not $0008 go to .2, ...
-	sta.w $04F5,x
+.4:									; mesarea,x = A, tmp1 = $0020, X + 1, if X is not $0008 go to .2, ...
+	sta.w mesarea,x
 	lda.w #$0020
 	sta.b tmp1
 	inx
@@ -887,9 +887,9 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	bra .loop
 .6:									; pull X
 	plx
-.7:									; $04F5,x = $0020, tmp1 = 0, X + 1, push X
+.7:									; mesarea,x = $0020, tmp1 = 0, X + 1, push X
 	lda.w #$0020
-	sta.w $04F5,x
+	sta.w mesarea,x
 	stz.b tmp1
 	inx
 	phx
@@ -907,8 +907,8 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	clc
 	adc.w #$0040
 	adc.b tmp1
-.10:								; $04F5,x = A, tmp1 = $0020, X + 1, A = X, ...
-	sta.w $04F5,x
+.10:								; mesarea,x = A, tmp1 = $0020, X + 1, A = X, ...
+	sta.w mesarea,x
 	lda.w #$0020
 	sta.b tmp1
 	inx
@@ -929,10 +929,10 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	plx
 	inx
 	bra .loop2
-.11:								; pull X, $65 = Y, X = $04F5, A = $000C, ...
+.11:								; pull X, $65 = Y, X = mesarea, A = $000C, ...
 	plx
 	sty.b $65
-	ldx.w #$04F5
+	ldx.w #mesarea
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	bra .13
@@ -956,7 +956,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	lda.w $000F,x
 	jsr.w CODE_C5A321
 	ldy.b $6D
-	ldx.w #$04F7
+	ldx.w #mesarea+2
 	jsl.l PrintBoldLeftStr
 	plx
 	phx
@@ -993,7 +993,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	lda.w $0008,x
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
 	plx
 	rts
@@ -1027,7 +1027,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$003E
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.w $0006,y
 	phx
@@ -1035,14 +1035,14 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	plx
 	jsr.w BCDTextAt
 	lda.w #$003E
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.w $0008,y
 	phx
 	jsr.w BinToBCD
 	plx
 	jsr.w BCDTextAt
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0009
 	jsl.l PrintItalicRightStr
 	ply
@@ -1054,7 +1054,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1066,7 +1066,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	lda.b r2
 	and.w #$000F
 	jsr.w BCDTextAt
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintItalicRightStr
 	ply
@@ -1078,7 +1078,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1090,7 +1090,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	lda.b r2
 	and.w #$000F
 	jsr.w BCDTextAt
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000D
 	jsl.l PrintItalicRightStr
 	ply
@@ -1098,7 +1098,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	lda.w $0014,y
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000F
 	jsl.l PrintItalicRightStr
 	ply
@@ -1106,7 +1106,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	lda.w $0016,y
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0011
 	jsl.l PrintItalicRightStr
 	ply
@@ -1118,7 +1118,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1130,7 +1130,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	lda.b r2
 	and.w #$000F
 	jsr.w BCDTextAt
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0013
 	jsl.l PrintItalicRightStr
 	ply
@@ -1142,7 +1142,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1155,7 +1155,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	and.w #$000F
 CODE_C5B95A:						; called from other segments
 	jsr.w BCDTextAt
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0015
 	jsl.l PrintItalicRightStr
 	ply
@@ -1484,7 +1484,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	jsr.w CODE_C5A321
 	lda.w #$0072
 	sta.b $CF
-	ldx.w #$04F7
+	ldx.w #mesarea+2
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.w #$0093
@@ -1550,7 +1550,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	jsr.w CODE_C5A321
 	lda.w #$0072
 	sta.b $CF
-	ldx.w #$04F7
+	ldx.w #mesarea+2
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.w #$0093
@@ -1576,7 +1576,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	plx
 CODE_C5BCCC:						; from DrawSeasonPlayerRow
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	rts
@@ -1824,7 +1824,7 @@ DrawStandingsRow:					; draws row a3 of the NHL Standings list: a team and its s
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	lda.w #$0028
 	sta.b $CF
@@ -1865,7 +1865,7 @@ DrawStandingsRow:					; draws row a3 of the NHL Standings list: a team and its s
 	tax
 	jsr (DATA8_C5BEDD,x)
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
 	rts
 DATA8_C5BEDD:						; jump table: the routine for each index
@@ -1877,7 +1877,7 @@ CODE_C5BEED:						; from DATA8_C5BEDD
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$003E
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.w $0006,y
 	phx
@@ -1885,7 +1885,7 @@ CODE_C5BEED:						; from DATA8_C5BEDD
 	plx
 	jsr.w BCDTextAt
 	lda.w #$003E
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.w $0008,y
 	phx
@@ -1906,7 +1906,7 @@ CODE_C5BF26:						; from DATA8_C5BEDD
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1926,7 +1926,7 @@ CODE_C5BF50:						; from DATA8_C5BEDD
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1954,7 +1954,7 @@ CODE_C5BF8C:						; from DATA8_C5BEDD
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0
@@ -1974,7 +1974,7 @@ CODE_C5BFB6:						; from DATA8_C5BEDD
 	and.w #$00FF
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	lda.b r2
 	and.w #$00F0

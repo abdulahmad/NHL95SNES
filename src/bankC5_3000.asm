@@ -394,7 +394,7 @@ PlayerShortName:					; from CODE_C5331F and other segments
 	pei ($65)
 	jsl.l CODE_C535EF
 	stz.b $69
-	lda.w #$04F5
+	lda.w #mesarea
 	sta.b a1
 	lda.w #$0002
 	sta.b [a1]
@@ -573,10 +573,11 @@ PutDigits2:							; from PlayerShortName and other segments
 	inc.b a1
 	inc.b a1
 	rtl
-CODE_C534B5:						; no caller found (not traced)
+PushNumber:							; a1 = d0 as a decimal string ending at mesareaEnd: the digits backward,
+									; then the length word before them
 	phx
 	stz.b $69
-	lda.w #$0513
+	lda.w #mesareaEnd
 	sta.b a1
 	lda.b d0
 .loop:								; loop: r2 = A, r1 = $000A, call Div16x8U, a1 - 1, ...
@@ -593,7 +594,7 @@ CODE_C534B5:						; no caller found (not traced)
 	bne .loop
 	dec.b a1
 	dec.b a1
-	lda.w #$0513
+	lda.w #mesareaEnd
 	sec
 	sbc.b a1
 	sta.b [a1]
@@ -1260,14 +1261,14 @@ CODE_C539D7:						; called from other segments
 	lda.w tmscore+2
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsr.w CODE_C53A90
 	ldy.w #$5B38
 	jsl.l QueueVRAMDMALen
 	lda.w tmscore
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsr.w CODE_C53A90
 	ldy.w #$5B3C
 	jmp.w QueueVRAMDMALen

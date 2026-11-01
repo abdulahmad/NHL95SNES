@@ -2,74 +2,74 @@
 ; their callers), two jump tables and the data tables the code reads with long addresses.
 org $C59F79
 CODE_C59F79:						; called from other segments
-	stz.w $04F5
-	stz.w $04F7
-	stz.w $04F9
-	stz.w $04FB
+	stz.w mesarea
+	stz.w mesarea+2
+	stz.w mesarea+4
+	stz.w mesarea+6
 	lda.b d0
 	bne .1
 	lda.w #$0010
 	sta.w $24DC
 	lda.w $0527
 	jsr.w CODE_C5A083
-	tsb.w $04F7
+	tsb.w mesarea+2
 	lda.w $0529
 	jsr.w CODE_C5A07A
-	tsb.w $04F6
+	tsb.w mesarea+1
 	lda.w $052B
 	jsr.w CODE_C5A083
-	tsb.w $04F8
+	tsb.w mesarea+3
 	lda.w $052D
 	jsr.w CODE_C5A07A
-	tsb.w $04F8
+	tsb.w mesarea+3
 	lda.w $052F
 	jsr.w CODE_C5A07A
-	tsb.w $04FB
+	tsb.w mesarea+6
 	lda.w $0531
 	jsr.w CODE_C5A083
-	tsb.w $04FB
+	tsb.w mesarea+6
 	lda.w $0533
 	jsr.w CODE_C5A07A
-	tsb.w $04FC
+	tsb.w mesarea+7
 	lda.w $0535
 	jsr.w CODE_C5A083
-	tsb.w $04FC
+	tsb.w mesarea+7
 	jmp.w .2
 .1:									; $24DC = 0, A = $0527, call CODE_C5A083, A = $0529, ...
 	stz.w $24DC
 	lda.w $0527
 	jsr.w CODE_C5A083
-	tsb.w $04F7
+	tsb.w mesarea+2
 	lda.w $0529
 	jsr.w CODE_C5A07A
-	tsb.w $04F6
+	tsb.w mesarea+1
 	lda.w $052B
 	jsr.w CODE_C5A083
-	tsb.w $04FB
+	tsb.w mesarea+6
 	lda.w $052D
 	jsr.w CODE_C5A07A
-	tsb.w $04F7
+	tsb.w mesarea+2
 	lda.w $052F
 	jsr.w CODE_C5A083
-	tsb.w $04F8
+	tsb.w mesarea+3
 	lda.w $0531
 	jsr.w CODE_C5A083
-	tsb.w $04FA
+	tsb.w mesarea+5
 	lda.w $0533
 	jsr.w CODE_C5A07A
-	tsb.w $04F8
+	tsb.w mesarea+3
 	lda.w $0535
 	jsr.w CODE_C5A07A
-	tsb.w $04FA
+	tsb.w mesarea+5
 	lda.w $0537
 	jsr.w CODE_C5A083
-	tsb.w $04FC
+	tsb.w mesarea+7
 	lda.w $0539
 	jsr.w CODE_C5A07A
-	tsb.w $04FC
+	tsb.w mesarea+7
 	lda.w $053B
 	jsr.w CODE_C5A083
-	tsb.w $04F9
+	tsb.w mesarea+4
 .2:									; call CODE_C5C6B7, call BinToBCD, call BCDText, Y = $0015, ...
 	jsr.w CODE_C5C6B7
 	jsr.w BinToBCD
@@ -81,15 +81,15 @@ CODE_C59F79:						; called from other segments
 	jsr.w BCDText
 	ldy.w #$0016
 CODE_C5A05A:						; from CODE_C59F79
-	lda.w $04F9
-	sta.w $04FB
-	lda.w $04F7
-	sta.w $04F9
-	lda.w $04F5
-	sta.w $04F7
+	lda.w mesarea+4
+	sta.w mesarea+6
+	lda.w mesarea+2
+	sta.w mesarea+4
+	lda.w mesarea
+	sta.w mesarea+2
 	lda.w #$2020
-	sta.w $04F5
-	ldx.w #$04F6
+	sta.w mesarea
+	ldx.w #mesarea+1
 	jsl.l PrintBoldRightStr
 	rts
 CODE_C5A07A:						; from CODE_C59F79, CODE_C5A083 and other segments
@@ -149,22 +149,22 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$3E3E
-	sta.w $04F5
-	sta.w $04F7
-	sta.w $04F9
-	sta.w $04FB
-	sta.w $04FD
-	stz.w $04FF
+	sta.w mesarea
+	sta.w mesarea+2
+	sta.w mesarea+4
+	sta.w mesarea+6
+	sta.w mesarea+8
+	stz.w mesarea+10
 	lda.w #$0078
 	sta.b $CF
 	lda.w #$000F
 	ldy.w #$0008
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l CODE_C4BC46
-	stz.w $04FD
+	stz.w mesarea+8
 	lda.w #$000F
 	ldy.w #$0006
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l CODE_C4BC46
 	jsl.l SendTextMap
 	lda.w #$0006
@@ -287,7 +287,7 @@ CODE_C5A2B4:						; called from other segments
 	adc.w #$008C
 	jsr.w BinToBCD
 	jsr.w CODE_C5A321
-	ldx.w #$04F6
+	ldx.w #mesarea+1
 	ldy.w #$000B
 	jsl.l PrintItalicLeftStr
 	rts
@@ -297,7 +297,7 @@ CODE_C5A2D3:						; called from other segments
 	lda.b d1
 	jsr.w BinToBCD
 	jsr.w CODE_C5A321
-	ldx.w #$04F7
+	ldx.w #mesarea+2
 	ldy.w #$000E
 	jsl.l PrintItalicLeftStr
 	rts
@@ -336,12 +336,12 @@ CODE_C5A321:						; from CODE_C5A2B4, CODE_C5A2D3
 	lsr a
 	lsr a
 	adc.w #$0030
-	sta.w $04F5
+	sta.w mesarea
 	txa
 	xba
 	and.w #$000F
 	adc.w #$0030
-	sta.w $04F6
+	sta.w mesarea+1
 	txa
 	and.w #$00F0
 	lsr a
@@ -349,11 +349,11 @@ CODE_C5A321:						; from CODE_C5A2B4, CODE_C5A2D3
 	lsr a
 	lsr a
 	adc.w #$0030
-	sta.w $04F7
+	sta.w mesarea+2
 	txa
 	and.w #$000F
 	adc.w #$0030
-	sta.w $04F8
+	sta.w mesarea+3
 	rts
 DATA8_C5A354:						; a pointer to CODE_C5A359 (its reader is not traced)
 	dw CODE_C5A359
@@ -1326,7 +1326,7 @@ CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	jsr.w CODE_C56168
 	lda.w #$0030
 	sta.b $CF
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0005
 	jsl.l PrintItalicLeftStr
 	jsl.l SendTextMap

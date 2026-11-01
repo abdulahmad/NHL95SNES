@@ -36,10 +36,10 @@ CODE_C47FFA:						; from updatepentime and other segments
 	lda.b a2
 	beq .1
 	lda.w #$001A
-.1:									; a0 = A, $69 = 0, a1 = $04F5, d1 = $0002, ...
+.1:									; a0 = A, $69 = 0, a1 = mesarea, d1 = $0002, ...
 	sta.b a0
 	stz.b $69
-	lda.w #$04F5
+	lda.w #mesarea
 	sta.b a1
 	lda.w #$0002
 	sta.b d1
@@ -78,7 +78,7 @@ CODE_C48011:						; from CODE_C48011, CODE_C48090
 CODE_C48050:						; from updatepentime, CODE_C48073, updatepentime, ...
 	rtl
 CODE_C48051:						; from CODE_C48011
-	lda.w $04F5
+	lda.w mesarea
 	sta.b d0
 	lda.b d1
 	cmp.w #$0001
@@ -92,7 +92,7 @@ CODE_C48051:						; from CODE_C48011
 	cmp.w #$FFFF
 	bne CODE_C48050
 .2:									; d0 = $04F7
-	lda.w $04F7
+	lda.w mesarea+2
 	sta.b d0
 CODE_C48073:						; from CODE_C48051 and other segments
 	lda.b a2

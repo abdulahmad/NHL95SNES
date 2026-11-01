@@ -19,13 +19,13 @@ CODE_C4F01E:						; from CODE_C4F2AE and other segments
 	adc.b tmp0
 	tax
 	lda.w $0110,x
-	sta.w $04F5
+	sta.w mesarea
 	lda.w $0112,x
-	sta.w $04F7
+	sta.w mesarea+2
 	lda.w $0114,x
-	sta.w $04F9
+	sta.w mesarea+4
 	lda.w $0116,x
-	sta.w $04FB
+	sta.w mesarea+6
 	jsl.l CODE_C5C6A2
 	sta.w $364E,y
 	lda.b tmp1

@@ -227,10 +227,10 @@ CODE_C570F4:						; from DATA8_C570E8
 	bit.w #$4000
 	beq .4
 	lda.w #$2043
-	sta.w $04F5,x
-	stz.w $04F7,x
-.4:									; X = $04F5, Y = $6D, call PrintBoldCentredStr, return
-	ldx.w #$04F5
+	sta.w mesarea,x
+	stz.w mesarea+2,x
+.4:									; X = mesarea, Y = $6D, call PrintBoldCentredStr, return
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
 	rts
@@ -265,11 +265,11 @@ AttribEnergy:						; prints the energy of roster player d0 of team a2 as a perce
 	cmp.w #$0065
 	bcc .3
 	lda.w #$0064
-.3:									; call BinToBCD, call BCDText, Y = $6D, X = $04F5, ...
+.3:									; call BinToBCD, call BCDText, Y = $6D, X = mesarea, ...
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C57187:						; from DATA8_C570E8
@@ -291,7 +291,7 @@ CODE_C5719B:						; from DATA8_C570E8
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C571B4:						; from DATA8_C570E8
@@ -299,7 +299,7 @@ CODE_C571B4:						; from DATA8_C570E8
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C571C7:						; called from other segments
@@ -991,7 +991,7 @@ CODE_C576FD:						; a callback: CODE_C57578 passes it to StartScrollList
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	lda.w #$0022
 	sta.b $CF
@@ -1407,11 +1407,11 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	bne .1
 	lda.w #$000D
 	ldx.w #$5F52
-	ldy.w #$04F5
+	ldy.w #mesarea
 	mvn $7E,$C3
 	tya
 	sec
-	sbc.w #$04F5
+	sbc.w #mesarea
 	pha
 	lda.l $3075B4
 	inc a
@@ -1419,13 +1419,13 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	jsr.w BinToBCD
 	plx
 	jsr.w BCDTextAt
-	stz.w $04F5,x
+	stz.w mesarea,x
 	bra .2
 .1:									; A = Y, call CODE_C56168
 	tya
 	jsr.w CODE_C56168
-.2:									; X = $04F5, Y = $0007, call PrintItalicCentredStr, Y = $0009, ...
-	ldx.w #$04F5
+.2:									; X = mesarea, Y = $0007, call PrintItalicCentredStr, Y = $0009, ...
+	ldx.w #mesarea
 	ldy.w #$0007
 	jsl.l PrintItalicCentredStr
 	ldy.w #$0009
@@ -1549,7 +1549,7 @@ DrawOtherScoreRow:					; draws row a3 of ShowOtherScores' scrolling list: a game
 	lda.l $7F8F00,x
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldRightStr
 	rts
@@ -1567,7 +1567,7 @@ DrawOtherScoreRow:					; draws row a3 of ShowOtherScores' scrolling list: a game
 	lda.l $7F8F02,x
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldRightStr
 	lda.w #$00C8
@@ -1604,8 +1604,8 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	beq .2
 	ldy.w #$0000
 	ldx.b a4
-.loop:								; loop: A = $04F5,y, A and $00FF, $3660,x = A, X + 1, ...
-	lda.w $04F5,y
+.loop:								; loop: A = mesarea,y, A and $00FF, $3660,x = A, X + 1, ...
+	lda.w mesarea,y
 	and.w #$00FF
 	sta.w $3660,x
 	inx
@@ -1920,7 +1920,7 @@ CODE_C57EAA:						; from PrintWinRecords
 CODE_C57EEF:						; from CODE_C57EAA
 	jsr.w BinToBCD
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 CODE_C57EFA:						; from CODE_C57EAA
 	jsl.l PrintBoldCentredStr
@@ -1976,11 +1976,11 @@ CODE_C57F39:						; from PrintGoalRecords
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$6220
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	inx
 	lda.w #$2079
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	inx
 	phx
@@ -1993,11 +1993,11 @@ CODE_C57F39:						; from PrintGoalRecords
 	ply
 	jsr.w CODE_C57FC7
 	lda.w #$7620
-	sta.w $04F5,y
+	sta.w mesarea,y
 	iny
 	iny
 	lda.w #$2073
-	sta.w $04F5,y
+	sta.w mesarea,y
 	iny
 	iny
 	phy
@@ -2010,8 +2010,8 @@ CODE_C57F39:						; from PrintGoalRecords
 	ply
 	jsr.w CODE_C57FC7
 	lda.w #$0000
-	sta.w $04F5,y
-	ldx.w #$04F5
+	sta.w mesarea,y
+	ldx.w #mesarea
 	ldy.b $6D
 CODE_C57FBE:						; from CODE_C57F39
 	jsl.l PrintBoldCentredStr
@@ -2020,10 +2020,10 @@ CODE_C57FBE:						; from CODE_C57F39
 	rts
 CODE_C57FC7:						; from CODE_C57F39
 	sep #$20
-.loop:								; loop: if $0000,x = 0 go to .1, $04F5,y = A, X + 1, Y + 1, ...
+.loop:								; loop: if $0000,x = 0 go to .1, mesarea,y = A, X + 1, Y + 1, ...
 	lda.w $0000,x
 	beq .1
-	sta.w $04F5,y
+	sta.w mesarea,y
 	inx
 	iny
 	bra .loop

@@ -5550,7 +5550,7 @@ $C53441,.loop,CODE_C53441,new,"branch target only used in CODE_C533EF",src/bankC
 $C53449,.loop2,CODE_C53449,new,"branch target only used in CODE_C533EF",src/bankC5_3000.asm
 $C53454,.2,CODE_C53454,new,"branch target only used in CODE_C533EF",src/bankC5_3000.asm
 $C534A1,.1,CODE_C534A1,new,"branch target only used in PutDigits2",src/bankC5_3000.asm
-$C534BF,.loop,CODE_C534BF,new,"branch target only used in CODE_C534B5",src/bankC5_3000.asm
+$C534BF,.loop,CODE_C534BF,new,"branch target only used in PushNumber",src/bankC5_3000.asm
 $C534F2,.loop,CODE_C534F2,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
 $C534FC,.1,CODE_C534FC,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
 $C53516,.loop2,CODE_C53516,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
@@ -7704,3 +7704,6 @@ $C5B97F,BuildTeamSeasonRecordLong,CODE_C5B97F,code,"jsr BuildTeamSeasonRecord, r
 $C5BB46,ReadTeamStatBits,CODE_C5BB46,code,"from the code: two words at r2 / 8, shifted by r2 and 7 through the shift entries, masked to A bits by the table after them",src/bankC5_B000.asm
 $C5BBC0,RefreshSprites,CODE_C5BBC0,code,"from the code: AnimateSprites, BuildSpriteOAM ($1D8F / $1E00), PackOAMHigh, WaitTransfers",src/bankC5_B000.asm
 $C5BBBC,RefreshSpritesLong,CODE_C5BBBC,code,"jsr RefreshSprites, rtl",src/bankC5_B000.asm
+$C534B5,PushNumber,CODE_C534B5,94S+code,"the same code as 94S PushNumber side by side (mesareaEnd, Div16x8U by 10, the length word); 95 stores the digit values without adding $30",src/bankC5_3000.asm
+$04F5,mesarea,,94S+code,"RAM: 2 votes; RemapOut and gamefps on both sides have 94S's offset; the print routines take it as their string (ldx #mesarea)",src/ram95s.asm
+$0513,mesareaEnd,,94S+code,"RAM: PushNumber side by side with 94S (lda #mesareaEnd, the digits written backward, the length word before them); at 94S's offset from mesarea",src/ram95s.asm

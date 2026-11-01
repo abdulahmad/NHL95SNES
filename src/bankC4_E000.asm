@@ -605,7 +605,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
 	jsl.l CODE_C55EC3
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	jsl.l WaitTransfers
@@ -641,7 +641,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
 	jsl.l CODE_C55EC3
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	jsl.l WaitTransfers
@@ -787,7 +787,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
 	jsl.l CODE_C55EC3
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	ldx.w #$2EE1
@@ -812,7 +812,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
 	jsl.l CODE_C55EC3
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	ldx.w #$331F
@@ -833,8 +833,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	rts
-.12:								; $04F5 = 0, $364E = 0, X = $364E, Y = $3650, ...
-	stz.w $04F5
+.12:								; mesarea = 0, $364E = 0, X = $364E, Y = $3650, ...
+	stz.w mesarea
 	stz.w $364E
 	ldx.w #$364E
 	ldy.w #$3650
@@ -898,7 +898,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	and.w #$00FF
 	jsl.l CODE_C5B676
 	jsl.l CODE_C55EC3
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	jsl.l WaitTransfers
@@ -917,7 +917,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	and.w #$00FF
 	jsl.l CODE_C5B676
 	jsl.l CODE_C55EC3
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	jsl.l SendTextMap
@@ -957,13 +957,13 @@ CODE_C4E885:						; from ScoutingReport
 	tsb.w $2DA7
 	rts
 CODE_C4E8CD:						; from CODE_C4E885
-	stz.w $04F5
-	stz.w $04F7
-	stz.w $04F9
+	stz.w mesarea
+	stz.w mesarea+2
+	stz.w mesarea+4
 	lda.w #$FFFF
-	sta.w $04FB
-	sta.w $04FD
-	sta.w $04FF
+	sta.w mesarea+6
+	sta.w mesarea+8
+	sta.w mesarea+10
 	inc a
 	sta.w $000C,y
 	lda.w $0000,x
@@ -999,75 +999,75 @@ CODE_C4E8CD:						; from CODE_C4E885
 	plx
 	bit.w #$8000
 	bne .6
-	cmp.w $04F9
+	cmp.w mesarea+4
 	bcs .3
 	jmp.w .10
 .3:									; if A >= $04F7 go to .4, $04F9 = A, A = X, A * 2, ...
-	cmp.w $04F7
+	cmp.w mesarea+2
 	bcs .4
-	sta.w $04F9
+	sta.w mesarea+4
 	txa
 	asl a
 	sta.w $0004,y
 	jmp.w .10
-.4:									; $04F9 = $04F7, $0004,y = $0002,y, if $65 >= $04F5 go to .5, ...
-	lda.w $04F7
-	sta.w $04F9
+.4:									; mesarea+4 = mesarea+2, $0004,y = $0002,y, ...
+	lda.w mesarea+2
+	sta.w mesarea+4
 	lda.w $0002,y
 	sta.w $0004,y
 	lda.b $65
-	cmp.w $04F5
+	cmp.w mesarea
 	bcs .5
-	sta.w $04F7
+	sta.w mesarea+2
 	txa
 	asl a
 	sta.w $0002,y
 	bra .10
-.5:									; $04F7 = $04F5, $0002,y = $0000,y, $04F5 = $65, A = X, ...
-	lda.w $04F5
-	sta.w $04F7
+.5:									; mesarea+2 = mesarea, $0002,y = $0000,y, mesarea = $65, A = X, ...
+	lda.w mesarea
+	sta.w mesarea+2
 	lda.w $0000,y
 	sta.w $0002,y
 	lda.b $65
-	sta.w $04F5
+	sta.w mesarea
 	txa
 	asl a
 	sta.w $0000,y
 	bra .10
 .6:									; if A = $04FF go to .7, if carry set go to .10
-	cmp.w $04FF
+	cmp.w mesarea+10
 	beq .7
 	bcs .10
 .7:									; if A < $04FD go to .8, if zero go to .8, $04FF = A, A = X, ...
-	cmp.w $04FD
+	cmp.w mesarea+8
 	bcc .8
 	beq .8
-	sta.w $04FF
+	sta.w mesarea+10
 	txa
 	asl a
 	sta.w $000A,y
 	bra .10
 .8:									; $04FF = $04FD, $000A,y = $0008,y, if $65 < $04FB go to .9, ...
-	lda.w $04FD
-	sta.w $04FF
+	lda.w mesarea+8
+	sta.w mesarea+10
 	lda.w $0008,y
 	sta.w $000A,y
 	lda.b $65
-	cmp.w $04FB
+	cmp.w mesarea+6
 	bcc .9
 	beq .9
-	sta.w $04FD
+	sta.w mesarea+8
 	txa
 	asl a
 	sta.w $0008,y
 	bra .10
 .9:									; $04FD = $04FB, $0008,y = $0006,y, $04FB = $65, A = X, ...
-	lda.w $04FB
-	sta.w $04FD
+	lda.w mesarea+6
+	sta.w mesarea+8
 	lda.w $0006,y
 	sta.w $0008,y
 	lda.b $65
-	sta.w $04FB
+	sta.w mesarea+6
 	txa
 	asl a
 	sta.w $0006,y
@@ -1362,20 +1362,20 @@ CODE_C4EBC8:						; from ScoutingReport
 	ldx.b $7D
 	ldy.w #$0000
 	sep #$20
-.loop2:								; loop: $04F5,y = $0000,x, X + 1, Y + 1, if Y is not d0 go to .loop2, ...
+.loop2:								; loop: mesarea,y = $0000,x, X + 1, Y + 1, ...
 	lda.w $0000,x
-	sta.w $04F5,y
+	sta.w mesarea,y
 	inx
 	iny
 	cpy.b d0
 	bne .loop2
 	lda.b #$00
-	sta.w $04F5,y
+	sta.w mesarea,y
 	rep #$20
 	lda.b $95
 	sta.b $CF
 	ldy.w $2DC7
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	clc
 	adc.b $95
@@ -1717,7 +1717,7 @@ CODE_C4EEC0:						; from CODE_C4EE9D
 	bpl .loop
 	rts
 CODE_C4EECD:						; from ShowMatchups
-	stz.w $04F5
+	stz.w mesarea
 	stz.w $364E
 	dec.b QueueBusy
 	lda.b $00
@@ -1745,7 +1745,7 @@ CODE_C4EECD:						; from ShowMatchups
 	sta.b $22,x
 	rts
 CODE_C4EF07:						; from ShowMatchups
-	stz.w $04F5
+	stz.w mesarea
 	stz.w $364E
 	dec.b QueueBusy
 	lda.b $00

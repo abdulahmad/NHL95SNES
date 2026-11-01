@@ -75,7 +75,7 @@ CODE_C5605D:						; from DrawPenaltyRow, DrawScoringRow, CODE_C5711B and other s
 	tyx
 	jsr.w BCDTextAt
 	lda.w #$003F
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	txy
 	lda.l RDMPYL
@@ -89,13 +89,13 @@ CODE_C5605D:						; from DrawPenaltyRow, DrawScoringRow, CODE_C5711B and other s
 	lsr a
 	lsr a
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	pla
 	and.w #$000F
 	clc
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	ply
 	rts
@@ -123,7 +123,7 @@ CODE_C560AC:						; called from other segments
 	and.w #$000F
 	jsr.w BCDTextAt
 	lda.w #$003F
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	txy
 	lda.l RDMPYL
@@ -137,13 +137,13 @@ CODE_C560AC:						; called from other segments
 	lsr a
 	lsr a
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	pla
 	and.w #$000F
 	clc
 	adc.w #$0030
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	ply
 	rts
@@ -222,7 +222,7 @@ CODE_C56168:						; called from other segments
 	tax
 	lda.l BCDTable,x
 	jsr.w CODE_C5A321
-	lda.w $04F7
+	lda.w mesarea+2
 	pha
 	tya
 	and.w #$00E0
@@ -235,13 +235,13 @@ CODE_C56168:						; called from other segments
 	adc.b tmp0
 	tax
 	lda.l DATA8_C561DB,x
-	sta.w $04F5
+	sta.w mesarea
 	lda.l DATA8_C561DB+2,x
-	sta.w $04F7
+	sta.w mesarea+2
 	lda.w #$403D
-	sta.w $04F8
+	sta.w mesarea+3
 	lda.w #$0020
-	sta.w $04FA
+	sta.w mesarea+5
 	tya
 	xba
 	and.w #$00FF
@@ -255,20 +255,20 @@ CODE_C56168:						; called from other segments
 	iny
 	inx
 	lda.l $C4FFFF,x
-	sta.w $04FB,y
+	sta.w mesarea+6,y
 	bne .loop
 	lda.b #$20
-	sta.w $04FB,y
+	sta.w mesarea+6,y
 	pla
 	cmp.b #$30
 	beq .1
-	sta.w $04FC,y
+	sta.w mesarea+7,y
 	iny
 .1:									; pull A, $04FC,y = A, X = Y, $04FD,x = 0, ...
 	pla
-	sta.w $04FC,y
+	sta.w mesarea+7,y
 	tyx
-	stz.w $04FD,x
+	stz.w mesarea+8,x
 	rep #$20
 	rts
 DATA8_C561DB:						; the day names, 3 letters each, read by CODE_C56168
@@ -552,7 +552,7 @@ CODE_C56453:						; from DrawPeriodStats
 	jsr.w BCDText
 	lda.b $01,s
 	tay
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	ply
 	iny
@@ -567,7 +567,7 @@ CODE_C56453:						; from DrawPeriodStats
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
 ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by a stat column
@@ -1003,10 +1003,10 @@ CODE_C5680B:						; from DrawPlayerStatRow, CODE_C5683C
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-.3:									; call BCDText, Y = $6D, X = $04F5, call PrintBoldCentredStr, ...
+.3:									; call BCDText, Y = $6D, X = mesarea, call PrintBoldCentredStr, ...
 	jsr.w BCDText
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	lda.w #$2000
 	sta.b $D5
@@ -1303,7 +1303,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	and.w #$0FFF
 	jsr.w CODE_C5605D
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
@@ -1354,7 +1354,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.l DATA8_C34499,x
 	and.w #$00FF
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
 	lda.w #$2000
@@ -1647,7 +1647,7 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	and.w #$0FFF
 	jsr.w CODE_C5605D
 	ldy.b $6D
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF

@@ -42,13 +42,13 @@ TradeValue:							; one side of a trade: the value of its chosen players (from t
 	adc.b a4
 	tax
 	lda.w $0110,x
-	sta.w $04F5
+	sta.w mesarea
 	lda.w $0112,x
-	sta.w $04F7
+	sta.w mesarea+2
 	lda.w $0114,x
-	sta.w $04F9
+	sta.w mesarea+4
 	lda.w $0116,x
-	sta.w $04FB
+	sta.w mesarea+6
 	jsr.w CODE_C5C6B7
 	clc
 	adc.b (tmp1)
@@ -300,19 +300,19 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	ldy.w #$0009
 	jsl.l PrintThinCentred
 	lda.w #$0000
-.loop:								; loop: push A, A + 1, call BCDText, $04F5,x = $003D, ...
+.loop:								; loop: push A, A + 1, call BCDText, mesarea,x = $003D, ...
 	pha
 	inc a
 	jsr.w BCDText
 	lda.w #$003D
-	sta.w $04F5,x
+	sta.w mesarea,x
 	lda.w #$0014
 	sta.b $CF
 	lda.b $01,s
 	clc
 	adc.w #$0006
 	tay
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	lda.b $01,s
 	jsr.w CODE_C5D2B4
@@ -324,7 +324,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	clc
 	adc.w #$0006
 	tay
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 .3:									; pull A, A + 1, if A is not $0008 go to .loop, call SendTextMap, ...
 	pla
@@ -355,8 +355,8 @@ CODE_C5D2B4:						; from DrawNameLog, EditUserName
 	cmp.w #$001F
 	beq .rts
 	adc.w #$0040
-.3:									; $04F5,x = A, X + 1, if X is not $000C go to .1
-	sta.w $04F5,x
+.3:									; mesarea,x = A, X + 1, if X is not $000C go to .1
+	sta.w mesarea,x
 	inx
 	cpx.w #$000C
 	bne .1
@@ -397,8 +397,8 @@ CODE_C5D303:						; from EditUserName
 	sbc.b tmp0
 	tay
 	ldx.w #$0000
-.1:									; A = $04F5,x, A and $00FF, if A is not $0020 go to .2, A = $001B, ...
-	lda.w $04F5,x
+.1:									; A = mesarea,x, A and $00FF, if A is not $0020 go to .2, A = $001B, ...
+	lda.w mesarea,x
 	and.w #$00FF
 	cmp.w #$0020
 	bne .2
@@ -519,8 +519,8 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	cmp.b #$3D
 	bne .7
 	lda.b #$20
-.7:									; $04F5,y = A, A 16-bit, Y + 1, if Y >= $000C go to .10, ...
-	sta.w $04F5,y
+.7:									; mesarea,y = A, A 16-bit, Y + 1, if Y >= $000C go to .10, ...
+	sta.w mesarea,y
 	rep #$20
 	iny
 	cpy.w #$000C
@@ -533,9 +533,9 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	ldx.b $69
 	beq .9
 	dex
-.9:									; $04F5,x = $3E3E, $69 = X
+.9:									; mesarea,x = $3E3E, $69 = X
 	lda.w #$3E3E
-	sta.w $04F5,x
+	sta.w mesarea,x
 	stx.b $69
 .10:								; call CODE_C5D5A5, call SendTextMap
 	jsr.w CODE_C5D5A5
@@ -556,12 +556,12 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 .14:								; X = $FFFF, A 8-bit
 	ldx.w #$FFFF
 	sep #$20
-.loop2:								; loop: X + 1, if $04F5,x is not $3E go to .loop2, $04F5,x = 0, ...
+.loop2:								; loop: X + 1, if mesarea,x is not $3E go to .loop2, mesarea,x = 0, ...
 	inx
-	lda.w $04F5,x
+	lda.w mesarea,x
 	cmp.b #$3E
 	bne .loop2
-	stz.w $04F5,x
+	stz.w mesarea,x
 	rep #$20
 	lda.b $65
 	xba
@@ -571,7 +571,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	adc.w #$0188
 	ldy.w #$0020
 	jsl.l ClearRAM7E
-	lda.w $04F5
+	lda.w mesarea
 	and.w #$00FF
 	beq .15
 	lda.b $65
@@ -580,7 +580,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	tay
 	lda.w #$0020
 	sta.b $CF
-	ldx.w #$04F5
+	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 .15:								; A = $D3, A + $0380, Y = $0380, call ClearRAM7E, ...
 	lda.b $D3
@@ -648,10 +648,10 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	dec.b $69
 .1:									; A = $003E
 	lda.w #$003E
-.loop:								; loop: if X = $000C go to .2, $04F5,x = A, X + 1, go to .loop
+.loop:								; loop: if X = $000C go to .2, mesarea,x = A, X + 1, go to .loop
 	cpx.w #$000C
 	beq .2
-	sta.w $04F5,x
+	sta.w mesarea,x
 	inx
 	bra .loop
 .2:									; call CODE_C5D5A5, X = a0, A = $0000, call SetSpriteAnim, ...
@@ -723,7 +723,7 @@ CODE_C5D5A5:						; from DrawNameGrid, EditUserName
 	clc
 	adc.w #$0006
 	tay
-	ldx.w #$04F5
+	ldx.w #mesarea
 	lda.w #$000A
 	jsl.l CODE_C4BC68
 	rts
@@ -1128,21 +1128,21 @@ CODE_C5D85D:						; called from other segments
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0006
 	jsl.l PrintBoldLeftStr
 	ldx.b d1
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0007
 	jsl.l PrintBoldLeftStr
 	ldx.b $81
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0008
 	jsl.l PrintBoldLeftStr
 	lda.b d0
@@ -1153,7 +1153,7 @@ CODE_C5D85D:						; called from other segments
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w BCDText
-	ldx.w #$04F5
+	ldx.w #mesarea
 	ldy.w #$0009
 	jsl.l PrintBoldLeftStr
 	rts
