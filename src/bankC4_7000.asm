@@ -537,10 +537,10 @@ CODE_C47431:						; from CODE_C47431
 	sta.w temp1,x
 	lda.w #$FF00
 	tsb.w $1147
-	stz.w $1145
+	stz.w RefCnt
 	jsl.l CODE_C38C4A
 	lda.w #$0032
-	sta.w $1145
+	sta.w RefCnt
 	stz.b d0
 	stz.w tmp0
 	phx
@@ -550,7 +550,7 @@ CODE_C47431:						; from CODE_C47431
 	rtl
 CODE_C474C4:						; from CODE_C47416
 	jsl.l SeatPenaltyBox
-	lda.w $1145
+	lda.w RefCnt
 	bmi CODE_C474D0
 	jmp.w CODE_C47748
 CODE_C474D0:						; from CODE_C474C4
@@ -1401,7 +1401,7 @@ CODE_C47B8F:						; from CODE_C47B3F
 	stz.w pfnc,x
 	lda.w #$F000
 	sta.w Xvel,x
-	lda.w $0FC0,x
+	lda.w handed,x
 	bne CODE_C47BBE
 	lda.w attribute,x
 	ora.w #$0800
@@ -1529,7 +1529,7 @@ CODE_C47C8C:						; called from other segments
 	clc
 	adc.w checking,y
 	sec
-	sbc.w $0E00,x
+	sbc.w legstr,x
 	jsl.l randoma8
 	cmp.w #$000C
 	bcc CODE_C47D0A
@@ -1669,7 +1669,7 @@ CODE_C47DEB:						; from CODE_C47DA9
 	jsl.l SetSPAFromA
 	lda.w #$0006
 	sta.b d2
-	lda.w $0FC0,x
+	lda.w handed,x
 	beq CODE_C47E04
 	lda.w #$0002
 	sta.b d2

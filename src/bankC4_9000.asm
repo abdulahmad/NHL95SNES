@@ -117,10 +117,10 @@ CODE_C493CA:						; called from other segments
 	sta.w $0B9C
 	stz.w $234E
 pucknorm_move:						; from CODE_C493CA and other segments
-	lda.w $07DA
+	lda.w puckcross
 	sec
 	sbc.b d7
-	sta.w $07DA
+	sta.w puckcross
 	lda.w $07DE
 	sec
 	sbc.b d7
@@ -213,7 +213,7 @@ CODE_C494A8:						; from CODE_C49495
 	cmp.w $093C
 	bne CODE_C494CB
 	lda.w pucky
-	cmp.w $097C
+	cmp.w OldYpos
 	bne CODE_C494CB
 	lda.w #$0006
 	sta.b d0
@@ -277,7 +277,7 @@ CODE_C4952D:						; from CODE_C49504
 	sta.b r1
 	jsl.l Div32S
 	lda.b r0
-	sta.w $07DA,y
+	sta.w puckcross,y
 	lda.b r0
 	asl a
 	asl a
@@ -303,7 +303,7 @@ CODE_C49565:						; from CODE_C49559
 	rtl
 CODE_C4956B:						; from CODE_C49501
 	lda.w #$FFFF
-	sta.w $07DA,y
+	sta.w puckcross,y
 	rtl
 puckflip:							; called from other segments
 	lda.b d0

@@ -546,7 +546,7 @@ CODE_C48401:						; from CODE_C483BF, CODE_C48423
 	lda.w #$8000
 	tsb.w sflags
 	bne CODE_C483EE
-	lda.w $1145
+	lda.w RefCnt
 	bpl CODE_C483EE
 	phx
 	jsl.l CODE_C38CFC
@@ -1211,9 +1211,9 @@ CODE_C4898F:						; from CODE_C4893B
 	jsr.w GoaliePuckVector
 	jsl.l vtoa
 	jsl.l AdjustFacingDirection
-	asl.w $0E00,x
+	asl.w legstr,x
 	jsl.l CODE_C489A5
-	lsr.w $0E00,x
+	lsr.w legstr,x
 	rtl
 CODE_C489A5:						; from CODE_C4898F and other segments
 	lda.w temp2,x

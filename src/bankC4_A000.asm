@@ -1539,7 +1539,7 @@ CODE_C4ACC4:						; from CODE_C4ACB6
 	sta.w puckvz
 	stz.w puckz
 	lda.w #$FFFF
-	sta.w $07DA
+	sta.w puckcross
 	sta.w $07DE
 	sta.w $109C
 	lda.w #$001A
@@ -1797,13 +1797,13 @@ CODE_C4AEF8:						; from CODE_C4AED5
 	bmi CODE_C4AF0A
 	lda.b d0
 	sec
-	sbc.w $097C
+	sbc.w OldYpos
 	bpl CODE_C4AF74
 	bra ChkOffsides_blue
 CODE_C4AF0A:						; from CODE_C4AEF8
 	lda.b d0
 	sec
-	sbc.w $097C
+	sbc.w OldYpos
 	bmi CODE_C4AF74
 ChkOffsides_blue:					; from CODE_C4AEF8
 	jsl.l StartBreakaway
@@ -1872,13 +1872,13 @@ ChkOffsides_other:					; from CODE_C4AED5
 	bmi CODE_C4AF98
 	lda.b d0
 	sec
-	sbc.w $097C
+	sbc.w OldYpos
 	bpl CODE_C4AF74
 	bra CODE_C4AFA0
 CODE_C4AF98:						; from ChkOffsides_other
 	lda.b d0
 	sec
-	sbc.w $097C
+	sbc.w OldYpos
 	bmi CODE_C4AF74
 CODE_C4AFA0:						; from ChkOffsides_other
 	jsl.l StartBreakaway

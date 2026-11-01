@@ -557,8 +557,8 @@ CODE_C51586:						; from CODE_C51577
 	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
-	ora.w $17BB
-	ora.w $17BD
+	ora.w cont4team
+	ora.w cont5team
 	bne CODE_C515A1
 	stz.w $0591
 CODE_C515A1:						; from CODE_C51586
@@ -898,7 +898,7 @@ CODE_C51825:						; called from other segments
 	pei ($6F)
 	inc.w $18AA
 	lda.w #$FFFF
-	sta.w $184C
+	sta.w lcpad
 	sta.w $184E
 	jsl.l CODE_C54BAF
 	lda.w $2038
@@ -1465,7 +1465,7 @@ CODE_C51D37:						; from CODE_C51D22
 	jmp.w CODE_C51E81
 CODE_C51D42:						; from CODE_C51D37
 	lda.w #$FFFF
-	sta.w $184C
+	sta.w lcpad
 	sta.w $184E
 	stz.w $18E2
 	stz.w $18E4
@@ -1475,8 +1475,8 @@ CODE_C51D42:						; from CODE_C51D37
 	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
-	ora.w $17BB
-	ora.w $17BD
+	ora.w cont4team
+	ora.w cont5team
 	beq CODE_C51D7B
 	lda.l $7E2CF5
 	beq CODE_C51D7B
@@ -1527,11 +1527,11 @@ CODE_C51DD2:						; from CODE_C51DCA
 	bne CODE_C51DDA
 	jmp.w CODE_C51E80
 CODE_C51DDA:						; from CODE_C51DD2
-	cmp.w $17BB
+	cmp.w cont4team
 	bne CODE_C51DE2
 	jmp.w CODE_C51E80
 CODE_C51DE2:						; from CODE_C51DDA
-	cmp.w $17BD
+	cmp.w cont5team
 	bne CODE_C51DEA
 	jmp.w CODE_C51E80
 CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DE2
@@ -1572,7 +1572,7 @@ CODE_C51E1F:						; from CODE_C51DF6, CODE_C51E0C
 	ldy.w #$0002
 CODE_C51E37:						; from CODE_C51E1F
 	lda.w #$FFFF
-	sta.w $184C,y
+	sta.w lcpad,y
 	jsl.l CODE_C5404A
 	ply
 	sty.b a2

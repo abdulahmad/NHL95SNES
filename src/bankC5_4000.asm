@@ -11,7 +11,7 @@ CODE_C53FE5:						; called from other segments
 	ldx.w tmsort,y
 	stx.b a3
 CODE_C53FFA:						; from CODE_C5403F
-	lda.w $0FC0,x
+	lda.w handed,x
 	beq CODE_C54008
 	lda.w attribute,x
 	and.w #$F7FF
@@ -690,7 +690,7 @@ CODE_C5454E:						; from lineinput
 	and.w #$FFFE
 	sta.w tmflags,y
 	lda.w #$FFFF
-	sta.w $184C,y
+	sta.w lcpad,y
 	jsl.l CODE_C54070
 CODE_C54568:						; from CODE_C5454E
 	pla
@@ -724,7 +724,7 @@ CODE_C54597:						; from CODE_C54568
 	and.w #$FFF7
 	sta.w tmflags,y
 	lda.w #$FFFF
-	sta.w $184C,y
+	sta.w lcpad,y
 	jmp.w CODE_C54B60
 CODE_C545B8:						; from CODE_C54568
 	jsl.l lcfound
@@ -949,7 +949,7 @@ CODE_C5479E:						; from asseben
 	stz.w SPA,x
 	lda.w #$1000
 	sta.w Xvel,x
-	lda.w $0FC0,x
+	lda.w handed,x
 	beq CODE_C547C7
 	lda.w attribute,x
 	and.w #$F7FF
@@ -1715,7 +1715,7 @@ lcfound:							; from CODE_C545B8 and other segments
 	lda.b d0
 	sta.w tmline,y
 	lda.w #$FFFF
-	sta.w $184C,y
+	sta.w lcpad,y
 	jsl.l setpersonel
 	lda.w #$0000
 CODE_C54DDE:						; from lcfound

@@ -918,11 +918,11 @@ DATA8_C38A4A:						; not traced: a table read by CODE_C37684, CODE_C45BD2, CODE_
 	db $00,$01,$E1,$00,$C4,$00,$A9,$00,$90,$00,$79,$00,$64,$00,$51,$00
 	db $40,$00,$31,$00,$24,$00,$19,$00,$10,$00,$09,$00,$04,$00,$01,$00
 CODE_C38C4A:						; called from other segments
-	lda.w $1145
+	lda.w RefCnt
 	bmi CODE_C38C6C
 	sec
 	sbc.b d7
-	sta.w $1145
+	sta.w RefCnt
 	bpl CODE_C38C5B
 	jsl.l CODE_C38C95
 CODE_C38C5B:						; from CODE_C38C4A
@@ -992,7 +992,7 @@ CODE_C38CDC:						; from CODE_C38CAB
 	asl a
 	asl a
 	asl a
-	sta.w $1145
+	sta.w RefCnt
 	lda.b tmp0
 	xba
 	and.w #$00FF

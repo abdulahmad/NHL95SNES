@@ -1158,7 +1158,7 @@ CODE_C45908:						; from stopna
 	stx.b $16
 	lda.w #$0070
 	clc
-	adc.w $0E00,x
+	adc.w legstr,x
 	ldx.b d7
 	dex
 	beq CODE_C45917

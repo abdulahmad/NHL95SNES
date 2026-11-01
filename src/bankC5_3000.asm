@@ -1680,7 +1680,7 @@ CODE_C53D3C:						; from CODE_C53CBD, CODE_C53D00, CODE_C53D32
 	lsr a
 	ldy.w #$0000
 	jsr.w CODE_C53F66
-	sta.w $0E00,x
+	sta.w legstr,x
 	ldy.b a0
 	lda.w $0112,y
 	lsr a
@@ -1784,7 +1784,7 @@ CODE_C53E02:						; from CODE_C53D3C
 	lda.w $0114,y
 	and.w #$0001
 	eor.w #$0001
-	sta.w $0FC0,x
+	sta.w handed,x
 	lda.w attribute,x
 	ora.w #$0800
 	sta.w attribute,x
@@ -1898,15 +1898,15 @@ CODE_C53E02:						; from CODE_C53D3C
 	clc
 	adc.w #$0020
 	clc
-	adc.w $0E00,x
+	adc.w legstr,x
 	sta.b r3
-	lda.w $0E00,x
+	lda.w legstr,x
 	lsr a
 	adc.b r3
 	sta.b r3
 	lda.w position,x
 	bne CODE_C53F49
-	lda.w $0E00,x
+	lda.w legstr,x
 	asl a
 	adc.b r3
 	adc.w #$0008

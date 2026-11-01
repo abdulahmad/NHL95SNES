@@ -389,11 +389,11 @@ CODE_C372C2:						; from CODE_C372B6
 	bpl CODE_C372A5
 	lda.w puckz
 	sta.b $80
-	lda.w $08DA
+	lda.w shadowz
 	sta.b $80
 	lda.w recsfx
 	sta.b $80
-	lda.w $0778
+	lda.w recsfxpitch
 	sta.b $80
 	lda.w $0779
 	sta.b $80
@@ -401,7 +401,7 @@ CODE_C372C2:						; from CODE_C372B6
 	sta.b $80
 	lda.w recsfx2
 	sta.b $80
-	lda.w $077E
+	lda.w recsfxpitch2
 	sta.b $80
 	lda.w $077F
 	sta.b $80
@@ -1397,7 +1397,7 @@ CODE_C37B8A:						; from CODE_C37B74
 CODE_C37B8D:						; from CODE_C37B74
 	sta.w $08D9
 	lda.b $80
-	sta.w $08DA
+	sta.w shadowz
 	bpl CODE_C37B9C
 	lda.w #$FFFF
 	bra CODE_C37B9F
@@ -1408,7 +1408,7 @@ CODE_C37B9F:						; from CODE_C37B8D
 	lda.b $80
 	sta.w recsfx
 	lda.b $80
-	sta.w $0778
+	sta.w recsfxpitch
 	lda.b $80
 	sta.w $0779
 	lda.b $80
@@ -1416,7 +1416,7 @@ CODE_C37B9F:						; from CODE_C37B8D
 	lda.b $80
 	sta.w recsfx2
 	lda.b $80
-	sta.w $077E
+	sta.w recsfxpitch2
 	lda.b $80
 	sta.w $077F
 	lda.b $80
@@ -1592,7 +1592,7 @@ CODE_C37D2F:						; from CODE_C37D17
 CODE_C37D31:						; from CODE_C37D17
 	sta.w $08D9
 	lda.l WMDATA
-	sta.w $08DA
+	sta.w shadowz
 	bpl CODE_C37D41
 	lda.b #$FF
 	bra CODE_C37D43
@@ -1603,7 +1603,7 @@ CODE_C37D43:						; from CODE_C37D31
 	lda.l WMDATA
 	sta.w recsfx
 	lda.l WMDATA
-	sta.w $0778
+	sta.w recsfxpitch
 	lda.l WMDATA
 	sta.w $0779
 	lda.l WMDATA
@@ -1611,7 +1611,7 @@ CODE_C37D43:						; from CODE_C37D31
 	lda.l WMDATA
 	sta.w recsfx2
 	lda.l WMDATA
-	sta.w $077E
+	sta.w recsfxpitch2
 	lda.l WMDATA
 	sta.w $077F
 	lda.l WMDATA

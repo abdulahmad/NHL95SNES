@@ -482,7 +482,7 @@ CODE_C5945E:						; from CODE_C593BF
 	ldy.w #$0004
 CODE_C59461:						; from CODE_C5947C
 	phy
-	lda.w $0595,y
+	lda.w mp5padsig,y
 	and.w #$00FF
 	dec a
 	tax

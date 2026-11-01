@@ -1395,7 +1395,7 @@ CODE_C52B18:						; from CODE_C52B0D
 	beq CODE_C52B2C
 	ldy.w #$0002
 CODE_C52B2C:						; from CODE_C52B18
-	lda.w $184C,y
+	lda.w lcpad,y
 	ply
 	cmp.w #$0000
 	bmi CODE_C52B39
@@ -1476,10 +1476,10 @@ CODE_C52BC5:						; from CODE_C52B4E
 	beq CODE_C52BD5
 	ldy.w #$0002
 CODE_C52BD5:						; from CODE_C52BC5
-	lda.w $184C,y
+	lda.w lcpad,y
 	bpl CODE_C52BC4
 	lda.b d4
-	sta.w $184C,y
+	sta.w lcpad,y
 	jmp.w CODE_C5404A
 CODE_C52BE2:						; from CODE_C52B5D
 	jml.l CODE_C42D10

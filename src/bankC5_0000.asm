@@ -164,8 +164,8 @@ CODE_C50176:						; from CODE_C5016D
 	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
-	ora.w $17BB
-	ora.w $17BD
+	ora.w cont4team
+	ora.w cont5team
 	bne CODE_C501AC
 	jsl.l CODE_CF03D0
 CODE_C501AC:						; from CODE_C50176
@@ -328,7 +328,7 @@ CODE_C50308:						; from CODE_C502EB
 	lda.w sflags
 	bit.w #$0001
 	bne CODE_C5032B
-	lda.w $153D
+	lda.w mp5warning
 	beq CODE_C5032F
 	lda.w gmode
 	bit.w #$0010
@@ -788,14 +788,14 @@ CODE_C506A3:						; from CODE_C50692
 	ldx.b curobj
 	lda.b r2
 	clc
-	adc.w $08DA
-	sta.w $08DA
+	adc.w shadowz
+	sta.w shadowz
 	lda.b $36
 	adc.w puckz
 	sta.w puckz
 	bpl CODE_C506F0
 	stz.w puckz
-	stz.w $08DA
+	stz.w shadowz
 	lda.w puckvz
 	eor.w #$FFFF
 	inc a
@@ -1617,8 +1617,8 @@ demoread:							; from CODE_C50308 and other segments
 	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
-	ora.w $17BB
-	ora.w $17BD
+	ora.w cont4team
+	ora.w cont5team
 	beq CODE_C50E62
 	ldx.w #$0000
 CODE_C50E42:						; from CODE_C50E59
@@ -1644,8 +1644,8 @@ CODE_C50E62:						; from demoread
 	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
-	ora.w $17BB
-	ora.w $17BD
+	ora.w cont4team
+	ora.w cont5team
 	bne CODE_C50E85
 	jsl.l ReadJoy1
 	lda.b d1

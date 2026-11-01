@@ -800,7 +800,7 @@ CODE_C437A4:						; from CODE_C43790
 	lsr a
 	inc a
 	sta.b d0
-	lda.w $0FC0,x
+	lda.w handed,x
 	bne CODE_C437B7
 	inc.b d0
 	inc.b d0
@@ -954,8 +954,8 @@ CODE_C438FD:						; from CODE_C4389A, CODE_C438D5, CODE_C438CC
 	stz.w iflags
 	stz.w replaydelay
 	lda.w #$FFFF
-	sta.w $1145
-	sta.w $07DA
+	sta.w RefCnt
+	sta.w puckcross
 	sta.w $07DE
 	sta.w puckz
 	sta.w passReceiverPlayerNum

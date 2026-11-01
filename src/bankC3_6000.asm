@@ -384,16 +384,16 @@ CODE_C36D45:						; from CODE_C36D45
 	stx.b PadRaw1
 	txa
 	and.b #$0F
-	sta.w $0595
+	sta.w mp5padsig
 	lda.w JOYSER0
 	lsr a
-	rol.w $0595
+	rol.w mp5padsig
 	ldx.w $421A
 	stx.b PadRaw2
 	txa
 	and.b #$0F
 	sta.w $0596
-	lda.w $153B
+	lda.w mp5present
 	bne CODE_C36D71
 	jmp.w CODE_C36E56
 CODE_C36D71:						; from CODE_C36D45
@@ -409,19 +409,19 @@ CODE_C36D71:						; from CODE_C36D45
 	rol.w $0597
 	stz.w $4201
 	lda.w $059E
-	ora.w $153D
+	ora.w mp5warning
 	bne CODE_C36DAB
-	lda.w $17BB
-	ora.w $17BD
+	lda.w cont4team
+	ora.w cont5team
 	bne CODE_C36DAB
-	lda.w $1531
+	lda.w mp5readdelay
 	beq CODE_C36DA6
 	dec a
-	sta.w $1531
+	sta.w mp5readdelay
 	jmp.w CODE_C36E5D
 CODE_C36DA6:						; from CODE_C36D71
 	lda.b #$1E
-	sta.w $1531
+	sta.w mp5readdelay
 CODE_C36DAB:						; from CODE_C36D71
 	lda.w $4017
 	lsr a
@@ -522,12 +522,12 @@ CODE_C36E56:						; from CODE_C36D45
 CODE_C36E5D:						; from CODE_C36D71, CODE_C36DAB
 	lda.b #$80
 	sta.w $4201
-	lda.w $153D
+	lda.w mp5warning
 	and.b #$01
-	sta.w $153D
-	lda.w $1533
+	sta.w mp5warning
+	lda.w mp5checktimer
 	beq CODE_C36E72
-	dec.w $1533
+	dec.w mp5checktimer
 CODE_C36E72:						; from CODE_C36E5D
 	stz.w JOYSER0
 	lda.b #$01
@@ -546,9 +546,9 @@ CODE_C36E72:						; from CODE_C36E5D
 	ora.w $1539
 	beq CODE_C36E9F
 	lda.b #$10
-	sta.w $1533
+	sta.w mp5checktimer
 CODE_C36E9F:						; from CODE_C36E72
-	lda.w $1533
+	lda.w mp5checktimer
 	bne CODE_C36EA6
 	bra CODE_C36EDB
 CODE_C36EA6:						; from CODE_C36E9F
@@ -557,35 +557,35 @@ CODE_C36EA6:						; from CODE_C36E9F
 	stx.b $C5
 	stx.b $C7
 	stx.b $C9
-	lda.w $152F
+	lda.w mp5connect
 	and.b #$80
 	beq CODE_C36EC1
 	lda.b #$01
-	tsb.w $153D
+	tsb.w mp5warning
 	bra CODE_C36EC6
 CODE_C36EC1:						; from CODE_C36EA6
 	lda.b #$01
-	trb.w $153D
+	trb.w mp5warning
 CODE_C36EC6:						; from CODE_C36EA6
-	lda.w $152F
+	lda.w mp5connect
 	and.b #$40
 	beq CODE_C36ED4
 	lda.b #$01
-	tsb.w $153B
+	tsb.w mp5present
 	bra CODE_C36EDE
 CODE_C36ED4:						; from CODE_C36EC6
 	lda.b #$01
-	trb.w $153B
+	trb.w mp5present
 	bra CODE_C36EDE
 CODE_C36EDB:						; from CODE_C36E9F
 	stz.w JOYSER0
 CODE_C36EDE:						; from CODE_C36EC6, CODE_C36ED4
-	lda.w $0595
+	lda.w mp5padsig
 	cmp.b #$01
 	beq CODE_C36EEF
 	ldx.w #$000F
 	stx.b PadRaw1
-	ldx.w $153B
+	ldx.w mp5present
 	beq CODE_C36EEF
 CODE_C36EEF:						; from CODE_C36EDE
 	lda.w $0596
@@ -593,10 +593,10 @@ CODE_C36EEF:						; from CODE_C36EDE
 	beq CODE_C36F00
 	ldx.w #$000F
 	stx.b PadRaw2
-	ldx.w $153B
+	ldx.w mp5present
 	beq CODE_C36F29
 CODE_C36F00:						; from CODE_C36EEF
-	lda.w $153B
+	lda.w mp5present
 	beq CODE_C36F29
 	lda.w $0597
 	cmp.b #$01
@@ -616,7 +616,7 @@ CODE_C36F1D:						; from CODE_C36F11
 	ldx.w #$000F
 	stx.b $C9
 CODE_C36F29:						; from CODE_C36EEF, CODE_C36F00, CODE_C36F1D
-	lda.w $153D
+	lda.w mp5warning
 	beq CODE_C36F3B
 	ldx.w #$0000
 	stx.b PadRaw1
@@ -635,36 +635,36 @@ CODE_C36F3D:						; called from other segments
 	sta.b $C5
 	sta.b $C7
 	sta.b $C9
-	stz.w $153B
-	stz.w $153D
-	stz.w $1533
-	stz.w $1531
-	lda.w $152F
+	stz.w mp5present
+	stz.w mp5warning
+	stz.w mp5checktimer
+	stz.w mp5readdelay
+	lda.w mp5connect
 	and.w #$0080
 	beq CODE_C36F6A
 	lda.w #$0001
-	tsb.w $153D
+	tsb.w mp5warning
 	bra CODE_C36F70
 CODE_C36F6A:						; from CODE_C36F3D
 	lda.w #$0001
-	trb.w $153D
+	trb.w mp5warning
 CODE_C36F70:						; from CODE_C36F3D
-	lda.w $152F
+	lda.w mp5connect
 	and.w #$0040
 	beq CODE_C36F80
 	lda.w #$0001
-	tsb.w $153B
+	tsb.w mp5present
 	bra CODE_C36F86
 CODE_C36F80:						; from CODE_C36F70
 	lda.w #$0001
-	trb.w $153B
+	trb.w mp5present
 CODE_C36F86:						; from CODE_C36F70
 	plb
 	rtl
 Multi5ConnectCheck:					; from CODE_C36F3D, CODE_C36EA6 and other segments
 	php
 	sep #$30
-	stz.w $152F
+	stz.w mp5connect
 CODE_C36F8E:						; from CODE_C36F8E
 	lda.w $4212
 	and.b #$01
@@ -704,7 +704,7 @@ CODE_C36FB7:						; from CODE_C36FB7
 	cmp.b #$FF
 	beq CODE_C36FDD
 	lda.b #$00
-	sta.w $152F
+	sta.w mp5connect
 CODE_C36FDD:						; from CODE_C36FB7
 	lda.w $04A2
 	cmp.b #$FF
@@ -713,7 +713,7 @@ CODE_C36FDD:						; from CODE_C36FB7
 	cmp.b #$FF
 	beq CODE_C36FF0
 	lda.b #$00
-	sta.w $152F
+	sta.w mp5connect
 CODE_C36FF0:						; from CODE_C36FDD
 	plp
 	rtl
