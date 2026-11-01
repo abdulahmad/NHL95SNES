@@ -156,7 +156,7 @@ checkwallcoll:						; from checkcoll and other segments
 	lda.w #$001A
 	sta.b a2
 	jsl.l checkgoal
-	jmp.w CODE_C441BE
+	jmp.w WallStraightEdges
 .1:									; A = $0000, A - d5, d5 = A, if A - d3 >= 0 go to .2, ...
 	lda.w #$0000
 	sec
@@ -176,8 +176,8 @@ checkwallcoll:						; from checkcoll and other segments
 	lda.w #$0018
 	sta.b a2
 	jsl.l checkgoal
-.2:									; go to CODE_C441BE
-	jmp.w CODE_C441BE
+.2:									; go to WallStraightEdges
+	jmp.w WallStraightEdges
 .3:									; A = d2, A - d4, d2 = A, A xor $FFFF, ...
 	lda.b d2
 	sec
@@ -187,11 +187,11 @@ checkwallcoll:						; from checkcoll and other segments
 	inc a
 	sta.b d1
 	bit.w #$8000
-	beq CODE_C4414F
-CODE_C4414B:						; called from other segments
+	beq WallCornerNormal
+WallCornerAbsX:						; take the absolute horizontal corner displacement
 	eor.w #$FFFF
 	inc a
-CODE_C4414F:						; from checkwallcoll
+WallCornerNormal:					; calculate the corner collision normal and apply the wall response
 	sta.b tmp4
 	lda.b d3
 	sec
@@ -214,9 +214,9 @@ CODE_C4414F:						; from checkwallcoll
 	lsr a
 	lsr a
 	adc.b tmp4
-.3:									; if A < $0053 go to CODE_C441BE, d3 = A, A = d0, A and $FF00, ...
+.3:									; if A < $0053 go to WallStraightEdges, d3 = A, A = d0, A and $FF00, ...
 	cmp.w #$0053
-	bcc CODE_C441BE
+	bcc WallStraightEdges
 	sta.b d3
 	lda.b d0
 	xba
@@ -250,7 +250,7 @@ CODE_C4414F:						; from checkwallcoll
 .7:									; d1 = A, call wallcollb
 	sta.b d1
 	jsl.l wallcollb
-CODE_C441BE:						; from checkwallcoll, CODE_C4414F
+WallStraightEdges:					; restore collision bounds and check straight wall edges
 	pla
 	sta.b d2
 	pla
@@ -294,31 +294,31 @@ CODE_C441BE:						; from checkwallcoll, CODE_C4414F
 	bpl wallcollb
 .rtl:								; return
 	rtl
-CODE_C4420F:						; from wallcollb
+WallPlayerResponse:					; continue into the player wall collision response
 	jmp.w wallcoll
-CODE_C44212:						; from wallcollb
+WallPuckOutResponse:				; continue into the puck out-of-bounds response
 	jmp.w wallcollb_out
-wallcollb:							; from CODE_C441BE, CODE_C4414F and other segments
+wallcollb:							; from WallStraightEdges, WallCornerNormal and other segments
 	cpx.w #$001C
-	bne CODE_C4420F
+	bne WallPlayerResponse
 	lda.w puckz
 	cmp.w #$0021
-	bpl CODE_C44212
+	bpl WallPuckOutResponse
 	lda.w puckz
 	cmp.w #$0016
-	bcc CODE_C4420F
+	bcc WallPlayerResponse
 	lda.w pucky
 	cmp.w #$012F
-	bmi CODE_C44212
+	bmi WallPuckOutResponse
 	lda.w puckx
 	cmp.w #$000D
-	bmi CODE_C4420F
+	bmi WallPlayerResponse
 	lda.w puckx
 	cmp.w #$0010
-	bpl CODE_C4420F
+	bpl WallPlayerResponse
 	lda.w puckvy
 	cmp.w #$0FA0
-	bmi CODE_C4420F
+	bmi WallPlayerResponse
 	phx
 	lda.w puckvy
 	pha
@@ -342,7 +342,7 @@ wallcollb:							; from CODE_C441BE, CODE_C4414F and other segments
 	adc.w #$000F
 	bmi wallcollb_out
 	sta.w CwdExciteLvl
-wallcollb_out:						; from wallcollb, CODE_C44212
+wallcollb_out:						; from wallcollb, WallPuckOutResponse
 	lda.w #$0040
 	tsb.w sflags
 	sta.w $109C
@@ -368,7 +368,7 @@ wallcollb_out:						; from wallcollb, CODE_C44212
 	stz.w breakaway
 	stz.w onetimer
 	rtl
-wallcoll:							; from CODE_C4420F, checkgoalp, checkgoal, ...
+wallcoll:							; from WallPlayerResponse, checkgoalp, checkgoal, ...
 	lda.b d0
 	sta.w Wallcos,x
 	lda.b d1
@@ -908,7 +908,7 @@ checkgoalp:							; from checkgoal
 	sta.b d2
 	pla
 	sta.b d3
-	jsr.w CODE_C44775
+	jsr.w CheckDislodgeGoal
 	pei ($8B)
 	pei ($87)
 	lda.b r1
@@ -954,7 +954,7 @@ checkgoalp:							; from checkgoal
 	pla
 	sta.b d3
 	rtl
-CODE_C44775:						; from checkgoalp
+CheckDislodgeGoal:					; test a burst collision for dislodging the goal and a stoppage penalty
 	pei ($7F)
 	pei ($83)
 	lda.w seed
@@ -1459,8 +1459,8 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	rtl
 .1:									; go to .7
 	jmp.w .7
-.2:									; go to CODE_C44D3D
-	jmp.w CODE_C44D3D
+.2:									; go to PuckCollisionStickRange
+	jmp.w PuckCollisionStickRange
 .3:									; continue
 	pei ($7F)
 	pei ($81)
@@ -1535,16 +1535,16 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	beq .6
 	lsr.b d1
 	lsr.b d1
-.6:									; if d1 < d0 go to .7, call puckstick, go to CODE_C44C86
+.6:									; if d1 < d0 go to .7, call puckstick, go to PuckCollisionRestore
 	lda.b d1
 	cmp.b d0
 	bcc .7
 	jsl.l puckstick
-	bra CODE_C44C86
-.7:									; if position,y is not 0 go to .8, go to CODE_C44CB1
+	bra PuckCollisionRestore
+.7:									; if position,y is not 0 go to .8, go to PuckCollisionGoalieRange
 	lda.w position,y
 	bne .8
-	jmp.w CODE_C44CB1
+	jmp.w PuckCollisionGoalieRange
 .8:									; A = Xpos,y, A - puckx, if $8000 bits clear go to .9, A xor $FFFF, ...
 	lda.w Xpos,y
 	sec
@@ -1553,9 +1553,10 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	beq .9
 	eor.w #$FFFF
 	inc a
-.9:									; if A >= $000D go to CODE_C44C86, d0 = A, A = Ypos,y, A - pucky, ...
+.9:									; if A >= $000D go to PuckCollisionRestore, d0 = A, A = Ypos,y, A - pucky,
+									; ...
 	cmp.w #$000D
-	bcs CODE_C44C86
+	bcs PuckCollisionRestore
 	sta.b d0
 	lda.w Ypos,y
 	sec
@@ -1564,9 +1565,10 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	beq .10
 	eor.w #$FFFF
 	inc a
-.10:								; if A >= $000D go to CODE_C44C86, A and $00FF, A * 2, d1 = A, ...
+.10:								; if A >= $000D go to PuckCollisionRestore, A and $00FF, A * 2, d1 = A,
+									; ...
 	cmp.w #$000D
-	bcs CODE_C44C86
+	bcs PuckCollisionRestore
 	and.w #$00FF
 	asl a
 	sta.b d1
@@ -1580,9 +1582,9 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	sta.b d0
 	ldx.b a3
 	cmp.w #$0091
-	bcs CODE_C44C86
+	bcs PuckCollisionRestore
 	jsl.l puckbody
-CODE_C44C86:						; from checkpuckcoll_ccx, CODE_C44CB1
+PuckCollisionRestore:				; restore saved puck collision scratch words and return
 	pla
 	sta.b $99
 	pla
@@ -1612,33 +1614,34 @@ CODE_C44C86:						; from checkpuckcoll_ccx, CODE_C44CB1
 	pla
 	sta.b d0
 	rtl
-CODE_C44CB1:						; from checkpuckcoll_ccx, CODE_C44D3D
+PuckCollisionGoalieRange:			; test the close puck-to-player range before puckgoalie
 	lda.w Xpos,y
 	sec
 	sbc.w puckx
 	sta.b d0
 	cmp.w #$FFF5
-	bmi CODE_C44C86
+	bmi PuckCollisionRestore
 	cmp.w #$000B
-	bpl CODE_C44C86
+	bpl PuckCollisionRestore
 	lda.w Ypos,y
 	sec
 	sbc.w pucky
 	sta.b d1
 	cmp.w #$FFF5
-	bmi CODE_C44C86
+	bmi PuckCollisionRestore
 	cmp.w #$000B
-	bpl CODE_C44C86
+	bpl PuckCollisionRestore
 	jsl.l puckgoalie
-	bra CODE_C44C86
-DATA8_C44CDD:						; not traced: a table read by CODE_C44D3D, CODE_C44D3D
+	bra PuckCollisionRestore
+DATA8_C44CDD:						; not traced: a table read by PuckCollisionStickRange,
+									; PuckCollisionStickRange
 	db $00,$00,$01,$00,$01,$00,$02,$00,$03,$00,$03,$00,$04,$00,$05,$00
 	db $05,$00,$06,$00,$07,$00,$07,$00,$08,$00,$09,$00,$09,$00,$0A,$00
 	db $0B,$00,$0B,$00,$0C,$00,$0D,$00,$0D,$00,$0E,$00,$0F,$00,$0F,$00
 	db $10,$00,$11,$00,$11,$00,$12,$00,$13,$00,$13,$00,$14,$00,$15,$00
 	db $15,$00,$16,$00,$17,$00,$17,$00,$18,$00,$19,$00,$19,$00,$1A,$00
 	db $1B,$00,$1B,$00,$1C,$00,$1D,$00,$1D,$00,$1E,$00,$1F,$00,$1F,$00
-CODE_C44D3D:						; from checkpuckcoll_ccx
+PuckCollisionStickRange:			; test the frame hotspot reach and puck height for stick contact
 	tya
 	jsl.l GetFrameHot
 	lda.b d0
@@ -1707,8 +1710,8 @@ CODE_C44D3D:						; from checkpuckcoll_ccx
 	bmi .7
 	cmp.w puckz
 	bcc .7
-.6:									; go to CODE_C44CB1
-	jmp.w CODE_C44CB1
+.6:									; go to PuckCollisionGoalieRange
+	jmp.w PuckCollisionGoalieRange
 .7:									; A = d0, A and $00FF, A * 2, X = A, ...
 	lda.b d0
 	and.w #$00FF
@@ -1740,9 +1743,10 @@ CODE_C44D3D:						; from checkpuckcoll_ccx
 	cmp.b d0
 	bcc .9
 	jsl.l puckstick
-.9:									; go to CODE_C44CB1
-	jmp.w CODE_C44CB1
-CODE_C44E0A:						; called from other segments
+.9:									; go to PuckCollisionGoalieRange
+	jmp.w PuckCollisionGoalieRange
+puckglue:							; give player a2 puck possession and update possession statistics and
+									; control
 	ldy.b a2
 	cpy.w puckc
 	beq .1

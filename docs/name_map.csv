@@ -3549,14 +3549,6 @@ $C440C1,.rtl,CODE_C440C1,new,"branch target only used in checkcoll",src/bankC4_4
 $C4410F,.1,CODE_C4410F,new,"branch target only used in checkwallcoll",src/bankC4_4000.asm
 $C44136,.2,CODE_C44136,new,"branch target only used in checkwallcoll",src/bankC4_4000.asm
 $C44139,.3,CODE_C44139,new,"branch target only used in checkwallcoll",src/bankC4_4000.asm
-$C44161,.1,CODE_C44161,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C4416F,.2,CODE_C4416F,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C44173,.3,CODE_C44173,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C4418F,.4,CODE_C4418F,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C44197,.5,CODE_C44197,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C441B0,.6,CODE_C441B0,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C441B8,.7,CODE_C441B8,new,"branch target only used in CODE_C4414F",src/bankC4_4000.asm
-$C4420E,.rtl,CODE_C4420E,new,"branch target only used in CODE_C441BE",src/bankC4_4000.asm
 $C4428D,.1,CODE_C4428D,new,"branch target only used in wallcollb_out",src/bankC4_4000.asm
 $C442AA,.2,CODE_C442AA,new,"branch target only used in wallcollb_out",src/bankC4_4000.asm
 $C4430E,.1,CODE_C4430E,new,"branch target only used in wallcoll",src/bankC4_4000.asm
@@ -3609,11 +3601,6 @@ $C44747,.7,CODE_C44747,new,"branch target only used in checkgoalp",src/bankC4_40
 $C4475E,.8,CODE_C4475E,new,"branch target only used in checkgoalp",src/bankC4_4000.asm
 $C44766,.9,CODE_C44766,new,"branch target only used in checkgoalp",src/bankC4_4000.asm
 $C4476E,.10,CODE_C4476E,new,"branch target only used in checkgoalp",src/bankC4_4000.asm
-$C447BC,.1,CODE_C447BC,new,"branch target only used in CODE_C44775",src/bankC4_4000.asm
-$C447C2,.rts,CODE_C447C2,new,"branch target only used in CODE_C44775",src/bankC4_4000.asm
-$C447C3,.2,CODE_C447C3,new,"branch target only used in CODE_C44775",src/bankC4_4000.asm
-$C447D2,.3,CODE_C447D2,new,"branch target only used in CODE_C44775",src/bankC4_4000.asm
-$C447EF,.4,CODE_C447EF,new,"branch target only used in CODE_C44775",src/bankC4_4000.asm
 $C44824,.rtl,CODE_C44824,new,"branch target only used in checkplcoll",src/bankC4_4000.asm
 $C44825,.1,CODE_C44825,new,"branch target only used in checkplcoll",src/bankC4_4000.asm
 $C4482A,.loop,CODE_C4482A,new,"branch target only used in checkplcoll",src/bankC4_4000.asm
@@ -3654,23 +3641,6 @@ $C44C2E,.7,CODE_C44C2E,new,"branch target only used in checkpuckcoll_ccx",src/ba
 $C44C36,.8,CODE_C44C36,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
 $C44C46,.9,CODE_C44C46,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
 $C44C5D,.10,CODE_C44C5D,new,"branch target only used in checkpuckcoll_ccx",src/bankC4_4000.asm
-$C44D4D,.1,CODE_C44D4D,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44D62,.2,CODE_C44D62,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44D87,.3,CODE_C44D87,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44DA0,.4,CODE_C44DA0,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44DB3,.5,CODE_C44DB3,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44DC4,.6,CODE_C44DC4,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44DC7,.7,CODE_C44DC7,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44DFD,.8,CODE_C44DFD,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44E07,.9,CODE_C44E07,new,"branch target only used in CODE_C44D3D",src/bankC4_4000.asm
-$C44E1B,.1,CODE_C44E1B,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44E39,.2,CODE_C44E39,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44E4E,.3,CODE_C44E4E,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44E84,.4,CODE_C44E84,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44E99,.5,CODE_C44E99,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44EC0,.6,CODE_C44EC0,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44ED6,.7,CODE_C44ED6,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
-$C44EDA,.8,CODE_C44EDA,new,"branch target only used in CODE_C44E0A",src/bankC4_4000.asm
 $C44F2C,.1,CODE_C44F2C,new,"branch target only used in FallDown",src/bankC4_5000.asm
 $C44F80,.rtl,CODE_C44F80,new,"branch target only used in FallDown",src/bankC4_5000.asm
 $C44F81,.2,CODE_C44F81,new,"branch target only used in FallDown",src/bankC4_5000.asm
@@ -3722,15 +3692,6 @@ $C45344,.47,CODE_C45344,new,"branch target only used in FallDown",src/bankC4_500
 $C45347,.48,CODE_C45347,new,"branch target only used in FallDown",src/bankC4_5000.asm
 $C4536E,.49,CODE_C4536E,new,"branch target only used in FallDown",src/bankC4_5000.asm
 $C45399,.50,CODE_C45399,new,"branch target only used in FallDown",src/bankC4_5000.asm
-$C453FD,.1,CODE_C453FD,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C45413,.2,CODE_C45413,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C4546A,.3,CODE_C4546A,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C45472,.4,CODE_C45472,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C45476,.5,CODE_C45476,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C454D3,.rtl,CODE_C454D3,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C454D4,.6,CODE_C454D4,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C454F7,.7,CODE_C454F7,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
-$C45516,.8,CODE_C45516,new,"branch target only used in CODE_C453E6",src/bankC4_5000.asm
 $C45539,.1,CODE_C45539,new,"branch target only used in check4check",src/bankC4_5000.asm
 $C4554F,.2,CODE_C4554F,new,"branch target only used in check4check",src/bankC4_5000.asm
 $C4555F,.loop,CODE_C4555F,new,"branch target only used in check4check",src/bankC4_5000.asm
@@ -4098,7 +4059,6 @@ $C47A63,.8,CODE_C47A63,new,"branch target only used in PenGoalStuff",src/bankC4_
 $C47A89,.loop,CODE_C47A89,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
 $C47A93,.1,CODE_C47A93,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
 $C47AB2,.2,CODE_C47AB2,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
-$C47AE9,.1,CODE_C47AE9,new,"branch target only used in CODE_C47ACD",src/bankC4_7000.asm
 $C47B53,.1,CODE_C47B53,new,"branch target only used in assepen",src/bankC4_7000.asm
 $C47B64,.2,CODE_C47B64,new,"branch target only used in assepen",src/bankC4_7000.asm
 $C47B8F,.3,CODE_C47B8F,new,"branch target only used in assepen",src/bankC4_7000.asm
@@ -4114,10 +4074,6 @@ $C47C57,.4,CODE_C47C57,new,"branch target only used in GetLowestPen",src/bankC4_
 $C47C59,.loop2,CODE_C47C59,new,"branch target only used in GetLowestPen",src/bankC4_7000.asm
 $C47C71,.5,CODE_C47C71,new,"branch target only used in GetLowestPen",src/bankC4_7000.asm
 $C47C8B,.rtl,CODE_C47C8B,new,"branch target only used in GetLowestPen",src/bankC4_7000.asm
-$C47CB6,.1,CODE_C47CB6,new,"branch target only used in CODE_C47C8C",src/bankC4_7000.asm
-$C47D0A,.rtl,CODE_C47D0A,new,"branch target only used in CODE_C47C8C",src/bankC4_7000.asm
-$C47D0B,.2,CODE_C47D0B,new,"branch target only used in CODE_C47C8C",src/bankC4_7000.asm
-$C47D1F,.3,CODE_C47D1F,new,"branch target only used in CODE_C47C8C",src/bankC4_7000.asm
 $C47D39,.1,CODE_C47D39,new,"branch target only used in asspenalty",src/bankC4_7000.asm
 $C47D81,.2,CODE_C47D81,new,"branch target only used in asspenalty",src/bankC4_7000.asm
 $C47D90,.rtl,CODE_C47D90,new,"branch target only used in asspenalty",src/bankC4_7000.asm
@@ -7748,3 +7704,64 @@ $C42F56,.6,CODE_C42F56,new,"branch target only used in PuckCarrierAvoidThreats",
 $C42F61,.rtl,CODE_C42F61,new,"branch target only used in PuckCarrierAvoidThreats",src/bankC4_2000.asm
 $C4311C,CenterDefenceTopTarget,CODE_C4311C,code,"asscenterd top-end path averages target Y with pucky when pucky is below the blue-line threshold; 94S local .t2",src/bankC4_2000.asm
 $C43131,CenterDefenceSkate,CODE_C43131,code,"asscenterd tail loads the empty callback address and jumps to skateto; 94S local .3",src/bankC4_2000.asm
+$C4414B,WallCornerAbsX,CODE_C4414B,code,"checkwallcoll negative horizontal difference entry negates A and falls into corner normal calculation",src/bankC4_4000.asm
+$C4414F,WallCornerNormal,CODE_C4414F,code,"forms max displacement plus a quarter of min, divides both components with DivX8S, clamps to signed 255 and calls wallcollb",src/bankC4_4000.asm
+$C44161,.1,CODE_C44161,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C4416F,.2,CODE_C4416F,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C44173,.3,CODE_C44173,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C4418F,.4,CODE_C4418F,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C44197,.5,CODE_C44197,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C441B0,.6,CODE_C441B0,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C441B8,.7,CODE_C441B8,new,"branch target only used in WallCornerNormal",src/bankC4_4000.asm
+$C441BE,WallStraightEdges,CODE_C441BE,code,"restores saved d2-d5 and tests four straight boundaries when Wallcos and Wallsin are zero",src/bankC4_4000.asm
+$C4420E,.rtl,CODE_C4420E,new,"branch target only used in WallStraightEdges",src/bankC4_4000.asm
+$C4420F,WallPlayerResponse,CODE_C4420F,code,"wallcollb branch trampoline consists only of jmp wallcoll",src/bankC4_4000.asm
+$C44212,WallPuckOutResponse,CODE_C44212,code,"wallcollb high-puck branch consists only of jmp wallcollb_out",src/bankC4_4000.asm
+$C44775,CheckDislodgeGoal,CODE_C44775,code,"checkgoalp tests burst animation and speed, transfers scaled velocity to goal object a2, stops player and calls penalty 8 through AddPenalty2",src/bankC4_4000.asm
+$C447BC,.1,CODE_C447BC,new,"branch target only used in CheckDislodgeGoal",src/bankC4_4000.asm
+$C447C2,.rts,CODE_C447C2,new,"branch target only used in CheckDislodgeGoal",src/bankC4_4000.asm
+$C447C3,.2,CODE_C447C3,new,"branch target only used in CheckDislodgeGoal",src/bankC4_4000.asm
+$C447D2,.3,CODE_C447D2,new,"branch target only used in CheckDislodgeGoal",src/bankC4_4000.asm
+$C447EF,.4,CODE_C447EF,new,"branch target only used in CheckDislodgeGoal",src/bankC4_4000.asm
+$C44C86,PuckCollisionRestore,CODE_C44C86,code,"checkpuckcoll_ccx exit pulls fourteen words back into d6 through d0 and their upper words then rtl",src/bankC4_4000.asm
+$C44CB1,PuckCollisionGoalieRange,CODE_C44CB1,code,"checks both player-to-puck offsets in the signed -11 to 10 range, calls puckgoalie then restores scratch",src/bankC4_4000.asm
+$C44D3D,PuckCollisionStickRange,CODE_C44D3D,code,"GetFrameHot offsets, height limits and SquareTable distance test gate puckstick before the goalie range check",src/bankC4_4000.asm
+$C44D4D,.1,CODE_C44D4D,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44D62,.2,CODE_C44D62,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44D87,.3,CODE_C44D87,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44DA0,.4,CODE_C44DA0,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44DB3,.5,CODE_C44DB3,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44DC4,.6,CODE_C44DC4,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44DC7,.7,CODE_C44DC7,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44DFD,.8,CODE_C44DFD,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44E07,.9,CODE_C44E07,new,"branch target only used in PuckCollisionStickRange",src/bankC4_4000.asm
+$C44E0A,puckglue,CODE_C44E0A,94S+purpose,"94S puckglue job and call sequence: set carrier, reset opposing touch history, count faceoff win and completed pass, handle goalie save and assign controller; 95 adds height clearing and hold-animation rejection",src/bankC4_4000.asm
+$C44E1B,.1,CODE_C44E1B,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44E39,.2,CODE_C44E39,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44E4E,.3,CODE_C44E4E,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44E84,.4,CODE_C44E84,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44E99,.5,CODE_C44E99,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44EC0,.6,CODE_C44EC0,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44ED6,.7,CODE_C44ED6,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C44EDA,.8,CODE_C44EDA,new,"branch target only used in puckglue",src/bankC4_4000.asm
+$C453E2,CheckContactReturn,CODE_C453E2,code,"shared rtl after checkcheck restores its scratch and for rejected checkcheck contact tests",src/bankC4_5000.asm
+$C453E3,CheckContactHold,CODE_C453E3,code,"checkcheck contact path for hold and hook animations jumps to holdcheck; 94S local .1",src/bankC4_5000.asm
+$C453E6,CheckPlayerContact,CODE_C453E6,code,"94S checkcheck local .cc: tests hold, hook, sweep and burst animations before collision, fall and penalty decisions",src/bankC4_5000.asm
+$C453FD,.1,CODE_C453FD,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C45413,.2,CODE_C45413,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C4546A,.3,CODE_C4546A,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C45472,.4,CODE_C45472,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C45476,.5,CODE_C45476,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C454D3,.rtl,CODE_C454D3,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C454D4,.6,CODE_C454D4,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C454F7,.7,CODE_C454F7,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C45516,.8,CODE_C45516,new,"branch target only used in CheckPlayerContact",src/bankC4_5000.asm
+$C45606,Sweepcheck,CODE_C45606,94S+code,"94S Sweepcheck same three instructions: load sweep animation, store pf2aip,x and jml SetSPAFromA; animation identity agrees with checkcheck",src/bankC4_5000.asm
+$C47ACC,GoalieInterferenceReturn,CODE_C47ACC,code,"shared rtl after checkint and its one-direction helper",src/bankC4_7000.asm
+$C47ACD,CheckGoalieInterference,CODE_C47ACD,code,"94S checkint local .ci: requires a2 goalie and running clock, swaps players for FallDown and tests impact and aggression for interference",src/bankC4_7000.asm
+$C47AE9,.1,CODE_C47AE9,new,"branch target only used in CheckGoalieInterference",src/bankC4_7000.asm
+$C47C8C,Bcheck,CODE_C47C8C,94S+purpose,"94S Bcheck same sequence of animation lock, goalie, checking-minus-legstr, facing cone, FallDown, PenShotChk, aggression and collflag; relocated OptPen and penalty enum",src/bankC4_7000.asm
+$C47CB6,.1,CODE_C47CB6,new,"branch target only used in Bcheck",src/bankC4_7000.asm
+$C47D0A,.rtl,CODE_C47D0A,new,"branch target only used in Bcheck",src/bankC4_7000.asm
+$C47D0B,.2,CODE_C47D0B,new,"branch target only used in Bcheck",src/bankC4_7000.asm
+$C47D1F,.3,CODE_C47D1F,new,"branch target only used in Bcheck",src/bankC4_7000.asm

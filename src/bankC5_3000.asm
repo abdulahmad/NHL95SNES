@@ -1081,7 +1081,7 @@ CODE_C53882:						; from CODE_C537DE
 	pei ($65)
 	pei ($67)
 	pei ($69)
-	jsl.l CODE_C45606
+	jsl.l Sweepcheck
 	pla
 	sta.b $69
 	pla

@@ -540,12 +540,12 @@ checkcheck:							; called from other segments
 	pei ($8F)
 	pei ($6B)
 	pei ($6F)
-	jsl.l CODE_C453E6
+	jsl.l CheckPlayerContact
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	jsl.l CODE_C453E6
+	jsl.l CheckPlayerContact
 	pla
 	sta.b a3
 	pla
@@ -553,24 +553,25 @@ checkcheck:							; called from other segments
 	pla
 	sta.b d4
 	ldx.b a3
-CODE_C453E2:						; from CODE_C453E6
+CheckContactReturn:					; return from the player contact check
 	rtl
-CODE_C453E3:						; from CODE_C453E6
+CheckContactHold:					; apply the holding or hooking contact response
 	jmp.w holdcheck
-CODE_C453E6:						; from checkcheck and other segments
+CheckPlayerContact:					; resolve player X checking player a2 from their animations and impact
 	ldy.b a2
 	lda.w SPA,y
 	cmp.w #$224E
-	beq CODE_C453E3
+	beq CheckContactHold
 	cmp.w #$2684
-	beq CODE_C453E3
+	beq CheckContactHold
 	cmp.w #$2082
 	bne .1
-	jmp.w CODE_C47C8C
-.1:									; if SPA,x is not $21BC go to CODE_C453E2, if gmclock = 0 go to .2, ...
+	jmp.w Bcheck
+.1:									; if SPA,x is not $21BC go to CheckContactReturn, if gmclock = 0 go to .2,
+									; ...
 	lda.w SPA,x
 	cmp.w #$21BC
-	bne CODE_C453E2
+	bne CheckContactReturn
 	lda.w gmclock
 	beq .2
 	lda.w #$0100
@@ -692,7 +693,7 @@ CODE_C453E6:						; from checkcheck and other segments
 	jsl.l AddPenalty
 .8:									; go to FallDown
 	jmp.w FallDown
-DATA8_C45519:						; not traced: a table read by CODE_C453E6
+DATA8_C45519:						; not traced: a table read by CheckPlayerContact
 	db $30,$20,$26,$21,$8A,$21,$8A,$21,$8A,$21,$58,$21,$58,$21,$F4,$20
 check4check:						; called from other segments
 	lda.w #$0014
@@ -796,7 +797,7 @@ check4check:						; called from other segments
 	jmp.w .8
 .11:								; go to burst
 	jml.l burst
-CODE_C45606:						; called from other segments
+Sweepcheck:							; start a sweep check by player X
 	lda.w #$2082
 	sta.w pf2aip,x
 	jml.l SetSPAFromA
@@ -882,7 +883,7 @@ Acheck:								; from check4check and other segments
 	sta.b d1
 .1:									; go to SetSPA
 	jml.l SetSPA
-holdcheck:							; from CODE_C453E3
+holdcheck:							; from CheckContactHold
 	lda.w position,x
 	beq .rtl
 	lda.w pfalock,x
@@ -998,7 +999,7 @@ SetSPA:								; from Acheck, FallDown and other segments
 	sta.w SPAcnt,x
 .rtl:								; return
 	rtl
-SetSPAFromA:						; from CODE_C45606, assstanley, dostop, CODE_C453E6, ...
+SetSPAFromA:						; from Sweepcheck, assstanley, dostop, CheckPlayerContact, ...
 	cmp.w SPA,x
 	beq .rtl
 	sta.w SPA,x

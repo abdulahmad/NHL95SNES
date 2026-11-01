@@ -21,7 +21,8 @@ ClearOffsidesIfAllPlayers = $C4B00F
 assexit = $C4370C
 assinsert = $C43734
 assreplace = $C4373E
-CODE_C44E0A = $C44E0A
+puckglue = $C44E0A					; give player a2 puck possession and update possession statistics and
+									; control
 FallDown = $C44F20
 SetSPA = $C457A1
 SetSPAFromA = $C457B5

@@ -113,7 +113,7 @@ skatetopuck:						; called from other segments
 	bcc .5
 	cmp.w #$0028
 	bcs .7
-	jmp.w CODE_C45606
+	jmp.w Sweepcheck
 .7:									; go to .5
 	bra .5
 assscore:							; assignment (asstab entry 8): celebrate a goal
@@ -1024,7 +1024,7 @@ CODE_C4785E:						; called from other segments
 	jml.l CODE_C53A29
 CODE_C4789C:						; from updatepwrplay_clr
 	rtl
-AddPenalty:							; from CODE_C47ACD, CODE_C47C8C and other segments
+AddPenalty:							; from CheckGoalieInterference, Bcheck and other segments
 	lda.w gmclock
 	bne .rtl
 	lda.w PenShotActive
@@ -1297,36 +1297,37 @@ CODE_C47A7C:						; from PenGoalStuff
 	plx
 	rts
 checkint:							; called from other segments
-	jsl.l CODE_C47ACD
+	jsl.l CheckGoalieInterference
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	jsl.l CODE_C47ACD
+	jsl.l CheckGoalieInterference
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-CODE_C47ACC:						; from CODE_C47ACD
+GoalieInterferenceReturn:			; return from the goalie interference check
 	rtl
-CODE_C47ACD:						; from checkint and other segments
+CheckGoalieInterference:			; check one player against goalie a2 for a fall and interference penalty
 	ldy.b a2
 	lda.w position,y
-	bne CODE_C47ACC
+	bne GoalieInterferenceReturn
 	lda.w gmclock
-	bne CODE_C47ACC
+	bne GoalieInterferenceReturn
 	lda.w puckc
 	cmp.b a3
 	beq .1
 	lda.w impact,x
 	sec
 	sbc.w #$001A
-	bmi CODE_C47ACC
-.1:									; A = impact,x, A - $0003, if the result < 0 go to CODE_C47ACC, ...
+	bmi GoalieInterferenceReturn
+.1:									; A = impact,x, A - $0003, if the result < 0 go to
+									; GoalieInterferenceReturn, ...
 	lda.w impact,x
 	sec
 	sbc.w #$0003
-	bmi CODE_C47ACC
+	bmi GoalieInterferenceReturn
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
@@ -1339,22 +1340,22 @@ CODE_C47ACD:						; from checkint and other segments
 	lda.w impact,y
 	sec
 	sbc.w #$001F
-	bmi CODE_C47ACC
+	bmi GoalieInterferenceReturn
 	lda.w pflags,x
 	bit.w #$4000
-	bne CODE_C47ACC
+	bne GoalieInterferenceReturn
 	lda.w #$0014
 	sec
 	sbc.w aggress,x
 	jsl.l randoma8
 	cmp.w #$0002
-	bcs CODE_C47ACC
+	bcs GoalieInterferenceReturn
 	lda.w gmode
 	bit.w #$0010
-	bne CODE_C47ACC
+	bne GoalieInterferenceReturn
 	lda.w goalieflags,y
 	and.w #$0004
-	bne CODE_C47ACC
+	bne GoalieInterferenceReturn
 	lda.w #$0026
 	sta.b d0
 	jmp.w AddPenalty
@@ -1515,7 +1516,7 @@ GetLowestPen:						; from updatepwrplay and other segments
 	sta.b d0
 .rtl:								; return
 	rtl
-CODE_C47C8C:						; called from other segments
+Bcheck:								; make player a3 fall when checked from the front by player a2
 	ldy.b a2
 	lda.w pfalock,x
 	bne .rtl

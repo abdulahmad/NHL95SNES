@@ -1110,7 +1110,7 @@ puckgoalie:							; called from other segments
 	bit.w #$1000
 	bne .20
 	stz.w puckvz
-	jmp.w CODE_C44E0A
+	jmp.w puckglue
 ChkShotStat:						; from puckgoalie, Goal and other segments
 	lda.w #$1000
 	trb.w sflags
@@ -1731,8 +1731,8 @@ puckstick:							; from puckbody and other segments
 	lda.w #$0008
 	sta.w nopuck,y
 	jmp.w .4
-.10:								; go to CODE_C44E0A
-	jmp.w CODE_C44E0A
+.10:								; go to puckglue
+	jmp.w puckglue
 deflect:							; from puckstick
 	lda.w #$FFFF
 	sta.w puckc
