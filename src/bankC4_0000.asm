@@ -215,7 +215,7 @@ CODE_C40153:						; from CODE_C40000
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	stz.w fadestep
-	jml.l CODE_C5A51C
+	jml.l SeasonOptions
 CODE_C401E5:						; called from other segments
 	lda.w #$0000
 	sta.l $306051

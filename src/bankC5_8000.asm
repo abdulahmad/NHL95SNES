@@ -1738,9 +1738,11 @@ CODE_C58D32:						; called from other segments
 	bcs CODE_C58DE0
 	sta.w $23BC
 	jmp.w .loop
-DATA8_C58DD0:						; jump table: the routine for each index
-	dw CODE_C593B1,CODE_C5939D,CODE_C59588,$CA6C
-	dw $C109,$C722,CODE_C59643,$ABA1
+DATA8_C58DD0:						; the routine of each play mode, run on start in the setup screen:
+									; Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player,
+									; then an eighth
+	dw CODE_C593B1,CODE_C5939D,CODE_C59588,TradePlayers
+	dw SignFreeAgents,ReleasePlayers,CODE_C59643,CODE_C5ABA1
 CODE_C58DE0:						; from CODE_C58D32
 	lda.w #$0001
 	sta.l $7E23BA

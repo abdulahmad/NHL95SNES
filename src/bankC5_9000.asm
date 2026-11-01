@@ -692,7 +692,7 @@ CODE_C59588:						; called from other segments
 	bra CODE_C59651
 CODE_C5963A:						; from CODE_C59588
 	jsl.l FadeOutWait
-	jsr.w CODE_C5A51C
+	jsr.w SeasonOptions
 	bra CODE_C59651
 CODE_C59643:						; from CODE_C596D3
 	jsl.l FadeOutWait
@@ -715,11 +715,12 @@ CODE_C59651:						; from CODE_C59651, CODE_C59588, CODE_C5963A
 	tax
 	jsr (DATA8_C5967A,x)
 	bra CODE_C59651
-DATA8_C5967A:						; jump table: the routine for each index
+DATA8_C5967A:						; the front end screen handlers, one per screen state (CODE_C59651 runs
+									; the one of the current state each frame)
 	dw CODE_C59768,CODE_C59768,CODE_C59696,CODE_C59DAF
-	dw CODE_C59930,CODE_C59767,$AC07,$A816
-	dw $A5B0,$A623,$A66E,$A773
-	dw $AB16,$AB27
+	dw CODE_C59930,CODE_C59767,CODE_C5AC07,CODE_C5A816
+	dw CODE_C5A5B0,CODE_C5A623,CODE_C5A66E,CODE_C5A773
+	dw CODE_C5AB16,CODE_C5AB27
 CODE_C59696:						; from DATA8_C5967A
 	lda.w repeatdelayframes
 	beq .1

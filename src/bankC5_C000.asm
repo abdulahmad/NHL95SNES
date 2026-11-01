@@ -145,7 +145,8 @@ CODE_C5C0BE:						; called from other segments
 	inc.b $38,x
 	jsr.w CODE_C5A46A
 	jmp.w CODE_C5A3C1
-CODE_C5C109:						; called from other segments
+SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, B marks one);
+									; start hires them (CODE_C5C58A), X leaves
 	jsl.l CODE_C406DD
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C1F6
@@ -260,7 +261,7 @@ CODE_C5C109:						; called from other segments
 	jsl.l CODE_C4C2AA
 .15:								; go to .loop
 	jmp.w .loop
-CODE_C5C1F6:						; from CODE_C5C109
+CODE_C5C1F6:						; from SignFreeAgents
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -607,7 +608,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C5C4FC:						; from CODE_C5C214, CODE_C5C109
+CODE_C5C4FC:						; from CODE_C5C214, SignFreeAgents
 	ldx.w #$0000
 .1:									; a3 = X, $65 = X, call CODE_C5D794, if A >= $026A go to .4, ...
 	stx.b a3
@@ -682,7 +683,7 @@ CODE_C5C4FC:						; from CODE_C5C214, CODE_C5C109
 	jmp.w .1
 .rts:								; return
 	rts
-CODE_C5C58A:						; from CODE_C5C109
+CODE_C5C58A:						; from SignFreeAgents
 	lda.w $17CB
 	asl a
 	asl a
@@ -904,7 +905,8 @@ CODE_C5C6B7:						; from CODE_C5C6A2, CODE_C5CC4D, CODE_C5C34C, CODE_C5C926, ...
 	adc.w #$0019
 .rts:								; return
 	rts
-CODE_C5C722:						; called from other segments
+ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B marks a
+									; player); start releases them (CODE_C5CA27), X leaves
 	jsl.l CODE_C406DD
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C826
@@ -1032,7 +1034,7 @@ CODE_C5C722:						; called from other segments
 	jsl.l CODE_C4C2AA
 .16:								; go to .loop
 	jmp.w .loop
-CODE_C5C826:						; from CODE_C5C722
+CODE_C5C826:						; from ReleasePlayers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -1248,7 +1250,7 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C5CA27:						; from CODE_C5C722
+CODE_C5CA27:						; from ReleasePlayers
 	ldy.w #$FFFF
 .1:									; Y + 1, if Y is not a1 go to .2, go to CODE_C58D32
 	iny

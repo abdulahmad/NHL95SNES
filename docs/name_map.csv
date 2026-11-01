@@ -266,7 +266,7 @@ $C58A65,DecompressToVRAM,,code,"Decompress A:X into a $1000 byte heap block and 
 $C58A99,FadeOutWait,,code,"fadestep = $FFFF, then wait until the screen is black (94S FadeOut, WaitFadeOut)",src/bankC5_8000.asm
 $C58AA5,SetupHDMA,,code,"HDMA channel X from the 6 bytes after the jsl: DMAP, BBAD, source, indirect bank",src/bankC5_8000.asm
 $7E50DC,unpackbuf,,94S,"RAM; Decompress output buffer as 94S unpackbuf (here $7E:50DC); DecompressUnpackbuf sets it as the destination",src/ram95s.asm
-$C5967A,DATA8_C5967A,,new,"jump table (14 routines) in bankC5_9000",src/bankC5_9000.asm
+$C5967A,DATA8_C5967A,,new,"the front end screen handlers, indexed by the screen state $99; CODE_C59651 calls the current one each frame (SeasonOptions sets 6, SeasonTeamStats 9); the bankC5_A000 entries are labels with stub equates",src/bankC5_9000.asm
 $C598FA,DATA8_C598FA,,new,"not reached by the traced code: starts with the bytes of ABCDEFGH (a character table?)",src/bankC5_9000.asm
 $C10000,SpritePalettes,DATA8_C10000,render,"39 palettes of 16 colours for the sprite objects (record field +18)",src/bankC1_0000.asm
 $C10533,LogoANHTiles,DATA8_C10533,render,"tiles of the ANH logo (frame header at $C08005)",src/bankC1_0000.asm
@@ -591,7 +591,7 @@ $C5A25B,DATA8_C5A25B,,new,"a word table read by CODE_C5A20D",src/bankC5_A000.asm
 $C5A2A8,DATA8_C5A2A8,,new,"a word table read by CODE_C5A291",src/bankC5_A000.asm
 $C5A354,DATA8_C5A354,,new,"a word pointing at CODE_C5A359, followed by jmp CODE_C5A3C1; DATA8_C5A3BF, DATA8_C5A3FD and DATA8_C5A468 have the same form; their reader is not traced",src/bankC5_A000.asm
 $C5A81B,DATA8_C5A81B,,new,"jump table (3 routines) in bankC5_A000",src/bankC5_A000.asm
-$C5AC73,DATA8_C5AC73,,new,"jump table (6 routines) in bankC5_A000",src/bankC5_A000.asm
+$C5AC73,SeasonMenuJumps,DATA8_C5AC73,genesis+purpose,"same job as 95G SeasonMenuJumps (the season menu items' routines); the order of the League Menu page; CODE_C5AC07 jumps through it",src/bankC5_A000.asm
 $C5AE40,DATA8_C5AE40,,new,"8 bytes FF FE FC F8 F0 E0 C0 80 (left masks?) between routines; no reader found",src/bankC5_A000.asm
 $C5B1FE,DATA8_C5B1FE,,new,"not traced: a table read by CODE_C5B1AF (in bankC5_B000)",src/bankC5_B000.asm
 $C5B35D,DATA8_C5B35D,,new,"not traced: a table read by CODE_C5B346 (in bankC5_B000)",src/bankC5_B000.asm
@@ -6361,8 +6361,8 @@ $C5A44D,.1,CODE_C5A44D,new,"branch target only used in CODE_C5A440",src/bankC5_A
 $C5A458,.2,CODE_C5A458,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
 $C5A45D,.3,CODE_C5A45D,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
 $C5A467,.rts,CODE_C5A467,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
-$C5A556,.1,CODE_C5A556,new,"branch target only used in CODE_C5A51C",src/bankC5_A000.asm
-$C5A57E,.loop,CODE_C5A57E,new,"branch target only used in CODE_C5A51C",src/bankC5_A000.asm
+$C5A556,.1,CODE_C5A556,new,"branch target only used in SeasonOptions",src/bankC5_A000.asm
+$C5A57E,.loop,CODE_C5A57E,new,"branch target only used in SeasonOptions",src/bankC5_A000.asm
 $C5A5C3,.1,CODE_C5A5C3,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
 $C5A5D3,.2,CODE_C5A5D3,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
 $C5A5DB,.3,CODE_C5A5DB,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
@@ -6451,7 +6451,7 @@ $C5AC4F,.5,CODE_C5AC4F,new,"branch target only used in CODE_C5AC07",src/bankC5_A
 $C5AC59,.6,CODE_C5AC59,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
 $C5AC67,.7,CODE_C5AC67,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
 $C5AC92,.loop,CODE_C5AC92,new,"branch target only used in CODE_C5AC84",src/bankC5_A000.asm
-$C5ACBE,.1,CODE_C5ACBE,new,"branch target only used in CODE_C5ACAA",src/bankC5_A000.asm
+$C5ACBE,.1,CODE_C5ACBE,new,"branch target only used in GamesToday",src/bankC5_A000.asm
 $C5AE56,.1,CODE_C5AE56,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
 $C5AE8D,.2,CODE_C5AE8D,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
 $C5AEA9,.loop,CODE_C5AEA9,new,"branch target only used in CODE_C5AE48",src/bankC5_A000.asm
@@ -6530,22 +6530,22 @@ $C5C00F,.1,CODE_C5C00F,new,"branch target only used in CODE_C5BFE0",src/bankC5_C
 $C5C017,.loop2,CODE_C5C017,new,"branch target only used in CODE_C5BFE0",src/bankC5_C000.asm
 $C5C021,.2,CODE_C5C021,new,"branch target only used in CODE_C5BFE0",src/bankC5_C000.asm
 $C5C02C,.loop,CODE_C5C02C,new,"branch target only used in CODE_C5C029",src/bankC5_C000.asm
-$C5C117,.loop,CODE_C5C117,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C15A,.1,CODE_C5C15A,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C15F,.2,CODE_C5C15F,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C162,.3,CODE_C5C162,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C174,.4,CODE_C5C174,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C179,.5,CODE_C5C179,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C190,.6,CODE_C5C190,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C196,.7,CODE_C5C196,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1B1,.8,CODE_C5C1B1,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1C5,.9,CODE_C5C1C5,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1CE,.10,CODE_C5C1CE,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1D2,.11,CODE_C5C1D2,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1DB,.12,CODE_C5C1DB,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1E4,.13,CODE_C5C1E4,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1E6,.14,CODE_C5C1E6,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
-$C5C1F3,.15,CODE_C5C1F3,new,"branch target only used in CODE_C5C109",src/bankC5_C000.asm
+$C5C117,.loop,CODE_C5C117,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C15A,.1,CODE_C5C15A,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C15F,.2,CODE_C5C15F,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C162,.3,CODE_C5C162,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C174,.4,CODE_C5C174,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C179,.5,CODE_C5C179,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C190,.6,CODE_C5C190,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C196,.7,CODE_C5C196,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1B1,.8,CODE_C5C1B1,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1C5,.9,CODE_C5C1C5,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1CE,.10,CODE_C5C1CE,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1D2,.11,CODE_C5C1D2,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1DB,.12,CODE_C5C1DB,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1E4,.13,CODE_C5C1E4,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1E6,.14,CODE_C5C1E6,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
+$C5C1F3,.15,CODE_C5C1F3,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
 $C5C2D6,.loop,CODE_C5C2D6,new,"branch target only used in CODE_C5C214",src/bankC5_C000.asm
 $C5C2E4,.1,CODE_C5C2E4,new,"branch target only used in CODE_C5C214",src/bankC5_C000.asm
 $C5C2FC,.2,CODE_C5C2FC,new,"branch target only used in CODE_C5C214",src/bankC5_C000.asm
@@ -6605,23 +6605,23 @@ $C5C709,.4,CODE_C5C709,new,"branch target only used in CODE_C5C6B7",src/bankC5_C
 $C5C70F,.5,CODE_C5C70F,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
 $C5C717,.6,CODE_C5C717,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
 $C5C721,.rts,CODE_C5C721,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C730,.loop,CODE_C5C730,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C76F,.1,CODE_C5C76F,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C777,.2,CODE_C5C777,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C785,.3,CODE_C5C785,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C78A,.4,CODE_C5C78A,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7A1,.5,CODE_C5C7A1,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7A7,.6,CODE_C5C7A7,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7CB,.7,CODE_C5C7CB,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7D9,.8,CODE_C5C7D9,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7E0,.9,CODE_C5C7E0,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7EC,.10,CODE_C5C7EC,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7F3,.11,CODE_C5C7F3,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7FA,.12,CODE_C5C7FA,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C7FF,.13,CODE_C5C7FF,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C814,.14,CODE_C5C814,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C819,.15,CODE_C5C819,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
-$C5C823,.16,CODE_C5C823,new,"branch target only used in CODE_C5C722",src/bankC5_C000.asm
+$C5C730,.loop,CODE_C5C730,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C76F,.1,CODE_C5C76F,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C777,.2,CODE_C5C777,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C785,.3,CODE_C5C785,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C78A,.4,CODE_C5C78A,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7A1,.5,CODE_C5C7A1,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7A7,.6,CODE_C5C7A7,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7CB,.7,CODE_C5C7CB,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7D9,.8,CODE_C5C7D9,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7E0,.9,CODE_C5C7E0,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7EC,.10,CODE_C5C7EC,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7F3,.11,CODE_C5C7F3,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7FA,.12,CODE_C5C7FA,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C7FF,.13,CODE_C5C7FF,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C814,.14,CODE_C5C814,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C819,.15,CODE_C5C819,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
+$C5C823,.16,CODE_C5C823,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
 $C5C90A,.loop,CODE_C5C90A,new,"branch target only used in CODE_C5C826",src/bankC5_C000.asm
 $C5C944,.1,CODE_C5C944,new,"branch target only used in CODE_C5C926",src/bankC5_C000.asm
 $C5C956,.2,CODE_C5C956,new,"branch target only used in CODE_C5C926",src/bankC5_C000.asm
@@ -7112,3 +7112,12 @@ $C5CEA0,PrintTradedPlayers,CODE_C5CEA0,genesis+purpose,"same job as 95G PrintTra
 $C5CF11,CheckTrade,CODE_C5CF11,genesis+code,"the roster rules of 95G CheckTrade: after the trade each team has 2-3 goalies, 9-15 forwards, 6-15 defencemen and at most 25 players; the values come from TradeValue for each side",src/bankC5_C000.asm
 $C5D00D,TradeValue,CODE_C5D00D,genesis+purpose,"same job as 95G TradeValue (the value of the chosen players from their ratings), with the counts of 95G CountChosen; CheckTrade calls it for both sides",src/bankC5_D000.asm
 $C5D08C,ExecuteTrade,CODE_C5D08C,genesis+purpose,"same job as 95G ExecuteTrade; writes the team nibble of each chosen player in the save RAM table at $306A56 (the home list to $17CB, the away list to $17C9); GMDecisionScreen calls it",src/bankC5_D000.asm
+$C5A51C,SeasonOptions,CODE_C5A51C,genesis+purpose,"same job as 95G SeasonOptions (the season mode menu); the page at $C356A4 (League Menu); sets the screen state $99 = 6 (DATA8_C5967A: CODE_C5AC07); the season screens jump back to it",src/bankC5_A000.asm
+$C5ACAA,GamesToday,CODE_C5ACAA,genesis+purpose,"same job as 95G GamesToday (the day's games, a button toggles human / computer, left / right the day, start exits); the page at $C3568E",src/bankC5_A000.asm
+$C5B17A,StandingsScreen,CODE_C5B17A,genesis+purpose,"same job as 95G StandingsScreen (NHL STANDINGS by conference / division); the page at $C35553",src/bankC5_B000.asm
+$C5AFB6,LeagueLeadersScreen,CODE_C5AFB6,genesis+purpose,"same job as 95G LeagueLeadersScreen (the stat leader lists of the season menu); the page at $C3556D printed from CODE_C5AFCC, which it falls into",src/bankC5_B000.asm
+$C5B07C,SeasonTeamStats,CODE_C5B07C,genesis+purpose,"same job as 95G SeasonTeamStats (the season team stats screen); the page at $C355F1 (Season Team Stats); sets the screen state $99 = 9 (CODE_C5A623)",src/bankC5_B000.asm
+$C5B0EA,SeasonPlayerStats,CODE_C5B0EA,genesis+purpose,"same job as 95G SeasonPlayerStats (the season player stats screen); the page at $C35583 (Season Player Stats)",src/bankC5_B000.asm
+$C5C109,SignFreeAgents,CODE_C5C109,genesis+purpose,"same job as 95G SignFreeAgents; the page at $C353AB (Hire Free Agents); play mode Free Agent of the setup screen (DATA8_C58DD0 entry 4)",src/bankC5_C000.asm
+$C5C722,ReleasePlayers,CODE_C5C722,genesis+purpose,"same job as 95G ReleasePlayers; the page at $C353D5 (Release Players) printed by CODE_C5C826; play mode Release (DATA8_C58DD0 entry 5)",src/bankC5_C000.asm
+$C58DD0,DATA8_C58DD0,,new,"the routine of each play mode ($1864), run on start / select in the setup screen; the play mode list at $C35844: Exhibition, Practice, Season (CODE_C59588: the season in progress warning or SeasonOptions), Trades (TradePlayers), Free Agent (SignFreeAgents), Release (ReleasePlayers), Make Player (CODE_C59643: Create Player), then CODE_C5ABA1",src/bankC5_8000.asm

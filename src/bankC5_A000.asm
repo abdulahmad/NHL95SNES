@@ -587,7 +587,7 @@ CODE_C5A4E2:						; from CODE_C5A4DE and other segments
 CODE_C5A507:						; called from other segments
 	jsr.w CODE_C5A50B
 	rtl
-CODE_C5A50B:						; from CODE_C5A507, CODE_C5A51C and other segments
+CODE_C5A50B:						; from CODE_C5A507, SeasonOptions and other segments
 	ldx.b a4
 	jsl.l CODE_C5E596
 	stz.b a4
@@ -595,7 +595,9 @@ CODE_C5A50B:						; from CODE_C5A507, CODE_C5A51C and other segments
 	jsl.l CODE_C5E596
 	stz.b $75
 	rts
-CODE_C5A51C:						; from CODE_C5A623, CODE_C5A5B0, CODE_C5A773, CODE_C5AB16, ...
+SeasonOptions:						; the League Menu (season mode): draws its page (Play Games, NHL
+									; Standings, Games Today, League Leaders, Team Stats, Player Stats) and
+									; makes CODE_C5AC07 the screen's handler
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -691,7 +693,7 @@ CODE_C5A5B0:						; called from other segments
 	jsl.l CODE_C5E596
 	ldx.b $79
 	jsl.l CODE_C5E596
-	jmp.w CODE_C5A51C
+	jmp.w SeasonOptions
 .5:									; A = d1, A - 1, if the result >= 0 go to .7, A = $0002, ...
 	lda.b d1
 	dec a
@@ -729,7 +731,7 @@ CODE_C5A623:						; called from other segments
 	bit.w #$3000
 	beq .rts
 	jsl.l FadeOutWait
-	jmp.w CODE_C5A51C
+	jmp.w SeasonOptions
 .rts:								; return
 	rts
 .2:									; A = $17C9, A + 1, if A < $001A go to .3, A = $0000
@@ -783,7 +785,7 @@ CODE_C5A66E:						; called from other segments
 	jsl.l CODE_C5E596
 	ldx.b $79
 	jsl.l CODE_C5E596
-	jmp.w CODE_C5A51C
+	jmp.w SeasonOptions
 .5:									; A = $17C9, A + 1, if A < $001A go to .6, A = $0000
 	lda.w $17C9
 	inc a
@@ -913,7 +915,7 @@ CODE_C5A773:						; called from other segments
 	jsl.l CODE_C5E596
 	ldx.b $79
 	jsl.l CODE_C5E596
-	jmp.w CODE_C5A51C
+	jmp.w SeasonOptions
 .6:									; d0 - 1, if the result >= 0 go to .9, A = $0007, go to .8
 	dec.b d0
 	bpl .9
@@ -974,7 +976,7 @@ CODE_C5A821:						; from DATA8_C5A81B
 	bit.w #$3000
 	beq .rts
 	jsl.l FadeOutWait
-	jmp.w CODE_C5A51C
+	jmp.w SeasonOptions
 .rts:								; return
 	rts
 .3:									; A = $306050, A and $00FF, if A = d0 go to .4, if carry set go to .rts
@@ -1305,7 +1307,7 @@ CODE_C5AA94:						; from CODE_C5A821
 	jsl.l CODE_C4BCAA
 	jsl.l CODE_C4C2AA
 	rts
-CODE_C5AAF0:						; from CODE_C5A821, CODE_C5ACAA
+CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	lda.b $D3
 	clc
 	adc.w #$0140
@@ -1325,11 +1327,11 @@ CODE_C5AB16:						; called from other segments
 	beq .1
 .rts:								; return
 	rts
-.1:									; A = $058D, if $3000 bits clear go to .rts, go to CODE_C5A51C
+.1:									; A = $058D, if $3000 bits clear go to .rts, go to SeasonOptions
 	lda.w $058D
 	bit.w #$3000
 	beq .rts
-	jmp.w CODE_C5A51C
+	jmp.w SeasonOptions
 CODE_C5AB27:						; called from other segments
 	lda.w repeatdelayframes
 	beq .1
@@ -1422,7 +1424,8 @@ CODE_C5ABC4:						; from CODE_C5AB27 and other segments
 	lda.w #$0010
 	sta.w $010E
 	rts
-CODE_C5AC07:						; called from other segments
+CODE_C5AC07:						; the League Menu each frame: up / down move, B / start / select run the
+									; item (SeasonMenuJumps), X leaves
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -1441,11 +1444,11 @@ CODE_C5AC07:						; called from other segments
 	bne .3
 .rts:								; return
 	rts
-.2:									; A = d6, A * 2, X = A, jump through DATA8_C5AC73,x
+.2:									; A = d6, A * 2, X = A, jump through SeasonMenuJumps,x
 	lda.b d6
 	asl a
 	tax
-	jmp (DATA8_C5AC73,x)
+	jmp (SeasonMenuJumps,x)
 .3:									; call FadeOutWait, $1864 = $0002, go to CODE_C50056
 	jsl.l FadeOutWait
 	lda.w #$0002
@@ -1473,9 +1476,10 @@ CODE_C5AC07:						; called from other segments
 	jsr.w CODE_C5ACA3
 	jsl.l CODE_C4C2AA
 	jmp.w CODE_C5A599
-DATA8_C5AC73:						; jump table: the routine for each index
-	dw CODE_C5AE48,$B17A,CODE_C5ACAA,$AFB6
-	dw $B07C,$B0EA
+SeasonMenuJumps:					; the routine of each League Menu item: Play Games, NHL Standings, Games
+									; Today, League Leaders, Team Stats, Player Stats
+	dw CODE_C5AE48,StandingsScreen,GamesToday,LeagueLeadersScreen
+	dw SeasonTeamStats,SeasonPlayerStats
 CODE_C5AC7F:						; from CODE_C5AC07
 	lda.w #$0C00
 	sta.b tmp0
@@ -1503,7 +1507,8 @@ CODE_C5ACA3:						; from CODE_C5AC07
 	lda.w #$0000
 	sta.b tmp0
 	bra CODE_C5AC84
-CODE_C5ACAA:						; from DATA8_C5AC73
+GamesToday:							; League Menu Games Today: the day's games (B marks a game, the pad
+									; changes the day, start goes back to the League Menu)
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
 	lda.w $1864
@@ -1652,7 +1657,7 @@ CODE_C5ADE3:						; from CODE_C5ADD8
 	rts
 DATA8_C5AE40:						; not traced: data between routines
 	db $FF,$FE,$FC,$F8,$F0,$E0,$C0,$80
-CODE_C5AE48:						; from DATA8_C5AC73, CODE_C5AF07
+CODE_C5AE48:						; from SeasonMenuJumps, CODE_C5AF07
 	stz.b tmp0
 	lda.w $1864
 	cmp.w #$0003

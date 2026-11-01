@@ -76,5 +76,9 @@ CODE_C5963A = $C5963A
 DecompressUnpackbuf = $C581D7
 FadeOutWait = $C58A99
 SetupHDMA = $C58AA5
+StandingsScreen = $C5B17A
+LeagueLeadersScreen = $C5AFB6
+SeasonTeamStats = $C5B07C
+SeasonPlayerStats = $C5B0EA
 
 incsrc "../bankC5_A000.asm"

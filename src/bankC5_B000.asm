@@ -1,7 +1,8 @@
 ; Segment bankC5_B000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5AFB6
-CODE_C5AFB6:						; called from other segments
+LeagueLeadersScreen:				; League Menu League Leaders: the players leading a stat category (the pad
+									; changes the stat); CODE_C5AFCC redraws it
 	jsl.l FadeOutWait
 	ldx.b a0
 	lda.w #$FC18
@@ -86,7 +87,8 @@ CODE_C5AFCC:						; called from other segments
 	sta.b $99
 	stz.w fadestep
 	rts
-CODE_C5B07C:						; called from other segments
+SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (record, goals, save
+									; and shooting percentages, shots); the pad switches teams
 	jsl.l FadeOutWait
 	ldx.b a0
 	lda.w #$FC18
@@ -124,7 +126,8 @@ CODE_C5B07C:						; called from other segments
 	sta.b $99
 	stz.w fadestep
 	rts
-CODE_C5B0EA:						; called from other segments
+SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and points of a
+									; team's players (B switches to the goalies, the pad switches teams)
 	jsl.l FadeOutWait
 	stz.b d0
 	ldx.b a0
@@ -175,7 +178,8 @@ CODE_C5B0EA:						; called from other segments
 	sta.b $99
 	stz.w fadestep
 	rts
-CODE_C5B17A:						; called from other segments
+StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad up / down
+									; changes the division, left / right the stat)
 	jsl.l FadeOutWait
 	ldx.b a0
 	lda.w #$FC18
@@ -984,7 +988,7 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	jsl.l CODE_C4BC1A
 	plx
 	rts
-CODE_C5B7F1:						; from CODE_C5B07C and other segments
+CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	lda.w #$00D4
 	sta.b $18
 	lda.w #$0025
@@ -1436,7 +1440,7 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	jsl.l CODE_C5F3DB
 	jsl.l CODE_C4CEDB
 	rts
-CODE_C5BBDD:						; a callback: CODE_C5A71A, CODE_C5B0EA pass it to CODE_C55ABC
+CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C55ABC
 	lda.w #$000C
 	sta.b $CF
 	lda.b d0
@@ -1561,7 +1565,7 @@ CODE_C5BCCC:						; from CODE_C5BBDD
 	ldy.b $6D
 	jsl.l CODE_C4BC08
 	rts
-CODE_C5BCD9:						; from CODE_C5B0EA and other segments
+CODE_C5BCD9:						; from SeasonPlayerStats and other segments
 	lda.w #$00DE
 	sta.b $18
 	lda.w #$0025

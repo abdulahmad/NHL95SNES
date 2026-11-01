@@ -52,5 +52,9 @@ CODE_C5939D = $C5939D
 CODE_C593B1 = $C593B1
 CODE_C59588 = $C59588
 CODE_C59643 = $C59643
+TradePlayers = $C5CA6C
+SignFreeAgents = $C5C109
+ReleasePlayers = $C5C722
+CODE_C5ABA1 = $C5ABA1
 
 incsrc "../bankC5_8000.asm"
