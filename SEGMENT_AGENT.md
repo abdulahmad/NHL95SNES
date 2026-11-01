@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_D000 (org $C4CFF5), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
+bankC4_E000 (org $C4DFD6), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
 bankC3_0000 (org $C30000) afterwards. <- CURRENT
 
 ## Sources
@@ -175,6 +175,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
 - 2026-10-31: bankC4_6000 matched (game code, CODE_ names), with two 13-entry jump tables whose unused entries are $0000; such
   entries now stay $0000 (DATA8_C570E8 in bankC5_7000 had one written as Opening; fixed). End moved to $C4702D, bankC4_7000 org
   to $C4702E.
+- 2026-10-31: bankC4_D000 matched (game code, CODE_ names), with task routines and a jump table. For a seed of unknown state the
+  descent keeps 16-bit A and index unless that decode fails sooner than another state succeeds (a short false jml had made 8-bit
+  look right); rechecking all written segments changed nothing. End moved to $C4DFD5, bankC4_E000 org to $C4DFD6.
 - 2026-10-31: bankC4_C000 matched (game code, CODE_ names). CODE_C4BF1A dispatches by pushing a routine address - 1 from
   DATA8_C4C07D and returning: written as dw label-1. A callee that returns with other register widths (sep / rep before all its
   returns) now sets the state of its caller; rechecking all written segments with it changed nothing. End moved to $C4CFF4,
@@ -359,8 +362,8 @@ The first row that is still incbin is the current segment.
 | bankC4_A000 | matched 4178 bytes | $C49FBD | $C4B00E | game code with CODE_ names and their callers, asstab routines, tables read with long addresses; out of ROM order, org moved to $C49FBD, end moved +$F |
 | bankC4_B000 | matched 3896 bytes | $C4B00F | $C4BF46 | game code with CODE_ names and their callers: a task system (routine pointers in X:A, the next routine in field 2), print entry points; uncalled entries say so; out of ROM order, org moved to $C4B00F, end moved -$B9 |
 | bankC4_C000 | matched 4270 bytes | $C4BF47 | $C4CFF4 | game code with CODE_ names and their callers, an rts-dispatch table DATA8_C4C07D (dw label-1), text code in 8-bit mode, a character table; out of ROM order, org moved to $C4BF47, end moved -$B |
-| bankC4_D000 | incbin <- CURRENT | $C4CFF5 | $C4DFFF | org moved to $C4CFF5 |
-| bankC4_E000 | incbin | $C4E000 | $C4EFFF | |
+| bankC4_D000 | matched 4065 bytes | $C4CFF5 | $C4DFD5 | game code with CODE_ names and their callers, task routines, the jump table DATA8_C4DC51, data tables; out of ROM order, org moved to $C4CFF5, end moved -$2A |
+| bankC4_E000 | incbin <- CURRENT | $C4DFD6 | $C4EFFF | org moved to $C4DFD6 |
 | bankC4_F000 | incbin | $C4F000 | $C4FFFF | |
 | bankC5_0000 | matched 4342 bytes | $C50000 | $C510F5 | Opening (the cold start Reset_Fast jumps to, 94S name), game code with CODE_ names and their callers, tables read with long addresses (DATA8_ with their readers); five small routines with no caller found are decoded and say so; out of ROM order, end moved +$F6 |
 | bankC5_1000 | matched 3858 bytes | $C510F6 | $C52007 | game code with CODE_ names and their callers, asstab entry 27 (CODE_C51CC1), tables read with long addresses (DATA8_ with their readers); seven small routines with no caller found are decoded and say so; out of ROM order, org moved to $C510F6, end moved +$8 |

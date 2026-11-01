@@ -732,3 +732,12 @@ $C4C4AE,DATA8_C4C4AE,,new,"not traced: a table read by CODE_C4C08D (in bankC4_C0
 $C4C4B6,DATA8_C4C4B6,,new,"not traced: a table read by CODE_C4BEB1 (in bankC4_C000)",src/bankC4_C000.asm
 $C4C4D7,DATA8_C4C4D7,,new,"not traced: a table read by CODE_C4C349, CODE_C4BE99 (in bankC4_C000)",src/bankC4_C000.asm
 $C4C502,DATA8_C4C502,,new,"not traced: a table read by CODE_C4BEA6 (in bankC4_C000)",src/bankC4_C000.asm
+$C4D101,DATA8_C4D101,,new,"not traced: data between routines (in bankC4_D000)",src/bankC4_D000.asm
+$C4D10A,DATA8_C4D10A,,new,"not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_C4D5F6 (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA55,DATA8_C4DA55,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA57,DATA8_C4DA57,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA75,DATA8_C4DA75,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA7D,DATA8_C4DA7D,,new,"not traced: a table read by CODE_C4D963 (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA7F,DATA8_C4DA7F,,new,"not traced: a table read by CODE_C4D963 (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA9D,DATA8_C4DA9D,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
+$C4DC51,DATA8_C4DC51,,new,"jump table: the routine for each index (in bankC4_D000)",src/bankC4_D000.asm

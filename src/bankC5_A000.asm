@@ -1387,7 +1387,7 @@ CODE_C5AB76:						; from CODE_C5AB69
 CODE_C5ABA1:						; called from other segments
 	lda.w #$0002
 	sta.w $1864
-	jsl.l $C4CFF5
+	jsl.l CODE_C4CFF5
 	jmp.w CODE_C5963A
 CODE_C5ABAE:						; from CODE_C5AB76
 	clc

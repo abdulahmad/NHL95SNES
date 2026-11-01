@@ -279,7 +279,7 @@ CODE_C40264:						; from CODE_C40254
 	tax
 	pla
 	jsl.l $C4DFD6
-	jsl.l $C4D818
+	jsl.l CODE_C4D818
 	jml.l Reset
 CODE_C40280:						; from CODE_C40264
 	sep #$20

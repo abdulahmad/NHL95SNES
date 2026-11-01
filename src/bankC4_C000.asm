@@ -1916,8 +1916,8 @@ CODE_C4CF67:						; from CODE_C4CF67
 CODE_C4CF74:						; from CODE_C4CF67
 	rts
 CODE_C4CF75:						; from CODE_C4CF11 and other segments
-	jsr.w $D05B
-	jsr.w $D0D5
+	jsr.w CODE_C4D05B
+	jsr.w CODE_C4D0D5
 CODE_C4CF7B:						; from CODE_C4D051 and other segments
 	pea.w $7E7E
 	plb
