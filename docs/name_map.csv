@@ -1951,3 +1951,10 @@ $CA09B2,JenningsPicPalette,DATA8_CA09B2,render+genesis+code,"its colours (16)",s
 $CA09D9,DATA8_CA09D9,,new,"raw frame tiles for transfer index $241; pose not traced",src/bankCA_0000.asm
 $CA0C39,DATA8_CA0C39,,new,"raw frame tiles for transfer index $242; pose not traced",src/bankCA_0000.asm
 $CA0E99,DATA8_CA0E99,,new,"raw frame tiles for transfer index $243; pose not traced",src/bankCA_0000.asm
+$CA1099,DATA8_CA1099,,new,"raw frame tiles for transfer index $244; pose not traced",src/bankCA_1000.asm
+$CA12F9,DATA8_CA12F9,,new,"raw frame tiles for transfer index $245; pose not traced",src/bankCA_1000.asm
+$CA1579,DATA8_CA1579,,new,"raw frame tiles for transfer index $246; pose not traced",src/bankCA_1000.asm
+$CA17F9,DATA8_CA17F9,,new,"raw frame tiles for transfer index $247; pose not traced",src/bankCA_1000.asm
+$CA1A79,DATA8_CA1A79,,new,"raw frame tiles for transfer index $248; pose not traced",src/bankCA_1000.asm
+$CA1C79,DATA8_CA1C79,,new,"raw frame tiles for transfer index $249; pose not traced",src/bankCA_1000.asm
+$CA1EF9,DATA8_CA1EF9,,new,"raw frame tiles for transfer index $24A; pose not traced",src/bankCA_1000.asm
