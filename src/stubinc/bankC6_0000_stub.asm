@@ -308,5 +308,12 @@ DATA8_C8D8B9 = $C8D8B9				; frame source in another segment
 DATA8_C8DAD9 = $C8DAD9				; frame source in another segment
 DATA8_C8DCD9 = $C8DCD9				; frame source in another segment
 DATA8_C8DED9 = $C8DED9				; frame source in another segment
+DATA8_C8E139 = $C8E139				; frame source in another segment
+DATA8_C8E3B9 = $C8E3B9				; frame source in another segment
+DATA8_C8E639 = $C8E639				; frame source in another segment
+DATA8_C8E8B9 = $C8E8B9				; frame source in another segment
+DATA8_C8EB39 = $C8EB39				; frame source in another segment
+DATA8_C8ED59 = $C8ED59				; frame source in another segment
+DATA8_C8EF59 = $C8EF59				; frame source in another segment
 
 incsrc "../bankC6_0000.asm"
