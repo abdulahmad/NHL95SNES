@@ -1164,7 +1164,7 @@ SetupPenaltyShot:					; penalty shot set up: the puck at centre ice, every playe
 	ldx.w #$000C
 	lda.w #$0000
 	sta.b d4
-.1:									; d0 = $0010, call FillPlayerAssignments, call FillPlayerAssignments, call
+.1:									; d0 = $0010, call FillPlayerAssignments, call FillPlayerAssignments, ...
 									; FillPlayerAssignments, ...
 	lda.w #$0010
 	sta.b d0
@@ -1177,7 +1177,7 @@ SetupPenaltyShot:					; penalty shot set up: the puck at centre ice, every playe
 	ldx.b d4
 	lda.w teampads,x
 	beq .4
-	lda.w $17C1,x
+	lda.w goaliemode1,x
 	beq .4
 	ldy.w #$0000
 .loop:								; loop: if padside,y < 0 go to .2, if padside,y = d4 go to .3

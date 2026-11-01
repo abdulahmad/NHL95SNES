@@ -1702,9 +1702,9 @@ PauseGoalieMode:					; pause menu Mnual Goalie / Auto Goalie: switches the goali
 									; team a2, then redraws the menu
 	jsl.l GetPadTeam
 	ldx.b a2
-	lda.w $17C1,x
+	lda.w goaliemode1,x
 	eor.w #$0001
-	sta.w $17C1,x
+	sta.w goaliemode1,x
 	lda.w $18F2
 	jmp.w CODE_C54FA9
 TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C prints its

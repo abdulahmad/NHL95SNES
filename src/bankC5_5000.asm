@@ -485,7 +485,7 @@ CODE_C55308:						; no caller found (not traced)
 	jsl.l GetPadTeam
 	lda.w #$59FC
 	ldx.b a2
-	ldy.w $17C1,x
+	ldy.w goaliemode1,x
 	beq .1
 	lda.w #$59EF
 .1:									; pull X, pull Y, go to CODE_C552CE

@@ -7547,3 +7547,5 @@ $C54070,SetLCmode2,CODE_C54070,94S+purpose,"SetLCmode jumps to it where 94S SetL
 $C42D10,burst,CODE_C42D10,94S+code,"94S burst's steps side by side: pfalock test, getpde, OptLine, $CC energy taken by setpde, $1000 when OptLine is 2, the speed scaled, Xvel / Yvel from the facing direction table, pfalock, jml SetSPAFromA; called from doinput as in 94S",src/bankC4_2000.asm
 $C54B60,lcfound_close,CODE_C54B60,94S+purpose,"94S lcfound_close's job (setlccords, eraser, the scoreboard redrawn) done with queued transfers; lineinput jumps to it and CloseLCBoxes calls it for each open box, as 94S lcfound and ShowGoalBox do",src/bankC5_4000.asm
 $C54BAF,CloseLCBoxes,CODE_C54BAF,code,"the step of 94S ShowGoalBox that closes both boxes, as a routine; called from puckfaceoff2, PenGoalStuff and others",src/bankC5_4000.asm
+$17C1,goaliemode1,,94S+code,"RAM: 3 of 3 aligned votes (SetupPenaltyShot, doinput, PauseGoalieMode); StartGame_go stores it with goaliemode2 as 94S StartGame does",src/ram95s.asm
+$17C3,goaliemode2,,94S+code,"RAM: StartGame_go stores it right after goaliemode1 as 94S StartGame stores goaliemode2",src/ram95s.asm

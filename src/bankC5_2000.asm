@@ -1496,8 +1496,8 @@ doinput:							; called from other segments
 	cpx.w #$000C
 	bmi .21
 	ldy.w #$0002
-.21:								; if $17C1,y = 0 go to .rtl2, go to PadTakeGoalie
-	lda.w $17C1,y
+.21:								; if goaliemode1,y = 0 go to .rtl2, go to PadTakeGoalie
+	lda.w goaliemode1,y
 	beq .rtl2
 	jml.l PadTakeGoalie
 .22:								; if pfalock,x is not 0 go to .8, call checkob, ...

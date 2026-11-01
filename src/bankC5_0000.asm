@@ -99,8 +99,8 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	sta.b a2
 	jsl.l LoadTeamLines
 	lda.w $1870
-	sta.w $17C1
-	sta.w $17C3
+	sta.w goaliemode1
+	sta.w goaliemode2
 	lda.w #$0001
 	sta.w $1303
 	sta.w $1305
