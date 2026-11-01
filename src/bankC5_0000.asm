@@ -1301,8 +1301,8 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	beq .4
 	cmp.w #$0002
 	bne .5
-.4:									; call CODE_C5DD47
-	jsr.w CODE_C5DD47
+.4:									; call SimDayScores
+	jsr.w SimDayScores
 .5:									; call Intermission, if gsp = $0004 go to .6, lastperiod = gsp, ...
 	jsl.l Intermission
 	lda.w gsp
@@ -1321,10 +1321,10 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	cmp.w #$0002
 	beq .7
 	jmp.w Restart
-.7:									; call CODE_C5E49A, call SeasonGameOver, call CODE_C5DE9B, ...
-	jsr.w CODE_C5E49A
+.7:									; call ShowPleaseWait, call SeasonGameOver, call SimDayGameStats, ...
+	jsr.w ShowPleaseWait
 	jsr.w SeasonGameOver
-	jsr.w CODE_C5DE9B
+	jsr.w SimDayGameStats
 	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .8
@@ -1359,10 +1359,10 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	sta.b tmp0
 	jsl.l StartMenuMusic
 	jmp.w CODE_C5ADDC
-.11:								; go to CODE_C5AF07
+.11:								; go to FinishSeasonDay
 	pea.w $7E7F
 	plb
-	jmp.w CODE_C5AF07
+	jmp.w FinishSeasonDay
 SeasonGameOver:						; after the user's season game: its game record (the first one in use at
 									; $7F8EF8) marked played in $306051, the scores and team stats copied in,
 									; then the result and the season stats (outside play mode 3)

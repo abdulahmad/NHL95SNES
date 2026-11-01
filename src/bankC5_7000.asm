@@ -1387,7 +1387,7 @@ CODE_C57A4D:						; from CODE_C579F4
 	sta.b $D5
 	rts
 ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScoreRow draws each
-									; row); from the pause menu, and from CODE_C5AF07 with X: EXIT MENU
+									; row); from the pause menu, and from FinishSeasonDay with X: EXIT MENU
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	jsr.w SetupScreen

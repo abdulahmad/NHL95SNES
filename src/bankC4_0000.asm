@@ -268,7 +268,7 @@ CODE_C401E5:						; called from other segments
 	lda.b tmp0
 	beq .3
 	sta.l $7E2C42
-	jml.l CODE_C5AF07
+	jml.l FinishSeasonDay
 .3:									; A = $0004, call CODE_C40280, push A, A = $0003, ...
 	plb
 	lda.w #$0004

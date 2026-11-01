@@ -1752,7 +1752,9 @@ CODE_C5DCEE:						; from CODE_C5DB38
 	iny
 	iny
 	rts
-CODE_C5DD47:						; called from other segments
+SimDayScores:						; simulates the score of each of the day's computer games not yet done:
+									; goals added at random below each team's rating, the game marked done (+6
+									; = $FFFF); in play mode 3 a tie goes to the away team
 	lda.w $2C42
 	sta.b tmp0
 	ldx.w #$8EF8
@@ -1803,7 +1805,7 @@ CODE_C5DD47:						; called from other segments
 	dec.b tmp0
 	bne .loop
 	rts
-CODE_C5DDC0:						; from CODE_C5DD47
+CODE_C5DDC0:						; from SimDayScores
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1923,7 +1925,8 @@ CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
 .6:									; A 16-bit, return
 	rep #$20
 	rts
-CODE_C5DE9B:						; called from other segments
+SimDayGameStats:					; fills the stats of each of the day's computer games: both teams' totals
+									; from their goals (SimTeamTotals), then the players' stats
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
@@ -1939,18 +1942,18 @@ CODE_C5DE9B:						; called from other segments
 	lda.w $0000,y
 	beq .3
 	jmp.w .4
-.3:									; X = Y, $0034,y = $0008,y, call CODE_C5E123, A = Y, ...
+.3:									; X = Y, $0034,y = $0008,y, call SimTeamTotals, A = Y, ...
 	tyx
 	lda.w $0008,y
 	sta.w $0034,y
-	jsr.w CODE_C5E123
+	jsr.w SimTeamTotals
 	tya
 	clc
 	adc.w #$0016
 	tax
 	lda.w $000A,y
 	sta.w $001E,y
-	jsr.w CODE_C5E123
+	jsr.w SimTeamTotals
 	lda.w $0024,y
 	sta.w $0020,y
 	lda.w $000E,y

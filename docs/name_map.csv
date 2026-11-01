@@ -6456,10 +6456,10 @@ $C5AE56,.1,CODE_C5AE56,new,"branch target only used in MenuPlayGames",src/bankC5
 $C5AE8D,.2,CODE_C5AE8D,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
 $C5AEA9,.loop,CODE_C5AEA9,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
 $C5AEEB,.3,CODE_C5AEEB,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
-$C5AF11,.loop,CODE_C5AF11,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
-$C5AF50,.1,CODE_C5AF50,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
-$C5AF6E,.2,CODE_C5AF6E,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
-$C5AF71,.3,CODE_C5AF71,new,"branch target only used in CODE_C5AF07",src/bankC5_A000.asm
+$C5AF11,.loop,CODE_C5AF11,new,"branch target only used in FinishSeasonDay",src/bankC5_A000.asm
+$C5AF50,.1,CODE_C5AF50,new,"branch target only used in FinishSeasonDay",src/bankC5_A000.asm
+$C5AF6E,.2,CODE_C5AF6E,new,"branch target only used in FinishSeasonDay",src/bankC5_A000.asm
+$C5AF71,.3,CODE_C5AF71,new,"branch target only used in FinishSeasonDay",src/bankC5_A000.asm
 $C5AFFA,.1,CODE_C5AFFA,new,"branch target only used in DrawLeagueLeaders",src/bankC5_B000.asm
 $C5B008,.loop,CODE_C5B008,new,"branch target only used in DrawLeagueLeaders",src/bankC5_B000.asm
 $C5B02B,.loop2,CODE_C5B02B,new,"branch target only used in DrawLeagueLeaders",src/bankC5_B000.asm
@@ -6769,10 +6769,10 @@ $C5DC7C,.2,CODE_C5DC7C,new,"branch target only used in CODE_C5DC54",src/bankC5_D
 $C5DCCD,.1,CODE_C5DCCD,new,"branch target only used in CODE_C5DCA7",src/bankC5_D000.asm
 $C5DD16,.1,CODE_C5DD16,new,"branch target only used in CODE_C5DCEE",src/bankC5_D000.asm
 $C5DD1D,.2,CODE_C5DD1D,new,"branch target only used in CODE_C5DCEE",src/bankC5_D000.asm
-$C5DD4F,.loop,CODE_C5DD4F,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
-$C5DD79,.1,CODE_C5DD79,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
-$C5DD97,.2,CODE_C5DD97,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
-$C5DDB5,.3,CODE_C5DDB5,new,"branch target only used in CODE_C5DD47",src/bankC5_D000.asm
+$C5DD4F,.loop,CODE_C5DD4F,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
+$C5DD79,.1,CODE_C5DD79,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
+$C5DD97,.2,CODE_C5DD97,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
+$C5DDB5,.3,CODE_C5DDB5,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
 $C5DE02,.loop,CODE_C5DE02,new,"branch target only used in RecordDayResults",src/bankC5_D000.asm
 $C5DE09,.1,CODE_C5DE09,new,"branch target only used in RecordDayResults",src/bankC5_D000.asm
 $C5DE4D,.1,CODE_C5DE4D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
@@ -6781,11 +6781,11 @@ $C5DE6D,.3,CODE_C5DE6D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D
 $C5DE81,.4,CODE_C5DE81,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
 $C5DE95,.5,CODE_C5DE95,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
 $C5DE98,.6,CODE_C5DE98,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
-$C5DEAD,.1,CODE_C5DEAD,new,"branch target only used in CODE_C5DE9B",src/bankC5_D000.asm
-$C5DEB4,.2,CODE_C5DEB4,new,"branch target only used in CODE_C5DE9B",src/bankC5_D000.asm
-$C5DEBC,.3,CODE_C5DEBC,new,"branch target only used in CODE_C5DE9B",src/bankC5_D000.asm
-$C5DF50,.4,CODE_C5DF50,new,"branch target only used in CODE_C5DE9B",src/bankC5_D000.asm
-$C5DF5D,.5,CODE_C5DF5D,new,"branch target only used in CODE_C5DE9B",src/bankC5_D000.asm
+$C5DEAD,.1,CODE_C5DEAD,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
+$C5DEB4,.2,CODE_C5DEB4,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
+$C5DEBC,.3,CODE_C5DEBC,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
+$C5DF50,.4,CODE_C5DF50,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
+$C5DF5D,.5,CODE_C5DF5D,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
 $C5DFB1,.loop,CODE_C5DFB1,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
 $C5DFC1,.loop2,CODE_C5DFC1,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
 $C5DFD8,.1,CODE_C5DFD8,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
@@ -6817,7 +6817,7 @@ $C5E460,.loop,CODE_C5E460,new,"branch target only used in CODE_C5E447",src/bankC
 $C5E467,.1,CODE_C5E467,new,"branch target only used in CODE_C5E447",src/bankC5_E000.asm
 $C5E47C,.loop,CODE_C5E47C,new,"branch target only used in CODE_C5E474",src/bankC5_E000.asm
 $C5E48B,.1,CODE_C5E48B,new,"branch target only used in CODE_C5E474",src/bankC5_E000.asm
-$C5E4CC,.loop,CODE_C5E4CC,new,"branch target only used in CODE_C5E49A",src/bankC5_E000.asm
+$C5E4CC,.loop,CODE_C5E4CC,new,"branch target only used in ShowPleaseWait",src/bankC5_E000.asm
 $C5E4E6,.loop,CODE_C5E4E6,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
 $C5E4F0,.1,CODE_C5E4F0,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
 $C5E502,.loop2,CODE_C5E502,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
@@ -7733,3 +7733,8 @@ $C5DE38,RecordTeamResult,CODE_C5DE38,genesis+purpose,"95 Genesis RecordTeamResul
 $C5DDF0,RecordDayResults,CODE_C5DDF0,code,"from the code: the loop over the records, $10A bytes each, with the played bits",src/bankC5_D000.asm
 $C5E17C,SaveDayGameStats,CODE_C5E17C,code,"from the code: the same record loop as RecordDayResults with the season stat calls",src/bankC5_E000.asm
 $C40A6D,AddGamePlayerStats,CODE_C40A6D,code,"from the code: the teams from the record into $17C9 / $17CB, the two team rosters ($2DC9, $3207)",src/bankC4_0000.asm
+$C5DD47,SimDayScores,CODE_C5DD47,code,"from the code: the record loop at $7F8EF8 ($2C42 records of $10A bytes), RandomBelowA, the tie break; 95 Genesis SimScore's job, done for every game of the day",src/bankC5_D000.asm
+$C5DE9B,SimDayGameStats,CODE_C5DE9B,code,"from the code: the record loop with the played bits of $306051, SimTeamTotals for both teams, the rosters loaded; 95 Genesis SimGameStats's job, done for every game of the day",src/bankC5_D000.asm
+$C5E123,SimTeamTotals,CODE_C5E123,code,"from the code: the fields +$C .. +$1C with RandomBelowA of 30, $C8 and the goals / 2, / 4",src/bankC5_E000.asm
+$C5E49A,ShowPleaseWait,CODE_C5E49A,code,"from the code: FadeOutWait, SetupScreen, the text at $4692 printed centred, brightness $F",src/bankC5_E000.asm
+$C5AF07,FinishSeasonDay,CODE_C5AF07,code,"from the code: ShowPleaseWait, SimDayScores, SimDayGameStats, ShowOtherScores, RecordDayResults, SaveDayGameStats, $306050 + 1; MenuPlayGames goes here",src/bankC5_A000.asm

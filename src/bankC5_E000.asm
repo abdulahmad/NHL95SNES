@@ -225,7 +225,8 @@ CODE_C5E0DF:						; from CODE_C5E0B1, CODE_C5E083
 	cmp.w $DBE2
 	bne .loop
 	rts
-CODE_C5E123:						; called from other segments
+SimTeamTotals:						; a simulated team's game totals at X from its goals A: shots are goals +
+									; 10 + a random 0-29, the other fields random parts of the goals
 	sta.b tmp1
 	sta.w $000C,x
 	lda.w #$001E
@@ -258,7 +259,7 @@ CODE_C5E123:						; called from other segments
 	adc.w $001A,x
 	sta.w $001C,x
 	rts
-CODE_C5E172:						; from CODE_C5DF5F, CODE_C5E123, CODE_C5E0B1, ...
+CODE_C5E172:						; from CODE_C5DF5F, SimTeamTotals, CODE_C5E0B1, ...
 	pea.w $7F7E
 	plb
 	jsl.l RandomBelowA
@@ -668,7 +669,7 @@ CODE_C5E474:						; called from other segments
 	rtl
 DATA8_C5E499:						; not traced: data between routines
 	db $6B
-CODE_C5E49A:						; called from other segments
+ShowPleaseWait:						; fades out and shows the Please Wait= screen, then waits for the fade in
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	stz.w DMAEnShadow
@@ -721,7 +722,7 @@ CODE_C5E4D2:						; called from other segments
 	lda.b $0C
 	sta.l $306051
 	rts
-CODE_C5E50E:						; from CODE_C5E49A and other segments
+CODE_C5E50E:						; from ShowPleaseWait and other segments
 	lda.w #$00A0
 	sta.b $E1
 	lda.w #$0058

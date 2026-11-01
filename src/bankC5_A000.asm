@@ -1629,7 +1629,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 CODE_C5ADD8:						; called from other segments
 	bit.b tmp0
 	bpl NoGameSelected
-CODE_C5ADDC:						; from CODE_C5AF07, MenuPlayGames and other segments
+CODE_C5ADDC:						; from FinishSeasonDay, MenuPlayGames and other segments
 	pla
 	jsr.w setoptions
 	jmp.w CODE_C5963A
@@ -1755,9 +1755,11 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	dec.b tmp0
 	bne .loop
 	lda.l $306051
-	beq CODE_C5AF07
+	beq FinishSeasonDay
 	jsr.w CODE_C5E336
-CODE_C5AF07:						; from MenuPlayGames and other segments
+FinishSeasonDay:					; once no user game of the day is left: Please Wait, the computer games
+									; simulated (SimDayScores, SimDayGameStats), the other scores shown, the
+									; results and season stats saved, the season day + 1
 	lda.l $7E2C42
 	sta.b tmp0
 	lda.w #$8EF8
@@ -1771,9 +1773,9 @@ CODE_C5AF07:						; from MenuPlayGames and other segments
 	dec.b tmp0
 	bne .loop
 	plb
-	jsr.w CODE_C5E49A
-	jsr.w CODE_C5DD47
-	jsr.w CODE_C5DE9B
+	jsr.w ShowPleaseWait
+	jsr.w SimDayScores
+	jsr.w SimDayGameStats
 	jsl.l ResetWorkBuf
 	lda.w #$0001
 	sta.w $190E
