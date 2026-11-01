@@ -7264,3 +7264,20 @@ $07F4,tickervc,,94S+code,"RAM: the operand where 94S Intermission has tickervc, 
 $07F6,lastframevc,,94S+code,"RAM: the operand where 94S Gameloop has lastframevc, in the side by side of Gameloop",src/ram95s.asm
 $0810,vcountmark,,94S+code,"RAM: the operand where 94S Intermission has vcountmark, in the side by side of Intermission",src/ram95s.asm
 $153F,InIntermission,,94S+code,"RAM: the operand where 94S Intermission has InIntermission, in the side by side of Intermission",src/ram95s.asm
+$CF0000,InitSoundSystem,CODE_CF0000,code,Calls driver initialization then initializes CPU sound state and fade volume.,src/bankCF_0000.asm
+$CF001A,UploadSoundDriver,CODE_CF001A,code,IPL uploads followed by the port 3 $7F / port 0 echo handshake and queue reset.,src/bankCF_0000.asm
+$CF00B7,WaitSPCUploadAck,CODE_CF00B7,code,Compare port 0 with A until equal; M determines byte or word comparison.,src/bankCF_0000.asm
+$CF00BD,ReadSPCUploadByte,CODE_CF00BD,code,Byte source reader; carries to the next bank at offset $8000.,src/bankCF_0000.asm
+$CF00CC,ReadSPCUploadWord,CODE_CF00CC,code,Word source reader; carries to the next bank at offset $8000.,src/bankCF_0000.asm
+$CF00FE,SendQueuedSoundCmd,CODE_CF00FE,code,NMI calls this to send one four-byte queue entry; no port readiness check here.,src/bankCF_0000.asm
+$CF0101,SendSoundCmdAtTail,CODE_CF0101,code,Writes entry bytes 1-3 to ports 0-2 and command byte 0 to port 3.,src/bankCF_0000.asm
+$CF0162,AppendSounds,CODE_CF0162,code,LoadSounds falls through after resetting allocation; LoadTeamSongs calls again to append its songs.,src/bankCF_0000.asm
+$CF0188,UploadSoundTables,CODE_CF0188,code,Uploads tables to sound RAM $F600 / $F480 / $F580 / $FD00; DSP directory is within the final block.,src/bankCF_0000.asm
+$CF01E0,LoadSample,CODE_CF01E0,code,Header +0 pitch; +2 stereo volume; +4 auxiliary word; +6 envelope; +8 loop offset; +10 data length.,src/bankCF_0000.asm
+$CF028B,AppendSoundData,CODE_CF028B,code,Uses tmp0 as allocation cursor; overflow wraps to $0C00 and increments the overflow counter.,src/bankCF_0000.asm
+$CF02A5,UploadSoundData,CODE_CF02A5,code,Command $19; three-byte chunks; $81-$83 final byte count; waits for $7E completion.,src/bankCF_0000.asm
+$CF0313,LoadSequence,CODE_CF0313,code,A masked to seven bits indexes the pointer table; header +3 gives sample count.,src/bankCF_0000.asm
+$CF0402,WaitSoundQueueEmpty,CODE_CF0402,code,Used before queuing the volume fade steps.,src/bankCF_0000.asm
+$CF0418,StartSoundVolume,CODE_CF0418,code,Command 3 takes sample in port 0 and left/right volume in ports 1/2.,src/bankCF_0000.asm
+$CF0485,PlayTeamSongNow,CODE_CF0485,code,Enters the shared PlayTeamSong queue path directly.,src/bankCF_0000.asm
+$CF0663,TeamSongSoundList,DATA8_CF0663,code,LoadTeamSongs passes this FF-ended list to LoadSounds.,src/bankCF_0000.asm

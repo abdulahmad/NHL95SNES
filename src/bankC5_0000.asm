@@ -19,7 +19,7 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	sta.w jmlvector
 	jsl.l forceblack
 	jsl.l CODE_C36F3D
-	jsl.l CODE_CF0000
+	jsl.l InitSoundSystem
 	jsl.l IntroSequence
 	jsl.l DeveloperCredits
 	jsl.l CopyrightScreen
@@ -813,7 +813,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	xba
 	tsb.b tmp0
 	lda.w #$000D
-	jsl.l CODE_CF0418
+	jsl.l StartSoundVolume
 .44:								; A = $0830, A - Xpos,x, d0 = A, if plus go to .45, ...
 	sec
 	lda.w $0830

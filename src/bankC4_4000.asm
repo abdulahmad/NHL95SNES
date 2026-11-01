@@ -457,8 +457,8 @@ wallcoll:							; from CODE_C4420F, checkgoalp, checkgoal, ...
 	cpy.w #$000B
 	bcs .6
 	lda.w #$0003
-.6:									; call CODE_CF0418
-	jsl.l CODE_CF0418
+.6:									; call StartSoundVolume
+	jsl.l StartSoundVolume
 .7:									; A = d3, A / 2, A / 2, A / 2, ...
 	lda.b d3
 	lsr a

@@ -814,8 +814,8 @@ puckbody:							; called from other segments
 	bra .3
 .2:									; A = $0011
 	lda.w #$0011
-.3:									; call CODE_CF0418, puckvz = 0, Y = a2, nopuck,y = $0008, ...
-	jsl.l CODE_CF0418
+.3:									; call StartSoundVolume, puckvz = 0, Y = a2, nopuck,y = $0008, ...
+	jsl.l StartSoundVolume
 	stz.w puckvz
 	ldy.b a2
 	lda.w #$0008
@@ -971,13 +971,13 @@ puckgoalie:							; called from other segments
 	beq .7
 	eor.w #$FFFF
 	inc a
-.7:									; A and $7F00, tmp0 = A, A = $0011, call CODE_CF0418, ...
+.7:									; A and $7F00, tmp0 = A, A = $0011, call StartSoundVolume, ...
 	and.w #$7F00
 	sta.b tmp0
 	xba
 	tsb.b tmp0
 	lda.w #$0011
-	jsl.l CODE_CF0418
+	jsl.l StartSoundVolume
 	lda.w puckvy
 	cmp.w #$3000
 	bpl .8
@@ -1370,7 +1370,7 @@ Goal:								; called from other segments
 	lda.w #$0078
 	sta.b crowdhold
 	lda.w #$0003
-	jsl.l CODE_CF0485
+	jsl.l PlayTeamSongNow
 .17:								; $07EC = Vcount, call EndPenaltyShot, breakaway = 0, onetimer = 0, ...
 	lda.b Vcount
 	sta.w $07EC
