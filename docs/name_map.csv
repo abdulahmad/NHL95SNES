@@ -2335,3 +2335,5 @@ $CE8087,PhotoPalettesOTW,DATA8_CE8087,code,"Ottawa: 16 colours for each of its 6
 $CE8147,PlayerPhotosOTW,DATA8_CE8147,code,"Ottawa: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_8000.asm
 $CE93D3,PhotoPalettesPHI,DATA8_CE93D3,code,"Philadelphia: 16 colours for each of its 6 player photos; entry 16 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_9000.asm
 $CE9493,PlayerPhotosPHI,DATA8_CE9493,code,"Philadelphia: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_9000.asm
+$CEA782,PhotoPalettesPIT,DATA8_CEA782,code,"Pittsburgh: 16 colours for each of its 6 player photos; entry 17 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_A000.asm
+$CEA842,PlayerPhotosPIT,DATA8_CEA842,code,"Pittsburgh: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_A000.asm
