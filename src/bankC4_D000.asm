@@ -1081,7 +1081,7 @@ AwardPictures:						; the picture (map set) of each award, a long pointer; read 
 	dw SelkePicMap&$FFFF,SelkePicMap>>16	; 1: Frank J. Selke Trophy
 	dw ConnSmythePicMap&$FFFF,ConnSmythePicMap>>16	; 2: Conn Smythe Trophy
 	dw JenningsPicMap&$FFFF,JenningsPicMap>>16	; 3: William M. Jennings Trophy
-	dw $F32B,$00CD					; 4: Hart Memorial Trophy (HartPicMap, not yet source)
+	dw HartPicMap&$FFFF,HartPicMap>>16	; 4: Hart Memorial Trophy
 	dw ArtRossPicMap&$FFFF,ArtRossPicMap>>16	; 5: Art Ross Trophy
 	dw NorrisPicMap&$FFFF,NorrisPicMap>>16	; 6: James Norris Memorial Trophy
 	dw $F0AB,$00CE					; 7: Presidents Trophy (PresidentsPicMap, not yet source)

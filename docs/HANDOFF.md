@@ -15,16 +15,17 @@
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   Bank $C6: frame source and placement tables, raw frame tiles and VezinaPic. Banks $C7-$CB: raw frame tiles, each followed
   by an award picture (SelkePic, ConnSmythePic, JenningsPic, ArtRossPic, NorrisPic). Bank $CC: raw frame tiles, then the
-  rink map set (IceRinkMap, IceRinkTiles; its stream and IceRinkPalette run on into bank $CD). The remaining segments in
-  banks $CD-$CF are incbin.
-- Next: segment bankCD_F000, org $CDF32B (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CC are all source (the code banks $C4
+  rink map set (IceRinkMap, IceRinkTiles). Bank $CD: the rest of the rink set (IceRinkPalette), the player photo sets of
+  WSH, WPG, ANH, BOS, BUF, CGY, CHI, DAL, DET, EDM and FLA, HartPic, then DATA8_CDF94A (a per-frame table that runs into
+  bank $CE). The remaining segments in banks $CE-$CF are incbin.
+- Next: segment bankCE_0000, org $CE0192 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CD are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
   $C3: the team database (TeamList, PlayerList, the player and team records as labels and ROM cuts, since the names are
   licensed), data tables and text, PhotoPaletteTable, game code ($C36B83-$C38EFD), then samples 03, 04, 05, 28, 07, 08, 24, 25,
   30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Remaining: banks
-  $CD-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
+  $CE-$CF (photos in $CE, code and the sample list in $CF). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -88,9 +89,12 @@
   DATA8_C4C420), then loads the picture. The order: 0 Vezina, 1 Selke, 2 Conn Smythe, 3 Jennings, 4 Hart, 5 Art Ross, 6
   Norris, 7 Presidents. Names as 95G AwardPictures (VezinaPic, ...): <Name>PicMap / Tiles / Palette. Each picture follows
   the last raw frame of its bank: VezinaPic $C6FDE8-$C7053D, SelkePic $C7FE7E-$C80558, then ConnSmythePic ($C8FE39-$C9076A),
-  JenningsPic ($C9FFEB-$CA09D8), ArtRossPic ($CAFDF9-$CB08B4), NorrisPic ($CBFDD5-$CC05E4); HartPic and PresidentsPic are in
+  JenningsPic ($C9FFEB-$CA09D8), ArtRossPic ($CAFDF9-$CB08B4), NorrisPic ($CBFDD5-$CC05E4); HartPic ($CDF32B-$CDF949) and PresidentsPic are in
   banks $CD / $CE. The frames of bank $CC end at $CCEEA5; the rink map set follows (IceRinkMap, below). ../work/framesseg.py
   BANK J writes a raw-frame segment (and the picture in the last one), awards.py holds the names.
+- Per-frame offsets: DATA8_CDF94A ($CDF94A, into bank $CE) and DATA8_CE0192 ($CE0192) are two more 1060-word tables
+  indexed by the frame number (as DATA8_C60000). CODE_C37FE2 takes the frame from $0856,y and puts the first in $7F
+  (negated when $08E0,y has bit $0800) and the second, negated, in $83. What the offsets place is not traced.
 - Rink: IceRinkMap ($CCEEA5) is a three-chunk map set like the award pictures, but 32 x 170 tiles (the two rink halves,
   85 rows each), 520 tiles and 4 palettes, to $CD25DF. CODE_C52037 loads it (CODE_C58812); CODE_C55524 finds its tiles chunk.
   It is split at the tiles chunk: IceRinkMap ends bankCC_E000, bankCC_F000 is IceRinkTiles (header and stream start);

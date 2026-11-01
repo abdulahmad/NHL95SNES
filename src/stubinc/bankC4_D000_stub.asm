@@ -10,6 +10,7 @@ VezinaPicMap = $C6FDE8				; award 0 picture
 SelkePicMap = $C7FE7E				; award 1 picture
 ConnSmythePicMap = $C8FE39			; award 2 picture
 JenningsPicMap = $C9FFEB			; award 3 picture
+HartPicMap = $CDF32B				; award 4 picture
 ArtRossPicMap = $CAFDF9				; award 5 picture
 NorrisPicMap = $CBFDD5				; award 6 picture
 CODE_C387D8 = $C387D8

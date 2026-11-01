@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCD_F000 (org $CDF32B): banks $C0-$CC are all source. <- CURRENT
+bankCE_0000 (org $CE0192): banks $C0-$CD are all source. <- CURRENT
 
 ## Sources
 
@@ -596,6 +596,10 @@ bankCD_F000 (org $CDF32B): banks $C0-$CC are all source. <- CURRENT
 - 2026-10-31: bankCD_E000 matched: PlayerPhotosFLA (the Florida player photos, packed). Photo sets as in bank $C0:
   PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item
   starts.
+- 2026-10-31: bankCD_F000 matched: HartPic (the Hart Memorial Trophy picture), then DATA8_CDF94A (a per-frame offset table).
+  HartPic is AwardPictures entry 4 (rendered: a trophy; its map and tile LZSS ends match the chunk lengths). DATA8_CDF94A: 1060
+  words per frame number, read by CODE_C37FE2 (which now uses the label); it runs into bank $CE to $CE0191, where the parallel
+  DATA8_CE0192 starts. Bank $CD is all source.
 
 ## ROM map
 
@@ -826,8 +830,8 @@ The first row that is still incbin is the current segment.
 | bankCD_C000 | matched 4837 bytes | $CDCC79 | $CDDF5D | the Edmonton player photos (PhotoPalettesEDM, PlayerPhotosEDM); org moved to $CDCC79, end moved +$F5E |
 | bankCD_D000 | matched 192 bytes | $CDDF5E | $CDE01D | PhotoPalettesFLA (the Florida photo colours; the photos follow); org moved to $CDDF5E, end moved +$1E |
 | bankCD_E000 | matched 4877 bytes | $CDE01E | $CDF32A | PlayerPhotosFLA (the Florida player photos, packed); org moved to $CDE01E, end moved +$32B |
-| bankCD_F000 | incbin | $CDF32B | $CDFFFF | <- CURRENT |
-| bankCE_0000 | incbin | $CE0000 | $CE0FFF | |
+| bankCD_F000 | matched 3687 bytes | $CDF32B | $CE0191 | HartPic (the Hart Memorial Trophy picture), then DATA8_CDF94A (a per-frame offset table); org moved to $CDF32B, end moved +$192 |
+| bankCE_0000 | incbin | $CE0192 | $CE0FFF | <- CURRENT |
 | bankCE_1000 | incbin | $CE1000 | $CE1FFF | |
 | bankCE_2000 | incbin | $CE2000 | $CE2FFF | |
 | bankCE_3000 | incbin | $CE3000 | $CE3FFF | |

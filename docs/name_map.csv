@@ -2314,3 +2314,7 @@ $CDCC79,PhotoPalettesEDM,DATA8_CDCC79,code,"Edmonton: 16 colours for each of its
 $CDCD39,PlayerPhotosEDM,DATA8_CDCD39,code,"Edmonton: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_C000.asm
 $CDDF5E,PhotoPalettesFLA,DATA8_CDDF5E,code,"Florida: 16 colours for each of its 6 player photos; entry 8 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_D000.asm
 $CDE01E,PlayerPhotosFLA,DATA8_CDE01E,code,"Florida: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_E000.asm
+$CDF32B,HartPicMap,DATA8_CDF32B,render+genesis+code,"the picture of award 4 (Hart Memorial Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 4, whose AwardNames text reads Hart Memorial Trophy. 95G HartPic",src/bankCD_F000.asm
+$CDF3B8,HartPicTiles,DATA8_CDF3B8,render+genesis+code,"its tiles (49, 4bpp, LZSS)",src/bankCD_F000.asm
+$CDF923,HartPicPalette,DATA8_CDF923,render+genesis+code,"its colours (16)",src/bankCD_F000.asm
+$CDF94A,DATA8_CDF94A,,new,"per frame number (1060 words, as DATA8_C60000): a signed offset; CODE_C37FE2 (frame from $0856,y) puts it in $7F, negated when $08E0,y has bit $0800; runs into bank $CE",src/bankCD_F000.asm

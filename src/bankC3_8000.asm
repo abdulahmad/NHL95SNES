@@ -14,14 +14,14 @@ CODE_C37FE2:						; called from other segments
 	lda.w $08E0,y
 	bit.w #$0800
 	beq CODE_C38007
-	lda.l $CDF94A,x
+	lda.l DATA8_CDF94A,x
 	eor.w #$FFFF
 	inc a
 	sta.b $7F
 	plx
 	rtl
 CODE_C38007:						; from CODE_C37FE2
-	lda.l $CDF94A,x
+	lda.l DATA8_CDF94A,x
 	sta.b $7F
 	plx
 	rtl
