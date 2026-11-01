@@ -731,7 +731,7 @@ CODE_C4459D:						; from CODE_C44583
 CODE_C445A3:						; from CODE_C44583
 	jmp.w wallcoll
 CODE_C445A6:						; from CODE_C445A9
-	jmp.w CODE_C4AA65
+	jmp.w Goal
 CODE_C445A9:						; from CODE_C4455B
 	stz.b $83
 	lda.w $08B2

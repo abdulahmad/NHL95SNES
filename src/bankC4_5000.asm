@@ -693,7 +693,7 @@ CODE_C45516:						; from CODE_C454F7
 	jmp.w CODE_C44F20
 DATA8_C45519:						; not traced: a table read by CODE_C45413
 	db $30,$20,$26,$21,$8A,$21,$8A,$21,$8A,$21,$58,$21,$58,$21,$F4,$20
-CODE_C45529:						; called from other segments
+check4check:						; called from other segments
 	lda.w #$0014
 	sec
 	sbc.w $0FA0,x
@@ -701,7 +701,7 @@ CODE_C45529:						; called from other segments
 	lda.w $186C
 	beq CODE_C45539
 	asl.b $7F
-CODE_C45539:						; from CODE_C45529
+CODE_C45539:						; from check4check
 	lda.b $7F
 	jsl.l randomd0A
 	cmp.w #$0004
@@ -1197,14 +1197,14 @@ CODE_C4594C:						; from CODE_C45935
 	stz.w $09C0,x
 CODE_C4594F:						; from CODE_C45935, CODE_C45944
 	rtl
-CODE_C45950:						; called from other segments
+skateto:							; called from other segments
 	lda.w $0B00,x
 	sec
 	sbc.w $05A2
 	sta.w $0B00,x
 	bmi CODE_C4595F
 	jmp.w CODE_C45A3E
-CODE_C4595F:						; from CODE_C45950
+CODE_C4595F:						; from skateto
 	adc.w #$000C
 	sta.w $0B00,x
 	lda.b $7F
@@ -1310,7 +1310,7 @@ CODE_C45A08:						; from CODE_C459FD
 	sbc.w $0896,x
 	sta.b $83
 	jsl.l vtoa
-CODE_C45A3E:						; from CODE_C45950, CODE_C45A08
+CODE_C45A3E:						; from skateto, CODE_C45A08
 	lda.w $0B80,x
 	sta.b $7F
 	jml.l doplayeracc

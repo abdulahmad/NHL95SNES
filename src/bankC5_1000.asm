@@ -1329,7 +1329,7 @@ CODE_C51BFF:						; from CODE_C51BB6
 CODE_C51C04:						; from CODE_C51BB6, CODE_C51BF2
 	sty.b $6B
 	ldx.b $6F
-	jsl.l CODE_C4843B
+	jsl.l a2touchpuck
 CODE_C51C0C:						; from CODE_C51BB6, CODE_C51BF2
 	lda.w $12FF
 	and.w #$FFFB

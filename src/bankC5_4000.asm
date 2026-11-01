@@ -888,7 +888,7 @@ CODE_C54706:						; from CODE_C5462C, CODE_C54653, CODE_C5465B
 	sta.b $65
 	lda.w #$342A
 	sta.b $63
-	jml.l CODE_C45950
+	jml.l skateto
 CODE_C5472B:						; from CODE_C54613
 	lda.w $0D60,x
 	and.w #$EFFF
@@ -1211,7 +1211,7 @@ CODE_C549EB:						; from CODE_C549BA
 	lda.w $0A20,x
 	sta.b $7F
 	jmp.w Setplass
-getpde:								; from CODE_C54A47 and other segments
+getpde:								; from makepde and other segments
 	lda.w $0DC0,x
 	and.w #$00FF
 	asl a
@@ -1244,7 +1244,7 @@ CODE_C54A36:						; from CODE_C54A2F
 CODE_C54A43:						; from CODE_C54A36
 	sta.w $130B,y
 	rtl
-CODE_C54A47:						; called from other segments
+makepde:							; called from other segments
 	pha
 	pei ($83)
 	pei ($6B)

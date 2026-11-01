@@ -799,7 +799,7 @@ CODE_C4A6B1:						; called from other segments
 	beq CODE_C4A6C3
 	jmp.w puckstick
 CODE_C4A6C3:						; from CODE_C4A6B1
-	jsl.l CODE_C4843B
+	jsl.l a2touchpuck
 	lda.w $09BC
 	ldy.w $09DC
 	jsl.l ApproxLength
@@ -965,7 +965,7 @@ CODE_C4A815:						; from CODE_C4A7FE
 	jmp.w CODE_C4A91E
 CODE_C4A82C:						; from CODE_C4A815
 	jsl.l ChkShotStat
-	jsl.l CODE_C4843B
+	jsl.l a2touchpuck
 	lda.w $09DC
 	bit.w #$8000
 	beq CODE_C4A840
@@ -1248,14 +1248,14 @@ CODE_C4AA3F:						; from CODE_C4AA24
 	sta.w $14E3
 CODE_C4AA64:						; from ChkShotStat, CODE_C4A972, CODE_C4AA3F
 	rtl
-CODE_C4AA65:						; called from other segments
+Goal:								; called from other segments
 	lda.w $10F3
 	beq CODE_C4AA74
 	stz.w $08DE
 	stz.w $09BC
 	stz.w $09DC
 	rtl
-CODE_C4AA74:						; from CODE_C4AA65
+CODE_C4AA74:						; from Goal
 	lda.w $1157
 	beq CODE_C4AAA3
 	lda.w $08B2
@@ -1609,7 +1609,7 @@ CODE_C4AD47:						; from CODE_C4AD36
 	lda.w $0A20,y
 	beq CODE_C4AD35
 	lda.w $0F20,y
-	jsl.l CODE_C54A47
+	jsl.l makepde
 	pei ($7F)
 	lda.b $63
 	ldy.b $6B
@@ -1617,7 +1617,7 @@ CODE_C4AD47:						; from CODE_C4AD36
 	sta.b $6B
 	lda.w $0F20,y
 	sta.b $7F
-	jsl.l CODE_C54A47
+	jsl.l makepde
 	lda.b $63
 	ldy.b $6B
 	sty.b $63
@@ -1633,7 +1633,7 @@ CODE_C4AD47:						; from CODE_C4AD36
 CODE_C4AD97:						; from CODE_C4AD47
 	ldy.b $63
 	lda.w $0F20,y
-	jsl.l CODE_C54A47
+	jsl.l makepde
 	lda.b $7F
 	adc.w #$0014
 	ldy.b $63
@@ -1643,7 +1643,7 @@ CODE_C4AD97:						; from CODE_C4AD47
 	sty.b $63
 	sta.b $6B
 	lda.w $0F20,y
-	jsl.l CODE_C54A47
+	jsl.l makepde
 	lda.b $7F
 	adc.w #$0014
 	ldy.b $63
@@ -1660,7 +1660,7 @@ CODE_C4AD97:						; from CODE_C4AD47
 CODE_C4ADD6:						; from CODE_C4AE5F
 	lda.w #$000D
 	jsl.l CODE_CF040B
-	jsl.l CODE_C4843B
+	jsl.l a2touchpuck
 	jmp.w deflect
 CODE_C4ADE4:						; from CODE_C4AE3F
 	rtl

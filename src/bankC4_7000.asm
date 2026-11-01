@@ -1,15 +1,15 @@
 ; Segment bankC4_7000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4702E
-CODE_C4702E:						; called from other segments
-	jsl.l CODE_C495BB
+skatetopuck:						; called from other segments
+	jsl.l skatetopuckinit
 	lda.w $0B00,x
 	sec
 	sbc.b $9B
 	sta.w $0B00,x
 	bmi CODE_C47040
 	jmp.w CODE_C470E7
-CODE_C47040:						; from CODE_C4702E
+CODE_C47040:						; from skatetopuck
 	adc.w #$0005
 	sta.w $0B00,x
 	jsl.l CODE_C46BF6
@@ -87,7 +87,7 @@ CODE_C470BC:						; from CODE_C47086
 	lda.w $0C40,x
 	cmp.b $9F
 	beq CODE_C470F0
-CODE_C470E7:						; from CODE_C4702E, CODE_C47086, CODE_C470F0, CODE_C47120
+CODE_C470E7:						; from skatetopuck, CODE_C47086, CODE_C470F0, CODE_C47120
 	lda.w $0B80,x
 	sta.b $7F
 	jml.l doplayeracc
@@ -204,7 +204,7 @@ CODE_C471E2:						; from CODE_C47177 and other segments
 	sta.w $0AE0,x
 	rtl
 CODE_C471ED:						; from CODE_C471A7
-	jmp.w CODE_C45950
+	jmp.w skateto
 CODE_C471F0:						; called from other segments
 	jsl.l updatepentime
 	jsl.l checkfornewpen
@@ -1634,7 +1634,7 @@ CODE_C47D91:						; from CODE_C47DA9
 	sta.b $65
 	lda.w #$883F
 	sta.b $63
-	jml.l CODE_C45950
+	jml.l skateto
 CODE_C47DA9:						; from CODE_C47D81
 	lda.w $0896,x
 	sec

@@ -137,7 +137,7 @@ CODE_C49408:						; from CODE_C493E1
 	lda.w $05A0
 	bmi CODE_C4945D
 	sta.b $6B
-	jsl.l CODE_C4843B
+	jsl.l a2touchpuck
 	lda.b $6B
 	jsl.l CODE_C37FE2
 	ldy.b $6B
@@ -336,7 +336,7 @@ CODE_C495AB:						; from pucknothing
 	lda.w #$FFFF
 	sta.w $0CDC
 	rtl
-CODE_C495BB:						; called from other segments
+skatetopuckinit:					; called from other segments
 	lda.w $09BC
 	xba
 	lsr a
@@ -344,7 +344,7 @@ CODE_C495BB:						; called from other segments
 	bit.w #$0040
 	beq CODE_C495CB
 	ora.w #$FF80
-CODE_C495CB:						; from CODE_C495BB
+CODE_C495CB:						; from skatetopuckinit
 	clc
 	adc.w $0830
 	sta.b $7F
@@ -799,7 +799,7 @@ CODE_C4996D:						; from CODE_C49955
 CODE_C4997D:						; from CODE_C4996D
 	lda.w $0E80,x
 	stx.b $63
-	jsl.l CODE_C54A47
+	jsl.l makepde
 	adc.w #$0014
 	tax
 	lda.w $07CA
@@ -1076,7 +1076,7 @@ CODE_C49BE0:						; from CODE_C49BC9
 	sec
 	sbc.w $07A4
 	sta.w $0B00,x
-	jml.l CODE_C45950
+	jml.l skateto
 CODE_C49BF8:						; from CODE_C49BB4
 	lda.w $0C40,x
 	sec
@@ -1500,7 +1500,7 @@ CODE_C49F8B:						; from CODE_C49F69
 CODE_C49F9D:						; from CODE_C49F8B
 	pei ($6B)
 	stx.b $6B
-	jsl.l CODE_C4843B
+	jsl.l a2touchpuck
 	pla
 	sta.b $6B
 	jsl.l doshot

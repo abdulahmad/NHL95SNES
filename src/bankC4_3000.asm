@@ -246,8 +246,8 @@ CODE_C4330F:						; from CODE_C4317F, CODE_C43288, CODE_C432EF
 	sta.b $65
 	lda.w #$883F
 	sta.b $63
-	jsl.l CODE_C45950
-	jmp.w CODE_C45529
+	jsl.l skateto
+	jmp.w check4check
 CODE_C4332A:						; called from other segments
 	cpx.w $05A0
 	beq CODE_C43348
@@ -368,7 +368,7 @@ CODE_C4340B:						; from CODE_C433EC, CODE_C433FF
 	sbc.b $83
 	sta.b $83
 CODE_C43418:						; from CODE_C43426, CODE_C4340B
-	jmp.w CODE_C45950
+	jmp.w skateto
 CODE_C4341B:						; from CODE_C433CE
 	ldy.w #$0066
 	lda.w $0FE0,x
@@ -377,7 +377,7 @@ CODE_C4341B:						; from CODE_C433CE
 CODE_C43426:						; from CODE_C4341B
 	sty.b $83
 	bra CODE_C43418
-CODE_C4342A:						; passed as a long pointer (lda #bank, lda #low) to CODE_C45950
+CODE_C4342A:						; passed as a long pointer (lda #bank, lda #low) to skateto
 	lda.w $05A0
 	bmi CODE_C4348D
 	lda.w $09A1,x
@@ -544,7 +544,7 @@ CODE_C43575:						; from CODE_C434F8, CODE_C4353E, CODE_C43531, CODE_C43566
 	lda.w $0830
 	sta.b $7F
 CODE_C4358D:						; from CODE_C43575
-	jmp.w CODE_C45950
+	jmp.w skateto
 CODE_C43590:						; called from other segments
 	cpx.w $05A0
 	beq CODE_C435AE
@@ -705,7 +705,7 @@ CODE_C436CE:						; from CODE_C436B4
 	sta.b $65
 	lda.w #CODE_C4342A
 	sta.b $63
-	jml.l CODE_C45950
+	jml.l skateto
 DATA8_C436DC:						; an rtl no traced code reaches
 	db $6B
 DATA8_C436DD:						; not traced: a table read by CODE_C4366D

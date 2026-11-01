@@ -716,6 +716,8 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
 - 2026-10-31: naming pass 5: 8 routines whose later entry the similarity pass had matched, named at the label whose first
   instructions are the 94S routine's (checked side by side): assnearest, checkplcoll, ChkGoalies, assdumpin, ReturnGoalies,
   asspassrec, asspenalty, SetupTeamForIntermission.
+- 2026-10-31: naming pass 6: 7 more by call-graph propagation from the new names (instruction match 0.89-1.00, start checked):
+  skatetopuckinit, check4check, skateto, a2touchpuck, Goal, skatetopuck, makepde.
 
 ## ROM map
 

@@ -569,12 +569,12 @@ CODE_C48431:						; from CODE_C48423
 	dec.b $7F
 	bpl CODE_C48423
 	bra CODE_C483D8
-CODE_C4843B:						; called from other segments
+a2touchpuck:						; called from other segments
 	ldy.b $6B
 	cpy.w #$0018
 	bcc CODE_C48445
 	jmp.w CODE_C484EC
-CODE_C48445:						; from CODE_C4843B
+CODE_C48445:						; from a2touchpuck
 	lda.w $0814,y
 	sta.w $2004
 	lda.w $0896,y
@@ -648,7 +648,7 @@ CODE_C484D5:						; from CODE_C484ED
 	jsl.l AddPenalty
 	plx
 	stx.b $6F
-CODE_C484EC:						; from CODE_C4843B, CODE_C48510, CODE_C4852A
+CODE_C484EC:						; from a2touchpuck, CODE_C48510, CODE_C4852A
 	rtl
 CODE_C484ED:						; from CODE_C484AA
 	lda.w $0FE0,y
@@ -1412,7 +1412,7 @@ CODE_C48B32:						; from CODE_C48B1D
 	lda.w #$FF06
 	sta.b $83
 CODE_C48B43:						; from CODE_C48B32
-	jml.l CODE_C45950
+	jml.l skateto
 DATA8_C48B47:						; an rtl no traced code reaches
 	db $6B
 CODE_C48B48:						; from CODE_C48AF5
@@ -1446,7 +1446,7 @@ CODE_C48B76:						; from CODE_C48B61
 	sta.b $83
 CODE_C48B87:						; from CODE_C48B76
 	stz.w $0B00,x
-	jml.l CODE_C45950
+	jml.l skateto
 CODE_C48B8E:						; from CODE_C48B48
 	lda.w $05CC,x
 	bit.w #$0001
