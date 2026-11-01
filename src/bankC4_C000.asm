@@ -155,7 +155,7 @@ CODE_C4C048:						; from CODE_C4C03B
 	bne CODE_C4C066
 	jmp.w CODE_C4BF1A
 CODE_C4C066:						; from CODE_C4C048
-	lda.b $38
+	lda.b p0
 CODE_C4C068:						; called from other segments
 	clc
 	adc.b $0A
@@ -219,7 +219,7 @@ CODE_C4C0EC:						; from CODE_C4C0D7
 	ora.l $C00007,x
 	asl a
 	bcc CODE_C4C101
-	lda.w $0006,y
+	lda.w QueueBusy,y
 	ora.w $0007,y
 	bit.b $36
 	bne CODE_C4C140
@@ -346,7 +346,7 @@ CODE_C4C209:						; from CODE_C4C1B4, CODE_C4C1C9, CODE_C4C1DE, CODE_C4C1F3
 	rts
 CODE_C4C20C:						; called from other segments
 	lda.w #$3000
-	sta.b $38
+	sta.b p0
 	lda.b $12
 	lsr a
 	lsr a
@@ -363,7 +363,7 @@ CODE_C4C20C:						; called from other segments
 	asl a
 	asl a
 	asl a
-	adc.b $38
+	adc.b p0
 	tay
 	dec.b QueueBusy
 	lda.b $00
@@ -416,7 +416,7 @@ CODE_C4C270:						; called from other segments
 	lsr a
 	lsr a
 	sta.b $A5
-	lda.b $38
+	lda.b p0
 	sec
 	sbc.w #$3000
 	lsr a
@@ -1099,14 +1099,14 @@ CODE_C4C7FB:						; from CODE_C4C7DF
 	lda.b $50
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b $4E
+	lda.b DMAQueueTail
 	bne CODE_C4C817
 	jmp.w CODE_C4C930
 CODE_C4C817:						; from CODE_C4C7FB
 	sta.w DAS0L
-	lda.b $4C
+	lda.b DMAQueueHead
 	sta.w VMADDL
-	ldx.b $4A
+	ldx.b NMISkip
 	stx.w A1B0
 	lda.b $48
 	sta.w A1T0L
@@ -1120,7 +1120,7 @@ CODE_C4C833:						; from CODE_C4C817
 	sta.w VMADDL
 	ldx.b $42
 	stx.w A1B0
-	lda.b $40
+	lda.b r3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
@@ -1128,11 +1128,11 @@ CODE_C4C833:						; from CODE_C4C817
 	jmp.w CODE_C4C930
 CODE_C4C84F:						; from CODE_C4C833
 	sta.w DAS0L
-	lda.b $3C
+	lda.b p1
 	sta.w VMADDL
 	ldx.b $3A
 	stx.w A1B0
-	lda.b $38
+	lda.b p0
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $36
@@ -1140,11 +1140,11 @@ CODE_C4C84F:						; from CODE_C4C833
 	jmp.w CODE_C4C930
 CODE_C4C86B:						; from CODE_C4C84F
 	sta.w DAS0L
-	lda.b $34
+	lda.b r2
 	sta.w VMADDL
 	ldx.b $32
 	stx.w A1B0
-	lda.b $30
+	lda.b r1
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $2E
@@ -1152,7 +1152,7 @@ CODE_C4C86B:						; from CODE_C4C84F
 	jmp.w CODE_C4C930
 CODE_C4C887:						; from CODE_C4C86B
 	sta.w DAS0L
-	lda.b $2C
+	lda.b r0
 	sta.w VMADDL
 	ldx.b $2A
 	stx.w A1B0
@@ -1461,12 +1461,12 @@ CODE_C4CB4F:						; from CODE_C4CB29
 	sta.w VMADDL
 	lda.b $50
 	sta.w DMAP0
-	ldx.b $4E
+	ldx.b DMAQueueTail
 	stx.w A1B0
-	lda.b $4C
+	lda.b DMAQueueHead
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b $4A
+	lda.b NMISkip
 	bne CODE_C4CB75
 	jmp.w CODE_C4CC52
 CODE_C4CB75:						; from CODE_C4CB4F
@@ -1479,7 +1479,7 @@ CODE_C4CB75:						; from CODE_C4CB4F
 	sta.w DMAP0
 	ldx.b $42
 	stx.w A1B0
-	lda.b $40
+	lda.b r3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
@@ -1487,15 +1487,15 @@ CODE_C4CB75:						; from CODE_C4CB4F
 	jmp.w CODE_C4CC52
 CODE_C4CB9B:						; from CODE_C4CB75
 	sta.w DAS0L
-	ldx.b $3C
+	ldx.b p1
 	stx.w VMAIN
 	lda.b $3A
 	sta.w VMADDL
-	lda.b $38
+	lda.b p0
 	sta.w DMAP0
 	ldx.b $36
 	stx.w A1B0
-	lda.b $34
+	lda.b r2
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $32
@@ -1503,11 +1503,11 @@ CODE_C4CB9B:						; from CODE_C4CB75
 	jmp.w CODE_C4CC52
 CODE_C4CBC1:						; from CODE_C4CB9B
 	sta.w DAS0L
-	ldx.b $30
+	ldx.b r1
 	stx.w VMAIN
 	lda.b $2E
 	sta.w VMADDL
-	lda.b $2C
+	lda.b r0
 	sta.w DMAP0
 	ldx.b $2A
 	stx.w A1B0
@@ -1668,14 +1668,14 @@ CODE_C4CD32:						; from CODE_C4CD16
 	lda.b $50
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b $4E
+	lda.b DMAQueueTail
 	bne CODE_C4CD4E
 	jmp.w CODE_C4CE5F
 CODE_C4CD4E:						; from CODE_C4CD32
 	sta.w DAS0L
-	ldx.b $4C
+	ldx.b DMAQueueHead
 	stx.w CGADD
-	ldx.b $4A
+	ldx.b NMISkip
 	stx.w A1B0
 	lda.b $48
 	sta.w A1T0L
@@ -1689,7 +1689,7 @@ CODE_C4CD6A:						; from CODE_C4CD4E
 	stx.w CGADD
 	ldx.b $42
 	stx.w A1B0
-	lda.b $40
+	lda.b r3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
@@ -1697,11 +1697,11 @@ CODE_C4CD6A:						; from CODE_C4CD4E
 	jmp.w CODE_C4CE5F
 CODE_C4CD86:						; from CODE_C4CD6A
 	sta.w DAS0L
-	ldx.b $3C
+	ldx.b p1
 	stx.w CGADD
 	ldx.b $3A
 	stx.w A1B0
-	lda.b $38
+	lda.b p0
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $36
@@ -1709,11 +1709,11 @@ CODE_C4CD86:						; from CODE_C4CD6A
 	jmp.w CODE_C4CE5F
 CODE_C4CDA2:						; from CODE_C4CD86
 	sta.w DAS0L
-	ldx.b $34
+	ldx.b r2
 	stx.w CGADD
 	ldx.b $32
 	stx.w A1B0
-	lda.b $30
+	lda.b r1
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $2E
@@ -1721,7 +1721,7 @@ CODE_C4CDA2:						; from CODE_C4CD86
 	jmp.w CODE_C4CE5F
 CODE_C4CDBE:						; from CODE_C4CDA2
 	sta.w DAS0L
-	ldx.b $2C
+	ldx.b r0
 	stx.w CGADD
 	ldx.b $2A
 	stx.w A1B0
@@ -1842,7 +1842,7 @@ CODE_C4CEDB:						; called from other segments
 	wai
 	rtl
 CODE_C4CEE0:						; no caller found (not traced)
-	sta.b $2C
+	sta.b r0
 	stx.b $2E
 	dec.b QueueBusy
 	lda.b $00
@@ -1957,18 +1957,18 @@ CODE_C4CFAA:						; from CODE_C4CFAA
 CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFDE
 	phy
 	pha
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	tax
-	lda.b $9F
+	lda.b tmp0
 	and.w #$0007
 	tay
 	lda.b $0A

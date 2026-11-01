@@ -2717,3 +2717,142 @@ $04CD,irqline3,,94S+code,"RAM: the line of the third split (SetupScrollIRQ Y); 9
 $04CF,irqvscroll1,,94S+code,"RAM: BG1 vertical scroll from the first split; 94S irqvscroll1",src/ram95s.asm
 $04D1,irqvscroll2,,94S+code,"RAM: BG1 vertical scroll from the second split; 94S irqvscroll2",src/ram95s.asm
 $04D3,irqvscroll3,,94S+code,"RAM: BG1 vertical scroll from the third split; 94S irqvscroll3",src/ram95s.asm
+$0038,p0,,94S+code,"RAM: long pointer; p0+2 is the bank (the operand of 21 of 21 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$003C,p1,,94S+code,"RAM: long pointer; p1+2 is the bank (the operand of 10 of 10 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$005B,crowdhold,,94S+code,"RAM: frames the crowd level holds before it fades (Goal 120, puckglue 20; (the operand of 7 of 7 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0063,a0,,94S+code,"RAM: long pointer; a0+2 is the bank (the operand of 276 of 276 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0067,a1,,94S+code,"RAM: long pointer; a1+2 is the bank (the operand of 114 of 116 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$006B,a2,,94S+code,"RAM: team index, 0 = home (the operand of 171 of 171 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$006F,a3,,94S+code,"RAM: long pointer; a3+2 is the bank (the operand of 82 of 82 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0073,a4,,94S+code,"RAM: long pointer; a4+2 is the bank (the operand of 46 of 46 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$007F,d0,,94S+code,"RAM: as 94S (the operand of 490 of 492 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0083,d1,,94S+code,"RAM: d1+2 is the high word (the operand of 316 of 317 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0087,d2,,94S+code,"RAM: as 94S (the operand of 172 of 172 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$008B,d3,,94S+code,"RAM: as 94S (the operand of 134 of 135 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$008F,d4,,94S+code,"RAM: as 94S (the operand of 98 of 98 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0093,d5,,94S+code,"RAM: as 94S (the operand of 38 of 38 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0097,d6,,94S+code,"RAM: as 94S (the operand of 11 of 11 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$009B,d7,,94S+code,"RAM: frames elapsed, added into speeds (the operand of 16 of 16 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$009F,tmp0,,94S+code,"RAM: scratch word; tmp0+1 is the next byte (the operand of 33 of 34 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$00A1,tmp1,,94S+code,"RAM: scratch word (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$00A3,tmp2,,94S+code,"RAM: scratch byte; tmp2+1 is the next byte (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$00A7,tmp4,,94S+code,"RAM: scratch word (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$00B7,curobj,,94S+code,"RAM: object index of the object being updated (updateplayers, (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$049F,Multi5Sig,,94S+code,"RAM: Multi5ConnectCheck shifts bit 1 of JOYSER0 / JOYSER1 in here (port 1) (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$04D5,RemapOut,,94S+code,"RAM: sixteen words: the tile RemapTiles is building (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$056F,paddir,,94S+code,"RAM: 5 words: each pad's direction (PadDirection of the dpad bits) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0583,padnew,,94S+code,"RAM: 5 words: each pad's buttons newly pressed at the last ReadPads (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$058F,repeatdelayframes,,94S+code,"RAM: ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20 (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$05A0,puckc,,94S+code,"RAM: object index of the puck carrier, negative = loose (the operand of 60 of 60 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$05A2,timestep,,94S+code,"RAM: Gameloop/SaveRegsStartHL2/ReplayMode/PauseReplay store d7 (frames (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$05AE,PadControlObj,,94S+code,"RAM: setpads stores SCnum of the player each marker slot follows (slot 0 puck (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$05CC,goalieflags,,94S+code,"RAM: Per player (12): assgoalie/assgoalietopuck set bits 1,2 and clear bit 2 (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0624,puckdir,,94S+code,"RAM: per object: direction to the puck (vtoa) (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0644,asscur,,94S+code,"RAM: Per object: the assignment number being run (the asslist entry at (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$066C,dumpintarget,,94S+code,"RAM: assdumpin: the target index (DumpInTarget), a word offset into its x / y (the operand of 11 of 11 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0670,passtargety,,94S+code,"RAM: dopass: pucky + the pass vector y; asspassrec: goal line y (+-$108) minus (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0672,onetimerreq,,94S+code,"RAM: Set when the pass receiver's pad presses shoot (asspassrec, doinput) or (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0694,goalieturnwait,,94S+code,"RAM: Per player: AdjustFacingDirection/goalieacc set 6 after turning a (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0772,replaydelay,,94S+code,"RAM: Goal / Stop4Pen set 30: updatereplay keeps recording until it counts down (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0776,recsfx,,94S+code,"RAM: QueueSound: the sound queued this frame ($FFFF none) for the replay (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$077C,recsfx2,,94S+code,"RAM: QueueSound moves recsfx here when a second sound comes in the same frame; (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07A2,collflag,,94S+code,"RAM: a player collision happened: checkcoll restores the old position (set by (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07AC,ThirdPBonus,,94S+code,"RAM: setplayer: +2 when tied or trailing late in the 3rd period (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07B4,HmAwBonus,,94S+code,"RAM: setplayer: home bonus / visitor penalty (the operand of 7 of 7 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07B6,iflags,,94S+code,"RAM: icing flags (if* masks) (the operand of 9 of 9 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07B8,lastplayer,,94S+code,"RAM: the last player who touched the puck (doshot, puckstick) (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07BC,lldisp,,94S+code,"RAM: count down for the once-a-second screen / game updates (periodicevents) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07C8,passdir,,94S+code,"RAM: direction for pass/shot 0-7 (8 = none) (the operand of 19 of 19 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07CA,passspeed,,94S+code,"RAM: speed of pass/shot (the operand of 11 of 11 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07CC,passReceiverPlayerNum,,94S+code,"RAM: the player the last pass was aimed at (negative = none) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07CE,PKBonus,,94S+code,"RAM: setplayer: penalty kill bonus (negative) (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07D0,PPBonus,,94S+code,"RAM: setplayer: power play bonus (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07E0,recbpr,,94S+code,"RAM: long pointer to the next replay frame record (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07F2,TickerNum,,94S+code,"RAM: playoff game the score ticker shows next (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07FC,wcradiusy,,94S+code,"RAM: wall collision radius y (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$080A,xc1,,94S+code,"RAM: scroll lock x (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$080C,yc1,,94S+code,"RAM: scroll lock y (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$080E,yleader,,94S+code,"RAM: lead distance on scrolling (the operand of 7 of 7 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0814,Xpos,,94S+code,"RAM: x position (integer part) of each object (the operand of 43 of 43 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0856,frame,,94S+code,"RAM: sprite frame number of each object (SPF groups); object 14 ($1C) is the (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0896,Ypos,,94S+code,"RAM: y position (integer part) of each object (the operand of 56 of 57 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$08B2,pucky,,94S+code,"RAM: puck y position (the operand of 56 of 56 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$08D8,puckz,,94S+code,"RAM: puck height (93S Zpos+puckscnum) (the operand of 16 of 16 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$08DE,puckvz,,94S+code,"RAM: puck height speed (93S Zvel+puckscnum) (the operand of 12 of 12 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$08E0,attribute,,94S+code,"RAM: frame attribute bits (attrxflip, attryflip) (the operand of 12 of 13 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$09A0,Xvel,,94S+code,"RAM: x speed (puckvx is Xvel+puckscnum) (the operand of 37 of 37 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$09BC,puckvx,,94S+code,"RAM: puck x speed (the operand of 10 of 10 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$09C0,Yvel,,94S+code,"RAM: y speed (the operand of 40 of 40 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$09DC,puckvy,,94S+code,"RAM: puck y speed (the operand of 25 of 25 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0A20,position,,94S+code,"RAM: player's position (the operand of 64 of 64 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0A40,assnum,,94S+code,"RAM: index of the current assignment (0-7) (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0AE0,temp1,,94S+code,"RAM: assignment scratch, per object (the operand of 36 of 36 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0B00,temp2,,94S+code,"RAM: as 94S (the operand of 16 of 16 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0B20,temp3,,94S+code,"RAM: as 94S (the operand of 24 of 24 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0B40,temp4,,94S+code,"RAM: as 94S (the operand of 14 of 14 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0B60,temp5,,94S+code,"RAM: as 94S (the operand of 9 of 9 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0B80,temp2b,,94S+code,"RAM: as 94S (the operand of 14 of 14 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0BE0,Wallcos,,94S+code,"RAM: per object: cos of the angle of the last wall collision (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0C00,Wallsin,,94S+code,"RAM: per object: sin of that angle (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0C40,facedir,,94S+code,"RAM: direction of facing, 0-7 (the operand of 43 of 43 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0C80,SPA,,94S+code,"RAM: current animation (offset into the animation data) (the operand of 22 of 22 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0CA0,SPAnum,,94S+code,"RAM: index into animation (4 per frame) (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0CC0,SPAcnt,,94S+code,"RAM: count down to the next animation frame (-1 = restart) (the operand of 7 of 7 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0CE0,nopuck,,94S+code,"RAM: no puck collision until zero (the operand of 11 of 11 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0D20,newpos,,94S+code,"RAM: requested next position (negative = none) (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0D40,newpnum,,94S+code,"RAM: requested next roster player (negative = none) (the operand of 7 of 7 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0D60,pflags,,94S+code,"RAM: pflags (bits 0-7) and pflags2 (bit n at bit n+10); some flags have their (the operand of 72 of 72 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0DC0,pnum,,94S+code,"RAM: player's team location number (low byte) (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0E40,aioff,,94S+code,"RAM: as 94S (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0E60,aidef,,94S+code,"RAM: as 94S (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0EA0,shotacc,,94S+code,"RAM: as 94S (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0EC0,passacc,,94S+code,"RAM: passacc (goalies: glove save right) (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0EE0,rostnum,,94S+code,"RAM: as 94S (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0F00,spodds,,94S+code,"RAM: shot / pass odds (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0F20,stickhand,,94S+code,"RAM: as 94S (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0FA0,checking,,94S+code,"RAM: checking rating (check odds; 93 $75) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0FE0,pfgoal,,94S+code,"RAM: nonzero: shoots at the top goal. pflags bit pfgoal (the operand of 40 of 40 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1000,pfalock,,94S+code,"RAM: nonzero: locked until the animation is done (the operand of 23 of 23 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1020,pfteam,,94S+code,"RAM: 0 = home, nonzero = visitors. pflags bit pfteam (the operand of 35 of 35 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1040,pfrev,,94S+code,"RAM: nonzero: skating backwards. pflags bit pfrev (the operand of 11 of 11 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1060,pf2aip,,94S+code,"RAM: nonzero: animation in progress. pflags2 bit pf2aip (the operand of 10 of 10 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1080,pfnc,,94S+code,"RAM: nonzero: no collision mode. pflags bit pfnc (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10A0,Ylist,,94S+code,"RAM: y of each sort object (the operand of 7 of 7 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10C0,OOlistpos,,94S+code,"RAM: position of each object in OOlist (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10E0,OOlist,,94S+code,"RAM: 16 bytes: object order list, bottom of the screen last (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10F1,gmode,,94S+code,"RAM: game mode flags (gm* masks) (the operand of 22 of 22 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10F3,gmclock,,94S+code,"RAM: nonzero: game clock is stopped (the operand of 21 of 21 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10F5,sflags,,94S+code,"RAM: sflags (low byte) and sflags2 (high byte) as one word (sf*/sf2* masks) (the operand of 30 of 30 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$10F7,sflags3,,94S+code,"RAM: sflags3 (sf3* masks) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$113B,PenCntDwn,,94S+code,"RAM: penalty/fight count down (negative = fight over) (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$113D,Penaltytimer,,94S+code,"RAM: frames to the next penalty clock second (updatepentime) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$113F,PBnum,,94S+code,"RAM: players in the penalty boxes: home*16 + visitors (the operand of 13 of 13 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$114B,gsp,,94S+code,"RAM: game period (the operand of 10 of 10 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$114D,gameclock,,94S+code,"RAM: game clock seconds; gameclock+2 = jiffies (the operand of 5 of 5 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1153,TempPlOffset,,94S+code,"RAM: pnum of the penalized player, high bit set for the visitors (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1155,IsBreakaway,,94S+code,"RAM: 1 while the puck carrier has a breakaway (CheckBreakaway) (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1157,PenShotActive,,94S+code,"RAM: 1 during a penalty shot (SetupPenaltyShot .. puckfaceoff2) (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1277,tmPPShots,,94S+code,"RAM: power play shots (ChkShotStat) (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$127B,tmSHShots,,94S+code,"RAM: shorthanded shots (ChkShotStat; not on the stats screen) (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1283,tmsort,,94S+code,"RAM: first object index of the team (the operand of 9 of 9 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12AB,tmscore,,94S+code,"RAM: score (the operand of 16 of 16 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12B7,tmline,,94S+code,"RAM: current line (the operand of 9 of 9 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12BB,tmtouch1,,94S+code,"RAM: pnum of the last touch (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12BF,tmtouch2,,94S+code,"RAM: second last touch (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12C3,tmtouch3,,94S+code,"RAM: third last touch (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12C7,tmap,,94S+code,"RAM: active players on ice (the operand of 26 of 26 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12CB,tmgoalie,,94S+code,"RAM: home and away goalie (words): low byte = goalie 0/1, $FFxx = pulled (the operand of 13 of 13 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$12FF,tmflags,,94S+code,"RAM: team flags (the operand of 20 of 20 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$130B,tmpde,,94S+code,"RAM: energy of each roster player (word per player) (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1373,tmpdst,,94S+code,"RAM: bench/ice/box state of each roster player (the operand of 31 of 31 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$13DB,tmboxlist,,94S+code,"RAM: penalty box list of roster players (bytes, negative ends) (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$14E3,CwdExciteLvl,,94S+code,"RAM: crowd excitement: raised by hits and goals, set per playoff stage at a (the operand of 18 of 18 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$14F5,teampads,,94S+code,"RAM: pads on the home / away team (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$14F9,playerpad,,94S+code,"RAM: per player object: the controlling pad * 2, negative = none (the operand of 29 of 29 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$1511,c1playernum,,94S+code,"RAM: per pad (5 words): the player object it controls (93S c1playernum, (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$17B5,cont1team,,94S+code,"RAM: Team on pad 1 (0 none, 1 home, 2 away); StartGame turns cont1team,x into (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$18AC,onetimer,,94S+code,"RAM: A one-timer shot is under way: asspassrec sets 1 when the receiver shoots (the operand of 6 of 6 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$18AE,breakaway,,94S+code,"RAM: Breakaway in progress (CheckBreakaway result IsBreakaway): (the operand of 10 of 10 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$18B0,BA_Sktr_SCnum,,94S+code,"RAM: Penalty shot / shootout shooter object (SCnum*2, $FFFF none): Bcheck sets (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$18B4,BA_Team,,94S+code,"RAM: Shooting team of the penalty shot / shootout turn (0 home, 2 visitors): (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$18BE,penshot,,94S+code,"RAM: Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm

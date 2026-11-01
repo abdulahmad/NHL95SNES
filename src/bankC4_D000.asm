@@ -41,7 +41,7 @@ CODE_C4D051:						; from CODE_C4CFF5
 CODE_C4D05B:						; from CODE_C4CFF5 and other segments
 	ldx.w #$0032
 CODE_C4D05E:						; from CODE_C4D0C1
-	stx.b $9F
+	stx.b tmp0
 	lda.l $C30000,x
 	tax
 	lda.l $C30000,x
@@ -51,12 +51,12 @@ CODE_C4D05E:						; from CODE_C4D0C1
 	lsr a
 	lsr a
 	lsr a
-	sta.b $A1
+	sta.b tmp1
 	tya
 	and.w #$07FF
 	tax
 CODE_C4D078:						; from CODE_C4D0C1
-	stx.b $A3
+	stx.b tmp2
 	txa
 	sec
 	sbc.w #$0038
@@ -70,7 +70,7 @@ CODE_C4D078:						; from CODE_C4D0C1
 	and.w #$3FFF
 	tax
 	bcc CODE_C4D0AA
-	lda.b $9F
+	lda.b tmp0
 	asl a
 	asl a
 	asl a
@@ -83,7 +83,7 @@ CODE_C4D078:						; from CODE_C4D0C1
 	and.w #$000F
 	bra CODE_C4D0C1
 CODE_C4D0AA:						; from CODE_C4D078
-	lda.b $9F
+	lda.b tmp0
 	lsr a
 	sta.b $A5
 	lda.l $C2FFFF,x
@@ -97,12 +97,12 @@ CODE_C4D0AA:						; from CODE_C4D078
 CODE_C4D0C1:						; from CODE_C4D078
 	ora.b $A5
 	sta.w $6A56,y
-	ldx.b $A3
+	ldx.b tmp2
 	inx
 	inx
-	dec.b $A1
+	dec.b tmp1
 	bne CODE_C4D078
-	ldx.b $9F
+	ldx.b tmp0
 	dex
 	dex
 	bpl CODE_C4D05E
@@ -110,7 +110,7 @@ CODE_C4D0C1:						; from CODE_C4D078
 CODE_C4D0D5:						; from CODE_C4CFF5 and other segments
 	ldy.w #$1CF8
 	lda.w #$0013
-	sta.b $9F
+	sta.b tmp0
 	tya
 CODE_C4D0DE:						; from CODE_C4D0F0
 	lsr a
@@ -131,7 +131,7 @@ CODE_C4D0F0:						; from CODE_C4D0DE
 	clc
 	adc.w #$000C
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C4D0DE
 	rts
 DATA8_C4D101:						; not traced: data between routines
@@ -152,8 +152,8 @@ CODE_C4D193:						; called from other segments
 	jsl.l CODE_C4C574
 	jsl.l CODE_C5E50E
 	lda.w #$FFFF
-	sta.w $04BE
-	sta.w $04C2
+	sta.w BG1VScroll
+	sta.w BG2VScroll
 	ldy.w #$3800
 	jsl.l CODE_C589E4
 	ldy.w #$3C00
@@ -194,9 +194,9 @@ CODE_C4D193:						; called from other segments
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
 	lda.w #$5420
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$214A
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$00C2
 	lda.w #$71F6
 	ldy.w #$2A50
@@ -219,17 +219,17 @@ CODE_C4D193:						; called from other segments
 	stx.b $04
 	stz.b QueueBusy
 	lda.w #$5820
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0800
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$00C2
 	lda.w #$2CB2
 	ldy.w #$0000
 	jsl.l MapSetToVRAM
 	lda.w #$3820
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0800
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$00C2
 	lda.w #$0AB8
 	ldy.w #$4000
@@ -260,31 +260,31 @@ CODE_C4D193:						; called from other segments
 	lda.w #$007E
 	sta.b $71
 	lda.b $08
-	sta.b $8F
-	sta.b $6F
+	sta.b d4
+	sta.b a3
 	clc
 	adc.w #$0040
-	sta.b $93
+	sta.b d5
 	adc.w #$0180
 	sta.b $08
 	jsl.l CODE_C4C541
 	lda.w #$0010
-	sta.b $8B
-	lda.b $8F
+	sta.b d3
+	lda.b d4
 	ldy.w #$7FFF
 	jsl.l CODE_C4B970
 	ldx.w #$00C2
 	lda.w #$0AB8
 	jsr.w CODE_C4D636
-	ldy.b $93
+	ldy.b d5
 	jsl.l CODE_C4B8D1
 	ldx.w #$007E
-	lda.b $8F
+	lda.b d4
 	ldy.w #$0020
 	jsl.l CODE_C4B84C
 	lda.w #$0100
-	sta.w $04BC
-	stz.w $04C0
+	sta.w BG1HScroll
+	stz.w BG2HScroll
 	ldx.w #CODE_C4D377>>16
 	lda.w #CODE_C4D377
 	ldy.w #$0001
@@ -328,32 +328,32 @@ CODE_C4D388:						; a task routine: stored as the next routine of a task
 	lda.w #$0020
 	jsr.w CODE_C4D588
 	bne CODE_C4D398
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D398
 	sta.w $0002,x
 CODE_C4D398:						; a task routine: stored as the next routine of a task
-	lda.w $04C0
+	lda.w BG2HScroll
 	inc a
 	inc a
-	sta.w $04C0
+	sta.w BG2HScroll
 	cmp.w #$0080
 	bcc CODE_C4D3AD
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D3AE
 	sta.w $0002,x
 CODE_C4D3AD:						; from CODE_C4D377, CODE_C4D398, CODE_C4D3AE
 	rtl
 CODE_C4D3AE:						; a task routine: stored as the next routine of a task
-	lda.w $04BC
+	lda.w BG1HScroll
 	dec a
 	dec a
 	dec a
 	dec a
-	sta.w $04BC
-	lda.w $04C0
+	sta.w BG1HScroll
+	lda.w BG2HScroll
 	inc a
 	inc a
-	sta.w $04C0
+	sta.w BG2HScroll
 	cmp.w #$0100
 	bcc CODE_C4D3AD
 	lda.w #$00CB
@@ -362,12 +362,12 @@ CODE_C4D3AE:						; a task routine: stored as the next routine of a task
 	sta.b $1A
 	lda.w #$0028
 	jsr.w CODE_C4D52B
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D3DD
 	sta.w $0002,x
 CODE_C4D3DD:						; a task routine: stored as the next routine of a task
 	ldx.b $91
-	lda.w $0034,x
+	lda.w r2,x
 	and.w #$FF00
 	xba
 	clc
@@ -378,7 +378,7 @@ CODE_C4D3DD:						; a task routine: stored as the next routine of a task
 	asl a
 	jsr.w CODE_C4D588
 	bne CODE_C4D3FB
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D3FC
 	sta.w $0002,x
 CODE_C4D3FB:						; from CODE_C4D3DD, CODE_C4D414, CODE_C4D435
@@ -390,12 +390,12 @@ CODE_C4D3FC:						; a task routine: stored as the next routine of a task
 	sta.b $1A
 	lda.w #$0027
 	jsr.w CODE_C4D52B
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D414
 	sta.w $0002,x
 CODE_C4D414:						; a task routine: stored as the next routine of a task
 	ldx.b $91
-	lda.w $0034,x
+	lda.w r2,x
 	and.w #$FF00
 	xba
 	clc
@@ -406,7 +406,7 @@ CODE_C4D414:						; a task routine: stored as the next routine of a task
 	asl a
 	jsr.w CODE_C4D588
 	bne CODE_C4D3FB
-	ldx.b $83
+	ldx.b d1
 	stz.w $0008,x
 	lda.w #CODE_C4D435
 	sta.w $0002,x
@@ -416,16 +416,16 @@ CODE_C4D435:						; a task routine: stored as the next routine of a task
 	bne CODE_C4D3FB
 	lda.w #$0010
 	sta.b $7D
-	sta.b $8B
-	lda.b $8F
+	sta.b d3
+	lda.b d4
 	ldy.w #$7FFF
 	jsl.l CODE_C4B970
 	ldx.w #$00C2
 	stx.b $71
 	lda.w #$0AB8
-	sta.b $6F
+	sta.b a3
 	clc
-	adc.b [$6F]
+	adc.b [a3]
 	bcc CODE_C4D45E
 	inx
 	clc
@@ -435,8 +435,8 @@ CODE_C4D45E:						; from CODE_C4D435
 	inx
 	clc
 CODE_C4D465:						; from CODE_C4D45E
-	sta.b $6F
-	adc.b [$6F]
+	sta.b a3
+	adc.b [a3]
 	bcc CODE_C4D46D
 	inx
 	clc
@@ -446,12 +446,12 @@ CODE_C4D46D:						; from CODE_C4D465
 	inx
 CODE_C4D473:						; from CODE_C4D46D
 	stx.b $71
-	sta.b $6F
+	sta.b a3
 	ldx.w #$007E
-	lda.b $8F
-	ldy.b $93
+	lda.b d4
+	ldy.b d5
 	jsl.l CODE_C4B8D1
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D48A
 	sta.w $0002,x
 CODE_C4D48A:						; a task routine: stored as the next routine of a task
@@ -460,21 +460,21 @@ CODE_C4D48A:						; a task routine: stored as the next routine of a task
 	bne CODE_C4D4A0
 	stz.b $95
 	jsl.l CODE_C4B738
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D4A1
 	sta.w $0002,x
 CODE_C4D4A0:						; from CODE_C4D48A, CODE_C4D4AC
 	rtl
 CODE_C4D4A1:						; a task routine: stored as the next routine of a task
 	jsr.w CODE_C4D5AC
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D4AC
 	sta.w $0002,x
 CODE_C4D4AC:						; a task routine: stored as the next routine of a task
 	lda.w #$0000
 	jsr.w CODE_C4D588
 	bne CODE_C4D4A0
-	ldx.b $83
+	ldx.b d1
 	stz.w $0008,x
 	lda.w #CODE_C4D4BF
 	sta.w $0002,x
@@ -483,21 +483,21 @@ CODE_C4D4BF:						; a task routine: stored as the next routine of a task
 	cmp.w #$00F0
 	bne CODE_C4D52A
 	lda.w #$0010
-	sta.b $8B
+	sta.b d3
 	lsr a
 	sta.b $7D
-	lda.b $8F
+	lda.b d4
 	ldy.w #$0000
 	jsl.l CODE_C4B970
 	lda.w #$00C4
 	sta.b $71
 	lda.w #$BAD6
-	sta.b $6F
+	sta.b a3
 	ldx.w #$007E
-	lda.b $8F
-	ldy.b $93
+	lda.b d4
+	ldy.b d5
 	jsl.l CODE_C4B8D1
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D4F5
 	sta.w $0002,x
 CODE_C4D4F5:						; a task routine: stored as the next routine of a task
@@ -508,13 +508,13 @@ CODE_C4D4F5:						; a task routine: stored as the next routine of a task
 	lda.l DATA8_C4D10A,x
 	and.w #$00FF
 	bne CODE_C4D514
-	ldx.b $83
+	ldx.b d1
 	stz.w $0008,x
 	lda.w #CODE_C4D51D
 	sta.w $0002,x
 	rtl
 CODE_C4D514:						; from CODE_C4D4F5
-	ldx.b $83
+	ldx.b d1
 	lda.w #CODE_C4D4A1
 	sta.w $0002,x
 	rtl
@@ -530,18 +530,18 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	jsl.l CreateSprite
 	stx.b $91
 	lda.w #$0010
-	sta.b $8B
-	lda.b $8F
+	sta.b d3
+	lda.b d4
 	ldy.w #$0000
 	jsl.l CODE_C4B970
 	lda.w #$007E
 	sta.b $71
-	lda.b $8F
-	sta.b $6F
+	lda.b d4
+	sta.b a3
 	lda.w #$0020
 	sta.b $7D
 	ldx.b $91
-	ldy.w $0034,x
+	ldy.w r2,x
 	lda.l $008004
 	and.w #$00FF
 	tax
@@ -552,10 +552,10 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	lsr a
 	lsr a
 	adc.l $008002
-	ldy.b $93
+	ldy.b d5
 	jsl.l CODE_C4B8D1
 	ldx.b $91
-	lda.w $0034,x
+	lda.w r2,x
 	and.w #$FF00
 	xba
 	clc
@@ -566,21 +566,21 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	asl a
 	tay
 	ldx.w #$007E
-	lda.b $8F
+	lda.b d4
 	jsl.l CODE_C4B84C
 	rts
 CODE_C4D588:						; from CODE_C4D388, CODE_C4D3DD, CODE_C4D414, CODE_C4D48A, ...
 	pha
 	lda.w #$0010
-	sta.b $8B
-	ldy.b $93
+	sta.b d3
+	ldy.b d5
 	jsl.l CODE_C4B8AC
 	ldx.w #$007E
-	lda.b $8F
-	ldy.b $93
+	lda.b d4
+	ldy.b d5
 	jsl.l CODE_C4B871
 	ldx.w #$007E
-	lda.b $8F
+	lda.b d4
 	ply
 	jsl.l CODE_C4B84C
 	dec.b $7D
@@ -589,16 +589,16 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	lda.w #$0020
 	sta.b $7D
 	lsr a
-	sta.b $8B
+	sta.b d3
 	lda.w #$007E
 	sta.b $71
-	lda.b $8F
-	sta.b $6F
+	lda.b d4
+	sta.b a3
 	ldy.w #$0000
 	jsl.l CODE_C4B970
 	ldx.w #$00C4
 	lda.w #$BAD6
-	ldy.b $93
+	ldy.b d5
 	jsl.l CODE_C4B8D1
 	lda.b $D3
 	ldy.w #$0700
@@ -611,7 +611,7 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	stz.b $97
+	stz.b d6
 	lda.w #$2400
 	sta.b $D5
 	inx
@@ -619,16 +619,16 @@ CODE_C4D5F6:						; from CODE_C4D610
 	stx.b $95
 	lda.l DATA8_C4D10A,x
 	tax
-	ldy.b $97
+	ldy.b d6
 	jsl.l CODE_C4BBE5
 	ldx.b $95
 	lda.w #$2000
 	cmp.b $D5
 	beq CODE_C4D610
 	sta.b $D5
-	inc.b $97
+	inc.b d6
 CODE_C4D610:						; from CODE_C4D5F6
-	inc.b $97
+	inc.b d6
 	inx
 	inx
 	dec.b $99
@@ -650,10 +650,10 @@ CODE_C4D610:						; from CODE_C4D5F6
 	stz.b QueueBusy
 	rts
 CODE_C4D636:						; from CODE_C4D193
-	stx.b $A1
-	sta.b $9F
+	stx.b tmp1
+	sta.b tmp0
 	clc
-	adc.b [$9F]
+	adc.b [tmp0]
 	bcc CODE_C4D641
 	inx
 	clc
@@ -663,8 +663,8 @@ CODE_C4D641:						; from CODE_C4D636
 	inx
 	clc
 CODE_C4D648:						; from CODE_C4D641
-	sta.b $9F
-	adc.b [$9F]
+	sta.b tmp0
+	adc.b [tmp0]
 	bcc CODE_C4D650
 	inx
 	clc
@@ -683,15 +683,15 @@ CODE_C4D657:						; called from other segments
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
 	lda.w #$FFFF
-	stz.w $04BC
-	stz.w $04C0
-	stz.w $04C4
-	sta.w $04BE
-	sta.w $04C6
+	stz.w BG1HScroll
+	stz.w BG2HScroll
+	stz.w BG3HScroll
+	sta.w BG1VScroll
+	sta.w BG3VScroll
 	lda.w #$0400
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$5800
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$87F2
 	ldx.w #$00C0
 	ldy.w #$2000
@@ -751,13 +751,13 @@ CODE_C4D657:						; called from other segments
 	sta.w DMAEnShadow
 	stz.w fadestep
 	stz.b $26
-	stz.b $63
+	stz.b a0
 CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
 	jsl.l CODE_C3716D
 	jsl.l CODE_C36C2D
 	lda.w $058D
 	and.w #$FFF0
-	tsb.b $63
+	tsb.b a0
 	lda.b $26
 	cmp.w #$003C
 	bne CODE_C4D75D
@@ -768,7 +768,7 @@ CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
 CODE_C4D75D:						; from CODE_C4D73A
 	cmp.w #$00C3
 	bcc CODE_C4D73A
-	ldx.b $63
+	ldx.b a0
 	bne CODE_C4D76B
 	cmp.w #$04B0
 	bcc CODE_C4D73A
@@ -782,7 +782,7 @@ CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
 	lda.w #$007F
 	sta.b $2E
 	lda.w #$D80A
-	sta.b $2C
+	sta.b r0
 	lda.w #$0000
 	ldx.w #$00C0
 	jsl.l Decompress
@@ -800,9 +800,9 @@ CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
 	lda.w #$0400
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$5800
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$87F2
 	ldx.w #$00C0
 	ldy.w #$2000
@@ -823,7 +823,7 @@ CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
 	lda.b #$03
 	sta.l OBSEL
 	rep #$20
-	stz.w $04C0
+	stz.w BG2HScroll
 	jsl.l CODE_C5BBBC
 	lda.w #BlueColoursHook
 	ldx.w #BlueColoursHook>>16
@@ -845,15 +845,15 @@ CODE_C4D818:						; called from other segments
 	sta.b $18
 	lda.w #$0026
 	jsl.l CreateSprite
-	stx.b $73
+	stx.b a4
 	lda.w #$2000
 	sta.b $36,x
 	lda.w #$FFFF
 	sta.b $75
 	lda.w #$0240
 	jsl.l CODE_C4C558
-	sta.b $2C
-	sta.b $34
+	sta.b r0
+	sta.b r2
 	lda.w #$007E
 	sta.b $2E
 	ldx.w #$00C0
@@ -883,13 +883,13 @@ CODE_C4D818:						; called from other segments
 	lda.w #$0240
 	jsl.l CODE_C4C56A
 	lda.w #$0002
-	sta.w $04C2
+	sta.w BG2VScroll
 	lda.w #$5419
 	jsl.l CODE_C4BB5A
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C2AA
 	stz.w fadestep
-	stz.b $63
+	stz.b a0
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C4D941
 	jsr.w CODE_C4DC45
@@ -906,12 +906,12 @@ CODE_C4D8CE:						; from CODE_C4D8CE, CODE_C4D915, CODE_C4D93B, CODE_C4D936
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C4D8CE
 	lda.w $058D
 	bit.w #$0100
 	beq CODE_C4D908
-	lda.b $63
+	lda.b a0
 	inc a
 	cmp.w #$0008
 	bcc CODE_C4D915
@@ -920,12 +920,12 @@ CODE_C4D8CE:						; from CODE_C4D8CE, CODE_C4D915, CODE_C4D93B, CODE_C4D936
 CODE_C4D908:						; from CODE_C4D8CE
 	bit.w #$0200
 	beq CODE_C4D93B
-	lda.b $63
+	lda.b a0
 	dec a
 	bpl CODE_C4D915
 	lda.w #$0007
 CODE_C4D915:						; from CODE_C4D8CE, CODE_C4D908
-	sta.b $63
+	sta.b a0
 	lda.b $D3
 	clc
 	adc.w #$0140
@@ -933,7 +933,7 @@ CODE_C4D915:						; from CODE_C4D8CE, CODE_C4D908
 	jsl.l CODE_C58B11
 	jsr.w CODE_C4D941
 	jsr.w CODE_C4DC45
-	ldx.b $63
+	ldx.b a0
 	cpx.w #$0007
 	bne CODE_C4D936
 	jsr.w CODE_C4DBCC
@@ -958,7 +958,7 @@ CODE_C4D941:						; from CODE_C4D818, CODE_C4D915
 	lda.w #$FFFF
 	sta.b $75
 CODE_C4D963:						; from CODE_C4D941
-	ldx.b $73
+	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
@@ -967,7 +967,7 @@ CODE_C4D963:						; from CODE_C4D941
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	lda.b $63
+	lda.b a0
 	asl a
 	pha
 	asl a
@@ -993,12 +993,12 @@ CODE_C4D99C:						; from CODE_C4D963
 	ldy.w #$0015
 	jsl.l CODE_C4BBE5
 	jsl.l CODE_C4CEDB
-	lda.b $63
+	lda.b a0
 	asl a
 	asl a
 	tax
 	lda.b $08
-	sta.b $30
+	sta.b r1
 	lda.w #$007E
 	sta.b $32
 	lda.l AwardPictures+2,x
@@ -1011,7 +1011,7 @@ CODE_C4D99C:						; from CODE_C4D963
 	tsx
 	tcs
 	stx.b $00
-	ldx.b $63
+	ldx.b a0
 	lda.l DATA8_C4DA75,x
 	and.w #$00FF
 	asl a
@@ -1020,14 +1020,14 @@ CODE_C4D99C:						; from CODE_C4D963
 	asl a
 	asl a
 	pha
-	sta.b $9F
+	sta.b tmp0
 	pea.w $0000
 	pea.w $007E
 	lda.b $08
 	clc
 	adc.w #$00EA
 	pha
-	adc.b $9F
+	adc.b tmp0
 	ldy.b $00
 	tsx
 	stx.b $00
@@ -1130,21 +1130,21 @@ CODE_C4DAD8:						; from CODE_C4DAD8
 	bne CODE_C4DAD8
 	sty.b $65
 	lda.w $2EA7,y
-	sta.b $67
+	sta.b a1
 	and.w #$00FF
 	sta.b $71
 	tax
 	cmp.w #$00FF
 	beq CODE_C4DB4A
 	lda.w $2E75,y
-	sta.b $6F
+	sta.b a3
 	clc
 	adc.w #$00C0
 	phy
 	ldy.b $68
 	jsr.w CODE_C4EC88
 	ply
-	sta.b $6B
+	sta.b a2
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1163,26 +1163,26 @@ CODE_C4DAD8:						; from CODE_C4DAD8
 	pea.w $0020
 	pea.w $0040
 	pei ($71)
-	lda.b $67
+	lda.b a1
 	and.w #$FF00
 	lsr a
 	lsr a
 	lsr a
-	adc.b $6F
+	adc.b a3
 	pha
 	lda.b $04
 	tsx
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	ldx.b $73
+	ldx.b a4
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
 	jsl.l CODE_C4CEDB
 	bra CODE_C4DB91
 CODE_C4DB4A:						; from CODE_C4DAD8
-	ldx.b $73
+	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
@@ -1267,7 +1267,7 @@ CODE_C4DBCC:						; from CODE_C4D915
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	ldx.b $73
+	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
@@ -1288,7 +1288,7 @@ CODE_C4DBCC:						; from CODE_C4D915
 CODE_C4DC45:						; from CODE_C4D818, CODE_C4D915
 	lda.w #$0030
 	sta.b $69
-	lda.b $63
+	lda.b a0
 	asl a
 	tax
 	jmp (DATA8_C4DC51,x)
@@ -1297,7 +1297,7 @@ DATA8_C4DC51:						; jump table: the routine for each index
 	dw CODE_C4DD74,CODE_C4DE68,CODE_C4DED9,CODE_C4DF20
 CODE_C4DC61:						; from DATA8_C4DC51
 	lda.w #$0000
-	sta.b $6B
+	sta.b a2
 CODE_C4DC66:						; from CODE_C4DC91
 	sta.b $6D
 	sta.w $17C9
@@ -1310,13 +1310,13 @@ CODE_C4DC6F:						; from CODE_C4DC6F
 	asl a
 	tax
 	lda.w $2E03,x
-	sta.b $6F
+	sta.b a3
 	jsl.l CODE_C5BDA8
-	lda.b $9F
-	cmp.b $6B
+	lda.b tmp0
+	cmp.b a2
 	bcc CODE_C4DC6F
-	sta.b $6B
-	lda.b $6F
+	sta.b a2
+	lda.b a3
 	sta.b $71
 	bra CODE_C4DC6F
 CODE_C4DC91:						; from CODE_C4DC6F
@@ -1327,11 +1327,11 @@ CODE_C4DC91:						; from CODE_C4DC6F
 	lda.b $71
 	rts
 CODE_C4DC9C:						; from DATA8_C4DC51
-	stz.b $6B
+	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w $17C9
 	jsl.l CODE_C531BC
-	stz.b $6B
+	stz.b a2
 CODE_C4DCAA:						; from CODE_C4DCAA
 	lda.w $2DCD
 	dec a
@@ -1343,19 +1343,19 @@ CODE_C4DCAA:						; from CODE_C4DCAA
 	asl a
 	tax
 	lda.w $2E05,x
-	sta.b $6F
+	sta.b a3
 	jsl.l CODE_C5BD52
-	lda.b $9F
-	sta.b $A1
-	lda.b $6F
+	lda.b tmp0
+	sta.b tmp1
+	lda.b a3
 	jsl.l CODE_C5BD7D
-	lda.b $9F
+	lda.b tmp0
 	clc
-	adc.b $A1
-	cmp.b $6B
+	adc.b tmp1
+	cmp.b a2
 	bcc CODE_C4DCAA
-	sta.b $6B
-	lda.b $6F
+	sta.b a2
+	lda.b a3
 	sta.b $71
 	bra CODE_C4DCAA
 CODE_C4DCDF:						; from CODE_C4DCAA
@@ -1363,7 +1363,7 @@ CODE_C4DCDF:						; from CODE_C4DCAA
 	rts
 CODE_C4DCE2:						; from DATA8_C4DC51
 	lda.w #$0000
-	sta.b $6B
+	sta.b a2
 CODE_C4DCE7:						; from CODE_C4DD36
 	sta.b $6D
 	tax
@@ -1385,15 +1385,15 @@ CODE_C4DD02:						; from CODE_C4DD02
 	adc.w $2DCB
 	pha
 	jsr.w CODE_C4DF82
-	sta.b $A3
+	sta.b tmp2
 	pla
 	ldx.b $6D
 	jsr.w CODE_C4DFAC
 	clc
-	adc.b $A3
-	cmp.b $6B
+	adc.b tmp2
+	cmp.b a2
 	bcc CODE_C4DD02
-	sta.b $6B
+	sta.b a2
 	lda.w $2DC9
 	sec
 	adc.w $2DCB
@@ -1410,11 +1410,11 @@ CODE_C4DD36:						; from CODE_C4DD02
 	lda.b $71
 	rts
 CODE_C4DD41:						; from DATA8_C4DC51
-	stz.b $6B
+	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w $17C9
 	jsl.l CODE_C531BC
-	stz.b $6B
+	stz.b a2
 CODE_C4DD4F:						; from CODE_C4DD4F
 	lda.w $2DCB
 	dec a
@@ -1423,20 +1423,20 @@ CODE_C4DD4F:						; from CODE_C4DD4F
 	asl a
 	tax
 	lda.w $2E03,x
-	sta.b $6F
+	sta.b a3
 	jsl.l CODE_C5BDE7
-	lda.b $9F
-	cmp.b $6B
+	lda.b tmp0
+	cmp.b a2
 	bcc CODE_C4DD4F
-	sta.b $6B
-	lda.b $6F
+	sta.b a2
+	lda.b a3
 	sta.b $71
 	bra CODE_C4DD4F
 CODE_C4DD71:						; from CODE_C4DD4F
 	lda.b $71
 	rts
 CODE_C4DD74:						; from DATA8_C4DC51
-	stz.b $6B
+	stz.b a2
 	stz.b $32
 	ldx.w #$002E
 CODE_C4DD7B:						; from CODE_C4DD7B
@@ -1490,8 +1490,8 @@ CODE_C4DDD1:						; from CODE_C4DE56
 	lda.w $3652,x
 	sta.w $17C9
 	jsl.l CODE_C531BC
-	stz.b $A3
-	stz.b $30
+	stz.b tmp2
+	stz.b r1
 	lda.w $2DCF
 	clc
 	adc.w $2DCD
@@ -1503,27 +1503,27 @@ CODE_C4DDE8:						; from CODE_C4DDE8
 	asl a
 	tax
 	lda.w $2E03,x
-	sta.b $6F
+	sta.b a3
 	jsl.l CODE_C5BD52
-	lda.b $9F
-	sta.b $A1
-	lda.b $6F
+	lda.b tmp0
+	sta.b tmp1
+	lda.b a3
 	jsl.l CODE_C5BD7D
-	lda.b $9F
+	lda.b tmp0
 	clc
-	adc.b $A1
-	ldx.b $A3
+	adc.b tmp1
+	ldx.b tmp2
 	sta.w $3680,x
 	clc
-	adc.b $30
-	sta.b $30
-	lda.b $6F
+	adc.b r1
+	sta.b r1
+	lda.b a3
 	sta.w $367E,x
 	inx
 	inx
 	inx
 	inx
-	stx.b $A3
+	stx.b tmp2
 	lda.w $2DCD
 	bra CODE_C4DDE8
 CODE_C4DE25:						; from CODE_C4DDE8, CODE_C4DE25
@@ -1532,8 +1532,8 @@ CODE_C4DE25:						; from CODE_C4DDE8, CODE_C4DE25
 	dex
 	dex
 	bmi CODE_C4DE56
-	stx.b $A3
-	stz.b $34
+	stx.b tmp2
+	stz.b r2
 	stz.b $36
 	lda.w $3680,x
 	asl a
@@ -1544,12 +1544,12 @@ CODE_C4DE25:						; from CODE_C4DDE8, CODE_C4DE25
 	pla
 	sta.b $32
 	pla
-	sta.b $30
-	ldx.b $A3
-	lda.b $2C
-	cmp.b $6B
+	sta.b r1
+	ldx.b tmp2
+	lda.b r0
+	cmp.b a2
 	bcc CODE_C4DE25
-	sta.b $6B
+	sta.b a2
 	lda.w $367E,x
 	sta.b $71
 	bra CODE_C4DE25
@@ -1568,11 +1568,11 @@ CODE_C4DE68:						; from DATA8_C4DC51
 	lda.w #$FFFF
 	sta.w $17C9
 	inc a
-	sta.b $6B
+	sta.b a2
 CODE_C4DE71:						; from CODE_C4DECE
-	sta.b $6F
+	sta.b a3
 	asl a
-	adc.b $6F
+	adc.b a3
 	lsr a
 	tax
 	lda.l $306A56,x
@@ -1594,13 +1594,13 @@ CODE_C4DE82:						; from CODE_C4DE71
 	pla
 	sta.b $71
 	pla
-	sta.b $6F
+	sta.b a3
 CODE_C4DEA0:						; from CODE_C4DE82
 	lda.w $2DCB
 	dec a
 	asl a
 	tax
-	lda.b $6F
+	lda.b a3
 CODE_C4DEA8:						; from CODE_C4DEA8
 	cmp.w $2E03,x
 	beq CODE_C4DECE
@@ -1608,31 +1608,31 @@ CODE_C4DEA8:						; from CODE_C4DEA8
 	dex
 	bpl CODE_C4DEA8
 	jsl.l CODE_C5BD52
-	lda.b $9F
-	sta.b $A1
-	lda.b $6F
+	lda.b tmp0
+	sta.b tmp1
+	lda.b a3
 	jsl.l CODE_C5BD7D
-	lda.b $9F
+	lda.b tmp0
 	clc
-	adc.b $A1
-	cmp.b $6B
+	adc.b tmp1
+	cmp.b a2
 	bcc CODE_C4DECE
-	sta.b $6B
-	lda.b $6F
+	sta.b a2
+	lda.b a3
 	sta.b $71
 CODE_C4DECE:						; from CODE_C4DE82, CODE_C4DEA8
-	lda.b $6F
+	lda.b a3
 	inc a
 	cmp.w #$027E
 	bcc CODE_C4DE71
 	lda.b $71
 	rts
 CODE_C4DED9:						; from DATA8_C4DC51
-	stz.b $6B
+	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w $17C9
 	jsl.l CODE_C531BC
-	stz.b $6B
+	stz.b a2
 CODE_C4DEE7:						; from CODE_C4DEE7
 	lda.w $2DCF
 	dec a
@@ -1644,19 +1644,19 @@ CODE_C4DEE7:						; from CODE_C4DEE7
 	asl a
 	tax
 	lda.w $2E03,x
-	sta.b $6F
+	sta.b a3
 	jsl.l CODE_C5BD52
-	lda.b $9F
-	sta.b $A1
-	lda.b $6F
+	lda.b tmp0
+	sta.b tmp1
+	lda.b a3
 	jsl.l CODE_C5BD7D
-	lda.b $9F
+	lda.b tmp0
 	clc
-	adc.b $A1
-	cmp.b $6B
+	adc.b tmp1
+	cmp.b a2
 	bcc CODE_C4DEE7
-	sta.b $6B
-	lda.b $6F
+	sta.b a2
+	lda.b a3
 	sta.b $71
 	bra CODE_C4DEE7
 CODE_C4DF1D:						; from CODE_C4DEE7
@@ -1664,25 +1664,25 @@ CODE_C4DF1D:						; from CODE_C4DEE7
 	rts
 CODE_C4DF20:						; from DATA8_C4DC51
 	lda.w #$FFFF
-	sta.b $6F
+	sta.b a3
 	lda.w #$0000
-	sta.b $6B
+	sta.b a2
 CODE_C4DF2A:						; from CODE_C4DF50
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	lda.w $0004,x
-	cmp.b $6B
+	cmp.b a2
 	bcc CODE_C4DF50
 	bne CODE_C4DF45
-	lda.w $0006,x
-	cmp.b $6F
+	lda.w QueueBusy,x
+	cmp.b a3
 	bcs CODE_C4DF50
-	sta.b $6F
+	sta.b a3
 	lda.w $0004,x
 CODE_C4DF45:						; from CODE_C4DF2A
-	sta.b $6B
-	lda.w $0006,x
-	sta.b $6F
+	sta.b a2
+	lda.w QueueBusy,x
+	sta.b a3
 	lda.b $6D
 	sta.b $71
 CODE_C4DF50:						; from CODE_C4DF2A
@@ -1694,16 +1694,16 @@ CODE_C4DF50:						; from CODE_C4DF2A
 	rts
 CODE_C4DF5B:						; from CODE_C4DC9C, CODE_C4DD41, CODE_C4DED9
 	lda.w #$0000
-	sta.b $6B
+	sta.b a2
 	sta.b $71
-	dec.b $6B
+	dec.b a2
 CODE_C4DF64:						; from CODE_C4DF77
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	lda.w $002A,x
-	cmp.b $6B
+	cmp.b a2
 	bcs CODE_C4DF77
-	sta.b $6B
+	sta.b a2
 	lda.b $6D
 	sta.b $71
 CODE_C4DF77:						; from CODE_C4DF64
@@ -1714,18 +1714,18 @@ CODE_C4DF77:						; from CODE_C4DF64
 	lda.b $71
 	rts
 CODE_C4DF82:						; from CODE_C4DD02
-	sta.b $9F
+	sta.b tmp0
 	asl a
 	asl a
 	asl a
 	sec
-	sbc.b $9F
-	sta.b $9F
+	sbc.b tmp0
+	sta.b tmp0
 	txa
 	asl a
 	tax
 	lda.l DATA8_C40D76,x
-	adc.b $9F
+	adc.b tmp0
 	tay
 	lsr a
 	lsr a
@@ -1743,18 +1743,18 @@ CODE_C4DFA3:						; from CODE_C4DFA3
 	and.w #$007F
 	rts
 CODE_C4DFAC:						; from CODE_C4DD02
-	sta.b $9F
+	sta.b tmp0
 	asl a
 	asl a
 	asl a
 	sec
-	sbc.b $9F
-	sta.b $9F
+	sbc.b tmp0
+	sta.b tmp0
 	txa
 	asl a
 	tax
 	lda.l DATA8_C40D76,x
-	adc.b $9F
+	adc.b tmp0
 	tay
 	lsr a
 	lsr a

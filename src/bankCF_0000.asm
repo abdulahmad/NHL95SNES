@@ -33,7 +33,7 @@ CODE_CF0032:						; from CODE_CF0032
 SPCUpload:							; upload the blocks at X:A to the sound CPU boot loader (94S SPCUpload)
 	pea.w $7E80
 	plb
-	sta.b $2C
+	sta.b r0
 	sep #$20
 	txa
 	sta.b $2E
@@ -94,18 +94,18 @@ CODE_CF00B7:						; from SPCUpload, CODE_CF0098, CODE_CF00B7, CODE_CF007A, ...
 	bne CODE_CF00B7
 	rts
 CODE_CF00BD:						; from CODE_CF0069, CODE_CF0071
-	lda.b [$2C]
-	ldy.b $2C
+	lda.b [r0]
+	ldy.b r0
 	iny
 	bne CODE_CF00C9
 	inc.b $2E
 	ldy.w #$8000
 CODE_CF00C9:						; from CODE_CF00BD
-	sty.b $2C
+	sty.b r0
 	rts
 CODE_CF00CC:						; from CODE_CF008B
-	lda.b [$2C]
-	ldy.b $2C
+	lda.b [r0]
+	ldy.b r0
 	iny
 	bne CODE_CF00D8
 	inc.b $2E
@@ -116,7 +116,7 @@ CODE_CF00D8:						; from CODE_CF00CC
 	inc.b $2E
 	ldy.w #$8000
 CODE_CF00E0:						; from CODE_CF00D8
-	sty.b $2C
+	sty.b r0
 	rts
 CODE_CF00E3:						; from CODE_CF03B2, CODE_CF03EE, CODE_CF040B, ...
 	phy
@@ -171,7 +171,7 @@ CODE_CF0134:						; from CODE_CF0134, CODE_CF0427, CODE_CF04C0 and other segment
 	pha
 	phx
 	lda.w #$0C00
-	sta.b $9F
+	sta.b tmp0
 	ldx.w #$00FE
 	lda.w #$FFFF
 CODE_CF014D:						; from CODE_CF014D
@@ -186,24 +186,24 @@ CODE_CF014D:						; from CODE_CF014D
 	plx
 	pla
 CODE_CF0162:						; from CODE_CF045C and other segments
-	sta.b $34
+	sta.b r2
 	stx.b $36
 CODE_CF0166:						; from CODE_CF0166, CODE_CF0178
-	lda.b [$34]
+	lda.b [r2]
 	and.w #$00FF
 	bit.w #$0080
 	bne CODE_CF0178
-	inc.b $34
+	inc.b r2
 	jsl.l CODE_CF01E0
 	bra CODE_CF0166
 CODE_CF0178:						; from CODE_CF0166
 	cmp.w #$00FF
 	beq CODE_CF0185
-	inc.b $34
+	inc.b r2
 	jsl.l CODE_CF0313
 	bra CODE_CF0166
 CODE_CF0185:						; from CODE_CF0178
-	lda.b $9F
+	lda.b tmp0
 	clc
 CODE_CF0188:						; called from other segments
 	adc.w #$0B80
@@ -265,23 +265,23 @@ CODE_CF0211:						; from CODE_CF01E0
 	tax
 CODE_CF0214:						; from CODE_CF01E0
 	lda.w $49BC,x
-	sta.b $30
+	sta.b r1
 	lda.w $49BE,x
 	sta.b $32
-	lda.b [$30]
+	lda.b [r1]
 	sta.w $4DD2,x
 	ldy.w #$0002
-	lda.b [$30],y
+	lda.b [r1],y
 	sta.w $4DD4,x
 	txa
 	lsr a
 	tax
 	ldy.w #$0004
-	lda.b [$30],y
+	lda.b [r1],y
 	sta.w $4FD2,x
 	ldy.w #$0006
 CODE_CF0239:						; called from other segments
-	lda.b [$30],y
+	lda.b [r1],y
 	sta.w $5054,x
 	txa
 	asl a
@@ -289,7 +289,7 @@ CODE_CF0239:						; called from other segments
 	ldy.w #$0000
 CODE_CF0244:						; from CODE_CF025F
 	lda.w $4BC8,y
-	cmp.b $30
+	cmp.b r1
 	bne CODE_CF025F
 	lda.w $4BCA,y
 	cmp.b $32
@@ -306,27 +306,27 @@ CODE_CF025F:						; from CODE_CF0244
 	iny
 	cpy.w #$0100
 	bne CODE_CF0244
-	lda.b $30
+	lda.b r1
 	sta.w $4BC8,x
 	lda.b $32
 	sta.w $4BCA,x
 	clc
 	ldy.w #$0008
-	lda.b [$30],y
+	lda.b [r1],y
 	beq CODE_CF027C
-	adc.b $9F
+	adc.b tmp0
 CODE_CF027C:						; from CODE_CF025F
 	sta.w $4ED4,x
-	lda.b $9F
+	lda.b tmp0
 	sta.w $4ED2,x
-	lda.b $30
+	lda.b r1
 	adc.w #$000A
-	sta.b $30
+	sta.b r1
 CODE_CF028B:						; from CODE_CF0313 and other segments
-	lda.b $9F
+	lda.b tmp0
 	tay
 	clc
-	adc.b [$30]
+	adc.b [r1]
 	bcs CODE_CF0298
 	cmp.w #$F47F
 	bcc CODE_CF029F
@@ -335,19 +335,19 @@ CODE_CF0298:						; from CODE_CF028B
 	lda.w #$0C00
 	tay
 CODE_CF029F:						; from CODE_CF028B
-	sta.b $9F
-	lda.b $30
+	sta.b tmp0
+	lda.b r1
 	ldx.b $32
 CODE_CF02A5:						; from CODE_CF0188 and other segments
-	sta.b $2C
+	sta.b r0
 	stx.b $2E
 	tya
 	tyx
 	sta.l $002141
-	lda.b [$2C]
+	lda.b [r0]
 	tax
 	ldy.w #$0002
-	stz.b $A1
+	stz.b tmp1
 	sep #$20
 	lda.b #$19
 	sta.l $002143
@@ -356,21 +356,21 @@ CODE_CF02C1:						; from CODE_CF02C1
 	cmp.l $002143
 	bne CODE_CF02C1
 CODE_CF02C7:						; from CODE_CF02F2
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.l $002140
 	iny
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.l $002141
 	iny
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.l $002142
 	iny
-	lda.b $A1
+	lda.b tmp1
 	inc a
 	bpl CODE_CF02E3
 	and.b #$7F
 CODE_CF02E3:						; from CODE_CF02C7
-	sta.b $A1
+	sta.b tmp1
 	dex
 	beq CODE_CF0302
 	dex
@@ -406,24 +406,24 @@ CODE_CF0313:						; from CODE_CF0178 and other segments
 	tay
 	asl a
 	tax
-	lda.b $9F
+	lda.b tmp0
 	sta.w $4CCA,y
 	lda.l DATA8_CF04E3,x
-	sta.b $30
+	sta.b r1
 	lda.l DATA8_CF04E3+2,x
 	sta.b $32
 	jsl.l CODE_CF028B
-	lda.b $30
-	sta.b $34
+	lda.b r1
+	sta.b r2
 	lda.b $32
 	sta.b $36
 	ldy.w #$0003
-	lda.b [$34],y
+	lda.b [r2],y
 	and.w #$007F
 	tax
 	iny
 CODE_CF0345:						; from CODE_CF0345
-	lda.b [$34],y
+	lda.b [r2],y
 	and.w #$00FF
 	phx
 	phy
@@ -433,7 +433,7 @@ CODE_CF0345:						; from CODE_CF0345
 	iny
 	dex
 	bne CODE_CF0345
-	lda.b $34
+	lda.b r2
 	bmi CODE_CF0387
 	xba
 	and.w #$007F
@@ -462,7 +462,7 @@ CODE_CF0387:						; from CODE_CF0345, CODE_CF0365
 	pla
 	sta.b $36
 	pla
-	sta.b $34
+	sta.b r2
 	rtl
 CODE_CF038E:						; called from other segments
 	lda.w $1EA5
@@ -477,22 +477,22 @@ CODE_CF039E:						; from CODE_CF04C0 and other segments
 	lda.w $059C
 	beq CODE_CF03CF
 	xba
-	sta.b $9F
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.b $A3
+	sta.b tmp2
 	ldx.w #$000F
 CODE_CF03B2:						; from CODE_CF03B2
 	sec
-	lda.b $9F
-	sbc.b $A3
-	sta.b $9F
+	lda.b tmp0
+	sbc.b tmp2
+	sta.b tmp0
 	and.w #$FF00
-	sta.b $A1
+	sta.b tmp1
 	xba
-	ora.b $A1
+	ora.b tmp1
 	tay
 	lda.w #$0008
 	jsl.l CODE_CF00E3
@@ -506,17 +506,17 @@ CODE_CF03D0:						; from CODE_CF04C0 and other segments
 	lda.w $059C
 	cmp.w #$007F
 	beq CODE_CF0401
-	stz.b $9F
+	stz.b tmp0
 	ldx.w #$000F
 CODE_CF03E0:						; from CODE_CF03EE
-	lda.b $9F
+	lda.b tmp0
 	clc
 	adc.w #$0808
 	cmp.w #$7F80
 	bcc CODE_CF03EE
 	lda.w #$7F7F
 CODE_CF03EE:						; from CODE_CF03E0
-	sta.b $9F
+	sta.b tmp0
 	tay
 	lda.w #$0008
 	jsl.l CODE_CF00E3
@@ -545,7 +545,7 @@ CODE_CF0418:						; called from other segments
 	phy
 	tax
 	lda.w #$0003
-	ldy.b $9F
+	ldy.b tmp0
 	jsl.l CODE_CF00E3
 	ply
 	plx
@@ -560,7 +560,7 @@ CODE_CF0427:						; called from other segments
 	asl a
 	tax
 	lda.w #$50D4
-	sta.b $2C
+	sta.b r0
 	ldy.w #$0005
 CODE_CF0442:						; from CODE_CF045C
 	lda.l TeamSongs,x
@@ -574,13 +574,13 @@ CODE_CF0442:						; from CODE_CF045C
 	lda.l DefaultSongs,x
 	plx
 CODE_CF045C:						; from CODE_CF0442
-	sta.b ($2C)
-	inc.b $2C
+	sta.b (r0)
+	inc.b r0
 	inx
 	dey
 	bpl CODE_CF0442
 	lda.w #$FFFF
-	sta.b ($2C)
+	sta.b (r0)
 	lda.w #$50D4
 	ldx.w #$007E
 	jsl.l CODE_CF0162
@@ -594,11 +594,11 @@ CODE_CF045C:						; from CODE_CF0442
 	rtl
 CODE_CF0485:						; called from other segments
 	phx
-	sta.b $9F
+	sta.b tmp0
 	bra CODE_CF04A8
 CODE_CF048A:						; called from other segments
 	phx
-	sta.b $9F
+	sta.b tmp0
 	ldx.w #$03E8
 CODE_CF0490:						; from CODE_CF0490
 	dex
@@ -611,7 +611,7 @@ CODE_CF0490:						; from CODE_CF0490
 	and.w #$0038
 	bne CODE_CF04B4
 CODE_CF04A8:						; from CODE_CF0485
-	ldx.b $9F
+	ldx.b tmp0
 	lda.w $50D4,x
 	and.w #$00FF
 	jsl.l CODE_CF040B

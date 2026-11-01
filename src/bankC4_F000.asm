@@ -2,21 +2,21 @@
 ; sample 2 and zeros to the end of the bank.
 org $C4F01E
 CODE_C4F01E:						; from CODE_C4F2B6, CODE_C4F2D1 and other segments
-	sty.b $9F
+	sty.b tmp0
 	stz.w $24DC
 	lda.w $0000,y
-	sta.b $A1
+	sta.b tmp1
 CODE_C4F028:						; from CODE_C4F028
 	beq CODE_C4F05C
 	dec a
-	sta.b $A1
+	sta.b tmp1
 	asl a
 	tay
 	asl a
 	asl a
 	asl a
 	asl a
-	adc.b $9F
+	adc.b tmp0
 	tax
 	lda.w $0110,x
 	sta.w $04F5
@@ -28,7 +28,7 @@ CODE_C4F028:						; from CODE_C4F028
 	sta.w $04FB
 	jsl.l CODE_C5C6A2
 	sta.w $364E,y
-	lda.b $A1
+	lda.b tmp1
 	sta.w $368E,y
 	bra CODE_C4F028
 CODE_C4F05C:						; from CODE_C4F028
@@ -38,7 +38,7 @@ CODE_C4F05C:						; from CODE_C4F028
 	ldy.w #$36D0
 	lda.w #$00FD
 	mvn $7E,$7E
-	ldy.b $9F
+	ldy.b tmp0
 	clc
 	lda.w $0002,y
 	adc.w $0004,y
@@ -46,27 +46,27 @@ CODE_C4F05C:						; from CODE_C4F028
 	asl a
 	tax
 	lda.w $0004,y
-	sta.b $A1
+	sta.b tmp1
 	sta.b $A5
 CODE_C4F081:						; from CODE_C4F081
 	jsr.w CODE_C4F201
 	dex
 	dex
-	dec.b $A1
+	dec.b tmp1
 	bne CODE_C4F081
-	ldy.b $9F
+	ldy.b tmp0
 	lda.w $0000,y
 	dec a
 	asl a
 	tax
-	lda.w $0006,y
-	sta.b $A1
+	lda.w QueueBusy,y
+	sta.b tmp1
 	sta.b $0A
 CODE_C4F099:						; from CODE_C4F099
 	jsr.w CODE_C4F240
 	dex
 	dex
-	dec.b $A1
+	dec.b tmp1
 	bne CODE_C4F099
 	lda.w #$0001
 	sta.w $37CE
@@ -87,10 +87,10 @@ CODE_C4F099:						; from CODE_C4F099
 	ldx.w #$37CE
 	ldy.w #$37D6
 	mvn $7E,$7E
-	stz.b $2C
+	stz.b r0
 	stz.b $2E
 	lda.w #$0005
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$37D6
 	stx.b $14
 	lda.w $0000,x
@@ -118,43 +118,43 @@ CODE_C4F11F:						; from CODE_C4F128
 	tax
 	stx.b $14
 CODE_C4F128:						; from CODE_C4F128
-	stz.b $A3
+	stz.b tmp2
 	sep #$20
 	jsr.w CODE_C4F197
 	bcs CODE_C4F128
 	sta.w $0001,x
 	jsr.w CODE_C4F1F8
-	stz.b $A3
+	stz.b tmp2
 	jsr.w CODE_C4F197
 	bcs CODE_C4F128
 	sta.w $0002,x
 	jsr.w CODE_C4F1F8
-	stz.b $A3
+	stz.b tmp2
 	jsr.w CODE_C4F1B4
 	bcs CODE_C4F128
 	sta.w $0003,x
 	jsr.w CODE_C4F1EF
-	stz.b $A3
+	stz.b tmp2
 	jsr.w CODE_C4F1B4
 	bcs CODE_C4F128
 	sta.w $0004,x
 	jsr.w CODE_C4F1EF
-	stz.b $A3
+	stz.b tmp2
 	jsr.w CODE_C4F1B4
 	bcs CODE_C4F128
 	sta.w $0005,x
 	jsr.w CODE_C4F1EF
-	stz.b $A3
+	stz.b tmp2
 	jsr.w CODE_C4F1B4
 	bcs CODE_C4F128
-	sta.w $0006,x
+	sta.w QueueBusy,x
 	jsr.w CODE_C4F1EF
 	rep #$20
 	lda.b $14
-	dec.b $A1
+	dec.b tmp1
 	bpl CODE_C4F11F
 	clc
-	lda.b $9F
+	lda.b tmp0
 	adc.w #$006C
 	tay
 	ldx.w #$37CE
@@ -168,7 +168,7 @@ CODE_C4F191:						; from CODE_C4F197
 	rts
 CODE_C4F197:						; from CODE_C4F128, CODE_C4F197
 	rep #$20
-	lda.b $A3
+	lda.b tmp2
 	cmp.b $0A
 	beq CODE_C4F191
 	asl a
@@ -180,13 +180,13 @@ CODE_C4F197:						; from CODE_C4F128, CODE_C4F197
 	ldx.b $14
 	rts
 CODE_C4F1AE:						; from CODE_C4F1B4
-	stz.b $2C
+	stz.b r0
 	ldx.b $14
 	sec
 	rts
 CODE_C4F1B4:						; from CODE_C4F128, CODE_C4F1B4
 	rep #$20
-	lda.b $A3
+	lda.b tmp2
 	cmp.b $A5
 	beq CODE_C4F1AE
 	asl a
@@ -198,7 +198,7 @@ CODE_C4F1B4:						; from CODE_C4F128, CODE_C4F1B4
 	ldx.b $14
 	rts
 CODE_C4F1CB:						; from CODE_C4F197
-	inc.b $A3
+	inc.b tmp2
 	ldx.b $2E
 	dex
 	bmi CODE_C4F1DA
@@ -214,8 +214,8 @@ CODE_C4F1DC:						; from CODE_C4F1D2, CODE_C4F1E5
 	sec
 	rts
 CODE_C4F1DE:						; from CODE_C4F1B4
-	inc.b $A3
-	ldx.b $2C
+	inc.b tmp2
+	ldx.b r0
 	dex
 	bmi CODE_C4F1DA
 CODE_C4F1E5:						; from CODE_C4F1E5
@@ -226,10 +226,10 @@ CODE_C4F1E5:						; from CODE_C4F1E5
 	clc
 	rts
 CODE_C4F1EF:						; from CODE_C4F099, CODE_C4F128
-	ldy.b $2C
+	ldy.b r0
 	sta.w $380E,y
 	iny
-	sty.b $2C
+	sty.b r0
 	rts
 CODE_C4F1F8:						; from CODE_C4F099, CODE_C4F128
 	ldy.b $2E
@@ -250,10 +250,10 @@ CODE_C4F204:						; from CODE_C4F204
 CODE_C4F212:						; from CODE_C4F204
 	phy
 	phx
-	sty.b $A3
+	sty.b tmp2
 	sec
 	lda.w #$001D
-	sbc.b $A3
+	sbc.b tmp2
 	pha
 	ldx.w #$372A
 	ldy.w #$372C
@@ -284,10 +284,10 @@ CODE_C4F243:						; from CODE_C4F243
 CODE_C4F251:						; from CODE_C4F243
 	phy
 	phx
-	sty.b $A3
+	sty.b tmp2
 	sec
 	lda.w #$001D
-	sbc.b $A3
+	sbc.b tmp2
 	pha
 	ldx.w #$37AA
 	ldy.w #$37AC
@@ -316,7 +316,7 @@ CODE_C4F27F:						; from CODE_C4F2B6, CODE_C4F2D1
 	cmp.w $0000,y
 	bne CODE_C4F2AC
 	dec a
-	sta.b $9F
+	sta.b tmp0
 CODE_C4F29A:						; from CODE_C4F29A
 	lda.w $003A,x
 	cmp.w $003A,y
@@ -325,7 +325,7 @@ CODE_C4F29A:						; from CODE_C4F29A
 	inx
 	iny
 	iny
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C4F29A
 	clc
 	rts

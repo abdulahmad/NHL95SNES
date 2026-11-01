@@ -723,6 +723,10 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
   or a jump table, so the call-target pass had missed them: the assignment routines assdefd, asswingo, asscentero, asswingd,
   asscenterd, assdefo (by code, not by asstab order), chk4pass, chk4shot, checkwindow, puckgoalie, RemapTiles, Sroot and others;
   NewTicker2_next and clockcont_0 by their place.
+- 2026-10-31: RAM names: 139 more in src/ram95s.asm (direct page d0-d7, a0-a4, tmp0-tmp4, p0 / p1; the object arrays Xpos, Ypos,
+  Xvel, Yvel, pflags, pfteam, facedir, position ...; the game state gmode, gmclock, sflags, puckc, tmscore ...), each the 94S
+  name its address takes in 3 or more aligned instructions of the matched routines; 10436 operands in 38 files use them.
+  Byte-neutral.
 
 ## ROM map
 

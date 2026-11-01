@@ -19,12 +19,12 @@ CODE_C5DF5F:						; called from other segments
 	sta.b $0A
 	pei ($36)
 	ldy.w #$0002
-	lda.b [$38],y
+	lda.b [p0],y
 	jsr.w CODE_C5E172
 	inc a
-	sta.b $30
+	sta.b r1
 	lda.b $0A
-	sta.b $34
+	sta.b r2
 	jsl.l Div16x8U
 	sta.w $DB90
 	sta.w $DB8E
@@ -42,14 +42,14 @@ CODE_C5DFB1:						; from CODE_C5DFB1
 	inx
 	inx
 	iny
-	dec.b $30
+	dec.b r1
 	bne CODE_C5DFB1
 	ldy.w #$0002
 CODE_C5DFC1:						; from CODE_C5DFC1
 	dec.b $0C
 	bmi CODE_C5DFD8
 	beq CODE_C5DFD8
-	lda.b [$38],y
+	lda.b [p0],y
 	jsr.w CODE_C5E172
 	clc
 	adc.b $0E
@@ -63,18 +63,18 @@ CODE_C5DFD8:						; from CODE_C5DFC1
 	jmp.w CODE_C5E0B0
 CODE_C5DFDF:						; from CODE_C5DFD8
 	ldy.w #$0002
-	lda.b [$38],y
+	lda.b [p0],y
 	sta.w $DBDA
 	sta.w $DBE0
 	iny
 	iny
 	clc
-	adc.b [$38],y
+	adc.b [p0],y
 	sta.w $DBDC
 	sta.w $DBE2
 	iny
 	iny
-	adc.b [$38],y
+	adc.b [p0],y
 	sta.w $DBDE
 	stz.w $DBE4
 	lda.b $A4
@@ -199,7 +199,7 @@ CODE_C5E0E8:						; from CODE_C5E0FB
 	asl a
 	adc.w #$0112
 	tay
-	lda.b [$38],y
+	lda.b [p0],y
 	and.w #$000F
 	tay
 	lda.w #$0000
@@ -226,30 +226,30 @@ CODE_C5E0FB:						; from CODE_C5E0FB
 	bne CODE_C5E0E8
 	rts
 CODE_C5E123:						; called from other segments
-	sta.b $A1
+	sta.b tmp1
 	sta.w $000C,x
 	lda.w #$001E
 	jsr.w CODE_C5E172
 	adc.w #$000A
 	clc
-	adc.b $A1
+	adc.b tmp1
 	sta.w $000E,x
 	lda.w #$00C8
 	jsr.w CODE_C5E172
 	sta.w $0010,x
-	lda.b $A1
+	lda.b tmp1
 	lsr a
 	jsr.w CODE_C5E172
 	sta.w $0012,x
 	jsr.w CODE_C5E172
 	sta.w $0014,x
-	lda.b $A1
+	lda.b tmp1
 	lsr a
 	jsr.w CODE_C5E172
 	sta.w $0016,x
 	jsr.w CODE_C5E172
 	sta.w $0018,x
-	lda.b $A1
+	lda.b tmp1
 	lsr a
 	lsr a
 	jsr.w CODE_C5E172
@@ -267,7 +267,7 @@ CODE_C5E172:						; from CODE_C5DF5F, CODE_C5DFC1, CODE_C5E123, CODE_C5E0B9, ...
 CODE_C5E17C:						; called from other segments
 	pea.w $7E7F
 	lda.w $2C42
-	sta.b $9F
+	sta.b tmp0
 	lda.l $306051
 	sta.b $0A
 	stz.b $0C
@@ -316,11 +316,11 @@ CODE_C5E192:						; from CODE_C5E1EB
 	pla
 	sta.b $A5
 	pla
-	sta.b $A3
+	sta.b tmp2
 	pla
-	sta.b $A1
+	sta.b tmp1
 	pla
-	sta.b $9F
+	sta.b tmp0
 	ply
 	plx
 	sec
@@ -330,7 +330,7 @@ CODE_C5E1EB:						; from CODE_C5E192
 	adc.w #$010A
 	tay
 	inc.b $0E
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C5E192
 	plb
 	lda.w #$0010
@@ -403,28 +403,28 @@ CODE_C5E20B:						; from CODE_C5E192 and other segments
 	ply
 	rts
 CODE_C5E29C:						; from CODE_C5E20B
-	stx.b $A3
-	sta.b $A1
+	stx.b tmp2
+	sta.b tmp1
 	jsr.w CODE_C5E2C4
-	ldx.b $A3
+	ldx.b tmp2
 	rts
 CODE_C5E2A6:						; from CODE_C5E20B
-	stx.b $A3
-	sta.b $A1
+	stx.b tmp2
+	sta.b tmp1
 	jsr.w CODE_C5E2C7
-	ldx.b $A3
+	ldx.b tmp2
 	rts
 CODE_C5E2B0:						; from CODE_C5E20B
-	stx.b $A3
-	sta.b $A1
+	stx.b tmp2
+	sta.b tmp1
 	jsr.w CODE_C5E2CA
-	ldx.b $A3
+	ldx.b tmp2
 	rts
 CODE_C5E2BA:						; from CODE_C5E20B
-	stx.b $A3
-	sta.b $A1
+	stx.b tmp2
+	sta.b tmp1
 	jsr.w CODE_C5E2CD
-	ldx.b $A3
+	ldx.b tmp2
 	rts
 CODE_C5E2C4:						; from CODE_C5E29C
 	jsr.w CODE_C5E2EB
@@ -444,16 +444,16 @@ CODE_C5E2CD:						; from CODE_C5E2BA
 	jsr.w CODE_C5E2EB
 	jsr.w CODE_C5E2EB
 CODE_C5E2EB:						; from CODE_C5E2CA, CODE_C5E2CD, CODE_C5E2C7, CODE_C5E2C4
-	lsr.b $A1
+	lsr.b tmp1
 	bcs CODE_C5E314
-	lda.b $34
+	lda.b r2
 	and.w #$0007
 	tax
 	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	eor.w #$FFFF
 	sta.b $A5
-	lda.b $34
+	lda.b r2
 	lsr a
 	lsr a
 	lsr a
@@ -461,16 +461,16 @@ CODE_C5E2EB:						; from CODE_C5E2CA, CODE_C5E2CD, CODE_C5E2C7, CODE_C5E2C4
 	lda.l $306E43,x
 	and.b $A5
 	sta.l $306E43,x
-	inc.b $34
+	inc.b r2
 	rts
 CODE_C5E314:						; from CODE_C5E2EB
-	lda.b $34
+	lda.b r2
 	and.w #$0007
 	tax
 	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
 	sta.b $A5
-	lda.b $34
+	lda.b r2
 	lsr a
 	lsr a
 	lsr a
@@ -478,25 +478,25 @@ CODE_C5E314:						; from CODE_C5E2EB
 	lda.l $306E43,x
 	ora.b $A5
 	sta.l $306E43,x
-	inc.b $34
+	inc.b r2
 	rts
 CODE_C5E336:						; called from other segments
 	phb
 	lda.l $7E2C42
-	sta.b $9F
+	sta.b tmp0
 	lda.l $306051
-	sta.b $A1
+	sta.b tmp1
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
 	ldx.w #$0000
 CODE_C5E34D:						; from CODE_C5E36F
-	lsr.b $A1
+	lsr.b tmp1
 	bcc CODE_C5E36F
 	lda.w #$0000
 	sta.w $0000,y
 	dec a
-	sta.w $0006,y
+	sta.w QueueBusy,y
 	lda.l $306053,x
 	and.w #$00FF
 	sta.w $000A,y
@@ -510,7 +510,7 @@ CODE_C5E36F:						; from CODE_C5E34D
 	clc
 	adc.w #$010A
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C5E34D
 	plb
 	plb
@@ -612,18 +612,18 @@ CODE_C5E432:						; from CODE_C5E41D
 	sta.l $306043
 	jmp.w CODE_C5A3C1
 CODE_C5E447:						; from CODE_C5E47C and other segments
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	tax
-	lda.b $9F
+	lda.b tmp0
 	and.w #$0007
 	tay
 	lda.w #$FE00
@@ -634,9 +634,9 @@ CODE_C5E460:						; from CODE_C5E460
 	rol a
 	bra CODE_C5E460
 CODE_C5E467:						; from CODE_C5E460
-	sta.b $9F
+	sta.b tmp0
 	lda.l $30628F,x
-	and.b $9F
+	and.b tmp0
 	sta.l $30628F,x
 	rts
 CODE_C5E474:						; called from other segments
@@ -686,7 +686,7 @@ CODE_C5E4CC:						; from CODE_C5E4CC
 CODE_C5E4D2:						; called from other segments
 	pea.w $7E7F
 	lda.w $2C42
-	sta.b $9F
+	sta.b tmp0
 	lda.l $306051
 	sta.b $0A
 	stz.b $0C
@@ -703,7 +703,7 @@ CODE_C5E4F0:						; from CODE_C5E4E6
 	tya
 	adc.w #$010A
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C5E4E6
 	plb
 	lda.w #$0010
@@ -805,7 +805,7 @@ CODE_C5E5AA:						; from CODE_C5E5A0
 	tyx
 	tay
 	jsr (DATA8_C5E655,x)
-	lda.w $0034,y
+	lda.w r2,y
 	and.w #$00FF
 	asl a
 	tax
@@ -925,14 +925,14 @@ CODE_C5E671:						; from CreateSprite
 	sta.b $0E,x
 	lda.b $D9
 	sta.b $36,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $1E,x
-	stz.b $38,x
+	stz.b p0,x
 	stz.b $20,x
 	lda.w #$FFFF
 	sta.b $28,x
 	sta.b $2A,x
-	sta.b $2C,x
+	sta.b r0,x
 	sta.b $00,x
 	sta.b $22,x
 	lda.b $10
@@ -959,7 +959,7 @@ CODE_C5E671:						; from CreateSprite
 	sta.b $10
 	lda.b $12,x
 	and.w #$00FF
-	sta.w $0034,y
+	sta.w r2,y
 	asl a
 	tax
 	lda.w $46B8,x
@@ -980,8 +980,8 @@ CODE_C5E6FA:						; from CODE_C5E671
 	plx
 	xba
 	sta.w $46B8,x
-	ora.w $0034,y
-	sta.w $0034,y
+	ora.w r2,y
+	sta.w r2,y
 	sty.b $12
 	tay
 	dec.b QueueBusy
@@ -1025,8 +1025,8 @@ CODE_C5E755:						; from CODE_C5E671
 	inc a
 	sta.w $46B8,x
 	and.w #$FF00
-	ora.w $0034,y
-	sta.w $0034,y
+	ora.w r2,y
+	sta.w r2,y
 CODE_C5E762:						; from CODE_C5E749
 	lda.b $10
 	and.w #$00FF
@@ -1128,7 +1128,7 @@ CODE_C5E80F:						; from CODE_C5E7A4
 	lda.b $02,x
 	tax
 	bpl CODE_C5E801
-	lda.w $0034,y
+	lda.w r2,y
 	and.w #$00FF
 	asl a
 	tax
@@ -1218,25 +1218,25 @@ UploadSpriteFrame:					; queue object X's current frame tiles for VRAM (unpacked
 	lsr a
 	lsr a
 	lsr a
-	sta.b $A3
+	sta.b tmp2
 	lda.b $00,x
 	and.w #$FF00
 	lsr a
 	lsr a
 	sta.b $A5
 	lda.b $04,x
-	sta.b $9F
+	sta.b tmp0
 	dec.b QueueBusy
 	tsc
 	sta.b $0A
 	lda.b $00
 	tcs
-	lda.b $A3
+	lda.b tmp2
 	beq CODE_C5E8F9
 	pha
 	lda.w $0010,y
 	pha
-	lda.b $9F
+	lda.b tmp0
 	bit.w #$0001
 	beq CODE_C5E904
 	pea.w $007E
@@ -1266,14 +1266,14 @@ CODE_C5E904:						; from UploadSpriteFrame
 	sta.b $32
 	lda.b $05,x
 	pha
-	adc.b $A3
+	adc.b tmp2
 	tax
 CODE_C5E911:						; from UploadSpriteFrame, CODE_C5E8F9
 	lda.b $A5
 	bne CODE_C5E918
 	jmp.w CODE_C5E9BD
 CODE_C5E918:						; from CODE_C5E911
-	lda.b $9F
+	lda.b tmp0
 	bit.w #$0002
 	beq CODE_C5E958
 	bit.w #$0001
@@ -1281,9 +1281,9 @@ CODE_C5E918:						; from CODE_C5E911
 	sec
 	lda.b $08
 	sbc.b $A5
-	sta.b $30
+	sta.b r1
 	sbc.b $A5
-	sta.b $2C
+	sta.b r0
 	clc
 	lda.w #$007E
 	sta.b $2E
@@ -1300,17 +1300,17 @@ CODE_C5E939:						; from CODE_C5E918
 	sta.b $2E
 	sta.b $32
 	lda.b $08
-	sta.b $2C
+	sta.b r0
 	sty.b $08
 	adc.b $A5
-	sta.b $30
+	sta.b r1
 	ldy.b $42
 	bra CODE_C5E95F
 CODE_C5E958:						; from CODE_C5E918
-	stx.b $2C
+	stx.b r0
 	txa
 	adc.b $A5
-	sta.b $30
+	sta.b r1
 CODE_C5E95F:						; from CODE_C5E918, CODE_C5E939
 	lda.w $0014,y
 	sta.b $0C
@@ -1334,12 +1334,12 @@ CODE_C5E964:						; from CODE_C5E964
 	pha
 	pei ($32)
 	pei ($30)
-	lda.b $2C
+	lda.b r0
 	adc.b $0E
-	sta.b $2C
-	lda.b $30
+	sta.b r0
+	lda.b r1
 	adc.b $0E
-	sta.b $30
+	sta.b r1
 	sec
 	lda.b $A5
 	sbc.b $0E
@@ -1381,7 +1381,7 @@ CODE_C5E9CD:						; from AnimateSprites
 CODE_C5E9D5:						; from CODE_C5E9EA
 	ldx.w $1AE2,y
 	lda.b $26
-	eor.b $38,x
+	eor.b p0,x
 	bit.w #$0001
 	bne CODE_C5E9EA
 	lda.b $0E,x
@@ -1395,28 +1395,28 @@ CODE_C5E9EA:						; from CODE_C5EAA2, CODE_C5EAF6, CODE_C5EB7F, CODE_C5EBAE, ...
 	bpl CODE_C5E9D5
 	rtl
 CODE_C5E9EF:						; from CODE_C5E9D5
-	sty.b $9F
+	sty.b tmp0
 	lda.b $0C,x
 	sta.b $0E,x
 	txy
 CODE_C5E9F6:						; from CODE_C5EAFF, CODE_C5EB06, CODE_C5EB15, CODE_C5EB36, ...
-	lda.b $30,x
+	lda.b r1,x
 	clc
 	adc.b $32,x
 	tax
 	lda.b $00,x
-	stx.b $A1
+	stx.b tmp1
 	bit.w #$0080
 	beq CODE_C5EA08
 	jmp.w CODE_C5EAAF
 CODE_C5EA08:						; from CODE_C5E9F6
 	tyx
-	ldy.b $9F
+	ldy.b tmp0
 	and.w #$007F
 	cmp.b $28,x
 	bne CODE_C5EA17
 CODE_C5EA12:						; from CODE_C5EA17
-	inc.b $30,x
+	inc.b r1,x
 	clc
 	bra CODE_C5E9EA
 CODE_C5EA17:						; from CODE_C5EA08
@@ -1426,7 +1426,7 @@ CODE_C5EA17:						; from CODE_C5EA08
 	lda.b $22,x
 	bit.w #$2000
 	beq CODE_C5EA12
-	sty.b $34
+	sty.b r2
 	stx.b $36
 CODE_C5EA29:						; from CODE_C5EA91
 	lda.b $12,x
@@ -1487,8 +1487,8 @@ CODE_C5EA72:						; from CODE_C5EA43
 CODE_C5EA84:						; from CODE_C5EA29
 	jsr.w UploadSpriteFrame
 	ldx.b $36
-	inc.b $30,x
-	ldy.b $34
+	inc.b r1,x
+	ldy.b r2
 	clc
 	jmp.w CODE_C5E9EA
 CODE_C5EA91:						; no caller found (not traced)
@@ -1504,12 +1504,12 @@ CODE_C5EAA2:						; no caller found (not traced)
 	lda.w #$FFFF
 	sta.b $28,x
 	sta.b $2A,x
-	ldy.b $34
+	ldy.b r2
 	clc
 	jmp.w CODE_C5E9EA
 CODE_C5EAAF:						; from CODE_C5E9F6
 	tyx
-	inc.b $30,x
+	inc.b r1,x
 	and.w #$007F
 	asl a
 	tax
@@ -1525,24 +1525,24 @@ DATA8_C5EABA:						; jump table: the routine for each index
 	dw CODE_C5EC89,CODE_C5EBD6
 CODE_C5EAF6:						; from DATA8_C5EABA, CODE_C5EB33, CODE_C5EC31, CODE_C5EC2E
 	tyx
-	dec.b $30,x
-	ldy.b $9F
+	dec.b r1,x
+	ldy.b tmp0
 	clc
 	jmp.w CODE_C5E9EA
 CODE_C5EAFF:						; from DATA8_C5EABA
 	tyx
-	stz.w $0030,x
+	stz.w r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB06:						; from DATA8_C5EABA
-	ldx.b $A1
-	lda.w $0030,y
+	ldx.b tmp1
+	lda.w r1,y
 	dec a
 	adc.b $01,x
-	sta.w $0030,y
+	sta.w r1,y
 	tyx
 	jmp.w CODE_C5E9F6
 CODE_C5EB15:						; from DATA8_C5EABA
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	sta.w $001E,y
@@ -1553,32 +1553,32 @@ CODE_C5EB15:						; from DATA8_C5EABA
 	lda.b $00,x
 	tyx
 	sta.b $32,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $0E,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB33:						; from DATA8_C5EABA
 	jmp.w CODE_C5EAF6
 CODE_C5EB36:						; from DATA8_C5EABA
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	tyx
 	sta.b $0C,x
-	inc.b $30,x
-	inc.b $30,x
+	inc.b r1,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB44:						; from DATA8_C5EABA
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	tyx
 	sta.b $0A,x
-	inc.b $30,x
-	inc.b $30,x
+	inc.b r1,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB52:						; from DATA8_C5EABA
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
-	sta.b $38
+	sta.b p0
 	sta.b $3A
 	phy
 CODE_C5EB5E:						; from CODE_C5EB5E
@@ -1588,26 +1588,26 @@ CODE_C5EB5E:						; from CODE_C5EB5E
 	iny
 	iny
 	inx
-	dec.b $38
+	dec.b p0
 	bne CODE_C5EB5E
 	ora.w #$FFFF
 	sta.w $0028,y
 	lda.b $3A
 	sec
 	plx
-	adc.b $30,x
-	sta.b $30,x
-	stx.b $38
+	adc.b r1,x
+	sta.b r1,x
+	stx.b p0
 	pei ($9F)
 CODE_C5EB7F:						; from CODE_C5EBA5
 	jsr.w CODE_C5ECF1
-	ldx.b $38
+	ldx.b p0
 	ply
 	jmp.w CODE_C5E9EA
 CODE_C5EB88:						; no caller found (not traced)
 	txy
 	tax
-	stx.b $38
+	stx.b p0
 	lda.w $0028,y
 	sta.b $28,x
 	inx
@@ -1617,7 +1617,7 @@ CODE_C5EB88:						; no caller found (not traced)
 	sta.b $28,x
 	inx
 	inx
-	lda.w $002C,y
+	lda.w r0,y
 	bmi CODE_C5EBA5
 	sta.b $28,x
 	inx
@@ -1625,16 +1625,16 @@ CODE_C5EB88:						; no caller found (not traced)
 CODE_C5EBA5:						; from CODE_C5EB88
 	lda.w #$FFFF
 	sta.b $28,x
-	ldx.b $38
+	ldx.b p0
 	bra CODE_C5EB7F
 CODE_C5EBAE:						; from DATA8_C5EABA
 	tyx
 	jsr.w CODE_C5E596
-	ldy.b $9F
+	ldy.b tmp0
 	clc
 	jmp.w CODE_C5E9EA
 CODE_C5EBB8:						; from DATA8_C5EABA
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	cmp.w #$0004
@@ -1647,25 +1647,25 @@ CODE_C5EBC6:						; from CODE_C5EBB8
 	tax
 	inc.w $0000,x
 	tyx
-	inc.b $30,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EBD6:						; from DATA8_C5EABA
 	phy
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	ply
 	tyx
-	inc.b $30,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EBE2:						; from DATA8_C5EABA
 	phy
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	tax
 	ply
 	tyx
-	inc.b $30,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EBF2:						; from DATA8_C5EABA
 	tyx
@@ -1687,11 +1687,11 @@ CODE_C5EC08:						; from DATA8_C5EABA
 	jmp.w CODE_C5E9F6
 CODE_C5EC13:						; from DATA8_C5EABA
 	tyx
-	ldy.b $9F
+	ldy.b tmp0
 	clc
 	jmp.w CODE_C5E9EA
 CODE_C5EC1A:						; from DATA8_C5EABA
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	asl a
@@ -1699,7 +1699,7 @@ CODE_C5EC1A:						; from DATA8_C5EABA
 	jsr (CODE_C5ECF1,x)
 	bcs CODE_C5EC2E
 	tyx
-	inc.b $30,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EC2E:						; from CODE_C5EC1A
 	jmp.w CODE_C5EAF6
@@ -1714,7 +1714,7 @@ CODE_C5EC34:						; from DATA8_C5EABA
 	lda.b $00,x
 	tyx
 	sta.b $32,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $0E,x
 	lda.b $22,x
 	ora.w #$4000
@@ -1755,13 +1755,13 @@ CODE_C5EC89:						; from DATA8_C5EABA
 	bit.w #$4000
 	beq CODE_C5EC97
 	tyx
-	inc.b $30,x
+	inc.b r1,x
 	jmp.w CODE_C5E9F6
 CODE_C5EC97:						; from CODE_C5EC89
-	ldx.b $A1
+	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
-	sta.w $0030,y
+	sta.w r1,y
 	tyx
 	jmp.w CODE_C5E9F6
 CODE_C5ECA5:						; no caller found (not traced)
@@ -1773,7 +1773,7 @@ CODE_C5ECA5:						; no caller found (not traced)
 	lda.b $00,x
 	plx
 	sta.b $32,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $0E,x
 	lda.b $36,x
 	and.w #$7FFF
@@ -1790,7 +1790,7 @@ CODE_C5ECBD:						; called from other segments
 	lda.b $00,x
 	plx
 	sta.b $32,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $0E,x
 	lda.b $36,x
 	and.w #$7FFF
@@ -1806,7 +1806,7 @@ CODE_C5ECE0:						; from CODE_C5ECBD
 	bne CODE_C5ECDF
 	ora.w #$4000
 	sta.b $22,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $0E,x
 	rtl
 CODE_C5ECF1:						; from CODE_C5EB7F, CODE_C5EC1A
@@ -1834,22 +1834,22 @@ CODE_C5ED06:						; from CODE_C5EE24
 	lsr a
 	lsr a
 	lsr a
-	sta.b $A3
+	sta.b tmp2
 	lda.b $00,x
 	and.w #$FF00
 	lsr a
 	lsr a
 	sta.b $A5
 	lda.b $04,x
-	sta.b $3C
-	lda.b $A3
+	sta.b p1
+	lda.b tmp2
 	beq CODE_C5ED52
 	pha
 	pei ($10)
 	lsr a
 	adc.b $10
 	sta.b $10
-	lda.b $3C
+	lda.b p1
 	bit.w #$0001
 	beq CODE_C5ED5D
 	pea.w $007E
@@ -1879,14 +1879,14 @@ CODE_C5ED5D:						; from CODE_C5ED06
 	sta.b $32
 	lda.b $05,x
 	pha
-	adc.b $A3
+	adc.b tmp2
 	tax
 CODE_C5ED6A:						; from CODE_C5ED06, CODE_C5ED52
 	lda.b $A5
 	bne CODE_C5ED71
 	jmp.w CODE_C5EE24
 CODE_C5ED71:						; from CODE_C5ED6A
-	lda.b $3C
+	lda.b p1
 	bit.w #$0002
 	beq CODE_C5EDB1
 	bit.w #$0001
@@ -1894,9 +1894,9 @@ CODE_C5ED71:						; from CODE_C5ED6A
 	sec
 	lda.b $08
 	sbc.b $A5
-	sta.b $30
+	sta.b r1
 	sbc.b $A5
-	sta.b $2C
+	sta.b r0
 	clc
 	lda.w #$007E
 	sta.b $2E
@@ -1913,17 +1913,17 @@ CODE_C5ED92:						; from CODE_C5ED71
 	sta.b $2E
 	sta.b $32
 	lda.b $08
-	sta.b $2C
+	sta.b r0
 	sty.b $08
 	adc.b $A5
-	sta.b $30
+	sta.b r1
 	ldy.b $42
 	bra CODE_C5EDB8
 CODE_C5EDB1:						; from CODE_C5ED71
-	stx.b $2C
+	stx.b r0
 	txa
 	adc.b $A5
-	sta.b $30
+	sta.b r1
 CODE_C5EDB8:						; from CODE_C5ED71, CODE_C5ED92
 	lda.b $12
 	sta.b $0C
@@ -1947,12 +1947,12 @@ CODE_C5EDBC:						; from CODE_C5EDBC
 	pha
 	pei ($32)
 	pei ($30)
-	lda.b $2C
+	lda.b r0
 	adc.b $0E
-	sta.b $2C
-	lda.b $30
+	sta.b r0
+	lda.b r1
 	adc.b $0E
-	sta.b $30
+	sta.b r1
 	sec
 	lda.b $A5
 	sbc.b $0E
@@ -1999,7 +1999,7 @@ CODE_C5EE30:						; from CODE_C5EE24
 	rts
 CODE_C5EE3C:						; no caller found (not traced)
 	phx
-	lda.b $34,x
+	lda.b r2,x
 	and.w #$00FF
 	asl a
 	tax
@@ -2024,7 +2024,7 @@ CODE_C5EE66:						; from CODE_C5EE3C
 	plx
 	rts
 CODE_C5EE6C:						; called from other segments
-	sta.b $34,x
+	sta.b r2,x
 	txy
 	asl a
 	tax
@@ -2046,8 +2046,8 @@ CODE_C5EE80:						; from CODE_C5EE6C
 	plx
 	xba
 	sta.w $46B8,x
-	ora.w $0034,y
-	sta.w $0034,y
+	ora.w r2,y
+	sta.w r2,y
 CODE_C5EE9B:						; called from other segments
 	phy
 	tay
@@ -2101,8 +2101,8 @@ CODE_C5EEE6:						; from CODE_C5EE6C
 	sta.w $46B8,x
 	and.w #$FF00
 	tyx
-	ora.b $34,x
-	sta.b $34,x
+	ora.b r2,x
+	sta.b r2,x
 	rtl
 CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object in Y
 	sta.b $10
@@ -2136,15 +2136,15 @@ CODE_C5EEFF:						; from CreateSpriteSharePal
 	sta.b $0E,x
 	lda.b $D9
 	sta.b $36,x
-	stz.b $30,x
+	stz.b r1,x
 	stz.b $1E,x
-	stz.b $38,x
+	stz.b p0,x
 	stz.b $20,x
-	stz.b $34,x
+	stz.b r2,x
 	lda.w #$FFFF
 	sta.b $28,x
 	sta.b $2A,x
-	sta.b $2C,x
+	sta.b r0,x
 	sta.b $00,x
 	sta.b $22,x
 	lda.b $10
@@ -2170,8 +2170,8 @@ CODE_C5EEFF:						; from CreateSpriteSharePal
 	lda.b $07,x
 	sta.b $10
 	ldx.b $1C
-	lda.b $34,x
-	sta.w $0034,y
+	lda.b r2,x
+	sta.w r2,y
 	and.w #$00FF
 	asl a
 	tax
@@ -2276,7 +2276,7 @@ CODE_C5F02F:						; from CODE_C5EFC4
 	lda.b $02,x
 	tax
 	bpl CODE_C5F021
-	lda.w $0034,y
+	lda.w r2,y
 	and.w #$00FF
 	asl a
 	tax

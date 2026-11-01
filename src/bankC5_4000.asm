@@ -2,26 +2,26 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C53FE5
 CODE_C53FE5:						; called from other segments
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	and.w #$FFEF
-	sta.w $12FF,y
+	sta.w tmflags,y
 	lda.w #$0005
-	sta.b $87
-	ldx.w $1283,y
-	stx.b $6F
+	sta.b d2
+	ldx.w tmsort,y
+	stx.b a3
 CODE_C53FFA:						; from CODE_C5403F
 	lda.w $0FC0,x
 	beq CODE_C54008
-	lda.w $08E0,x
+	lda.w attribute,x
 	and.w #$F7FF
-	sta.w $08E0,x
+	sta.w attribute,x
 CODE_C54008:						; from CODE_C53FFA
-	stz.w $1060,x
-	lda.w $0D60,x
+	stz.w pf2aip,x
+	lda.w pflags,x
 	and.w #$2FFF
-	sta.w $0D60,x
-	lda.w $0A20,x
+	sta.w pflags,x
+	lda.w position,x
 	bmi CODE_C5403F
 	bne CODE_C54020
 	lda.w #$121E
@@ -31,18 +31,18 @@ CODE_C54020:						; from CODE_C54008
 CODE_C54023:						; from CODE_C54008
 	jsl.l SetSPAFromA
 	stz.w $0A00,x
-	stz.w $0CE0,x
-	lda.w $0D60,x
+	stz.w nopuck,x
+	lda.w pflags,x
 	and.w #$FFF6
-	sta.w $0D60,x
-	stz.w $1080,x
-	stz.w $1040,x
-	stz.w $1000,x
+	sta.w pflags,x
+	stz.w pfnc,x
+	stz.w pfrev,x
+	stz.w pfalock,x
 CODE_C5403F:						; from CODE_C54008
-	inc.b $6F
-	inc.b $6F
-	ldx.b $6F
-	dec.b $87
+	inc.b a3
+	inc.b a3
+	ldx.b a3
+	dec.b d2
 	bpl CODE_C53FFA
 	rtl
 CODE_C5404A:						; called from other segments
@@ -50,28 +50,28 @@ CODE_C5404A:						; called from other segments
 	cmp.w #$0001
 	bne CODE_C5406F
 	jsl.l loadTeamStruct
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	bit.w #$0008
 	bne CODE_C5406F
 	ora.w #$0008
-	sta.w $12FF,y
+	sta.w tmflags,y
 	lda.w #$000C
-	trb.w $10F5
+	trb.w sflags
 	jmp.w CODE_C54070
 CODE_C5406F:						; from CODE_C5404A
 	rtl
 CODE_C54070:						; from CODE_C5404A, CODE_C5454E and other segments
 	phx
 	jsr.w CODE_C54114
-	sta.b $7F
+	sta.b d0
 	sty.b $81
 	jsl.l CODE_C58C36
-	lda.b $6B
+	lda.b a2
 	jsr.w CODE_C56104
 	jsl.l CODE_C4C3AE
 	jsr.w CODE_C56262
-	lda.b $7F
+	lda.b d0
 	clc
 	adc.w #$0027
 	tay
@@ -86,22 +86,22 @@ CODE_C54070:						; from CODE_C5404A, CODE_C5454E and other segments
 	asl a
 	asl a
 	sec
-	adc.b $7F
-	sta.b $7F
+	adc.b d0
+	sta.b d0
 	lda.w #$0002
 CODE_C540A7:						; from CODE_C54107
 	sta.b $81
 	jsr.w CODE_C54155
 	tax
 	bmi CODE_C54107
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	bit.w #$0008
 	bne CODE_C540C3
 	lda.b $81
 	cmp.w $1307,y
 	bne CODE_C540FF
-	ldx.w $12B7,y
+	ldx.w tmline,y
 CODE_C540C3:						; from CODE_C540A7
 	phx
 	lda.w #$0006
@@ -124,15 +124,15 @@ CODE_C540C3:						; from CODE_C540A7
 	sta.w $0004,y
 	tya
 	ldx.w #$007E
-	ldy.b $7F
+	ldy.b d0
 	jsl.l QueueVRAMDMALen
 	pla
 	jsr.w CODE_C54D03
 CODE_C540FF:						; from CODE_C540A7
-	lda.b $7F
+	lda.b d0
 	sec
 	sbc.w #$0020
-	sta.b $7F
+	sta.b d0
 CODE_C54107:						; from CODE_C540A7
 	lda.b $81
 	dec a
@@ -142,8 +142,8 @@ CODE_C54107:						; from CODE_C540A7
 DATA8_C5410E:						; not traced: a table read by CODE_C540C3
 	db $D9,$A0,$C2,$A0,$C1,$A0
 CODE_C54114:						; from CODE_C54070, CODE_C54B60
-	lda.w $10F1
-	ldx.b $6B
+	lda.w gmode
+	ldx.b a2
 	beq CODE_C54130
 	bit.w #$0002
 	beq CODE_C54135
@@ -151,7 +151,7 @@ CODE_C54120:						; not traced: data between routines
 	db $A0,$B5
 CODE_C54122:						; called from other segments
 	phy
-	lda.w $12C7
+	lda.w tmap
 	cmp.w $12C9
 	beq CODE_C54140
 	ldy.w #$5AD5
@@ -179,13 +179,13 @@ CODE_C54150:						; from CODE_C54140
 CODE_C54155:						; from CODE_C540A7, lcfound, CODE_C54140
 	phx
 	pha
-	lda.b $6B
+	lda.b a2
 	tax
 	eor.w #$0002
 	tay
-	lda.w $12C7,y
+	lda.w tmap,y
 	sec
-	sbc.w $12C7,x
+	sbc.w tmap,x
 	beq CODE_C54171
 	bmi CODE_C5416E
 	lda.w #$002A
@@ -196,10 +196,10 @@ CODE_C54171:						; from CODE_C54155
 	clc
 	adc.b $01,s
 	sta.b $01,s
-	ldy.b $6B
-	lda.w $12B7,y
+	ldy.b a2
+	lda.w tmline,y
 	asl a
-	adc.w $12B7,y
+	adc.w tmline,y
 	adc.b $01,s
 	tax
 	ply
@@ -239,269 +239,269 @@ setpersonel:						; from CODE_C54982, lcfound and other segments
 	pei ($71)
 	pei ($73)
 	pei ($75)
-	ldy.b $6B
-	ldx.w $1283,y
-	stx.b $6F
+	ldy.b a2
+	ldx.w tmsort,y
+	stx.b a3
 	lda.w #$0005
-	sta.b $8F
+	sta.b d4
 CODE_C5420B:						; from CODE_C5420B
 	lda.w #$FFFF
-	sta.w $0D20,x
-	sta.w $0D40,x
+	sta.w newpos,x
+	sta.w newpnum,x
 	inx
 	inx
-	stx.b $6F
-	dec.b $8F
+	stx.b a3
+	dec.b d4
 	bpl CODE_C5420B
 	jsl.l SetPlList
 	lda.w #$0005
-	sta.b $8F
+	sta.b d4
 	lda.w #$007E
 	sta.b $75
 	lda.w #$2008
-	sta.b $73
+	sta.b a4
 CODE_C5422F:						; from CODE_C54294
-	ldy.b $8F
-	lda.b [$73],y
+	ldy.b d4
+	lda.b [a4],y
 	and.w #$00FF
-	sta.b $93
+	sta.b d5
 	beq CODE_C54294
-	dec.b $93
+	dec.b d5
 	lda.w #$0005
-	sta.b $8B
-	ldy.b $6B
-	ldx.w $1283,y
+	sta.b d3
+	ldy.b a2
+	ldx.w tmsort,y
 	dex
 	dex
 CODE_C54248:						; from CODE_C54248
 	inx
 	inx
-	stx.b $6F
-	lda.w $0DC0,x
+	stx.b a3
+	lda.w pnum,x
 	and.w #$00FF
-	sta.b $9F
-	lda.b $93
+	sta.b tmp0
+	lda.b d5
 	and.w #$00FF
-	cmp.b $9F
+	cmp.b tmp0
 	beq CODE_C54263
-	dec.b $8B
+	dec.b d3
 	bpl CODE_C54248
 	bra CODE_C54294
 CODE_C54263:						; from CODE_C54248
-	lda.b $8F
+	lda.b d4
 	clc
 	adc.w #$0006
 	tay
-	lda.b [$73],y
+	lda.b [a4],y
 	and.w #$00FF
 	bit.w #$0080
 	beq CODE_C54277
 	ora.w #$FF00
 CODE_C54277:						; from CODE_C54263
-	sta.w $0D20,x
-	lda.b $93
+	sta.w newpos,x
+	lda.b d5
 	and.w #$00FF
 	bit.w #$0080
 	beq CODE_C54287
 	ora.w #$FF00
 CODE_C54287:						; from CODE_C54277
-	sta.w $0D40,x
-	ldy.b $8F
+	sta.w newpnum,x
+	ldy.b d4
 	sep #$20
 	lda.b #$00
-	sta.b [$73],y
+	sta.b [a4],y
 	rep #$20
 CODE_C54294:						; from CODE_C5422F, CODE_C54248
-	dec.b $8F
+	dec.b d4
 	bpl CODE_C5422F
 	lda.w #$0005
-	sta.b $8F
+	sta.b d4
 	lda.w #$007E
 	sta.b $75
 	lda.w #$2008
-	sta.b $73
+	sta.b a4
 CODE_C542A7:						; from CODE_C54310
-	ldy.b $8F
-	lda.b [$73],y
+	ldy.b d4
+	lda.b [a4],y
 	and.w #$00FF
-	sta.b $93
+	sta.b d5
 	beq CODE_C54310
-	dec.b $93
+	dec.b d5
 	lda.w #$0005
-	sta.b $8B
-	ldy.b $6B
-	ldx.w $1283,y
+	sta.b d3
+	ldy.b a2
+	ldx.w tmsort,y
 	dex
 	dex
 CODE_C542C0:						; from CODE_C542C0, CODE_C542D4
 	inx
 	inx
-	stx.b $6F
-	lda.w $0D40,x
+	stx.b a3
+	lda.w newpnum,x
 	bit.w #$0080
 	bne CODE_C542D2
-	dec.b $8B
+	dec.b d3
 	bpl CODE_C542C0
 	bra CODE_C542D4
 CODE_C542D2:						; from CODE_C542C0
-	stx.b $63
+	stx.b a0
 CODE_C542D4:						; from CODE_C542C0
-	lda.w $0A20,x
+	lda.w position,x
 	bpl CODE_C542DD
-	dec.b $8B
+	dec.b d3
 	bpl CODE_C542C0
 CODE_C542DD:						; from CODE_C542D4
-	lda.b $8F
+	lda.b d4
 	clc
 	adc.w #$0006
 	tay
-	lda.b [$73],y
+	lda.b [a4],y
 	and.w #$00FF
 	bit.w #$0080
 	beq CODE_C542F1
 	ora.w #$FF00
 CODE_C542F1:						; from CODE_C542DD
-	ldy.b $63
-	sta.w $0D20,y
-	lda.b $93
+	ldy.b a0
+	sta.w newpos,y
+	lda.b d5
 	and.w #$00FF
 	bit.w #$0080
 	beq CODE_C54303
 	ora.w #$FF00
 CODE_C54303:						; from CODE_C542F1
-	sta.w $0D40,y
-	ldy.b $8F
+	sta.w newpnum,y
+	ldy.b d4
 	sep #$20
 	lda.b #$00
-	sta.b [$73],y
+	sta.b [a4],y
 	rep #$20
 CODE_C54310:						; from CODE_C542A7
-	dec.b $8F
+	dec.b d4
 	bpl CODE_C542A7
 	pla
 	sta.b $75
 	pla
-	sta.b $73
+	sta.b a4
 	pla
 	sta.b $71
 	pla
-	sta.b $6F
+	sta.b a3
 CODE_C54320:						; called from other segments
 	pla
 	sta.b $6D
 	pla
-	sta.b $6B
+	sta.b a2
 	pla
 	sta.b $69
 	pla
-	sta.b $67
+	sta.b a1
 	pla
 	sta.b $65
 	pla
-	sta.b $63
+	sta.b a0
 	pla
 	sta.b $95
 	pla
-	sta.b $93
+	sta.b d5
 	pla
 	sta.b $91
 	pla
-	sta.b $8F
+	sta.b d4
 	pla
 	sta.b $8D
 	pla
-	sta.b $8B
+	sta.b d3
 	pla
 	sta.b $89
 	pla
-	sta.b $87
+	sta.b d2
 	pla
 	sta.b $85
 	pla
-	sta.b $83
+	sta.b d1
 	pla
 	sta.b $81
 	pla
-	sta.b $7F
-	ldx.b $6F
+	sta.b d0
+	ldx.b a3
 	rtl
 SetPlList:							; from CODE_C5420B and other segments
 	lda.w #$007E
 	sta.b $75
 	lda.w #$2008
-	sta.b $73
+	sta.b a4
 	stz.w $2008
 	stz.w $200A
 	stz.w $200C
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9B2A
-	sta.b $63
+	sta.b a0
 	lda.w $1864
 	cmp.w #$0001
 	bne CODE_C5438A
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9B38
-	sta.b $63
+	sta.b a0
 	bra CODE_C543AD
 CODE_C5438A:						; from SetPlList
-	lda.w $18BE
+	lda.w penshot
 	beq CODE_C543A4
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9B31
-	sta.b $63
-	lda.b $6B
-	cmp.w $18B4
+	sta.b a0
+	lda.b a2
+	cmp.w BA_Team
 	bne CODE_C543AD
-	inc.b $63
+	inc.b a0
 	bra CODE_C543AD
 CODE_C543A4:						; from CODE_C5438A
-	ldy.b $6B
-	lda.w $12CB,y
+	ldy.b a2
+	lda.w tmgoalie,y
 	bpl CODE_C543AD
-	inc.b $63
+	inc.b a0
 CODE_C543AD:						; from SetPlList, CODE_C5438A, CODE_C543A4
 	pei ($71)
 	pei ($6F)
 	jsl.l GetTeamLines
 	lda.b $71
 	sta.b $69
-	lda.b $6F
-	sta.b $67
+	lda.b a3
+	sta.b a1
 	pla
-	sta.b $6F
+	sta.b a3
 	pla
 	sta.b $71
-	ldy.b $6B
-	lda.w $12B7,y
+	ldy.b a2
+	lda.w tmline,y
 	asl a
 	asl a
 	asl a
-	sta.b $7F
-	adc.b $67
-	sta.b $67
-	lda.w $12C7,y
-	sta.b $8F
+	sta.b d0
+	adc.b a1
+	sta.b a1
+	lda.w tmap,y
+	sta.b d4
 	bra CODE_C5442C
 CODE_C543D8:						; from CODE_C5442C
-	ldy.b $8F
-	lda.b [$63],y
+	ldy.b d4
+	lda.b [a0],y
 	and.w #$00FF
-	sta.b $93
+	sta.b d5
 	tay
 	sep #$20
-	lda.b [$67],y
-	ldy.b $8F
-	sta.b [$73],y
-	lda.b $93
+	lda.b [a1],y
+	ldy.b d4
+	sta.b [a4],y
+	lda.b d5
 	beq CODE_C543F9
-	lda.w $18BE
+	lda.w penshot
 	beq CODE_C543F9
 	lda.w $18B2
 	inc a
-	sta.b [$73],y
+	sta.b [a4],y
 CODE_C543F9:						; from CODE_C543D8
 	iny
 	iny
@@ -509,39 +509,39 @@ CODE_C543F9:						; from CODE_C543D8
 	iny
 	iny
 	iny
-	lda.b $93
-	sta.b [$73],y
+	lda.b d5
+	sta.b [a4],y
 	rep #$20
-	lda.b $93
+	lda.b d5
 	bne CODE_C5442C
-	ldy.b $6B
-	lda.w $12CB,y
+	ldy.b a2
+	lda.w tmgoalie,y
 	inc a
-	sta.b $8B
+	sta.b d3
 	bne CODE_C54422
 	lda.w $1864
 	cmp.w #$0001
 	beq CODE_C54420
-	lda.w $18BE
+	lda.w penshot
 	beq CODE_C54422
 CODE_C54420:						; from CODE_C543F9
-	inc.b $8B
+	inc.b d3
 CODE_C54422:						; from CODE_C543F9
-	ldy.b $8F
+	ldy.b d4
 	sep #$20
-	lda.b $8B
-	sta.b [$73],y
+	lda.b d3
+	sta.b [a4],y
 	rep #$20
 CODE_C5442C:						; from CODE_C543AD, CODE_C543F9
-	dec.b $8F
+	dec.b d4
 	bpl CODE_C543D8
 	lda.w #$0005
-	sta.b $8F
+	sta.b d4
 CODE_C54435:						; from CODE_C544C6
-	ldy.b $8F
-	lda.b [$73],y
+	ldy.b d4
+	lda.b [a4],y
 	and.w #$00FF
-	sta.b $8B
+	sta.b d3
 	bne CODE_C54443
 	jmp.w CODE_C544C6
 CODE_C54443:						; from CODE_C54435
@@ -552,20 +552,20 @@ CODE_C54443:						; from CODE_C54435
 CODE_C5444E:						; from CODE_C54443
 	dec a
 	asl a
-	sta.b $8B
-	lda.b $6B
+	sta.b d3
+	lda.b a2
 	beq CODE_C54459
 	lda.w #$0034
 CODE_C54459:						; from CODE_C5444E
 	clc
-	adc.b $8B
+	adc.b d3
 	tay
-	lda.w $1373,y
+	lda.w tmpdst,y
 	cmp.w #$FFFD
 	beq CODE_C54471
 	cmp.w #$FFFC
 	beq CODE_C54471
-	lda.w $1373,y
+	lda.w tmpdst,y
 	bmi CODE_C544C6
 	beq CODE_C544C6
 CODE_C54471:						; from CODE_C54459
@@ -574,174 +574,174 @@ CODE_C54471:						; from CODE_C54459
 	jsl.l GetTeamLines
 	lda.b $71
 	sta.b $69
-	lda.b $6F
-	sta.b $67
+	lda.b a3
+	sta.b a1
 	pla
-	sta.b $6F
+	sta.b a3
 	pla
 	sta.b $71
-	lda.b $8F
+	lda.b d4
 	clc
 	adc.w #$0006
 	tay
-	lda.b [$73],y
+	lda.b [a4],y
 	and.w #$00FF
 	asl a
-	sta.b $7F
+	sta.b d0
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9AC0
-	sta.b $63
-	ldy.b $7F
-	lda.b [$63],y
+	sta.b a0
+	ldy.b d0
+	lda.b [a0],y
 	clc
-	adc.b $63
-	sta.b $63
+	adc.b a0
+	sta.b a0
 CODE_C544A9:						; from CODE_C544A9
-	lda.b [$63]
-	inc.b $63
+	lda.b [a0]
+	inc.b a0
 	and.w #$00FF
-	sta.b $7F
+	sta.b d0
 	bit.w #$0080
 	bne CODE_C544CE
-	ldy.b $7F
-	lda.b [$67],y
+	ldy.b d0
+	lda.b [a1],y
 	and.w #$00FF
-	sta.b $7F
+	sta.b d0
 	jsl.l TryAddPlayerToList
 	beq CODE_C544A9
 CODE_C544C6:						; from CODE_C54435, CODE_C54459, CODE_C544D6
-	dec.b $8F
+	dec.b d4
 	bmi CODE_C544CD
 	jmp.w CODE_C54435
 CODE_C544CD:						; from CODE_C544C6
 	rtl
 CODE_C544CE:						; from CODE_C544A9
 	jsl.l CODE_C5362E
-	lda.b $7F
-	sta.b $8B
+	lda.b d0
+	sta.b d3
 CODE_C544D6:						; from CODE_C544D6
-	lda.b $8B
-	sta.b $7F
-	dec.b $8B
+	lda.b d3
+	sta.b d0
+	dec.b d3
 	bmi CODE_C544C6
 	jsl.l TryAddPlayerToList
 	beq CODE_C544D6
 	bra CODE_C544C6
 TryAddPlayerToList:					; from CODE_C544A9, CODE_C544D6 and other segments
-	lda.b $7F
-	sta.b $83
-	dec.b $7F
-	asl.b $7F
-	lda.b $6B
+	lda.b d0
+	sta.b d1
+	dec.b d0
+	asl.b d0
+	lda.b a2
 	beq CODE_C544F5
 	lda.w #$0034
 CODE_C544F5:						; from TryAddPlayerToList
-	adc.b $7F
+	adc.b d0
 	tay
-	lda.w $1373,y
+	lda.w tmpdst,y
 	sec
 	sbc.w #$0000
 	beq CODE_C54503
 	bpl CODE_C5453B
 CODE_C54503:						; from CODE_C544F5
-	lda.w $1373,y
+	lda.w tmpdst,y
 	cmp.w #$FFFD
 	beq CODE_C5453B
 	cmp.w #$FFFC
 	beq CODE_C5453B
 	lda.w #$0005
-	sta.b $7F
+	sta.b d0
 CODE_C54515:						; from CODE_C54515
-	ldy.b $7F
-	lda.b [$73],y
+	ldy.b d0
+	lda.b [a4],y
 	and.w #$00FF
-	sta.b $9F
-	lda.b $83
+	sta.b tmp0
+	lda.b d1
 	and.w #$00FF
-	cmp.b $9F
+	cmp.b tmp0
 	beq CODE_C5453B
-	dec.b $7F
+	dec.b d0
 	bpl CODE_C54515
-	ldy.b $8F
+	ldy.b d4
 	sep #$20
-	lda.b $83
-	sta.b [$73],y
+	lda.b d1
+	sta.b [a4],y
 	rep #$20
-	lda.b $83
+	lda.b d1
 	and.w #$00FF
 	rtl
 CODE_C5453B:						; from CODE_C544F5, CODE_C54503, CODE_C54515
 	lda.w #$0000
-	sta.b $83
+	sta.b d1
 	rtl
 CODE_C54541:						; called from other segments
 	pei ($83)
-	stz.b $6B
-	lda.w $1020,x
+	stz.b a2
+	lda.w pfteam,x
 	beq CODE_C5454E
-	inc.b $6B
-	inc.b $6B
+	inc.b a2
+	inc.b a2
 CODE_C5454E:						; from CODE_C54541
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	bit.w #$0001
 	beq CODE_C54568
 	and.w #$FFFE
-	sta.w $12FF,y
+	sta.w tmflags,y
 	lda.w #$FFFF
 	sta.w $184C,y
 	jsl.l CODE_C54070
 CODE_C54568:						; from CODE_C5454E
 	pla
-	sta.b $83
-	stz.b $87
+	sta.b d1
+	stz.b d2
 	bit.w #$4000
 	bne CODE_C545B8
-	inc.b $87
+	inc.b d2
 	bit.w #$8000
 	bne CODE_C545B8
-	inc.b $87
+	inc.b d2
 	bit.w #$0080
 	bne CODE_C545B8
 	bit.w #$2000
 	bne CODE_C54597
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0008
 	beq CODE_C54596
-	lda.w $1000,x
+	lda.w pfalock,x
 	bne CODE_C54596
 	jml.l doplayeracc
 CODE_C54596:						; from CODE_C54568
 	rtl
 CODE_C54597:						; from CODE_C54568
-	lda.w $0D60,x
+	lda.w pflags,x
 	ora.w #$0008
-	sta.w $0D60,x
+	sta.w pflags,x
 	jsl.l loadTeamStruct
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	and.w #$FFF7
-	sta.w $12FF,y
+	sta.w tmflags,y
 	lda.w #$FFFF
 	sta.w $184C,y
 	jmp.w CODE_C54B60
 CODE_C545B8:						; from CODE_C54568
 	jsl.l lcfound
 	bmi CODE_C545C6
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C545C6
 	jmp.w CODE_C54B60
 CODE_C545C6:						; from CODE_C545B8
 	rtl
 CODE_C545C7:						; asstab entry 12: an assignment routine
-	lda.w $0AE0,x
+	lda.w temp1,x
 	cmp.w #$0064
 	bne CODE_C545D2
 	jmp.w CODE_C546D7
 CODE_C545D2:						; from CODE_C545C7
 	jsl.l check4bench
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$4000
 	beq CODE_C545E2
 	jml.l assexit
@@ -749,47 +749,47 @@ CODE_C545E2:						; from CODE_C545D2
 	bit.w #$0002
 	beq CODE_C54613
 	and.w #$FFFD
-	sta.w $0D60,x
-	stz.w $0B00,x
+	sta.w pflags,x
+	stz.w temp2,x
 	lda.w #$0008
-	sta.w $0B80,x
+	sta.w temp2b,x
 	lda.w #$0050
-	sta.b $7F
-	lda.w $1020,x
+	sta.b d0
+	lda.w pfteam,x
 	bne CODE_C54605
 	lda.w #$FFB0
-	sta.b $7F
+	sta.b d0
 CODE_C54605:						; from CODE_C545E2
-	lda.b $7F
-	sta.w $0B40,x
+	lda.b d0
+	sta.w temp4,x
 	lda.w #$FF5D
-	sta.w $0B20,x
-	stz.w $0AE0,x
+	sta.w temp3,x
+	stz.w temp1,x
 CODE_C54613:						; from CODE_C545E2
-	lda.w $0D40,x
-	cmp.w $0DC0,x
+	lda.w newpnum,x
+	cmp.w pnum,x
 	bne CODE_C5461E
 	jmp.w CODE_C5472B
 CODE_C5461E:						; from CODE_C54613
-	lda.w $0A20,x
+	lda.w position,x
 	bne CODE_C5462C
-	lda.w $05CC,x
+	lda.w goalieflags,x
 	ora.w #$0003
-	sta.w $05CC,x
+	sta.w goalieflags,x
 CODE_C5462C:						; from CODE_C5461E
-	lda.w $0AE0,x
+	lda.w temp1,x
 	sec
-	sbc.b $9B
-	sta.w $0AE0,x
+	sbc.b d7
+	sta.w temp1,x
 	bmi CODE_C5463A
 	jmp.w CODE_C54706
 CODE_C5463A:						; from CODE_C5462C
-	lda.w $0AE0,x
+	lda.w temp1,x
 	adc.w #$0008
-	sta.w $0AE0,x
-	lda.w $0896,x
+	sta.w temp1,x
+	lda.w Ypos,x
 	sec
-	sbc.w $0B40,x
+	sbc.w temp4,x
 	bit.w #$8000
 	beq CODE_C54653
 	eor.w #$FFFF
@@ -799,10 +799,10 @@ CODE_C54653:						; from CODE_C5463A
 	bcc CODE_C5465B
 	jmp.w CODE_C54706
 CODE_C5465B:						; from CODE_C54653
-	lda.w $0814,x
+	lda.w Xpos,x
 	sec
-	sbc.w $0B20,x
-	sta.b $7F
+	sbc.w temp3,x
+	sta.b d0
 	sec
 	sbc.w #$0020
 	beq CODE_C5466F
@@ -810,109 +810,109 @@ CODE_C5465B:						; from CODE_C54653
 	jmp.w CODE_C54706
 CODE_C5466F:						; from CODE_C5465B
 	lda.w #$1958
-	ldy.w $0A20,x
+	ldy.w position,x
 	bne CODE_C5467A
 	lda.w #$121E
 CODE_C5467A:						; from CODE_C5466F
 	jsl.l SetSPAFromA
 	lda.w #$0001
-	sta.w $1080,x
-	lda.w $0C40,x
+	sta.w pfnc,x
+	lda.w facedir,x
 	cmp.w #$0004
 	beq CODE_C54693
 	inc a
 	and.w #$0007
-	sta.w $0C40,x
+	sta.w facedir,x
 CODE_C54693:						; from CODE_C5467A
-	stz.w $09C0,x
+	stz.w Yvel,x
 	lda.w #$F800
-	sta.w $09A0,x
-	lda.b $7F
+	sta.w Xvel,x
+	lda.b d0
 	sec
 	sbc.w #$0010
 	beq CODE_C546A6
 	bpl CODE_C546D6
 CODE_C546A6:						; from CODE_C54693
-	stz.w $09A0,x
-	lda.w $0C40,x
+	stz.w Xvel,x
+	lda.w facedir,x
 	cmp.w #$0004
 	bne CODE_C546D6
 	lda.w #$FF65
-	sta.w $0814,x
+	sta.w Xpos,x
 	lda.w #$0002
-	sta.w $0C40,x
-	lda.w $08E0,x
+	sta.w facedir,x
+	lda.w attribute,x
 	ora.w #$0800
-	sta.w $08E0,x
+	sta.w attribute,x
 	lda.w #$18BE
 	jsl.l SetSPAFromA
 	lda.w #$0064
-	sta.w $0AE0,x
-	sta.w $1000,x
+	sta.w temp1,x
+	sta.w pfalock,x
 CODE_C546D6:						; from CODE_C54706, CODE_C54693, CODE_C546A6
 	rtl
 CODE_C546D7:						; from CODE_C545C7
-	lda.w $0DC0,x
+	lda.w pnum,x
 	asl a
-	sta.b $7F
-	stz.b $63
-	lda.w $1020,x
+	sta.b d0
+	stz.b a0
+	lda.w pfteam,x
 	beq CODE_C546E9
 	lda.w #$0002
-	sta.b $63
+	sta.b a0
 CODE_C546E9:						; from CODE_C546D7
-	lda.b $63
+	lda.b a0
 	beq CODE_C546F0
 	lda.w #$0034
 CODE_C546F0:						; from CODE_C546E9
 	clc
-	adc.b $7F
+	adc.b d0
 	tay
 	lda.w #$FFFE
-	sta.w $1373,y
-	lda.w $0D40,x
-	sta.b $8B
+	sta.w tmpdst,y
+	lda.w newpnum,x
+	sta.b d3
 	jsl.l CODE_C54734
 	jmp.w setplayer
 CODE_C54706:						; from CODE_C5462C, CODE_C54653, CODE_C5465B
-	lda.w $1080,x
+	lda.w pfnc,x
 	bne CODE_C546D6
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$4008
 	bne CODE_C546D6
-	lda.w $0B20,x
-	sta.b $7F
-	lda.w $0B40,x
-	sta.b $83
+	lda.w temp3,x
+	sta.b d0
+	lda.w temp4,x
+	sta.b d1
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$342A
-	sta.b $63
+	sta.b a0
 	jml.l skateto
 CODE_C5472B:						; from CODE_C54613
-	lda.w $0D60,x
+	lda.w pflags,x
 	and.w #$EFFF
-	sta.w $0D60,x
+	sta.w pflags,x
 CODE_C54734:						; from CODE_C546F0 and other segments
-	lda.w $0D20,x
-	sta.b $7F
-	sta.w $0A20,x
+	lda.w newpos,x
+	sta.b d0
+	sta.w position,x
 	jsl.l Setplass
 	lda.w #$FFFF
-	sta.w $0D40,x
-	sta.w $0D20,x
+	sta.w newpnum,x
+	sta.w newpos,x
 	rtl
 asseben:							; asstab entry 10: an assignment routine
-	lda.w $1000,x
+	lda.w pfalock,x
 	bne CODE_C5479D
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0002
 	beq CODE_C5479E
 	and.w #$FFFD
-	sta.w $0D60,x
-	stz.w $09A0,x
-	stz.w $09C0,x
-	stz.w $05CC,x
+	sta.w pflags,x
+	stz.w Xvel,x
+	stz.w Yvel,x
+	stz.w goalieflags,x
 	txa
 	lsr a
 	sec
@@ -925,35 +925,35 @@ CODE_C5476F:						; from asseben
 	lda.w #$000E
 	jsl.l Mul16x8XS
 	plx
-	lda.b $34
-	sta.w $0896,x
-	lda.w $08E0,x
+	lda.b r2
+	sta.w Ypos,x
+	lda.w attribute,x
 	ora.w #$0800
-	sta.w $08E0,x
+	sta.w attribute,x
 	lda.w #$FF65
-	sta.w $0814,x
+	sta.w Xpos,x
 	lda.w #$0002
-	sta.w $0C40,x
-	sta.w $1000,x
+	sta.w facedir,x
+	sta.w pfalock,x
 	lda.w #$18EC
 	jml.l SetSPAUpdate
 CODE_C5479D:						; from asseben
 	rtl
 CODE_C5479E:						; from asseben
 	lda.w #$0004
-	sta.w $0C40,x
-	lda.w $0D60,x
+	sta.w facedir,x
+	lda.w pflags,x
 	and.w #$6FFF
-	sta.w $0D60,x
-	stz.w $1080,x
-	stz.w $0C80,x
+	sta.w pflags,x
+	stz.w pfnc,x
+	stz.w SPA,x
 	lda.w #$1000
-	sta.w $09A0,x
+	sta.w Xvel,x
 	lda.w $0FC0,x
 	beq CODE_C547C7
-	lda.w $08E0,x
+	lda.w attribute,x
 	and.w #$F7FF
-	sta.w $08E0,x
+	sta.w attribute,x
 CODE_C547C7:						; from CODE_C5479E
 	jml.l assexit
 CompLine:							; from CODE_C54982 and other segments
@@ -966,25 +966,25 @@ CompLine:							; from CODE_C54982 and other segments
 	pei ($63)
 	pei ($65)
 	lda.w #$0003
-	sta.b $7F
-	ldy.b $6B
-	lda.w $12C7,y
-	ldy.b $67
-	cmp.w $12C7,y
+	sta.b d0
+	ldy.b a2
+	lda.w tmap,y
+	ldy.b a1
+	cmp.w tmap,y
 	beq CODE_C54828
 	bpl CODE_C547F2
-	inc.b $7F
-	inc.b $7F
+	inc.b d0
+	inc.b d0
 CODE_C547F2:						; from CompLine
-	lda.b $7F
+	lda.b d0
 	pha
 	inc a
 	jsr.w CODE_C54CB9
-	sta.b $83
+	sta.b d1
 	lda.b $01,s
 	jsr.w CODE_C54CB9
 	sec
-	sbc.b $7F
+	sbc.b d0
 	bpl CODE_C54809
 	pla
 	inc a
@@ -992,76 +992,76 @@ CODE_C547F2:						; from CompLine
 CODE_C54809:						; from CODE_C547F2
 	pla
 CODE_C5480A:						; from CODE_C547F2
-	ldy.b $6B
-	sta.w $12B7,y
+	ldy.b a2
+	sta.w tmline,y
 CODE_C5480F:						; from CODE_C5490E, CODE_C54878
 	pla
 	sta.b $65
 	pla
-	sta.b $63
+	sta.b a0
 	pla
 	sta.b $89
 	pla
-	sta.b $87
+	sta.b d2
 	pla
 	sta.b $85
 	pla
-	sta.b $83
+	sta.b d1
 	pla
 	sta.b $81
 	pla
-	sta.b $7F
+	sta.b d0
 	rtl
 CODE_C54828:						; from CompLine
-	ldy.b $6B
+	ldy.b a2
 	beq CODE_C5482F
 	jmp.w CODE_C548C1
 CODE_C5482F:						; from CODE_C54828
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C5483F
-	lda.w $1511,y
+	lda.w c1playernum,y
 	bmi CODE_C5483F
 	jmp.w CODE_C548C1
 CODE_C5483F:						; from CODE_C5482F
 	lda.w #$0002
-	sta.b $83
+	sta.b d1
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$4897
-	sta.b $63
-	lda.w $114B
+	sta.b a0
+	lda.w gsp
 	cmp.w #$0002
 	bne CODE_C54878
-	lda.w $12AB,y
-	ldy.b $67
-	cmp.w $12AB,y
+	lda.w tmscore,y
+	ldy.b a1
+	cmp.w tmscore,y
 	beq CODE_C54878
 	php
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$48A5
-	sta.b $63
+	sta.b a0
 	plp
 	bpl CODE_C54878
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$48B3
-	sta.b $63
+	sta.b a0
 CODE_C54878:						; from CODE_C5483F
-	ldy.b $67
-	lda.w $12B7,y
+	ldy.b a1
+	lda.w tmline,y
 	asl a
-	sta.b $83
+	sta.b d1
 	tay
-	lda.b [$63],y
+	lda.b [a0],y
 	jsr.w CODE_C54CB9
 	cmp.w #$0C01
 	bcc CODE_C548C1
-	ldy.b $83
-	lda.b [$63],y
-	ldy.b $6B
-	sta.w $12B7,y
+	ldy.b d1
+	lda.b [a0],y
+	ldy.b a2
+	sta.w tmline,y
 	jmp.w CODE_C5480F
 DATA8_C54897:						; not traced: data between routines
 	db $00,$00,$01,$00,$02,$00,$00,$00,$01,$00,$00,$00,$01,$00,$02,$00
@@ -1069,45 +1069,45 @@ DATA8_C54897:						; not traced: data between routines
 	db $00,$00,$00,$00,$01,$00,$00,$00,$01,$00
 CODE_C548C1:						; from CODE_C54828, CODE_C5482F, CODE_C54878
 	lda.w #$0002
-	sta.b $83
+	sta.b d1
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$491C
-	sta.b $63
-	lda.w $114B
+	sta.b a0
+	lda.w gsp
 	cmp.w #$0002
 	bne CODE_C548FC
-	ldy.b $6B
-	lda.w $12AB,y
-	ldy.b $67
-	cmp.w $12AB,y
+	ldy.b a2
+	lda.w tmscore,y
+	ldy.b a1
+	cmp.w tmscore,y
 	beq CODE_C548FC
 	php
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$4922
-	sta.b $63
+	sta.b a0
 	plp
 	bpl CODE_C548FC
 	lda.w #$00C5
 	sta.b $65
 	lda.w #$4928
-	sta.b $63
+	sta.b a0
 CODE_C548FC:						; from CODE_C548C1, CODE_C548FC
-	lda.b [$63]
-	inc.b $63
-	inc.b $63
+	lda.b [a0]
+	inc.b a0
+	inc.b a0
 	jsr.w CODE_C54CB9
 	cmp.w #$0F34
 	bcs CODE_C5490E
-	dec.b $83
+	dec.b d1
 	bpl CODE_C548FC
 CODE_C5490E:						; from CODE_C548FC
-	dec.b $63
-	dec.b $63
-	ldy.b $6B
-	lda.b [$63]
-	sta.w $12B7,y
+	dec.b a0
+	dec.b a0
+	ldy.b a2
+	lda.b [a0]
+	sta.w tmline,y
 	jmp.w CODE_C5480F
 DATA8_C5491C:						; not traced: data between routines
 	db $00,$00,$01,$00,$02,$00,$00,$00,$02,$00,$01,$00,$00,$00,$01,$00
@@ -1116,47 +1116,47 @@ CODE_C5492E:						; called from other segments
 	lda.w $186E
 	cmp.w #$0002
 	beq CODE_C549A7
-	lda.w $08B2
-	sta.b $7F
-	lda.w $0FE0,x
+	lda.w pucky
+	sta.b d0
+	lda.w pfgoal,x
 	bne CODE_C54948
 	lda.w #$0000
 	sec
-	sbc.b $7F
-	sta.b $7F
+	sbc.b d0
+	sta.b d0
 CODE_C54948:						; from CODE_C5492E
-	lda.b $7F
+	lda.b d0
 	bmi CODE_C549A7
 	sec
 	sbc.w #$005C
 	bpl CODE_C549A7
-	lda.w $04B0
+	lda.w seed
 	and.w #$0003
 	bne CODE_C549A7
 	phy
 	ldy.w #$0000
-	lda.w $1020,x
+	lda.w pfteam,x
 	beq CODE_C54966
 	ldy.w #$0002
 CODE_C54966:						; from CODE_C54948
-	lda.w $12FF,y
+	lda.w tmflags,y
 	ply
 	bit.w #$0008
 	bne CODE_C549A7
-	stz.b $6B
+	stz.b a2
 	lda.w #$0002
-	sta.b $67
-	lda.w $1020,x
+	sta.b a1
+	lda.w pfteam,x
 	beq CODE_C54982
-	stz.b $67
+	stz.b a1
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 CODE_C54982:						; from CODE_C54966
 	jsl.l AvgCline
-	lda.b $7F
+	lda.b d0
 	cmp.w #$0C01
 	bcs CODE_C549A7
-	lda.w $1157
+	lda.w PenShotActive
 	bne CODE_C549A7
 	lda.w $186E
 	beq CODE_C549A7
@@ -1167,32 +1167,32 @@ CODE_C54982:						; from CODE_C54966
 CODE_C549A7:						; from CODE_C5492E, CODE_C54948, CODE_C54966, CODE_C54982
 	rtl
 check4bench:						; from CODE_C545D2 and other segments
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$4000
 	bne CODE_C549EA
-	lda.w $0D20,x
+	lda.w newpos,x
 	bpl CODE_C549BA
-	lda.w $0D40,x
+	lda.w newpnum,x
 	bmi CODE_C549EA
 CODE_C549BA:						; from check4bench
-	lda.w $0D40,x
-	cmp.w $0DC0,x
+	lda.w newpnum,x
+	cmp.w pnum,x
 	beq CODE_C549EB
-	lda.w $0644,x
+	lda.w asscur,x
 	cmp.w #$000C
 	beq CODE_C549EA
-	cpx.w $05A0
+	cpx.w puckc
 	beq CODE_C549EA
 	sep #$20
 	pla
 	rep #$30
 	pla
-	lda.w $0D60,x
+	lda.w pflags,x
 	ora.w #$1000
-	sta.w $0D60,x
-	stz.w $0AE0,x
+	sta.w pflags,x
+	stz.w temp1,x
 	lda.w #$000C
-	sta.b $7F
+	sta.b d0
 	jml.l assreplace
 CODE_C549EA:						; from check4bench, CODE_C549BA
 	rtl
@@ -1201,73 +1201,73 @@ CODE_C549EB:						; from CODE_C549BA
 	pla
 	rep #$30
 	pla
-	lda.w $0D60,x
+	lda.w pflags,x
 	and.w #$EFFF
-	sta.w $0D60,x
-	stz.w $1080,x
+	sta.w pflags,x
+	stz.w pfnc,x
 	lda.w #$FFFF
-	sta.w $0D40,x
-	sta.w $0D20,x
-	lda.w $0A20,x
-	sta.b $7F
+	sta.w newpnum,x
+	sta.w newpos,x
+	lda.w position,x
+	sta.b d0
 	jmp.w Setplass
 getpde:								; from makepde and other segments
-	lda.w $0DC0,x
+	lda.w pnum,x
 	and.w #$00FF
 	asl a
-	sta.b $83
-	lda.w $1020,x
+	sta.b d1
+	lda.w pfteam,x
 	beq CODE_C54A1F
 	lda.w #$0002
 CODE_C54A1F:						; from getpde
-	sta.b $6B
+	sta.b a2
 	beq CODE_C54A26
 	lda.w #$0034
 CODE_C54A26:						; from CODE_C54A1F
-	adc.b $83
+	adc.b d1
 	tay
-	lda.w $130B,y
-	sta.b $7F
+	lda.w tmpde,y
+	sta.b d0
 	rtl
 setpde:								; called from other segments
-	lda.b $6B
+	lda.b a2
 	beq CODE_C54A36
 	lda.w #$0034
 CODE_C54A36:						; from setpde
 	clc
-	adc.b $83
+	adc.b d1
 	tay
-	lda.b $7F
+	lda.b d0
 	bpl CODE_C54A43
 	lda.w #$0000
-	sta.b $7F
+	sta.b d0
 CODE_C54A43:						; from CODE_C54A36
-	sta.w $130B,y
+	sta.w tmpde,y
 	rtl
 makepde:							; called from other segments
 	pha
 	pei ($83)
 	pei ($6B)
-	ldx.b $63
+	ldx.b a0
 	jsl.l getpde
 	pla
-	sta.b $6B
+	sta.b a2
 	pla
-	sta.b $83
+	sta.b d1
 	pla
-	ldx.b $7F
+	ldx.b d0
 	jsl.l Mul16S
 	lda.b $36
-	asl.b $34
+	asl.b r2
 	rol a
-	asl.b $34
+	asl.b r2
 	rol a
-	asl.b $34
+	asl.b r2
 	rol a
-	asl.b $34
+	asl.b r2
 	rol a
-	sta.b $7F
-	ldx.b $6F
+	sta.b d0
+	ldx.b a3
 	clc
 	rtl
 AvgCline:							; from CODE_C54982 and other segments
@@ -1279,82 +1279,82 @@ AvgCline:							; from CODE_C54982 and other segments
 	pei ($8D)
 	pei ($63)
 	pei ($65)
-	stz.b $7F
-	stz.b $83
+	stz.b d0
+	stz.b d1
 	lda.w #$0005
-	sta.b $87
-	sta.b $87
-	ldy.b $6B
-	lda.w $1283,y
-	sta.b $63
+	sta.b d2
+	sta.b d2
+	ldy.b a2
+	lda.w tmsort,y
+	sta.b a0
 CODE_C54A95:						; from CODE_C54ABA
-	ldy.b $63
-	lda.w $0A20,y
+	ldy.b a0
+	lda.w position,y
 	beq CODE_C54ABA
 	bmi CODE_C54ABA
-	lda.w $0DC0,y
+	lda.w pnum,y
 	and.w #$00FF
 	asl a
-	sta.b $8B
-	lda.b $6B
+	sta.b d3
+	lda.b a2
 	beq CODE_C54AAE
 	lda.w #$0034
 CODE_C54AAE:						; from CODE_C54A95
-	adc.b $8B
+	adc.b d3
 	tay
-	lda.w $130B,y
-	adc.b $7F
-	sta.b $7F
-	inc.b $83
+	lda.w tmpde,y
+	adc.b d0
+	sta.b d0
+	inc.b d1
 CODE_C54ABA:						; from CODE_C54A95
-	inc.b $63
-	inc.b $63
-	dec.b $87
+	inc.b a0
+	inc.b a0
+	dec.b d2
 	bpl CODE_C54A95
-	lda.b $83
+	lda.b d1
 	beq CODE_C54AD6
-	sta.b $30
+	sta.b r1
 	phx
-	lda.b $7F
-	sta.b $34
+	lda.b d0
+	sta.b r2
 	jsl.l Div16U
-	lda.b $2C
-	sta.b $7F
+	lda.b r0
+	sta.b d0
 	plx
 CODE_C54AD6:						; from CODE_C54ABA
 	pla
 	sta.b $65
 	pla
-	sta.b $63
+	sta.b a0
 	pla
 	sta.b $8D
 	pla
-	sta.b $8B
+	sta.b d3
 	pla
 	sta.b $89
 	pla
-	sta.b $87
+	sta.b d2
 	pla
 	sta.b $85
 	pla
-	sta.b $83
+	sta.b d1
 	rtl
 CODE_C54AEF:						; from CODE_C54DFB and other segments
 	ldy.w #$0032
 	ldx.w #$0019
-	lda.b $6B
+	lda.b a2
 	beq CODE_C54AFC
 	ldy.w #$0066
 CODE_C54AFC:						; from CODE_C54AEF, CODE_C54B15
 	lda.w #$1000
-	sta.w $130B,y
-	lda.w $1373,y
+	sta.w tmpde,y
+	lda.w tmpdst,y
 	cmp.w #$FFFD
 	bne CODE_C54B15
 	cmp.w #$FFFC
 	bne CODE_C54B15
 	lda.w #$FFFE
-	sta.w $1373,y
+	sta.w tmpdst,y
 CODE_C54B15:						; from CODE_C54AFC
 	dey
 	dey
@@ -1364,36 +1364,36 @@ CODE_C54B15:						; from CODE_C54AFC
 RestoreBenchEnergy:					; called from other segments
 	lda.w $186E
 	beq CODE_C54B5F
-	stz.b $6B
+	stz.b a2
 	jsl.l CODE_C54B2B
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 CODE_C54B2B:						; from RestoreBenchEnergy and other segments
 	lda.w #$0032
-	sta.b $7F
+	sta.b d0
 CODE_C54B30:						; from CODE_C54B59
-	lda.b $6B
+	lda.b a2
 	beq CODE_C54B37
 	lda.w #$0034
 CODE_C54B37:						; from CODE_C54B30
 	clc
-	adc.b $7F
+	adc.b d0
 	tay
-	lda.w $1373,y
+	lda.w tmpdst,y
 	cmp.w #$FFFE
 	bne CODE_C54B59
-	lda.w $130B,y
+	lda.w tmpde,y
 	clc
 	adc.w #$000A
-	sta.w $130B,y
+	sta.w tmpde,y
 	sec
 	sbc.w #$1000
 	bmi CODE_C54B59
 	lda.w #$1000
-	sta.w $130B,y
+	sta.w tmpde,y
 CODE_C54B59:						; from CODE_C54B37
-	dec.b $7F
-	dec.b $7F
+	dec.b d0
+	dec.b d0
 	bpl CODE_C54B30
 CODE_C54B5F:						; from RestoreBenchEnergy
 	rtl
@@ -1439,12 +1439,12 @@ CODE_C54BAF:						; called from other segments
 	lda.w $186E
 	beq CODE_C54BE7
 	pei ($6B)
-	lda.w $12FF
+	lda.w tmflags
 	bit.w #$0008
 	beq CODE_C54BCA
 	and.w #$FFF7
-	sta.w $12FF
-	stz.b $6B
+	sta.w tmflags
+	stz.b a2
 	jsl.l CODE_C54B60
 CODE_C54BCA:						; from CODE_C54BAF
 	lda.w $1301
@@ -1453,11 +1453,11 @@ CODE_C54BCA:						; from CODE_C54BAF
 	and.w #$FFF7
 	sta.w $1301
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	jsl.l CODE_C54B60
 CODE_C54BE1:						; from CODE_C54BCA
 	pla
-	sta.b $6B
+	sta.b a2
 	inc.w $18AA
 CODE_C54BE7:						; from CODE_C54BAF
 	rtl
@@ -1474,7 +1474,7 @@ CODE_C54BE8:						; no caller found (not traced)
 	pei ($69)
 	lda.w #$2000
 	sta.w $07D2
-	lda.b $7F
+	lda.b d0
 	lsr a
 	lsr a
 	lsr a
@@ -1486,46 +1486,46 @@ CODE_C54BE8:						; no caller found (not traced)
 	bcc CODE_C54C13
 	lda.w #$001F
 CODE_C54C13:						; from CODE_C54BE8
-	sta.b $7F
+	sta.b d0
 	ldy.w #$0002
 	lda.w #$0006
 	sta.w $04F5
 	lda.w #$0003
-	sta.b $8B
+	sta.b d3
 CODE_C54C23:						; from CODE_C54C45
 	lda.w #$FFFF
-	sta.b $87
-	lda.b $7F
+	sta.b d2
+	lda.b d0
 	bmi CODE_C54C38
-	sta.b $87
+	sta.b d2
 	cmp.w #$0008
 	bcc CODE_C54C38
 	lda.w #$0007
-	sta.b $87
+	sta.b d2
 CODE_C54C38:						; from CODE_C54C23
-	lda.b $87
+	lda.b d2
 	sec
-	adc.b $83
+	adc.b d1
 	and.w #$00FF
 	bne CODE_C54C45
 	lda.w #$0020
 CODE_C54C45:						; from CODE_C54C38
 	sta.w $04F5,y
 	iny
-	lda.b $7F
+	lda.b d0
 	sec
 	sbc.w #$0008
-	sta.b $7F
-	dec.b $8B
+	sta.b d0
+	dec.b d3
 	bpl CODE_C54C23
-	lda.b $83
+	lda.b d1
 	beq CODE_C54C5F
 	lda.w #$0C00
 	tsb.w $07D2
 CODE_C54C5F:						; from CODE_C54C45
 	stz.b $69
 	lda.w #$04F5
-	sta.b $67
+	sta.b a1
 	lda.w $07D4
 	sec
 	sbc.w #$000B
@@ -1534,7 +1534,7 @@ CODE_C54C5F:						; from CODE_C54C45
 	tsb.w $07D2
 	stz.b $69
 	lda.w #$04F5
-	sta.b $67
+	sta.b a1
 	sep #$20
 	lda.w $04FA
 	ldy.w $04F7
@@ -1549,23 +1549,23 @@ CODE_C54C5F:						; from CODE_C54C45
 	pla
 	sta.b $69
 	pla
-	sta.b $67
+	sta.b a1
 	pla
 	sta.b $8D
 	pla
-	sta.b $8B
+	sta.b d3
 	pla
 	sta.b $89
 	pla
-	sta.b $87
+	sta.b d2
 	pla
 	sta.b $85
 	pla
-	sta.b $83
+	sta.b d1
 	pla
 	sta.b $81
 	pla
-	sta.b $7F
+	sta.b d0
 	rtl
 CODE_C54CB9:						; from CODE_C547F2, CODE_C54D03, CODE_C548FC, CODE_C54878
 	pei ($8F)
@@ -1575,42 +1575,42 @@ CODE_C54CB9:						; from CODE_C547F2, CODE_C54D03, CODE_C548FC, CODE_C54878
 	asl a
 	asl a
 	adc.w #$2DC9
-	ldy.b $6B
+	ldy.b a2
 	beq CODE_C54CCA
 	adc.w #$043E
 CODE_C54CCA:						; from CODE_C54CB9
 	tax
-	stz.b $34
-	ldy.b $6B
-	lda.w $12C7,y
+	stz.b r2
+	ldy.b a2
+	lda.w tmap,y
 	dec a
-	sta.b $30
+	sta.b r1
 CODE_C54CD5:						; from CODE_C54CEA
-	sta.b $8F
+	sta.b d4
 	txa
 	clc
-	adc.b $8F
+	adc.b d4
 	tay
 	lda.w $006C,y
 	and.w #$00FF
 	asl a
-	ldy.b $6B
+	ldy.b a2
 	beq CODE_C54CEA
 	adc.w #$0034
 CODE_C54CEA:						; from CODE_C54CD5
 	tay
 	lda.w $1309,y
 	clc
-	adc.b $34
-	sta.b $34
-	lda.b $8F
+	adc.b r2
+	sta.b r2
+	lda.b d4
 	dec a
 	bne CODE_C54CD5
 	jsl.l Div16x8U
-	lda.b $2C
+	lda.b r0
 	plx
 	ply
-	sty.b $8F
+	sty.b d4
 	rts
 CODE_C54D03:						; from CODE_C540C3
 	jsr.w CODE_C54CB9
@@ -1646,7 +1646,7 @@ CODE_C54D40:						; from DATA8_C54D3A
 	lda.w #$8888
 	sta.w $0000,y
 	lda.w #$0080
-	sta.b $83
+	sta.b d1
 	lda.b $85
 	sec
 	sbc.w #$2000
@@ -1657,7 +1657,7 @@ CODE_C54D55:						; from DATA8_C54D3A
 	lda.w #$0091
 	sta.w $0000,y
 	lda.w #$0089
-	sta.b $83
+	sta.b d1
 	lda.b $85
 	sec
 	sbc.w #$1000
@@ -1665,13 +1665,13 @@ CODE_C54D55:						; from DATA8_C54D3A
 	bra CODE_C54D70
 CODE_C54D69:						; from DATA8_C54D3A
 	lda.w #$0092
-	sta.b $83
+	sta.b d1
 	lda.b $85
 CODE_C54D70:						; from CODE_C54D55, CODE_C54D40
 	and.w #$FE00
 	xba
 	lsr a
-	adc.b $83
+	adc.b d1
 	sep #$20
 	sta.w $0000,y
 	rep #$20
@@ -1683,7 +1683,7 @@ CODE_C54D70:						; from CODE_C54D55, CODE_C54D40
 	stx.b $02
 	pea.w $0003
 	pea.w $0000
-	lda.b $7F
+	lda.b d0
 	clc
 	adc.w #$0006
 	pha
@@ -1697,23 +1697,23 @@ CODE_C54D70:						; from CODE_C54D55, CODE_C54D40
 	stz.b QueueBusy
 	rts
 lcfound:							; from CODE_C545B8 and other segments
-	ldx.b $6F
-	ldy.b $6B
-	lda.b $87
+	ldx.b a3
+	ldy.b a2
+	lda.b d2
 	sta.w $1307,y
 	jsr.w CODE_C54155
 	bmi CODE_C54DDE
-	sta.b $7F
-	lda.w $0D60,x
+	sta.b d0
+	lda.w pflags,x
 	ora.w #$0008
-	sta.w $0D60,x
+	sta.w pflags,x
 	jsl.l loadTeamStruct
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	and.w #$FFF7
-	sta.w $12FF,y
-	lda.b $7F
-	sta.w $12B7,y
+	sta.w tmflags,y
+	lda.b d0
+	sta.w tmline,y
 	lda.w #$FFFF
 	sta.w $184C,y
 	jsl.l setpersonel
@@ -1724,31 +1724,31 @@ SetupTeamForIntermission:			; called from other segments
 	jsl.l ResetBench
 	lda.w #$0001
 	sta.w $234C
-	stz.b $6B
+	stz.b a2
 	lda.w #$0002
-	sta.b $6F
+	sta.b a3
 	jsl.l CODE_C54DFB
-	stz.b $6F
+	stz.b a3
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 CODE_C54DFB:						; from SetupTeamForIntermission and other segments
 	jsl.l CODE_C54AEF
-	ldx.b $6F
-	ldy.b $6B
-	stz.w $12B7,x
+	ldx.b a3
+	ldy.b a2
+	stz.w tmline,x
 	lda.w $186E
 	beq CODE_C54E26
-	lda.w $12C7,x
+	lda.w tmap,x
 	sec
-	sbc.w $12C7,y
-	sta.b $7F
+	sbc.w tmap,y
+	sta.b d0
 	beq CODE_C54E26
 	lda.w #$0003
-	sta.w $12B7,x
-	lda.b $7F
+	sta.w tmline,x
+	lda.b d0
 	bpl CODE_C54E26
 	lda.w #$0005
-	sta.w $12B7,x
+	sta.w tmline,x
 CODE_C54E26:						; from CODE_C54DFB
 	rtl
 CODE_C54E27:						; called from other segments
@@ -1761,7 +1761,7 @@ CODE_C54E2A:						; from CODE_C54E53
 	lda.w #$000C
 CODE_C54E39:						; from CODE_C54E2A
 	tay
-	lda.w $04B0
+	lda.w seed
 	and.w #$0010
 	bne CODE_C54E4D
 	sep #$20
@@ -1782,14 +1782,14 @@ CODE_C54E53:						; from CODE_C54E39
 GetTeamLines:						; from CODE_C543AD, CODE_C54471 and other segments
 	lda.w #$007E
 	sta.b $71
-	lda.b $6B
+	lda.b a2
 	beq CODE_C54E67
 	lda.w #$1813
 	bra CODE_C54E6A
 CODE_C54E67:						; from GetTeamLines
 	lda.w #$17DB
 CODE_C54E6A:						; from GetTeamLines
-	sta.b $6F
+	sta.b a3
 	rtl
 CODE_C54E6D:						; called from other segments
 	jsl.l CODE_CF039E
@@ -1818,7 +1818,7 @@ CODE_C54EA9:						; from CODE_C54EC9
 CODE_C54EAC:						; from CODE_C54EAC
 	lda.w TransfersReady
 	bne CODE_C54EAC
-	lda.w $14F5
+	lda.w teampads
 	ora.w $14F7
 	bne CODE_C54EC5
 	stz.w $1525
@@ -1836,7 +1836,7 @@ CODE_C54EC9:						; from CODE_C54EAC
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C54EA9
 	jsr.w CODE_C54F05
 	lda.w $058D

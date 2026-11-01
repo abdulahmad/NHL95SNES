@@ -184,7 +184,7 @@ CODE_C5503C:						; called from other segments
 	lda.w #$2D60
 	jsl.l CODE_C4C558
 	sta.w $18EE
-	sta.b $30
+	sta.b r1
 	jsl.l CODE_C4C541
 	lda.w #$007E
 	sta.b $32
@@ -218,7 +218,7 @@ CODE_C550E2:						; from CODE_C55A16
 	jsl.l CODE_C5E50E
 	lda.w #$0039
 	sta.b $1A
-	lda.w $114B
+	lda.w gsp
 	asl a
 	tax
 	lda.l DATA8_C55245,x
@@ -294,7 +294,7 @@ CODE_C55153:						; from CODE_C55153
 	stz.b QueueBusy
 	lda.w #$4100
 	jsl.l CODE_C4C558
-	sta.b $2C
+	sta.b r0
 	pha
 	lda.w #$007E
 	sta.b $2E
@@ -302,7 +302,7 @@ CODE_C55153:						; from CODE_C55153
 	lda.w #$9B68
 	jsl.l Decompress
 	pla
-	sta.b $2C
+	sta.b r0
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -323,7 +323,7 @@ CODE_C55153:						; from CODE_C55153
 	asl a
 	asl a
 	asl a
-	adc.b $2C
+	adc.b r0
 	pha
 	pea.w $0280
 	pea.w $3570
@@ -340,7 +340,7 @@ CODE_C55153:						; from CODE_C55153
 	asl a
 	asl a
 	asl a
-	adc.b $2C
+	adc.b r0
 	pha
 	lda.b $00
 	tsx
@@ -403,7 +403,7 @@ CODE_C5525F:						; from CODE_C5524B
 	tay
 CODE_C55278:						; from CODE_C5525F
 	lda.w #$0008
-	sta.b $9F
+	sta.b tmp0
 CODE_C5527D:						; from CODE_C5527D
 	lda.w $0000,y
 	sta.w $0000,x
@@ -411,7 +411,7 @@ CODE_C5527D:						; from CODE_C5527D
 	iny
 	inx
 	inx
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C5527D
 	rts
 DATA8_C5528C:						; not traced: a table read by CODE_C5525F
@@ -431,30 +431,30 @@ CODE_C552AC:						; from CODE_C552A4
 	ldy.w #$0314
 	lda.l $C30000,x
 	sta.w $18F4
-	sta.b $9F
+	sta.b tmp0
 CODE_C552BD:						; from CODE_C552F9
 	phx
 	phy
 	lda.l $C30002,x
 	beq CODE_C552CA
-	sta.b $2C
+	sta.b r0
 	jmp ($002C)
 CODE_C552CA:						; from CODE_C552BD
 	lda.l $C30004,x
 CODE_C552CE:						; from CODE_C5531B, CODE_C55341, CODE_C55363
-	sta.b $2C
+	sta.b r0
 	cmp.w #$0000
 	beq CODE_C552F9
 	tya
 	clc
 	adc.w $18EE
 	tax
-	lda.b [$2C]
+	lda.b [r0]
 	and.w #$00FF
 	tay
 CODE_C552E1:						; from CODE_C552E1
-	inc.b $2C
-	lda.b [$2C]
+	inc.b r0
+	lda.b [r0]
 	and.w #$00FF
 	ora.w #$3A00
 	sta.l $7E0000,x
@@ -463,16 +463,16 @@ CODE_C552E1:						; from CODE_C552E1
 	dey
 	bne CODE_C552E1
 	lda.w #$0080
-	sta.b $2C
+	sta.b r0
 CODE_C552F9:						; from CODE_C552CE
 	pla
 	clc
-	adc.b $2C
+	adc.b r0
 	tay
 	pla
 	adc.w #$0004
 	tax
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C552BD
 	rts
 CODE_C55308:						; no caller found (not traced)
@@ -480,7 +480,7 @@ CODE_C55308:						; no caller found (not traced)
 	phx
 	jsl.l CODE_C53ABC
 	lda.w #$59FC
-	ldx.b $6B
+	ldx.b a2
 	ldy.w $17C1,x
 	beq CODE_C5531B
 	lda.w #$59EF
@@ -493,7 +493,7 @@ CODE_C55320:						; no caller found (not traced)
 	phx
 	jsl.l CODE_C53ABC
 	lda.w #$5A08
-	ldx.b $6B
+	ldx.b a2
 	ldy.w $1303,x
 	bne CODE_C55341
 	dec.w $18F4
@@ -525,15 +525,15 @@ CODE_C55363:						; from CODE_C55346
 	jmp.w CODE_C552CE
 CODE_C55367:						; from CODE_C55153, CODE_C54FCF
 	lda.w #$0017
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$01A0
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$0000
 	jsr.w CODE_C5538C
 	lda.w #$0001
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$01A0
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$001A
 	jsr.w CODE_C5538C
 	jsl.l CODE_C4CEDB
@@ -544,7 +544,7 @@ CODE_C5538C:						; from CODE_C55367
 	asl a
 	sta.b $A5
 CODE_C55391:						; from CODE_C55391
-	lda.w $13DB,y
+	lda.w tmboxlist,y
 	iny
 	and.w #$00FF
 	bit.w #$0080
@@ -552,7 +552,7 @@ CODE_C55391:						; from CODE_C55391
 	clc
 	adc.b $A5
 	tax
-	lda.w $1373,x
+	lda.w tmpdst,x
 	bit.w #$4000
 	bne CODE_C55391
 	jsr.w CODE_C553CC
@@ -560,7 +560,7 @@ CODE_C55391:						; from CODE_C55391
 CODE_C553AE:						; from CODE_C55391
 	ply
 CODE_C553AF:						; from CODE_C553AF
-	lda.w $13DB,y
+	lda.w tmboxlist,y
 	iny
 	and.w #$00FF
 	bit.w #$0080
@@ -568,14 +568,14 @@ CODE_C553AF:						; from CODE_C553AF
 	clc
 	adc.b $A5
 	tax
-	lda.w $1373,x
+	lda.w tmpdst,x
 	bit.w #$4000
 	beq CODE_C553AF
 	jsr.w CODE_C553CC
 	bra CODE_C553AF
 CODE_C553CC:						; from CODE_C55391, CODE_C553AF
 	phy
-	ldy.b $A3
+	ldy.b tmp2
 	cpy.w #$0200
 	bcc CODE_C553D6
 	ply
@@ -654,38 +654,38 @@ CODE_C5544E:						; from CODE_C55437
 	ply
 	dec.b QueueBusy
 	tsc
-	sta.b $40
+	sta.b r3
 	lda.b $00
 	tcs
 	phx
 	lda.w #$5800
 	clc
-	adc.b $A1
-	adc.b $A3
+	adc.b tmp1
+	adc.b tmp2
 	pha
 	pea.w $007E
 	phy
 	tsc
 	sta.b $00
-	lda.b $40
+	lda.b r3
 	tcs
 	stz.b QueueBusy
-	lda.b $A3
+	lda.b tmp2
 	clc
 	adc.w #$0020
-	sta.b $A3
+	sta.b tmp2
 	ply
 	rts
 CODE_C5547C:						; from CODE_C55153
 	lda.w #$0003
-	sta.b $83
-	lda.w $12AB
-	sta.b $7F
+	sta.b d1
+	lda.w tmscore
+	sta.b d0
 	jsl.l CODE_C534E8
 	ldy.w #$00D7
 	jsr.w CODE_C554CA
 	lda.w $12AD
-	sta.b $7F
+	sta.b d0
 	jsl.l CODE_C534E8
 	ldy.w #$00C3
 	jsr.w CODE_C554CA
@@ -740,7 +740,7 @@ CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
 	lda.w $0702,x
 	sta.w $0002,y
 	lda.w $0740,x
-	sta.w $0040,y
+	sta.w r3,y
 	lda.w $0742,x
 	sta.w $0042,y
 	lda.w $0780,x
@@ -763,7 +763,7 @@ CODE_C55524:						; from CODE_C55513
 	lda.w #$21F0
 	jsl.l CODE_C4C558
 	pha
-	sta.b $30
+	sta.b r1
 	lda.w #$CC6E
 	ldx.w #$00C2
 	jsl.l CODE_C5881C
@@ -800,106 +800,106 @@ CODE_C55524:						; from CODE_C55513
 	lda.w #$21F0
 	jsl.l CODE_C4C56A
 	ldx.w #$20A0
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2000
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0876
 	jsl.l CODE_C5F368
 	ldx.w #$20A8
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2004
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0878
 	jsl.l CODE_C5F368
 	ldx.w #$20C0
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2008
-	stx.b $A1
+	stx.b tmp1
 	lda.w $087A
 	jsl.l CODE_C5F368
 	ldx.w #$20C8
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$200C
-	stx.b $A1
+	stx.b tmp1
 	lda.w $087C
 	jsl.l CODE_C5F368
 	ldx.w #$20E0
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2010
-	stx.b $A1
+	stx.b tmp1
 	lda.w $087E
 	jsl.l CODE_C5F368
 	ldx.w #$20E8
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2014
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0880
 	jsl.l CODE_C5F368
 	ldx.w #$2100
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2018
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0882
 	jsl.l CODE_C5F368
 	ldx.w #$2108
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$201C
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0884
 	jsl.l CODE_C5F368
 	ldx.w #$2120
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2020
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0886
 	jsl.l CODE_C5F368
 	ldx.w #$2128
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2024
-	stx.b $A1
+	stx.b tmp1
 	lda.w $0888
 	jsl.l CODE_C5F368
 	ldx.w #$2140
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2028
-	stx.b $A1
+	stx.b tmp1
 	lda.w $088A
 	jsl.l CODE_C5F368
 	ldx.w #$2148
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$202C
-	stx.b $A1
+	stx.b tmp1
 	lda.w $088C
 	jsl.l CODE_C5F368
 	jsl.l CODE_C4CEDB
 	ldx.w #$2180
-	stx.b $A3
+	stx.b tmp2
 	ldx.w #$2034
-	stx.b $A1
+	stx.b tmp1
 	sta.w $0892
 	jsl.l CODE_C5F368
 	lda.w #$2030
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$2160
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$01BE
 	jsl.l CODE_C5F368
 	lda.w #$2168
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$01BF
 	jsl.l CODE_C5F368
 	lda.w #$2588
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$006F
 	jsl.l CODE_C5F368
 	lda.w #$2035
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$01B3
 	jsl.l CODE_C5F368
 	lda.w #$2454
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$25E0
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$0072
 	jsl.l CODE_C5F368
 	dec.b QueueBusy
@@ -915,7 +915,7 @@ CODE_C55524:						; from CODE_C55513
 	phx
 	stx.b $2E
 	pha
-	sta.b $2C
+	sta.b r0
 	lda.w #$4642
 	ldx.w #$00C0
 	jsl.l Decompress
@@ -928,12 +928,12 @@ CODE_C55524:						; from CODE_C55513
 	lda.w #$01E0
 	jsl.l CODE_C4C56A
 	lda.w #IceRinkMap&$FFFF
-	sta.b $30
+	sta.b r1
 	lda.w #IceRinkMap>>16
 	sta.b $32
-	lda.b [$30]
+	lda.b [r1]
 	clc
-	adc.b $30
+	adc.b r1
 	bcc CODE_C556FA
 	inc.b $32
 	clc
@@ -943,27 +943,27 @@ CODE_C556FA:						; from CODE_C55524
 	inc.b $32
 	clc
 CODE_C55702:						; from CODE_C556FA
-	sta.b $2C
+	sta.b r0
 	ldx.b $32
 	stx.b $2E
-	sta.b $30
-	adc.b [$30]
+	sta.b r1
+	adc.b [r1]
 	bcc CODE_C55711
 	inc.b $32
 	clc
 CODE_C55711:						; from CODE_C55702
 	adc.w #$0009
-	sta.b $30
+	sta.b r1
 	bcc CODE_C5571A
 	inc.b $32
 CODE_C5571A:						; from CODE_C55711
-	lda.b $2C
+	lda.b r0
 	clc
 	adc.w #$0008
 	bcc CODE_C55724
 	inc.b $2E
 CODE_C55724:						; from CODE_C5571A
-	sta.b $2C
+	sta.b r0
 	lda.w #$4100
 	jsl.l CODE_C4C558
 	sta.w $364C
@@ -1026,7 +1026,7 @@ CODE_C55724:						; from CODE_C5571A
 	lda.w #$4E00
 	jsl.l CODE_C4C558
 	sta.w $364C
-	sta.b $2C
+	sta.b r0
 	lda.w #$007E
 	sta.b $2E
 	ldx.w #$00C2
@@ -1080,7 +1080,7 @@ CODE_C55724:						; from CODE_C5571A
 	lda.w #$13E0
 	jsl.l CODE_C4C558
 	sta.w $364C
-	sta.b $30
+	sta.b r1
 	lda.w #$007E
 	sta.b $32
 	lda.w #$CFE2
@@ -1168,7 +1168,7 @@ CODE_C558F2:						; from CODE_C55907
 	beq CODE_C55907
 	phy
 	jsr.w UploadSpriteFrame
-	lda.b $34,x
+	lda.b r2,x
 	jsl.l CODE_C5EE9B
 	ply
 CODE_C55907:						; from CODE_C558F2
@@ -1213,9 +1213,9 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
 	lda.w #$0400
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$5800
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$87F2
 	ldx.w #$00C0
 	ldy.w #$2000
@@ -1236,8 +1236,8 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	sta.l TM
 	lda.w #$0240
 	jsl.l CODE_C4C558
-	sta.b $2C
-	sta.b $34
+	sta.b r0
+	sta.b r2
 	lda.w #$007E
 	sta.b $2E
 	ldx.w #$00C0
@@ -1263,7 +1263,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	lda.w #$0240
 	jsl.l CODE_C4C56A
 	lda.w #$0002
-	sta.w $04C2
+	sta.w BG2VScroll
 	rts
 CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
 	jsl.l FadeOutWait
@@ -1300,7 +1300,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	sta.b $18
 	lda.w $17C9
 	jsl.l CreateSprite
-	inc.b $38,x
+	inc.b p0,x
 	ldy.w #$2801
 	ldx.w #$5194
 	jsl.l CODE_C387D8
@@ -1336,7 +1336,7 @@ CODE_C55AB8:						; called from other segments
 CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
 	sta.b $75
 	stx.b $71
-	sty.b $73
+	sty.b a4
 	stz.b $69
 	jsl.l CODE_C4CEDB
 	ldx.w #$0060
@@ -1344,7 +1344,7 @@ CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
 	db $00,$2C,$9D,$46,$7E,$00		; inline parameters
 	ldx.w #$0000
 	ldy.w #$0017
-	lda.b $73
+	lda.b a4
 	dec a
 	asl a
 	asl a
@@ -1380,7 +1380,7 @@ CODE_C55AF5:						; from CODE_C55ABC
 	tya
 	sta.w $46A6,x
 	ldx.w #$FFFF
-	lda.b $73
+	lda.b a4
 	dec a
 	asl a
 	asl a
@@ -1418,7 +1418,7 @@ CODE_C55B6C:						; from CODE_C55AF5
 	sta.w DMAEnShadow
 	lda.w #$0010
 	sta.b $18
-	lda.b $73
+	lda.b a4
 	asl a
 	asl a
 	asl a
@@ -1430,7 +1430,7 @@ CODE_C55B6C:						; from CODE_C55AF5
 	stx.b $77
 	lda.w #$0001
 	jsl.l CODE_C5ECBD
-	lda.b $73
+	lda.b a4
 	clc
 	adc.b $71
 	asl a
@@ -1443,8 +1443,8 @@ CODE_C55B6C:						; from CODE_C55AF5
 	stx.b $79
 	lda.w #$0002
 	jsl.l CODE_C5ECBD
-	stz.b $6F
-	lda.b $73
+	stz.b a3
+	lda.b a4
 	sta.b $6D
 CODE_C55BC8:						; from CODE_C55BD1
 	jsr.w CODE_C55D73
@@ -1454,9 +1454,9 @@ CODE_C55BD1:						; from CODE_C55BC8
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C536
 	inc.b $6D
-	inc.b $6F
-	lda.b $6F
-	cmp.b $67
+	inc.b a3
+	lda.b a3
+	cmp.b a1
 	bcs CODE_C55BE8
 	dec a
 	cmp.b $71
@@ -1478,7 +1478,7 @@ CODE_C55BF8:						; from CODE_C55BE8
 	adc.b $71
 	tay
 	lda.b $22,x
-	cpy.b $67
+	cpy.b a1
 	bcs CODE_C55C0C
 	ora.w #$0001
 	bra CODE_C55C0F
@@ -1490,9 +1490,9 @@ CODE_C55C0F:						; from CODE_C55BF8
 CODE_C55C12:						; called from other segments
 	lda.b $71
 	inc a
-	sta.b $A1
+	sta.b tmp1
 	inc a
-	sta.b $A3
+	sta.b tmp2
 	lda.b $71
 	sec
 	adc.b $69
@@ -1503,17 +1503,17 @@ CODE_C55C12:						; called from other segments
 CODE_C55C25:						; from CODE_C55C12, CODE_C55C45
 	cmp.b $01,s
 	bcs CODE_C55C52
-	cmp.b $67
+	cmp.b a1
 	bcs CODE_C55C52
-	sta.b $6F
+	sta.b a3
 CODE_C55C2F:						; from CODE_C55C2F
-	cmp.b $A1
+	cmp.b tmp1
 	bcc CODE_C55C37
-	sbc.b $A3
+	sbc.b tmp2
 	bpl CODE_C55C2F
 CODE_C55C37:						; from CODE_C55C2F
 	clc
-	adc.b $73
+	adc.b a4
 	sta.b $6D
 	jsr.w CODE_C55D73
 	pea.w CODE_C55C45-1
@@ -1521,7 +1521,7 @@ CODE_C55C37:						; from CODE_C55C2F
 CODE_C55C45:						; from CODE_C55C37
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C536
-	lda.b $6F
+	lda.b a3
 	inc a
 	bra CODE_C55C25
 CODE_C55C52:						; from CODE_C55C25
@@ -1533,26 +1533,26 @@ CODE_C55C54:						; called from other segments
 CODE_C55C58:						; from CODE_C55C54, CODE_C56301 and other segments
 	lda.b $71
 	inc a
-	sta.b $A1
+	sta.b tmp1
 	inc a
-	sta.b $A3
+	sta.b tmp2
 	lda.b $69
 	clc
 	adc.b $71
-	cmp.b $67
+	cmp.b a1
 	bcs CODE_C55C92
 	inc a
-	cmp.b $67
+	cmp.b a1
 	bcs CODE_C55C93
-	sta.b $6F
+	sta.b a3
 CODE_C55C70:						; from CODE_C55C70
-	cmp.b $A1
+	cmp.b tmp1
 	bcc CODE_C55C78
-	sbc.b $A3
+	sbc.b tmp2
 	bpl CODE_C55C70
 CODE_C55C78:						; from CODE_C55C70
 	clc
-	adc.b $73
+	adc.b a4
 	sta.b $6D
 	jsr.w CODE_C55D73
 	pea.w CODE_C55C86-1
@@ -1576,7 +1576,7 @@ CODE_C55C98:						; from CODE_C55C98, CODE_C55CBB
 	sep #$20
 	dec.w $4692
 	bne CODE_C55CBB
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
@@ -1587,7 +1587,7 @@ CODE_C55C98:						; from CODE_C55C98, CODE_C55CBB
 	stz.w $4694
 	bra CODE_C55C98
 CODE_C55CBB:						; from CODE_C55C98
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
@@ -1608,24 +1608,24 @@ CODE_C55CBB:						; from CODE_C55C98
 CODE_C55CE6:						; from CODE_C562C6 and other segments
 	lda.b $71
 	inc a
-	sta.b $A1
+	sta.b tmp1
 	inc a
-	sta.b $A3
+	sta.b tmp2
 	lda.b $69
 	beq CODE_C55D6A
 	dec a
 	sta.b $69
 	dec a
 	bmi CODE_C55D14
-	sta.b $6F
+	sta.b a3
 CODE_C55CFA:						; from CODE_C55CFA
-	cmp.b $A1
+	cmp.b tmp1
 	bcc CODE_C55D02
-	sbc.b $A3
+	sbc.b tmp2
 	bpl CODE_C55CFA
 CODE_C55D02:						; from CODE_C55CFA
 	clc
-	adc.b $73
+	adc.b a4
 	sta.b $6D
 	jsr.w CODE_C55D73
 	pea.w CODE_C55D10-1
@@ -1639,7 +1639,7 @@ CODE_C55D17:						; from CODE_C55D17, CODE_C55D54
 	bmi CODE_C55D64
 	wai
 	sep #$20
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
@@ -1653,7 +1653,7 @@ CODE_C55D17:						; from CODE_C55D17, CODE_C55D54
 	lda.w $4693
 	dec a
 	sta.w $4696
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
@@ -1700,9 +1700,9 @@ CODE_C55D8A:						; from DATA8_C55D6B
 	ldx.b $65
 	lda.l $C30003,x
 	clc
-	adc.b $6B
-	sta.b $9F
-	lda.b ($9F)
+	adc.b a2
+	sta.b tmp0
+	lda.b (tmp0)
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
@@ -1715,9 +1715,9 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	ldx.b $65
 	lda.l $C30003,x
 	clc
-	adc.b $6B
-	sta.b $9F
-	lda.b ($9F)
+	adc.b a2
+	sta.b tmp0
+	lda.b (tmp0)
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
@@ -1729,9 +1729,9 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	ldx.b $65
 	lda.l $C30005,x
 	clc
-	adc.b $6B
-	sta.b $9F
-	lda.b ($9F)
+	adc.b a2
+	sta.b tmp0
+	lda.b (tmp0)
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
@@ -1745,17 +1745,17 @@ CODE_C55DEF:						; from DATA8_C55D6B
 	ldx.b $65
 	lda.l $C30005,x
 	clc
-	adc.b $6B
-	sta.b $9F
-	lda.b ($9F)
+	adc.b a2
+	sta.b tmp0
+	lda.b (tmp0)
 	beq CODE_C55E2A
-	sta.b $83
+	sta.b d1
 	lda.l $C30003,x
 	clc
-	adc.b $6B
-	sta.b $9F
-	lda.b ($9F)
-	cmp.b $83
+	adc.b a2
+	sta.b tmp0
+	lda.b (tmp0)
+	cmp.b d1
 	bcc CODE_C55E14
 	lda.w #$0100
 	bra CODE_C55E2A
@@ -1763,7 +1763,7 @@ CODE_C55E14:						; from CODE_C55DEF
 	ldx.w #$0064
 	jsl.l Mul8U
 	tax
-	lda.b $83
+	lda.b d1
 	jsl.l DivX8U
 	tax
 	lda.l BCDTable,x
@@ -1780,9 +1780,9 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	ldx.b $65
 	lda.l $C30003,x
 	clc
-	adc.b $6B
-	sta.b $9F
-	lda.b ($9F)
+	adc.b a2
+	sta.b tmp0
+	lda.b (tmp0)
 	jsr.w CODE_C5605D
 	ldy.b $6D
 	ldx.w #$04F5
@@ -1791,7 +1791,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 CODE_C55E57:						; called from other segments
 	jsl.l CODE_C4CEDB
 	ldy.w $17C9
-	lda.b $6B
+	lda.b a2
 	beq CODE_C55E65
 	ldy.w $17CB
 CODE_C55E65:						; from CODE_C55E57
@@ -1900,7 +1900,7 @@ CODE_C55F1F:						; called from other segments
 	ldy.w #$04F5
 CODE_C55F22:						; from CODE_C55F8A and other segments
 	sty.b $2E
-	sta.b $2C
+	sta.b r0
 	phx
 	sep #$20
 CODE_C55F29:						; from CODE_C55F29
@@ -1915,7 +1915,7 @@ CODE_C55F35:						; from CODE_C55F29
 	sec
 	sbc.b $01,s
 	plx
-	cmp.b $2C
+	cmp.b r0
 	bcc CODE_C55F85
 	beq CODE_C55F85
 	ldx.b $2E
@@ -1939,12 +1939,12 @@ CODE_C55F53:						; from CODE_C55F53
 	inc a
 	sec
 	sbc.b $2E
-	cmp.b $2C
+	cmp.b r0
 	bcc CODE_C55F85
 	beq CODE_C55F85
 	sep #$20
 	ldy.b $2E
-	ldx.b $2C
+	ldx.b r0
 CODE_C55F70:						; from CODE_C55F70
 	lda.w $0003,y
 	sta.w $0000,y
@@ -1969,7 +1969,7 @@ CODE_C55F8A:						; called from other segments
 	jsr.w CODE_C55F22
 	rtl
 CODE_C55F98:						; called from other segments
-	sta.b $2C
+	sta.b r0
 	jsl.l CODE_C4C3BA
 	stx.b $2E
 	ldy.w #$0000
@@ -1981,7 +1981,7 @@ CODE_C55FA5:						; from CODE_C55FA5
 	iny
 	bra CODE_C55FA5
 CODE_C55FAE:						; from CODE_C55FA5
-	cpy.b $2C
+	cpy.b r0
 	bcc CODE_C56000
 	beq CODE_C56000
 	ldx.b $2E
@@ -2005,19 +2005,19 @@ CODE_C55FC7:						; from CODE_C55FC7
 	inc a
 	sec
 	sbc.b $2E
-	cmp.b $2C
+	cmp.b r0
 	bcc CODE_C56000
 	beq CODE_C56000
 	tya
 	dec a
 	clc
 	sbc.b $2E
-	cmp.b $2C
+	cmp.b r0
 	bcc CODE_C55FF8
 	beq CODE_C55FF8
 	lda.b $2E
 	clc
-	adc.b $2C
+	adc.b r0
 	adc.w #$0004
 	tax
 	lda.w #$003D

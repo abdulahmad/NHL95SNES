@@ -178,31 +178,31 @@ DATA8_C42030:						; not traced: more of the data from bankC4_1000 (pointer tabl
 	db $23,$04,$EC,$FF,$1F,$04,$0A,$00,$1B,$04,$0A,$00,$1C,$04,$0A,$00
 	db $1D,$04,$5A,$00,$1E,$04,$EC,$FF
 CODE_C42B18:						; from CODE_C42DC6, CODE_C42C47 and other segments
-	lda.w $1000,x
+	lda.w pfalock,x
 	bne CODE_C42B24
 	lda.w #$1F6C
 	jsl.l SetSPAFromA
 CODE_C42B24:						; from CODE_C42B18
 	rtl
 assnearest:							; called from other segments
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0002
 	beq CODE_C42B42
 	and.w #$FFFD
-	sta.w $0D60,x
-	stz.w $0B20,x
-	stz.w $0B00,x
+	sta.w pflags,x
+	stz.w temp3,x
+	stz.w temp2,x
 	lda.w #$0008
-	sta.w $0B80,x
-	stz.w $0AE0,x
+	sta.w temp2b,x
+	stz.w temp1,x
 CODE_C42B42:						; from assnearest
-	lda.w $0A20,x
+	lda.w position,x
 	beq CODE_C42B5A
-	cpx.w $05A0
+	cpx.w puckc
 	bne CODE_C42B5E
 	lda.w #$0011
-	sta.b $7F
-	lda.w $14F9,x
+	sta.b d0
+	lda.w playerpad,x
 	bpl CODE_C42B59
 	jmp.w CODE_C43734
 CODE_C42B59:						; from CODE_C42B42
@@ -210,110 +210,110 @@ CODE_C42B59:						; from CODE_C42B42
 CODE_C42B5A:						; from CODE_C42B42
 	jml.l CODE_C48A71
 CODE_C42B5E:						; from CODE_C42B42
-	lda.w $0AE0,x
+	lda.w temp1,x
 	sec
-	sbc.b $9B
-	sta.w $0AE0,x
+	sbc.b d7
+	sta.w temp1,x
 	bmi CODE_C42B6C
 	jmp.w CODE_C42C66
 CODE_C42B6C:						; from CODE_C42B5E
-	adc.w $0E40,x
+	adc.w aioff,x
 	bpl CODE_C42B74
 	lda.w #$0000
 CODE_C42B74:						; from CODE_C42B6C
-	sta.w $0AE0,x
-	ldy.w $05A0
+	sta.w temp1,x
+	ldy.w puckc
 	bmi CODE_C42B8E
-	lda.w $0A20,y
+	lda.w position,y
 	beq CODE_C42B8E
-	sty.b $67
-	lda.w $1020,y
-	eor.w $1020,x
+	sty.b a1
+	lda.w pfteam,y
+	eor.w pfteam,x
 	bne CODE_C42B8E
 	jmp.w CODE_C42B9E
 CODE_C42B8E:						; from CODE_C42B74
-	ldy.b $6B
+	ldy.b a2
 	lda.w $12CF,y
-	sta.b $87
+	sta.b d2
 	lda.w $12D3,y
-	sta.b $67
-	lda.b $87
+	sta.b a1
+	lda.b d2
 	bmi CODE_C42BD7
 CODE_C42B9E:						; from CODE_C42B74
-	cpx.b $67
+	cpx.b a1
 	beq CODE_C42BD7
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C42BD7
-	ldy.b $67
-	lda.w $0D60,y
+	ldy.b a1
+	lda.w pflags,y
 	bit.w #$1000
 	bne CODE_C42BD7
-	lda.w $0A20,y
+	lda.w position,y
 	beq CODE_C42BD7
-	lda.w $0644,y
+	lda.w asscur,y
 	cmp.w #$0015
 	beq CODE_C42BD7
-	ldx.b $67
-	lda.w $0D60,x
+	ldx.b a1
+	lda.w pflags,x
 	and.w #$FFFE
-	sta.w $0D60,x
+	sta.w pflags,x
 	lda.w #$0012
-	sta.b $7F
+	sta.b d0
 	jsl.l CODE_C43734
-	ldx.b $B7
+	ldx.b curobj
 	jmp.w assexit
 CODE_C42BD7:						; from CODE_C42B8E, CODE_C42B9E
 	lda.w #$0002
-	sta.b $83
-	lda.b $87
+	sta.b d1
+	lda.b d2
 	cmp.w #$00E2
 	bcs CODE_C42BEA
-	stz.b $83
-	lda.w $0A20,x
+	stz.b d1
+	lda.w position,x
 	beq CODE_C42C66
 CODE_C42BEA:						; from CODE_C42BD7
-	lda.w $10F5
+	lda.w sflags
 	bit.w #$2000
 	beq CODE_C42C04
-	dec.b $83
-	dec.b $83
+	dec.b d1
+	dec.b d1
 	jsl.l chkpk2
 	bne CODE_C42C04
-	inc.b $83
-	inc.b $83
-	inc.b $83
-	inc.b $83
+	inc.b d1
+	inc.b d1
+	inc.b d1
+	inc.b d1
 CODE_C42C04:						; from CODE_C42BEA
 	lda.w #$0014
 	sec
-	sbc.w $0FA0,x
-	sta.b $7F
-	lda.b $83
-	sta.b $9F
+	sbc.w checking,x
+	sta.b d0
+	lda.b d1
+	sta.b tmp0
 CODE_C42C11:						; from CODE_C42C11
-	dec.b $9F
+	dec.b tmp0
 	bmi CODE_C42C55
-	asl.b $7F
+	asl.b d0
 	bra CODE_C42C11
 CODE_C42C19:						; from CODE_C42C66
 	rtl
 CODE_C42C1A:						; from CODE_C42C66
-	ldy.w $05A0
+	ldy.w puckc
 	bmi CODE_C42C4E
-	lda.w $0A20,y
+	lda.w position,y
 	bne CODE_C42C4E
 	lda.w $0830
-	sta.b $7F
+	sta.b d0
 	lda.w #$005C
-	ldy.w $0FE0,x
+	ldy.w pfgoal,x
 	bne CODE_C42C34
 	lda.w #$FFA4
 CODE_C42C34:						; from CODE_C42C1A
-	sta.b $83
+	sta.b d1
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$883F
-	sta.b $63
+	sta.b a0
 	jsl.l skateto
 	jmp.w check4check
 CODE_C42C47:						; from CODE_C42C66
@@ -324,119 +324,119 @@ CODE_C42C4E:						; from CODE_C42C1A
 	jmp.w check4check
 CODE_C42C55:						; from CODE_C42C11
 	jsl.l CODE_C37EBF
-	lda.b $7F
+	lda.b d0
 	cmp.w #$0002
 	bcs CODE_C42C66
 	lda.w #$00F0
-	sta.w $0B20,x
+	sta.w temp3,x
 CODE_C42C66:						; from CODE_C42B5E, CODE_C42BD7, CODE_C42C55
-	lda.w $14F9,x
+	lda.w playerpad,x
 	bpl CODE_C42C19
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C42C47
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	bit.w #$0002
 	bne CODE_C42C90
-	lda.w $05A0
+	lda.w puckc
 	bmi CODE_C42C1A
-	lda.w $0B20,x
+	lda.w temp3,x
 	sec
-	sbc.b $9B
-	sta.w $0B20,x
+	sbc.b d7
+	sta.w temp3,x
 	cmp.w #$0000
 	bpl CODE_C42C1A
-	stz.w $0B20,x
+	stz.w temp3,x
 CODE_C42C90:						; from CODE_C42C66
 	jsl.l skatetopuckinit
 	pei ($83)
-	lda.b $7F
+	lda.b d0
 	pha
 	eor.w #$FFFF
 	inc a
-	sta.b $7F
-	lda.b $83
+	sta.b d0
+	lda.b d1
 	eor.w #$FFFF
 	inc a
 	clc
 	adc.w #$00FA
-	sta.b $83
-	lda.w $0FE0,x
+	sta.b d1
+	lda.w pfgoal,x
 	beq CODE_C42CB8
-	lda.b $83
+	lda.b d1
 	sec
 	sbc.w #$01F4
-	sta.b $83
+	sta.b d1
 CODE_C42CB8:						; from CODE_C42C90
-	lda.b $7F
+	lda.b d0
 	pha
 	asl a
 	pla
 	ror a
-	sta.b $7F
-	lda.b $83
+	sta.b d0
+	lda.b d1
 	pha
 	asl a
 	pla
 	ror a
-	sta.b $83
+	sta.b d1
 	pla
 	clc
-	adc.b $7F
-	sta.b $7F
+	adc.b d0
+	sta.b d0
 	pla
 	clc
-	adc.b $83
-	sta.b $83
-	ldy.b $6B
-	lda.w $12FF,y
+	adc.b d1
+	sta.b d1
+	ldy.b a2
+	lda.w tmflags,y
 	bit.w #$0002
 	beq CODE_C42CFF
-	lda.w $0FE0,x
+	lda.w pfgoal,x
 	beq CODE_C42CF2
-	lda.b $83
+	lda.b d1
 	sec
 	sbc.w #$0057
 	bmi CODE_C42CFF
 	lda.w #$0048
-	sta.b $83
+	sta.b d1
 	bra CODE_C42CFF
 CODE_C42CF2:						; from CODE_C42CB8
-	lda.b $83
+	lda.b d1
 	sec
 	sbc.w #$FFA9
 	bpl CODE_C42CFF
 	lda.w #$FFB8
-	sta.b $83
+	sta.b d1
 CODE_C42CFF:						; from CODE_C42CB8, CODE_C42CF2
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$883F
-	sta.b $63
+	sta.b a0
 	jsl.l skateto
 	jmp.w check4check
 CODE_C42D10:						; called from other segments
-	lda.w $1000,x
+	lda.w pfalock,x
 	beq CODE_C42D16
 	rtl
 CODE_C42D16:						; from CODE_C42D10
 	jsl.l getpde
 	lda.w $186E
 	beq CODE_C42D38
-	lda.b $7F
+	lda.b d0
 	sec
 	sbc.w #$00CC
-	sta.b $7F
+	sta.b d0
 	jsl.l setpde
 	lda.w $186E
 	cmp.w #$0002
 	bne CODE_C42D38
 	lda.w #$1000
-	sta.b $7F
+	sta.b d0
 CODE_C42D38:						; from CODE_C42D16
-	stz.b $34
+	stz.b r2
 	stz.b $36
-	lda.b $7F
+	lda.b d0
 	asl a
 	sta.b $35
 	stz.b $2E
@@ -448,61 +448,61 @@ CODE_C42D38:						; from CODE_C42D16
 	rol.b $2E
 	asl a
 	rol.b $2E
-	adc.b $34
-	sta.b $34
+	adc.b r2
+	sta.b r2
 	lda.b $2E
 	adc.b $36
 	sta.b $B1
-	lda.w $0C40,x
+	lda.w facedir,x
 	asl a
 	asl a
 	tay
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9C04
-	sta.b $63
-	lda.b [$63],y
+	sta.b a0
+	lda.b [a0],y
 	iny
 	iny
 	tax
 	lda.b $B1
 	jsl.l Mul8XS
-	ldx.b $6F
+	ldx.b a3
 	clc
-	adc.w $09A0,x
-	sta.w $09A0,x
-	lda.b [$63],y
+	adc.w Xvel,x
+	sta.w Xvel,x
+	lda.b [a0],y
 	tax
 	lda.b $B1
 	jsl.l Mul8XS
-	ldx.b $6F
+	ldx.b a3
 	clc
-	adc.w $09C0,x
-	sta.w $09C0,x
+	adc.w Yvel,x
+	sta.w Yvel,x
 	lda.w #$21BC
-	sta.w $1000,x
+	sta.w pfalock,x
 	jml.l SetSPAFromA
 CODE_C42D98:						; from CODE_C431E9 and other segments
-	lda.w $10F5
+	lda.w sflags
 	and.w #$2000
 	bne chkpk2
 	inc a
 	rtl
 chkpk2:								; from CODE_C42D98, CODE_C42BEA and other segments
-	lda.w $1020,x
+	lda.w pfteam,x
 	bne CODE_C42DB1
-	lda.w $10F5
+	lda.w sflags
 	and.w #$4000
 	eor.w #$4000
 	rtl
 CODE_C42DB1:						; from chkpk2
-	lda.w $10F5
+	lda.w sflags
 	and.w #$4000
 	rtl
 CODE_C42DB8:						; called from other segments
-	cpx.w $05A0
+	cpx.w puckc
 	bne CODE_C42DC2
-	lda.w $14F9,x
+	lda.w playerpad,x
 	bmi CODE_C42DCD
 CODE_C42DC2:						; from CODE_C42DB8
 	jmp.w assexit
@@ -512,106 +512,106 @@ CODE_C42DC6:						; from CODE_C42DCD
 	jsl.l CODE_C42B18
 	jmp.w donothing
 CODE_C42DCD:						; from CODE_C42DB8
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C42DC6
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0002
 	beq CODE_C42DF5
 	and.w #$FFFD
-	sta.w $0D60,x
-	stz.w $0AE0,x
-	stz.w $0B00,x
+	sta.w pflags,x
+	stz.w temp1,x
+	stz.w temp2,x
 	lda.w #$0008
-	sta.w $0B80,x
-	lda.w $04B0
+	sta.w temp2b,x
+	lda.w seed
 	and.w #$0003
-	sta.w $0B20,x
+	sta.w temp3,x
 CODE_C42DF5:						; from CODE_C42DCD
-	lda.w $0AE0,x
+	lda.w temp1,x
 	sec
-	sbc.b $9B
-	sta.w $0AE0,x
+	sbc.b d7
+	sta.w temp1,x
 	bpl CODE_C42E47
-	adc.w $0E40,x
+	adc.w aioff,x
 	bpl CODE_C42E08
 	lda.w #$0000
 CODE_C42E08:						; from CODE_C42DF5
-	sta.w $0AE0,x
+	sta.w temp1,x
 	jsl.l CODE_C4837C
-	lda.w $18AE
+	lda.w breakaway
 	beq CODE_C42E33
-	lda.w $0896,x
-	sta.b $7F
+	lda.w Ypos,x
+	sta.b d0
 	bpl CODE_C42E23
 	lda.w #$0000
 	sec
-	sbc.b $7F
-	sta.b $7F
+	sbc.b d0
+	sta.b d0
 CODE_C42E23:						; from CODE_C42E08
 	cmp.w #$0096
 	bpl CODE_C42E33
 	lda.w #$0010
-	sta.b $7F
+	sta.b d0
 	jsl.l assreplace
 	bra CODE_C42E99
 CODE_C42E33:						; from CODE_C42E08, CODE_C42E23
 	jsl.l CODE_C5492E
 	jsl.l chk4shot
-	lda.w $0644,x
+	lda.w asscur,x
 	cmp.w #$0011
 	bne CODE_C42E47
 	jsl.l chk4pass
 CODE_C42E47:						; from CODE_C42DF5, CODE_C42E33
 	lda.w #$0006
 	clc
-	adc.w $0B20,x
-	sta.b $7F
+	adc.w temp3,x
+	sta.b d0
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9A98
-	sta.b $63
-	lda.w $10F5
+	sta.b a0
+	lda.w sflags
 	bit.w #$8000
 	beq CODE_C42E67
-	lda.w $0A20,x
-	sta.b $7F
+	lda.w position,x
+	sta.b d0
 CODE_C42E67:						; from CODE_C42E47
-	lda.b $7F
+	lda.b d0
 	asl a
 	asl a
 	tay
-	lda.b [$63],y
-	sta.b $7F
+	lda.b [a0],y
+	sta.b d0
 	iny
 	iny
-	lda.b [$63],y
-	sta.b $83
-	lda.w $0FE0,x
+	lda.b [a0],y
+	sta.b d1
+	lda.w pfgoal,x
 	bne CODE_C42E8B
 	lda.w #$0000
 	sec
-	sbc.b $7F
-	sta.b $7F
+	sbc.b d0
+	sta.b d0
 	lda.w #$0000
 	sec
-	sbc.b $83
-	sta.b $83
+	sbc.b d1
+	sta.b d1
 CODE_C42E8B:						; from CODE_C42E67
 	lda.w #CODE_C42E9A>>16
 	sta.b $65
 	lda.w #CODE_C42E9A
-	sta.b $63
+	sta.b a0
 	jml.l skateto
 CODE_C42E99:						; from CODE_C42E23
 	rtl
 CODE_C42E9A:						; passed as a long pointer (lda #bank, lda #low) to skateto
-	lda.b $7F
+	lda.b d0
 	and.w #$00FF
 	bit.w #$0080
 	beq CODE_C42EA7
 	ora.w #$FF00
 CODE_C42EA7:						; from CODE_C42E9A
-	sta.b $7F
+	sta.b d0
 	lda.w $09A1,x
 	and.w #$00FF
 	bit.w #$0080
@@ -620,7 +620,7 @@ CODE_C42EA7:						; from CODE_C42E9A
 CODE_C42EB7:						; from CODE_C42EA7
 	clc
 	adc.w $0830
-	sta.b $87
+	sta.b d2
 	lda.w $09C1,x
 	and.w #$00FF
 	bit.w #$0080
@@ -628,18 +628,18 @@ CODE_C42EB7:						; from CODE_C42EA7
 	ora.w #$FF00
 CODE_C42ECB:						; from CODE_C42EB7
 	clc
-	adc.w $08B2
-	sta.b $8B
+	adc.w pucky
+	sta.b d3
 	stz.w $07EE
 	lda.w #$0005
-	sta.b $8F
-	stz.b $63
+	sta.b d4
+	stz.b a0
 	cpx.w #$000C
 	bcs CODE_C42EE5
 	lda.w #$000C
-	sta.b $63
+	sta.b a0
 CODE_C42EE5:						; from CODE_C42ECB, CODE_C42F56
-	ldy.b $63
+	ldy.b a0
 	lda.w $09A1,y
 	and.w #$00FF
 	bit.w #$0080
@@ -647,9 +647,9 @@ CODE_C42EE5:						; from CODE_C42ECB, CODE_C42F56
 	ora.w #$FF00
 CODE_C42EF5:						; from CODE_C42EE5
 	clc
-	adc.w $0814,y
+	adc.w Xpos,y
 	sec
-	sbc.b $87
+	sbc.b d2
 	cmp.w #$FFEB
 	bmi CODE_C42F56
 	cmp.w #$0015
@@ -661,51 +661,51 @@ CODE_C42EF5:						; from CODE_C42EE5
 	ora.w #$FF00
 CODE_C42F14:						; from CODE_C42EF5
 	clc
-	adc.w $0896,y
+	adc.w Ypos,y
 	sec
-	sbc.b $8B
+	sbc.b d3
 	cmp.w #$FFEB
 	bmi CODE_C42F56
 	cmp.w #$0015
 	bpl CODE_C42F56
 	inc.w $07EE
-	lda.w $0814,x
+	lda.w Xpos,x
 	sec
-	sbc.w $0814,y
-	sta.b $7F
-	lda.w $0896,x
+	sbc.w Xpos,y
+	sta.b d0
+	lda.w Ypos,x
 	sec
-	sbc.w $0896,y
-	sta.b $83
+	sbc.w Ypos,y
+	sta.b d1
 	jsl.l vtoa
-	lda.w $0C40,x
+	lda.w facedir,x
 	eor.w #$0004
-	cmp.b $7F
+	cmp.b d0
 	bne CODE_C42F56
 	lda.w $04B2
 	and.w #$0001
 	clc
-	adc.b $7F
+	adc.b d0
 	and.w #$0007
-	sta.b $7F
+	sta.b d0
 CODE_C42F56:						; from CODE_C42EF5, CODE_C42F14
-	inc.b $63
-	inc.b $63
-	dec.b $8F
+	inc.b a0
+	inc.b a0
+	dec.b d4
 	bmi CODE_C42F61
 	jmp.w CODE_C42EE5
 CODE_C42F61:						; from CODE_C42F56
 	rtl
 asscentero:							; called from other segments
-	cpx.w $05A0
+	cpx.w puckc
 	beq CODE_C42F80
-	ldy.w $05A0
+	ldy.w puckc
 	bmi CODE_C42F88
-	lda.w $1020,x
-	cmp.w $1020,y
+	lda.w pfteam,x
+	cmp.w pfteam,y
 	beq CODE_C42F88
 	lda.w #$0005
-	sta.b $7F
+	sta.b d0
 	jmp.w assreplace
 CODE_C42F7C:						; from CODE_C42F88
 	rtl
@@ -713,119 +713,119 @@ CODE_C42F7D:						; from CODE_C42F88
 	jmp.w donothing
 CODE_C42F80:						; from asscentero
 	lda.w #$0011
-	sta.b $7F
+	sta.b d0
 	jmp.w CODE_C43734
 CODE_C42F88:						; from asscentero
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C42F7D
 	jsl.l check4bench
-	lda.w $14F9,x
+	lda.w playerpad,x
 	bpl CODE_C42F7C
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0002
 	beq CODE_C42FB6
 	and.w #$FFFD
-	sta.w $0D60,x
+	sta.w pflags,x
 	lda.w #$FFFF
-	sta.w $0B60,x
-	stz.w $0AE0,x
-	stz.w $0B00,x
+	sta.w temp5,x
+	stz.w temp1,x
+	stz.w temp2,x
 	lda.w #$0008
-	sta.w $0B80,x
+	sta.w temp2b,x
 CODE_C42FB6:						; from CODE_C42F88
-	lda.w $0AE0,x
+	lda.w temp1,x
 	sec
-	sbc.b $9B
-	sta.w $0AE0,x
+	sbc.b d7
+	sta.w temp1,x
 	bmi CODE_C42FC4
 	jmp.w CODE_C43053
 CODE_C42FC4:						; from CODE_C42FB6
 	clc
-	adc.w $0E60,x
+	adc.w aidef,x
 	bpl CODE_C42FCD
 	lda.w #$0000
 CODE_C42FCD:						; from CODE_C42FC4
-	sta.w $0AE0,x
-	lda.w $08B2
-	sta.b $7F
-	lda.w $0FE0,x
+	sta.w temp1,x
+	lda.w pucky
+	sta.b d0
+	lda.w pfgoal,x
 	bne CODE_C42FE2
 	lda.w #$0000
 	sec
-	sbc.b $7F
-	sta.b $7F
+	sbc.b d0
+	sta.b d0
 CODE_C42FE2:						; from CODE_C42FCD
-	stz.b $87
-	lda.b $7F
+	stz.b d2
+	lda.b d0
 	sec
 	sbc.w #$FFA4
 	bmi CODE_C43012
 	lda.w #$0008
-	sta.b $87
-	lda.b $7F
+	sta.b d2
+	lda.b d0
 	sec
 	sbc.w #$005C
 	bmi CODE_C43012
-	ldy.b $6B
-	lda.w $12FF,y
+	ldy.b a2
+	lda.w tmflags,y
 	bit.w #$0010
 	bne CODE_C43012
-	asl.b $87
-	lda.b $7F
+	asl.b d2
+	lda.b d0
 	sec
 	sbc.w #$010E
 	bmi CODE_C43012
 	lda.w #$0018
-	sta.b $87
+	sta.b d2
 CODE_C43012:						; from CODE_C42FE2
-	lda.b $87
-	cmp.w $0B60,x
+	lda.b d2
+	cmp.w temp5,x
 	bne CODE_C43021
 	lda.w $04B2
 	cmp.w #$0200
 	bcs CODE_C43053
 CODE_C43021:						; from CODE_C43012
-	lda.b $87
-	sta.w $0B60,x
+	lda.b d2
+	sta.w temp5,x
 	tay
 	lda.w #DATA8_C43079>>16
 	sta.b $65
 	lda.w #DATA8_C43079
-	sta.b $63
+	sta.b a0
 	iny
 	iny
-	lda.b [$63],y
+	lda.b [a0],y
 	dey
 	dey
 	jsl.l randomd0s
-	adc.b [$63],y
-	sta.w $0B20,x
+	adc.b [a0],y
+	sta.w temp3,x
 	tya
 	clc
 	adc.w #$0006
 	tay
-	lda.b [$63],y
+	lda.b [a0],y
 	dey
 	dey
 	jsl.l randomd0s
-	adc.b [$63],y
-	sta.w $0B40,x
+	adc.b [a0],y
+	sta.w temp4,x
 CODE_C43053:						; from CODE_C42FB6, CODE_C43012
-	lda.w $0B20,x
-	sta.b $7F
-	lda.w $0B40,x
-	sta.b $83
-	lda.w $0FE0,x
+	lda.w temp3,x
+	sta.b d0
+	lda.w temp4,x
+	sta.b d1
+	lda.w pfgoal,x
 	bne CODE_C4306A
 	lda.w #$0000
 	sec
-	sbc.b $83
-	sta.b $83
+	sbc.b d1
+	sta.b d1
 CODE_C4306A:						; from CODE_C43053
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$342A
-	sta.b $63
+	sta.b a0
 	jml.l skateto
 DATA8_C43078:						; an rtl no traced code reaches
 	db $6B
@@ -833,85 +833,85 @@ DATA8_C43079:						; not traced: a table read by CODE_C43021
 	db $00,$00,$3C,$00,$BA,$FF,$0A,$00,$00,$00,$3C,$00,$3C,$00,$0A,$00
 	db $00,$00,$28,$00,$AA,$00,$1E,$00,$00,$00,$50,$00,$AA,$00,$14,$00
 asscenterd:							; called from other segments
-	ldy.w $05A0
+	ldy.w puckc
 	bmi CODE_C430B2
-	lda.w $1020,x
-	cmp.w $1020,y
+	lda.w pfteam,x
+	cmp.w pfteam,y
 	bne CODE_C430B2
 	lda.w #$0006
-	sta.b $7F
+	sta.b d0
 	jmp.w assreplace
 CODE_C430AE:						; from CODE_C430B2
 	rtl
 CODE_C430AF:						; from CODE_C430B2
 	jmp.w donothing
 CODE_C430B2:						; from asscenterd
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C430AF
 	jsl.l check4bench
-	lda.w $14F9,x
+	lda.w playerpad,x
 	bpl CODE_C430AE
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0002
 	beq CODE_C430DA
 	and.w #$FFFD
-	sta.w $0D60,x
-	stz.w $0AE0,x
-	stz.w $0B00,x
+	sta.w pflags,x
+	stz.w temp1,x
+	stz.w temp2,x
 	lda.w #$0008
-	sta.w $0B80,x
+	sta.w temp2b,x
 CODE_C430DA:						; from CODE_C430B2
-	lda.w $0AE0,x
+	lda.w temp1,x
 	sec
-	sbc.b $9B
-	sta.w $0AE0,x
+	sbc.b d7
+	sta.w temp1,x
 	bpl CODE_C430EB
-	lda.w $0E60,x
-	sta.w $0AE0,x
+	lda.w aidef,x
+	sta.w temp1,x
 CODE_C430EB:						; from CODE_C430DA
 	lda.w $0830
 	pha
 	asl a
 	pla
 	ror a
-	sta.b $7F
+	sta.b d0
 	lda.w #$0084
-	sta.b $83
-	lda.w $0FE0,x
+	sta.b d1
+	lda.w pfgoal,x
 	beq CODE_C4311C
 	lda.w #$FF7C
-	sta.b $83
+	sta.b d1
 	lda.w #$FFA4
 	sec
-	sbc.w $08B2
+	sbc.w pucky
 	bpl CODE_C43131
 	lda.w #$FF7C
 	clc
-	adc.w $08B2
+	adc.w pucky
 	pha
 	asl a
 	pla
 	ror a
-	sta.b $83
+	sta.b d1
 	bra CODE_C43131
 DATA8_C4311B:						; an rtl no traced code reaches
 	db $6B
 CODE_C4311C:						; from CODE_C430EB
 	lda.w #$005C
 	sec
-	sbc.w $08B2
+	sbc.w pucky
 	bmi CODE_C43131
-	lda.b $83
+	lda.b d1
 	clc
-	adc.w $08B2
+	adc.w pucky
 	pha
 	asl a
 	pla
 	ror a
-	sta.b $83
+	sta.b d1
 CODE_C43131:						; from CODE_C430EB, CODE_C4311C
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$883F
-	sta.b $63
+	sta.b a0
 	jmp.w skateto

@@ -7,44 +7,44 @@ CODE_C40003:						; from CODE_C40066
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C36C2D
 	inc.b $26
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C4001D
 	cmp.w #$0012
 	bcc CODE_C40066
 	lda.w #$0007
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C4001D:						; from CODE_C40003
 	lda.w $058D
-	sta.b $6B
+	sta.b a2
 	bit.w #$0100
 	beq CODE_C4002C
 	jsr.w CODE_C40085
-	lda.b $6B
+	lda.b a2
 CODE_C4002C:						; from CODE_C4001D
 	bit.w #$0200
 	beq CODE_C40036
 	jsr.w CODE_C4009A
-	lda.b $6B
+	lda.b a2
 CODE_C40036:						; from CODE_C4002C
 	bit.w #$0800
 	beq CODE_C40040
 	jsr.w CODE_C400F3
-	lda.b $6B
+	lda.b a2
 CODE_C40040:						; from CODE_C40036
 	bit.w #$0400
 	beq CODE_C4004A
 	jsr.w CODE_C40122
-	lda.b $6B
+	lda.b a2
 CODE_C4004A:						; from CODE_C40040
 	bit.w #$0F00
 	beq CODE_C40054
 	jsr.w CODE_C40322
-	lda.b $6B
+	lda.b a2
 CODE_C40054:						; from CODE_C4004A
 	bit.w #$C0F0
 	beq CODE_C4005E
 	jsr.w CODE_C400AC
-	lda.b $6B
+	lda.b a2
 CODE_C4005E:						; from CODE_C40054
 	bit.w #$3000
 	beq CODE_C40066
@@ -61,11 +61,11 @@ CODE_C40066:						; from CODE_C40003, CODE_C4005E
 	jsl.l CODE_C5F3DB
 	jmp.w CODE_C40003
 CODE_C40085:						; from CODE_C4001D
-	lda.b $67
+	lda.b a1
 	inc a
 	cmp.w #$0007
 	bcs CODE_C40099
-	sta.b $67
+	sta.b a1
 	lda.w $3D52
 	inc a
 	sta.w $3D52
@@ -73,10 +73,10 @@ CODE_C40085:						; from CODE_C4001D
 CODE_C40099:						; from CODE_C40085, CODE_C4009A
 	rts
 CODE_C4009A:						; from CODE_C4002C
-	lda.b $67
+	lda.b a1
 	beq CODE_C40099
 	dec a
-	sta.b $67
+	sta.b a1
 	lda.w $3D52
 	dec a
 	sta.w $3D52
@@ -119,7 +119,7 @@ CODE_C400F2:						; from CODE_C400AC
 CODE_C400F3:						; from CODE_C40036, CODE_C4011C
 	lda.b $69
 	beq CODE_C40121
-	lda.b $67
+	lda.b a1
 	asl a
 	tax
 	jmp (DATA8_C400FE,x)
@@ -143,7 +143,7 @@ CODE_C40122:						; from CODE_C40040, CODE_C4014D
 	lda.b $69
 	cmp.w #$0003
 	bcs CODE_C40121
-	lda.b $67
+	lda.b a1
 	asl a
 	tax
 	jmp (DATA8_C40130,x)
@@ -175,7 +175,7 @@ CODE_C40153:						; from CODE_C4005E
 	jsl.l CODE_C5E50E
 	lda.w #$001C
 	jsl.l CreateSprite
-	stx.b $63
+	stx.b a0
 	lda.w #$00D7
 	sta.b $18
 	lda.w #$00D0
@@ -189,9 +189,9 @@ CODE_C40153:						; from CODE_C4005E
 	stz.b $25
 	stz.b $2A
 	stz.b $2E
-	stz.b $30
+	stz.b r1
 	pld
-	stz.w $04C0
+	stz.w BG2HScroll
 	ldy.w #$0000
 	jsl.l CODE_C589E4
 	ldy.w #$5000
@@ -225,30 +225,30 @@ CODE_C401E5:						; called from other segments
 	plb
 	ldy.w #$8EF8
 	ldx.w #$001E
-	stz.b $9F
+	stz.b tmp0
 CODE_C401FF:						; from CODE_C40254
 	lda.l $7E3D5E,x
 	sta.w $0004,y
 	ora.l $7E3D7C,x
 	bmi CODE_C40254
 	txa
-	stx.b $A1
+	stx.b tmp1
 	lsr a
 	tax
-	sta.w $0038,y
+	sta.w p0,y
 	lda.l $307865,x
-	ldx.b $A1
+	ldx.b tmp1
 	and.w #$00FF
 	cmp.w #$0040
 	bcs CODE_C40254
 	and.w #$000F
 	cmp.w #$0004
 	bcs CODE_C40254
-	inc.b $9F
+	inc.b tmp0
 	lda.l $7E3D7C,x
 	sta.w $0002,y
 	lda.w #$0000
-	sta.w $0006,y
+	sta.w QueueBusy,y
 	sta.w $0008,y
 	sta.w $000A,y
 	sta.w $0000,y
@@ -265,7 +265,7 @@ CODE_C40254:						; from CODE_C401FF
 	dex
 	dex
 	bpl CODE_C401FF
-	lda.b $9F
+	lda.b tmp0
 	beq CODE_C40264
 	sta.l $7E2C42
 	jml.l CODE_C5AF07
@@ -294,12 +294,12 @@ CODE_C40285:						; from CODE_C40285
 	rts
 CODE_C40296:						; called from other segments
 	lda.w $2C42
-	sta.b $9F
+	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
 CODE_C402A2:						; from CODE_C402EB
-	ldx.w $0038,y
+	ldx.w p0,y
 	sep #$20
 	lda.l $30604D
 	bne CODE_C402B3
@@ -333,7 +333,7 @@ CODE_C402EB:						; from CODE_C402C4, CODE_C402DD
 	tya
 	adc.w #$010A
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C402A2
 	plb
 	jsr.w CODE_C40CB3
@@ -376,14 +376,14 @@ CODE_C40322:						; from CODE_C4004A, CODE_C4061C
 	lsr a
 	adc.w #$02A0
 	adc.b $D3
-	sta.b $9F
+	sta.b tmp0
 	tya
 	and.w #$00F0
 	asl a
 	asl a
 	adc.w #$02A0
 	adc.b $D3
-	sta.b $A1
+	sta.b tmp1
 	txa
 	asl a
 	tax
@@ -442,14 +442,14 @@ CODE_C403A6:						; from CODE_C4037C
 	stz.b QueueBusy
 	rts
 CODE_C403C2:						; from CODE_C40066
-	lda.b $67
+	lda.b a1
 	asl a
 	tax
 	sec
 	lda.l DATA8_C40FF8,x
 	sbc.b $65
 	beq CODE_C403FA
-	sta.b $9F
+	sta.b tmp0
 	bpl CODE_C403D7
 	eor.w #$FFFF
 	inc a
@@ -457,12 +457,12 @@ CODE_C403D7:						; from CODE_C403C2
 	cmp.w #$0008
 	bcs CODE_C403E8
 	lda.w #$0001
-	bit.b $9F
+	bit.b tmp0
 	bpl CODE_C403F5
 	lda.w #$FFFF
 	bra CODE_C403F5
 CODE_C403E8:						; from CODE_C403D7
-	lda.b $9F
+	lda.b tmp0
 	lsr a
 	lsr a
 	lsr a
@@ -474,17 +474,17 @@ CODE_C403F5:						; from CODE_C403D7, CODE_C403E8
 	adc.b $65
 	sta.b $65
 CODE_C403FA:						; from CODE_C403C2
-	lda.w $04C0
+	lda.w BG2HScroll
 	cmp.b $65
 	bne CODE_C40402
 	rts
 CODE_C40402:						; from CODE_C403FA
 	and.w #$FFF8
-	sta.b $A1
+	sta.b tmp1
 	lda.b $65
 	sec
 	and.w #$FFF8
-	sbc.b $A1
+	sbc.b tmp1
 	bpl CODE_C40429
 	eor.w #$FFFF
 	inc a
@@ -492,12 +492,12 @@ CODE_C40402:						; from CODE_C403FA
 	lsr a
 	lsr a
 	beq CODE_C4043E
-	sta.b $A1
+	sta.b tmp1
 CODE_C4041C:						; from CODE_C4041C
-	dec.b $63
-	stz.b $9F
+	dec.b a0
+	stz.b tmp0
 	jsr.w CODE_C4064B
-	dec.b $A1
+	dec.b tmp1
 	bne CODE_C4041C
 	bra CODE_C4043E
 CODE_C40429:						; from CODE_C40402
@@ -505,17 +505,17 @@ CODE_C40429:						; from CODE_C40402
 	lsr a
 	lsr a
 	beq CODE_C4043E
-	sta.b $A1
+	sta.b tmp1
 CODE_C40430:						; from CODE_C40430
-	inc.b $63
+	inc.b a0
 	lda.w #$0020
-	sta.b $9F
+	sta.b tmp0
 	jsr.w CODE_C4064B
-	dec.b $A1
+	dec.b tmp1
 	bne CODE_C40430
 CODE_C4043E:						; from CODE_C40402, CODE_C4041C, CODE_C40429
 	lda.b $65
-	sta.w $04C0
+	sta.w BG2HScroll
 	rts
 CODE_C40444:						; from CODE_C40000
 	jsl.l FadeOutWait
@@ -535,9 +535,9 @@ CODE_C40444:						; from CODE_C40000
 	db $44,$26,$F1,$0F,$C4,$7E		; inline parameters
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
-	ldx.b $63
+	ldx.b a0
 	jsl.l CODE_C5E596
-	stz.b $63
+	stz.b a0
 	jsl.l CODE_C5BBBC
 	jsl.l CODE_C4C530
 	lda.w #$DC7B
@@ -552,12 +552,12 @@ CODE_C404A2:						; from CODE_C404A2
 	dex
 	dex
 	bpl CODE_C404A2
-	stz.w $04C0
+	stz.w BG2HScroll
 	stz.b $65
-	stz.b $67
+	stz.b a1
 	stz.b $69
 	lda.w #$FFFF
-	sta.w $04C2
+	sta.w BG2VScroll
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -631,7 +631,7 @@ CODE_C40547:						; from CODE_C40547
 	stx.b $04
 	stz.b QueueBusy
 	jsr.w CODE_C409E3
-	stz.b $63
+	stz.b a0
 	phd
 	lda.w #$2100
 	tcd
@@ -642,7 +642,7 @@ CODE_C40547:						; from CODE_C40547
 	lda.w #$1717
 	sta.b $2E
 	lda.w #$0310
-	sta.b $30
+	sta.b r1
 	sep #$20
 	lda.b #$E8
 	sta.b $32
@@ -661,9 +661,9 @@ CODE_C40547:						; from CODE_C40547
 	and.w #$00FF
 	beq CODE_C40604
 	lda.w #$001A
-	sta.b $9F
+	sta.b tmp0
 CODE_C405AE:						; from CODE_C405C7
-	lda.b $9F
+	lda.b tmp0
 	asl a
 	tax
 	lda.l $C30000,x
@@ -677,27 +677,27 @@ CODE_C405AE:						; from CODE_C405C7
 	inx
 CODE_C405C7:						; from CODE_C405AE
 	jsl.l CODE_C4C3BA
-	ldy.b $9F
+	ldy.b tmp0
 	jsl.l CODE_C4BC08
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C405AE
 	lda.w #$0080
 	sta.b $CF
 	lda.w #$000A
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0000
 CODE_C405E2:						; from CODE_C405E2
-	sta.b $A1
+	sta.b tmp1
 	jsl.l CODE_C55EC3
-	ldy.b $9F
+	ldy.b tmp0
 	ldx.w #$04F5
 	jsl.l CODE_C4BC08
-	inc.b $9F
-	lda.b $A1
+	inc.b tmp0
+	lda.b tmp1
 	inc a
 	cmp.w #$0005
 	bcc CODE_C405E2
-	ldy.b $9F
+	ldy.b tmp0
 	ldx.w #$4781
 	jsl.l CODE_C4BBFC
 CODE_C40604:						; from CODE_C40547
@@ -729,9 +729,9 @@ CODE_C4062F:						; from CODE_C40633
 	ldy.w #$0008
 CODE_C40633:						; from CODE_C40633
 	phy
-	stz.b $9F
+	stz.b tmp0
 	jsr.w CODE_C4064B
-	inc.b $63
+	inc.b a0
 	ply
 	dey
 	bpl CODE_C40633
@@ -740,7 +740,7 @@ CODE_C40633:						; from CODE_C40633
 	dex
 	bpl CODE_C4062F
 	pla
-	sta.b $63
+	sta.b a0
 	rts
 CODE_C4064B:						; from CODE_C40633, CODE_C4041C, CODE_C40430
 	dec.b QueueBusy
@@ -750,9 +750,9 @@ CODE_C4064B:						; from CODE_C40633, CODE_C4041C, CODE_C40430
 	stx.b $02
 	pea.w $0038
 	pea.w $0081
-	lda.b $63
+	lda.b a0
 	clc
-	adc.b $9F
+	adc.b tmp0
 	bit.w #$0020
 	beq CODE_C4066B
 	and.w #$001F
@@ -775,12 +775,12 @@ CODE_C40671:						; from CODE_C4064B
 	stx.b $02
 	stz.b QueueBusy
 	clc
-	lda.b $63
-	adc.b $9F
+	lda.b a0
+	adc.b tmp0
 	asl a
 	tax
 	lda.w #$001B
-	sta.b $9F
+	sta.b tmp0
 CODE_C40695:						; from CODE_C40695
 	lda.l $7F9C7A,x
 	sta.w $0000,y
@@ -789,7 +789,7 @@ CODE_C40695:						; from CODE_C40695
 	txa
 	adc.w #$00C8
 	tax
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C40695
 	rts
 CODE_C406A8:						; called from other segments
@@ -816,11 +816,11 @@ CODE_C406C4:						; from CODE_C406AB
 	tax
 	tya
 	and.w #$0007
-	sta.b $9F
+	sta.b tmp0
 	lda.l $307162,x
 CODE_C406D3:						; from CODE_C406D3
 	lsr a
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C406D3
 	rol a
 	and.w #$001F
@@ -841,11 +841,11 @@ CODE_C406EA:						; from CODE_C406AB
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
 	lda.w #$FFFF
-	sta.w $04C6
+	sta.w BG3VScroll
 	jsl.l CODE_C4CEDB
-	ldx.b $9B
+	ldx.b d7
 	jsl.l CODE_C5E596
-	stz.b $9B
+	stz.b d7
 	ldx.b $9D
 	jsl.l CODE_C5E596
 	stz.b $9D
@@ -854,17 +854,17 @@ CODE_C406EA:						; from CODE_C406AB
 	jsl.l CODE_C4BAF6
 	pla
 	jsl.l CODE_C4BB5A
-	ldx.b $63
+	ldx.b a0
 	lda.w #$FF80
 	sta.b $05,x
 	sta.b $08,x
 	stz.w fadestep
-	stz.w $058F
+	stz.w repeatdelayframes
 	stz.w $058D
 CODE_C4073F:						; from CODE_C4073F
 	jsl.l CODE_C3716D
 	jsl.l CODE_C36C2D
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C4073F
 	lda.w $058D
 	bit.w #$3000
@@ -876,20 +876,20 @@ CODE_C4073F:						; from CODE_C4073F
 	jml.l CODE_C58D32
 CODE_C4075F:						; called from other segments
 	lda.w #$FFF0
-	sta.b $87
+	sta.b d2
 	lda.w #$0010
-	sta.b $83
+	sta.b d1
 	lda.w $24C4
 	tay
 CODE_C4076D:						; from CODE_C4076D
-	lda.b $87
+	lda.b d2
 	clc
-	adc.b $83
-	sta.b $87
-	lsr.b $83
+	adc.b d1
+	sta.b d2
+	lsr.b d1
 	dey
 	bpl CODE_C4076D
-	dec.b $83
+	dec.b d1
 	rtl
 CODE_C4077C:						; from CODE_C40066
 	lda.b $26
@@ -921,14 +921,14 @@ CODE_C407B4:						; from CODE_C407A4
 	ldy.w $3D52
 	jsr.w CODE_C4081B
 	lda.l DATA8_C41006,x
-	adc.b $9F
+	adc.b tmp0
 	sec
-	sbc.w $04C0
-	sta.b $9F
+	sbc.w BG2HScroll
+	sta.b tmp0
 	clc
-	lda.b $A1
+	lda.b tmp1
 	adc.l DATA8_C41076,x
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$3D4E
 	jsr.w CODE_C40840
 	ldx.w $3D4E
@@ -945,14 +945,14 @@ CODE_C407EE:						; from CODE_C407B4
 	ldy.w $3D5A
 	jsr.w CODE_C4081B
 	lda.l DATA8_C4103E,x
-	adc.b $9F
+	adc.b tmp0
 	sec
-	sbc.w $04C0
-	sta.b $9F
+	sbc.w BG2HScroll
+	sta.b tmp0
 	clc
-	lda.b $A1
+	lda.b tmp1
 	adc.l DATA8_C410AE,x
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$3D56
 	jsr.w CODE_C40840
 	ldx.w $3D56
@@ -966,7 +966,7 @@ CODE_C4081B:						; from CODE_C407B4, CODE_C407EE
 	bne CODE_C4082B
 	and.w #$00FF
 CODE_C4082B:						; from CODE_C4081B
-	sta.b $9F
+	sta.b tmp0
 	txa
 	xba
 	ora.w #$FF00
@@ -974,16 +974,16 @@ CODE_C4082B:						; from CODE_C4081B
 	bne CODE_C4083A
 	and.w #$00FF
 CODE_C4083A:						; from CODE_C4082B
-	sta.b $A1
+	sta.b tmp1
 	tya
 	asl a
 	tax
 	rts
 CODE_C40840:						; from CODE_C407B4, CODE_C407EE
 	sec
-	lda.b $9F
+	lda.b tmp0
 	sbc.w $0000,x
-	sta.b $A3
+	sta.b tmp2
 	bpl CODE_C4084E
 	eor.w #$FFFF
 	inc a
@@ -994,13 +994,13 @@ CODE_C4084E:						; from CODE_C40840
 	bcc CODE_C4085B
 	lda.w #$0002
 CODE_C4085B:						; from CODE_C4084E
-	bit.b $A3
+	bit.b tmp2
 	bpl CODE_C40872
 	eor.w #$FFFF
 	inc a
 	bra CODE_C40872
 CODE_C40865:						; from CODE_C4084E
-	lda.b $A3
+	lda.b tmp2
 	lsr a
 	lsr a
 	lsr a
@@ -1012,9 +1012,9 @@ CODE_C40872:						; from CODE_C4085B, CODE_C40865
 	adc.w $0000,x
 	sta.w $0000,x
 	sec
-	lda.b $A1
+	lda.b tmp1
 	sbc.w $0002,x
-	sta.b $A3
+	sta.b tmp2
 	bpl CODE_C40887
 	eor.w #$FFFF
 	inc a
@@ -1025,13 +1025,13 @@ CODE_C40887:						; from CODE_C40872
 	bcc CODE_C40894
 	lda.w #$0002
 CODE_C40894:						; from CODE_C40887
-	bit.b $A3
+	bit.b tmp2
 	bpl CODE_C408AB
 	eor.w #$FFFF
 	inc a
 	bra CODE_C408AB
 CODE_C4089E:						; from CODE_C40887
-	lda.b $A3
+	lda.b tmp2
 	lsr a
 	lsr a
 	lsr a
@@ -1044,7 +1044,7 @@ CODE_C408AB:						; from CODE_C40894, CODE_C4089E
 	sta.w $0002,x
 	rts
 CODE_C408B3:						; from CODE_C407B4, CODE_C407EE
-	stx.b $9F
+	stx.b tmp0
 	lda.b $26
 	lsr a
 	tya
@@ -1062,7 +1062,7 @@ CODE_C408C4:						; from CODE_C40947
 	beq CODE_C4090B
 	lda.l DATA8_C40F94,x
 	and.w #$00FF
-	adc.b $9F
+	adc.b tmp0
 	bpl CODE_C408DB
 	lda.w #$0000
 CODE_C408DB:						; from CODE_C408C4
@@ -1073,7 +1073,7 @@ CODE_C408DB:						; from CODE_C408C4
 	rep #$21
 	lda.l DATA8_C40F95,x
 	and.w #$00FF
-	adc.b $9F
+	adc.b tmp0
 	bpl CODE_C408FA
 	lda.w #$00FF
 	sta.w $3650,y
@@ -1090,7 +1090,7 @@ CODE_C40902:						; from CODE_C408FA
 CODE_C4090B:						; from CODE_C408C4
 	lda.l DATA8_C40F94,x
 	and.w #$00FF
-	adc.b $9F
+	adc.b tmp0
 	bpl CODE_C40919
 	lda.w #$0000
 CODE_C40919:						; from CODE_C4090B
@@ -1101,7 +1101,7 @@ CODE_C40919:						; from CODE_C4090B
 	rep #$21
 	lda.l DATA8_C40F95,x
 	and.w #$00FF
-	adc.b $9F
+	adc.b tmp0
 	bpl CODE_C40938
 	lda.w #$00FF
 	sta.w $364E,y
@@ -1127,9 +1127,9 @@ CODE_C40954:						; from CODE_C40947
 	rts
 CODE_C40955:						; from CODE_C409BD
 	phb
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
+	adc.b tmp0
 	asl a
 	asl a
 	asl a
@@ -1171,7 +1171,7 @@ CODE_C40999:						; from CODE_C409E3
 CODE_C4099C:						; from CODE_C409BD
 	lda.l $3075A4,x
 	and.w #$00FF
-	sta.b $A3
+	sta.b tmp2
 	lda.l $307874,x
 	and.w #$00FF
 	cmp.w #$0004
@@ -1180,7 +1180,7 @@ CODE_C4099C:						; from CODE_C409BD
 CODE_C409B4:						; from CODE_C4099C
 	sta.b $A5
 	txa
-	stx.b $A1
+	stx.b tmp1
 	asl a
 	asl a
 	asl a
@@ -1189,12 +1189,12 @@ CODE_C409BD:						; from CODE_C409BD
 	lda.l $C4119E,x
 	asl a
 	tay
-	lda.b $A3
+	lda.b tmp2
 	sta.w $3D5E,y
 	lda.l DATA8_C410E6,x
 	sta.w $2C64,y
 	tay
-	lda.b $A3
+	lda.b tmp2
 	phx
 	jsr.w CODE_C40955
 	plx
@@ -1202,7 +1202,7 @@ CODE_C409BD:						; from CODE_C409BD
 	inx
 	dec.b $A5
 	bpl CODE_C409BD
-	ldx.b $A1
+	ldx.b tmp1
 	dex
 	bpl CODE_C4099C
 	rts
@@ -1227,14 +1227,14 @@ CODE_C40A02:						; called from other segments
 	rtl
 CODE_C40A10:						; from CODE_C40A02
 	lda.w $2C42
-	sta.b $9F
+	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
 CODE_C40A1C:						; from CODE_C40A54
 	lda.w $0000,y
 	bne CODE_C40A54
-	lda.w $0006,y
+	lda.w QueueBusy,y
 	bmi CODE_C40A54
 	jsr.w CODE_C40A60
 	adc.w $000A,y
@@ -1246,19 +1246,19 @@ CODE_C40A1C:						; from CODE_C40A54
 	cmp.w #$0014
 	bcs CODE_C40A54
 	cmp.w #$000A
-	lda.w $0006,y
+	lda.w QueueBusy,y
 	adc.w #$0000
 	cmp.w #$0002
 	bcc CODE_C40A51
 	lda.w #$0002
 CODE_C40A51:						; from CODE_C40A1C
-	sta.w $0006,y
+	sta.w QueueBusy,y
 CODE_C40A54:						; from CODE_C40A1C
 	clc
 	tya
 	adc.w #$010A
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C40A1C
 	plb
 	rtl
@@ -1296,7 +1296,7 @@ CODE_C40AA1:						; from CODE_C40A6D
 	lda.w $0000,x
 	sta.b $10
 	lda.w $0002,x
-	sta.b $A3
+	sta.b tmp2
 	pea.w $7E7F
 	plb
 CODE_C40AAF:						; from CODE_C40B3C
@@ -1304,26 +1304,26 @@ CODE_C40AAF:						; from CODE_C40B3C
 	sta.b $A5
 	stx.b $0A
 	sty.b $0C
-	dec.b $A3
+	dec.b tmp2
 	bpl CODE_C40AEF
 	jsl.l CODE_C5BD52
 	ldy.b $0C
-	stx.b $9F
+	stx.b tmp0
 	lda.w $003A,y
 	and.w #$00FF
 	clc
-	adc.b $9F
+	adc.b tmp0
 	tax
 	lda.b $A5
 	jsr.w CODE_C40B4C
 	lda.b $A5
 	jsl.l CODE_C5BD7D
-	stx.b $9F
+	stx.b tmp0
 	ldy.b $0C
 	lda.w $006E,y
 	and.w #$00FF
 	clc
-	adc.b $9F
+	adc.b tmp0
 	tax
 	lda.b $A5
 	jsr.w CODE_C40B81
@@ -1352,14 +1352,14 @@ CODE_C40AEF:						; from CODE_C40AAF
 	jsr.w CODE_C40C0B
 	lda.b $A5
 	jsl.l CODE_C5BDA8
-	stx.b $9F
+	stx.b tmp0
 	ldy.b $0C
 	lda.w $00A2,y
 	and.w #$00FF
 	sec
 	sbc.b $0E
 	clc
-	adc.b $9F
+	adc.b tmp0
 	tax
 	lda.b $A5
 	jsr.w CODE_C40C62
@@ -1376,27 +1376,27 @@ CODE_C40B4A:						; from CODE_C40B3C
 	plb
 	rts
 CODE_C40B4C:						; from CODE_C40AAF
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	txy
 	lsr a
 	lsr a
 	lsr a
 	tax
-	lda.b $9F
+	lda.b tmp0
 	and.w #$0007
-	sty.b $9F
+	sty.b tmp0
 	tay
 	lda.w #$FE00
 	dey
 	bmi CODE_C40B72
 CODE_C40B6B:						; from CODE_C40B6B
-	asl.b $9F
+	asl.b tmp0
 	sec
 	rol a
 	dey
@@ -1405,31 +1405,31 @@ CODE_C40B72:						; from CODE_C40B4C
 	sta.b $16
 	lda.l $30628F,x
 	and.b $16
-	ora.b $9F
+	ora.b tmp0
 	sta.l $30628F,x
 	rts
 CODE_C40B81:						; from CODE_C40AAF
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	txy
 	lsr a
 	lsr a
 	lsr a
 	tax
-	lda.b $9F
+	lda.b tmp0
 	and.w #$0007
-	sty.b $9F
+	sty.b tmp0
 	tay
 	lda.w #$FE00
 	dey
 	bmi CODE_C40BA7
 CODE_C40BA0:						; from CODE_C40BA0
-	asl.b $9F
+	asl.b tmp0
 	sec
 	rol a
 	dey
@@ -1438,44 +1438,44 @@ CODE_C40BA7:						; from CODE_C40B81
 	sta.b $16
 	lda.l $306724,x
 	and.b $16
-	ora.b $9F
+	ora.b tmp0
 	sta.l $306724,x
 	rts
 CODE_C40BB6:						; from CODE_C40AEF
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	stx.b $16
 	tax
 	lda.w #$FFF8
-	trb.b $9F
+	trb.b tmp0
 	lda.l $30628F,x
 CODE_C40BD1:						; from CODE_C40BD1
 	lsr a
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C40BD1
 	rol a
 	and.w #$007F
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
+	adc.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	tax
 	lda.w #$FFF8
-	trb.b $9F
-	ldy.b $9F
+	trb.b tmp0
+	ldy.b tmp0
 	lda.w #$FF80
 	dey
 	bmi CODE_C40BFC
@@ -1486,20 +1486,20 @@ CODE_C40BF5:						; from CODE_C40BF5
 	dey
 	bpl CODE_C40BF5
 CODE_C40BFC:						; from CODE_C40BD1
-	sta.b $9F
+	sta.b tmp0
 	lda.l $307080,x
-	and.b $9F
+	and.b tmp0
 	ora.b $16
 	sta.l $307080,x
 	rts
 CODE_C40C0B:						; from CODE_C40AEF
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
@@ -1513,19 +1513,19 @@ CODE_C40C0B:						; from CODE_C40AEF
 	lda.w #$FE7F
 	sta.b $2E
 	lda.w #$FE00
-	sta.b $2C
+	sta.b r0
 	trb.b $14
 	lda.w #$FFF8
-	trb.b $9F
+	trb.b tmp0
 	tyx
-	ldy.b $9F
+	ldy.b tmp0
 	dey
 	bmi CODE_C40C49
 CODE_C40C3C:						; from CODE_C40C3C
 	asl.b $16
 	asl.b $14
 	sec
-	rol.b $2C
+	rol.b r0
 	sec
 	rol.b $2E
 	dey
@@ -1536,35 +1536,35 @@ CODE_C40C49:						; from CODE_C40C0B
 	ora.b $16
 	sta.l $30628F,x
 	lda.l $306724,x
-	and.b $2C
+	and.b r0
 	ora.b $14
 	sta.l $306724,x
 	rts
 CODE_C40C62:						; from CODE_C40AEF
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	asl a
-	adc.b $9F
-	sta.b $9F
+	adc.b tmp0
+	sta.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	txy
 	tax
 	lda.w #$FFF8
-	trb.b $9F
+	trb.b tmp0
 	lda.l $30628F,x
 CODE_C40C7C:						; from CODE_C40C7C
 	lsr a
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C40C7C
 	rol a
 	and.w #$007F
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
+	adc.b tmp0
 	lsr a
 	tax
 	bcc CODE_C40CA3
@@ -1573,22 +1573,22 @@ CODE_C40C7C:						; from CODE_C40C7C
 	asl a
 	asl a
 	asl a
-	sta.b $9F
+	sta.b tmp0
 	lda.l $306FED,x
 	and.w #$000F
-	ora.b $9F
+	ora.b tmp0
 	sta.l $306FED,x
 	rts
 CODE_C40CA3:						; from CODE_C40C7C
-	sty.b $9F
+	sty.b tmp0
 	lda.l $306FED,x
 	and.w #$F000
-	ora.b $9F
+	ora.b tmp0
 	sta.l $306FED,x
 	rts
 CODE_C40CB3:						; from CODE_C402EB
 	lda.w $2C42
-	sta.b $9F
+	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
@@ -1611,7 +1611,7 @@ CODE_C40CBF:						; from CODE_C40CBF
 	tya
 	adc.w #$010A
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C40CBF
 	plb
 	rts
@@ -1630,9 +1630,9 @@ CODE_C40CF2:						; from CODE_C40CE8
 	asl a
 	tax
 	lda.l DATA8_C40D76,x
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$0018
-	sta.b $A1
+	sta.b tmp1
 CODE_C40D02:						; from CODE_C40D3A
 	lda.w $003A,y
 	and.w #$00FF
@@ -1644,12 +1644,12 @@ CODE_C40D02:						; from CODE_C40D3A
 	sta.b $0C
 	eor.w #$FFFF
 	sta.b $10
-	lda.b $A3
+	lda.b tmp2
 	lsr a
 	lsr a
 	lsr a
 	tax
-	lda.b $A3
+	lda.b tmp2
 	and.w #$0007
 	sta.b $0E
 	dec.b $0E
@@ -1682,11 +1682,11 @@ CODE_C40D3A:						; from CODE_C40D02
 	ora.b $0A
 	sta.l $307446,x
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$0007
-	sta.b $A3
+	sta.b tmp2
 	iny
-	dec.b $A1
+	dec.b tmp1
 	bpl CODE_C40D02
 	rts
 DATA8_C40D76:						; not traced: a table read by CODE_C40CF2
@@ -1701,7 +1701,7 @@ CODE_C40D96:						; called from other segments
 	jsl.l CODE_C4C536
 	jsl.l CODE_C5E37E
 	lda.w #$0002
-	sta.b $9F
+	sta.b tmp0
 	jsr.w CODE_C40E45
 	jsr.w CODE_C40E3A
 	ldx.w #$0004
@@ -1709,16 +1709,16 @@ CODE_C40D96:						; called from other segments
 	bne CODE_C40DC4
 	ldx.w #$0008
 CODE_C40DC4:						; from CODE_C40D96
-	stx.b $9F
+	stx.b tmp0
 	jsr.w CODE_C40E14
 	jsr.w CODE_C40E2D
 	lda.w #$75A4
-	sta.b $2C
+	sta.b r0
 	lda.w #$0030
 	sta.b $2E
 	jsr.w CODE_C40DFB
 	lda.w #$0001
-	sta.b $9F
+	sta.b tmp0
 	jsr.w CODE_C40E45
 	jsr.w CODE_C40E3A
 	ldx.w #$0010
@@ -1726,7 +1726,7 @@ CODE_C40DC4:						; from CODE_C40D96
 	bne CODE_C40DEF
 	ldx.w #$0020
 CODE_C40DEF:						; from CODE_C40DC4
-	stx.b $9F
+	stx.b tmp0
 	jsr.w CODE_C40E14
 	jsr.w CODE_C40E2D
 	jsr.w CODE_C40DFB
@@ -1738,10 +1738,10 @@ CODE_C40DFB:						; from CODE_C40DC4, CODE_C40DEF
 CODE_C40E00:						; from CODE_C40E00
 	ldx.w $364E,y
 	lda.w $000C,x
-	sta.b [$2C]
-	ldx.b $2C
+	sta.b [r0]
+	ldx.b r0
 	inx
-	stx.b $2C
+	stx.b r0
 	dey
 	dey
 	bpl CODE_C40E00
@@ -1754,7 +1754,7 @@ CODE_C40E17:						; from CODE_C40E17
 	lda.w $000C,x
 	tax
 	lda.l DATA8_C40EDA,x
-	bit.b $9F
+	bit.b tmp0
 	bne CODE_C40E2C
 	dey
 	dey
@@ -1780,7 +1780,7 @@ CODE_C40E45:						; from CODE_C40D96, CODE_C40DC4
 CODE_C40E4A:						; from CODE_C40E58
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
-	bit.b $9F
+	bit.b tmp0
 	beq CODE_C40E58
 	jsr.w CODE_C40E5F
 CODE_C40E58:						; from CODE_C40E4A
@@ -1793,24 +1793,24 @@ CODE_C40E5F:						; from CODE_C40E4A
 CODE_C40E62:						; from CODE_C40E86
 	lda.w $364E,x
 	beq CODE_C40E81
-	stx.b $A1
+	stx.b tmp1
 	tax
 	jsr.w CODE_C40E8D
 	bcs CODE_C40E86
-	sty.b $A3
+	sty.b tmp2
 	ldy.w #$364E
 	ldx.w #$3650
-	lda.b $A1
+	lda.b tmp1
 	inc a
 	mvn $7E,$7E
-	ldy.b $A3
-	ldx.b $A1
+	ldy.b tmp2
+	ldx.b tmp1
 CODE_C40E81:						; from CODE_C40E62
 	tya
 	sta.w $364E,x
 	rts
 CODE_C40E86:						; from CODE_C40E62
-	ldx.b $A1
+	ldx.b tmp1
 	dex
 	dex
 	bpl CODE_C40E62

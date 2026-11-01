@@ -93,21 +93,21 @@ CODE_C52053:						; from CODE_C52053
 	stx.b $04
 	stz.b QueueBusy
 	lda.w #$2030
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$2160
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$01BE
 	jsl.l CODE_C5F368
 	lda.w #$2168
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$01BF
 	jsl.l CODE_C5F368
 	lda.w #$2588
-	sta.b $A3
+	sta.b tmp2
 	lda.w #$006F
 	jsl.l CODE_C5F368
 	lda.w #$2035
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$01B3
 	jsl.l CODE_C5F368
 	dec.b QueueBusy
@@ -123,7 +123,7 @@ CODE_C52053:						; from CODE_C52053
 	phx
 	stx.b $2E
 	pha
-	sta.b $2C
+	sta.b r0
 	lda.w #$4642
 	ldx.w #$00C0
 	jsl.l Decompress
@@ -227,7 +227,7 @@ CODE_C52195:						; from CODE_C52195
 	sta.w $1521
 	sta.w $1523
 	lda.w #$D02A
-	sta.b $2C
+	sta.b r0
 	lda.w #$007F
 	sta.b $2E
 	lda.w #$4708
@@ -240,7 +240,7 @@ CODE_C52227:						; called from other segments
 	lda.w #$03E7
 	sta.w $07E4
 	lda.w #$0001
-	trb.w $10F5
+	trb.w sflags
 	stz.b $CB
 	stz.b $CD
 	lda.b $5F
@@ -248,14 +248,14 @@ CODE_C52227:						; called from other segments
 	dec a
 	sta.w $0812
 	jsl.l CODE_C3856E
-	lda.w $10F1
+	lda.w gmode
 	bit.w #$0002
 	beq CODE_C5225E
 	ldx.w #$0016
 CODE_C52251:						; from CODE_C52251
-	lda.w $0FE0,x
+	lda.w pfgoal,x
 	eor.w #$0001
-	sta.w $0FE0,x
+	sta.w pfgoal,x
 	dex
 	dex
 	bpl CODE_C52251
@@ -264,31 +264,31 @@ CODE_C5225E:						; from CODE_C52227
 	jmp.w CODE_C539D7
 CODE_C52264:						; called from other segments
 	stz.w $2CF5
-	ldx.b $6F
+	ldx.b a3
 	rtl
 CODE_C5226A:						; called from other segments
-	lda.w $09BC
+	lda.w puckvx
 	pha
 	asl a
 	pla
 	ror a
-	sta.w $09BC
-	lda.w $09DC
+	sta.w puckvx
+	lda.w puckvy
 	pha
 	asl a
 	pla
 	ror a
-	sta.w $09DC
+	sta.w puckvy
 	inc.w $2CF5
-	ldx.b $6F
+	ldx.b a3
 	rtl
 freezewindow:						; called from other segments
 	lda.b $CD
-	sta.w $080C
+	sta.w yc1
 	lda.b $CB
-	sta.w $080A
+	sta.w xc1
 	lda.w #$0040
-	tsb.w $10F5
+	tsb.w sflags
 	rtl
 CODE_C52295:						; called from other segments
 	jsl.l AnimateSprites
@@ -301,7 +301,7 @@ CODE_C52295:						; called from other segments
 	inc.w TransfersReady
 	jsl.l CODE_C38CF5
 	jsl.l CODE_C528D5
-	ldx.b $6F
+	ldx.b a3
 	rtl
 CODE_C522BF:						; from CODE_C52295 and other segments
 	dec.b QueueBusy
@@ -309,7 +309,7 @@ CODE_C522BF:						; from CODE_C52295 and other segments
 	sta.b $1C
 	lda.b $28
 	tcs
-	ldy.w $1511
+	ldy.w c1playernum
 	bmi CODE_C522DF
 	ldx.w #$22DF
 	bra CODE_C52348
@@ -352,7 +352,7 @@ CODE_C5233F:						; from CODE_C52327
 	rtl
 CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	stx.b $A5
-	lda.w $0814,y
+	lda.w Xpos,y
 	clc
 	adc.w #$0080
 	sec
@@ -360,7 +360,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	sta.b $0A
 	sec
 	lda.b $CD
-	sbc.w $0896,y
+	sbc.w Ypos,y
 	clc
 	adc.w #$005E
 	sta.b $0C
@@ -380,9 +380,9 @@ CODE_C5237B:						; from CODE_C52373
 	jmp ($00A5)
 CODE_C5237E:						; from CODE_C52348
 	lda.l $C4FFF6,x
-	sta.b $A3
+	sta.b tmp2
 	lda.l $C4FFF8,x
-	sta.b $A1
+	sta.b tmp1
 	lda.b $0A
 	bpl CODE_C52391
 	jmp.w CODE_C52530
@@ -420,7 +420,7 @@ CODE_C523BE:						; from CODE_C523B6
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	lda.b $0A
 	adc.w #$0510
@@ -437,10 +437,10 @@ CODE_C523BE:						; from CODE_C523B6
 CODE_C523EE:						; from CODE_C52348
 	lda.l $C4FFF6,x
 	ora.w #$8000
-	sta.b $A3
+	sta.b tmp2
 	lda.l $C4FFF8,x
 	ora.w #$8000
-	sta.b $A1
+	sta.b tmp1
 	lda.b $0A
 	bpl CODE_C52407
 	jmp.w CODE_C525AC
@@ -478,7 +478,7 @@ CODE_C52434:						; from CODE_C5242C
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	lda.b $0A
 	adc.w #$0310
@@ -494,9 +494,9 @@ CODE_C52434:						; from CODE_C5242C
 	jmp ($00A5)
 CODE_C52464:						; from CODE_C52373
 	lda.l $C4FFF6,x
-	sta.b $A3
+	sta.b tmp2
 	lda.l $C4FFF8,x
-	sta.b $A1
+	sta.b tmp1
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0002
@@ -528,7 +528,7 @@ CODE_C52496:						; from CODE_C5248E
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	lda.b $0C
 	adc.w #$F803
@@ -545,10 +545,10 @@ CODE_C52496:						; from CODE_C5248E
 CODE_C524C7:						; from CODE_C5236C
 	lda.l $C4FFF6,x
 	ora.w #$4000
-	sta.b $A3
+	sta.b tmp2
 	lda.l $C4FFF8,x
 	ora.w #$4000
-	sta.b $A1
+	sta.b tmp1
 	lda.l $C4FFF2,x
 	tay
 	lda.w #$0002
@@ -580,7 +580,7 @@ CODE_C524FF:						; from CODE_C524F7
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	lda.b $0C
 	adc.w #$F805
@@ -605,8 +605,8 @@ CODE_C52530:						; from CODE_C5237E
 	jsr.w CODE_C52666
 CODE_C52544:						; from CODE_C52530
 	lda.w #$4000
-	tsb.b $A1
-	ora.b $A3
+	tsb.b tmp1
+	ora.b tmp2
 	pha
 	pea.w $0908
 	ldx.b $2A
@@ -616,7 +616,7 @@ CODE_C52544:						; from CODE_C52530
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	pea.w $0418
 	iny
@@ -645,7 +645,7 @@ CODE_C52585:						; from CODE_C52571
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	pea.w $04E0
 	iny
@@ -666,8 +666,8 @@ CODE_C525AC:						; from CODE_C523EE
 	jsr.w CODE_C52666
 CODE_C525C0:						; from CODE_C525AC
 	lda.w #$4000
-	tsb.b $A1
-	ora.b $A3
+	tsb.b tmp1
+	ora.b tmp2
 	pha
 	pea.w $C708
 	ldx.b $2A
@@ -677,7 +677,7 @@ CODE_C525C0:						; from CODE_C525AC
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	pea.w $D418
 	iny
@@ -706,7 +706,7 @@ CODE_C52601:						; from CODE_C525ED
 	txa
 	adc.w #$0004
 	sta.b $2A
-	ldy.b $A1
+	ldy.b tmp1
 	phy
 	pea.w $D4E0
 	iny
@@ -830,7 +830,7 @@ CODE_C526FB:						; from CODE_C52295 and other segments
 	ldy.w #$000C
 CODE_C52706:						; from CODE_C52832
 	sty.b $10
-	lda.w $05AE,y
+	lda.w PadControlObj,y
 	cmp.w #$000F
 	bne CODE_C52713
 	jmp.w CODE_C52832
@@ -838,14 +838,14 @@ CODE_C52713:						; from CODE_C52706
 	php
 	asl a
 	tax
-	lda.w $0814,x
+	lda.w Xpos,x
 	adc.w #$0074
 	sec
 	sbc.b $CB
 	sta.b $0A
 	sec
 	lda.b $CD
-	sbc.w $0896,x
+	sbc.w Ypos,x
 	clc
 	adc.w #$006A
 	sta.b $0C
@@ -853,7 +853,7 @@ CODE_C52713:						; from CODE_C52706
 	bcc CODE_C52733
 	jmp.w CODE_C52842
 CODE_C52733:						; from CODE_C52713
-	lda.w $0A20,x
+	lda.w position,x
 	and.w #$0007
 	asl a
 	sta.b $0E
@@ -862,7 +862,7 @@ CODE_C52733:						; from CODE_C52713
 	adc.w #$0004
 	sta.b $0A
 CODE_C52745:						; from CODE_C52733
-	lda.w $0EE0,x
+	lda.w rostnum,x
 	tax
 	and.w #$00F0
 	lsr a
@@ -870,11 +870,11 @@ CODE_C52745:						; from CODE_C52733
 	lsr a
 	lsr a
 	adc.w #$2436
-	sta.b $A1
+	sta.b tmp1
 	txa
 	and.w #$000F
 	adc.w #$2436
-	sta.b $A3
+	sta.b tmp2
 	lda.w #CODE_C52766
 	sta.b $A5
 	jmp.w CODE_C52898
@@ -883,8 +883,8 @@ CODE_C52766:						; a continuation: CODE_C52898 jumps back here through a pointe
 	lda.b $0A
 	adc.w #$0008
 	sta.b $0A
-	lda.b $A3
-	sta.b $A1
+	lda.b tmp2
+	sta.b tmp1
 	lda.w #CODE_C5277A
 	sta.b $A5
 	jmp.w CODE_C52898
@@ -896,7 +896,7 @@ CODE_C5277A:						; a continuation: CODE_C52898 jumps back here through a pointe
 	ldx.b $0E
 	beq CODE_C52794
 	lda.l DATA8_C5288A,x
-	sta.b $A1
+	sta.b tmp1
 	lda.w #CODE_C52794
 	sta.b $A5
 	jmp.w CODE_C52898
@@ -919,7 +919,7 @@ CODE_C527A9:						; from CODE_C52794
 	jmp.w CODE_C52852
 CODE_C527B5:						; from CODE_C527A9
 	lda.l DATA8_C52880,x
-	sta.b $A3
+	sta.b tmp2
 	ldy.b $2A
 	pei ($A3)
 	ldx.w #$0002
@@ -934,7 +934,7 @@ CODE_C527B5:						; from CODE_C527A9
 CODE_C527D3:						; from CODE_C527B5
 	cmp.w #$0100
 	bcs CODE_C527E6
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_C527E9
 	cmp.w #$FFF1
@@ -948,13 +948,13 @@ CODE_C527E9:						; from CODE_C527D3
 	bcs CODE_C527E6
 CODE_C527EE:						; from CODE_C527D3
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_C527F5:						; from CODE_C527E6
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$4000
 	pha
 	ldx.w #$0002
@@ -967,7 +967,7 @@ CODE_C527F5:						; from CODE_C527E6
 CODE_C5280C:						; from CODE_C527F5
 	cmp.w #$0100
 	bcs CODE_C5281F
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_C52822
 	cmp.w #$FFF1
@@ -981,7 +981,7 @@ CODE_C52822:						; from CODE_C5280C
 	bcs CODE_C5281F
 CODE_C52827:						; from CODE_C5280C
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
@@ -1011,9 +1011,9 @@ CODE_C52842:						; from CODE_C52713
 	sta.b $0C
 CODE_C52852:						; from CODE_C527A9
 	lda.w #$2454
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$25E0
-	sta.b $A3
+	sta.b tmp2
 	lda.b $0A
 	clc
 	adc.w #$0028
@@ -1048,7 +1048,7 @@ CODE_C52898:						; from CODE_C52766, CODE_C5277A, CODE_C52745
 CODE_C528AC:						; from CODE_C52898
 	cmp.w #$0100
 	bcs CODE_C528BF
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_C528C2
 	cmp.w #$FFF9
@@ -1062,7 +1062,7 @@ CODE_C528C2:						; from CODE_C528AC
 	bcs CODE_C528BF
 CODE_C528C7:						; from CODE_C528AC
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
@@ -1077,7 +1077,7 @@ CODE_C528D5:						; from CODE_C52295 and other segments
 	lda.w $07F8
 	clc
 	adc.w #$0170
-	sta.w $04C2
+	sta.w BG2VScroll
 	lsr a
 	lsr a
 	lsr a
@@ -1093,45 +1093,45 @@ CODE_C528EC:						; from CODE_C528D5
 	cmp.w #$0019
 	bcs CODE_C52911
 	and.w #$001F
-	sta.b $A1
+	sta.b tmp1
 	stx.w $07E4
 	lda.w $07E6
 	sec
-	sbc.b $A1
+	sbc.b tmp1
 	and.w #$001F
 	sta.w $07E6
-	sta.b $A3
-	stx.b $9F
+	sta.b tmp2
+	stx.b tmp0
 	bra CODE_C5294E
 CODE_C52911:						; from CODE_C528EC, CODE_C52926
 	lda.w #$001D
-	sta.b $A1
+	sta.b tmp1
 	txa
 	and.w #$001F
 	sta.w $07E6
-	sta.b $A3
-	stx.b $9F
+	sta.b tmp2
+	stx.b tmp0
 	stx.w $07E4
 	bra CODE_C5294E
 CODE_C52926:						; from CODE_C528EC
 	stx.w $07E4
 	cmp.w #$0019
 	bcs CODE_C52911
-	sta.b $A1
+	sta.b tmp1
 	adc.w $07E6
 	and.w #$001F
 	sta.w $07E6
 	adc.w #$001D
 	sec
-	sbc.b $A1
+	sbc.b tmp1
 	and.w #$001F
-	sta.b $A3
+	sta.b tmp2
 	txa
 	clc
 	adc.w #$001D
 	sec
-	sbc.b $A1
-	sta.b $9F
+	sbc.b tmp1
+	sta.b tmp0
 CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	dec.b QueueBusy
 	lda.b $00
@@ -1140,13 +1140,13 @@ CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	stx.b $00
 	lda.w #$0020
 	sec
-	sbc.b $A3
+	sbc.b tmp2
 	tax
-	sbc.b $A1
+	sbc.b tmp1
 	bpl CODE_C5299A
 	eor.w #$FFFF
 	inc a
-	sta.b $A1
+	sta.b tmp1
 	txa
 	xba
 	lsr a
@@ -1154,7 +1154,7 @@ CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	pha
 	stx.b $A5
 	tax
-	lda.b $A3
+	lda.b tmp2
 	xba
 	lsr a
 	lsr a
@@ -1164,7 +1164,7 @@ CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	pea.w $007F
 	adc.w #$0400
 	tay
-	lda.b $9F
+	lda.b tmp0
 	xba
 	lsr a
 	lsr a
@@ -1175,18 +1175,18 @@ CODE_C5294E:						; from CODE_C528EC, CODE_C52911
 	pea.w $007F
 	adc.w #$1540
 	pha
-	stz.b $A3
-	lda.b $9F
+	stz.b tmp2
+	lda.b tmp0
 	adc.b $A5
-	sta.b $9F
+	sta.b tmp0
 CODE_C5299A:						; from CODE_C5294E
-	lda.b $A1
+	lda.b tmp1
 	xba
 	lsr a
 	lsr a
 	pha
 	tax
-	lda.b $A3
+	lda.b tmp2
 	xba
 	lsr a
 	lsr a
@@ -1196,7 +1196,7 @@ CODE_C5299A:						; from CODE_C5294E
 	pea.w $007F
 	adc.w #$0400
 	tay
-	lda.b $9F
+	lda.b tmp0
 	xba
 	lsr a
 	lsr a
@@ -1216,41 +1216,41 @@ CODE_C529CC:						; from CODE_C528D5
 	lda.w $07B2
 	clc
 	adc.w #$00C0
-	sta.w $04C0
+	sta.w BG2HScroll
 	rtl
 checkwindow:						; called from other segments
-	lda.w $080C
-	sta.b $87
-	lda.w $080A
-	sta.b $8B
-	lda.w $10F5
+	lda.w yc1
+	sta.b d2
+	lda.w xc1
+	sta.b d3
+	lda.w sflags
 	bit.w #$0040
 	bne CODE_C52A49
 	ldx.w #$001C
-	lda.w $05A0
+	lda.w puckc
 	bmi CODE_C52A22
 	tax
-	lda.w $0FE0,x
+	lda.w pfgoal,x
 	beq CODE_C52A0D
-	lda.w $080E
+	lda.w yleader
 	adc.w $07A4
-	sta.w $080E
+	sta.w yleader
 	cmp.w #$0020
 	bmi CODE_C52A22
 	lda.w #$0020
-	sta.w $080E
+	sta.w yleader
 	bra CODE_C52A22
 CODE_C52A0D:						; from checkwindow
-	lda.w $080E
+	lda.w yleader
 	sec
 	sbc.w $07A4
-	sta.w $080E
+	sta.w yleader
 	cmp.w #$FFE1
 	bpl CODE_C52A22
 	lda.w #$FFE0
-	sta.w $080E
+	sta.w yleader
 CODE_C52A22:						; from checkwindow, CODE_C52A0D
-	lda.w $09C0,x
+	lda.w Yvel,x
 	lsr a
 	lsr a
 	lsr a
@@ -1263,44 +1263,44 @@ CODE_C52A22:						; from checkwindow, CODE_C52A0D
 	ora.w #$FE00
 CODE_C52A34:						; from CODE_C52A22
 	clc
-	adc.w $0896,x
+	adc.w Ypos,x
 	clc
-	adc.w $080E
-	sta.b $87
-	sta.w $080C
-	lda.w $0814,x
-	sta.b $8B
-	sta.w $080A
+	adc.w yleader
+	sta.b d2
+	sta.w yc1
+	lda.w Xpos,x
+	sta.b d3
+	sta.w xc1
 CODE_C52A49:						; from checkwindow
-	lda.b $87
+	lda.b d2
 	sec
 	sbc.b $CD
-	sta.b $7F
+	sta.b d0
 	cmp.w #$FFF7
 	bpl CODE_C52A69
-	lda.b $87
+	lda.b d2
 	sec
 	sbc.w #$FFF6
-	sta.b $83
+	sta.b d1
 	cmp.w #$FF39
 	bpl CODE_C52A82
 	lda.w #$FF39
-	sta.b $83
+	sta.b d1
 	bra CODE_C52A82
 CODE_C52A69:						; from CODE_C52A49
-	lda.b $7F
+	lda.b d0
 	cmp.w #$000B
 	bmi CODE_C52AA0
-	lda.b $87
+	lda.b d2
 	sec
 	sbc.w #$000A
-	sta.b $83
+	sta.b d1
 	cmp.w #$0100
 	bmi CODE_C52A82
 	lda.w #$0100
-	sta.b $83
+	sta.b d1
 CODE_C52A82:						; from CODE_C52A49, CODE_C52A69
-	lda.b $83
+	lda.b d1
 	sec
 	sbc.b $CD
 	beq CODE_C52AA0
@@ -1320,35 +1320,35 @@ CODE_C52A9B:						; from CODE_C52A95
 	adc.b $CD
 	sta.b $CD
 CODE_C52AA0:						; from CODE_C52A69, CODE_C52A82
-	lda.b $8B
+	lda.b d3
 	sec
 	sbc.b $CB
-	sta.b $7F
+	sta.b d0
 	cmp.w #$FFD8
 	bpl CODE_C52AC0
-	lda.b $8B
+	lda.b d3
 	sec
 	sbc.w #$FFD8
-	sta.b $83
+	sta.b d1
 	cmp.w #$FFC8
 	bpl CODE_C52AD9
 	lda.w #$FFC8
-	sta.b $83
+	sta.b d1
 	bra CODE_C52AD9
 CODE_C52AC0:						; from CODE_C52AA0
-	lda.b $7F
+	lda.b d0
 	cmp.w #$0029
 	bmi CODE_C52AF7
-	lda.b $8B
+	lda.b d3
 	sec
 	sbc.w #$0028
-	sta.b $83
+	sta.b d1
 	cmp.w #$0039
 	bmi CODE_C52AD9
 	lda.w #$0038
-	sta.b $83
+	sta.b d1
 CODE_C52AD9:						; from CODE_C52AA0, CODE_C52AC0
-	lda.b $83
+	lda.b d1
 	sec
 	sbc.b $CB
 	beq CODE_C52AF7
@@ -1371,27 +1371,27 @@ CODE_C52AF7:						; from CODE_C52AC0, CODE_C52AD9
 	rtl
 CODE_C52AF8:						; called from other segments
 	jsl.l CODE_C38043
-	dec.b $8F
-	dec.b $8F
-	lda.b $8B
+	dec.b d4
+	dec.b d4
+	lda.b d3
 	bit.w #$1000
 	beq CODE_C52B0D
-	lda.b $8F
+	lda.b d4
 	jmp.w CODE_C50D24
 CODE_C52B0C:						; from CODE_C52B18
 	rtl
 CODE_C52B0D:						; from CODE_C52AF8
-	lda.w $10F5
+	lda.w sflags
 	bit.w #$0100
 	beq CODE_C52B18
 	jmp.w CODE_C52B9B
 CODE_C52B18:						; from CODE_C52B0D
-	lda.w $0644,x
+	lda.w asscur,x
 	cmp.w #$7D2E
 	beq CODE_C52B0C
 	phy
 	ldy.w #$0000
-	lda.w $1020,x
+	lda.w pfteam,x
 	beq CODE_C52B2C
 	ldy.w #$0002
 CODE_C52B2C:						; from CODE_C52B18
@@ -1399,48 +1399,48 @@ CODE_C52B2C:						; from CODE_C52B18
 	ply
 	cmp.w #$0000
 	bmi CODE_C52B39
-	cmp.b $8F
+	cmp.b d4
 	bne CODE_C52B4E
 CODE_C52B39:						; from CODE_C52B2C
 	phy
 	ldy.w #$0000
-	lda.w $1020,x
+	lda.w pfteam,x
 	beq CODE_C52B45
 	ldy.w #$0002
 CODE_C52B45:						; from CODE_C52B39
-	lda.w $12FF,y
+	lda.w tmflags,y
 	ply
 	bit.w #$0008
 	bne CODE_C52B9F
 CODE_C52B4E:						; from CODE_C52B2C
-	lda.b $83
+	lda.b d1
 	bit.w #$2000
 	bne CODE_C52BC5
-	cpx.w $05A0
+	cpx.w puckc
 	bne CODE_C52B5D
 	jmp.w CODE_C52BFA
 CODE_C52B5D:						; from CODE_C52B4E
-	lda.b $83
+	lda.b d1
 	bit.w #$4000
 	bne CODE_C52BA3
-	lda.w $1000,x
+	lda.w pfalock,x
 	bne CODE_C52B98
-	lda.b $83
+	lda.b d1
 	bit.w #$0040
 	bne CODE_C52BE6
 	bit.w #$8000
 	bne CODE_C52BA7
-	lda.w $0A20,x
+	lda.w position,x
 	beq CODE_C52BB3
-	lda.b $83
+	lda.b d1
 	bit.w #$0020
 	bne CODE_C52BAB
 	bit.w #$0010
 	bne CODE_C52BAF
-	lda.w $07CC
-	cmp.b $B7
+	lda.w passReceiverPlayerNum
+	cmp.b curobj
 	beq CODE_C52B98
-	lda.b $83
+	lda.b d1
 	bit.w #$0080
 	bne CODE_C52BE2
 	jml.l doplayeracc
@@ -1459,7 +1459,7 @@ CODE_C52BAB:						; from CODE_C52B5D
 CODE_C52BAF:						; from CODE_C52B5D
 	jml.l CODE_C53903
 CODE_C52BB3:						; from CODE_C52B5D, CODE_C52C5A
-	lda.w $05CC,x
+	lda.w goalieflags,x
 	bit.w #$0001
 	bne CODE_C52BC0
 	and.w #$0002
@@ -1469,16 +1469,16 @@ CODE_C52BC0:						; from CODE_C52BB3
 CODE_C52BC4:						; from CODE_C52BC5, CODE_C52BD5, CODE_C52BFA, CODE_C52BF1, ...
 	rtl
 CODE_C52BC5:						; from CODE_C52B4E
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C52BC4
 	ldy.w #$0000
-	lda.w $1020,x
+	lda.w pfteam,x
 	beq CODE_C52BD5
 	ldy.w #$0002
 CODE_C52BD5:						; from CODE_C52BC5
 	lda.w $184C,y
 	bpl CODE_C52BC4
-	lda.b $8F
+	lda.b d4
 	sta.w $184C,y
 	jmp.w CODE_C5404A
 CODE_C52BE2:						; from CODE_C52B5D
@@ -1493,30 +1493,30 @@ CODE_C52BF1:						; from CODE_C52BE6
 	beq CODE_C52BC4
 	jml.l CODE_C538FE
 CODE_C52BFA:						; from CODE_C52B4E
-	lda.w $1000,x
+	lda.w pfalock,x
 	bne CODE_C52B98
 	jsl.l CODE_C4837C
-	lda.w $0A20,x
+	lda.w position,x
 	bne CODE_C52C0D
-	lda.w $1060,x
+	lda.w pf2aip,x
 	bne CODE_C52BC4
 CODE_C52C0D:						; from CODE_C52BFA
-	lda.w $10F5
+	lda.w sflags
 	bit.w #$0004
 	bne CODE_C52C3D
 	bit.w #$0008
 	bne CODE_C52C41
 	lda.w $066A
-	cmp.b $B7
+	cmp.b curobj
 	beq CODE_C52C5D
-	lda.b $83
+	lda.b d1
 	bit.w #$8000
 	bne CODE_C52C4E
 	bit.w #$4000
 	bne CODE_C52C45
-	lda.w $0A20,x
+	lda.w position,x
 	beq CODE_C52C5A
-	lda.b $83
+	lda.b d1
 	bit.w #$0080
 	bne CODE_C52C56
 	jml.l doplayeracc
@@ -1526,7 +1526,7 @@ CODE_C52C41:						; from CODE_C52C0D
 	jml.l CODE_C498D3
 CODE_C52C45:						; from CODE_C52C0D
 	lda.w #$0014
-	sta.b $7F
+	sta.b d0
 	jml.l CODE_C43734
 CODE_C52C4E:						; from CODE_C52C0D
 	jml.l setpassmode
@@ -1539,9 +1539,9 @@ CODE_C52C5A:						; from CODE_C52C0D
 CODE_C52C5D:						; from CODE_C52C0D, CODE_C52C5E, CODE_C52C72
 	rtl
 CODE_C52C5E:						; from CODE_C52B98
-	cpx.w $05A0
+	cpx.w puckc
 	beq CODE_C52C5D
-	lda.b $83
+	lda.b d1
 	bit.w #$8000
 	bne CODE_C52C52
 	bit.w #$0040
@@ -1550,19 +1550,19 @@ CODE_C52C5E:						; from CODE_C52B98
 CODE_C52C72:						; from CODE_C52C5E
 	bit.w #$0080
 	beq CODE_C52C5D
-	ldy.w $07CC
+	ldy.w passReceiverPlayerNum
 	bmi CODE_C52C5D
-	lda.w $0D60,y
+	lda.w pflags,y
 	and.w #$1000
-	ora.w $1000,y
+	ora.w pfalock,y
 	bne CODE_C52C5D
-	lda.w $14F9,y
+	lda.w playerpad,y
 	bpl CODE_C52C5D
-	lda.w $1020,y
-	cmp.w $1020,x
+	lda.w pfteam,y
+	cmp.w pfteam,x
 	bne CODE_C52C5D
-	sty.b $7F
-	inc.w $0672
+	sty.b d0
+	inc.w onetimerreq
 	lda.w #$7FFF
 	sta.w $0674
 	jml.l AssignPadPlayer
@@ -1589,8 +1589,8 @@ CODE_C52CC1:						; from CODE_C52CA3 and other segments
 	lda.w $17CB
 	ldy.w #$3207
 CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
-	sta.b $9F
-	sty.b $A1
+	sta.b tmp0
+	sty.b tmp1
 	ldx.w $18E0
 	phx
 	tax
@@ -1624,7 +1624,7 @@ CODE_C52CF0:						; from CODE_C52CD0
 	sta.w $0004,y
 	pla
 	and.w #$000F
-	sta.w $0006,y
+	sta.w QueueBusy,y
 	jsr.w CODE_C53167
 	plx
 	lda.l $C30000,x
@@ -1671,8 +1671,8 @@ CODE_C52D4E:						; from CODE_C52D4E
 	dec.b $10
 	bne CODE_C52D4E
 CODE_C52D69:						; from CODE_C52CEB
-	ldy.b $A1
-	lda.b $9F
+	ldy.b tmp1
+	lda.b tmp0
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1682,15 +1682,15 @@ CODE_C52D69:						; from CODE_C52CEB
 	adc.l $C3000A,x
 	tax
 	sep #$20
-	stz.b $A3
+	stz.b tmp2
 CODE_C52D7F:						; from CODE_C52D7F
 	lda.l $C30000,x
 	sta.w $006C,y
 	inx
 	iny
-	lda.b $A3
+	lda.b tmp2
 	inc a
-	sta.b $A3
+	sta.b tmp2
 	cmp.b #$08
 	bne CODE_C52D7F
 	rep #$20
@@ -1705,13 +1705,13 @@ CODE_C52D9D:						; from CODE_C52D9D
 	sta.w $006C,y
 	inx
 	iny
-	lda.b $A3
+	lda.b tmp2
 	inc a
-	sta.b $A3
+	sta.b tmp2
 	cmp.b #$40
 	bne CODE_C52D9D
 	rep #$20
-	ldy.b $A1
+	ldy.b tmp1
 	lda.w $0000,y
 	inc a
 	sta.b $A5
@@ -1721,7 +1721,7 @@ CODE_C52D9D:						; from CODE_C52D9D
 	clc
 	adc.w $0004,y
 	sta.b $0C
-	stz.b $A3
+	stz.b tmp2
 CODE_C52DC7:						; from CODE_C52DC7
 	sep #$20
 	lda.w $006D,y
@@ -1730,9 +1730,9 @@ CODE_C52DC7:						; from CODE_C52DC7
 	lda.w $006E,y
 	jsr.w CODE_C5308D
 	sta.w $006E,y
-	lda.w $006F,y
+	lda.w a3,y
 	jsr.w CODE_C530A0
-	sta.w $006F,y
+	sta.w a3,y
 	lda.w $0070,y
 	jsr.w CODE_C530A0
 	sta.w $0070,y
@@ -1744,14 +1744,14 @@ CODE_C52DC7:						; from CODE_C52DC7
 	clc
 	adc.w #$0008
 	tay
-	lda.b $A3
+	lda.b tmp2
 	inc a
-	sta.b $A3
+	sta.b tmp2
 	cmp.w #$0007
 	bne CODE_C52DC7
-	lda.b ($A1)
-	sta.b $A3
-	ldy.b $A1
+	lda.b (tmp1)
+	sta.b tmp2
+	ldy.b tmp1
 CODE_C52E0E:						; from CODE_C52EF9
 	lda.w $003A,y
 	cmp.w #$026A
@@ -1870,15 +1870,15 @@ CODE_C52EF9:						; from CODE_C52EC7, CODE_C52EF0, CODE_C52ED6
 	plx
 	iny
 	iny
-	dec.b $A3
+	dec.b tmp2
 	beq CODE_C52F03
 	jmp.w CODE_C52E0E
 CODE_C52F03:						; from CODE_C52EF9
-	stz.b $A3
-	lda.b $A3
+	stz.b tmp2
+	lda.b tmp2
 CODE_C52F07:						; from CODE_C53040
 	asl a
-	adc.b $A1
+	adc.b tmp1
 	tay
 	lda.w $1864
 	cmp.w #$0002
@@ -1893,13 +1893,13 @@ CODE_C52F1B:						; from CODE_C52F07
 	jmp.w CODE_C52FFD
 CODE_C52F26:						; from CODE_C52F1B
 	phy
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
-	adc.b $A1
+	adc.b tmp1
 	sta.b $A5
 	pha
 	lda.b $03,s
@@ -2016,13 +2016,13 @@ CODE_C52FE7:						; from CODE_C52FE7
 	bra CODE_C53040
 CODE_C52FFD:						; from CODE_C52F07, CODE_C52F1B
 	ldx.w $0008,y
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
-	adc.b $A1
+	adc.b tmp1
 	tay
 	lda.l $C30000,x
 	sta.w $0110,y
@@ -2048,10 +2048,10 @@ CODE_C53032:						; from CODE_C53032
 CODE_C5303E:						; from CODE_C53032
 	rep #$20
 CODE_C53040:						; from CODE_C52FE7
-	lda.b $A3
+	lda.b tmp2
 	inc a
-	sta.b $A3
-	cmp.b ($A1)
+	sta.b tmp2
+	cmp.b (tmp1)
 	beq CODE_C5304C
 	jmp.w CODE_C52F07
 CODE_C5304C:						; from CODE_C53040
@@ -2063,29 +2063,29 @@ CODE_C5304C:						; from CODE_C53040
 CODE_C53059:						; from CODE_C5304C
 	lda.w #$0000
 CODE_C5305C:						; from CODE_C5305C
-	sta.b $A3
+	sta.b tmp2
 	asl a
-	adc.b $A1
+	adc.b tmp1
 	tay
 	lda.w $003A,y
 	jsr.w CODE_C5BD30
-	lda.b $9F
+	lda.b tmp0
 	tax
-	lda.b $A3
+	lda.b tmp2
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
-	adc.b $A1
+	adc.b tmp1
 	tay
 	txa
 	sep #$20
 	sta.w $0110,y
 	rep #$20
-	lda.b $A3
+	lda.b tmp2
 	inc a
-	cmp.b ($A1)
+	cmp.b (tmp1)
 	bcc CODE_C5305C
 CODE_C53084:						; from CODE_C5304C
 	jsl.l CODE_C4C536

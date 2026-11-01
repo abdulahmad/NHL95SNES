@@ -15,7 +15,7 @@ CODE_CFF0CB:						; called from other segments
 	lda.l $CF0004,x
 	and.w #$00FF
 	sta.b $F1
-	inc.b $A1
+	inc.b tmp1
 	jmp.w CODE_CFF203
 CODE_CFF0F6:						; called from other segments
 	ldx.b $E5
@@ -39,10 +39,10 @@ CODE_CFF101:						; called from other segments
 	lda.l $CF0006,x
 	and.w #$00FF
 	sta.b $F3
-	lda.b $A1
+	lda.b tmp1
 	inc a
 	inc a
-	sta.b $A1
+	sta.b tmp1
 	jmp.w CODE_CFF1C6
 CODE_CFF137:						; called from other segments
 	ldx.b $E5
@@ -71,13 +71,13 @@ CODE_CFF137:						; called from other segments
 	and.w #$00FF
 	sta.b $F5
 	clc
-	lda.b $A1
+	lda.b tmp1
 	adc.w #$0003
-	sta.b $A1
-	lda.b $A1
+	sta.b tmp1
+	lda.b tmp1
 	pha
 	dec a
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$0000
 	clc
 	lda.b $ED
@@ -90,7 +90,7 @@ CODE_CFF137:						; called from other segments
 CODE_CFF1A2:						; from CODE_CFF137
 	cmp.w #$0100
 	bcs CODE_CFF1B7
-	sta.b $9F
+	sta.b tmp0
 	lda.b $F5
 	adc.b $0C
 	bpl CODE_CFF1BA
@@ -105,15 +105,15 @@ CODE_CFF1BA:						; from CODE_CFF1A2
 	bcs CODE_CFF1B7
 CODE_CFF1BF:						; from CODE_CFF1A2
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFF1C6:						; from CODE_CFF101, CODE_CFF1B7
-	lda.b $A1
+	lda.b tmp1
 	pha
 	dec a
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$0000
 	clc
 	lda.b $EB
@@ -126,7 +126,7 @@ CODE_CFF1C6:						; from CODE_CFF101, CODE_CFF1B7
 CODE_CFF1DF:						; from CODE_CFF1C6
 	cmp.w #$0100
 	bcs CODE_CFF1F4
-	sta.b $9F
+	sta.b tmp0
 	lda.b $F3
 	adc.b $0C
 	bpl CODE_CFF1F7
@@ -141,15 +141,15 @@ CODE_CFF1F7:						; from CODE_CFF1DF
 	bcs CODE_CFF1F4
 CODE_CFF1FC:						; from CODE_CFF1DF
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFF203:						; from CODE_CFF0CB, CODE_CFF1F4
-	lda.b $A1
+	lda.b tmp1
 	pha
 	dec a
-	sta.b $A1
+	sta.b tmp1
 	ldx.w #$0000
 	clc
 	lda.b $E9
@@ -163,7 +163,7 @@ CODE_CFF21C:						; from CODE_CFF203
 	cmp.w #$0100
 	bcs CODE_CFF231
 CODE_CFF221:						; called from other segments
-	sta.b $9F
+	sta.b tmp0
 	lda.b $F1
 	adc.b $0C
 	bpl CODE_CFF234
@@ -178,7 +178,7 @@ CODE_CFF234:						; from CODE_CFF221
 	bcs CODE_CFF231
 CODE_CFF239:						; from CODE_CFF221
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
@@ -196,7 +196,7 @@ CODE_CFF240:						; from CODE_CFF231 and other segments
 CODE_CFF255:						; from CODE_CFF240
 	cmp.w #$0100
 	bcs CODE_CFF26A
-	sta.b $9F
+	sta.b tmp0
 	lda.b $EF
 	adc.b $0C
 	bpl CODE_CFF26D
@@ -211,7 +211,7 @@ CODE_CFF26D:						; from CODE_CFF255
 	bcs CODE_CFF26A
 CODE_CFF272:						; from CODE_CFF255
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
@@ -656,7 +656,7 @@ CODE_CFFD9E:						; reached by jmp (DATA8_CFF3A2,x) / (DATA8_CFF3A0,x): entries 
 CODE_CFFDB0:						; from CODE_CFFD9E
 	cmp.w #$0100
 	bcs CODE_CFFDC3
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_CFFDC6
 	cmp.w #$FFF1
@@ -670,13 +670,13 @@ CODE_CFFDC6:						; from CODE_CFFDB0
 	bcs CODE_CFFDC3
 CODE_CFFDCB:						; from CODE_CFFDB0
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFDD2:						; from CODE_CFFDC3
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$0002
 	pha
 	ldx.w #$0002
@@ -691,7 +691,7 @@ CODE_CFFDD2:						; from CODE_CFFDC3
 CODE_CFFDED:						; from CODE_CFFDD2
 	cmp.w #$0100
 	bcs CODE_CFFE00
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_CFFE03
 	cmp.w #$FFF1
@@ -705,13 +705,13 @@ CODE_CFFE03:						; from CODE_CFFDED
 	bcs CODE_CFFE00
 CODE_CFFE08:						; from CODE_CFFDED
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFE0F:						; from CODE_CFFE00
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$0004
 	pha
 	ldx.w #$0002
@@ -724,7 +724,7 @@ CODE_CFFE0F:						; from CODE_CFFE00
 CODE_CFFE26:						; from CODE_CFFE0F
 	cmp.w #$0100
 	bcs CODE_CFFE3C
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0010
 	adc.b $0C
 	bpl CODE_CFFE3F
@@ -739,13 +739,13 @@ CODE_CFFE3F:						; from CODE_CFFE26
 	bcs CODE_CFFE3C
 CODE_CFFE44:						; from CODE_CFFE26
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFE4B:						; from CODE_CFFE3C
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$0006
 	pha
 	ldx.w #$0002
@@ -760,7 +760,7 @@ CODE_CFFE4B:						; from CODE_CFFE3C
 CODE_CFFE66:						; from CODE_CFFE4B
 	cmp.w #$0100
 	bcs CODE_CFFE7C
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0010
 	adc.b $0C
 	bpl CODE_CFFE7F
@@ -775,13 +775,13 @@ CODE_CFFE7F:						; from CODE_CFFE66
 	bcs CODE_CFFE7C
 CODE_CFFE84:						; from CODE_CFFE66
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFE8B:						; from CODE_CFFE7C
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$4000
 	pha
 	ldx.w #$0002
@@ -796,7 +796,7 @@ CODE_CFFE8B:						; from CODE_CFFE7C
 CODE_CFFEA6:						; from CODE_CFFE8B
 	cmp.w #$0100
 	bcs CODE_CFFEB9
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_CFFEBC
 	cmp.w #$FFF1
@@ -810,13 +810,13 @@ CODE_CFFEBC:						; from CODE_CFFEA6
 	bcs CODE_CFFEB9
 CODE_CFFEC1:						; from CODE_CFFEA6
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFEC8:						; from CODE_CFFEB9
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$4002
 	pha
 	ldx.w #$0002
@@ -831,7 +831,7 @@ CODE_CFFEC8:						; from CODE_CFFEB9
 CODE_CFFEE3:						; from CODE_CFFEC8
 	cmp.w #$0100
 	bcs CODE_CFFEF6
-	sta.b $9F
+	sta.b tmp0
 	lda.b $0C
 	bpl CODE_CFFEF9
 	cmp.w #$FFF1
@@ -845,13 +845,13 @@ CODE_CFFEF9:						; from CODE_CFFEE3
 	bcs CODE_CFFEF6
 CODE_CFFEFE:						; from CODE_CFFEE3
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFF05:						; from CODE_CFFEF6
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$4004
 	pha
 	ldx.w #$0002
@@ -867,7 +867,7 @@ CODE_CFFF0F:						; called from other segments
 CODE_CFFF20:						; from CODE_CFFF0F
 	cmp.w #$0100
 	bcs CODE_CFFF36
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0010
 	adc.b $0C
 	bpl CODE_CFFF39
@@ -882,13 +882,13 @@ CODE_CFFF39:						; from CODE_CFFF20
 	bcs CODE_CFFF36
 CODE_CFFF3E:						; from CODE_CFFF20
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
 CODE_CFFF45:						; from CODE_CFFF36
 	clc
-	lda.b $A3
+	lda.b tmp2
 	adc.w #$4006
 	pha
 	ldx.w #$0002
@@ -903,7 +903,7 @@ CODE_CFFF45:						; from CODE_CFFF36
 CODE_CFFF60:						; from CODE_CFFF45
 	cmp.w #$0100
 	bcs CODE_CFFF76
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0010
 	adc.b $0C
 	bpl CODE_CFFF79
@@ -918,7 +918,7 @@ CODE_CFFF79:						; from CODE_CFFF60
 	bcs CODE_CFFF76
 CODE_CFFF7E:						; from CODE_CFFF60
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
@@ -936,10 +936,10 @@ CODE_CFFF88:						; reached by jmp (DATA8_CFF3A0,x): entries 144 and 145
 CODE_CFFF9A:						; from CODE_CFFF88
 	cmp.w #$0100
 	bcs CODE_CFFFB9
-	sta.b $9F
-	lda.w $08D8
+	sta.b tmp0
+	lda.w puckz
 	asl a
-	adc.w $08D8
+	adc.w puckz
 	lsr a
 	eor.w #$FFFF
 	sec
@@ -956,7 +956,7 @@ CODE_CFFFBC:						; from CODE_CFFF9A
 	bcs CODE_CFFFB9
 CODE_CFFFC1:						; from CODE_CFFF9A
 	xba
-	ora.b $9F
+	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny

@@ -257,16 +257,16 @@ CODE_C36C2B:						; from CODE_C36C1A
 CODE_C36C2C:						; called from other segments
 	rtl
 CODE_C36C2D:						; called from other segments
-	lda.b $C1
-	ora.b $C3
+	lda.b PadRaw1
+	ora.b PadRaw2
 	ora.b $C5
 	ora.b $C7
 	ora.b $C9
 	sta.w $058D
-	inc.w $058F
+	inc.w repeatdelayframes
 	cmp.w $0565
 	beq CODE_C36C48
-	stz.w $058F
+	stz.w repeatdelayframes
 	sta.w $0565
 CODE_C36C48:						; from CODE_C36C2D
 	rtl
@@ -274,7 +274,7 @@ CODE_C36C49:						; called from other segments
 	stz.w $0591
 	bit.w $1525
 	bmi CODE_C36C58
-	lda.b $C1
+	lda.b PadRaw1
 	and.w #$FFF0
 	bne CODE_C36CAD
 CODE_C36C58:						; from CODE_C36C49
@@ -282,7 +282,7 @@ CODE_C36C58:						; from CODE_C36C49
 	inc.w $0591
 	bit.w $1527
 	bmi CODE_C36C6A
-	lda.b $C3
+	lda.b PadRaw2
 	and.w #$FFF0
 	bne CODE_C36CAD
 CODE_C36C6A:						; from CODE_C36C58
@@ -317,22 +317,22 @@ CODE_C36CA0:						; from CODE_C36C8E
 	rtl
 CODE_C36CAD:						; from CODE_C36C49, CODE_C36C58, CODE_C36C6A, CODE_C36C7C, ...
 	sta.w $058D
-	inc.w $058F
+	inc.w repeatdelayframes
 	cmp.w $0565
 	beq CODE_C36CBE
-	stz.w $058F
+	stz.w repeatdelayframes
 	sta.w $0565
 CODE_C36CBE:						; from CODE_C36CAD
 	rtl
 CODE_C36CBF:						; called from other segments
-	lda.b $C1
+	lda.b PadRaw1
 	xba
 	and.w #$000F
 	tax
 	lda.l DATA8_C36D2A,x
 	and.w #$00FF
-	sta.w $056F
-	lda.b $C3
+	sta.w paddir
+	lda.b PadRaw2
 	xba
 	and.w #$000F
 	tax
@@ -381,7 +381,7 @@ CODE_C36D45:						; from CODE_C36D45
 	and.b #$01
 	bne CODE_C36D45
 	ldx.w $4218
-	stx.b $C1
+	stx.b PadRaw1
 	txa
 	and.b #$0F
 	sta.w $0595
@@ -389,7 +389,7 @@ CODE_C36D45:						; from CODE_C36D45
 	lsr a
 	rol.w $0595
 	ldx.w $421A
-	stx.b $C3
+	stx.b PadRaw2
 	txa
 	and.b #$0F
 	sta.w $0596
@@ -584,7 +584,7 @@ CODE_C36EDE:						; from CODE_C36EC6, CODE_C36ED4
 	cmp.b #$01
 	beq CODE_C36EEF
 	ldx.w #$000F
-	stx.b $C1
+	stx.b PadRaw1
 	ldx.w $153B
 	beq CODE_C36EEF
 CODE_C36EEF:						; from CODE_C36EDE
@@ -592,7 +592,7 @@ CODE_C36EEF:						; from CODE_C36EDE
 	cmp.b #$01
 	beq CODE_C36F00
 	ldx.w #$000F
-	stx.b $C3
+	stx.b PadRaw2
 	ldx.w $153B
 	beq CODE_C36F29
 CODE_C36F00:						; from CODE_C36EEF
@@ -619,8 +619,8 @@ CODE_C36F29:						; from CODE_C36EEF, CODE_C36F00, CODE_C36F1D
 	lda.w $153D
 	beq CODE_C36F3B
 	ldx.w #$0000
-	stx.b $C1
-	stx.b $C3
+	stx.b PadRaw1
+	stx.b PadRaw2
 	stx.b $C5
 	stx.b $C7
 	stx.b $C9
@@ -690,7 +690,7 @@ CODE_C36FB7:						; from CODE_C36FB7
 	lda.w JOYSER0
 	lsr a
 	lsr a
-	rol.w $049F
+	rol.w Multi5Sig
 	lda.w $4017
 	lsr a
 	lsr a
@@ -700,7 +700,7 @@ CODE_C36FB7:						; from CODE_C36FB7
 	lda.w $04A0
 	cmp.b #$FF
 	bne CODE_C36FDD
-	lda.w $049F
+	lda.w Multi5Sig
 	cmp.b #$FF
 	beq CODE_C36FDD
 	lda.b #$00

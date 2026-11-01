@@ -105,7 +105,7 @@ CODE_C5F11C:						; from CODE_C5F112
 	lsr a
 	lsr a
 	and.w #$01FF
-	sta.b $A3
+	sta.b tmp2
 	lda.b $14,x
 	lsr a
 	lsr a
@@ -113,11 +113,11 @@ CODE_C5F11C:						; from CODE_C5F112
 	lsr a
 	and.w #$01FF
 	sta.b $A5
-	lda.b $34,x
+	lda.b r2,x
 	and.w #$FF00
 	asl a
 	ora.b $36,x
-	tsb.b $A3
+	tsb.b tmp2
 	tsb.b $A5
 	lda.b $28,x
 CODE_C5F140:						; from CODE_C5F22B
@@ -128,10 +128,10 @@ CODE_C5F140:						; from CODE_C5F22B
 	tax
 	lda.b $00,x
 	and.w #$00FF
-	sta.b $9F
+	sta.b tmp0
 	lda.b $01,x
 	and.w #$00FF
-	sta.b $A1
+	sta.b tmp1
 	lda.b $02,x
 	tax
 	lda.l SpritePieces,x
@@ -141,7 +141,7 @@ CODE_C5F140:						; from CODE_C5F22B
 	lda.l SpritePieces+2,x
 	adc.b $14
 	sta.b $0C
-	dec.b $9F
+	dec.b tmp0
 	bmi CODE_C5F1BE
 CODE_C5F16D:						; from CODE_C5F1B6
 	pei ($A3)
@@ -158,7 +158,7 @@ CODE_C5F16D:						; from CODE_C5F1B6
 CODE_C5F187:						; from CODE_C5F16D
 	cmp.w #$0100
 	bcs CODE_C5F1A1
-	sta.b $2C
+	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
@@ -174,7 +174,7 @@ CODE_C5F1A4:						; from CODE_C5F187
 	bcs CODE_C5F1A1
 CODE_C5F1A9:						; from CODE_C5F187
 	xba
-	ora.b $2C
+	ora.b r0
 	pha
 	tya
 	ldy.b $2A
@@ -182,13 +182,13 @@ CODE_C5F1A9:						; from CODE_C5F187
 	iny
 	sty.b $2A
 CODE_C5F1B6:						; from CODE_C5F1A1
-	inc.b $A3
+	inc.b tmp2
 	inx
 	inx
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C5F16D
 CODE_C5F1BE:						; from CODE_C5F140
-	dec.b $A1
+	dec.b tmp1
 	bmi CODE_C5F220
 CODE_C5F1C2:						; from CODE_C5F218
 	pei ($A5)
@@ -205,7 +205,7 @@ CODE_C5F1C2:						; from CODE_C5F218
 CODE_C5F1DC:						; from CODE_C5F1C2
 	cmp.w #$0100
 	bcs CODE_C5F1F6
-	sta.b $2C
+	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
@@ -221,7 +221,7 @@ CODE_C5F1F9:						; from CODE_C5F1DC
 	bcs CODE_C5F1F6
 CODE_C5F1FE:						; from CODE_C5F1DC
 	xba
-	ora.b $2C
+	ora.b r0
 	pha
 	tya
 	ldy.b $2A
@@ -240,7 +240,7 @@ CODE_C5F218:						; from CODE_C5F20B
 	sta.b $A5
 	inx
 	inx
-	dec.b $A1
+	dec.b tmp1
 	bpl CODE_C5F1C2
 CODE_C5F220:						; from CODE_C5F1BE
 	rep #$30
@@ -261,7 +261,7 @@ CODE_C5F234:						; from CODE_C5F112
 	lsr a
 	lsr a
 	and.w #$01FF
-	sta.b $A3
+	sta.b tmp2
 	lda.b $14,x
 	lsr a
 	lsr a
@@ -269,12 +269,12 @@ CODE_C5F234:						; from CODE_C5F112
 	lsr a
 	and.w #$01FF
 	sta.b $A5
-	lda.b $34,x
+	lda.b r2,x
 	and.w #$FF00
 	asl a
 	ora.b $36,x
 	tsb.b $A5
-	tsb.b $A3
+	tsb.b tmp2
 	lda.b $28,x
 CODE_C5F258:						; from CODE_C5F34B
 	asl a
@@ -284,10 +284,10 @@ CODE_C5F258:						; from CODE_C5F34B
 	tax
 	lda.b $00,x
 	and.w #$00FF
-	sta.b $9F
+	sta.b tmp0
 	lda.b $01,x
 	and.w #$00FF
-	sta.b $A1
+	sta.b tmp1
 	lda.b $02,x
 	tax
 	sec
@@ -300,7 +300,7 @@ CODE_C5F258:						; from CODE_C5F34B
 	lda.l SpritePieces+2,x
 	adc.b $14
 	sta.b $0C
-	dec.b $9F
+	dec.b tmp0
 	bmi CODE_C5F2DE
 CODE_C5F28A:						; from CODE_C5F2D6
 	pei ($A3)
@@ -318,7 +318,7 @@ CODE_C5F28A:						; from CODE_C5F2D6
 CODE_C5F2A7:						; from CODE_C5F28A
 	cmp.w #$0100
 	bcs CODE_C5F2C1
-	sta.b $2C
+	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
@@ -334,7 +334,7 @@ CODE_C5F2C4:						; from CODE_C5F2A7
 	bcs CODE_C5F2C1
 CODE_C5F2C9:						; from CODE_C5F2A7
 	xba
-	ora.b $2C
+	ora.b r0
 	pha
 	tya
 	ldy.b $2A
@@ -342,17 +342,17 @@ CODE_C5F2C9:						; from CODE_C5F2A7
 	iny
 	sty.b $2A
 CODE_C5F2D6:						; from CODE_C5F2C1
-	inc.b $A3
+	inc.b tmp2
 	inx
 	inx
-	dec.b $9F
+	dec.b tmp0
 	bpl CODE_C5F28A
 CODE_C5F2DE:						; from CODE_C5F258
 	sec
 	lda.b $0A
 	sbc.w #$0008
 	sta.b $0A
-	dec.b $A1
+	dec.b tmp1
 	bmi CODE_C5F34B
 CODE_C5F2EA:						; from CODE_C5F343
 	pei ($A5)
@@ -370,7 +370,7 @@ CODE_C5F2EA:						; from CODE_C5F343
 CODE_C5F307:						; from CODE_C5F2EA
 	cmp.w #$0100
 	bcs CODE_C5F321
-	sta.b $2C
+	sta.b r0
 	lda.l SpritePieces+5,x
 	and.w #$00FF
 	adc.b $0C
@@ -386,7 +386,7 @@ CODE_C5F324:						; from CODE_C5F307
 	bcs CODE_C5F321
 CODE_C5F329:						; from CODE_C5F307
 	xba
-	ora.b $2C
+	ora.b r0
 	pha
 	tya
 	ldy.b $2A
@@ -405,7 +405,7 @@ CODE_C5F343:						; from CODE_C5F336
 	sta.b $A5
 	inx
 	inx
-	dec.b $A1
+	dec.b tmp1
 	bpl CODE_C5F2EA
 CODE_C5F34B:						; from CODE_C5F2DE
 	rep #$31
@@ -426,17 +426,17 @@ CODE_C5F35C:						; from CODE_C5F0F7, CODE_C5F220, CODE_C5F34B
 CODE_C5F365:						; from CODE_C5F35C
 	jmp.w CODE_C5F0EE
 CODE_C5F368:						; called from other segments
-	sta.b $9F
+	sta.b tmp0
 	dec.b QueueBusy
 	lda.b $00
 	tsx
 	tcs
 	stx.b $00
-	lda.b $9F
+	lda.b tmp0
 	asl a
 	tax
 	lda.l DATA8_C60000,x
-	sta.b $2C
+	sta.b r0
 	lda.l DATA8_C60848,x
 	sta.b $2E
 	xba
@@ -444,16 +444,16 @@ CODE_C5F368:						; called from other segments
 	asl a
 	tax
 	lda.l DATA8_CFF27C,x
-	sta.b $9F
+	sta.b tmp0
 	and.w #$00FF
 	bne CODE_C5F397
-	ldx.b $2C
+	ldx.b r0
 	bra CODE_C5F3BA
 CODE_C5F397:						; from CODE_C5F368
 	asl a
 	pha
 	tay
-	lda.b $A3
+	lda.b tmp2
 	and.w #$01FF
 	asl a
 	asl a
@@ -464,7 +464,7 @@ CODE_C5F397:						; from CODE_C5F368
 	adc.w #$0100
 	tax
 	pei ($2E)
-	lda.b $2C
+	lda.b r0
 	pha
 	adc.b $07,s
 	phy
@@ -478,7 +478,7 @@ CODE_C5F3BA:						; from CODE_C5F368
 	and.w #$00FF
 	beq CODE_C5F3D2
 	pha
-	lda.b $A1
+	lda.b tmp1
 	and.w #$01FF
 	asl a
 	asl a
@@ -620,7 +620,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $2B
 	sta.w $1DA5
-	lda.b $2C
+	lda.b r0
 	asl a
 	asl a
 	ora.b $2D
@@ -631,7 +631,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $2F
 	sta.w $1DA4
-	lda.b $30
+	lda.b r1
 	asl a
 	asl a
 	ora.b $31
@@ -642,7 +642,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $33
 	sta.w $1DA3
-	lda.b $34
+	lda.b r2
 	asl a
 	asl a
 	ora.b $35
@@ -653,7 +653,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $37
 	sta.w $1DA2
-	lda.b $38
+	lda.b p0
 	asl a
 	asl a
 	ora.b $39
@@ -664,7 +664,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $3B
 	sta.w $1DA1
-	lda.b $3C
+	lda.b p1
 	asl a
 	asl a
 	ora.b $3D
@@ -675,7 +675,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $3F
 	sta.w $1DA0
-	lda.b $40
+	lda.b r3
 	asl a
 	asl a
 	ora.b $41
@@ -703,18 +703,18 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $49
 	asl a
 	asl a
-	ora.b $4A
+	ora.b NMISkip
 	asl a
 	asl a
 	ora.b $4B
 	sta.w $1D9D
-	lda.b $4C
+	lda.b DMAQueueHead
 	asl a
 	asl a
 	ora.b $4D
 	asl a
 	asl a
-	ora.b $4E
+	ora.b DMAQueueTail
 	asl a
 	asl a
 	ora.b $4F
@@ -750,12 +750,12 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $5A
 	asl a
 	asl a
-	ora.b $5B
+	ora.b crowdhold
 	sta.w $1D99
 	lda.b $5C
 	asl a
 	asl a
-	ora.b $5D
+	ora.b Vcount
 	asl a
 	asl a
 	ora.b $5E
@@ -772,7 +772,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $62
 	asl a
 	asl a
-	ora.b $63
+	ora.b a0
 	sta.w $1D97
 	lda.b $64
 	asl a
@@ -783,7 +783,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $66
 	asl a
 	asl a
-	ora.b $67
+	ora.b a1
 	sta.w $1D96
 	lda.b $68
 	asl a
@@ -794,7 +794,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $6A
 	asl a
 	asl a
-	ora.b $6B
+	ora.b a2
 	sta.w $1D95
 	lda.b $6C
 	asl a
@@ -805,7 +805,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $6E
 	asl a
 	asl a
-	ora.b $6F
+	ora.b a3
 	sta.w $1D94
 	lda.b $70
 	asl a
@@ -816,7 +816,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $72
 	asl a
 	asl a
-	ora.b $73
+	ora.b a4
 	sta.w $1D93
 	lda.b $74
 	asl a
@@ -849,7 +849,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $7E
 	asl a
 	asl a
-	ora.b $7F
+	ora.b d0
 	sta.w $1D90
 	rep #$20
 	lda.w #$0000

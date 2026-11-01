@@ -123,6 +123,12 @@
   are 95 tuning of the same routine. ../work/rename.py MAP renames everywhere (stubs too), re-aligns comments and adds
   name_map rows (source 94S+code; the note gives the 94S purpose). Matches below 0.95 are in ../work/match94.txt for review.
   The pairs also map RAM: 95 $1020,x = 94S pfteam, $10F5 = sflags (chkpk2), $17DB / $1813 = homelines / awaylines.
+- RAM names (94S by code): ../work/rammap.py aligns each routine named after a 94S routine with its 94S source; where the
+  instructions agree and the 94S operand is a RAM name (ram94s.asm, +N allowed), the 95 operand votes for it. Names with 3 or
+  more votes and 90% agreement are in src/ram95s.asm (the main address when a name also lands on its +$1C puck slot);
+  ../work/ramapply.py replaces exact operands in code lines ($XX direct page, $XXXX absolute, indexed and indirect). Left as
+  numbers: pei (asar does not take pei (label)), jmp / jml / jsr operands, immediates, long operands, the SPC700 files, and
+  addresses with fewer votes (rammap.txt has them, weak or mixed).
 
 ## Setup notes
 

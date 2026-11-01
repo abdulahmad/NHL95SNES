@@ -9,7 +9,7 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	ldx.w #$000C
 CODE_C5000A:						; from CODE_C5000A
 	lda.l InitHooks,x
-	sta.w $04A7,x
+	sta.w FrameHook,x
 	dex
 	bpl CODE_C5000A
 	lda.b #$81
@@ -74,26 +74,26 @@ CODE_C500B1:						; from CODE_C500B1
 	cpx.w #$2375
 	bcc CODE_C500B1
 	inc.w $2378
-	stz.w $10F1
-	stz.w $114B
+	stz.w gmode
+	stz.w gsp
 	lda.w $186C
 	cmp.w #$0001
 	bne CODE_C500D2
 	lda.w #$0020
-	tsb.w $10F1
+	tsb.w gmode
 CODE_C500D2:						; from CODE_C500B1
 	jsl.l CODE_C53574
 	jsl.l restoreteams
 	jsl.l CODE_C5362C
 	lda.w #$007F
 	sta.w $07E2
-	stz.w $07E0
+	stz.w recbpr
 	lda.w #$0010
-	trb.w $10F5
-	stz.b $6B
+	trb.w sflags
+	stz.b a2
 	jsl.l CODE_C532C5
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	jsl.l CODE_C532C5
 	lda.w $1870
 	sta.w $17C1
@@ -102,17 +102,17 @@ CODE_C500D2:						; from CODE_C500B1
 	sta.w $1303
 	sta.w $1305
 	sta.l $7E234C
-	stz.w $18BE
+	stz.w penshot
 	stz.w $18C0
 	stz.w $1876
-	stz.w $14F5
+	stz.w teampads
 	stz.w $14F7
 	ldx.w #$0008
 CODE_C50124:						; from CODE_C50139
-	lda.w $17B5,x
+	lda.w cont1team,x
 	cmp.w #$0001
 	bne CODE_C50131
-	inc.w $14F5
+	inc.w teampads
 	bra CODE_C50139
 CODE_C50131:						; from CODE_C50124
 	cmp.w #$0002
@@ -129,7 +129,7 @@ CODE_C50139:						; from CODE_C50124, CODE_C50131
 	stz.w $17D1
 	ldx.w #$0008
 CODE_C5014C:						; from CODE_C5014C
-	lda.w $17B5,x
+	lda.w cont1team,x
 	bne CODE_C5015B
 	dex
 	dex
@@ -141,7 +141,7 @@ CODE_C5015B:						; from CODE_C5014C
 	sta.w $17D1
 CODE_C50161:						; from CODE_C5014C
 	lda.w #$FFFF
-	sta.w $18B0
+	sta.w BA_Sktr_SCnum
 	lda.w $189C
 	beq CODE_C5016D
 	rtl
@@ -151,17 +151,17 @@ CODE_C5016D:						; from CODE_C50B5D, CODE_C50161 and other segments
 	lda.w #$1FFF
 	tcs
 CODE_C50176:						; from CODE_C5016D
-	stz.b $6B
+	stz.b a2
 	jsl.l CODE_C54AEF
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	jsl.l CODE_C54AEF
 	jsl.l CODE_C52227
 	jsl.l CODE_C53535
 	jsl.l CODE_C3718D
 	lda.w #$FFFF
 	sta.w $0591
-	lda.w $17B5
+	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
 	ora.w $17BB
@@ -178,25 +178,25 @@ CODE_C501BC:						; from CODE_C501AC
 	stz.w $2034
 	stz.w $2036
 	ldx.w #$001C
-	stx.b $6F
+	stx.b a3
 	lda.w #$001B
-	sta.b $7F
+	sta.b d0
 	jsl.l assreplace
 	jsl.l CODE_C5897B
 	lda.w #$0400
-	tsb.w $10F5
+	tsb.w sflags
 	lda.w #$FFFF
-	sta.w $0776
-	sta.w $077C
+	sta.w recsfx
+	sta.w recsfx2
 	sta.w $078A
 	lda.w $1864
 	cmp.w #$0004
 	beq CODE_C501FF
 	lda.w #$0010
-	trb.w $10F5
+	trb.w sflags
 	lda.w #$007F
 	sta.w $07E2
-	stz.w $07E0
+	stz.w recbpr
 	bra CODE_C50202
 CODE_C501FF:						; from CODE_C501BC
 	stz.w $078A
@@ -204,7 +204,7 @@ CODE_C50202:						; from CODE_C501BC
 	lda.w #$FFFF
 	sta.w $079C
 	stz.w $079E
-	stz.b $5D
+	stz.b Vcount
 	stz.b $5F
 	stz.w $07F6
 	stz.w $07C6
@@ -219,7 +219,7 @@ CODE_C5021B:						; from CODE_C50202, CODE_C5033A and other segments
 	lda.w #$F000
 CODE_C50226:						; from CODE_C5021B
 	sta.b $D7
-	lda.b $5D
+	lda.b Vcount
 	tax
 	sec
 	sbc.w $07C6
@@ -236,11 +236,11 @@ CODE_C50233:						; from CODE_C50226
 	stx.b $26
 	jsl.l Mul16x8U
 	lda.w FrameCount
-	sta.b $30
+	sta.b r1
 	jsl.l Div32U
-	lda.b $2C
+	lda.b r0
 	sta.w $0563
-	lda.w $114B
+	lda.w gsp
 	cmp.w #$0002
 	bne CODE_C50269
 	jsl.l RandomWord
@@ -251,8 +251,8 @@ CODE_C50233:						; from CODE_C50226
 CODE_C50269:						; from CODE_C50233
 	pla
 	plx
-	sta.b $9B
-	sta.w $05A2
+	sta.b d7
+	sta.w timestep
 	asl a
 	sta.w $07A4
 	asl a
@@ -267,43 +267,43 @@ CODE_C50269:						; from CODE_C50233
 	stx.w $07F6
 	stx.w $07C6
 	jsl.l CODE_C36CBF
-	lda.w $10F5
+	lda.w sflags
 	bit.w #$0001
 	bne CODE_C502EB
-	lda.w $10F3
+	lda.w gmclock
 	bne CODE_C502EB
 	lda.w $189C
 	bne CODE_C502E0
-	lda.w $1157
+	lda.w PenShotActive
 	beq CODE_C502E0
 	lda.w $18C2
-	ldx.b $9B
+	ldx.b d7
 	dex
 	beq CODE_C502B1
 	sec
-	sbc.b $9B
+	sbc.b d7
 CODE_C502B1:						; from CODE_C50269
 	sec
-	sbc.b $9B
+	sbc.b d7
 	sta.w $18C2
 	bpl CODE_C502BF
 	jsl.l EndPenaltyShot
 	bra CODE_C502EB
 CODE_C502BF:						; from CODE_C502B1
-	sta.b $34
+	sta.b r2
 	lda.w #$001E
-	sta.b $30
+	sta.b r1
 	jsl.l Div16x8U
-	lda.b $2C
-	sta.b $7F
+	lda.b r0
+	sta.b d0
 	jsl.l CODE_C516C2
 	ldx.w #$007E
-	lda.b $67
+	lda.b a1
 	ldy.w #$5B23
 	jsl.l QueueVRAMDMALen
 	bra CODE_C502EB
 CODE_C502E0:						; from CODE_C50269
-	ldx.b $9B
+	ldx.b d7
 	dex
 	beq CODE_C502E8
 	jsr.w CODE_C50E9B
@@ -312,7 +312,7 @@ CODE_C502E8:						; from CODE_C502E0
 CODE_C502EB:						; from CODE_C50269, CODE_C502B1, CODE_C502BF
 	lda.w $07AE
 	beq CODE_C50308
-	lda.b $5D
+	lda.b Vcount
 	sec
 	sbc.w $07B0
 	cmp.w #$0096
@@ -325,16 +325,16 @@ CODE_C502EB:						; from CODE_C50269, CODE_C502B1, CODE_C502BF
 CODE_C50308:						; from CODE_C502EB
 	jsl.l CODE_C5033D
 	jsl.l demoread
-	lda.w $10F5
+	lda.w sflags
 	bit.w #$0001
 	bne CODE_C5032B
 	lda.w $153D
 	beq CODE_C5032F
-	lda.w $10F1
+	lda.w gmode
 	bit.w #$0010
 	bne CODE_C5032F
 	lda.w #$0001
-	tsb.w $10F5
+	tsb.w sflags
 CODE_C5032B:						; from CODE_C50308
 	jsl.l CODE_C50D29
 CODE_C5032F:						; from CODE_C50308
@@ -363,14 +363,14 @@ periodicevents:						; from CODE_C5033D and other segments
 	jsl.l CODE_C471F0
 	jsl.l CODE_C371AB
 	jsl.l clockcont
-	lda.w $07BC
+	lda.w lldisp
 	sec
-	sbc.b $9B
-	sta.w $07BC
+	sbc.b d7
+	sta.w lldisp
 	bpl CODE_C50392
 	clc
 	adc.w #$0018
-	sta.w $07BC
+	sta.w lldisp
 	jsl.l ChkGoalies
 	jsl.l RestoreBenchEnergy
 	jsl.l CODE_C48241
@@ -385,16 +385,16 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sta.w $12D1
 	sta.w $12D3
 	sta.w $12D5
-	lda.w $08D8
+	lda.w puckz
 	sta.w $08DC
 	ldx.w #$001E
 CODE_C503B1:						; from CODE_C50798
-	stx.b $B7
-	lda.w $0814,x
+	stx.b curobj
+	lda.w Xpos,x
 	sta.w $0920,x
 	lda.w $0836,x
 	sta.w $0940,x
-	lda.w $0896,x
+	lda.w Ypos,x
 	sta.w $0960,x
 	lda.w $08B8,x
 	sta.w $0980,x
@@ -405,12 +405,12 @@ CODE_C503B1:						; from CODE_C50798
 CODE_C503D5:						; from CODE_C503B1
 	jmp.w CODE_C50472
 CODE_C503D8:						; from CODE_C503B1
-	lda.w $0A20,x
+	lda.w position,x
 	bpl CODE_C503E0
 	jmp.w CODE_C506F0
 CODE_C503E0:						; from CODE_C503D8
 	bne CODE_C503EF
-	lda.w $0896,x
+	lda.w Ypos,x
 	bpl CODE_C503EC
 	stx.w $0666
 	bra CODE_C503EF
@@ -418,51 +418,51 @@ CODE_C503EC:						; from CODE_C503E0
 	stx.w $0664
 CODE_C503EF:						; from CODE_C503E0
 	jsl.l updateanim
-	lda.w $0CE0,x
+	lda.w nopuck,x
 	sec
-	sbc.w $05A2
+	sbc.w timestep
 	bpl CODE_C503FF
 	lda.w #$0000
 CODE_C503FF:						; from CODE_C503EF
-	sta.w $0CE0,x
+	sta.w nopuck,x
 	lda.w $0D00,x
 	sec
-	sbc.w $05A2
+	sbc.w timestep
 	bpl CODE_C5040E
 	lda.w #$0000
 CODE_C5040E:						; from CODE_C503FF
 	sta.w $0D00,x
-	lda.w $10F7
+	lda.w sflags3
 	bit.w #$0020
 	beq CODE_C50434
-	lda.w $0DC0,x
+	lda.w pnum,x
 	and.w #$00FF
 	cmp.w #$0080
 	bcc CODE_C50427
 	ora.w #$FF00
 CODE_C50427:						; from CODE_C5040E
-	sta.b $7F
+	sta.b d0
 	cmp.w #$0000
 	bmi CODE_C50434
-	asl.b $7F
+	asl.b d0
 	jsl.l loadTeamStruct
 CODE_C50434:						; from CODE_C5040E, CODE_C50427
 	lda.w $06B4,x
 	beq CODE_C50445
 	sec
-	sbc.w $05A2
+	sbc.w timestep
 	bpl CODE_C50442
 	lda.w #$0000
 CODE_C50442:						; from CODE_C50434
 	sta.w $06B4,x
 CODE_C50445:						; from CODE_C50434
-	cpx.w $07CC
+	cpx.w passReceiverPlayerNum
 	bne CODE_C50452
-	lda.w $18AC
+	lda.w onetimer
 	beq CODE_C50452
 	jmp.w CODE_C50577
 CODE_C50452:						; from CODE_C50445
-	lda.w $0C80,x
+	lda.w SPA,x
 	cmp.w #$2708
 	bne CODE_C5045D
 	jmp.w CODE_C506F0
@@ -473,159 +473,159 @@ CODE_C5045D:						; from CODE_C50452
 CODE_C50465:						; from CODE_C5045D
 	cpx.w #$001C
 	bne CODE_C50472
-	lda.w $08D8
+	lda.w puckz
 	beq CODE_C50472
 	jmp.w CODE_C50577
 CODE_C50472:						; from CODE_C503D5, CODE_C50465
 	ldy.w #$FFFF
-	lda.w $0D60,x
+	lda.w pflags,x
 	bit.w #$0001
 	beq CODE_C504DF
-	lda.w $09A0,x
+	lda.w Xvel,x
 	bpl CODE_C50498
-	sty.b $34
+	sty.b r2
 	sta.b $35
 	sec
-	lda.b $34
+	lda.b r2
 	sbc.b $35
-	sta.b $34
+	sta.b r2
 	bcc CODE_C50491
 	inc.b $36
 CODE_C50491:						; from CODE_C50472
 	lda.b $35
-	sta.w $09A0,x
+	sta.w Xvel,x
 	bra CODE_C504AC
 CODE_C50498:						; from CODE_C50472
-	stz.b $34
+	stz.b r2
 	sta.b $35
 	sec
-	lda.b $34
+	lda.b r2
 	sbc.b $35
-	sta.b $34
+	sta.b r2
 	bcs CODE_C504A7
 	dec.b $36
 CODE_C504A7:						; from CODE_C50498
 	lda.b $35
-	sta.w $09A0,x
+	sta.w Xvel,x
 CODE_C504AC:						; from CODE_C50491
-	lda.w $09C0,x
+	lda.w Yvel,x
 	bpl CODE_C504C8
-	sty.b $34
+	sty.b r2
 	sta.b $35
 	sec
-	lda.b $34
+	lda.b r2
 	sbc.b $35
-	sta.b $34
+	sta.b r2
 	bcc CODE_C504C0
 	inc.b $36
 CODE_C504C0:						; from CODE_C504AC
 	lda.b $35
-	sta.w $09C0,x
+	sta.w Yvel,x
 	jmp.w CODE_C50577
 CODE_C504C8:						; from CODE_C504AC
-	stz.b $34
+	stz.b r2
 	sta.b $35
 	sec
-	lda.b $34
+	lda.b r2
 	sbc.b $35
-	sta.b $34
+	sta.b r2
 	bcs CODE_C504D7
 	dec.b $36
 CODE_C504D7:						; from CODE_C504C8
 	lda.b $35
-	sta.w $09C0,x
+	sta.w Yvel,x
 	jmp.w CODE_C50577
 CODE_C504DF:						; from CODE_C50472
-	lda.b $9B
+	lda.b d7
 	dec a
 	beq CODE_C50503
 	lda.w #$00F8
 	txy
-	ldx.w $09A0,y
+	ldx.w Xvel,y
 	jsl.l Mul16x8HiXS
-	sta.w $09A0,y
+	sta.w Xvel,y
 	lda.w #$00F8
-	ldx.w $09C0,y
+	ldx.w Yvel,y
 	jsl.l Mul16x8HiXS
-	sta.w $09C0,y
+	sta.w Yvel,y
 	tyx
 	jmp.w CODE_C50577
 CODE_C50503:						; from CODE_C504DF
-	lda.w $09A0,x
+	lda.w Xvel,x
 	bpl CODE_C50524
-	sty.b $34
+	sty.b r2
 	sta.b $35
 	asl a
 	clc
 	adc.b $35
-	sta.b $2C
+	sta.b r0
 	sec
-	lda.b $34
-	sbc.b $2C
-	sta.b $34
+	lda.b r2
+	sbc.b r0
+	sta.b r2
 	bcc CODE_C5051D
 	inc.b $36
 CODE_C5051D:						; from CODE_C50503
 	lda.b $35
-	sta.w $09A0,x
+	sta.w Xvel,x
 	bra CODE_C5053D
 CODE_C50524:						; from CODE_C50503
-	stz.b $34
+	stz.b r2
 	sta.b $35
 	asl a
 	adc.b $35
-	sta.b $2C
+	sta.b r0
 	sec
-	lda.b $34
-	sbc.b $2C
-	sta.b $34
+	lda.b r2
+	sbc.b r0
+	sta.b r2
 	bcs CODE_C50538
 	dec.b $36
 CODE_C50538:						; from CODE_C50524
 	lda.b $35
-	sta.w $09A0,x
+	sta.w Xvel,x
 CODE_C5053D:						; from CODE_C5051D
-	lda.w $09C0,x
+	lda.w Yvel,x
 	bpl CODE_C5055E
-	sty.b $34
+	sty.b r2
 	sta.b $35
 	asl a
 	clc
 	adc.b $35
-	sta.b $2C
+	sta.b r0
 	sec
-	lda.b $34
-	sbc.b $2C
-	sta.b $34
+	lda.b r2
+	sbc.b r0
+	sta.b r2
 	bcc CODE_C50557
 	inc.b $36
 CODE_C50557:						; from CODE_C5053D
 	lda.b $35
-	sta.w $09C0,x
+	sta.w Yvel,x
 	bra CODE_C50577
 CODE_C5055E:						; from CODE_C5053D
-	stz.b $34
+	stz.b r2
 	sta.b $35
 	asl a
 	adc.b $35
-	sta.b $2C
+	sta.b r0
 	sec
-	lda.b $34
-	sbc.b $2C
-	sta.b $34
+	lda.b r2
+	sbc.b r0
+	sta.b r2
 	bcs CODE_C50572
 	dec.b $36
 CODE_C50572:						; from CODE_C5055E
 	lda.b $35
-	sta.w $09C0,x
+	sta.w Yvel,x
 CODE_C50577:						; from CODE_C504DF, CODE_C504C0, CODE_C50445, CODE_C504D7, ...
 	ldy.w #$FFFF
-	lda.b $9B
+	lda.b d7
 	dec a
 	bne CODE_C50582
 	jmp.w CODE_C50612
 CODE_C50582:						; from CODE_C50577
-	lda.w $09A0,x
+	lda.w Xvel,x
 	bmi CODE_C505A8
 	stz.b $36
 	asl a
@@ -640,9 +640,9 @@ CODE_C50582:						; from CODE_C50577
 	rol.b $36
 	adc.w $0836,x
 	sta.w $0836,x
-	lda.w $0814,x
+	lda.w Xpos,x
 	adc.b $36
-	sta.w $0814,x
+	sta.w Xpos,x
 	bra CODE_C505C8
 CODE_C505A8:						; from CODE_C50582
 	sty.b $36
@@ -659,11 +659,11 @@ CODE_C505A8:						; from CODE_C50582
 	clc
 	adc.w $0836,x
 	sta.w $0836,x
-	lda.w $0814,x
+	lda.w Xpos,x
 	adc.b $36
-	sta.w $0814,x
+	sta.w Xpos,x
 CODE_C505C8:						; from CODE_C50582
-	lda.w $09C0,x
+	lda.w Yvel,x
 	bmi CODE_C505EF
 	stz.b $36
 	asl a
@@ -678,9 +678,9 @@ CODE_C505C8:						; from CODE_C50582
 	rol.b $36
 	adc.w $08B8,x
 	sta.w $08B8,x
-	lda.w $0896,x
+	lda.w Ypos,x
 	adc.b $36
-	sta.w $0896,x
+	sta.w Ypos,x
 	jmp.w CODE_C50692
 CODE_C505EF:						; from CODE_C505C8
 	sty.b $36
@@ -697,12 +697,12 @@ CODE_C505EF:						; from CODE_C505C8
 	clc
 	adc.w $08B8,x
 	sta.w $08B8,x
-	lda.w $0896,x
+	lda.w Ypos,x
 	adc.b $36
-	sta.w $0896,x
+	sta.w Ypos,x
 	jmp.w CODE_C50692
 CODE_C50612:						; from CODE_C50577
-	lda.w $09A0,x
+	lda.w Xvel,x
 	bmi CODE_C50635
 	stz.b $36
 	asl a
@@ -715,9 +715,9 @@ CODE_C50612:						; from CODE_C50577
 	rol.b $36
 	adc.w $0836,x
 	sta.w $0836,x
-	lda.w $0814,x
+	lda.w Xpos,x
 	adc.b $36
-	sta.w $0814,x
+	sta.w Xpos,x
 	bra CODE_C50652
 CODE_C50635:						; from CODE_C50612
 	sty.b $36
@@ -732,11 +732,11 @@ CODE_C50635:						; from CODE_C50612
 	clc
 	adc.w $0836,x
 	sta.w $0836,x
-	lda.w $0814,x
+	lda.w Xpos,x
 	adc.b $36
-	sta.w $0814,x
+	sta.w Xpos,x
 CODE_C50652:						; from CODE_C50612
-	lda.w $09C0,x
+	lda.w Yvel,x
 	bmi CODE_C50675
 	stz.b $36
 	asl a
@@ -749,9 +749,9 @@ CODE_C50652:						; from CODE_C50612
 	rol.b $36
 	adc.w $08B8,x
 	sta.w $08B8,x
-	lda.w $0896,x
+	lda.w Ypos,x
 	adc.b $36
-	sta.w $0896,x
+	sta.w Ypos,x
 	bra CODE_C50692
 CODE_C50675:						; from CODE_C50652
 	sty.b $36
@@ -766,87 +766,87 @@ CODE_C50675:						; from CODE_C50652
 	clc
 	adc.w $08B8,x
 	sta.w $08B8,x
-	lda.w $0896,x
+	lda.w Ypos,x
 	adc.b $36
-	sta.w $0896,x
+	sta.w Ypos,x
 CODE_C50692:						; from CODE_C505C8, CODE_C50652, CODE_C505EF
 	cpx.w #$001C
 	bne CODE_C506F0
-	lda.w $08D8
+	lda.w puckz
 	bmi CODE_C506F0
 	bne CODE_C506A3
-	lda.w $08DE
+	lda.w puckvz
 	beq CODE_C506F0
 CODE_C506A3:						; from CODE_C50692
-	lda.w $08DE
+	lda.w puckvz
 	sec
 	sbc.w $07A8
-	sta.w $08DE
+	sta.w puckvz
 	tax
 	lda.w $07A6
 	jsl.l Mul16x8XS
-	ldx.b $B7
-	lda.b $34
+	ldx.b curobj
+	lda.b r2
 	clc
 	adc.w $08DA
 	sta.w $08DA
 	lda.b $36
-	adc.w $08D8
-	sta.w $08D8
+	adc.w puckz
+	sta.w puckz
 	bpl CODE_C506F0
-	stz.w $08D8
+	stz.w puckz
 	stz.w $08DA
-	lda.w $08DE
+	lda.w puckvz
 	eor.w #$FFFF
 	inc a
 	lsr a
-	sta.w $08DE
+	sta.w puckvz
 	cmp.w #$0200
 	bmi CODE_C506F0
 	asl a
 	and.w #$FF00
-	sta.b $9F
+	sta.b tmp0
 	xba
-	tsb.b $9F
+	tsb.b tmp0
 	lda.w #$000D
 	jsl.l CODE_CF0418
 CODE_C506F0:						; from CODE_C503D8, CODE_C50452, CODE_C5045D, CODE_C50692, ...
 	sec
 	lda.w $0830
-	sbc.w $0814,x
-	sta.b $7F
+	sbc.w Xpos,x
+	sta.b d0
 	bpl CODE_C50700
 	eor.w #$FFFF
 	inc a
 	sec
 CODE_C50700:						; from CODE_C506F0
-	sta.b $40
-	lda.w $08B2
-	sbc.w $0896,x
-	sta.b $83
+	sta.b r3
+	lda.w pucky
+	sbc.w Ypos,x
+	sta.b d1
 	bpl CODE_C50710
 	eor.w #$FFFF
 	inc a
 CODE_C50710:						; from CODE_C50700
-	cmp.b $40
+	cmp.b r3
 	bcc CODE_C50717
-	lsr.b $40
+	lsr.b r3
 	asl a
 CODE_C50717:						; from CODE_C50710
 	lsr a
-	adc.b $40
+	adc.b r3
 	sta.w $05E4,x
 	cpx.w #$0018
 	bcs CODE_C50755
-	sta.b $40
-	lda.w $0A20,x
+	sta.b r3
+	lda.w position,x
 	bmi CODE_C50755
 	beq CODE_C50755
-	lda.w $0D60,x
+	lda.w pflags,x
 	and.w #$1000
-	ora.w $1000,x
+	ora.w pfalock,x
 	bne CODE_C50755
-	lda.b $40
+	lda.b r3
 	cpx.w #$000C
 	bcs CODE_C5074A
 	cmp.w $12CF
@@ -864,33 +864,33 @@ CODE_C50755:						; from CODE_C50717, CODE_C5074A
 	bcs CODE_C50798
 	cmp.w #$001E
 	bcs CODE_C50798
-	lda.w $07B6
+	lda.w iflags
 	bit.w #$0004
 	beq CODE_C50798
 	bit.w #$0001
 	bne CODE_C50798
 	and.w #$0002
 	beq CODE_C50778
-	lda.w $0FE0,x
+	lda.w pfgoal,x
 	bne CODE_C50798
 	bra CODE_C5077D
 CODE_C50778:						; from CODE_C50755
-	lda.w $0FE0,x
+	lda.w pfgoal,x
 	beq CODE_C50798
 CODE_C5077D:						; from CODE_C50755
-	lda.w $08D8
+	lda.w puckz
 	cmp.w #$000D
 	bcs CODE_C50798
-	lda.w $09DC
+	lda.w puckvy
 	cmp.w #$2400
 	bcs CODE_C50798
 	cmp.w #$DC00
 	bmi CODE_C50798
 	lda.w #$0005
-	trb.w $07B6
+	trb.w iflags
 CODE_C50798:						; from CODE_C50755, CODE_C50778, CODE_C5077D
 	jsl.l vtoa
-	sta.w $0624,x
+	sta.w puckdir,x
 	dex
 	dex
 	bmi CODE_C507A6
@@ -909,7 +909,7 @@ CODE_C507B1:						; from CODE_C507A6
 CODE_C507BF:						; from CODE_C507B1
 	sta.w $08B0
 	lda.w #$000F
-	sta.w $05AE
+	sta.w PadControlObj
 	sta.w $05B0
 	sta.w $05B2
 	sta.w $05B4
@@ -926,8 +926,8 @@ CODE_C507BF:						; from CODE_C507B1
 	sta.b $BF
 	ldx.w #$0000
 CODE_C507F3:						; from CODE_C50979
-	stx.b $6F
-	stx.b $B7
+	stx.b a3
+	stx.b curobj
 	cpx.w #$000C
 	bne CODE_C50803
 	lda.w #$0002
@@ -936,43 +936,43 @@ CODE_C507F3:						; from CODE_C50979
 CODE_C50803:						; from CODE_C507F3
 	lda.w #$FFFF
 	sta.b $B9
-	lda.w $0A20,x
+	lda.w position,x
 	bpl CODE_C50810
 	jmp.w CODE_C50979
 CODE_C50810:						; from CODE_C50803
 	txa
 	lsr a
-	sta.b $97
-	cpx.w $05A0
+	sta.b d6
+	cpx.w puckc
 	bne CODE_C5081F
-	stz.b $8F
+	stz.b d4
 	jsl.l CODE_C38043
 CODE_C5081F:						; from CODE_C50810
 	cpx.w #$0018
 	bcs CODE_C50851
-	lda.w $14F9,x
+	lda.w playerpad,x
 	bmi CODE_C50851
 	tay
 	lda.w $05A4,y
 	bne CODE_C50851
 	lda.w #$0001
 	sta.w $05A4,y
-	lda.w $00C1,y
-	sta.b $8B
+	lda.w PadRaw1,y
+	sta.b d3
 	lda.w $0579,y
-	sta.b $87
-	lda.w $0583,y
-	sta.b $83
-	lda.w $056F,y
-	sta.b $7F
+	sta.b d2
+	lda.w padnew,y
+	sta.b d1
+	lda.w paddir,y
+	sta.b d0
 	iny
 	iny
-	sty.b $8F
+	sty.b d4
 	jsl.l CODE_C52AF8
 CODE_C50851:						; from CODE_C5081F
-	lda.w $1000,x
+	lda.w pfalock,x
 	bne CODE_C50874
-	lda.w $0644,x
+	lda.w asscur,x
 	asl a
 	asl a
 	tax
@@ -980,27 +980,27 @@ CODE_C50851:						; from CODE_C5081F
 	sta.w $1851
 	lda.l $C09A25,x
 	sta.w $1852
-	ldx.b $B7
+	ldx.b curobj
 	jsl.l loadTeamStruct
 	jsl.l $001850
 CODE_C50874:						; from CODE_C50851
-	lda.w $0A20,x
-	ora.w $10F3
+	lda.w position,x
+	ora.w gmclock
 	bne CODE_C508E3
 	cpx.w #$0018
 	bcs CODE_C508E3
-	cpx.w $05A0
+	cpx.w puckc
 	beq CODE_C508E3
-	lda.w $05CC,x
+	lda.w goalieflags,x
 	bit.w #$0001
 	bne CODE_C508E3
-	lda.w $0814,x
+	lda.w Xpos,x
 	cmp.w #$FFD5
 	bpl CODE_C508A3
 	cmp.w #$FFCF
 	bmi CODE_C508B3
 	lda.w #$FFD5
-	stz.w $09A0,x
+	stz.w Xvel,x
 	bra CODE_C508B3
 CODE_C508A3:						; from CODE_C50874
 	cmp.w #$002C
@@ -1008,18 +1008,18 @@ CODE_C508A3:						; from CODE_C50874
 	cmp.w #$0031
 	bpl CODE_C508B3
 	lda.w #$002B
-	stz.w $09A0,x
+	stz.w Xvel,x
 CODE_C508B3:						; from CODE_C50874, CODE_C508A3
-	sta.w $0814,x
-	lda.w $0896,x
+	sta.w Xpos,x
+	lda.w Ypos,x
 	bpl CODE_C508D0
 	cmp.w #$FF15
 	bmi CODE_C508E3
 	cmp.w #$FF1A
 	bpl CODE_C508E3
 	lda.w #$FF14
-	sta.w $0896,x
-	stz.w $09C0,x
+	sta.w Ypos,x
+	stz.w Yvel,x
 	bra CODE_C508E3
 CODE_C508D0:						; from CODE_C508B3
 	cmp.w #$00EC
@@ -1027,18 +1027,18 @@ CODE_C508D0:						; from CODE_C508B3
 	cmp.w #$00E7
 	bmi CODE_C508E3
 	lda.w #$00EC
-	sta.w $0896,x
-	stz.w $09C0,x
+	sta.w Ypos,x
+	stz.w Yvel,x
 CODE_C508E3:						; from CODE_C50874, CODE_C508B3, CODE_C508D0
-	stz.w $0BE0,x
-	stz.w $0C00,x
-	lda.w $0896,x
-	sta.b $8B
-	lda.w $0814,x
-	sta.b $87
+	stz.w Wallcos,x
+	stz.w Wallsin,x
+	lda.w Ypos,x
+	sta.b d3
+	lda.w Xpos,x
+	sta.b d2
 	cmp.w $0920,x
 	bne CODE_C50902
-	lda.b $8B
+	lda.b d3
 	cmp.w $0960,x
 	bne CODE_C50902
 	jmp.w CODE_C5096D
@@ -1046,17 +1046,17 @@ CODE_C50902:						; from CODE_C508E3
 	jsl.l CODE_C43FC8
 	cpx.w #$0018
 	bcs CODE_C5096D
-	lda.w $0A20,x
+	lda.w position,x
 	beq CODE_C5096D
-	lda.w $0D60,x
+	lda.w pflags,x
 	and.w #$8000
 	bne CODE_C5096D
-	lda.w $0814,x
+	lda.w Xpos,x
 	cmp.w #$FFE7
 	bmi CODE_C5096D
 	cmp.w #$0019
 	bpl CODE_C5096D
-	lda.w $0896,x
+	lda.w Ypos,x
 	bit.w #$8000
 	beq CODE_C50931
 	eor.w #$FFFF
@@ -1064,7 +1064,7 @@ CODE_C50902:						; from CODE_C508E3
 CODE_C50931:						; from CODE_C50902
 	sec
 	sbc.w #$0113
-	sta.b $2C
+	sta.b r0
 	lda.w $0960,x
 	bit.w #$8000
 	beq CODE_C50943
@@ -1073,9 +1073,9 @@ CODE_C50931:						; from CODE_C50902
 CODE_C50943:						; from CODE_C50931
 	sec
 	sbc.w #$0113
-	eor.b $2C
+	eor.b r0
 	bmi CODE_C50961
-	lda.w $0896,x
+	lda.w Ypos,x
 	bit.w #$8000
 	beq CODE_C50957
 	eor.w #$FFFF
@@ -1087,9 +1087,9 @@ CODE_C50957:						; from CODE_C50943
 	bcs CODE_C5096D
 CODE_C50961:						; from CODE_C50943
 	lda.w $0920,x
-	sta.w $0814,x
+	sta.w Xpos,x
 	lda.w $0960,x
-	sta.w $0896,x
+	sta.w Ypos,x
 CODE_C5096D:						; from CODE_C508E3, CODE_C50902, CODE_C50957
 	lda.w $0A00,x
 	sec
@@ -1104,7 +1104,7 @@ CODE_C50979:						; from CODE_C50803, CODE_C5096D
 	beq CODE_C50986
 	jmp.w CODE_C507F3
 CODE_C50986:						; from CODE_C50979
-	lda.w $08D8
+	lda.w puckz
 	cmp.w #$0018
 	bcs CODE_C509C0
 	lda.w $0830
@@ -1127,30 +1127,30 @@ CODE_C509A7:						; from CODE_C50986
 	bne CODE_C509C0
 	sta.w $0832
 CODE_C509C0:						; from CODE_C50986, CODE_C509A7
-	lda.w $08D8
+	lda.w puckz
 	bne CODE_C509F4
-	lda.w $08B2
+	lda.w pucky
 	cmp.w #$FEAE
 	bmi CODE_C509F4
 	cmp.w #$0152
 	bpl CODE_C509F4
-	lda.w $08B2
+	lda.w pucky
 	cmp.w #$FEC7
 	bpl CODE_C509E3
 	lda.w #$FEC7
-	sta.w $08B2
+	sta.w pucky
 	sta.w $08B4
 CODE_C509E3:						; from CODE_C509C0
-	lda.w $08B2
+	lda.w pucky
 	cmp.w #$013E
 	bmi CODE_C509F4
 	lda.w #$013E
-	sta.w $08B2
+	sta.w pucky
 	sta.w $08B4
 CODE_C509F4:						; from CODE_C509C0, CODE_C509E3
-	lda.w $05A0
+	lda.w puckc
 	bmi CODE_C509FF
-	lda.w $08B2
+	lda.w pucky
 	sta.w $2000
 CODE_C509FF:						; from CODE_C509F4
 	rtl
@@ -1159,42 +1159,42 @@ DATA8_C50A00:						; not traced: data between routines
 	db $FD,$FD,$FC,$FC
 clockcont_0:						; called from other segments
 	ldx.w #$001C
-	stx.b $6F
+	stx.b a3
 	lda.w #$0018
-	sta.b $7F
+	sta.b d0
 	jsl.l CODE_C43734
 	lda.w #$0007
 	jsl.l CODE_CF040B
-	stz.b $38
-	lda.w $114B
+	stz.b p0
+	lda.w gsp
 	cmp.w #$0002
 	bcs CODE_C50A36
 	jmp.w CODE_C50AC3
 CODE_C50A36:						; from clockcont_0
 	lda.w #$0008
-	sta.b $7F
+	sta.b d0
 	ldx.w #$0000
-	stx.b $6F
+	stx.b a3
 	lda.w #$0005
-	sta.b $87
-	lda.w $12AB
+	sta.b d2
+	lda.w tmscore
 	cmp.w $12AD
 	beq CODE_C50AC3
 	bpl CODE_C50A54
 	ldx.w #$000C
-	stx.b $6F
+	stx.b a3
 CODE_C50A54:						; from CODE_C50A36, CODE_C50A64
-	lda.w $0A20,x
+	lda.w position,x
 	beq CODE_C50A64
 	bmi CODE_C50A64
 	jsl.l CODE_C43734
 	lda.w #$0008
-	sta.b $7F
+	sta.b d0
 CODE_C50A64:						; from CODE_C50A54
 	inx
 	inx
-	stx.b $6F
-	dec.b $87
+	stx.b a3
+	dec.b d2
 	bpl CODE_C50A54
 CODE_C50A6C:						; from CODE_C50AC3
 	jsl.l CODE_C4818C
@@ -1203,35 +1203,35 @@ CODE_C50A6C:						; from CODE_C50AC3
 	adc.w #$03E8
 	sta.l $7E24CA
 	lda.w #$003C
-	sta.b $5B
+	sta.b crowdhold
 	lda.w #$0040
-	sta.w $10F3
-	tsb.w $10F1
-	lda.w $12AB
+	sta.w gmclock
+	tsb.w gmode
+	lda.w tmscore
 	cmp.w $12AD
 	bmi CODE_C50AA8
 	lda.w #$0000
 	sta.l $7E24CA
 	lda.w #$0003
 	sta.w $07AE
-	lda.b $5D
+	lda.b Vcount
 	sec
 	sbc.w #$0096
 	sta.w $07B0
 CODE_C50AA8:						; from CODE_C50A6C
 	jsl.l CODE_C380D1
 	lda.w #$0004
-	sta.b $7F
+	sta.b d0
 	jsl.l AddPenalty2
-	lda.b $38
+	lda.b p0
 	beq CODE_C50AC2
 	lda.w #$0032
-	sta.b $7F
+	sta.b d0
 	jsl.l AddPenalty2
 CODE_C50AC2:						; from CODE_C50AA8
 	rtl
 CODE_C50AC3:						; from clockcont_0, CODE_C50A36
-	lda.w $114B
+	lda.w gsp
 	cmp.w #$0003
 	bne CODE_C50AD0
 	lda.w $1864
@@ -1239,21 +1239,21 @@ CODE_C50AC3:						; from clockcont_0, CODE_C50A36
 CODE_C50AD0:						; from CODE_C50AC3
 	jsl.l EndPenaltyShot
 	lda.w #$0002
-	sta.b $7F
+	sta.b d0
 	jml.l ShootoutWonBy
 CODE_C50ADD:						; called from other segments
 	jsl.l CODE_C50E94
 	jsl.l forceblack
-	lda.w $10F1
+	lda.w gmode
 	eor.w #$0002
-	sta.w $10F1
+	sta.w gmode
 	ldy.w #$0000
 CODE_C50AF1:						; from CODE_C50AFF
-	lda.w $1373,y
+	lda.w tmpdst,y
 	cmp.w #$FFFD
 	bne CODE_C50AFF
 	lda.w #$FFFE
-	sta.w $1373,y
+	sta.w tmpdst,y
 CODE_C50AFF:						; from CODE_C50AF1
 	iny
 	iny
@@ -1261,27 +1261,27 @@ CODE_C50AFF:						; from CODE_C50AF1
 	bcc CODE_C50AF1
 	jsl.l CODE_C5226A
 	jsl.l CODE_C52295
-	inc.w $114B
-	lda.w $114B
+	inc.w gsp
+	lda.w gsp
 	cmp.w #$0003
 	beq CODE_C50B2F
 	bcc CODE_C50B3D
 	lda.w #$0003
-	sta.w $114B
+	sta.w gsp
 	lda.w $1864
 	cmp.w #$0003
 	beq CODE_C50B2F
 	lda.w #$0004
-	sta.w $114B
+	sta.w gsp
 CODE_C50B2F:						; from CODE_C50AFF
-	lda.w $12AB
+	lda.w tmscore
 	cmp.w $12AD
 	beq CODE_C50B3D
 	lda.w #$0004
-	sta.w $114B
+	sta.w gsp
 CODE_C50B3D:						; from CODE_C50AFF, CODE_C50B2F
 	jsl.l CODE_C53535
-	lda.w $114B
+	lda.w gsp
 	cmp.w #$0004
 	bne CODE_C50B5D
 	jsl.l CODE_C5D5CD
@@ -1294,14 +1294,14 @@ CODE_C50B5A:						; from CODE_C50B3D
 	jsr.w CODE_C5DD47
 CODE_C50B5D:						; from CODE_C50B3D
 	jsl.l CODE_C51523
-	lda.w $114B
+	lda.w gsp
 	cmp.w #$0004
 	beq CODE_C50B7C
-	lda.w $114B
+	lda.w gsp
 	sta.w $1876
 	jsl.l CODE_C50E94
 	lda.w #$FFFF
-	sta.w $18B0
+	sta.w BA_Sktr_SCnum
 	jmp.w CODE_C5016D
 CODE_C50B7C:						; from CODE_C50B5D
 	lda.w $1864
@@ -1345,7 +1345,7 @@ CODE_C50BCB:						; from CODE_C50BB9
 	lda.w #$0000
 	sta.l $306051
 	dec a
-	sta.b $9F
+	sta.b tmp0
 	jsl.l CODE_CF04B6
 	jmp.w CODE_C5ADDC
 CODE_C50BE5:						; from CODE_C50BB9
@@ -1365,25 +1365,25 @@ CODE_C50BF3:						; from CODE_C50BF9
 CODE_C50BF9:						; from CODE_C50BEC
 	lda.l $7F8EF8,x
 	beq CODE_C50BF3
-	stx.b $A1
+	stx.b tmp1
 	tya
 	asl a
 	tax
 	lda.l $306051
 	ora.l BitMaskTable,x
 	sta.l $306051
-	ldx.b $A1
-	lda.w $12AB
+	ldx.b tmp1
+	lda.w tmscore
 	sta.l $7F8F02,x
 	sta.l $7F8F1A,x
 	sta.l $7F8F16,x
-	sta.b $9F
+	sta.b tmp0
 	lda.w $12AD
 	sta.l $7F8F00,x
 	sta.l $7F8F04,x
 	sta.l $7F8F2C,x
 	xba
-	tsb.b $9F
+	tsb.b tmp0
 	lda.w $1297
 	sta.l $7F8F1C,x
 	sta.l $7F8F18,x
@@ -1402,7 +1402,7 @@ CODE_C50BF9:						; from CODE_C50BEC
 	sta.l $7F8F22,x
 	lda.w $1261
 	sta.l $7F8F0C,x
-	lda.w $127B
+	lda.w tmSHShots
 	sta.l $7F8F24,x
 	lda.w $127D
 	sta.l $7F8F0E,x
@@ -1425,10 +1425,10 @@ CODE_C50BF9:						; from CODE_C50BEC
 	tya
 	asl a
 	tax
-	lda.b $9F
+	lda.b tmp0
 	sta.l $306053,x
 	clc
-	lda.b $A1
+	lda.b tmp1
 	adc.w #$8F32
 	tay
 	ldx.w #$1413
@@ -1441,7 +1441,7 @@ CODE_C50BF9:						; from CODE_C50BEC
 	beq CODE_C50D02
 	pea.w $7E7F
 	plb
-	lda.b $A1
+	lda.b tmp1
 	clc
 	adc.w #$8EF8
 	tay
@@ -1477,7 +1477,7 @@ CODE_C50D18:						; from CODE_C501AC, CODE_C50D24 and other segments
 	lda.w $2CF5
 	bne CODE_C50D23
 	lda.w #$0001
-	tsb.w $10F5
+	tsb.w sflags
 CODE_C50D23:						; from CODE_C50D18
 	rtl
 CODE_C50D24:						; from CODE_C50E42 and other segments
@@ -1529,55 +1529,55 @@ CODE_C50D29:						; from CODE_C5032B and other segments
 	pla
 	sta.b $75
 	pla
-	sta.b $73
+	sta.b a4
 	pla
 	sta.b $71
 	pla
-	sta.b $6F
+	sta.b a3
 	pla
 	sta.b $6D
 	pla
-	sta.b $6B
+	sta.b a2
 	pla
 	sta.b $69
 	pla
-	sta.b $67
+	sta.b a1
 	pla
 	sta.b $65
 	pla
-	sta.b $63
+	sta.b a0
 	pla
 	sta.b $9D
 	pla
-	sta.b $9B
+	sta.b d7
 	pla
 	sta.b $99
 	pla
-	sta.b $97
+	sta.b d6
 	pla
 	sta.b $95
 	pla
-	sta.b $93
+	sta.b d5
 	pla
 	sta.b $91
 	pla
-	sta.b $8F
+	sta.b d4
 	pla
 	sta.b $8D
 	pla
-	sta.b $8B
+	sta.b d3
 	pla
 	sta.b $89
 	pla
-	sta.b $87
+	sta.b d2
 	pla
 	sta.b $85
 	pla
-	sta.b $83
+	sta.b d1
 	pla
 	sta.b $81
 	pla
-	sta.b $7F
+	sta.b d0
 	jsl.l CODE_C558CC
 	jsl.l CODE_C5589E
 	pla
@@ -1585,7 +1585,7 @@ CODE_C50D29:						; from CODE_C5032B and other segments
 	bne CODE_C50DDD
 	jsl.l CODE_C52264
 CODE_C50DDD:						; from CODE_C50D29
-	stz.b $5D
+	stz.b Vcount
 	stz.w $07C6
 	jsl.l CODE_C4CEDB
 	stz.w $2372
@@ -1593,7 +1593,7 @@ CODE_C50DDD:						; from CODE_C50D29
 	jsl.l forceblack
 	stz.w $079C
 	lda.w #$0001
-	trb.w $10F5
+	trb.w sflags
 	lda.w $17D1
 	bne CODE_C50E02
 	jsl.l ScreenOn
@@ -1604,9 +1604,9 @@ CODE_C50E02:						; from CODE_C50DDD
 	jsl.l CODE_CF038E
 	jsl.l CODE_CF03D0
 	lda.w #$FFFF
-	sta.w $0776
-	sta.w $077C
-	lda.b $5D
+	sta.w recsfx
+	sta.w recsfx2
+	lda.b Vcount
 	sta.w $07F6
 	sta.w $07C6
 	rtl
@@ -1614,7 +1614,7 @@ demoread:							; from CODE_C50308 and other segments
 	lda.w $1864
 	cmp.w #$0004
 	bne CODE_C50E62
-	lda.w $17B5
+	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
 	ora.w $17BB
@@ -1623,12 +1623,12 @@ demoread:							; from CODE_C50308 and other segments
 	ldx.w #$0000
 CODE_C50E42:						; from CODE_C50E59
 	phx
-	lda.w $17B5,x
+	lda.w cont1team,x
 	beq CODE_C50E59
 	txa
 	lsr a
 	jsl.l ReadjoyA
-	lda.b $8B
+	lda.b d3
 	bit.w #$1000
 	beq CODE_C50E59
 	pla
@@ -1641,19 +1641,19 @@ CODE_C50E59:						; from CODE_C50E42
 	bcc CODE_C50E42
 	rtl
 CODE_C50E62:						; from demoread
-	lda.w $17B5
+	lda.w cont1team
 	ora.w $17B7
 	ora.w $17B9
 	ora.w $17BB
 	ora.w $17BD
 	bne CODE_C50E85
 	jsl.l ReadJoy1
-	lda.b $83
+	lda.b d1
 	bit.w #$1000
 	beq CODE_C50E81
 	jmp.w CODE_C50D15
 CODE_C50E81:						; from CODE_C50E62
-	lda.b $83
+	lda.b d1
 	bne CODE_C50E86
 CODE_C50E85:						; from CODE_C50E62
 	rtl
@@ -1669,14 +1669,14 @@ CODE_C50E94:						; from CODE_C50ADD, CODE_C50B5D and other segments
 	sta.w fadestep
 	rtl
 CODE_C50E9B:						; from CODE_C502E0, CODE_C502E8
-	lda.w $114D
+	lda.w gameclock
 	beq CODE_C50ED7
 	lda.w $114F
 	sec
 	sbc.w #$0AAA
 	sta.w $114F
 	bcs CODE_C50ED7
-	dec.w $114D
+	dec.w gameclock
 	sep #$29
 	lda.w $1151
 	sbc.b #$01
@@ -1689,24 +1689,24 @@ CODE_C50EC2:						; from CODE_C50E9B
 	sta.w $1151
 	rep #$28
 	jsl.l CODE_C51397
-	lda.w $14E3
+	lda.w CwdExciteLvl
 	clc
 	adc.w #$FFFD
 	bmi CODE_C50ED7
-	sta.w $14E3
+	sta.w CwdExciteLvl
 CODE_C50ED7:						; from CODE_C50E9B, CODE_C50EC2
 	rts
 UpdateScores:						; no caller found (not traced)
 	jsl.l CODE_C4075F
-	lda.b $83
-	sta.w $07F2
+	lda.b d1
+	sta.w TickerNum
 	asl a
-	sta.b $63
+	sta.b a0
 CODE_C50EE4:						; from CODE_C50EFF
-	lda.b $83
+	lda.b d1
 	cmp.w $24C6
 	beq CODE_C50EFF
-	ldx.b $63
+	ldx.b a0
 	lda.w $2488,x
 	and.w #$FFFD
 	sta.w $2488,x
@@ -1714,53 +1714,53 @@ CODE_C50EE4:						; from CODE_C50EFF
 	bne CODE_C50EFF
 	jsl.l CODE_C511B8
 CODE_C50EFF:						; from CODE_C50EE4
-	dec.b $63
-	dec.b $63
-	dec.b $83
+	dec.b a0
+	dec.b a0
+	dec.b d1
 	bpl CODE_C50EE4
 	rtl
 CODE_C50F08:						; called from other segments
 	rtl
 CalcAttrib:							; no caller found (not traced)
-	lda.b $7F
+	lda.b d0
 	asl a
-	adc.b $7F
+	adc.b d0
 	asl a
 	asl a
-	sta.b $2C
+	sta.b r0
 	stz.b $81
-	ldy.b $6B
+	ldy.b a2
 	beq CODE_C50F20
-	lda.b $2C
+	lda.b r0
 	clc
 	adc.w #$0138
-	sta.b $2C
+	sta.b r0
 CODE_C50F20:						; from CalcAttrib
 	lda.w #$00C3
 	sta.b $65
 	lda.w $17D3,y
-	sta.b $63
+	sta.b a0
 	clc
-	lda.b [$63]
+	lda.b [a0]
 	and.w #$07FF
-	sta.b $63
-	lda.b $7F
+	sta.b a0
+	lda.b d0
 	asl a
-	adc.b $63
-	sta.b $63
-	lda.b [$63]
+	adc.b a0
+	sta.b a0
+	lda.b [a0]
 	and.w #$3FFF
-	sta.b $63
-	lda.b [$63]
+	sta.b a0
+	lda.b [a0]
 	clc
-	adc.b $63
-	sta.b $63
-	stz.b $7F
-	stz.b $83
+	adc.b a0
+	sta.b a0
+	stz.b d0
+	stz.b d1
 	phx
 	lda.w #$0000
 CODE_C50F4F:						; from CODE_C51033
-	sta.b $87
+	sta.b d2
 	asl a
 	tax
 	lda.l BitMaskTable2,x
@@ -1777,30 +1777,30 @@ CODE_C50F68:						; from CODE_C50F5E
 CODE_C50F6A:						; from CODE_C50F5E
 	lda.w #$000F
 	sec
-	sbc.b $87
-	sta.b $3C
+	sbc.b d2
+	sta.b p1
 	lsr a
 	clc
-	adc.b $63
-	sta.b $38
+	adc.b a0
+	sta.b p0
 	lda.b $65
 	sta.b $3A
-	lda.b [$38]
-	sta.b $8B
-	lda.b $87
+	lda.b [p0]
+	sta.b d3
+	lda.b d2
 	lsr a
 	bcc CODE_C50F8D
-	lda.b $8B
+	lda.b d3
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.b $8B
+	sta.b d3
 CODE_C50F8D:						; from CODE_C50F6A
-	lda.b $8B
+	lda.b d3
 	and.w #$000F
-	sta.b $8B
-	lda.b $3C
+	sta.b d3
+	lda.b p1
 	dec a
 	dec a
 	dec a
@@ -1809,7 +1809,7 @@ CODE_C50F8D:						; from CODE_C50F6A
 	dec a
 CODE_C50F9F:						; from CODE_C50F8D
 	clc
-	adc.b $2C
+	adc.b r0
 	tax
 	lda.l $7E24DC
 	beq CODE_C50FAF
@@ -1822,36 +1822,36 @@ CODE_C50FAF:						; from CODE_C50F9F
 	lda.w #$0100
 	sbc.b $42
 CODE_C50FBB:						; from CODE_C50FAF
-	sta.b $40
+	sta.b r3
 	asl a
 	clc
-	adc.b $40
+	adc.b r3
 	lsr a
 	lsr a
 	bit.w #$2000
 	beq CODE_C50FCB
 	ora.w #$C000
 CODE_C50FCB:						; from CODE_C50FBB
-	sta.b $40
+	sta.b r3
 	lda.b $42
 	bit.w #$0080
 	beq CODE_C50FDC
 	lda.w #$0000
 	sec
-	sbc.b $40
-	sta.b $40
+	sbc.b r3
+	sta.b r3
 CODE_C50FDC:						; from CODE_C50FCB
 	lda.b $91
 	bmi CODE_C51012
-	ldx.b $3C
+	ldx.b p1
 	lda.l DATA8_C510CF,x
 	and.w #$00FF
 	beq CODE_C5100A
 	lda.w #$0012
-	ldx.b $8B
+	ldx.b d3
 	jsl.l Mul8U
 	clc
-	adc.b $40
+	adc.b r3
 	bpl CODE_C50FFC
 	lda.w #$0000
 CODE_C50FFC:						; from CODE_C50FDC
@@ -1859,45 +1859,45 @@ CODE_C50FFC:						; from CODE_C50FDC
 	bcc CODE_C51004
 	lda.w #$0064
 CODE_C51004:						; from CODE_C50FFC
-	sta.b $7F
+	sta.b d0
 	plx
 	jmp.w CODE_C51094
 CODE_C5100A:						; from CODE_C50FDC
-	lda.b $8B
-	sta.b $7F
+	lda.b d3
+	sta.b d0
 	plx
 	jmp.w CODE_C51094
 CODE_C51012:						; from CODE_C50FDC
-	lda.b $3C
+	lda.b p1
 	clc
-	adc.b $34
+	adc.b r2
 	tax
 	lda.l DATA8_C510AF,x
-	ldx.b $8B
+	ldx.b d3
 	jsl.l Mul8U
 	clc
-	adc.b $7F
-	sta.b $7F
-	lda.b $40
-	ldy.b $34
+	adc.b d0
+	sta.b d0
+	lda.b r3
+	ldy.b r2
 	beq CODE_C5102E
 	asl a
 CODE_C5102E:						; from CODE_C51012
 	clc
-	adc.b $83
-	sta.b $83
+	adc.b d1
+	sta.b d1
 CODE_C51033:						; from CODE_C50F4F
-	lda.b $87
+	lda.b d2
 	inc a
 	cmp.w #$000F
 	bpl CODE_C5103E
 	jmp.w CODE_C50F4F
 CODE_C5103E:						; from CODE_C51033
-	lda.b $83
+	lda.b d1
 	bpl CODE_C5106B
 	eor.w #$FFFF
 	inc a
-	ldx.b $34
+	ldx.b r2
 	bne CODE_C51050
 	tax
 	lda.w #$000A
@@ -1909,15 +1909,15 @@ CODE_C51054:						; from CODE_C5103E
 	jsl.l DivX8U
 	sec
 	eor.w #$FFFF
-	adc.b $7F
-	sta.b $7F
-	lda.b $7F
+	adc.b d0
+	sta.b d0
+	lda.b d0
 	bpl CODE_C5108B
-	stz.b $7F
+	stz.b d0
 	lda.w #$0000
 	bra CODE_C5108B
 CODE_C5106B:						; from CODE_C5103E
-	ldx.b $34
+	ldx.b r2
 	bne CODE_C51075
 	tax
 	lda.w #$000A
@@ -1928,22 +1928,22 @@ CODE_C51075:						; from CODE_C5106B
 CODE_C51079:						; from CODE_C5106B
 	jsl.l DivX8U
 	clc
-	adc.b $7F
-	sta.b $7F
-	lda.b $7F
+	adc.b d0
+	sta.b d0
+	lda.b d0
 	bpl CODE_C5108B
-	stz.b $7F
+	stz.b d0
 	lda.w #$0000
 CODE_C5108B:						; from CODE_C51054, CODE_C51079
-	sta.b $7F
+	sta.b d0
 	plx
-	lda.b $34
+	lda.b r2
 	beq CODE_C51094
-	lsr.b $7F
+	lsr.b d0
 CODE_C51094:						; from CODE_C51004, CODE_C5100A, CODE_C5108B
 	lda.b $81
 	bne CODE_C510AE
-	lda.b $7F
+	lda.b d0
 	cmp.w #$0065
 	bcc CODE_C510A2
 	lda.w #$0064
@@ -1954,7 +1954,7 @@ CODE_C510A2:						; from CODE_C51094
 	clc
 	adc.w #$0019
 CODE_C510AC:						; from CODE_C510A2
-	sta.b $7F
+	sta.b d0
 CODE_C510AE:						; from CODE_C51094
 	rtl
 DATA8_C510AF:						; not traced: a table read by CODE_C51012
@@ -1963,7 +1963,7 @@ DATA8_C510AF:						; not traced: a table read by CODE_C51012
 DATA8_C510CF:						; not traced: a table read by CODE_C50FDC
 	db $00,$00,$00,$01,$01,$01,$01,$01,$01,$00,$01,$01,$01,$01,$01,$01
 GetPeriodTimeRemaining:				; called from other segments
-	lda.w $114B
+	lda.w gsp
 	xba
 	and.w #$FF00
 	asl a
@@ -1974,6 +1974,6 @@ GetPeriodTimeRemaining:				; called from other segments
 	asl a
 	ora.w $17B3
 	sec
-	sbc.w $114D
-	sta.b $7F
+	sbc.w gameclock
+	sta.b d0
 	rtl

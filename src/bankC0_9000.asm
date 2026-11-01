@@ -400,21 +400,21 @@ CODE_C092B3:						; called from CODE_C50056; the first game routine after the ma
 	jsl.l CODE_C54E27
 	jsl.l CODE_C52CA3
 	jsl.l CODE_C53980
-	stz.b $6B
+	stz.b a2
 	jsr.w CODE_C09681
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	jsr.w CODE_C09681
 	jsl.l CODE_C5009B
 	jsl.l CODE_C5016D
 	lda.w #$0001
 	sta.w $18A0
-	stz.b $83
+	stz.b d1
 CODE_C092F0:						; from CODE_C0930C
 	stz.w $18A4
 	lda.w #$0002
-	sta.b $6B
-	stz.b $67
+	sta.b a2
+	stz.b a1
 	jsl.l CODE_C09336
 	lda.w $18A0
 	cmp.w #$0005
@@ -422,15 +422,15 @@ CODE_C092F0:						; from CODE_C0930C
 	lda.w #$0001
 	sta.w $18A4
 CODE_C0930C:						; from CODE_C092F0
-	stz.b $6B
+	stz.b a2
 	lda.w #$0002
-	sta.b $67
+	sta.b a1
 	jsl.l CODE_C09336
 	inc.w $18A0
 	lda.w $18A0
 	cmp.w #$0006
 	bmi CODE_C092F0
-	lda.w $12AB
+	lda.w tmscore
 	cmp.w $12AD
 	beq CODE_C092F0
 	stz.w $189C
@@ -444,25 +444,25 @@ CODE_C09336:						; called from CODE_C092F0, CODE_C0930C
 	stz.w $18A2
 	pei ($6B)
 	jsl.l CODE_C4818C
-	stz.w $10F1
-	lda.b $6B
+	stz.w gmode
+	lda.b a2
 	beq CODE_C0934F
 	lda.w #$0002
-	sta.w $10F1
+	sta.w gmode
 CODE_C0934F:						; from CODE_C09336
 	jsl.l CODE_C5016D
 	pla
-	sta.b $6B
-	stz.w $18B0
-	lda.b $6B
+	sta.b a2
+	stz.w BA_Sktr_SCnum
+	lda.b a2
 	beq CODE_C09363
 	lda.w #$000C
-	sta.w $18B0
+	sta.w BA_Sktr_SCnum
 CODE_C09363:						; from CODE_C0934F
 	ldy.w #$0000
 CODE_C09366:						; loop
 	lda.w $1525,y
-	cmp.b $6B
+	cmp.b a2
 	beq CODE_C0937C
 	iny
 	iny
@@ -475,7 +475,7 @@ CODE_C0937C:						; from CODE_C09366
 	sty.w $18B6
 CODE_C0937F:						; from CODE_C09366
 	jsl.l CODE_C4866D
-	lda.b $6B
+	lda.b a2
 	beq CODE_C093B2
 	lda.w $18A0
 CODE_C0938A:						; loop
@@ -493,9 +493,9 @@ CODE_C09395:						; from CODE_C0938A
 	dec a
 	sta.w $18B2
 	lda.w #$000C
-	sta.w $18B0
+	sta.w BA_Sktr_SCnum
 	lda.w #$0002
-	sta.w $18B4
+	sta.w BA_Team
 	bra CODE_C093D8
 CODE_C093B2:						; from CODE_C0937F
 	lda.w $18A0
@@ -514,8 +514,8 @@ CODE_C093C0:						; from CODE_C093B5
 	dec a
 	sta.w $18B2
 	lda.w #$0000
-	sta.w $18B0
-	stz.w $18B4
+	sta.w BA_Sktr_SCnum
+	stz.w BA_Team
 CODE_C093D8:						; from CODE_C09395
 	jsl.l CODE_C5021B
 	rtl
@@ -526,12 +526,12 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	jmp.w CODE_C09465
 CODE_C093E8:						; from ShootoutWonBy
 	lda.w #$000A
-	sta.b $7F
+	sta.b d0
 	lda.w $18A4
 	bne CODE_C093F5
 	jmp.w CODE_C09465
 CODE_C093F5:						; from CODE_C093E8
-	lda.w $12AB
+	lda.w tmscore
 	sec
 	sbc.w $12AD
 	bne CODE_C09401
@@ -541,7 +541,7 @@ CODE_C09401:						; from CODE_C093F5
 	phy
 	pei ($83)
 	pei ($67)
-	lda.w $12AB
+	lda.w tmscore
 	sec
 	sbc.w $12AD
 	bmi CODE_C09415
@@ -575,32 +575,32 @@ CODE_C09418:						; from CODE_C09401
 	ldy.w #$5891
 	jsl.l QueueVRAMDMALen
 	pla
-	sta.b $67
+	sta.b a1
 	pla
-	sta.b $83
+	sta.b d1
 	ply
 	plx
 	lda.w #$0010
-	sta.b $7F
+	sta.b d0
 CODE_C09465:						; from ShootoutWonBy, CODE_C093E8, CODE_C093F5
 	jml.l AddPenalty2
 	jsl.l CODE_C53ABC
 	lda.w #$0001
-	sta.b $7F
-	lda.b $6B
+	sta.b d0
+	lda.b a2
 	beq CODE_C0947B
 	lda.w #$0002
-	sta.b $7F
+	sta.b d0
 CODE_C0947B:						; from CODE_C09465
-	lda.w $17B5
-	cmp.b $7F
+	lda.w cont1team
+	cmp.b d0
 	beq CODE_C0948C
 	lda.w $17B7
-	cmp.b $7F
+	cmp.b d0
 	beq CODE_C0948C
 	jmp.w CODE_C094E4
 CODE_C0948C:						; from CODE_C0947B
-	ldx.b $6B
+	ldx.b a2
 	lda.w $17C9,x
 	sta.w $2352
 	lda.w #$FFFF
@@ -620,7 +620,7 @@ CODE_C094BC:						; from CODE_C094E2
 	jsl.l CODE_C36CBF
 	jsl.l CODE_C370A5
 	jsl.l ProcessInputWithRepeat
-	lda.b $83
+	lda.b d1
 	bit.w #$0800
 	bne CODE_C09500
 	bit.w #$0400
@@ -632,7 +632,7 @@ CODE_C094BC:						; from CODE_C094E2
 CODE_C094E2:						; from CODE_C09500, CODE_C0950E, CODE_C0951F
 	bra CODE_C094BC
 CODE_C094E4:						; from CODE_C0947B, CODE_C094BC
-	ldy.b $6B
+	ldy.b a2
 	bne CODE_C094F1
 	sep #$20
 	lda.w $188C
@@ -645,7 +645,7 @@ CODE_C094F1:						; from CODE_C094E4
 CODE_C094F8:						; from CODE_C094E4
 	and.w #$00FF
 	dec a
-	sta.w $12CB,y
+	sta.w tmgoalie,y
 	rtl
 CODE_C09500:						; from CODE_C094BC
 	lda.w $1878
@@ -666,37 +666,37 @@ CODE_C0951F:						; from CODE_C094BC
 	bra CODE_C094E2
 CODE_C09529:						; called from CODE_C0948C
 	lda.w #$0020
-	sta.b $7F
+	sta.b d0
 	lda.w #$000D
-	sta.b $83
+	sta.b d1
 	lda.w $24C0
-	sta.b $87
+	sta.b d2
 	jsl.l CODE_C528D4
 	lda.w #$0800
 	sta.w $07D2
 	lda.w #$000E
-	sta.b $7F
+	sta.b d0
 	lda.w #$0003
-	sta.b $83
+	sta.b d1
 	jsl.l CODE_C0958F
 	rtl
 CODE_C09551:						; called from CODE_C0958F
 	lda.w #$0020
-	sta.b $7F
+	sta.b d0
 	lda.w #$000D
-	sta.b $83
+	sta.b d1
 	lda.w $24C0
-	sta.b $87
+	sta.b d2
 	jsl.l CODE_C528D4
 	lda.w #$0800
 	sta.w $07D2
 	lda.w #$000E
-	sta.b $7F
+	sta.b d0
 	lda.w #$0003
-	sta.b $83
+	sta.b d1
 	lda.w #$007F
 	sta.b $3A
-	stz.b $38
+	stz.b p0
 	lda.w #$0020
 	lda.w #$001C
 	ldx.w #$0000
@@ -713,32 +713,32 @@ CODE_C09598:						; from CODE_C0958F
 	ldx.w #$0058
 	ldy.w #$0018
 	lda.w $17C9
-	sta.b $83
-	lda.b $6B
+	sta.b d1
+	lda.b a2
 	beq CODE_C095AC
 	lda.w $17CB
-	sta.b $83
+	sta.b d1
 CODE_C095AC:						; from CODE_C09598
 	lda.w $2364
 	beq CODE_C095BE
 	jsl.l WaitFrame
 	lda.w #$0050
-	sta.w $04CB
+	sta.w irqline2
 	stz.w $2364
 CODE_C095BE:						; from CODE_C095AC
 	rtl
 CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C0951F
 	lda.w #$0020
-	sta.b $7F
+	sta.b d0
 	lda.w #$0013
-	sta.b $83
+	sta.b d1
 	lda.w $24C0
-	sta.b $87
+	sta.b d2
 	jsl.l CODE_C528D4
 	jsl.l CODE_C48A41
-	lda.b $7F
+	lda.b d0
 	dec a
-	sta.b $83
+	sta.b d1
 	lda.w #CODE_C09681>>16
 	sta.b $79
 	lda.w #CODE_C09681
@@ -746,48 +746,48 @@ CODE_C095BF:						; called from CODE_C0948C, CODE_C09500, CODE_C0950E, CODE_C095
 	lda.w #$00C0
 	sta.b $71
 	lda.w #$967D
-	sta.b $6F
+	sta.b a3
 	lda.w $0802
 	dec a
-	sta.b $7F
+	sta.b d0
 	bmi CODE_C09623
 	asl a
 	asl a
 	asl a
-	sta.b $7F
+	sta.b d0
 	lda.w #$0000
 	sta.b $71
 	lda.w #$188C
-	sta.b $6F
-	lda.b $6B
+	sta.b a3
+	lda.b a2
 	beq CODE_C09614
 	lda.w #$0000
 	sta.b $71
 	lda.w #$1894
-	sta.b $6F
+	sta.b a3
 CODE_C09614:						; from CODE_C095BF
 	lda.w #CODE_C09681>>16
 	sta.b $79
 	lda.w #CODE_C09681
 	sta.b $77
 	lda.w #$0005
-	sta.b $83
+	sta.b d1
 CODE_C09623:						; from CODE_C095BF, CODE_C09655
 	lda.w #$3800
 	sta.w $07D2
 	lda.w #$0005
 	sec
-	sbc.b $83
+	sbc.b d1
 	cmp.w $1878
 	bne CODE_C09655
 	lda.w #$2000
 	sta.w $07D2
-	lda.b [$6F]
+	lda.b [a3]
 	and.w #$00FF
 	dec a
 	sta.w $2358
 	phx
-	ldx.b $6B
+	ldx.b a2
 	lda.w $17C9,x
 	cmp.w #$0018
 	bcc CODE_C09654
@@ -800,14 +800,14 @@ CODE_C09655:						; from CODE_C09623
 	sta.w $07D4
 	lda.w #$0008
 	sta.w $07D4
-	lda.b [$6F]
+	lda.b [a3]
 	and.w #$00FF
 	dec a
-	sta.b $7F
-	inc.b $6F
+	sta.b d0
+	inc.b a3
 	inc.w $07D6
 	inc.w $07D6
-	dec.b $83
+	dec.b d1
 	bmi CODE_C09678
 	jmp.w CODE_C09623
 CODE_C09678:						; from CODE_C09655
@@ -819,31 +819,31 @@ CODE_C09681:						; from CODE_C092B3; its address is stored as a long pointer
 	lda.w #$0000
 	sta.b $71
 	lda.w #$188C
-	sta.b $6F
+	sta.b a3
 	lda.w #$2E35
-	sta.b $67
-	lda.b $6B
+	sta.b a1
+	lda.b a2
 	beq CODE_C096A3
 	lda.w #$0000
 	sta.b $71
 	lda.w #$1894
-	sta.b $6F
+	sta.b a3
 	lda.w #$3273
-	sta.b $67
+	sta.b a1
 CODE_C096A3:						; from CODE_C09681
-	ldy.b $6B
+	ldy.b a2
 	lda.w #$007E
 	sta.b $69
 	lda.w #$0007
-	sta.b $7F
+	sta.b d0
 CODE_C096AF:						; loop
 	sep #$20
-	lda.b [$67]
-	sta.b [$6F]
+	lda.b [a1]
+	sta.b [a3]
 	rep #$20
-	inc.b $67
-	inc.b $6F
-	dec.b $7F
+	inc.b a1
+	inc.b a3
+	dec.b d0
 	bpl CODE_C096AF
 	rts
 CODE_C096C0:						; called from CODE_C0951F
@@ -853,33 +853,33 @@ CODE_C096C0:						; called from CODE_C0951F
 	lda.w #$0000
 	sta.b $69
 	lda.w #$188C
-	sta.b $67
-	lda.b $6B
+	sta.b a1
+	lda.b a2
 	beq CODE_C096E1
 	lda.w #$0000
 	sta.b $69
 	lda.w #$1894
-	sta.b $67
+	sta.b a1
 CODE_C096E1:						; from CODE_C096C0
-	lda.b [$67]
+	lda.b [a1]
 	and.w #$00FF
 	inc a
-	cmp.b $7F
+	cmp.b d0
 	beq CODE_C096F0
 	bmi CODE_C096F0
 	lda.w #$0001
 CODE_C096F0:						; from CODE_C096E1
 	sep #$20
-	sta.b [$67]
+	sta.b [a1]
 	rep #$20
 	rtl
 CODE_C096F7:						; from CODE_C096C0
 	lda.w #$0020
-	sta.b $7F
+	sta.b d0
 	lda.w #$000D
-	sta.b $83
+	sta.b d1
 	lda.w $24C0
-	sta.b $87
+	sta.b d2
 	jsl.l CODE_C528D4
 	ldx.w #$0001
 	ldy.w #$0001
@@ -888,35 +888,35 @@ CODE_C096F7:						; from CODE_C096C0
 	adc.w #$0C00
 	jsl.l WaitFrame
 	lda.w #$0007
-	sta.w $04CB
+	sta.w irqline2
 	jsl.l CODE_C5362E
-	lda.b $7F
+	lda.b d0
 	sta.w $187C
 	jsl.l CODE_C48A41
 	lda.w $187C
 	sec
-	sbc.b $7F
+	sbc.b d0
 	sta.w $187C
-	lda.b $7F
+	lda.b d0
 	sta.w $1880
-	lda.b $7F
+	lda.b d0
 	sta.w $1884
 	lda.w #$0000
 	sta.b $71
 	lda.w #$188C
-	sta.b $6F
-	lda.b $6B
+	sta.b a3
+	lda.b a2
 	beq CODE_C09759
 	lda.w #$0000
 	sta.b $71
 	lda.w #$1894
-	sta.b $6F
+	sta.b a3
 CODE_C09759:						; from CODE_C096F7
-	lda.b $6F
+	lda.b a3
 	clc
 	adc.w $1878
-	sta.b $6F
-	lda.b [$6F]
+	sta.b a3
+	lda.b [a3]
 	and.w #$00FF
 	dec a
 	sta.w $1888
@@ -952,7 +952,7 @@ CODE_C097A2:						; from CODE_C097DD, CODE_C097EF, CODE_C097FF, CODE_C0980F, ...
 	jsl.l CODE_C36CBF
 	jsl.l CODE_C370A5
 	jsl.l ProcessInputWithRepeat
-	lda.b $83
+	lda.b d1
 	bit.w #$1000
 	bne CODE_C097D6
 	bit.w #$0800
@@ -1025,11 +1025,11 @@ CODE_C0984B:						; from CODE_C0983F
 	jmp.w CODE_C097A2
 CODE_C09855:						; called from CODE_C0979B, CODE_C097DD, CODE_C097EF, CODE_C097FF, ...
 	lda.w #$0020
-	sta.b $7F
+	sta.b d0
 	lda.w #$000D
-	sta.b $83
+	sta.b d1
 	lda.w $24C0
-	sta.b $87
+	sta.b d2
 	jsl.l CODE_C528D4
 	lda.w #$0011
 	sta.w $07D4
@@ -1039,34 +1039,34 @@ CODE_C09874:						; from CODE_C09897
 	lda.w #DATA8_C098CE>>16
 	sta.b $69
 	lda.w #DATA8_C098CE
-	sta.b $67
+	sta.b a1
 	lda.w $0806
-	sta.b $7F
+	sta.b d0
 	bra CODE_C0988F
 CODE_C09885:						; from CODE_C0988F
-	lda.b $67
+	lda.b a1
 	clc
-	adc.b [$67]
+	adc.b [a1]
 	adc.w #$0004
-	sta.b $67
+	sta.b a1
 CODE_C0988F:						; from CODE_C09874
-	lda.b [$67]
+	lda.b [a1]
 	bmi CODE_C09897
-	dec.b $7F
+	dec.b d0
 	bpl CODE_C09885
 CODE_C09897:						; from CODE_C0988F
-	lda.b [$67]
+	lda.b [a1]
 	bpl CODE_C098A0
 	dec.w $0806
 	bra CODE_C09874
 CODE_C098A0:						; from CODE_C09897
 	lda.w #$3800
 	sta.w $07D2
-	lda.b [$67]
+	lda.b [a1]
 	sta.b $91
 	ldy.w #$0002
-	lda.b [$67],y
-	sta.b $8F
+	lda.b [a1],y
+	sta.b d4
 	lda.w $1884
 	cmp.w $1880
 	beq CODE_C098B9
@@ -1089,17 +1089,17 @@ CODE_C09910:						; called from CODE_C098C9
 	asl a
 	asl a
 	asl a
-	sta.b $7F
-	ldy.b $6B
+	sta.b d0
+	ldy.b a2
 	lda.w $1884
 	inc a
-	sta.b $6F
+	sta.b a3
 	lda.w #DATA8_C09BC4>>16
 	sta.b $79
 	lda.w #DATA8_C09BC4
 	sta.b $77
 	lda.w #$0008
-	sta.b $83
+	sta.b d1
 	lda.w $0802
 	sec
 	sbc.w #$0005
@@ -1110,11 +1110,11 @@ CODE_C09910:						; called from CODE_C098C9
 CODE_C0993F:						; from CODE_C09910
 	bvc CODE_C09943
 CODE_C09941:						; from CODE_C09910
-	dec.b $83
+	dec.b d1
 CODE_C09943:						; from CODE_C09910, CODE_C0993F, CODE_C09977
 	lda.w #$3800
 	sta.w $07D2
-	lda.b $83
+	lda.b d1
 	cmp.w $1888
 	bne CODE_C09956
 	lda.w #$2000
@@ -1122,31 +1122,31 @@ CODE_C09943:						; from CODE_C09910, CODE_C0993F, CODE_C09977
 CODE_C09956:						; from CODE_C09943
 	lda.w #$0002
 	sta.w $07D4
-	lda.b $6F
+	lda.b a3
 	and.w #$00FF
 	dec a
-	sta.b $7F
+	sta.b d0
 	sta.b r1
 	stz.b r2
 	jsl.l CODE_C48A41
 	lda.b r1
-	cmp.b $7F
+	cmp.b d0
 	bpl CODE_C09977
 	lda.w #$0010
 	sta.b r2
 CODE_C09977:						; from CODE_C09956
 	lda.b r1
-	sta.b $7F
+	sta.b d0
 	jsl.l CODE_C50F08
-	inc.b $6F
+	inc.b a3
 	inc.w $07D6
-	dec.b $83
+	dec.b d1
 	bpl CODE_C09943
 	lda.w #$2000
 	sta.w $07D2
 	rtl
 CODE_C0998F:						; called from CODE_C097A2
-	ldy.b $83
+	ldy.b d1
 	phy
 	lda.w #$0009
 	sec
@@ -1154,29 +1154,29 @@ CODE_C0998F:						; called from CODE_C097A2
 	clc
 	adc.w $1884
 	and.w #$00FF
-	sta.b $7F
+	sta.b d0
 	lda.w #$0000
 	sta.b $69
 	lda.w #$188C
-	sta.b $67
-	lda.b $6B
+	sta.b a1
+	lda.b a2
 	beq CODE_C099BA
 	lda.w #$0000
 	sta.b $69
 	lda.w #$1894
-	sta.b $67
+	sta.b a1
 CODE_C099BA:						; from CODE_C0998F
 	ldy.w $1878
 	sep #$20
-	lda.b [$67],y
+	lda.b [a1],y
 	rep #$20
 	and.w #$00FF
-	sta.b $83
-	lda.b $7F
+	sta.b d1
+	lda.b d0
 	ldy.w #$0001
 CODE_C099CD:						; loop
 	sep #$20
-	cmp.b [$67],y
+	cmp.b [a1],y
 	rep #$20
 	beq CODE_C099DD
 	iny
@@ -1184,18 +1184,18 @@ CODE_C099CD:						; loop
 	bmi CODE_C099CD
 	bra CODE_C099E5
 CODE_C099DD:						; from CODE_C099CD
-	lda.b $83
+	lda.b d1
 	sep #$20
-	sta.b [$67],y
+	sta.b [a1],y
 	rep #$20
 CODE_C099E5:						; from CODE_C099CD
 	ldy.w $1878
-	lda.b $7F
+	lda.b d0
 	sep #$20
-	sta.b [$67],y
+	sta.b [a1],y
 	rep #$20
 	pla
-	sta.b $83
+	sta.b d1
 	rtl
 CODE_C099F4:						; called from CODE_C09418
 	phy

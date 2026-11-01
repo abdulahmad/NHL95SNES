@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4DFD6
 CODE_C4DFD6:						; called from other segments
-	sta.b $63
+	sta.b a0
 	stx.b $65
 	jsr.w CODE_C4D773
 	lda.w #$000F
@@ -15,11 +15,11 @@ CODE_C4DFD6:						; called from other segments
 	sta.b $1A
 	lda.w #$00E0
 	sta.b $18
-	lda.b $63
+	lda.b a0
 	jsl.l CreateSprite
-	inc.b $38,x
+	inc.b p0,x
 	lda.b $08
-	sta.b $30
+	sta.b r1
 	lda.w #$007E
 	sta.b $32
 	ldx.w #StanleyCupMap>>16
@@ -82,7 +82,7 @@ CODE_C4E020:						; from CODE_C4E020
 	jsl.l CODE_C4BCA4
 	lda.w #$2000
 	sta.b $D5
-	lda.b $63
+	lda.b a0
 	asl a
 	tax
 	lda.l $C30000,x
@@ -125,7 +125,7 @@ CODE_C4E020:						; from CODE_C4E020
 	jsl.l CODE_C4BBE5
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
-	stz.w $04C0
+	stz.w BG2HScroll
 	stz.w fadestep
 CODE_C4E0FE:						; from CODE_C4E0FE
 	inc.w TransfersReady
@@ -139,7 +139,7 @@ CODE_C4E0FE:						; from CODE_C4E0FE
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C4E0FE
 	lda.w $058D
 	bit.w #$1000
@@ -155,7 +155,7 @@ CODE_C4E12C:						; called from other segments
 	rtl
 CODE_C4E140:						; from CODE_C4E12C
 	lda.w #$0002
-	sta.w $04C2
+	sta.w BG2VScroll
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
 	jsl.l CODE_C4BAF6
@@ -214,9 +214,9 @@ CODE_C4E196:						; from CODE_C4E188
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
 	lda.w #$0400
-	sta.b $A1
+	sta.b tmp1
 	lda.w #$5800
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$87F2
 	ldx.w #$00C0
 	ldy.w #$2000
@@ -238,15 +238,15 @@ CODE_C4E196:						; from CODE_C4E188
 	sta.b $18
 	lda.w $17CB
 	jsl.l CreateSprite
-	stx.b $9B
-	inc.b $38,x
+	stx.b d7
+	inc.b p0,x
 	lda.w #$0025
 	sta.b $1A
 	lda.w #$0020
 	sta.b $18
 	lda.w #$0026
 	jsl.l CreateSprite
-	stx.b $97
+	stx.b d6
 	lda.w #$2000
 	sta.b $36,x
 	lda.b $22,x
@@ -259,7 +259,7 @@ CODE_C4E196:						; from CODE_C4E188
 	lda.w $17C9
 	jsl.l CreateSprite
 	stx.b $9D
-	inc.b $38,x
+	inc.b p0,x
 	lda.w #$0025
 	sta.b $1A
 	lda.w #$00B0
@@ -289,7 +289,7 @@ CODE_C4E196:						; from CODE_C4E188
 	lda.w #$8000
 	sta.w DMAEnShadow
 	lda.w #$03E8
-	sta.b $67
+	sta.b a1
 	lda.w #$0017
 	sta.l TM
 	stz.w fadestep
@@ -336,7 +336,7 @@ CODE_C4E31C:						; from CODE_C4E2DC
 	lda.w #$0019
 CODE_C4E32B:						; from CODE_C4E31C
 	sta.w $2DA3
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C4E2D9
 	lda.w $058D
 	bit.w #$1000
@@ -411,7 +411,7 @@ CODE_C4E3CB:						; from CODE_C4E196
 	sta.w $2DC5
 	lda.w #$0010
 	sta.b $95
-	stz.b $93
+	stz.b d5
 	stz.b $69
 	stz.b $69
 	lda.b $D3
@@ -442,7 +442,7 @@ CODE_C4E41B:						; from CODE_C4E196, CODE_C4E3AA, CODE_C4E3B8
 	jsl.l CODE_C58B11
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
-	ldx.b $9B
+	ldx.b d7
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
@@ -450,7 +450,7 @@ CODE_C4E41B:						; from CODE_C4E196, CODE_C4E3AA, CODE_C4E3B8
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-	ldx.b $97
+	ldx.b d6
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
@@ -473,14 +473,14 @@ CODE_C4E468:						; from CODE_C4E41B
 	asl a
 	tay
 	lda.w $2EA7,y
-	sta.b $63
+	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq CODE_C4E4CB
 	lda.w $2E75,y
-	sta.b $6B
+	sta.b a2
 	clc
 	adc.w #$00C0
 	phy
@@ -505,12 +505,12 @@ CODE_C4E468:						; from CODE_C4E41B
 	pea.w $0020
 	pea.w $0040
 	pei ($6D)
-	lda.b $63
+	lda.b a0
 	and.w #$FF00
 	lsr a
 	lsr a
 	lsr a
-	adc.b $6B
+	adc.b a2
 	pha
 	lda.b $04
 	tsx
@@ -529,14 +529,14 @@ CODE_C4E4CE:						; from CODE_C4E468
 	asl a
 	tay
 	lda.w $32E5,y
-	sta.b $63
+	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq CODE_C4E534
 	lda.w $32B3,y
-	sta.b $6B
+	sta.b a2
 	clc
 	adc.w #$00C0
 	phy
@@ -561,12 +561,12 @@ CODE_C4E4CE:						; from CODE_C4E468
 	pea.w $0020
 	pea.w $0050
 	pei ($6D)
-	lda.b $63
+	lda.b a0
 	and.w #$FF00
 	lsr a
 	lsr a
 	lsr a
-	adc.b $6B
+	adc.b a2
 	pha
 	lda.b $04
 	tsx
@@ -584,15 +584,15 @@ CODE_C4E537:						; from CODE_C4E4CE
 	lda.w #$0050
 	sta.b $D1
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	ldx.w $2DA5
 	lda.w $3274,x
 	and.w #$00FF
 	dec a
-	sta.b $7F
+	sta.b d0
 	pha
 	lda.w #$5DF9
-	sta.b $8F
+	sta.b d4
 	stz.b $91
 	lda.w #$0001
 	sta.l $7E24DC
@@ -620,15 +620,15 @@ CODE_C4E537:						; from CODE_C4E4CE
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	stz.b $6B
+	stz.b a2
 	ldx.w $2DA5
 	lda.w $2E36,x
 	and.w #$00FF
 	dec a
-	sta.b $7F
+	sta.b d0
 	pha
 	lda.w #$5DF9
-	sta.b $8F
+	sta.b d4
 	stz.b $91
 	lda.w #$0001
 	sta.l $7E24DC
@@ -670,14 +670,14 @@ CODE_C4E537:						; from CODE_C4E4CE
 	rts
 CODE_C4E624:						; from CODE_C4E465
 	lda.w $2EA7
-	sta.b $63
+	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq CODE_C4E67C
 	lda.w $2E75
-	sta.b $6B
+	sta.b a2
 	clc
 	adc.w #$00C0
 	ldy.b $64
@@ -701,12 +701,12 @@ CODE_C4E624:						; from CODE_C4E465
 	pea.w $0020
 	pea.w $0040
 	pei ($6D)
-	lda.b $63
+	lda.b a0
 	and.w #$FF00
 	lsr a
 	lsr a
 	lsr a
-	adc.b $6B
+	adc.b a2
 	pha
 	lda.b $04
 	tsx
@@ -718,14 +718,14 @@ CODE_C4E67C:						; from CODE_C4E624
 	jsr.w CODE_C4EF07
 CODE_C4E67F:						; from CODE_C4E624
 	lda.w $32E5
-	sta.b $63
+	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq CODE_C4E6D7
 	lda.w $32B3
-	sta.b $6B
+	sta.b a2
 	clc
 	adc.w #$00C0
 	ldy.b $64
@@ -749,12 +749,12 @@ CODE_C4E67F:						; from CODE_C4E624
 	pea.w $0020
 	pea.w $0050
 	pei ($6D)
-	lda.b $63
+	lda.b a0
 	and.w #$FF00
 	lsr a
 	lsr a
 	lsr a
-	adc.b $6B
+	adc.b a2
 	pha
 	lda.b $04
 	tsx
@@ -770,10 +770,10 @@ CODE_C4E6DA:						; from CODE_C4E67F
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	stz.b $6B
-	stz.b $7F
+	stz.b a2
+	stz.b d0
 	lda.w #$F0C9
-	sta.b $8F
+	sta.b d4
 	lda.w #$0010
 	sta.b $91
 	lda.w #$0001
@@ -795,10 +795,10 @@ CODE_C4E6DA:						; from CODE_C4E67F
 	lda.w #$0050
 	sta.b $D1
 	lda.w #$0002
-	sta.b $6B
-	stz.b $7F
+	sta.b a2
+	stz.b d0
 	lda.w #$F0C9
-	sta.b $8F
+	sta.b d4
 	lda.w #$0010
 	sta.b $91
 	lda.w #$0001
@@ -852,7 +852,7 @@ CODE_C4E79A:						; from CODE_C4E41B
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	ldx.b $9B
+	ldx.b d7
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
@@ -860,7 +860,7 @@ CODE_C4E79A:						; from CODE_C4E41B
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
-	ldx.b $97
+	ldx.b d6
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
@@ -918,12 +918,12 @@ CODE_C4E79A:						; from CODE_C4E41B
 	jsl.l CODE_C4CEDB
 	rts
 CODE_C4E885:						; from CODE_C4E196
-	stz.b $6B
+	stz.b a2
 	ldy.w #$2DA9
 	ldx.w #$2DC9
 	jsr.w CODE_C4E8CD
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	ldy.w #$2DB7
 	ldx.w #$3207
 	jsr.w CODE_C4E8CD
@@ -961,28 +961,28 @@ CODE_C4E8CD:						; from CODE_C4E885
 	inc a
 	sta.w $000C,y
 	lda.w $0000,x
-	sta.b $63
+	sta.b a0
 	lda.w #$0000
 CODE_C4E8EE:						; from CODE_C4E9C4
 	phx
 	pha
 	phy
 	ldy.w #$5DF9
-	sty.b $8F
+	sty.b d4
 	ldy.w #$0000
 	cmp.w $0002,x
 	bcs CODE_C4E906
 	ldy.w #$F0C9
-	sty.b $8F
+	sty.b d4
 	ldy.w #$0010
 CODE_C4E906:						; from CODE_C4E8EE
 	sty.b $91
-	sta.b $7F
+	sta.b d0
 	stz.w $24DC
 	jsl.l CODE_C571C7
 	pha
 	lda.b $05,s
-	sta.b $7F
+	sta.b d0
 	inc.w $24DC
 	jsl.l CODE_C571C7
 	sec
@@ -1058,13 +1058,13 @@ CODE_C4E98F:						; from CODE_C4E97E
 CODE_C4E9AE:						; from CODE_C4E98F
 	lda.w $04FB
 	sta.w $04FD
-	lda.w $0006,y
+	lda.w QueueBusy,y
 	sta.w $0008,y
 	lda.b $65
 	sta.w $04FB
 	txa
 	asl a
-	sta.w $0006,y
+	sta.w QueueBusy,y
 CODE_C4E9C4:						; from CODE_C4E906, CODE_C4E977, CODE_C4E97E, CODE_C4E932, ...
 	lda.w $000C,y
 	clc
@@ -1073,7 +1073,7 @@ CODE_C4E9C4:						; from CODE_C4E906, CODE_C4E977, CODE_C4E97E, CODE_C4E932, ...
 	txa
 	plx
 	inc a
-	cmp.b $63
+	cmp.b a0
 	beq CODE_C4E9D7
 	jmp.w CODE_C4E8EE
 CODE_C4E9D7:						; from CODE_C4E9C4
@@ -1093,7 +1093,7 @@ CODE_C4E9D8:						; from CODE_C4E196
 	phx
 	jsl.l CODE_C560A8
 	jsl.l CODE_C560A8
-	stx.b $7F
+	stx.b d0
 	jsl.l CODE_C560A8
 	jsr.w CODE_C4EB68
 	ldx.w #$4DC8
@@ -1107,7 +1107,7 @@ CODE_C4EA14:						; from CODE_C4E9D8
 	sta.w $364E,y
 	iny
 	sty.b $81
-	ldx.b $7F
+	ldx.b d0
 	jsr.w CODE_C4EB68
 	lda.w #$6120
 	sta.w $364E,y
@@ -1131,7 +1131,7 @@ CODE_C4EA14:						; from CODE_C4E9D8
 	phx
 	jsl.l CODE_C560A8
 	jsl.l CODE_C560A8
-	stx.b $7F
+	stx.b d0
 	plx
 	lda.w $17CB
 	bne CODE_C4EA5E
@@ -1142,7 +1142,7 @@ CODE_C4EA5E:						; from CODE_C4EA14
 	sta.w $364E,y
 	iny
 	sty.b $81
-	ldx.b $7F
+	ldx.b d0
 	jsr.w CODE_C4EB68
 	lda.w #$203D
 	sta.w $364E,y
@@ -1186,12 +1186,12 @@ CODE_C4EAC6:						; from CODE_C4EA5E
 	jsr.w CODE_C4EB68
 CODE_C4EACE:						; from CODE_C4EA5E
 	lda.w #$2DC9
-	sta.b $7F
+	sta.b d0
 	lda.w $17C9
 	ldx.w #$2DA9
 	jsr.w CODE_C4EB81
 	lda.w #$3207
-	sta.b $7F
+	sta.b d0
 	lda.w $17CB
 	cmp.w $17C9
 	beq CODE_C4EAEF
@@ -1254,7 +1254,7 @@ CODE_C4EB5C:						; from CODE_C4EB23
 	asl a
 	asl a
 	asl a
-	adc.b $7F
+	adc.b d0
 	adc.w #$0118
 	tax
 	bra CODE_C4EB6C
@@ -1338,7 +1338,7 @@ CODE_C4EBEE:						; from CODE_C4EBD7
 	sec
 	sbc.b $7D
 	beq CODE_C4EC4F
-	sta.b $7F
+	sta.b d0
 	clc
 	adc.w $2DC5
 	sta.w $2DC5
@@ -1347,7 +1347,7 @@ CODE_C4EBEE:						; from CODE_C4EBD7
 	jsr.w CODE_C4EC58
 	lda.w $2DC5
 	clc
-	adc.b $7F
+	adc.b d0
 	sta.w $2DC5
 CODE_C4EC12:						; from CODE_C4EBEE
 	ldx.b $7D
@@ -1358,7 +1358,7 @@ CODE_C4EC19:						; from CODE_C4EC19
 	sta.w $04F5,y
 	inx
 	iny
-	cpy.b $7F
+	cpy.b d0
 	bne CODE_C4EC19
 	lda.b #$00
 	sta.w $04F5,y
@@ -1394,14 +1394,14 @@ CODE_C4EC58:						; from CODE_C4EBD2, CODE_C4EBD7, CODE_C4EBEE
 	inc a
 	cmp.w #$001A
 	bcc CODE_C4EC6E
-	inc.b $93
+	inc.b d5
 CODE_C4EC6E:						; from CODE_C4EC58
 	cmp.w #$001B
 	bcc CODE_C4EC76
 	lda.w #$0011
 CODE_C4EC76:						; from CODE_C4EC6E
 	sta.w $2DC7
-	lda.b $93
+	lda.b d5
 	beq CODE_C4EC87
 	phx
 	jsl.l CODE_C55C54
@@ -1410,32 +1410,32 @@ CODE_C4EC76:						; from CODE_C4EC6E
 CODE_C4EC87:						; from CODE_C4EC76
 	rts
 CODE_C4EC88:						; from CODE_C4E468, CODE_C4E4CE, CODE_C4E624, ...
-	sty.b $87
+	sty.b d2
 	stx.b $36
-	sta.b $34
-	lda.b [$34]
-	sta.b $7F
+	sta.b r2
+	lda.b [r2]
+	sta.b d0
 	jsl.l CODE_C4C558
 	pha
-	sta.b $2C
+	sta.b r0
 	lda.w #$007E
 	sta.b $2E
-	lda.b $34
+	lda.b r2
 	jsl.l Decompress
 	lda.b $86
 	and.w #$FF00
-	sta.b $87
-	lsr.b $87
-	adc.b $87
-	sta.b $87
+	sta.b d2
+	lsr.b d2
+	adc.b d2
+	sta.b d2
 	asl a
-	adc.b $87
-	sta.b $87
+	adc.b d2
+	sta.b d2
 	adc.b $01,s
-	sta.b $2C
+	sta.b r0
 	sta.b $01,s
 	lda.w #$0480
-	sta.b $7F
+	sta.b d0
 CODE_C4ECC1:						; from CODE_C4EE81
 	ldy.w #$0000
 	ldx.w #$364E
@@ -1446,7 +1446,7 @@ CODE_C4ECCC:						; from CODE_C4ECCC
 	stz.w $0000,x
 	stz.w $0010,x
 	sep #$20
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.b $81
 	and.b #$80
 	ora.w $0011,x
@@ -1500,7 +1500,7 @@ CODE_C4ECCC:						; from CODE_C4ECCC
 	ora.w $0000,x
 	sta.w $0000,x
 	iny
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.b $81
 	and.b #$80
 	lsr a
@@ -1548,7 +1548,7 @@ CODE_C4ECCC:						; from CODE_C4ECCC
 	ora.w $0000,x
 	sta.w $0000,x
 	iny
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.b $81
 	and.b #$80
 	lsr a
@@ -1596,7 +1596,7 @@ CODE_C4ECCC:						; from CODE_C4ECCC
 	ora.w $0000,x
 	sta.w $0000,x
 	iny
-	lda.b [$2C],y
+	lda.b [r0],y
 	sta.b $81
 	and.b #$80
 	rol a
@@ -1668,14 +1668,14 @@ CODE_C4EE73:						; from CODE_C4ECCC
 	jmp.w CODE_C4ECC7
 CODE_C4EE81:						; from CODE_C4EE73
 	ldx.w #$364E
-	ldy.b $2C
+	ldy.b r0
 	lda.w #$00BF
 	mvn $7E,$7E
-	sty.b $2C
-	lda.b $7F
+	sty.b r0
+	lda.b d0
 	sec
 	sbc.w #$00C0
-	sta.b $7F
+	sta.b d0
 	beq CODE_C4EE9B
 	jmp.w CODE_C4ECC1
 CODE_C4EE9B:						; from CODE_C4EE81
@@ -1685,7 +1685,7 @@ CODE_C4EE9D:						; from CODE_C4E196 and other segments
 	lda.w #$0080
 	sta.l VMAIN
 	lda.w #$0004
-	sta.b $7F
+	sta.b d0
 	txa
 	sta.l VMADDL
 CODE_C4EEAE:						; from CODE_C4EEAE
@@ -1696,7 +1696,7 @@ CODE_C4EEAE:						; from CODE_C4EEAE
 	adc.w #$0020
 	tax
 	sta.l VMADDL
-	dec.b $7F
+	dec.b d0
 	bpl CODE_C4EEAE
 CODE_C4EEC0:						; from CODE_C4EEAE
 	tya
@@ -1726,11 +1726,11 @@ CODE_C4EECD:						; from CODE_C4E534, CODE_C4E6D7
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	ldx.b $9B
+	ldx.b d7
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
-	ldx.b $97
+	ldx.b d6
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
@@ -1834,7 +1834,7 @@ CODE_C4EFD8:						; called from other segments
 	pla
 	sta.w $002E
 	pla
-	sta.w $002C
+	sta.w r0
 	pla
 	sta.b $14
 	pla
@@ -1850,9 +1850,9 @@ CODE_C4EFD8:						; called from other segments
 	pla
 	sta.w $00A5
 	pla
-	sta.w $00A3
+	sta.w tmp2
 	pla
-	sta.w $00A1
+	sta.w tmp1
 	pla
-	sta.w $009F
+	sta.w tmp0
 	rtl

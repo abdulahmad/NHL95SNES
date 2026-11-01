@@ -6,7 +6,7 @@ CODE_C59F79:						; called from other segments
 	stz.w $04F7
 	stz.w $04F9
 	stz.w $04FB
-	lda.b $7F
+	lda.b d0
 	bne CODE_C59FDA
 	lda.w #$0010
 	sta.w $24DC
@@ -76,7 +76,7 @@ CODE_C5A040:						; from CODE_C59F79
 	jsr.w CODE_C55EC7
 	ldy.w #$0015
 	jsr.w CODE_C5A05A
-	lda.b $87
+	lda.b d2
 	jsr.w CODE_C5B67A
 	jsr.w CODE_C55EC7
 	ldy.w #$0016
@@ -112,14 +112,14 @@ CODE_C5A09B:						; called from other segments
 	ldy.w #$5000
 	jsl.l CODE_C589E4
 	lda.w #$FFFF
-	sta.w $04C6
+	sta.w BG3VScroll
 	ldy.w #$5C00
 	jsl.l CODE_C589B0
-	ldx.b $9B
+	ldx.b d7
 	jsl.l CODE_C5E596
 	ldx.b $9D
 	jsl.l CODE_C5E596
-	ldx.b $73
+	ldx.b a4
 	jsl.l CODE_C5E596
 	ldx.b $75
 	jsl.l CODE_C5E596
@@ -171,15 +171,15 @@ CODE_C5A09B:						; called from other segments
 	lda.w #$0008
 	sta.b $69
 	stz.b $99
-	stz.b $6F
-	stz.b $97
+	stz.b a3
+	stz.b d6
 	jsr.w CODE_C5A20D
 	rts
 CODE_C5A164:						; called from other segments
 	lda.w #$006A
-	ldx.b $63
+	ldx.b a0
 	sta.b $05,x
-	lda.b $97
+	lda.b d6
 	beq CODE_C5A175
 	lda.w #$009F
 	sta.b $08,x
@@ -189,7 +189,7 @@ CODE_C5A175:						; from CODE_C5A164
 	sta.b $08,x
 	rts
 CODE_C5A17B:						; called from other segments
-	lda.b $97
+	lda.b d6
 	asl a
 	tax
 	lda.b $D3
@@ -212,7 +212,7 @@ CODE_C5A198:						; from CODE_C5A17B
 	sta.w $0000,y
 	rts
 CODE_C5A1A5:						; from CODE_C5A20D
-	lda.b $97
+	lda.b d6
 	asl a
 	tax
 	lda.b $D3
@@ -244,8 +244,8 @@ DATA8_C5A1D7:						; not traced: a table read by CODE_C5A17B, CODE_C5A1A5
 	db $AA,$04,$B0,$04,$B6,$04
 CODE_C5A20D:						; from CODE_C5A09B and other segments
 	jsr.w CODE_C5A1A5
-	ldy.b $63
-	lda.b $97
+	ldy.b a0
+	lda.b d6
 	asl a
 	tax
 	lda.l DATA8_C5A25B,x
@@ -266,7 +266,7 @@ DATA8_C5A25B:						; not traced: a table read by CODE_C5A20D
 CODE_C5A291:						; called from other segments
 	lda.w #$0008
 	jsr.w CODE_C5A304
-	lda.b $7F
+	lda.b d0
 	asl a
 	tax
 	lda.l DATA8_C5A2A8,x
@@ -293,7 +293,7 @@ CODE_C5A2B4:						; called from other segments
 CODE_C5A2D3:						; called from other segments
 	lda.w #$000E
 	jsr.w CODE_C5A304
-	lda.b $83
+	lda.b d1
 	jsr.w CODE_C5B67A
 	jsr.w CODE_C5A321
 	ldx.w #$04F7
@@ -588,9 +588,9 @@ CODE_C5A507:						; called from other segments
 	jsr.w CODE_C5A50B
 	rtl
 CODE_C5A50B:						; from CODE_C5A507, CODE_C5A556 and other segments
-	ldx.b $73
+	ldx.b a4
 	jsl.l CODE_C5E596
-	stz.b $73
+	stz.b a4
 	ldx.b $75
 	jsl.l CODE_C5E596
 	stz.b $75
@@ -603,7 +603,7 @@ CODE_C5A51C:						; from CODE_C5A633, CODE_C5A5EB, CODE_C5A7C5, CODE_C5AB1C, ...
 	ldy.w #$5C00
 	jsl.l CODE_C589E4
 	lda.w #$FFFF
-	sta.w $04C6
+	sta.w BG3VScroll
 	jsl.l CODE_C4CEDB
 	lda.w #$0002
 	sta.w $1864
@@ -616,7 +616,7 @@ CODE_C5A51C:						; from CODE_C5A633, CODE_C5A5EB, CODE_C5A7C5, CODE_C5AB1C, ...
 	jsl.l CODE_C40D96
 	inc.w $1864
 CODE_C5A556:						; from CODE_C5A51C
-	ldx.b $9B
+	ldx.b d7
 	jsl.l CODE_C5E596
 	ldx.b $9D
 	jsl.l CODE_C5E596
@@ -639,32 +639,32 @@ CODE_C5A57E:						; from CODE_C5A57E
 	inx
 	dey
 	bpl CODE_C5A57E
-	stz.b $97
+	stz.b d6
 	lda.w #$0006
 	sta.b $99
 	stz.w fadestep
 CODE_C5A599:						; from CODE_C5AC4F, CODE_C5AC67
-	ldx.b $63
+	ldx.b a0
 	lda.w #$0030
 	sta.b $05,x
-	lda.b $97
+	lda.b d6
 	asl a
 	asl a
 	asl a
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
+	adc.b tmp0
 	adc.w #$003E
 	sta.b $08,x
 	rts
 CODE_C5A5B0:						; called from other segments
 	jsr.w CODE_C55BE8
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5A5C3
 	cmp.w #$0014
 	bcc CODE_C5A5EA
 	lda.w #$0013
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C5A5C3:						; from CODE_C5A5B0
 	lda.w $058D
 	bit.w #$3000
@@ -693,13 +693,13 @@ CODE_C5A5EB:						; from CODE_C5A5C3
 	jsl.l CODE_C5E596
 	jmp.w CODE_C5A51C
 CODE_C5A5FE:						; from CODE_C5A5DB
-	lda.b $83
+	lda.b d1
 	dec a
 	bpl CODE_C5A613
 	lda.w #$0002
 	bra CODE_C5A613
 CODE_C5A608:						; from CODE_C5A5DB
-	lda.b $83
+	lda.b d1
 	inc a
 	cmp.w #$0003
 	bcc CODE_C5A613
@@ -714,12 +714,12 @@ CODE_C5A617:						; from CODE_C5A5DB
 	sta.b $85
 	jmp.w CODE_C5AFCC
 CODE_C5A623:						; called from other segments
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5A633
 	cmp.w #$0014
 	bcc CODE_C5A64C
 	lda.w #$0013
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C5A633:						; from CODE_C5A623
 	lda.w $058D
 	bit.w #$0100
@@ -751,12 +751,12 @@ CODE_C5A668:						; from CODE_C5A65F
 	jmp.w CODE_C5B7F1
 CODE_C5A66E:						; called from other segments
 	jsr.w CODE_C55BE8
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5A681
 	cmp.w #$0014
 	bcc CODE_C5A6A8
 	lda.w #$0014
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C5A681:						; from CODE_C5A66E
 	lda.w $058D
 	bit.w #$8000
@@ -794,12 +794,12 @@ CODE_C5A6C8:						; from CODE_C5A6BC
 	bra CODE_C5A6E2
 CODE_C5A6CA:						; from CODE_C5A681
 	jsr.w CODE_C5A72D
-	lda.b $7F
+	lda.b d0
 	bne CODE_C5A6D5
-	dec.b $7F
+	dec.b d0
 	bra CODE_C5A6E5
 CODE_C5A6D5:						; from CODE_C5A6CA
-	stz.b $7F
+	stz.b d0
 	bra CODE_C5A6E5
 CODE_C5A6D9:						; from CODE_C5A681
 	lda.w $17C9
@@ -822,13 +822,13 @@ CODE_C5A6E5:						; from CODE_C5A6CA, CODE_C5A6D5
 	jsr.w CODE_C5BCD9
 	jsr.w CODE_C52CC1
 	lda.w $2DCB
-	sta.b $67
-	lda.b $7F
+	sta.b a1
+	lda.b d0
 	bne CODE_C5A71A
 	sec
 	lda.w $2DC9
 	sbc.w $2DCB
-	sta.b $67
+	sta.b a1
 CODE_C5A71A:						; from CODE_C5A6E5
 	stz.b $69
 	lda.w #CODE_C5BBDD
@@ -840,7 +840,7 @@ CODE_C5A71A:						; from CODE_C5A6E5
 CODE_C5A72D:						; from CODE_C5A6CA
 	pea.w $559D
 	pea.w $55BD
-	lda.b $7F
+	lda.b d0
 	bne CODE_C5A73F
 	pla
 	pla
@@ -869,12 +869,12 @@ CODE_C5A73F:						; from CODE_C5A72D
 	rts
 CODE_C5A773:						; called from other segments
 	jsr.w CODE_C55BE8
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5A786
 	cmp.w #$0014
 	bcc CODE_C5A7A2
 	lda.w #$0014
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C5A786:						; from CODE_C5A773
 	lda.w $058D
 	bit.w #$0400
@@ -890,19 +890,19 @@ CODE_C5A786:						; from CODE_C5A773
 CODE_C5A7A2:						; from CODE_C5A773
 	rts
 CODE_C5A7A3:						; from CODE_C5A786
-	lda.b $83
+	lda.b d1
 	inc a
 	cmp.w #$0004
 	bcc CODE_C5A7AE
 	lda.w #$0000
 CODE_C5A7AE:						; from CODE_C5A7A3, CODE_C5A7BB
-	sta.b $83
+	sta.b d1
 	ldy.w #$03F0
 	lda.w #$0200
 	jsr.w CODE_C5A80E
 	bra CODE_C5A7F4
 CODE_C5A7BB:						; from CODE_C5A786
-	lda.b $83
+	lda.b d1
 	dec a
 	bpl CODE_C5A7AE
 	lda.w #$0003
@@ -915,18 +915,18 @@ CODE_C5A7C5:						; from CODE_C5A786
 	jsl.l CODE_C5E596
 	jmp.w CODE_C5A51C
 CODE_C5A7D8:						; from CODE_C5A786
-	dec.b $7F
+	dec.b d0
 	bpl CODE_C5A7EE
 	lda.w #$0007
 	bra CODE_C5A7EC
 CODE_C5A7E1:						; from CODE_C5A786
-	lda.b $7F
+	lda.b d0
 	inc a
 	cmp.w #$0008
 	bcc CODE_C5A7EC
 	lda.w #$0000
 CODE_C5A7EC:						; from CODE_C5A7D8, CODE_C5A7E1
-	sta.b $7F
+	sta.b d0
 CODE_C5A7EE:						; from CODE_C5A7D8
 	ldy.w #$0270
 	jsr.w CODE_C5A80B
@@ -951,12 +951,12 @@ CODE_C5A816:						; called from other segments
 DATA8_C5A81B:						; jump table: the routine for each index
 	dw CODE_C5A821,CODE_C5A95A,CODE_C5A9FB
 CODE_C5A821:						; from DATA8_C5A81B
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5A831
 	cmp.w #$0014
 	bcc CODE_C5A85C
 	lda.w #$0010
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C5A831:						; from CODE_C5A821
 	lda.w $058D
 	bit.w #$0200
@@ -980,7 +980,7 @@ CODE_C5A85C:						; from CODE_C5A821, CODE_C5A89D, CODE_C5A8B0, CODE_C5A8C2, ...
 CODE_C5A85D:						; from CODE_C5A84B
 	lda.l $306050
 	and.w #$00FF
-	cmp.b $7F
+	cmp.b d0
 	beq CODE_C5A86A
 	bcs CODE_C5A85C
 CODE_C5A86A:						; from CODE_C5A85D
@@ -993,7 +993,7 @@ CODE_C5A872:						; from CODE_C5A872
 	bpl CODE_C5A872
 	bcs CODE_C5A85C
 CODE_C5A878:						; from CODE_C5A86A
-	lda.b $8F
+	lda.b d4
 	clc
 	adc.b $85
 	pha
@@ -1001,31 +1001,31 @@ CODE_C5A878:						; from CODE_C5A86A
 	tax
 	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
-	sta.b $9F
+	sta.b tmp0
 	pla
 	lsr a
 	lsr a
 	lsr a
 	tax
 	lda.l $307884,x
-	eor.b $9F
+	eor.b tmp0
 	sta.l $307884,x
 	jmp.w CODE_C5B38F
 CODE_C5A89D:						; from CODE_C5A831
 	lda.l $306050
 	and.w #$00FF
-	cmp.b $7F
+	cmp.b d0
 	bcs CODE_C5A85C
-	dec.b $7F
+	dec.b d0
 	jsr.w CODE_C5B22D
 	jmp.w CODE_C5AAF0
 CODE_C5A8B0:						; from CODE_C5A831
-	lda.b $7F
+	lda.b d0
 	asl a
 	tax
 	lda.l DATA8_C35F62,x
 	beq CODE_C5A85C
-	inc.b $7F
+	inc.b d0
 	jsr.w CODE_C5B22D
 	jmp.w CODE_C5AAF0
 CODE_C5A8C2:						; from CODE_C5A831
@@ -1034,17 +1034,17 @@ CODE_C5A8C2:						; from CODE_C5A831
 	dec a
 	sta.b $85
 	bne CODE_C5A8D4
-	ldx.b $73
+	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
 CODE_C5A8D4:						; from CODE_C5A8C2
 	sec
-	lda.b $8B
+	lda.b d3
 	sbc.w #$00E0
 	and.w #$03FF
-	sta.b $8B
-	ldx.b $63
+	sta.b d3
+	ldx.b a0
 	lda.b $08,x
 	cmp.w #$0060
 	beq CODE_C5A8EE
@@ -1070,11 +1070,11 @@ CODE_C5A909:						; from CODE_C5A90A
 CODE_C5A90A:						; from CODE_C5A831
 	lda.b $85
 	inc a
-	cmp.b $87
+	cmp.b d2
 	bcs CODE_C5A909
 	sta.b $85
 	inc a
-	cmp.b $87
+	cmp.b d2
 	bcc CODE_C5A922
 	ldx.b $75
 	lda.b $22,x
@@ -1082,11 +1082,11 @@ CODE_C5A90A:						; from CODE_C5A831
 	sta.b $22,x
 	clc
 CODE_C5A922:						; from CODE_C5A90A
-	lda.b $8B
+	lda.b d3
 	adc.w #$00E0
 	and.w #$03FF
-	sta.b $8B
-	ldx.b $63
+	sta.b d3
+	ldx.b a0
 	lda.b $08,x
 	cmp.w #$0098
 	beq CODE_C5A93B
@@ -1094,7 +1094,7 @@ CODE_C5A922:						; from CODE_C5A90A
 	sta.b $08,x
 	rts
 CODE_C5A93B:						; from CODE_C5A922
-	ldx.b $73
+	ldx.b a4
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
@@ -1112,7 +1112,7 @@ CODE_C5A952:						; from CODE_C5A93B
 CODE_C5A95A:						; from DATA8_C5A81B
 	jsr.w CODE_C5A95D
 CODE_C5A95D:						; from CODE_C5A95A
-	dec.w $04C2
+	dec.w BG2VScroll
 	lda.w $468F
 	and.w #$00FF
 	cmp.w #$0038
@@ -1190,7 +1190,7 @@ CODE_C5A9F5:						; from CODE_C5A9D3
 CODE_C5A9FB:						; from DATA8_C5A81B
 	jsr.w CODE_C5A9FE
 CODE_C5A9FE:						; from CODE_C5A9FB
-	inc.w $04C2
+	inc.w BG2VScroll
 	sep #$20
 	lda.w $468F
 	dec a
@@ -1270,7 +1270,7 @@ CODE_C5AA94:						; from CODE_C5A8EE, CODE_C5A93B
 	stx.b $D1
 	lda.b $85
 	asl a
-	adc.b $83
+	adc.b d1
 	tax
 	lda.l $C30001,x
 	sta.b $8D
@@ -1311,7 +1311,7 @@ CODE_C5AAF0:						; from CODE_C5A89D, CODE_C5A8B0, CODE_C5ACBE
 	adc.w #$0140
 	ldy.w #$0080
 	jsl.l CODE_C58B11
-	lda.b $7F
+	lda.b d0
 	jsr.w CODE_C56168
 	lda.w #$0030
 	sta.b $CF
@@ -1321,7 +1321,7 @@ CODE_C5AAF0:						; from CODE_C5A89D, CODE_C5A8B0, CODE_C5ACBE
 	jsl.l CODE_C4C2AA
 	rts
 CODE_C5AB16:						; called from other segments
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5AB1C
 CODE_C5AB1B:						; from CODE_C5AB1C
 	rts
@@ -1331,7 +1331,7 @@ CODE_C5AB1C:						; from CODE_C5AB16
 	beq CODE_C5AB1B
 	jmp.w CODE_C5A51C
 CODE_C5AB27:						; called from other segments
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5AB2D
 	rts
 CODE_C5AB2D:						; from CODE_C5AB27
@@ -1350,7 +1350,7 @@ CODE_C5AB40:						; from CODE_C5AB2D
 	jsr.w CODE_C5909D
 	lda.w #$00B5
 CODE_C5AB4F:						; from CODE_C5AB58
-	ldx.b $63
+	ldx.b a0
 	sta.b $08,x
 	jsl.l CODE_C4C2AA
 	rts
@@ -1362,14 +1362,14 @@ CODE_C5AB58:						; from CODE_C5AB2D
 	lda.w #$00CD
 	bra CODE_C5AB4F
 CODE_C5AB69:						; from CODE_C5AB2D
-	ldx.b $63
+	ldx.b a0
 	ply
 	lda.b $08,x
 	cmp.w #$00B5
 	bne CODE_C5AB76
 	jmp.w CODE_C5963A
 CODE_C5AB76:						; from CODE_C5AB69
-	ldx.b $63
+	ldx.b a0
 	lda.w #$0008
 	sta.b $05,x
 	lda.w #$008C
@@ -1410,25 +1410,25 @@ CODE_C5ABC4:						; from CODE_C5AB76 and other segments
 	sta.w $0106
 	sta.w $0108
 	sta.w $0110
-	stz.w $04BC
-	stz.w $04C0
-	stz.w $04C4
-	sta.w $04BE
-	sta.w $04C6
+	stz.w BG1HScroll
+	stz.w BG2HScroll
+	stz.w BG3HScroll
+	sta.w BG1VScroll
+	sta.w BG3VScroll
 	lda.w #$FFFA
-	sta.w $04C2
+	sta.w BG2VScroll
 	lda.w #$FF90
 	sta.w $010A
 	lda.w #$0010
 	sta.w $010E
 	rts
 CODE_C5AC07:						; called from other segments
-	lda.w $058F
+	lda.w repeatdelayframes
 	beq CODE_C5AC17
 	cmp.w #$0014
 	bcc CODE_C5AC2E
 	lda.w #$000C
-	sta.w $058F
+	sta.w repeatdelayframes
 CODE_C5AC17:						; from CODE_C5AC07
 	lda.w $058D
 	bit.w #$0800
@@ -1442,7 +1442,7 @@ CODE_C5AC17:						; from CODE_C5AC07
 CODE_C5AC2E:						; from CODE_C5AC07
 	rts
 CODE_C5AC2F:						; from CODE_C5AC17
-	lda.b $97
+	lda.b d6
 	asl a
 	tax
 	jmp (DATA8_C5AC73,x)
@@ -1453,23 +1453,23 @@ CODE_C5AC36:						; from CODE_C5AC17
 	jmp.w CODE_C50056
 CODE_C5AC43:						; from CODE_C5AC17
 	jsr.w CODE_C5AC7F
-	dec.b $97
+	dec.b d6
 	bpl CODE_C5AC4F
 	lda.w #$0005
-	sta.b $97
+	sta.b d6
 CODE_C5AC4F:						; from CODE_C5AC43
 	jsr.w CODE_C5ACA3
 	jsl.l CODE_C4C2AA
 	jmp.w CODE_C5A599
 CODE_C5AC59:						; from CODE_C5AC17
 	jsr.w CODE_C5AC7F
-	lda.b $97
+	lda.b d6
 	inc a
 	cmp.w #$0006
 	bcc CODE_C5AC67
 	lda.w #$0000
 CODE_C5AC67:						; from CODE_C5AC59
-	sta.b $97
+	sta.b d6
 	jsr.w CODE_C5ACA3
 	jsl.l CODE_C4C2AA
 	jmp.w CODE_C5A599
@@ -1478,11 +1478,11 @@ DATA8_C5AC73:						; jump table: the routine for each index
 	dw $B07C,$B0EA
 CODE_C5AC7F:						; from CODE_C5AC43, CODE_C5AC59
 	lda.w #$0C00
-	sta.b $9F
+	sta.b tmp0
 CODE_C5AC84:						; from CODE_C5ACA3
-	lda.b $97
+	lda.b d6
 	asl a
-	adc.b $97
+	adc.b d6
 	xba
 	lsr a
 	lsr a
@@ -1492,7 +1492,7 @@ CODE_C5AC84:						; from CODE_C5ACA3
 CODE_C5AC92:						; from CODE_C5AC92
 	lda.w $0180,x
 	and.w #$E3FF
-	ora.b $9F
+	ora.b tmp0
 	sta.w $0180,x
 	inx
 	inx
@@ -1501,7 +1501,7 @@ CODE_C5AC92:						; from CODE_C5AC92
 	rts
 CODE_C5ACA3:						; from CODE_C5AC4F, CODE_C5AC67
 	lda.w #$0000
-	sta.b $9F
+	sta.b tmp0
 	bra CODE_C5AC84
 CODE_C5ACAA:						; from DATA8_C5AC73
 	jsl.l FadeOutWait
@@ -1578,7 +1578,7 @@ CODE_C5ACBE:						; from CODE_C5ACAA
 	sta.b $1A
 	lda.w #$001C
 	jsl.l CreateSprite
-	stx.b $73
+	stx.b a4
 	lda.w #$0001
 	jsl.l CODE_C5ECBD
 	lda.w #$00A4
@@ -1586,10 +1586,10 @@ CODE_C5ACBE:						; from CODE_C5ACAA
 	lda.w #$001C
 	jsl.l CreateSprite
 	stx.b $75
-	inc.b $38,x
+	inc.b p0,x
 	lda.w #$0002
 	jsl.l CODE_C5ECBD
-	ldx.b $63
+	ldx.b a0
 	lda.w #$002D
 	sta.b $05,x
 	jsl.l CODE_C4C530
@@ -1599,7 +1599,7 @@ CODE_C5ACBE:						; from CODE_C5ACAA
 	jsl.l CODE_C4CEDB
 	lda.l $306050
 	and.w #$00FF
-	sta.b $7F
+	sta.b d0
 	lda.w #$0002
 	sta.b $81
 	stz.b $89
@@ -1610,7 +1610,7 @@ CODE_C5ACBE:						; from CODE_C5ACAA
 	stz.w fadestep
 	rts
 CODE_C5ADD8:						; called from other segments
-	bit.b $9F
+	bit.b tmp0
 	bpl CODE_C5ADE3
 CODE_C5ADDC:						; from CODE_C5AF50, CODE_C5AE56 and other segments
 	pla
@@ -1642,7 +1642,7 @@ CODE_C5ADE3:						; from CODE_C5ADD8
 	ldx.w #$47B3
 	jsl.l CODE_C4BC26
 	jsl.l CODE_C4C2AA
-	ldx.b $63
+	ldx.b a0
 	lda.w #$0064
 	sta.b $05,x
 	lda.w #$007E
@@ -1653,7 +1653,7 @@ CODE_C5ADE3:						; from CODE_C5ADD8
 DATA8_C5AE40:						; not traced: data between routines
 	db $FF,$FE,$FC,$F8,$F0,$E0,$C0,$80
 CODE_C5AE48:						; from DATA8_C5AC73, CODE_C5AF6E
-	stz.b $9F
+	stz.b tmp0
 	lda.w $1864
 	cmp.w #$0003
 	bne CODE_C5AE56
@@ -1661,12 +1661,12 @@ CODE_C5AE48:						; from DATA8_C5AC73, CODE_C5AF6E
 CODE_C5AE56:						; from CODE_C5AE48
 	lda.l $306050
 	and.w #$00FF
-	sta.b $7F
+	sta.b d0
 	jsr.w CODE_C5B20E
-	lda.b $8F
+	lda.b d4
 	and.w #$0007
 	tax
-	lda.b $8F
+	lda.b d4
 	lsr a
 	lsr a
 	lsr a
@@ -1683,7 +1683,7 @@ CODE_C5AE56:						; from CODE_C5AE48
 	inc.w $1864
 	jmp.w CODE_C5ADDC
 CODE_C5AE8D:						; from CODE_C5AE56
-	lda.b $7F
+	lda.b d0
 	asl a
 	tax
 	lda.l DATA8_C360D4,x
@@ -1691,7 +1691,7 @@ CODE_C5AE8D:						; from CODE_C5AE56
 	lda.l $C30000,x
 	and.w #$00FF
 	sta.w $2C42
-	sta.b $9F
+	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
@@ -1703,45 +1703,45 @@ CODE_C5AEA9:						; from CODE_C5AEEB
 	and.w #$00FF
 	sta.w $0004,y
 	lda.w #$0000
-	sta.w $0006,y
+	sta.w QueueBusy,y
 	sta.w $0008,y
 	sta.w $000A,y
 	phx
-	lda.b $8F
+	lda.b d4
 	and.w #$0007
 	tax
 	lda.l DATA8_C4C4A6,x
 	and.w #$00FF
-	sta.b $A1
-	lda.b $8F
+	sta.b tmp1
+	lda.b d4
 	lsr a
 	lsr a
 	lsr a
 	tax
 	lda.l $307884,x
 	ldx.w #$0000
-	and.b $A1
+	and.b tmp1
 	beq CODE_C5AEEB
 	inx
 CODE_C5AEEB:						; from CODE_C5AEA9
 	txa
 	sta.w $0000,y
 	plx
-	inc.b $8F
+	inc.b d4
 	inx
 	inx
 	tya
 	clc
 	adc.w #$010A
 	tay
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C5AEA9
 	lda.l $306051
 	beq CODE_C5AF07
 	jsr.w CODE_C5E336
 CODE_C5AF07:						; from CODE_C5AEEB and other segments
 	lda.l $7E2C42
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$8EF8
 	clc
 CODE_C5AF11:						; from CODE_C5AF11
@@ -1750,7 +1750,7 @@ CODE_C5AF11:						; from CODE_C5AF11
 	bne CODE_C5AF71
 	txa
 	adc.w #$010A
-	dec.b $9F
+	dec.b tmp0
 	bne CODE_C5AF11
 	plb
 	jsr.w CODE_C5E49A
@@ -1796,14 +1796,14 @@ CODE_C5AF71:						; from CODE_C5AF11
 	jsr.w CODE_C55951
 	jsl.l CODE_C5E50E
 	lda.w #$FFFA
-	sta.w $04C2
+	sta.w BG2VScroll
 	jsr.w CODE_C5C0BE
 	sep #$20
 	lda.b #$17
 	sta.l TM
 	rep #$20
-	stz.b $63
-	stz.b $73
+	stz.b a0
+	stz.b a4
 	stz.b $75
 	pla
 	jmp.w CODE_C593B1

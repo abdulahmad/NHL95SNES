@@ -65,9 +65,9 @@ CODE_C5605D:						; from CODE_C56ABB, CODE_C56DA1, CODE_C5711B and other segment
 	ldx.w #$0000
 	phy
 	txy
-	sta.b $34
+	sta.b r2
 	lda.w #$003C
-	sta.b $30
+	sta.b r1
 	jsl.l Div16x8U
 	tax
 	lda.l BCDTable,x
@@ -105,9 +105,9 @@ CODE_C560A8:						; called from other segments
 CODE_C560AC:						; called from other segments
 	phy
 	txy
-	sta.b $34
+	sta.b r2
 	lda.w #$003C
-	sta.b $30
+	sta.b r1
 	jsl.l Div16x8U
 	tax
 	lda.l BCDTable,x
@@ -230,9 +230,9 @@ CODE_C56168:						; called from other segments
 	asl a
 	asl a
 	xba
-	sta.b $9F
+	sta.b tmp0
 	asl a
-	adc.b $9F
+	adc.b tmp0
 	tax
 	lda.l DATA8_C561DB,x
 	sta.w $04F5
@@ -348,9 +348,9 @@ CODE_C56293:						; called from other segments
 CODE_C562A4:						; from CODE_C56293
 	lda.l $C30000,x
 	and.w #$00FF
-	sta.b $67
+	sta.b a1
 	inx
-	stx.b $63
+	stx.b a0
 	ldx.w #$0009
 	ldy.w #$000F
 	lda.w #CODE_C56310
@@ -372,7 +372,7 @@ CODE_C562C6:						; from CODE_C562C6
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C562C3
 	lda.w $058D
 	bit.w #$1000
@@ -391,14 +391,14 @@ CODE_C5630B:						; from CODE_C56301
 CODE_C5630D:						; from CODE_C562C6
 	jmp.w CODE_C55A09
 CODE_C56310:						; a callback: CODE_C562A4 passes it to CODE_C55ABC
-	lda.b $6F
+	lda.b a3
 	asl a
 	asl a
 	asl a
 	sec
-	sbc.b $6F
+	sbc.b a3
 	clc
-	adc.b $63
+	adc.b a0
 	sta.b $65
 	tax
 	lda.w #$0010
@@ -409,7 +409,7 @@ CODE_C56310:						; a callback: CODE_C562A4 passes it to CODE_C55ABC
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBE5
-	stz.b $6B
+	stz.b a2
 	lda.w #$00B8
 	sta.b $CF
 	lda.w #$00F8
@@ -420,7 +420,7 @@ CODE_C56310:						; a callback: CODE_C562A4 passes it to CODE_C55ABC
 	tax
 	jsr (DATA8_C55D6B,x)
 	lda.w #$0002
-	sta.b $6B
+	sta.b a2
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0038
@@ -451,7 +451,7 @@ CODE_C5637D:						; from CODE_C5637D
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C5637A
 	lda.w $058D
 	bit.w #$8000
@@ -498,7 +498,7 @@ CODE_C563F8:						; from CODE_C563E0
 	ldy.w #$0018
 	jsl.l CODE_C4BBE5
 	lda.w #$4EEF
-	sta.b $67
+	sta.b a1
 	ldy.w #$129B
 	ldx.w #$4B6A
 	lda.b $7B
@@ -506,14 +506,14 @@ CODE_C563F8:						; from CODE_C563E0
 	ldy.w #$1287
 	ldx.w #$4B9E
 	lda.w #$4EE1
-	sta.b $67
+	sta.b a1
 CODE_C5641C:						; from CODE_C563F8
-	sty.b $63
+	sty.b a0
 	ldy.w #$000F
 	jsl.l CODE_C4BCA4
 	ldy.w #$0011
 	jsl.l CODE_C4BDE6
-	ldx.b $67
+	ldx.b a1
 	ldy.w #$001A
 	jsl.l CODE_C4BBFC
 	lda.w #$0090
@@ -525,11 +525,11 @@ CODE_C5641C:						; from CODE_C563F8
 	sta.b $CF
 	lda.w #$0070
 	sta.b $D1
-	inc.b $63
-	inc.b $63
+	inc.b a0
+	inc.b a0
 	jmp.w CODE_C56453
 CODE_C56453:						; from CODE_C5641C
-	stz.b $9F
+	stz.b tmp0
 	lda.w #$0000
 	ldy.w #$0013
 CODE_C5645B:						; from CODE_C5645B
@@ -538,10 +538,10 @@ CODE_C5645B:						; from CODE_C5645B
 	asl a
 	asl a
 	tay
-	lda.b ($63),y
-	adc.b $9F
-	sta.b $9F
-	lda.b ($63),y
+	lda.b (a0),y
+	adc.b tmp0
+	sta.b tmp0
+	lda.b (a0),y
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
@@ -559,7 +559,7 @@ CODE_C5645B:						; from CODE_C5645B
 	bra CODE_C5645B
 CODE_C56488:						; from CODE_C5645B
 	ldy.w #$0018
-	ldx.b $9F
+	ldx.b tmp0
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w CODE_C55EC7
@@ -605,7 +605,7 @@ CODE_C564C4:						; from CODE_C565CB
 CODE_C564FE:						; from CODE_C564C4
 	jsr.w CODE_C55E57
 	ldx.w #$2DC9
-	lda.b $6B
+	lda.b a2
 	beq CODE_C5650B
 	ldx.w #$3207
 CODE_C5650B:						; from CODE_C564FE
@@ -613,14 +613,14 @@ CODE_C5650B:						; from CODE_C564FE
 	cmp.w #$FFFF
 	bne CODE_C5651C
 	lda.w $0002,x
-	sta.b $67
+	sta.b a1
 	jsr.w CODE_C566E8
 	bra CODE_C56528
 CODE_C5651C:						; from CODE_C5650B
 	lda.w $0000,x
 	sec
 	sbc.w $0002,x
-	sta.b $67
+	sta.b a1
 	jsr.w CODE_C5663A
 CODE_C56528:						; from CODE_C5650B
 	lda.w #CODE_C56759
@@ -645,7 +645,7 @@ CODE_C56541:						; from CODE_C56541
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C5653E
 	lda.w $058D
 	bit.w #$1000
@@ -691,9 +691,9 @@ CODE_C565AF:						; from CODE_C56589
 CODE_C565BF:						; from CODE_C56589, CODE_C5659F
 	bit.w #$4000
 	beq CODE_C565E3
-	lda.b $6B
+	lda.b a2
 	eor.w #$0002
-	sta.b $6B
+	sta.b a2
 CODE_C565CB:						; from CODE_C565E3, CODE_C56603
 	ldx.b $7B
 	jsl.l CODE_C5E596
@@ -746,7 +746,7 @@ CODE_C5660A:						; from CODE_C565CB, CODE_C565AF, CODE_C565E3
 CODE_C5663A:						; from CODE_C5651C, CODE_C565AF
 	ldx.w #$2DC9
 	ldy.w #$0000
-	lda.b $6B
+	lda.b a2
 	beq CODE_C5664A
 	ldx.w #$3207
 	ldy.w #$001A
@@ -755,15 +755,15 @@ CODE_C5664A:						; from CODE_C5663A
 	lda.w $0002,x
 	sta.w $364E
 	sta.b $0C
-	sta.b $A1
-	lda.b $67
+	sta.b tmp1
+	lda.b a1
 	dec a
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0002
-	sta.b $A3
+	sta.b tmp2
 CODE_C56660:						; from CODE_C56683
-	inc.b $A1
-	ldy.b $A1
+	inc.b tmp1
+	ldy.b tmp1
 	jsr.w CODE_C566A1
 	sta.b $0A
 	stz.b $0E
@@ -778,19 +778,19 @@ CODE_C5666B:						; from CODE_C5666B
 	inc a
 	inc a
 	sta.b $0E
-	cmp.b $A3
+	cmp.b tmp2
 	bne CODE_C5666B
 	tax
 CODE_C56683:						; from CODE_C56693
-	lda.b $A1
+	lda.b tmp1
 	sta.w $364E,x
-	inc.b $A3
-	inc.b $A3
-	dec.b $9F
+	inc.b tmp2
+	inc.b tmp2
+	dec.b tmp0
 	bne CODE_C56660
 	rts
 CODE_C56691:						; from CODE_C5666B
-	ldx.b $A3
+	ldx.b tmp2
 CODE_C56693:						; from CODE_C56693
 	dex
 	dex
@@ -843,7 +843,7 @@ DATA8_C566DE:						; jump table: the routine for each index
 CODE_C566E8:						; from CODE_C5650B
 	ldx.w #$2DC9
 	ldy.w #$0000
-	lda.b $6B
+	lda.b a2
 	beq CODE_C566F8
 	ldx.w #$3207
 	ldy.w #$001A
@@ -851,15 +851,15 @@ CODE_C566F8:						; from CODE_C566E8
 	sty.b $A5
 	stz.w $364E
 	stz.b $0C
-	stz.b $A1
+	stz.b tmp1
 	lda.w $0002,x
 	dec a
-	sta.b $9F
+	sta.b tmp0
 	lda.w #$0002
-	sta.b $A3
+	sta.b tmp2
 CODE_C5670C:						; from CODE_C5673B
-	inc.b $A1
-	lda.b $A1
+	inc.b tmp1
+	lda.b tmp1
 	clc
 	adc.b $A5
 	tax
@@ -882,19 +882,19 @@ CODE_C56720:						; from CODE_C56720
 	inc a
 	inc a
 	sta.b $0E
-	cmp.b $A3
+	cmp.b tmp2
 	bne CODE_C56720
 	tax
 CODE_C5673B:						; from CODE_C5674B
-	lda.b $A1
+	lda.b tmp1
 	sta.w $364E,x
-	inc.b $A3
-	inc.b $A3
-	dec.b $9F
+	inc.b tmp2
+	inc.b tmp2
+	dec.b tmp0
 	bne CODE_C5670C
 	rts
 CODE_C56749:						; from CODE_C56720
-	ldx.b $A3
+	ldx.b tmp2
 CODE_C5674B:						; from CODE_C5674B
 	dex
 	dex
@@ -906,13 +906,13 @@ CODE_C5674B:						; from CODE_C5674B
 CODE_C56759:						; a callback: CODE_C56528 passes it to CODE_C55ABC
 	lda.w #$0010
 	sta.b $CF
-	lda.b $6F
+	lda.b a3
 	asl a
 	tay
 	lda.w $364E,y
 	sta.b $65
 	lda.w #$2DC9
-	ldx.b $6B
+	ldx.b a2
 	beq CODE_C56771
 	lda.w #$3207
 CODE_C56771:						; from CODE_C56759
@@ -931,7 +931,7 @@ CODE_C56771:						; from CODE_C56759
 	jsr.w CODE_C55F1F
 	ldy.b $6D
 	jsl.l CODE_C4BC08
-	lda.b $6B
+	lda.b a2
 	beq CODE_C56798
 	lda.b $65
 	clc
@@ -1019,11 +1019,11 @@ CODE_C5683C:						; from CODE_C56798
 	and.w #$00FF
 	ldx.w #$0064
 	jsl.l Mul8U
-	sta.b $34
+	sta.b r2
 	ldx.b $65
 	lda.w $147B,x
 	and.w #$00FF
-	sta.b $30
+	sta.b r1
 	beq CODE_C56870
 	jsl.l Div16U
 	bra CODE_C56873
@@ -1168,7 +1168,7 @@ CODE_C56993:						; called from other segments
 	asl a
 	adc.w $1159
 	bne CODE_C56A00
-	sta.b $67
+	sta.b a1
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -1183,7 +1183,7 @@ CODE_C56993:						; called from other segments
 	bra CODE_C56A0F
 CODE_C56A00:						; from CODE_C56993
 	dec a
-	sta.b $67
+	sta.b a1
 	lda.w #CODE_C56A77
 	ldx.w #$0006
 	ldy.w #$0012
@@ -1198,7 +1198,7 @@ CODE_C56A19:						; from CODE_C56A19
 	bne CODE_C56A19
 	jsl.l CODE_C36C2D
 	inc.b $26
-	lda.b $67
+	lda.b a1
 	beq CODE_C56A2B
 	jsr.w CODE_C55BE8
 CODE_C56A2B:						; from CODE_C56A19
@@ -1209,12 +1209,12 @@ CODE_C56A2B:						; from CODE_C56A19
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C56A16
 	lda.w $058D
 	bit.w #$1000
 	bne CODE_C56A68
-	ldx.b $67
+	ldx.b a1
 	beq CODE_C56A16
 	bit.w #$0800
 	beq CODE_C56A5C
@@ -1236,10 +1236,10 @@ CODE_C56A6B:						; from CODE_C56993
 	sta.b $CF
 	rts
 CODE_C56A77:						; a callback: CODE_C56A00 passes it to CODE_C55ABC
-	lda.b $6F
-	sta.b $34
+	lda.b a3
+	sta.b r2
 	lda.w #$0003
-	sta.b $30
+	sta.b r1
 	jsl.l Div16x8U
 	asl a
 	asl a
@@ -1365,7 +1365,7 @@ CODE_C56B8C:						; called from other segments
 	jml.l CODE_C5004E
 CODE_C56B90:						; called from other segments
 	jsl.l CODE_C53ABC
-	ldx.b $6B
+	ldx.b a2
 	lda.w $1303,x
 	beq CODE_C56B80
 	dec a
@@ -1376,15 +1376,15 @@ CODE_C56B90:						; called from other segments
 	lda.w #$00C3
 	sta.b $2E
 	lda.w #$5A08
-	sta.b $2C
+	sta.b r0
 	lda.w #$0318
 	jsr.w CODE_C56C4C
 	lda.w #$5A11
-	sta.b $2C
+	sta.b r0
 	lda.w #$039E
 	jsr.w CODE_C56C4C
 	lda.w $17C9
-	ldx.b $6B
+	ldx.b a2
 	beq CODE_C56BCE
 	lda.w $17CB
 CODE_C56BCE:						; from CODE_C56B90
@@ -1395,7 +1395,7 @@ CODE_C56BCE:						; from CODE_C56B90
 	jsl.l CODE_C4C3BA
 	lda.w #$007E
 	sta.b $2E
-	stx.b $2C
+	stx.b r0
 	sep #$20
 	ldy.w #$0000
 CODE_C56BE5:						; from CODE_C56BE5
@@ -1453,12 +1453,12 @@ CODE_C56C4C:						; from CODE_C56B90, CODE_C56BF8
 	clc
 	adc.w $18EE
 	tax
-	lda.b [$2C]
+	lda.b [r0]
 	and.w #$00FF
 	tay
 CODE_C56C57:						; from CODE_C56C57
-	inc.b $2C
-	lda.b [$2C]
+	inc.b r0
+	lda.b [r0]
 	and.w #$00FF
 	ora.w #$3A00
 	sta.w $0000,x
@@ -1492,7 +1492,7 @@ CODE_C56C6A:						; called from other segments
 	jsr.w CODE_C56D37
 	lda.w $2038
 	lsr a
-	sta.b $67
+	sta.b a1
 	bne CODE_C56CCF
 	lda.w #$0010
 	sta.b $CF
@@ -1521,7 +1521,7 @@ CODE_C56CE5:						; from CODE_C56CE5
 	bne CODE_C56CE5
 	jsl.l CODE_C36C2D
 	inc.b $26
-	lda.b $67
+	lda.b a1
 	beq CODE_C56CF7
 	jsr.w CODE_C55BE8
 CODE_C56CF7:						; from CODE_C56CE5
@@ -1532,12 +1532,12 @@ CODE_C56CF7:						; from CODE_C56CE5
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C56CE2
 	lda.w $058D
 	bit.w #$1000
 	bne CODE_C56D34
-	ldx.b $67
+	ldx.b a1
 	beq CODE_C56CE2
 	bit.w #$0800
 	beq CODE_C56D28
@@ -1557,10 +1557,10 @@ CODE_C56D37:						; from CODE_C56C6A
 	jsl.l CODE_C4BBFC
 	rts
 CODE_C56D3F:						; a callback: CODE_C56CCF passes it to CODE_C55ABC
-	lda.b $6F
-	sta.b $34
+	lda.b a3
+	sta.b r2
 	lda.w #$0003
-	sta.b $30
+	sta.b r1
 	jsl.l Div16x8U
 	asl a
 	sta.b $65
@@ -1688,7 +1688,7 @@ CODE_C56E4F:						; from CODE_C56E3D
 	rts
 CODE_C56E55:						; called from other segments
 	jsl.l CODE_C53ABC
-	ldx.b $6B
+	ldx.b a2
 	lda.w $17C1,x
 	eor.w #$0001
 	sta.w $17C1,x
@@ -1734,7 +1734,7 @@ CODE_C56EB4:						; from CODE_C56EB4
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	lda.w $058F
+	lda.w repeatdelayframes
 	bne CODE_C56EB1
 	lda.w $058D
 	bit.w #$1000
@@ -1788,9 +1788,9 @@ CODE_C56F32:						; from CODE_C56F1A
 	adc.b $D3
 	ldy.w #$0080
 	jsl.l CODE_C58B11
-	lda.b $6B
+	lda.b a2
 	eor.w #$0002
-	sta.b $6B
+	sta.b a2
 	bra CODE_C56F50
 CODE_C56F4D:						; from CODE_C56F32
 	jmp.w CODE_C56EB1
