@@ -192,11 +192,13 @@ cont1team			=	$17B5		; Team on pad 1 (0 none, 1 home, 2 away); StartGame turns c
 cont4team			=	$17BB		; pad 4 team word of the cont1team array
 cont5team			=	$17BD		; Pad 5 (multitap) team word, the last of the five the loops over
 lcpad				=	$184C		; Per team (y = 0/2) the pad (d4) that opened the line change box, ...
+jmlvector			=	$1850		; RAM jml routine: $5C (jml) at +0, the target at +1..+3 (RunTasks)
 onetimer			=	$18AC		; A one-timer shot is under way: asspassrec sets 1 when the receiver ...
 breakaway			=	$18AE		; Breakaway in progress (CheckBreakaway result IsBreakaway):
 BA_Sktr_SCnum		=	$18B0		; Penalty shot / shootout shooter object (SCnum*2, $FFFF none): ...
 BA_Team				=	$18B4		; Shooting team of the penalty shot / shootout turn (0 home, 2 visitors):
 penshot				=	$18BE		; Penalty shot pending / under way: StartPenaltyShot sets 1, ...
+BlockMove			=	$18FA		; RAM routine phb, mvn, plb, rtl; the mvn banks at +2 (ClearRAM7E)
 
 ; work RAM, long addresses
 unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)

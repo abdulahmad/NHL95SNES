@@ -1288,12 +1288,12 @@ skateto:							; called from other segments
 	bra .8
 .7:									; call vtoa
 	jsl.l vtoa
-.8:									; $1851 = a0, $1852 = $64, call $001850, temp2b,x = d0, ...
+.8:									; jmlvector+1 = a0, jmlvector+2 = $64, call jmlvector, temp2b,x = d0, ...
 	lda.b a0
-	sta.w $1851
+	sta.w jmlvector+1
 	lda.b $64
-	sta.w $1852
-	jsl.l $001850
+	sta.w jmlvector+2
+	jsl.l jmlvector
 	lda.b d0
 	sta.w temp2b,x
 	cmp.w #$0008

@@ -176,9 +176,9 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	tcd
 	jsl.l CODE_C4CEF5
 	lda.w #$548B
-	sta.w $18FA
+	sta.w BlockMove
 	lda.w #$6BAB
-	sta.w $18FE
+	sta.w BlockMove+4
 	inc.w $1906
 	jml.l Opening
 SetBGMapRegs:						; BG1SC, BG2SC, BG3SC, BG4SC, BG12NBA, ...
@@ -1400,14 +1400,14 @@ CODE_C58AF3:						; called from other segments
 	txa
 	xba
 	ora.w #$007E
-	sta.w $18FC
+	sta.w BlockMove+2
 	tyx
 	lda.b $06,s
 	tay
 	txa
 	dec a
 	plx
-	jsl.l $0018FA
+	jsl.l BlockMove
 	lda.b $02,s
 	sta.b $04,s
 	lda.b $01,s
@@ -1425,10 +1425,10 @@ ClearRAM7E:							; clears Y bytes at A in bank $7E: a zero, then a block move t
 	sta.l $7E0000,x
 	rep #$20
 	lda.w #$7E7E
-	sta.w $18FC
+	sta.w BlockMove+2
 	pla
 	dec a
-	jml.l $0018FA
+	jml.l BlockMove
 CODE_C58B2B:						; called from other segments
 	lda.w #$0000
 CODE_C58B2E:						; called from other segments

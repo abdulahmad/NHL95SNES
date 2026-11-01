@@ -16,7 +16,7 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	sta.l NMITIMEN
 	rep #$20
 	lda.w #$005C
-	sta.w $1850
+	sta.w jmlvector
 	jsl.l forceblack
 	jsl.l CODE_C36F3D
 	jsl.l CODE_CF0000
@@ -38,9 +38,9 @@ CODE_C50056:						; from CODE_C50056, CODE_C50ADD, demoread and other segments
 	stz.w $24C4
 	jsl.l CODE_CF04B6
 	lda.w #$445C
-	sta.w $1850
+	sta.w jmlvector
 	lda.w #$C08B
-	sta.w $1852
+	sta.w jmlvector+2
 	jsl.l CODE_C36C2C
 	jsl.l GameSetUp
 	lda.w #$007E
@@ -977,12 +977,12 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	asl a
 	tax
 	lda.l asstab,x
-	sta.w $1851
+	sta.w jmlvector+1
 	lda.l $C09A25,x
-	sta.w $1852
+	sta.w jmlvector+2
 	ldx.b curobj
 	jsl.l loadTeamStruct
-	jsl.l $001850
+	jsl.l jmlvector
 .61:								; A = position,x, if the result is not 0 go to .65, ...
 	lda.w position,x
 	ora.w gmclock

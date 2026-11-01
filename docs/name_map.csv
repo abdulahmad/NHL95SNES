@@ -4707,17 +4707,17 @@ $C4B5C0,.9,CODE_C4B5C0,new,"branch target only used in CODE_C4B36A",src/bankC4_B
 $C4B5DD,.loop4,CODE_C4B5DD,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
 $C4B62B,.loop5,CODE_C4B62B,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
 $C4B659,.1,CODE_C4B659,new,"branch target only used in CODE_C4B653",src/bankC4_B000.asm
-$C4B6F2,.loop,CODE_C4B6F2,new,"branch target only used in CODE_C4B6EB",src/bankC4_B000.asm
-$C4B760,.1,CODE_C4B760,new,"branch target only used in CODE_C4B743",src/bankC4_B000.asm
-$C4B76A,.loop,CODE_C4B76A,new,"branch target only used in CODE_C4B763",src/bankC4_B000.asm
-$C4B775,.1,CODE_C4B775,new,"branch target only used in CODE_C4B763",src/bankC4_B000.asm
-$C4B7AD,.loop,CODE_C4B7AD,new,"branch target only used in CODE_C4B79E",src/bankC4_B000.asm
-$C4B7BB,.1,CODE_C4B7BB,new,"branch target only used in CODE_C4B79E",src/bankC4_B000.asm
-$C4B7C1,.2,CODE_C4B7C1,new,"branch target only used in CODE_C4B79E",src/bankC4_B000.asm
-$C4B7D7,.loop,CODE_C4B7D7,new,"branch target only used in CODE_C4B7D4",src/bankC4_B000.asm
-$C4B804,.rtl,CODE_C4B804,new,"branch target only used in CODE_C4B7F4",src/bankC4_B000.asm
-$C4B81E,.1,CODE_C4B81E,new,"branch target only used in CODE_C4B805",src/bankC4_B000.asm
-$C4B843,.rtl,CODE_C4B843,new,"branch target only used in CODE_C4B828",src/bankC4_B000.asm
+$C4B6F2,.loop,CODE_C4B6F2,new,"branch target only used in InitTasks",src/bankC4_B000.asm
+$C4B760,.1,CODE_C4B760,new,"branch target only used in StartTasks",src/bankC4_B000.asm
+$C4B76A,.loop,CODE_C4B76A,new,"branch target only used in AddTask",src/bankC4_B000.asm
+$C4B775,.1,CODE_C4B775,new,"branch target only used in AddTask",src/bankC4_B000.asm
+$C4B7AD,.loop,CODE_C4B7AD,new,"branch target only used in RemoveTask",src/bankC4_B000.asm
+$C4B7BB,.1,CODE_C4B7BB,new,"branch target only used in RemoveTask",src/bankC4_B000.asm
+$C4B7C1,.2,CODE_C4B7C1,new,"branch target only used in RemoveTask",src/bankC4_B000.asm
+$C4B7D7,.loop,CODE_C4B7D7,new,"branch target only used in RunTasks",src/bankC4_B000.asm
+$C4B804,.rtl,CODE_C4B804,new,"branch target only used in TaskEndCheck",src/bankC4_B000.asm
+$C4B81E,.1,CODE_C4B81E,new,"branch target only used in TaskFrameEnd",src/bankC4_B000.asm
+$C4B843,.rtl,CODE_C4B843,new,"branch target only used in TaskStartKey",src/bankC4_B000.asm
 $C4B87E,.loop,CODE_C4B87E,new,"branch target only used in CODE_C4B871",src/bankC4_B000.asm
 $C4B8B6,.loop,CODE_C4B8B6,new,"branch target only used in CODE_C4B8AC",src/bankC4_B000.asm
 $C4B8DF,.loop,CODE_C4B8DF,new,"branch target only used in CODE_C4B8D1",src/bankC4_B000.asm
@@ -7165,3 +7165,16 @@ $C58B11,ClearRAM7E,CODE_C58B11,code,"stores 0 at $7E:A, sets the banks word $18F
 $C4C3BA,UnpackText,CODE_C4C3BA,code,"5-bit codes read by CODE_C4C43D / CODE_C4C431: 0-25 letters, $1A end, $1B space, $1C case toggle, $1D-$1F a 3-bit index into DATA8_C4C420; ../work/textdec.py models it",src/bankC4_C000.asm
 $C4C3AE,UnpackText2,CODE_C4C3AE,code,"the same decoder (CODE_C4C3C4) after AllocWorkBuf2",src/bankC4_C000.asm
 $C4BB5A,PrintTextPage,CODE_C4BB5A,code,"the descriptor: left ($CF), right ($D1), title text and row (printed by CODE_C4BDAE when nonzero), then (text, row with flags) pairs, $FFFF to set the left margin, 0 to end; ../work/pages.py lists them",src/bankC4_B000.asm
+$C4B6EB,InitTasks,CODE_C4B6EB,code,"slots of $0C bytes from $2CF7, free list at $2D6F (index $2D83), list head $2D85 with the end node $2D91 (priority $FFFF), task flags $85 = $8002, done flag $2D9D (old value to $2D9F)",src/bankC4_B000.asm
+$C4B763,AddTask,CODE_C4B763,code,"a node: next, routine (+2 / +4), priority (+6), frame count (+8), +$0A; from the free list",src/bankC4_B000.asm
+$C4B743,StartTasks,CODE_C4B743,code,"carry set clears task flag bit 1 ($85), which TaskFrameEnd tests; IntroSequence, DeveloperCredits and TitleScreen start with it",src/bankC4_B000.asm
+$C4B738,AddStartKeyTask,CODE_C4B738,code,"then AddTask",src/bankC4_B000.asm
+$C4B79E,RemoveTask,CODE_C4B79E,code,"finds the first node with the routine of task d1 (RunTasks keeps the running node in d1) and unlinks it",src/bankC4_B000.asm
+$C4B7D4,RunTasks,CODE_C4B7D4,code,"the node in d1 while its routine runs; the list ends with TaskFrameEnd, which waits for the frame; the start-up screens call it until the done flag ($2D9D) is set",src/bankC4_B000.asm
+$C4B7F4,TaskEndCheck,CODE_C4B7F4,code,"priority $FFFE (StartTasks); done flag $2D9D = $2D9F + 1",src/bankC4_B000.asm
+$C4B805,TaskFrameEnd,CODE_C4B805,code,"InitTasks puts it in the end node; BuildSpriteOAM, TransfersReady, wai",src/bankC4_B000.asm
+$C4B828,TaskStartKey,CODE_C4B828,code,"AddStartKeyTask adds it",src/bankC4_B000.asm
+$C4B853,QueueColours,CODE_C4B853,code,"pushes the size (d3 * 2), Y, the bank and the address on the stack at $04 while QueueBusy is negative",src/bankC4_B000.asm
+$C4B84C,QueueColours16,CODE_C4B84C,code,"sets d3 = $10 and falls into QueueColours",src/bankC4_B000.asm
+$1850,jmlvector,,94S+code,"RAM: the jml routine of 94S jmlvector (2 of 2 aligned votes); Opening stores $5C (jml) at +0, RunTasks and the assignment call (bankC4_5000) the target at +1..+3, then jsl to it",src/ram95s.asm
+$18FA,BlockMove,,code,"RAM: Opening writes $8B $54 at +0 and $AB $6B at +4 (phb, mvn, plb, rtl); ClearRAM7E and CODE_C58AF3 set the mvn banks at +2 and call it",src/ram95s.asm

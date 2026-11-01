@@ -75,7 +75,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	lda.w #CODE_C4B05E
 	ldx.w #CODE_C4B05E>>16
 	jsl.l SetNMIHook
-	jsl.l CODE_C4B6EB
+	jsl.l InitTasks
 	stz.b $81
 	lda.b PadRaw1
 	jsr.w CODE_C4B1D6
@@ -156,18 +156,18 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldx.w #CODE_C4B1E4>>16
 	ldy.w #$0001
 	clc
-	jsl.l CODE_C4B743
-	jsl.l CODE_C4B738
+	jsl.l StartTasks
+	jsl.l AddStartKeyTask
 	lda.w #CODE_C4B66E
 	ldx.w #CODE_C4B66E>>16
 	ldy.w #$F000
-	jsl.l CODE_C4B763
+	jsl.l AddTask
 	lda.b a0
 	ldx.w #$0001
 	jsr.w CODE_C4B299
 	stz.w fadestep
-.loop:								; loop: call CODE_C4B7D4, if $2D9D = 0 go to .loop, go to ClearNMIHook
-	jsl.l CODE_C4B7D4
+.loop:								; loop: call RunTasks, if $2D9D = 0 go to .loop, go to ClearNMIHook
+	jsl.l RunTasks
 	lda.w $2D9D
 	beq .loop
 	jml.l ClearNMIHook
@@ -179,7 +179,7 @@ CODE_C4B1D6:						; from IntroSequence
 	tsb.b $81
 .rts:								; return
 	rts
-CODE_C4B1E4:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B743
+CODE_C4B1E4:						; passed as a long pointer (lda # of its bank and address) to StartTasks
 	lda.w $18D0
 	cmp.w #$0100
 	beq .1
@@ -276,9 +276,9 @@ CODE_C4B299:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w #CODE_C4B2BD
 	ldx.w #CODE_C4B2BD>>16
 	ldy.w #$1000
-	jsl.l CODE_C4B763
+	jsl.l AddTask
 	rts
-CODE_C4B2BD:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B763
+CODE_C4B2BD:						; passed as a long pointer (lda # of its bank and address) to AddTask
 	jsr.w CODE_C4B2F9
 	cmp.w #$0280
 	bcs CODE_C4B2F8
@@ -290,7 +290,7 @@ CODE_C4B2BD:						; passed as a long pointer (lda # of its bank and address) to 
 	lda.w #CODE_C4B32D
 	ldx.w #CODE_C4B32D>>16
 	ldy.w #$0500
-	jmp.w CODE_C4B763
+	jmp.w AddTask
 CODE_C4B2DC:						; a task routine: stored as the next routine of a task
 	jsr.w CODE_C4B2F9
 	cmp.w #$0100
@@ -301,7 +301,7 @@ CODE_C4B2DC:						; a task routine: stored as the next routine of a task
 	sta.w $18D8
 	ldx.b d0
 	jsr.w CODE_C4B31A
-	jmp.w CODE_C4B79E
+	jmp.w RemoveTask
 CODE_C4B2F8:						; from CODE_C4B2BD, CODE_C4B2DC
 	rtl
 CODE_C4B2F9:						; from CODE_C4B2BD, CODE_C4B2DC
@@ -333,7 +333,7 @@ CODE_C4B31A:						; from CODE_C4B25A, CODE_C4B2DC
 	sta.b $36,x
 .rts:								; return
 	rts
-CODE_C4B32D:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B763
+CODE_C4B32D:						; passed as a long pointer (lda # of its bank and address) to AddTask
 	and.w #$00FF
 	sep #$20
 	lda.w $0008,x
@@ -347,12 +347,12 @@ CODE_C4B32D:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.l $002130
 	rep #$20
 	rtl
-.1:									; $002131 = A, $002132 = $E0, A 16-bit, go to CODE_C4B79E
+.1:									; $002131 = A, $002132 = $E0, A 16-bit, go to RemoveTask
 	sta.l $002131
 	lda.b #$E0
 	sta.l $002132
 	rep #$20
-	jmp.w CODE_C4B79E
+	jmp.w RemoveTask
 DATA8_C4B35D:						; not traced: a table read by CODE_C4B32D
 	db $64,$68,$6C,$70,$74,$78,$7C,$7F,$78,$70,$68,$64,$00
 CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
@@ -744,7 +744,7 @@ CODE_C4B66A:						; from CODE_C4B36A
 	rol a
 	tsb.b a4
 	rts
-CODE_C4B66E:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B763
+CODE_C4B66E:						; passed as a long pointer (lda # of its bank and address) to AddTask
 	lda.w $0008,x
 	cmp.w #$001E
 	bcc CODE_C4B688
@@ -785,7 +785,7 @@ CODE_C4B6BD:						; a task routine: stored as the next routine of a task
 	lda.w #$0015
 CODE_C4B6CE:						; from CODE_C4B66E, CODE_C4B689, CODE_C4B6A3
 	jml.l CODE_CF040B
-CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B763
+CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to AddTask
 	lda.w $0008,x
 	cmp.w #$0177
 	bcc CODE_C4B6EA
@@ -796,7 +796,9 @@ CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.w $0002,x
 CODE_C4B6EA:						; a task routine: stored as the next routine of a task
 	rtl
-CODE_C4B6EB:						; from IntroSequence, CODE_C4B743, DeveloperCredits and other segments
+InitTasks:							; empties the task list: 10 free task slots, the list head and its last
+									; task (TaskFrameEnd), the task flags; the done flag is kept as the last
+									; one and cleared
 	ldx.w #$0000
 	lda.w #$2CF7
 	clc
@@ -809,10 +811,10 @@ CODE_C4B6EB:						; from IntroSequence, CODE_C4B743, DeveloperCredits and other 
 	bne .loop
 	stz.w $2D6F,x
 	stz.w $2D83
-	lda.w #CODE_C4B805
+	lda.w #TaskFrameEnd
 	sta.w $2D87
 	sta.w $2D93
-	lda.w #CODE_C4B805>>16
+	lda.w #TaskFrameEnd>>16
 	sta.w $2D89
 	sta.w $2D95
 	stz.w $2D8B
@@ -827,21 +829,22 @@ CODE_C4B6EB:						; from IntroSequence, CODE_C4B743, DeveloperCredits and other 
 	sta.w $2D9F
 	stz.w $2D9D
 	rtl
-CODE_C4B738:						; from CODE_C4B10D, DeveloperCredits and other segments
-	lda.w #CODE_C4B828
-	ldx.w #CODE_C4B828>>16
+AddStartKeyTask:					; adds TaskStartKey to the task list (priority $F000)
+	lda.w #TaskStartKey
+	ldx.w #TaskStartKey>>16
 	ldy.w #$F000
-	bra CODE_C4B763
-CODE_C4B743:						; from CODE_C4B10D, DeveloperCredits and other segments
+	bra AddTask
+StartTasks:							; a new task list (InitTasks) with TaskEndCheck, then AddTask X:A, Y; with
+									; carry set the sprites are not built each frame
 	pha
 	phx
 	phy
 	php
-	jsl.l CODE_C4B6EB
-	lda.w #CODE_C4B7F4
-	ldx.w #CODE_C4B7F4>>16
+	jsl.l InitTasks
+	lda.w #TaskEndCheck
+	ldx.w #TaskEndCheck>>16
 	ldy.w #$FFFE
-	jsl.l CODE_C4B763
+	jsl.l AddTask
 	plp
 	bcc .1
 	lda.w #$0002
@@ -850,7 +853,8 @@ CODE_C4B743:						; from CODE_C4B10D, DeveloperCredits and other segments
 	ply
 	plx
 	pla
-CODE_C4B763:						; from CODE_C4B10D, CODE_C4B2BD, CODE_C4B738, CODE_C4B743, ...
+AddTask:							; adds the task routine X:A with priority Y to the task list, before the
+									; first task of a higher priority
 	phx
 	pha
 	ldx.w #$2D85
@@ -882,7 +886,7 @@ CODE_C4B763:						; from CODE_C4B10D, CODE_C4B2BD, CODE_C4B738, CODE_C4B743, ...
 	txa
 	sta.w $0000,y
 	rtl
-CODE_C4B79E:						; from CODE_C4B2DC, CODE_C4B32D
+RemoveTask:							; takes the running task (d1) out of the task list and frees its slot
 	ldy.b d1
 	lda.w $0002,y
 	ldx.w $0004,y
@@ -910,21 +914,23 @@ CODE_C4B79E:						; from CODE_C4B2DC, CODE_C4B32D
 	sta.w $2D6F,x
 	stx.w $2D83
 	rtl
-CODE_C4B7D4:						; from IntroSequence, DeveloperCredits and other segments
+RunTasks:							; runs each task of the task list once, in order (its frame count + 1),
+									; through jmlvector
 	ldx.w $2D85
-.loop:								; loop: d1 = X, $0008,x + 1, $1853 = $0004,x, $1851 = $0002,x, ...
+.loop:								; loop: d1 = X, $0008,x + 1, jmlvector+3 = $0004,x, ...
 	stx.b d1
 	inc.w $0008,x
 	lda.w $0004,x
-	sta.w $1853
+	sta.w jmlvector+3
 	lda.w $0002,x
-	sta.w $1851
-	jsl.l $001850
+	sta.w jmlvector+1
+	jsl.l jmlvector
 	ldy.b d1
 	ldx.w $0000,y
 	bne .loop
 	rtl
-CODE_C4B7F4:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B763
+TaskEndCheck:						; a task: once task flag bit 15 is cleared, fades out and sets the done
+									; flag the task loops wait for
 	bit.b $85
 	bmi .rtl
 	jsl.l FadeOutWait
@@ -934,7 +940,8 @@ CODE_C4B7F4:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.w $2D9D
 .rtl:								; return
 	rtl
-CODE_C4B805:						; stored as a long pointer in RAM by CODE_C4B6EB (reader not traced)
+TaskFrameEnd:						; the last task of the list: the sprites to OAM (when task flag bit 1 is
+									; set), then waits for the frame
 	lda.b $85
 	bit.w #$0002
 	beq .1
@@ -950,7 +957,8 @@ CODE_C4B805:						; stored as a long pointer in RAM by CODE_C4B6EB (reader not t
 	lda.w #$F254
 	sta.b d3
 	rtl
-CODE_C4B828:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B6EB
+TaskStartKey:						; a task: start clears task flag bit 15 (so TaskEndCheck ends the list)
+									; and sets bit 0
 	jsl.l CODE_C36C2D
 	lda.w repeatdelayframes
 	bne .rtl
@@ -968,12 +976,13 @@ CODE_C4B844:						; no caller found (not traced)
 	lda.w #$1FFC
 	tcs
 	rtl
-CODE_C4B84C:						; called from other segments
+QueueColours16:						; QueueColours with d3 = 16
 	pha
 	lda.w #$0010
 	sta.b d3
 	pla
-CODE_C4B853:						; from DeveloperCredits, CODE_C4BA75 and other segments
+QueueColours:						; queues d3 colours from X:A for CGRAM at Y (a record on the CGRAM
+									; transfer stack)
 	sta.b $77
 	stx.b $79
 	dec.b QueueBusy
@@ -1164,7 +1173,7 @@ CODE_C4B970:						; from DeveloperCredits and other segments
 	rtl
 DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISUAL CONCEPTS
 									; PRESENT (HighScoreMap, VisualConceptsMap), faded in and out by tasks
-	jsl.l CODE_C4B6EB
+	jsl.l InitTasks
 	jsl.l CODE_C58BE4
 	jsl.l ResetPPURegs
 	jsl.l CODE_C58B2B
@@ -1232,23 +1241,23 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	lda.b d4
 	ldx.w #$007E
 	ldy.w #$0000
-	jsl.l CODE_C4B853
+	jsl.l QueueColours
 	stz.w fadestep
 	stz.w fadestep
 	lda.w #CODE_C4BA67
 	ldx.w #CODE_C4BA67>>16
 	ldy.w #$0001
 	sec
-	jsl.l CODE_C4B743
-	jsl.l CODE_C4B738
-.loop:								; loop: call CODE_C4B7D4, if $2D9D = 0 go to .loop, $002130 = $0000, ...
-	jsl.l CODE_C4B7D4
+	jsl.l StartTasks
+	jsl.l AddStartKeyTask
+.loop:								; loop: call RunTasks, if $2D9D = 0 go to .loop, $002130 = $0000, ...
+	jsl.l RunTasks
 	lda.w $2D9D
 	beq .loop
 	lda.w #$0000
 	sta.l $002130
 	rtl
-CODE_C4BA67:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B743
+CODE_C4BA67:						; passed as a long pointer (lda # of its bank and address) to StartTasks
 	lda.w $0008,x
 	cmp.w #$00B4
 	bne CODE_C4BAD5
@@ -1266,7 +1275,7 @@ CODE_C4BA75:						; a task routine: stored as the next routine of a task
 	lda.b d6
 	ldx.w #$007E
 	ldy.w #$0020
-	jsl.l CODE_C4B853
+	jsl.l QueueColours
 	lda.w #$0020
 	sta.b d3
 	ldy.b d5
@@ -1278,7 +1287,7 @@ CODE_C4BA75:						; a task routine: stored as the next routine of a task
 	lda.b d4
 	ldx.w #$007E
 	ldy.w #$0000
-	jsl.l CODE_C4B853
+	jsl.l QueueColours
 	dec.b $7D
 	bne CODE_C4BAD5
 	ldx.b d1

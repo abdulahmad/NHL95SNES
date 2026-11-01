@@ -255,7 +255,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	jsl.l CODE_C58B2B
-	jsl.l CODE_C4B6EB
+	jsl.l InitTasks
 	lda.w #$0010
 	sta.b $7D
 	lda.w #$007E
@@ -282,7 +282,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	ldx.w #$007E
 	lda.b d4
 	ldy.w #$0020
-	jsl.l CODE_C4B84C
+	jsl.l QueueColours16
 	lda.w #$0100
 	sta.w BG1HScroll
 	stz.w BG2HScroll
@@ -290,18 +290,18 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	lda.w #CODE_C4D377
 	ldy.w #$0001
 	clc
-	jsl.l CODE_C4B743
+	jsl.l StartTasks
 	jsl.l CODE_C4CEDB
 	lda.w #$00A3
 	jsl.l CODE_CF040B
 	ldx.w #CODE_C4B6D2>>16
 	lda.w #CODE_C4B6D2
 	ldy.w #$FF00
-	jsl.l CODE_C4B763
+	jsl.l AddTask
 	inc.w $1EA7
 	stz.w fadestep
-.loop:								; loop: call CODE_C4B7D4, call AnimateSprites, ...
-	jsl.l CODE_C4B7D4
+.loop:								; loop: call RunTasks, call AnimateSprites, ...
+	jsl.l RunTasks
 	jsl.l AnimateSprites
 	lda.w $2D9D
 	beq .loop
@@ -318,7 +318,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	lda.w #$0043
 	sta.l BG34NBA
 	rtl
-CODE_C4D377:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B743
+CODE_C4D377:						; passed as a long pointer (lda # of its bank and address) to StartTasks
 	lda.w $0008,x
 	cmp.w #$003C
 	bne CODE_C4D3AD
@@ -460,7 +460,7 @@ CODE_C4D48A:						; a task routine: stored as the next routine of a task
 	jsr.w CODE_C4D588
 	bne CODE_C4D4A0
 	stz.b $95
-	jsl.l CODE_C4B738
+	jsl.l AddStartKeyTask
 	ldx.b d1
 	lda.w #CODE_C4D4A1
 	sta.w $0002,x
@@ -568,7 +568,7 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	tay
 	ldx.w #$007E
 	lda.b d4
-	jsl.l CODE_C4B84C
+	jsl.l QueueColours16
 	rts
 CODE_C4D588:						; from CODE_C4D388, CODE_C4D3DD, CODE_C4D414, CODE_C4D48A, ...
 	pha
@@ -583,7 +583,7 @@ CODE_C4D588:						; from CODE_C4D388, CODE_C4D3DD, CODE_C4D414, CODE_C4D48A, ...
 	ldx.w #$007E
 	lda.b d4
 	ply
-	jsl.l CODE_C4B84C
+	jsl.l QueueColours16
 	dec.b $7D
 	rts
 CODE_C4D5AC:						; from CODE_C4D4A1
