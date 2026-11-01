@@ -1171,7 +1171,7 @@ clockcont_0:						; called from other segments
 	stx.b a3
 	lda.w #$0018
 	sta.b d0
-	jsl.l CODE_C43734
+	jsl.l assinsert
 	lda.w #$0007
 	jsl.l StartSound
 	stz.b p0
@@ -1196,7 +1196,7 @@ clockcont_0:						; called from other segments
 	lda.w position,x
 	beq .2
 	bmi .2
-	jsl.l CODE_C43734
+	jsl.l assinsert
 	lda.w #$0008
 	sta.b d0
 .2:									; X + 1, X + 1, a3 = X, d2 - 1, ...

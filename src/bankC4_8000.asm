@@ -2332,6 +2332,6 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	bcc .99
 	lda.w #$000F
 	sta.b d0
-	jmp.w CODE_C43734
+	jmp.w assinsert
 .99:								; go to .78
 	jmp.w .78

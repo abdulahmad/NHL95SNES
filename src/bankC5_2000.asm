@@ -1532,10 +1532,10 @@ doinput:							; called from other segments
 	jml.l CODE_C4A0C1
 .25:								; go to CODE_C498D3
 	jml.l CODE_C498D3
-.26:								; d0 = $0014, go to CODE_C43734
+.26:								; d0 = $0014, go to assinsert
 	lda.w #$0014
 	sta.b d0
-	jml.l CODE_C43734
+	jml.l assinsert
 .27:								; go to setpassmode
 	jml.l setpassmode
 .28:								; go to findpc

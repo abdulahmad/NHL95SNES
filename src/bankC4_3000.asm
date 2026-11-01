@@ -266,7 +266,7 @@ DATA8_C43345:						; not traced: data between routines
 CODE_C43348:						; from assdefo
 	lda.w #$0011
 	sta.b d0
-	jmp.w CODE_C43734
+	jmp.w assinsert
 CODE_C43350:						; from assdefo
 	lda.w gmclock
 	beq .1
@@ -560,10 +560,10 @@ asswingo:							; called from other segments
 	rtl
 .1:									; go to donothing
 	jmp.w donothing
-.2:									; d0 = $0011, go to CODE_C43734
+.2:									; d0 = $0011, go to assinsert
 	lda.w #$0011
 	sta.b d0
-	jmp.w CODE_C43734
+	jmp.w assinsert
 .3:									; if gmclock is not 0 go to .1, call check4bench, ...
 	lda.w gmclock
 	bne .1
@@ -731,7 +731,7 @@ assexit:							; from CODE_C4375B, assfaceoffpl and other segments
 	asl a
 	adc.w assnum,x
 	tay
-	lda.w $0A60,y
+	lda.w asslist,y
 	and.w #$00FF
 	ply
 	plx
@@ -740,7 +740,8 @@ assexit:							; from CODE_C4375B, assfaceoffpl and other segments
 	ora.w #$0002
 	sta.w pflags,x
 	rtl
-CODE_C43734:						; from CODE_C43348, asswingo, puckfaceoff2 and other segments
+assinsert:							; X = player, d0 = assignment: added as the newest of the 8 slots (assnum
+									; - 1), then assreplace
 	lda.w assnum,x
 	dec a
 	and.w #$0007
@@ -756,7 +757,7 @@ assreplace:							; from assdefd, assdefo, asswingd, ...
 	tay
 	sep #$20
 	lda.b d0
-	sta.w $0A60,y
+	sta.w asslist,y
 	rep #$30
 	sta.w asscur,x
 	rtl
@@ -1019,15 +1020,15 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w $1908
 	inc a
 	sta.w $12C9
-.8:									; call ResetBench, a2 = 0, call setpersonel, call CODE_C53B51, ...
+.8:									; call ResetBench, a2 = 0, call setpersonel, call forcepldata, ...
 	jsl.l ResetBench
 	stz.b a2
 	jsl.l setpersonel
-	jsl.l CODE_C53B51
+	jsl.l forcepldata
 	inc.b a2
 	inc.b a2
 	jsl.l setpersonel
-	jsl.l CODE_C53B51
+	jsl.l forcepldata
 	jsl.l resetplstuff
 	lda.w #$FFFF
 	sta.w tmtouch2
@@ -1110,8 +1111,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sta.w tmflags,y
 	lda.w #$0017
 	sta.b d0
-.17:								; call CODE_C43734
-	jsl.l CODE_C43734
+.17:								; call assinsert
+	jsl.l assinsert
 .18:								; d4 = tmap, X = a3, if pfteam,x = 0 go to .19, d4 = $12C9
 	lda.w tmap
 	sta.b d4

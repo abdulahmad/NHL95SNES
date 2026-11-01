@@ -331,7 +331,7 @@ dopass_count:						; from dopass and other segments
 	ldx.b a0
 	lda.w #$0015
 	sta.b d0
-	jsl.l CODE_C43734
+	jsl.l assinsert
 	ldx.b a3
 	ldy.b a0
 	lda.w frame,y
@@ -1570,7 +1570,7 @@ CODE_C4AD04:						; from Goal and other segments
 	bmi .1
 	beq .1
 	stz.w pfnc,x
-	jsl.l CODE_C43734
+	jsl.l assinsert
 .1:									; X + 1, X + 1, d3 - 1, if the result >= 0 go to .loop, ...
 	inx
 	inx

@@ -204,7 +204,7 @@ assnearest:							; called from other segments
 	sta.b d0
 	lda.w playerpad,x
 	bpl .rtl
-	jmp.w CODE_C43734
+	jmp.w assinsert
 .rtl:								; return
 	rtl
 .2:									; go to CODE_C48A71
@@ -259,7 +259,7 @@ assnearest:							; called from other segments
 	sta.w pflags,x
 	lda.w #$0012
 	sta.b d0
-	jsl.l CODE_C43734
+	jsl.l assinsert
 	ldx.b curobj
 	jmp.w assexit
 .8:									; d1 = $0002, if d2 >= $00E2 go to .9, d1 = 0, if position,x = 0 go to .16
@@ -711,10 +711,10 @@ asscentero:							; called from other segments
 	rtl
 .1:									; go to donothing
 	jmp.w donothing
-.2:									; d0 = $0011, go to CODE_C43734
+.2:									; d0 = $0011, go to assinsert
 	lda.w #$0011
 	sta.b d0
-	jmp.w CODE_C43734
+	jmp.w assinsert
 .3:									; if gmclock is not 0 go to .1, call check4bench, ...
 	lda.w gmclock
 	bne .1

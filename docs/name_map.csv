@@ -5617,11 +5617,11 @@ $C53AFD,.1,CODE_C53AFD,new,"branch target only used in CODE_C53AF8",src/bankC5_3
 $C53B0D,.2,CODE_C53B0D,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
 $C53B2E,.3,CODE_C53B2E,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
 $C53B4A,.4,CODE_C53B4A,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
-$C53B81,.loop,CODE_C53B81,new,"branch target only used in CODE_C53B51",src/bankC5_3000.asm
-$C53B91,.1,CODE_C53B91,new,"branch target only used in CODE_C53B51",src/bankC5_3000.asm
-$C53BB2,.2,CODE_C53BB2,new,"branch target only used in CODE_C53B51",src/bankC5_3000.asm
-$C53BC4,.3,CODE_C53BC4,new,"branch target only used in CODE_C53B51",src/bankC5_3000.asm
-$C53BD4,.4,CODE_C53BD4,new,"branch target only used in CODE_C53B51",src/bankC5_3000.asm
+$C53B81,.loop,CODE_C53B81,new,"branch target only used in forcepldata",src/bankC5_3000.asm
+$C53B91,.1,CODE_C53B91,new,"branch target only used in forcepldata",src/bankC5_3000.asm
+$C53BB2,.2,CODE_C53BB2,new,"branch target only used in forcepldata",src/bankC5_3000.asm
+$C53BC4,.3,CODE_C53BC4,new,"branch target only used in forcepldata",src/bankC5_3000.asm
+$C53BD4,.4,CODE_C53BD4,new,"branch target only used in forcepldata",src/bankC5_3000.asm
 $C53C3E,.rtl,CODE_C53C3E,new,"branch target only used in Setplass",src/bankC5_3000.asm
 $C53C5C,.1,CODE_C53C5C,new,"branch target only used in setplayer",src/bankC5_3000.asm
 $C53C75,.2,CODE_C53C75,new,"branch target only used in setplayer",src/bankC5_3000.asm
@@ -7522,3 +7522,7 @@ $0920,OldXpos,,94S+code,"RAM: updateplayers copies Xpos,x to it as 94S does (sid
 $0940,OldXfrac,,94S+code,"RAM: updateplayers copies Xfrac,x to it as 94S does (side by side); 2 of 2 aligned votes",src/ram95s.asm
 $0980,OldYfrac,,94S+code,"RAM: updateplayers copies Yfrac,x to it as 94S does (side by side); 2 of 2 aligned votes",src/ram95s.asm
 $0830,puckx,,94S+code,"RAM: Xpos+$1C, as 94S defines puckx = Xpos+puckscnum beside pucky (Ypos+$1C, named before); 94S puck code reads it where 95 reads $0830",src/ram95s.asm
+$0A60,asslist,,94S+code,"RAM: assreplace stores d0 at it + X*4 + assnum,x as 94S assreplace does with asslist (the same code); 2 of 2 aligned votes",src/ram95s.asm
+$C53B51,forcepldata,CODE_C53B51,94S+code,"94S forcepldata's steps side by side: the d / a registers saved, from tmsort,y the objects' newpos into position, Setplass, assinsert of assignment $12 at position 4, tmpdst and setplayer from newpnum, newpos / newpnum $FFFF; puckfaceoff2 calls it where 94S does",src/bankC5_3000.asm
+$C43734,assinsert,CODE_C43734,94S+code,"94S assinsert's code exactly (assnum,x - 1 wrapped at 8), falling into assreplace as in 94S; forcepldata, puckfaceoff2 and the assignment routines call it",src/bankC4_3000.asm
+$C51811,DoHiLights,CODE_C51811,94S+code,"called from Intermission_tick where 94S Intermission calls DoHiLights; the routine is a bare rtl",src/bankC5_1000.asm

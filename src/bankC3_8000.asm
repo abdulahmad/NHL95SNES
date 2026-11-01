@@ -656,7 +656,7 @@ defaultsprites_0:					; clear object state, load initial fields and sort the obj
 	asl a
 	tay
 	lda.l DATA8_C38666,x
-	sta.w $0A60,y
+	sta.w asslist,y
 	ldy.b a3
 	sta.w asscur,y
 	lda.l DATA8_C38668,x
@@ -841,14 +841,14 @@ BackupPauseBuffers:					; allocate and copy the buffers saved for the pause scre
 	rtl
 FillPlayerAssignments:				; fill the player assignment ring with d0 and advance X
 	stx.w puckc
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
-	jsl.l CODE_C43734
+	jsl.l assinsert
+	jsl.l assinsert
+	jsl.l assinsert
+	jsl.l assinsert
+	jsl.l assinsert
+	jsl.l assinsert
+	jsl.l assinsert
+	jsl.l assinsert
 	inx
 	inx
 	rtl

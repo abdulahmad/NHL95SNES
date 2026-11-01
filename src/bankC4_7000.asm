@@ -531,7 +531,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	stx.b a3
 	lda.w #$001A
 	sta.b d0
-	jsl.l CODE_C43734
+	jsl.l assinsert
 	ldx.b a3
 	lda.w #$1C20
 	sta.w temp1,x

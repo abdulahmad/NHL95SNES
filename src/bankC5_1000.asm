@@ -701,7 +701,7 @@ Intermission_tick:					; no caller found (not traced)
 	lda.w $24C8
 	cmp.w TickerNum
 	bne Intermission_tick
-	jsl.l CODE_C51811
+	jsl.l DoHiLights
 	lda.w #$0008
 	trb.w sflags3
 CODE_C516A6:						; from Intermission_tick, NewTicker2_next
@@ -888,7 +888,7 @@ clockcont:							; called from other segments
 	jmp.w clockcont_0
 .rtl:								; return
 	rtl
-CODE_C51811:						; from Intermission_tick and other segments
+DoHiLights:							; an rtl: called where 94S plays the playoff highlights
 	rtl
 CODE_C51812:						; no caller found (not traced)
 	lda.w #$0013

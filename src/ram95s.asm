@@ -150,6 +150,7 @@ puckvy				=	$09DC		; puck y speed
 impact				=	$0A00		; per object: impact value; collisions add to it, FallDown tests it
 position			=	$0A20		; player's position
 assnum				=	$0A40		; index of the current assignment (0-7)
+asslist				=	$0A60		; assignments, 8 bytes per object (assreplace stores d0 there)
 temp1				=	$0AE0		; assignment scratch, per object
 temp2				=	$0B00		; per object: scratch word of the assignment routines
 temp3				=	$0B20		; per object: scratch word of the assignment routines

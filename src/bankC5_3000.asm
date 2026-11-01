@@ -1414,7 +1414,8 @@ CODE_C53AF8:						; from ResetBench and other segments
 	dec.b d0
 	bpl .1
 	rtl
-CODE_C53B51:						; called from other segments
+forcepldata:						; face offs: moves team a2's players straight to their new positions
+									; (newpos, newpnum)
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1457,7 +1458,7 @@ CODE_C53B51:						; called from other segments
 	bne .2
 	lda.w #$0012
 	sta.b d0
-	jsl.l CODE_C43734
+	jsl.l assinsert
 .2:									; X = a3, A = newpnum,x, A and $00FF, A * 2, ...
 	ldx.b a3
 	lda.w newpnum,x
@@ -1522,7 +1523,7 @@ CODE_C53B51:						; called from other segments
 	sta.b d0
 	ldx.b a3
 	rtl
-Setplass:							; from CODE_C53B51 and other segments
+Setplass:							; from forcepldata and other segments
 	lda.w position,x
 	sta.b d0
 	bmi .rtl
@@ -1539,7 +1540,7 @@ Setplass:							; from CODE_C53B51 and other segments
 	rtl
 DATA8_C53C3F:						; not traced: data between routines
 	db $07,$02,$02,$03,$05,$03,$05
-setplayer:							; from CODE_C53B51 and other segments
+setplayer:							; from forcepldata and other segments
 	phx
 	phy
 	lda.w pflags,x
@@ -1579,8 +1580,8 @@ setplayer:							; from CODE_C53B51 and other segments
 	lda.b d1
 	cmp.w #$FFFE
 	bne .4
-.3:									; call CODE_C43734, pfalock,x = 0, SPA,x = 0
-	jsl.l CODE_C43734
+.3:									; call assinsert, pfalock,x = 0, SPA,x = 0
+	jsl.l assinsert
 	stz.w pfalock,x
 	stz.w SPA,x
 .4:									; if a0 = 0 go to .5, A = $0034
