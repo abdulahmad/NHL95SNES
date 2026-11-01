@@ -738,7 +738,7 @@ $C4DA55,AwardPictures,DATA8_C4DA55,genesis+code,"the picture (map set) of each o
 $C4DA75,DATA8_C4DA75,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
 $C4DA7D,AwardNames,DATA8_C4DA7D,genesis+code,"per award two offsets of packed text in bank $C3 (5-bit codes, decoded by CODE_C4C3BA): the name, then a second line or 0; CODE_C4D963 prints them. 95G AwardNames",src/bankC4_D000.asm
 $C4DA9D,AwardDescs,DATA8_C4DA9D,genesis+code,"per award the offset of its description (packed text in bank $C3); CODE_C4D99C prints it. 95G AwardDescs",src/bankC4_D000.asm
-$C4DC51,DATA8_C4DC51,,new,"jump table: the routine for each index (in bankC4_D000)",src/bankC4_D000.asm
+$C4DC51,AwardScanTbl,DATA8_C4DC51,genesis+code,"same job as 95G AwardScanTbl (the award scans); the order is the award order of AwardNames: Vezina, Selke, Conn Smythe, Jennings, Hart, Art Ross, Norris, Presidents",src/bankC4_D000.asm
 $C4F2FC,Sample02,,new,"sound sample 2 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C4FA57; zeros follow to the end of the bank",src/bankC4_F000.asm
 $C31007,Player101,,new,"player 101 of PlayerList: a packed name and the ratings",src/bankC3_1000.asm
 $C3101B,Player102,,new,"player 102 of PlayerList: a packed name and the ratings",src/bankC3_1000.asm
@@ -4928,54 +4928,54 @@ $C4D656,.rts,CODE_C4D656,new,"branch target only used in CODE_C4D636",src/bankC4
 $C4D73A,.loop,CODE_C4D73A,new,"branch target only used in CODE_C4D657",src/bankC4_D000.asm
 $C4D75D,.1,CODE_C4D75D,new,"branch target only used in CODE_C4D657",src/bankC4_D000.asm
 $C4D76B,.2,CODE_C4D76B,new,"branch target only used in CODE_C4D657",src/bankC4_D000.asm
-$C4D8CE,.loop,CODE_C4D8CE,new,"branch target only used in CODE_C4D818",src/bankC4_D000.asm
-$C4D908,.1,CODE_C4D908,new,"branch target only used in CODE_C4D818",src/bankC4_D000.asm
-$C4D915,.2,CODE_C4D915,new,"branch target only used in CODE_C4D818",src/bankC4_D000.asm
-$C4D936,.3,CODE_C4D936,new,"branch target only used in CODE_C4D818",src/bankC4_D000.asm
-$C4D93B,.4,CODE_C4D93B,new,"branch target only used in CODE_C4D818",src/bankC4_D000.asm
-$C4D963,.1,CODE_C4D963,new,"branch target only used in CODE_C4D941",src/bankC4_D000.asm
-$C4D99C,.2,CODE_C4D99C,new,"branch target only used in CODE_C4D941",src/bankC4_D000.asm
-$C4DA25,.loop,CODE_C4DA25,new,"branch target only used in CODE_C4D941",src/bankC4_D000.asm
-$C4DAD8,.loop,CODE_C4DAD8,new,"branch target only used in CODE_C4DAAD",src/bankC4_D000.asm
-$C4DB4A,.1,CODE_C4DB4A,new,"branch target only used in CODE_C4DAAD",src/bankC4_D000.asm
-$C4DB91,.2,CODE_C4DB91,new,"branch target only used in CODE_C4DAAD",src/bankC4_D000.asm
-$C4DC66,.1,CODE_C4DC66,new,"branch target only used in CODE_C4DC61",src/bankC4_D000.asm
-$C4DC6F,.loop,CODE_C4DC6F,new,"branch target only used in CODE_C4DC61",src/bankC4_D000.asm
-$C4DC91,.2,CODE_C4DC91,new,"branch target only used in CODE_C4DC61",src/bankC4_D000.asm
-$C4DCAA,.loop,CODE_C4DCAA,new,"branch target only used in CODE_C4DC9C",src/bankC4_D000.asm
-$C4DCDF,.1,CODE_C4DCDF,new,"branch target only used in CODE_C4DC9C",src/bankC4_D000.asm
-$C4DCE7,.1,CODE_C4DCE7,new,"branch target only used in CODE_C4DCE2",src/bankC4_D000.asm
-$C4DD02,.loop,CODE_C4DD02,new,"branch target only used in CODE_C4DCE2",src/bankC4_D000.asm
-$C4DD36,.2,CODE_C4DD36,new,"branch target only used in CODE_C4DCE2",src/bankC4_D000.asm
-$C4DD4F,.loop,CODE_C4DD4F,new,"branch target only used in CODE_C4DD41",src/bankC4_D000.asm
-$C4DD71,.1,CODE_C4DD71,new,"branch target only used in CODE_C4DD41",src/bankC4_D000.asm
-$C4DD7B,.loop,CODE_C4DD7B,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DD85,.1,CODE_C4DD85,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DD8E,.loop2,CODE_C4DD8E,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DDA3,.2,CODE_C4DDA3,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DDB9,.3,CODE_C4DDB9,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DDC6,.4,CODE_C4DDC6,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DDD1,.5,CODE_C4DDD1,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DDE8,.loop3,CODE_C4DDE8,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DE25,.loop4,CODE_C4DE25,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DE56,.6,CODE_C4DE56,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DE65,.7,CODE_C4DE65,new,"branch target only used in CODE_C4DD74",src/bankC4_D000.asm
-$C4DE71,.loop,CODE_C4DE71,new,"branch target only used in CODE_C4DE68",src/bankC4_D000.asm
-$C4DE82,.1,CODE_C4DE82,new,"branch target only used in CODE_C4DE68",src/bankC4_D000.asm
-$C4DEA0,.2,CODE_C4DEA0,new,"branch target only used in CODE_C4DE68",src/bankC4_D000.asm
-$C4DEA8,.loop2,CODE_C4DEA8,new,"branch target only used in CODE_C4DE68",src/bankC4_D000.asm
-$C4DECE,.3,CODE_C4DECE,new,"branch target only used in CODE_C4DE68",src/bankC4_D000.asm
-$C4DEE7,.loop,CODE_C4DEE7,new,"branch target only used in CODE_C4DED9",src/bankC4_D000.asm
-$C4DF1D,.1,CODE_C4DF1D,new,"branch target only used in CODE_C4DED9",src/bankC4_D000.asm
-$C4DF2A,.loop,CODE_C4DF2A,new,"branch target only used in CODE_C4DF20",src/bankC4_D000.asm
-$C4DF45,.1,CODE_C4DF45,new,"branch target only used in CODE_C4DF20",src/bankC4_D000.asm
-$C4DF50,.2,CODE_C4DF50,new,"branch target only used in CODE_C4DF20",src/bankC4_D000.asm
+$C4D8CE,.loop,CODE_C4D8CE,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
+$C4D908,.1,CODE_C4D908,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
+$C4D915,.2,CODE_C4D915,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
+$C4D936,.3,CODE_C4D936,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
+$C4D93B,.4,CODE_C4D93B,new,"branch target only used in SeasonAwards",src/bankC4_D000.asm
+$C4D963,.1,CODE_C4D963,new,"branch target only used in DrawAward",src/bankC4_D000.asm
+$C4D99C,.2,CODE_C4D99C,new,"branch target only used in DrawAward",src/bankC4_D000.asm
+$C4DA25,.loop,CODE_C4DA25,new,"branch target only used in DrawAward",src/bankC4_D000.asm
+$C4DAD8,.loop,CODE_C4DAD8,new,"branch target only used in DrawAwardWinner",src/bankC4_D000.asm
+$C4DB4A,.1,CODE_C4DB4A,new,"branch target only used in DrawAwardWinner",src/bankC4_D000.asm
+$C4DB91,.2,CODE_C4DB91,new,"branch target only used in DrawAwardWinner",src/bankC4_D000.asm
+$C4DC66,.1,CODE_C4DC66,new,"branch target only used in ScanVezina",src/bankC4_D000.asm
+$C4DC6F,.loop,CODE_C4DC6F,new,"branch target only used in ScanVezina",src/bankC4_D000.asm
+$C4DC91,.2,CODE_C4DC91,new,"branch target only used in ScanVezina",src/bankC4_D000.asm
+$C4DCAA,.loop,CODE_C4DCAA,new,"branch target only used in ScanSelke",src/bankC4_D000.asm
+$C4DCDF,.1,CODE_C4DCDF,new,"branch target only used in ScanSelke",src/bankC4_D000.asm
+$C4DCE7,.1,CODE_C4DCE7,new,"branch target only used in ScanConnSmythe",src/bankC4_D000.asm
+$C4DD02,.loop,CODE_C4DD02,new,"branch target only used in ScanConnSmythe",src/bankC4_D000.asm
+$C4DD36,.2,CODE_C4DD36,new,"branch target only used in ScanConnSmythe",src/bankC4_D000.asm
+$C4DD4F,.loop,CODE_C4DD4F,new,"branch target only used in ScanJennings",src/bankC4_D000.asm
+$C4DD71,.1,CODE_C4DD71,new,"branch target only used in ScanJennings",src/bankC4_D000.asm
+$C4DD7B,.loop,CODE_C4DD7B,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DD85,.1,CODE_C4DD85,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DD8E,.loop2,CODE_C4DD8E,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DDA3,.2,CODE_C4DDA3,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DDB9,.3,CODE_C4DDB9,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DDC6,.4,CODE_C4DDC6,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DDD1,.5,CODE_C4DDD1,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DDE8,.loop3,CODE_C4DDE8,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DE25,.loop4,CODE_C4DE25,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DE56,.6,CODE_C4DE56,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DE65,.7,CODE_C4DE65,new,"branch target only used in ScanHart",src/bankC4_D000.asm
+$C4DE71,.loop,CODE_C4DE71,new,"branch target only used in ScanArtRoss",src/bankC4_D000.asm
+$C4DE82,.1,CODE_C4DE82,new,"branch target only used in ScanArtRoss",src/bankC4_D000.asm
+$C4DEA0,.2,CODE_C4DEA0,new,"branch target only used in ScanArtRoss",src/bankC4_D000.asm
+$C4DEA8,.loop2,CODE_C4DEA8,new,"branch target only used in ScanArtRoss",src/bankC4_D000.asm
+$C4DECE,.3,CODE_C4DECE,new,"branch target only used in ScanArtRoss",src/bankC4_D000.asm
+$C4DEE7,.loop,CODE_C4DEE7,new,"branch target only used in ScanNorris",src/bankC4_D000.asm
+$C4DF1D,.1,CODE_C4DF1D,new,"branch target only used in ScanNorris",src/bankC4_D000.asm
+$C4DF2A,.loop,CODE_C4DF2A,new,"branch target only used in ScanPresidents",src/bankC4_D000.asm
+$C4DF45,.1,CODE_C4DF45,new,"branch target only used in ScanPresidents",src/bankC4_D000.asm
+$C4DF50,.2,CODE_C4DF50,new,"branch target only used in ScanPresidents",src/bankC4_D000.asm
 $C4DF64,.loop,CODE_C4DF64,new,"branch target only used in CODE_C4DF5B",src/bankC4_D000.asm
 $C4DF77,.1,CODE_C4DF77,new,"branch target only used in CODE_C4DF5B",src/bankC4_D000.asm
 $C4DFA3,.loop,CODE_C4DFA3,new,"branch target only used in CODE_C4DF82",src/bankC4_D000.asm
 $C4DFCD,.loop,CODE_C4DFCD,new,"branch target only used in CODE_C4DFAC",src/bankC4_D000.asm
-$C4E020,.loop,CODE_C4E020,new,"branch target only used in CODE_C4DFD6",src/bankC4_E000.asm
-$C4E0FE,.loop2,CODE_C4E0FE,new,"branch target only used in CODE_C4DFD6",src/bankC4_E000.asm
+$C4E020,.loop,CODE_C4E020,new,"branch target only used in StanleyCupScreen",src/bankC4_E000.asm
+$C4E0FE,.loop2,CODE_C4E0FE,new,"branch target only used in StanleyCupScreen",src/bankC4_E000.asm
 $C4E140,.1,CODE_C4E140,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
 $C4E188,.2,CODE_C4E188,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
 $C4E196,.3,CODE_C4E196,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
@@ -7072,3 +7072,17 @@ $CFFFB9,.2,CODE_CFFFB9,new,"branch target only used in CODE_CFFF88",src/bankCF_F
 $CFFFBC,.3,CODE_CFFFBC,new,"branch target only used in CODE_CFFF88",src/bankCF_F000.asm
 $CFFFC1,.4,CODE_CFFFC1,new,"branch target only used in CODE_CFFF88",src/bankCF_F000.asm
 $CFFFC8,.5,CODE_CFFFC8,new,"branch target only used in CODE_CFFF88",src/bankCF_F000.asm
+$C4DFD6,StanleyCupScreen,CODE_C4DFD6,genesis+code,"same job as 95G StanleyCupScreen: loads StanleyCupMap, prints the winner A and the team X it beat from the strings at $C350A9-$C350D6, the winner's logo sprite, sprites each frame until start; CODE_C401E5 calls it, then SeasonAwards, then Reset",src/bankC4_E000.asm
+$C4D818,SeasonAwards,CODE_C4D818,genesis+code,"same job as 95G SeasonAwards (the awards after the season); 95 SNES shows one winner per award (no finalists) and steps through the awards with left / right; CODE_C401E5 calls it after StanleyCupScreen",src/bankC4_D000.asm
+$C4D941,DrawAward,CODE_C4D941,code,"prints AwardNames / AwardDescs of award a0 and unpacks AwardPictures (CODE_C5881C); SeasonAwards calls it for each award shown",src/bankC4_D000.asm
+$C4DC45,FindAwardWinner,CODE_C4DC45,code,"jumps through AwardScanTbl by award a0 (the AwardNames order); the routines return the winning player (team for the Presidents Trophy) in A",src/bankC4_D000.asm
+$C4DC61,ScanVezina,CODE_C4DC61,genesis+code,"AwardScanTbl entry 0 (Vezina Trophy, Best Goalkeeper); goalies of all 26 teams ($2E03 list, $2DCB count), the highest CODE_C5BDA8 score",src/bankC4_D000.asm
+$C4DC9C,ScanSelke,CODE_C4DC9C,genesis+code,"AwardScanTbl entry 1 (Frank J. Selke Trophy, Best Defensive Forward); team from CODE_C4DF5B (lowest standings word $2A), forwards by CODE_C5BD52 + CODE_C5BD7D",src/bankC4_D000.asm
+$C4DCE2,ScanConnSmythe,CODE_C4DCE2,genesis+code,"AwardScanTbl entry 2 (Conn Smythe Trophy, Most Valuable Player in Playoffs); the 16 playoff teams ($3075A4), skaters scored by CODE_C4DF82 + CODE_C4DFAC",src/bankC4_D000.asm
+$C4DD41,ScanJennings,CODE_C4DD41,genesis+code,"AwardScanTbl entry 3 (William M. Jennings Trophy, Goalie with fewest goals against); team from CODE_C4DF5B, its goalies by CODE_C5BDE7",src/bankC4_D000.asm
+$C4DD74,ScanHart,CODE_C4DD74,genesis+code,"AwardScanTbl entry 4 (Hart Memorial Trophy, Most Valuable Player); teams sorted by the standings word $0A, then each skater's goals + assists against the team total (Div32x32U)",src/bankC4_D000.asm
+$C4DE68,ScanArtRoss,CODE_C4DE68,genesis+code,"AwardScanTbl entry 5 (Art Ross Trophy, Most Points); every player (team from the nibble table at $306A56), goalies skipped, CODE_C5BD52 + CODE_C5BD7D",src/bankC4_D000.asm
+$C4DED9,ScanNorris,CODE_C4DED9,genesis+code,"AwardScanTbl entry 6 (James Norris Memorial Trophy, Best Defenseman); team from CODE_C4DF5B, its defencemen ($2DCF count after the goalies and forwards) by CODE_C5BD52 + CODE_C5BD7D",src/bankC4_D000.asm
+$C4DF20,ScanPresidents,CODE_C4DF20,genesis+code,"AwardScanTbl entry 7 (Presidents Trophy, Best regular season record); the 26 teams' records from CODE_C5B97F",src/bankC4_D000.asm
+$C4DAAD,DrawAwardWinner,CODE_C4DAAD,code,"the team from CODE_C5B5EA, the team name (DATA8_C3585C), the photo ($0480 bytes, 48 x 48 4bpp, unpacked by CODE_C4EC88) or the logo sprite, the name from the roster; SeasonAwards for awards 0-6",src/bankC4_D000.asm
+$C4DBCC,DrawPresidentsWinner,CODE_C4DBCC,code,"team A's name (DATA8_C3585C) and logo sprite; SeasonAwards for award 7",src/bankC4_D000.asm

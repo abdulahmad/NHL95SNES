@@ -775,7 +775,7 @@ CODE_C4D657:						; called from other segments
 .2:									; call FadeOutWait, go to ClearNMIHook
 	jsl.l FadeOutWait
 	jml.l ClearNMIHook
-CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
+CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	jsl.l CODE_C4C574
 	jsl.l CODE_C5E50E
 	jsl.l CODE_C4C530
@@ -829,7 +829,9 @@ CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
 	rts
-CODE_C4D818:						; called from other segments
+SeasonAwards:						; the end of season awards: the awards music, then award a0 (from 0) with
+									; DrawAward, FindAwardWinner and its winner; pad left / right steps
+									; through the 8 awards, start returns
 	jsl.l CODE_CF039E
 	lda.w #$05DB
 	ldx.w #$00CF
@@ -891,9 +893,9 @@ CODE_C4D818:						; called from other segments
 	stz.w fadestep
 	stz.b a0
 	jsl.l CODE_C4CEDB
-	jsr.w CODE_C4D941
-	jsr.w CODE_C4DC45
-	jsr.w CODE_C4DAAD
+	jsr.w DrawAward
+	jsr.w FindAwardWinner
+	jsr.w DrawAwardWinner
 .loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
 	inc.w TransfersReady
 	wai
@@ -931,21 +933,22 @@ CODE_C4D818:						; called from other segments
 	adc.w #$0140
 	ldy.w #$0480
 	jsl.l CODE_C58B11
-	jsr.w CODE_C4D941
-	jsr.w CODE_C4DC45
+	jsr.w DrawAward
+	jsr.w FindAwardWinner
 	ldx.b a0
 	cpx.w #$0007
 	bne .3
-	jsr.w CODE_C4DBCC
+	jsr.w DrawPresidentsWinner
 	bra .loop
-.3:									; call CODE_C4DAAD, go to .loop
-	jsr.w CODE_C4DAAD
+.3:									; call DrawAwardWinner, go to .loop
+	jsr.w DrawAwardWinner
 	bra .loop
 .4:									; if $1000 bits clear go to .loop, return
 	bit.w #$1000
 	beq .loop
 	rtl
-CODE_C4D941:						; from CODE_C4D818
+DrawAward:							; award a0: prints its name (AwardNames) and description (AwardDescs) and
+									; unpacks its picture (AwardPictures)
 	lda.w #$0005
 	sta.w $18DE
 	ldy.w #$5000
@@ -1076,7 +1079,7 @@ CODE_C4D941:						; from CODE_C4D818
 	lda.w #$0009
 	sta.w $18DE
 	rts
-AwardPictures:						; the picture (map set) of each award, a long pointer; read by CODE_C4D941
+AwardPictures:						; the picture (map set) of each award, a long pointer; read by DrawAward
 	dw VezinaPicMap&$FFFF,VezinaPicMap>>16	; 0: Vezina Trophy
 	dw SelkePicMap&$FFFF,SelkePicMap>>16	; 1: Frank J. Selke Trophy
 	dw ConnSmythePicMap&$FFFF,ConnSmythePicMap>>16	; 2: Conn Smythe Trophy
@@ -1085,9 +1088,9 @@ AwardPictures:						; the picture (map set) of each award, a long pointer; read 
 	dw ArtRossPicMap&$FFFF,ArtRossPicMap>>16	; 5: Art Ross Trophy
 	dw NorrisPicMap&$FFFF,NorrisPicMap>>16	; 6: James Norris Memorial Trophy
 	dw PresidentsPicMap&$FFFF,PresidentsPicMap>>16	; 7: Presidents Trophy
-DATA8_C4DA75:						; not traced: a table read by CODE_C4D941
+DATA8_C4DA75:						; not traced: a table read by DrawAward
 	db $3B,$2F,$4C,$5F,$31,$52,$42,$22
-AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D941
+AwardNames:							; per award: the name text, then a second line or 0; DrawAward
 	dw $4FC2,$0000					; 0: Vezina Trophy
 	dw $4FD9,$4FAC					; 1: Frank J. Selke Trophy
 	dw $4FF7,$4FAC					; 2: Conn Smythe Trophy
@@ -1096,7 +1099,7 @@ AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D9
 	dw $5061,$0000					; 5: Art Ross Trophy
 	dw $5079,$4FB1					; 6: James Norris Memorial Trophy
 	dw $508F,$4FAC					; 7: Presidents Trophy
-AwardDescs:							; per award: the description text; read by CODE_C4D941
+AwardDescs:							; per award: the description text; read by DrawAward
 	dw $4FCD						; 0: Vezina Trophy
 	dw $4FE5						; 1: Frank J. Selke Trophy
 	dw $5001						; 2: Conn Smythe Trophy
@@ -1105,7 +1108,8 @@ AwardDescs:							; per award: the description text; read by CODE_C4D941
 	dw $506F						; 5: Art Ross Trophy
 	dw $5083						; 6: James Norris Memorial Trophy
 	dw $5097						; 7: Presidents Trophy
-CODE_C4DAAD:						; from CODE_C4D818
+DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the team's logo sprite
+									; when he has none) and his name
 	pha
 	jsl.l CODE_C5B5EA
 	and.w #$00FF
@@ -1236,7 +1240,7 @@ CODE_C4DAAD:						; from CODE_C4D818
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
 	rts
-CODE_C4DBCC:						; from CODE_C4D818
+DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name and its logo sprite
 	sta.w $17C9
 	asl a
 	tax
@@ -1285,17 +1289,19 @@ CODE_C4DBCC:						; from CODE_C4D818
 	ldx.w #$5245
 	jsl.l CODE_C387D8
 	rts
-CODE_C4DC45:						; from CODE_C4D818
+FindAwardWinner:					; A = the winner of award a0, from its routine in AwardScanTbl
 	lda.w #$0030
 	sta.b $69
 	lda.b a0
 	asl a
 	tax
-	jmp (DATA8_C4DC51,x)
-DATA8_C4DC51:						; jump table: the routine for each index
-	dw CODE_C4DC61,CODE_C4DC9C,CODE_C4DCE2,CODE_C4DD41
-	dw CODE_C4DD74,CODE_C4DE68,CODE_C4DED9,CODE_C4DF20
-CODE_C4DC61:						; from DATA8_C4DC51
+	jmp (AwardScanTbl,x)
+AwardScanTbl:						; the routine that finds the winner of each award, in award order
+									; (FindAwardWinner)
+	dw ScanVezina,ScanSelke,ScanConnSmythe,ScanJennings
+	dw ScanHart,ScanArtRoss,ScanNorris,ScanPresidents
+ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one CODE_C5BDA8
+									; scores highest
 	lda.w #$0000
 	sta.b a2
 .1:									; $6D = A, $17C9 = A, call CODE_C531BC
@@ -1326,7 +1332,8 @@ CODE_C4DC61:						; from DATA8_C4DC51
 	bne .1
 	lda.b $71
 	rts
-CODE_C4DC9C:						; from DATA8_C4DC51
+ScanSelke:							; Selke Trophy: from the team CODE_C4DF5B picks, the forward with the most
+									; goals + assists
 	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w $17C9
@@ -1361,7 +1368,8 @@ CODE_C4DC9C:						; from DATA8_C4DC51
 .1:									; A = $71, return
 	lda.b $71
 	rts
-CODE_C4DCE2:						; from DATA8_C4DC51
+ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff teams, the one with
+									; the highest playoff goals + assists
 	lda.w #$0000
 	sta.b a2
 .1:									; $6D = A, X = A, A = $3075A4,x, A and $00FF, ...
@@ -1409,7 +1417,8 @@ CODE_C4DCE2:						; from DATA8_C4DC51
 	bcc .1
 	lda.b $71
 	rts
-CODE_C4DD41:						; from DATA8_C4DC51
+ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, the goalie CODE_C5BDE7
+									; scores highest
 	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w $17C9
@@ -1435,7 +1444,8 @@ CODE_C4DD41:						; from DATA8_C4DC51
 .1:									; A = $71, return
 	lda.b $71
 	rts
-CODE_C4DD74:						; from DATA8_C4DC51
+ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0A, the
+									; skater with the biggest share of his team's goals + assists
 	stz.b a2
 	stz.b $32
 	ldx.w #$002E
@@ -1564,7 +1574,8 @@ CODE_C4DD74:						; from DATA8_C4DC51
 .7:									; A = $71, return
 	lda.b $71
 	rts
-CODE_C4DE68:						; from DATA8_C4DC51
+ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one with the most
+									; goals + assists
 	lda.w #$FFFF
 	sta.w $17C9
 	inc a
@@ -1627,7 +1638,8 @@ CODE_C4DE68:						; from DATA8_C4DC51
 	bcc .loop
 	lda.b $71
 	rts
-CODE_C4DED9:						; from DATA8_C4DC51
+ScanNorris:							; Norris Trophy: from the team CODE_C4DF5B picks, the defenceman with the
+									; most goals + assists
 	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w $17C9
@@ -1662,7 +1674,8 @@ CODE_C4DED9:						; from DATA8_C4DC51
 .1:									; A = $71, return
 	lda.b $71
 	rts
-CODE_C4DF20:						; from DATA8_C4DC51
+ScanPresidents:						; Presidents Trophy: the team with the most standings points ($0004 of its
+									; record), the lower $0006 on a tie
 	lda.w #$FFFF
 	sta.b a3
 	lda.w #$0000
@@ -1692,7 +1705,7 @@ CODE_C4DF20:						; from DATA8_C4DC51
 	bne .loop
 	lda.b $71
 	rts
-CODE_C4DF5B:						; from CODE_C4DC9C, CODE_C4DD41, CODE_C4DED9
+CODE_C4DF5B:						; from ScanSelke, ScanJennings, ScanNorris
 	lda.w #$0000
 	sta.b a2
 	sta.b $71
@@ -1713,7 +1726,7 @@ CODE_C4DF5B:						; from CODE_C4DC9C, CODE_C4DD41, CODE_C4DED9
 	bne .loop
 	lda.b $71
 	rts
-CODE_C4DF82:						; from CODE_C4DCE2
+CODE_C4DF82:						; from ScanConnSmythe
 	sta.b tmp0
 	asl a
 	asl a
@@ -1742,7 +1755,7 @@ CODE_C4DF82:						; from CODE_C4DCE2
 	rol a
 	and.w #$007F
 	rts
-CODE_C4DFAC:						; from CODE_C4DCE2
+CODE_C4DFAC:						; from ScanConnSmythe
 	sta.b tmp0
 	asl a
 	asl a

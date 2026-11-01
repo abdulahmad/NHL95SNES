@@ -278,8 +278,8 @@ CODE_C401E5:						; called from other segments
 	jsr.w CODE_C40280
 	tax
 	pla
-	jsl.l CODE_C4DFD6
-	jsl.l CODE_C4D818
+	jsl.l StanleyCupScreen
+	jsl.l SeasonAwards
 	jml.l Reset
 CODE_C40280:						; from CODE_C401E5
 	sep #$20

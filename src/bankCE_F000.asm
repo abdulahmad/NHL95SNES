@@ -20,7 +20,7 @@ PresidentsPicPalette:				; its colours (16)
 	dw $7C00,$0000,$5AD6,$6F7B,$35AD,$4A52,$35B2,$252D
 	dw $6318,$1129,$1089,$0084,$2529,$6F7F,$7FFF,$0000
 .end:								; end of the picture
-StanleyCupMap:						; the Stanley Cup (rendered), 8 x 14 tiles; CODE_C4DFD6 loads it
+StanleyCupMap:						; the Stanley Cup (rendered), 8 x 14 tiles; StanleyCupScreen loads it
 	dw StanleyCupTiles-StanleyCupMap-2	; map chunk length
 	db $08,$0E						; width and height in tiles
 	db $8C							; packed word map; other flag bits not traced
