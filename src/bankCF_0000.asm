@@ -118,7 +118,8 @@ CODE_CF00CC:						; from CODE_CF008B
 .2:									; r0 = Y, return
 	sty.b r0
 	rts
-CODE_CF00E3:						; from CODE_CF039E, CODE_CF03D0, CODE_CF040B, ...
+QueueSoundCmd:						; queues sound driver command A with the arguments X and Y (the command
+									; queue, 4 bytes an entry)
 	phy
 	ldy.w $1EA1
 	sta.w $4AC0,y
@@ -162,10 +163,12 @@ CODE_CF0101:						; called from other segments
 	pla
 	rep #$20
 	rtl
-CODE_CF0134:						; from CODE_CF0134, CODE_CF0427, CODE_CF04B6 and other segments
+LoadSounds:							; loads the samples and sounds of the list at X:A into the sound CPU:
+									; bytes below $80 samples (CODE_CF01E0), from $80 sounds (CODE_CF0313),
+									; $FF ends it
 	ldy.w $1EA3
 	cpy.w $1EA1
-	bne CODE_CF0134
+	bne LoadSounds
 	wai
 	stz.w $1EA5
 	pha
@@ -469,10 +472,10 @@ CODE_CF038E:						; called from other segments
 	bne .rtl
 	lda.w #$0002
 	sta.w $1EA5
-	jml.l CODE_CF040B
+	jml.l StartSound
 .rtl:								; return
 	rtl
-CODE_CF039E:						; from CODE_CF04B6 and other segments
+SoundVolumeDown:					; the sound volume down to 0 in 16 steps (sound driver command 8)
 	jsr.w CODE_CF0402
 	lda.w $059C
 	beq .rtl
@@ -495,13 +498,13 @@ CODE_CF039E:						; from CODE_CF04B6 and other segments
 	ora.b tmp1
 	tay
 	lda.w #$0008
-	jsl.l CODE_CF00E3
+	jsl.l QueueSoundCmd
 	dex
 	bpl .loop
 	stz.w $059C
 .rtl:								; return
 	rtl
-CODE_CF03D0:						; from CODE_CF04B6 and other segments
+SoundVolumeUp:						; the sound volume up to $7F7F in 16 steps (sound driver command 8)
 	jsr.w CODE_CF0402
 	lda.w $059C
 	cmp.w #$007F
@@ -515,28 +518,29 @@ CODE_CF03D0:						; from CODE_CF04B6 and other segments
 	cmp.w #$7F80
 	bcc .1
 	lda.w #$7F7F
-.1:									; tmp0 = A, Y = A, A = $0008, call CODE_CF00E3, ...
+.1:									; tmp0 = A, Y = A, A = $0008, call QueueSoundCmd, ...
 	sta.b tmp0
 	tay
 	lda.w #$0008
-	jsl.l CODE_CF00E3
+	jsl.l QueueSoundCmd
 	dex
 	bpl .loop
 	lda.w #$007F
 	sta.w $059C
 .rtl:								; return
 	rtl
-CODE_CF0402:						; from CODE_CF039E, CODE_CF03D0, CODE_CF0402
+CODE_CF0402:						; from SoundVolumeDown, SoundVolumeUp, CODE_CF0402
 	ldy.w $1EA3
 	cpy.w $1EA1
 	bne CODE_CF0402
 	rts
-CODE_CF040B:						; from CODE_CF038E, CODE_CF04A8, CODE_CF04B6 and other segments
+StartSound:							; starts sound A: sound driver command 1 with X = A (the effects $01-$16,
+									; the songs $A2-$A7 once LoadSounds has loaded them)
 	phx
 	phy
 	tax
 	lda.w #$0001
-	jsl.l CODE_CF00E3
+	jsl.l QueueSoundCmd
 	ply
 	plx
 	rtl
@@ -546,14 +550,14 @@ CODE_CF0418:						; called from other segments
 	tax
 	lda.w #$0003
 	ldy.b tmp0
-	jsl.l CODE_CF00E3
+	jsl.l QueueSoundCmd
 	ply
 	plx
 	rtl
 CODE_CF0427:						; called from other segments
 	ldx.w #DATA8_CF0663>>16
 	lda.w #DATA8_CF0663&$FFFF
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	lda.w $17C9
 	asl a
 	adc.w $17C9
@@ -614,7 +618,7 @@ CODE_CF04A8:						; from CODE_CF0485
 	ldx.b tmp0
 	lda.w $50D4,x
 	and.w #$00FF
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 CODE_CF04B4:						; from CODE_CF048A
 	plx
 	rtl
@@ -623,15 +627,15 @@ CODE_CF04B6:						; called from other segments
 	bne .1
 	lda.w $1EA9
 	beq .2
-.1:									; $1EA7 = 0, call CODE_CF039E, X = DATA8_CF05D4>>16, ...
+.1:									; $1EA7 = 0, call SoundVolumeDown, X = DATA8_CF05D4>>16, ...
 	stz.w $1EA7
-	jsl.l CODE_CF039E
+	jsl.l SoundVolumeDown
 	ldx.w #DATA8_CF05D4>>16
 	lda.w #DATA8_CF05D4&$FFFF
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	lda.w #$00A4
-	jsl.l CODE_CF040B
-	jsl.l CODE_CF03D0
+	jsl.l StartSound
+	jsl.l SoundVolumeUp
 .2:									; $1EA9 = $0001, return
 	lda.w #$0001
 	sta.w $1EA9
@@ -692,7 +696,7 @@ DATA8_CF05B1:						; list 2 of DATA8_CF0583
 DATA8_CF05C1:						; list 3 of DATA8_CF0583
 	db $1C,$28,$28,$17,$2D,$2D,$1E,$32,$32,$1D,$28,$28,$1F,$2A,$2A,$19
 	db $37,$37,$21
-DATA8_CF05D4:						; four byte lists, each ending in $FF (at +0, +3, +5, +7); CODE_CF0134
+DATA8_CF05D4:						; four byte lists, each ending in $FF (at +0, +3, +5, +7); LoadSounds
 									; takes one
 	db $A3,$A4,$FF,$A5,$FF,$A6,$FF,$A7,$FF
 SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
@@ -732,7 +736,7 @@ SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 	dd Sample32						; sample 32
 DATA8_CF0661:						; not traced (no reader found)
 	db $A6,$FF
-DATA8_CF0663:						; a byte list ending in $FF; CODE_CF0427 passes it to CODE_CF0134
+DATA8_CF0663:						; a byte list ending in $FF; CODE_CF0427 passes it to LoadSounds
 	db $02,$03,$04,$05,$06,$07,$08,$09,$0A,$0B,$0C,$0D,$0E,$0F,$10,$11,$12,$01,$1A,$1B,$A2,$FF
 DATA8_CF0679:						; sound 1 of DATA8_CF04E3: a length word, then its data; CODE_CF0313
 									; sends the samples it lists from +3 (a count, then the sample numbers)

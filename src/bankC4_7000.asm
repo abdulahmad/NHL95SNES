@@ -460,9 +460,9 @@ Stop4Pen:							; from checkfornewpen and other segments
 	bne .9
 	lda.w #$001E
 	sta.w replaydelay
-.9:									; A = $0012, call CODE_CF040B, PenCntDwn = 0, A = $0004, ...
+.9:									; A = $0012, call StartSound, PenCntDwn = 0, A = $0004, ...
 	lda.w #$0012
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	stz.w PenCntDwn
 	lda.w #$0004
 	tsb.w gmode
@@ -971,8 +971,8 @@ updatepwrplay:						; called from other segments
 	bra .6
 .5:									; A = $0001
 	lda.w #$0001
-.6:									; call CODE_CF040B
-	jsl.l CODE_CF040B
+.6:									; call StartSound
+	jsl.l StartSound
 .7:									; call CODE_C516C2, A = a1, X = $007E, Y = $5AE5, ...
 	jsl.l CODE_C516C2
 	lda.b a1

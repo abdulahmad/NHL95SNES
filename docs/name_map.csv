@@ -6958,7 +6958,7 @@ $CF00C9,.1,CODE_CF00C9,new,"branch target only used in CODE_CF00BD",src/bankCF_0
 $CF00D8,.1,CODE_CF00D8,new,"branch target only used in CODE_CF00CC",src/bankCF_0000.asm
 $CF00E0,.2,CODE_CF00E0,new,"branch target only used in CODE_CF00CC",src/bankCF_0000.asm
 $CF0107,.1,CODE_CF0107,new,"branch target only used in CODE_CF0101",src/bankCF_0000.asm
-$CF014D,.loop,CODE_CF014D,new,"branch target only used in CODE_CF0134",src/bankCF_0000.asm
+$CF014D,.loop,CODE_CF014D,new,"branch target only used in LoadSounds",src/bankCF_0000.asm
 $CF0166,.loop,CODE_CF0166,new,"branch target only used in CODE_CF0162",src/bankCF_0000.asm
 $CF0178,.1,CODE_CF0178,new,"branch target only used in CODE_CF0162",src/bankCF_0000.asm
 $CF0185,.2,CODE_CF0185,new,"branch target only used in CODE_CF0162",src/bankCF_0000.asm
@@ -6982,11 +6982,11 @@ $CF0345,.loop,CODE_CF0345,new,"branch target only used in CODE_CF0313",src/bankC
 $CF0365,.loop2,CODE_CF0365,new,"branch target only used in CODE_CF0313",src/bankCF_0000.asm
 $CF0387,.1,CODE_CF0387,new,"branch target only used in CODE_CF0313",src/bankCF_0000.asm
 $CF039D,.rtl,CODE_CF039D,new,"branch target only used in CODE_CF038E",src/bankCF_0000.asm
-$CF03B2,.loop,CODE_CF03B2,new,"branch target only used in CODE_CF039E",src/bankCF_0000.asm
-$CF03CF,.rtl,CODE_CF03CF,new,"branch target only used in CODE_CF039E",src/bankCF_0000.asm
-$CF03E0,.loop,CODE_CF03E0,new,"branch target only used in CODE_CF03D0",src/bankCF_0000.asm
-$CF03EE,.1,CODE_CF03EE,new,"branch target only used in CODE_CF03D0",src/bankCF_0000.asm
-$CF0401,.rtl,CODE_CF0401,new,"branch target only used in CODE_CF03D0",src/bankCF_0000.asm
+$CF03B2,.loop,CODE_CF03B2,new,"branch target only used in SoundVolumeDown",src/bankCF_0000.asm
+$CF03CF,.rtl,CODE_CF03CF,new,"branch target only used in SoundVolumeDown",src/bankCF_0000.asm
+$CF03E0,.loop,CODE_CF03E0,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
+$CF03EE,.1,CODE_CF03EE,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
+$CF0401,.rtl,CODE_CF0401,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
 $CF0442,.loop,CODE_CF0442,new,"branch target only used in CODE_CF0427",src/bankCF_0000.asm
 $CF045C,.1,CODE_CF045C,new,"branch target only used in CODE_CF0427",src/bankCF_0000.asm
 $CF0490,.loop,CODE_CF0490,new,"branch target only used in CODE_CF048A",src/bankCF_0000.asm
@@ -7217,3 +7217,8 @@ $C5B67A,BinToBCD,CODE_C5B67A,code,"hundreds counted in decimal mode, then BCDTab
 $C36C2D,ReadMenuPads,CODE_C36C2D,code,"PadRaw1, PadRaw2, $C5, $C7, $C9 into $058D; $0565 the last value; the menu loops act when repeatdelayframes is 0",src/bankC3_6000.asm
 $C589E4,QueueClearVRAM,CODE_C589E4,code,"two records on the VRAM stack at $02: $400 bytes each, modes $1808 / $1908",src/bankC5_8000.asm
 $C589B0,ClearVRAM,CODE_C589B0,code,"the same records, then jml WaitTransfers",src/bankC5_8000.asm
+$CF00E3,QueueSoundCmd,CODE_CF00E3,code,"the queue at $7E4AC0, head $1EA1, tail $1EA3; CODE_CF00FE sends the queued ones",src/bankCF_0000.asm
+$CF040B,StartSound,CODE_CF040B,code,"QueueSoundCmd 1; the songs come with their lists in DATA8_CF05D4 (Pausemode_menu $A5, ScoutingReport $A6, SeasonAwards $A7)",src/bankCF_0000.asm
+$CF0134,LoadSounds,CODE_CF0134,code,"waits for the command queue to empty first; then sends the tables at $7E4CC8 / $48B8 / $5052 (CODE_CF02A5)",src/bankCF_0000.asm
+$CF03D0,SoundVolumeUp,CODE_CF03D0,code,"from 0 by $0808; $059C = $7F after; nothing when it is already $7F",src/bankCF_0000.asm
+$CF039E,SoundVolumeDown,CODE_CF039E,code,"from the value in $059C, a sixteenth each step; $059C = 0 after",src/bankCF_0000.asm

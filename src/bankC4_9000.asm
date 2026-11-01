@@ -976,9 +976,9 @@ doshot:								; from CODE_C498D3, CODE_C49E91, ...
 	lda.w #$1800
 .14:								; puckvz = A
 	sta.w puckvz
-.15:								; pull A, call CODE_CF040B, X = a3, Y = $010E, ...
+.15:								; pull A, call StartSound, X = a3, Y = $010E, ...
 	pla
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	ldx.b a3
 	ldy.w #$010E
 	lda.w pfgoal,x

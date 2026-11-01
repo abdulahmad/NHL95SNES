@@ -459,7 +459,7 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	bpl .loop2
 	jsr.w UserNameEntry
 	lda.w $1864
-	jsl.l CODE_CF039E
+	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	jsl.l forceblack
 	jsl.l CODE_C5E50E

@@ -504,7 +504,7 @@ wallcoll:							; from CODE_C4420F, checkgoalp, checkgoal, ...
 	lda.w Yvel,x
 	sta.b $3A
 	lda.w #$0003
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 .11:								; A = d2, A / 2, A / 2, if $2000 bits clear go to .12, ...
 	lda.b d2
 	lsr a
@@ -761,7 +761,7 @@ checkgoal:							; from checkwallcoll and other segments
 	stz.w breakaway
 	stz.w onetimer
 	lda.w #$000C
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	lda.l $7E24CA
 	clc
 	adc.w #$012C
@@ -1859,7 +1859,7 @@ CODE_C44EE1:						; from CODE_C45141, CODE_C448BB and other segments
 	tay
 	ldx.w #$0008
 	lda.w #$0004
-	jsl.l CODE_CF00E3
+	jsl.l QueueSoundCmd
 	ply
 	plx
 	rtl

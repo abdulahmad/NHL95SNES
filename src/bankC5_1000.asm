@@ -664,7 +664,7 @@ Intermission:						; the intermission between periods: the teams set up
 	sta.b d0
 	jsl.l CODE_C558CC
 	jsl.l CODE_C5589E
-	jsl.l CODE_CF03D0
+	jsl.l SoundVolumeUp
 .5:									; Vcount = 0, $07C6 = 0, $2372 = 0, $153F = 0, ...
 	stz.b Vcount
 	stz.w $07C6
@@ -1213,7 +1213,7 @@ CODE_C51A61:						; called from other segments
 	jml.l CODE_C4818C
 CODE_C51AFF:						; called from other segments
 	lda.w #$000D
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	lda.w #$0100
 	trb.w sflags
 	stz.w $2016

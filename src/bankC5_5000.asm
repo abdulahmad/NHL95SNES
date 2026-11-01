@@ -754,7 +754,7 @@ CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
 	ply
 	rts
 CODE_C55513:						; called from other segments
-	jsl.l CODE_CF039E
+	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	lda.w $18F8
 	beq .1

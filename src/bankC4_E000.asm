@@ -172,10 +172,10 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	jsl.l PrintTitle
 	lda.w #(DATA8_CF05D4+$5)&$FFFF
 	ldx.w #(DATA8_CF05D4+$5)>>16
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	lda.w #$00A6
-	jsl.l CODE_CF040B
-	jsl.l CODE_CF03D0
+	jsl.l StartSound
+	jsl.l SoundVolumeUp
 	lda.w $17C9
 	cmp.w #$001A
 	bcc .2
@@ -378,7 +378,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 .12:								; go to .loop
 	jmp.w .loop
 CODE_C4E387:						; from ScoutingReport, CODE_C4EBC8
-	jsl.l CODE_CF039E
+	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	jsl.l WaitTransfers

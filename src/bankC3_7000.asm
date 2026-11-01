@@ -279,7 +279,7 @@ CODE_C371AB:						; called from other segments
 	ora.b tmp0
 	tay
 	lda.w #$0015
-	jml.l CODE_CF00E3
+	jml.l QueueSoundCmd
 updatereplay:						; called from other segments
 	lda.w gmode
 	bit.w #$0010

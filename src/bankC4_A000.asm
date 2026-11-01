@@ -222,7 +222,7 @@ dopass:								; from CODE_C4A0C1, chk4pass and other segments
 	bmi .7
 	jsl.l dopass_count
 	lda.w #$000B
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	jmp.w dopass_swing
 .7:									; A = passdir, A * 2, A * 2, A + $9C06, ...
 	lda.w passdir
@@ -989,12 +989,12 @@ puckgoalie:							; called from other segments
 	adc.w #$000A
 	bmi .9
 	sta.w CwdExciteLvl
-.9:									; Y = a2, if pfteam,y = 0 go to .10, A = $000A, call CODE_CF040B, ...
+.9:									; Y = a2, if pfteam,y = 0 go to .10, A = $000A, call StartSound, ...
 	ldy.b a2
 	lda.w pfteam,y
 	beq .10
 	lda.w #$000A
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	bra .11
 .10:								; A = $7E24CA, A + $0258, $7E24CA = A, crowdhold = $003C
 	lda.l $7E24CA
@@ -1341,11 +1341,11 @@ Goal:								; called from other segments
 	lda.w $12FB,y
 	inc a
 	sta.w $12FB,y
-.14:								; A = $0009, call CODE_CF00E3, A = $00A2, call CODE_CF040B, ...
+.14:								; A = $0009, call QueueSoundCmd, A = $00A2, call StartSound, ...
 	lda.w #$0009
-	jsl.l CODE_CF00E3
+	jsl.l QueueSoundCmd
 	lda.w #$00A2
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	stz.w $06EC
 	ldy.b a2
 	beq .16
@@ -1657,9 +1657,9 @@ puckstick:							; from puckbody and other segments
 	sta.w lastplayer
 	lda.w #$000C
 	trb.w sflags
-.4:									; A = $000D, call CODE_CF040B, call a2touchpuck, go to deflect
+.4:									; A = $000D, call StartSound, call a2touchpuck, go to deflect
 	lda.w #$000D
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	jsl.l a2touchpuck
 	jmp.w deflect
 .rtl2:								; return

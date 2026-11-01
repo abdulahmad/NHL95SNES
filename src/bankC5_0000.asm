@@ -167,7 +167,7 @@ CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
 	ora.w cont4team
 	ora.w cont5team
 	bne .2
-	jsl.l CODE_CF03D0
+	jsl.l SoundVolumeUp
 .2:									; if $17D1 = 0 go to .3, Y = $5800, call ClearVRAM, call CODE_C50D18
 	lda.w $17D1
 	beq .3
@@ -1164,7 +1164,7 @@ clockcont_0:						; called from other segments
 	sta.b d0
 	jsl.l CODE_C43734
 	lda.w #$0007
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	stz.b p0
 	lda.w gsp
 	cmp.w #$0002
@@ -1598,12 +1598,12 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	lda.w $17D1
 	bne .2
 	jsl.l ScreenOn
-.2:									; $17D1 = 0, A = $0006, call CODE_CF040B, call CODE_CF038E, ...
+.2:									; $17D1 = 0, A = $0006, call StartSound, call CODE_CF038E, ...
 	stz.w $17D1
 	lda.w #$0006
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	jsl.l CODE_CF038E
-	jsl.l CODE_CF03D0
+	jsl.l SoundVolumeUp
 	lda.w #$FFFF
 	sta.w recsfx
 	sta.w recsfx2

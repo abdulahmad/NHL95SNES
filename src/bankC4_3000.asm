@@ -893,7 +893,7 @@ CODE_C43826:						; called from other segments
 	pei ($7B)
 	pei ($7D)
 	lda.w #$0006
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	jsl.l CODE_CF038E
 	lda.w #$FFFF
 	sta.w recsfx

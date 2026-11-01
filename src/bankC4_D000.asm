@@ -293,7 +293,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	jsl.l StartTasks
 	jsl.l WaitTransfers
 	lda.w #$00A3
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	ldx.w #CODE_C4B6D2>>16
 	lda.w #CODE_C4B6D2
 	ldy.w #$FF00
@@ -765,7 +765,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	bne .1
 	lda.w #DATA8_CF05D4&$FFFF
 	ldx.w #DATA8_CF05D4>>16
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	bra .loop
 .1:									; if A < $00C3 go to .loop, if a0 is not 0 go to .2, ...
 	cmp.w #$00C3
@@ -834,14 +834,14 @@ CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 SeasonAwards:						; the end of season awards: the awards music, then award a0 (from 0) with
 									; DrawAward, FindAwardWinner and its winner; pad left / right steps
 									; through the 8 awards, start returns
-	jsl.l CODE_CF039E
+	jsl.l SoundVolumeDown
 	lda.w #(DATA8_CF05D4+$7)&$FFFF
 	ldx.w #(DATA8_CF05D4+$7)>>16
 	ldy.w #$FF00
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	lda.w #$00A7
-	jsl.l CODE_CF040B
-	jsl.l CODE_CF03D0
+	jsl.l StartSound
+	jsl.l SoundVolumeUp
 	jsr.w CODE_C4D773
 	lda.w #$003D
 	sta.b $1A

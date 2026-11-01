@@ -347,12 +347,12 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	beq .35
 	lda.w #$FFFF
 	sta.w puckc
-.35:								; Y = a2, if pfteam,y is not 0 go to .36, A = $0004, call CODE_CF040B, ...
+.35:								; Y = a2, if pfteam,y is not 0 go to .36, A = $0004, call StartSound, ...
 	ldy.b a2
 	lda.w pfteam,y
 	bne .36
 	lda.w #$0004
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	rtl
 .36:								; A = $7E24CA, A + $0258, $7E24CA = A, crowdhold = $002D, ...
 	lda.l $7E24CA
@@ -1132,7 +1132,7 @@ dostop:								; called from other segments
 	lda.w Yvel,x
 	sta.b $3A
 	lda.w #$000F
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 .2:									; A = $1AEE, pf2aip,x = 0
 	lda.w #$1AEE
 	stz.w pf2aip,x

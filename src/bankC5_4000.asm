@@ -1794,7 +1794,7 @@ GetTeamLines:						; from SetPlList and other segments
 	rtl
 Pausemode_menu:						; the pause menu screen: its music, the Options tab first, the pad until
 									; start / select (.resume)
-	jsl.l CODE_CF039E
+	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	stz.w $18F8
 	lda.w $17D1
@@ -1804,10 +1804,10 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 .1:									; A = (DATA8_CF05D4+$3)&$FFFF, X = (DATA8_CF05D4+$3)>>16, ...
 	lda.w #(DATA8_CF05D4+$3)&$FFFF
 	ldx.w #(DATA8_CF05D4+$3)>>16
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	lda.w #$00A5
-	jsl.l CODE_CF040B
-	jsl.l CODE_CF03D0
+	jsl.l StartSound
+	jsl.l SoundVolumeUp
 	dec.w $18F8
 .2:									; call CODE_C5503C, X = $0002, call CODE_C54F94, $059E = $0001
 	jsr.w CODE_C5503C

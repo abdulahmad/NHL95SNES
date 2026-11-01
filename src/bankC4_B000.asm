@@ -71,7 +71,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	jsl.l ReadMenuPads
 	ldx.w #DATA8_C07F7B>>16
 	lda.w #DATA8_C07F7B&$FFFF
-	jsl.l CODE_CF0134
+	jsl.l LoadSounds
 	lda.w #CODE_C4B05E
 	ldx.w #CODE_C4B05E>>16
 	jsl.l SetNMIHook
@@ -751,7 +751,7 @@ CODE_C4B66E:						; passed as a long pointer (lda # of its bank and address) to 
 	lda.w #CODE_C4B689
 	sta.w $0002,x
 	lda.w #$0014
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	lda.w #$0011
 	bra CODE_C4B6CE
 CODE_C4B688:						; a task routine: stored as the next routine of a task
@@ -763,7 +763,7 @@ CODE_C4B689:						; a task routine: stored as the next routine of a task
 	lda.w #CODE_C4B6A3
 	sta.w $0002,x
 	lda.w #$0013
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	lda.w #$0010
 	bra CODE_C4B6CE
 CODE_C4B6A3:						; a task routine: stored as the next routine of a task
@@ -773,7 +773,7 @@ CODE_C4B6A3:						; a task routine: stored as the next routine of a task
 	lda.w #CODE_C4B6BD
 	sta.w $0002,x
 	lda.w #$0016
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	lda.w #$0009
 	bra CODE_C4B6CE
 CODE_C4B6BD:						; a task routine: stored as the next routine of a task
@@ -784,13 +784,13 @@ CODE_C4B6BD:						; a task routine: stored as the next routine of a task
 	sta.w $0002,x
 	lda.w #$0015
 CODE_C4B6CE:						; from CODE_C4B66E, CODE_C4B689, CODE_C4B6A3
-	jml.l CODE_CF040B
+	jml.l StartSound
 CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to AddTask
 	lda.w $0008,x
 	cmp.w #$0177
 	bcc CODE_C4B6EA
 	lda.w #$00A4
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	stz.w $1EA7
 	lda.w #CODE_C4B6EA
 	sta.w $0002,x

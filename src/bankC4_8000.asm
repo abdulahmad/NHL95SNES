@@ -346,7 +346,7 @@ setInjuryType:						; called from other segments
 	lda.w #$003C
 	sta.b crowdhold
 	lda.w #$000A
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 	ldy.b a2
 	lda.w Xpos,y
 	sta.w xc1
@@ -818,7 +818,7 @@ StartBreakaway:						; called from other segments
 	lda.w penshot
 	bne .1
 	lda.w #$0001
-	jsl.l CODE_CF040B
+	jsl.l StartSound
 .1:									; A = CwdExciteLvl, A + $0014, if the result < 0 go to .2, ...
 	lda.w CwdExciteLvl
 	clc
