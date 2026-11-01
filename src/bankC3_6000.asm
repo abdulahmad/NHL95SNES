@@ -271,49 +271,49 @@ CODE_C36C2D:						; called from other segments
 .rtl:								; return
 	rtl
 CODE_C36C49:						; called from other segments
-	stz.w $0591
+	stz.w pausepad
 	bit.w $1525
 	bmi .1
 	lda.b PadRaw1
 	and.w #$FFF0
 	bne .6
-.1:									; $0591 + 1, $0591 + 1, if minus go to .2, A = PadRaw2, ...
-	inc.w $0591
-	inc.w $0591
+.1:									; pausepad + 1, pausepad + 1, if minus go to .2, A = PadRaw2, ...
+	inc.w pausepad
+	inc.w pausepad
 	bit.w $1527
 	bmi .2
 	lda.b PadRaw2
 	and.w #$FFF0
 	bne .6
-.2:									; $0591 + 1, $0591 + 1, if minus go to .3, A = $C5, ...
-	inc.w $0591
-	inc.w $0591
+.2:									; pausepad + 1, pausepad + 1, if minus go to .3, A = $C5, ...
+	inc.w pausepad
+	inc.w pausepad
 	bit.w $1529
 	bmi .3
 	lda.b $C5
 	and.w #$FFF0
 	bne .6
-.3:									; $0591 + 1, $0591 + 1, if minus go to .4, A = $C7, ...
-	inc.w $0591
-	inc.w $0591
+.3:									; pausepad + 1, pausepad + 1, if minus go to .4, A = $C7, ...
+	inc.w pausepad
+	inc.w pausepad
 	bit.w $152B
 	bmi .4
 	lda.b $C7
 	and.w #$FFF0
 	bne .6
-.4:									; $0591 + 1, $0591 + 1, if minus go to .5, A = $C9, ...
-	inc.w $0591
-	inc.w $0591
+.4:									; pausepad + 1, pausepad + 1, if minus go to .5, A = $C9, ...
+	inc.w pausepad
+	inc.w pausepad
 	bit.w $152D
 	bmi .5
 	lda.b $C9
 	and.w #$FFF0
 	bne .6
-.5:									; $058D = 0, $0565 = 0, $0591 = $FFFF, return
+.5:									; $058D = 0, $0565 = 0, pausepad = $FFFF, return
 	stz.w $058D
 	stz.w $0565
 	lda.w #$FFFF
-	sta.w $0591
+	sta.w pausepad
 	rtl
 .6:									; $058D = A, repeatdelayframes + 1, if A = $0565 go to .rtl, ...
 	sta.w $058D

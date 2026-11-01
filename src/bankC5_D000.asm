@@ -159,18 +159,18 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 	bne .loop2
 .rts:								; return
 	rts
-.2:									; a2 = $17C9, $0591 = Y, call NameEntryScreen, $4688 = $65, ...
+.2:									; a2 = $17C9, pausepad = Y, call NameEntryScreen, $4688 = $65, ...
 	lda.w $17C9
 	sta.b a2
-	sty.w $0591
+	sty.w pausepad
 	jsr.w NameEntryScreen
 	lda.b $65
 	sta.w $4688
 	bra .1
-.3:									; a2 = $17CB, $0591 = Y, call NameEntryScreen, $468A = $65, ...
+.3:									; a2 = $17CB, pausepad = Y, call NameEntryScreen, $468A = $65, ...
 	lda.w $17CB
 	sta.b a2
-	sty.w $0591
+	sty.w pausepad
 	jsr.w NameEntryScreen
 	lda.b $65
 	sta.w $468A

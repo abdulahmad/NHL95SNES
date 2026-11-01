@@ -160,10 +160,10 @@ CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
 	jsl.l CODE_C53535
 	jsl.l CODE_C3718D
 	lda.w #$FFFF
-	sta.w $0591
+	sta.w pausepad
 	lda.w cont1team
-	ora.w $17B7
-	ora.w $17B9
+	ora.w cont2team
+	ora.w cont3team
 	ora.w cont4team
 	ora.w cont5team
 	bne .2
@@ -1472,7 +1472,7 @@ CODE_C50D0C:						; no caller found (not traced)
 .rtl:								; return
 	rtl
 startpause:							; from demoread
-	stz.w $0591
+	stz.w pausepad
 CODE_C50D18:						; from CODE_C5016D, PauseFromPad and other segments
 	lda.w $2CF5
 	bne .rtl
@@ -1481,7 +1481,7 @@ CODE_C50D18:						; from CODE_C5016D, PauseFromPad and other segments
 .rtl:								; return
 	rtl
 PauseFromPad:						; from demoread and other segments
-	sta.w $0591
+	sta.w pausepad
 	bra CODE_C50D18
 Pausemode:							; the game loop's pause (the sflags pause bit): the game state saved,
 									; Pausemode_menu, the state back
@@ -1616,8 +1616,8 @@ demoread:							; from CODE_C5021B and other segments
 	cmp.w #$0004
 	bne .3
 	lda.w cont1team
-	ora.w $17B7
-	ora.w $17B9
+	ora.w cont2team
+	ora.w cont3team
 	ora.w cont4team
 	ora.w cont5team
 	beq .3
@@ -1641,10 +1641,10 @@ demoread:							; from CODE_C5021B and other segments
 	cpx.w #$000A
 	bcc .1
 	rtl
-.3:									; A = cont1team, A or $17B7, A or $17B9, A or cont4team, ...
+.3:									; A = cont1team, A or cont2team, A or cont3team, A or cont4team, ...
 	lda.w cont1team
-	ora.w $17B7
-	ora.w $17B9
+	ora.w cont2team
+	ora.w cont3team
 	ora.w cont4team
 	ora.w cont5team
 	bne .rtl

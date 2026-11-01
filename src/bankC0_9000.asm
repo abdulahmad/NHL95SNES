@@ -593,11 +593,11 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	beq .7
 	lda.w #$0002
 	sta.b d0
-.7:									; if cont1team = d0 go to .8, if $17B7 = d0 go to .8, go to .10
+.7:									; if cont1team = d0 go to .8, if cont2team = d0 go to .8, go to .10
 	lda.w cont1team
 	cmp.b d0
 	beq .8
-	lda.w $17B7
+	lda.w cont2team
 	cmp.b d0
 	beq .8
 	jmp.w .10

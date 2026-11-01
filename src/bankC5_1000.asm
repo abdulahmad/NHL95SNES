@@ -541,7 +541,7 @@ Intermission:						; the intermission between periods: the teams set up
 	lda.w TickerNum
 	sta.w $24C8
 	lda.w #$FFFF
-	sta.w $0591
+	sta.w pausepad
 	ldy.w #$0000
 	tyx
 .loop2:								; loop: if cont1team,y is not 0 go to .2, X + 1, X + 1, ...
@@ -552,17 +552,17 @@ Intermission:						; the intermission between periods: the teams set up
 	cpx.w #$0008
 	bne .loop2
 	lda.w #$0001
-.2:									; A xor $FFFF, A + 1, $0591 = A, A = cont1team, ...
+.2:									; A xor $FFFF, A + 1, pausepad = A, A = cont1team, ...
 	eor.w #$FFFF
 	inc a
-	sta.w $0591
+	sta.w pausepad
 	lda.w cont1team
-	ora.w $17B7
-	ora.w $17B9
+	ora.w cont2team
+	ora.w cont3team
 	ora.w cont4team
 	ora.w cont5team
 	bne .3
-	stz.w $0591
+	stz.w pausepad
 .3:									; $153F = $0001, if $23BA = 0 go to .4, go to .5
 	lda.w #$0001
 	sta.w $153F
@@ -1476,8 +1476,8 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	trb.w tmflags
 	trb.w $1301
 	lda.w cont1team
-	ora.w $17B7
-	ora.w $17B9
+	ora.w cont2team
+	ora.w cont3team
 	ora.w cont4team
 	ora.w cont5team
 	beq .9
@@ -1521,12 +1521,12 @@ CODE_C51DB8:						; from CODE_C51E81, CODE_C51CC1 and other segments
 	cmp.w cont1team
 	bne .2
 	jmp.w CODE_C51E80
-.2:									; if A is not $17B7 go to .3, go to CODE_C51E80
-	cmp.w $17B7
+.2:									; if A is not cont2team go to .3, go to CODE_C51E80
+	cmp.w cont2team
 	bne .3
 	jmp.w CODE_C51E80
-.3:									; if A is not $17B9 go to .4, go to CODE_C51E80
-	cmp.w $17B9
+.3:									; if A is not cont3team go to .4, go to CODE_C51E80
+	cmp.w cont3team
 	bne .4
 	jmp.w CODE_C51E80
 .4:									; if A is not cont4team go to .5, go to CODE_C51E80

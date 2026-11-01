@@ -7182,3 +7182,6 @@ $C51523,Intermission,CODE_C51523,94S+code,"the same code as 94S Intermission, si
 $C51668,Intermission_ticker,CODE_C51668,94S+code,"called by Intermission at the place of 94S Intermission_ticker, after the ticker start (tickervc) is set",src/bankC5_1000.asm
 $C50D29,Pausemode,CODE_C50D29,94S+purpose,"same job as 94S Pausemode (called from the game loop: keep the game, the pause menu, put it back); CODE_C5021B calls it when sflags bit 0 is set; saves $2CF5 and the direct page work words around the menu",src/bankC5_0000.asm
 $C54E6D,Pausemode_menu,CODE_C54E6D,94S+purpose,"same job as 94S Pausemode_menu (the pause menu, called from Pausemode and Intermission, as here); CODE_C5503C builds it, CODE_C54F05 reads the pad (tabs and items)",src/bankC5_4000.asm
+$0591,pausepad,,94S+code,"RAM: the controller that owns the pause menu (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$17B7,cont2team,,94S+code,"RAM: Pad 2 team word of the cont1team array (93S/94G cont2team) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$17B9,cont3team,,94S+code,"RAM: Pad 3 team word of the cont1team array (94G cont3team) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm

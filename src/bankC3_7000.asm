@@ -84,7 +84,7 @@ CODE_C37091:						; no caller found (not traced)
 	sta.b d0
 	rtl
 CODE_C370A5:						; from CODE_C37065, CODE_C37609 and other segments
-	lda.w $0591
+	lda.w pausepad
 	lsr a
 	jmp.w ReadjoyA
 CODE_C370AC:						; called from other segments
@@ -182,7 +182,7 @@ RemapTiles:							; no caller found (not traced)
 CODE_C37149:						; no caller found (not traced)
 	phx
 	pha
-	ldx.w $0591
+	ldx.w pausepad
 .loop:								; loop: if PadRaw1,x is not 0 go to .loop, pull A, pull X, return
 	lda.b PadRaw1,x
 	bne .loop
@@ -456,9 +456,9 @@ updatereplay:						; called from other segments
 .rtl:								; return
 	rtl
 CODE_C3736B:						; called from other segments
-	bit.w $0591
+	bit.w pausepad
 	bpl .1
-	stz.w $0591
+	stz.w pausepad
 .1:									; $2CDF = $48, $2CE1 = 0, $7E24CA = $0000, A = $0800, ...
 	lda.b $48
 	sta.w $2CDF
