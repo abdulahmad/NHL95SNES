@@ -273,12 +273,12 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	sta.b d3
 	lda.b d4
 	ldy.w #$7FFF
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	ldx.w #TitlePlayersMap>>16
 	lda.w #TitlePlayersMap&$FFFF
 	jsr.w CODE_C4D636
 	ldy.b d5
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	ldx.w #$007E
 	lda.b d4
 	ldy.w #$0020
@@ -327,7 +327,7 @@ CODE_C4D377:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.w $0002,x
 CODE_C4D388:						; a task routine: stored as the next routine of a task
 	lda.w #$0020
-	jsr.w CODE_C4D588
+	jsr.w QueueFadeStep
 	bne CODE_C4D398
 	ldx.b d1
 	lda.w #CODE_C4D398
@@ -377,7 +377,7 @@ CODE_C4D3DD:						; a task routine: stored as the next routine of a task
 	asl a
 	asl a
 	asl a
-	jsr.w CODE_C4D588
+	jsr.w QueueFadeStep
 	bne CODE_C4D3FB
 	ldx.b d1
 	lda.w #CODE_C4D3FC
@@ -405,7 +405,7 @@ CODE_C4D414:						; a task routine: stored as the next routine of a task
 	asl a
 	asl a
 	asl a
-	jsr.w CODE_C4D588
+	jsr.w QueueFadeStep
 	bne CODE_C4D3FB
 	ldx.b d1
 	stz.w $0008,x
@@ -420,7 +420,7 @@ CODE_C4D435:						; a task routine: stored as the next routine of a task
 	sta.b d3
 	lda.b d4
 	ldy.w #$7FFF
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	ldx.w #$00C2
 	stx.b $71
 	lda.w #$0AB8
@@ -451,13 +451,13 @@ CODE_C4D435:						; a task routine: stored as the next routine of a task
 	ldx.w #$007E
 	lda.b d4
 	ldy.b d5
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	ldx.b d1
 	lda.w #CODE_C4D48A
 	sta.w $0002,x
 CODE_C4D48A:						; a task routine: stored as the next routine of a task
 	lda.w #$0020
-	jsr.w CODE_C4D588
+	jsr.w QueueFadeStep
 	bne CODE_C4D4A0
 	stz.b $95
 	jsl.l AddStartKeyTask
@@ -473,7 +473,7 @@ CODE_C4D4A1:						; a task routine: stored as the next routine of a task
 	sta.w $0002,x
 CODE_C4D4AC:						; a task routine: stored as the next routine of a task
 	lda.w #$0000
-	jsr.w CODE_C4D588
+	jsr.w QueueFadeStep
 	bne CODE_C4D4A0
 	ldx.b d1
 	stz.w $0008,x
@@ -489,7 +489,7 @@ CODE_C4D4BF:						; a task routine: stored as the next routine of a task
 	sta.b $7D
 	lda.b d4
 	ldy.w #$0000
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	lda.w #$00C4
 	sta.b $71
 	lda.w #$BAD6
@@ -497,13 +497,13 @@ CODE_C4D4BF:						; a task routine: stored as the next routine of a task
 	ldx.w #$007E
 	lda.b d4
 	ldy.b d5
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	ldx.b d1
 	lda.w #CODE_C4D4F5
 	sta.w $0002,x
 CODE_C4D4F5:						; a task routine: stored as the next routine of a task
 	lda.w #$0000
-	jsr.w CODE_C4D588
+	jsr.w QueueFadeStep
 	bne CODE_C4D52A
 	ldx.b $95
 	lda.l DATA8_C4D10A,x
@@ -534,7 +534,7 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	sta.b d3
 	lda.b d4
 	ldy.w #$0000
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	lda.w #$007E
 	sta.b $71
 	lda.b d4
@@ -554,7 +554,7 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	lsr a
 	adc.l $008002
 	ldy.b d5
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	ldx.b $91
 	lda.w $0034,x
 	and.w #$FF00
@@ -570,16 +570,17 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	lda.b d4
 	jsl.l QueueColours16
 	rts
-CODE_C4D588:						; from CODE_C4D388, CODE_C4D3DD, CODE_C4D414, CODE_C4D48A, ...
+QueueFadeStep:						; one step of a 16-colour fade: StepColourFade, PackFadeColours into d4,
+									; QueueColours16 to CGRAM at Y; $7D - 1
 	pha
 	lda.w #$0010
 	sta.b d3
 	ldy.b d5
-	jsl.l CODE_C4B8AC
+	jsl.l StepColourFade
 	ldx.w #$007E
 	lda.b d4
 	ldy.b d5
-	jsl.l CODE_C4B871
+	jsl.l PackFadeColours
 	ldx.w #$007E
 	lda.b d4
 	ply
@@ -596,11 +597,11 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	lda.b d4
 	sta.b a3
 	ldy.w #$0000
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	ldx.w #TextPalettes>>16
 	lda.w #TextPalettes&$FFFF
 	ldy.b d5
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	lda.b $D3
 	ldy.w #$0700
 	jsl.l ClearRAM7E

@@ -1384,7 +1384,7 @@ SetupHDMA:							; HDMA channel X from the 6 bytes after the jsl: DMAP, BBAD, so
 	sta.b $02,s
 	plb
 	rtl
-CODE_C58AD9:						; called from other segments
+DivAByX:							; A = A / X (X 8-bit) by the divider registers, X = the remainder
 	sta.l WRDIVL
 	sep #$20
 	txa

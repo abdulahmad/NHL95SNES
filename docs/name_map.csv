@@ -4402,12 +4402,12 @@ $C4B7D7,.loop,CODE_C4B7D7,new,"branch target only used in RunTasks",src/bankC4_B
 $C4B804,.rtl,CODE_C4B804,new,"branch target only used in TaskEndCheck",src/bankC4_B000.asm
 $C4B81E,.1,CODE_C4B81E,new,"branch target only used in TaskFrameEnd",src/bankC4_B000.asm
 $C4B843,.rtl,CODE_C4B843,new,"branch target only used in TaskStartKey",src/bankC4_B000.asm
-$C4B87E,.loop,CODE_C4B87E,new,"branch target only used in CODE_C4B871",src/bankC4_B000.asm
-$C4B8B6,.loop,CODE_C4B8B6,new,"branch target only used in CODE_C4B8AC",src/bankC4_B000.asm
-$C4B8DF,.loop,CODE_C4B8DF,new,"branch target only used in CODE_C4B8D1",src/bankC4_B000.asm
-$C4B946,.1,CODE_C4B946,new,"branch target only used in CODE_C4B93A",src/bankC4_B000.asm
-$C4B953,.2,CODE_C4B953,new,"branch target only used in CODE_C4B93A",src/bankC4_B000.asm
-$C4B974,.loop,CODE_C4B974,new,"branch target only used in CODE_C4B970",src/bankC4_B000.asm
+$C4B87E,.loop,CODE_C4B87E,new,"branch target only used in PackFadeColours",src/bankC4_B000.asm
+$C4B8B6,.loop,CODE_C4B8B6,new,"branch target only used in StepColourFade",src/bankC4_B000.asm
+$C4B8DF,.loop,CODE_C4B8DF,new,"branch target only used in StartColourFade",src/bankC4_B000.asm
+$C4B946,.1,CODE_C4B946,new,"branch target only used in FadeDelta",src/bankC4_B000.asm
+$C4B953,.2,CODE_C4B953,new,"branch target only used in FadeDelta",src/bankC4_B000.asm
+$C4B974,.loop,CODE_C4B974,new,"branch target only used in FillWords7E",src/bankC4_B000.asm
 $C4BA56,.loop,CODE_C4BA56,new,"branch target only used in DeveloperCredits",src/bankC4_B000.asm
 $C4BB2C,.1,CODE_C4BB2C,new,"branch target only used in InitTextMap",src/bankC4_B000.asm
 $C4BB47,.loop,CODE_C4BB47,new,"branch target only used in CODE_C4BB43",src/bankC4_B000.asm
@@ -7966,3 +7966,11 @@ $C40296,RecordPlayoffDay,CODE_C40296,code,"from the code: the record loop, Advan
 $C40305,AdvancePlayoffTeam,CODE_C40305,code,"from the code: the search over the 16 slots, the round byte + 1",src/bankC4_0000.asm
 $C40D96,SetupPlayoffs,CODE_C40D96,genesis+purpose,"95 Genesis SetupPlayoffs's job (start the playoffs, round 1) at the same point of the season flow (the schedule day without games, then play mode 3); the SNES seeds the list from the standings by its helpers",src/bankC4_0000.asm
 $C40A02,AddIntermissionGoals,CODE_C40A02,code,"from the code: the record loop with RandomBelowA 2 (CODE_C40A60) into +$A and +8; Intermission calls it before Pausemode_menu",src/bankC4_0000.asm
+$C4B8D1,StartColourFade,CODE_C4B8D1,code,"from the code: the 5-bit components split into the tables SetFadeTables lays out, FadeDelta of the differences; DeveloperCredits and the title screen use it",src/bankC4_B000.asm
+$C4B8AC,StepColourFade,CODE_C4B8AC,code,"from the code: the three adds over the tables at Y",src/bankC4_B000.asm
+$C4B871,PackFadeColours,CODE_C4B871,code,"from the code: red, green << 5 and blue << 10 of the tables at Y",src/bankC4_B000.asm
+$C4B93A,FadeDelta,CODE_C4B93A,code,"from the code: the sign kept, the magnitude through DivAByX",src/bankC4_B000.asm
+$C4B955,SetFadeTables,CODE_C4B955,code,"from the code",src/bankC4_B000.asm
+$C4B970,FillWords7E,CODE_C4B970,code,"from the code: the store loop",src/bankC4_B000.asm
+$C4D588,QueueFadeStep,CODE_C4D588,code,"from the code; the title screen's task routines call it",src/bankC4_D000.asm
+$C58AD9,DivAByX,CODE_C58AD9,code,"from the code: WRDIVL / WRDIVB, RDDIVL and RDMPYL",src/bankC5_8000.asm

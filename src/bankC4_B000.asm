@@ -1002,10 +1002,11 @@ QueueColours:						; queues d3 colours from X:A for CGRAM at Y (a record on the 
 	stx.b $04
 	stz.b QueueBusy
 	rtl
-CODE_C4B871:						; from CODE_C4BA75 and other segments
+PackFadeColours:					; writes the colour fade's d3 current colours as BGR words at A (the 8.8
+									; values' integer parts)
 	tax
 	lda.b d3
-	jsr.w CODE_C4B955
+	jsr.w SetFadeTables
 	lda.b d3
 	sta.b $77
 	ldy.w #$0000
@@ -1039,9 +1040,10 @@ CODE_C4B871:						; from CODE_C4BA75 and other segments
 	dec.b $77
 	bne .loop
 	rtl
-CODE_C4B8AC:						; from CODE_C4BA75 and other segments
+StepColourFade:						; one step of the colour fade: the red, green and blue step tables added
+									; to the d3 colours' values
 	lda.b d3
-	jsr.w CODE_C4B955
+	jsr.w SetFadeTables
 	ldx.b d3
 	ldy.w #$0000
 .loop:								; loop: A = (a0),y, A + ($69),y, (a0),y = A, A = ($65),y, ...
@@ -1062,11 +1064,13 @@ CODE_C4B8AC:						; from CODE_C4BA75 and other segments
 	dex
 	bne .loop
 	rtl
-CODE_C4B8D1:						; from DeveloperCredits and other segments
+StartColourFade:					; sets up a fade of d3 colours from the palette at [a3] to the one at [a4]
+									; in $7D steps: each colour's red, green and blue as 8.8 values and a step
+									; for each (FadeDelta), in the tables at Y
 	sta.b a4
 	stx.b $75
 	lda.b d3
-	jsr.w CODE_C4B955
+	jsr.w SetFadeTables
 	ldx.b d3
 	ldy.w #$0000
 .loop:								; loop: A = [a3],y, push A, A and $001F, $77 = A, ...
@@ -1099,7 +1103,7 @@ CODE_C4B8D1:						; from DeveloperCredits and other segments
 	and.w #$001F
 	sec
 	sbc.b $77
-	jsr.w CODE_C4B93A
+	jsr.w FadeDelta
 	sta.b ($69),y
 	lda.b $01,s
 	and.w #$03E0
@@ -1110,7 +1114,7 @@ CODE_C4B8D1:						; from DeveloperCredits and other segments
 	lsr a
 	sec
 	sbc.b $79
-	jsr.w CODE_C4B93A
+	jsr.w FadeDelta
 	sta.b (a2),y
 	pla
 	and.w #$7C00
@@ -1119,14 +1123,14 @@ CODE_C4B8D1:						; from DeveloperCredits and other segments
 	lsr a
 	sec
 	sbc.b $7B
-	jsr.w CODE_C4B93A
+	jsr.w FadeDelta
 	sta.b ($6D),y
 	iny
 	iny
 	dex
 	bne .loop
 	rtl
-CODE_C4B93A:						; from CODE_C4B8D1
+FadeDelta:							; A = the signed colour difference A * 256 / $7D (the fade's step count)
 	phx
 	xba
 	and.w #$FF00
@@ -1134,9 +1138,9 @@ CODE_C4B93A:						; from CODE_C4B8D1
 	bpl .1
 	eor.w #$FFFF
 	inc a
-.1:									; X = $7D, call CODE_C58AD9, if plus go to .2, A xor $FFFF, ...
+.1:									; X = $7D, call DivAByX, if plus go to .2, A xor $FFFF, ...
 	ldx.b $7D
-	jsl.l CODE_C58AD9
+	jsl.l DivAByX
 	plp
 	bpl .2
 	eor.w #$FFFF
@@ -1144,7 +1148,8 @@ CODE_C4B93A:						; from CODE_C4B8D1
 .2:									; pull X, return
 	plx
 	rts
-CODE_C4B955:						; from CODE_C4B871, CODE_C4B8AC, CODE_C4B8D1
+SetFadeTables:						; lays out the colour fade's six tables of A words from Y: red, green,
+									; blue, then their steps (a0, $65, a1, $69, a2, $6D)
 	asl a
 	sta.b $77
 	tya
@@ -1160,7 +1165,7 @@ CODE_C4B955:						; from CODE_C4B871, CODE_C4B8AC, CODE_C4B8D1
 	adc.b $77
 	sta.b $6D
 	rts
-CODE_C4B970:						; from DeveloperCredits and other segments
+FillWords7E:						; fills d3 words of bank $7E from A with Y
 	tax
 	tya
 	ldy.b d3
@@ -1217,7 +1222,7 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	sta.b d3
 	lda.b d6
 	ldy.w #$0000
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	lda.w #$CBAE
 	sta.b a3
 	lda.w #$00C2
@@ -1225,7 +1230,7 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	lda.b d6
 	ldx.w #$007E
 	ldy.b d7
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	lda.w #$0020
 	sta.b d3
 	lda.b d4
@@ -1233,11 +1238,11 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	ldx.w #$007E
 	stx.b $71
 	ldy.w #$0000
-	jsl.l CODE_C4B970
+	jsl.l FillWords7E
 	lda.w #(VisualConceptsPalette+$7)&$FFFF
 	ldx.w #(VisualConceptsPalette+$7)>>16
 	ldy.b d5
-	jsl.l CODE_C4B8D1
+	jsl.l StartColourFade
 	lda.b d4
 	ldx.w #$007E
 	ldy.w #$0000
@@ -1267,11 +1272,11 @@ CODE_C4BA75:						; a task routine: stored as the next routine of a task
 	lda.w #$0060
 	sta.b d3
 	ldy.b d7
-	jsl.l CODE_C4B8AC
+	jsl.l StepColourFade
 	lda.b d6
 	ldx.w #$007E
 	ldy.b d7
-	jsl.l CODE_C4B871
+	jsl.l PackFadeColours
 	lda.b d6
 	ldx.w #$007E
 	ldy.w #$0020
@@ -1279,11 +1284,11 @@ CODE_C4BA75:						; a task routine: stored as the next routine of a task
 	lda.w #$0020
 	sta.b d3
 	ldy.b d5
-	jsl.l CODE_C4B8AC
+	jsl.l StepColourFade
 	lda.b d4
 	ldx.w #$007E
 	ldy.b d5
-	jsl.l CODE_C4B871
+	jsl.l PackFadeColours
 	lda.b d4
 	ldx.w #$007E
 	ldy.w #$0000
@@ -1715,7 +1720,7 @@ PrintTitleBar:						; prints a bar at row Y as wide as A says: its left end, mid
 	dec a
 	dec a
 	ldx.w #$0003
-	jsl.l CODE_C58AD9
+	jsl.l DivAByX
 	txy
 	beq .1
 	inc a
