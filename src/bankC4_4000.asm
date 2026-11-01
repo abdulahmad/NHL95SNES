@@ -1,7 +1,8 @@
 ; Segment bankC4_4000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C43FC8
-CODE_C43FC8:						; called from other segments
+checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its position
+									; and at its hot spot (GetFrameHot), then checkplcoll
 	stz.w collflag
 	lda.w pfnc,x
 	bne .2
@@ -117,7 +118,7 @@ CODE_C43FC8:						; called from other segments
 	sta.w Ypos,x
 .rtl:								; return
 	rtl
-checkwallcoll:						; from CODE_C43FC8 and other segments
+checkwallcoll:						; from checkcoll and other segments
 	lda.w #$013E
 	sec
 	sbc.w wcradiusy
@@ -1034,7 +1035,7 @@ CODE_C44775:						; from checkgoalp
 	lda.w #$0008
 	sta.b d0
 	jmp.w AddPenalty2
-checkplcoll:						; from CODE_C43FC8 and other segments
+checkplcoll:						; from checkcoll and other segments
 	lda.w pflags,x
 	bit.w #$8000
 	bne .rtl

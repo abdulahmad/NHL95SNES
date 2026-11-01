@@ -437,11 +437,11 @@ updatereplay:						; called from other segments
 	sta.b WMDATA&$FF
 	lda.w PBnum
 	sta.b WMDATA&$FF
-	lda.w $00CB
+	lda.w Hpos
 	sta.b WMDATA&$FF
 	lda.w $00CC
 	sta.b WMDATA&$FF
-	lda.w $00CD
+	lda.w Vpos
 	sta.b WMDATA&$FF
 	lda.w $00CE
 	sta.b WMDATA&$FF
@@ -541,9 +541,9 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	pha
 	lda.w #$0020
 	trb.w sflags
-	lda.b $CD
+	lda.b Vpos
 	pha
-	lda.b $CB
+	lda.b Hpos
 	pha
 	lda.w recbpr
 	cmp.w #$0000
@@ -597,11 +597,11 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	dec a
 	pha
 	bra .loop4
-.3:									; pull A, $0786 = $CB, $0788 = $CD, fadestep = $000A, ...
+.3:									; pull A, $0786 = Hpos, $0788 = Vpos, fadestep = $000A, ...
 	pla
-	lda.b $CB
+	lda.b Hpos
 	sta.w $0786
-	lda.b $CD
+	lda.b Vpos
 	sta.w $0788
 	lda.w #$000A
 	sta.w fadestep
@@ -644,8 +644,8 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0038
 	bmi .6
 	lda.w #$0038
-.6:									; $CB = A, $0786 = A, $08B6 = Ypos,x, if Ypos,x - $0788 >= 0 go to .8, ...
-	sta.b $CB
+.6:									; Hpos = A, $0786 = A, $08B6 = Ypos,x, ...
+	sta.b Hpos
 	sta.w $0786
 	lda.w Ypos,x
 	sta.w $08B6
@@ -674,8 +674,8 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0100
 	bmi .11
 	lda.w #$0100
-.11:								; $CD = A, $0788 = A, A = X, A / 2, ...
-	sta.b $CD
+.11:								; Vpos = A, $0788 = A, A = X, A / 2, ...
+	sta.b Vpos
 	sta.w $0788
 	txa
 	lsr a
@@ -710,8 +710,8 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0038
 	bmi .17
 	lda.w #$0038
-.17:								; $CB = A, $0786 = A, if $08B6 - $0788 >= 0 go to .19, A = $0788, ...
-	sta.b $CB
+.17:								; Hpos = A, $0786 = A, if $08B6 - $0788 >= 0 go to .19, A = $0788, ...
+	sta.b Hpos
 	sta.w $0786
 	lda.w $08B6
 	cmp.w $0788
@@ -739,14 +739,14 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0100
 	bmi .22
 	lda.w #$0100
-.22:								; $CD = A, $0788 = A, go to .24
-	sta.b $CD
+.22:								; Vpos = A, $0788 = A, go to .24
+	sta.b Vpos
 	sta.w $0788
 	bra .24
-.23:								; $0786 = $CB, $0788 = $CD
-	lda.b $CB
+.23:								; $0786 = Hpos, $0788 = Vpos
+	lda.b Hpos
 	sta.w $0786
-	lda.b $CD
+	lda.b Vpos
 	sta.w $0788
 .24:								; timestep = d7, call SprSort, $28 = $1D8F, $2A = $1E00, ...
 	lda.b d7
@@ -949,15 +949,15 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	clc
 	adc.b d3
 	sta.b d3
-.13:								; pull A, pull A, $0834 = d2, $CB = A, ...
+.13:								; pull A, pull A, $0834 = d2, Hpos = A, ...
 	pla
 	pla
 	lda.b d2
 	sta.w $0834
-	sta.b $CB
+	sta.b Hpos
 	lda.b d3
 	sta.w $08B6
-	sta.b $CD
+	sta.b Vpos
 	lda.w #$0010
 	sta.w $05BA
 	jmp.w UpdateReplayCamera
@@ -1080,13 +1080,13 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	lda.b d7
 	beq .15
 	jmp.w UpdateReplayCamera
-.18:								; $05BA = $000F, pull A, $CB = A, pull A, ...
+.18:								; $05BA = $000F, pull A, Hpos = A, pull A, ...
 	lda.w #$000F
 	sta.w $05BA
 	pla
-	sta.b $CB
+	sta.b Hpos
 	pla
-	sta.b $CD
+	sta.b Vpos
 	pla
 	sta.w $07E2
 	pla
@@ -1465,17 +1465,17 @@ adda43:								; from adda4 and other segments
 	bra .15
 .14:								; A = $0000
 	lda.w #$0000
-.15:								; $1140 = A, A = sflags, if a $0020 bit set go to .16, $CB = $80, ...
+.15:								; $1140 = A, A = sflags, if a $0020 bit set go to .16, Hpos = $80, ...
 	sta.w $1140
 	lda.w sflags
 	bit.w #$0020
 	bne .16
 	lda.b $80
-	sta.b $CB
+	sta.b Hpos
 	lda.b $80
 	sta.b $CC
 	lda.b $80
-	sta.b $CD
+	sta.b Vpos
 	lda.b $80
 	sta.b $CE
 	lda.b $80
@@ -1660,17 +1660,17 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	bra .10
 .9:									; A = $00
 	lda.b #$00
-.10:								; $1140 = A, A = sflags, if a $20 bit set go to .11, $CB = WMDATA, ...
+.10:								; $1140 = A, A = sflags, if a $20 bit set go to .11, Hpos = WMDATA, ...
 	sta.w $1140
 	lda.w sflags
 	bit.b #$20
 	bne .11
 	lda.l WMDATA
-	sta.b $CB
+	sta.b Hpos
 	lda.l WMDATA
 	sta.b $CC
 	lda.l WMDATA
-	sta.b $CD
+	sta.b Vpos
 	lda.l WMDATA
 	sta.b $CE
 	lda.l WMDATA
@@ -1710,7 +1710,7 @@ RenderReplayFrame:					; build the replay frame sprites and queue display update
 	lda.w $2CE1
 	sta.b $48
 	sta.b $26
-	jsl.l CODE_C526E8
+	jsl.l updatescroll
 	jsl.l CODE_C526FB
 	lda.w $0874
 	cmp.w $0894
@@ -1726,7 +1726,7 @@ RenderReplayFrame:					; build the replay frame sprites and queue display update
 	jsl.l PackOAMHigh
 	inc.w TransfersReady
 	jsl.l showref
-	jsl.l CODE_C528D5
+	jsl.l updatescroll_rows
 	ldx.b a3
 	rtl
 randomd0A:							; from randomd0, randomd0s, randomd0sd0 and other segments

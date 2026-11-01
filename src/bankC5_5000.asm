@@ -1076,7 +1076,7 @@ CODE_C55513:						; called from other segments
 	lda.w #$4E00
 	jsl.l FreeWorkBuf
 	lda.w #$03E7
-	sta.w $07E4
+	sta.w Oldrow
 	ldy.w #$4800
 	lda.w #MeterFontTiles&$FFFF
 	ldx.w #MeterFontTiles>>16

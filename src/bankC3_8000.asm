@@ -28,11 +28,11 @@ GetFrameHot:						; return the current frame hot spot in d0 and d1
 projxy:								; project rink coordinates and height into screen coordinates
 	lda.b d0
 	sec
-	sbc.b $CB
+	sbc.b Hpos
 	sta.b d0
 	lda.b d1
 	sec
-	sbc.b $CD
+	sbc.b Vpos
 	sta.b d1
 	lda.b d0
 	clc
@@ -344,9 +344,9 @@ InsertScoringLeader:				; insert a player into the top three by points then goal
 	lda.b tmp1
 	sta.w $2CF3
 	rts
-CODE_C382B6:						; called from other segments
+StartBenchCheer:					; an rtl: called where 94S starts the bench cheer
 	rtl
-CODE_C382B7:						; called from other segments
+UpdateBenchCheer:					; an rtl: called where 94S updates the bench cheer
 	rtl
 UpdateGameObjectSprites:			; queue changed player frames and build sorted object sprites
 	lda.b $48
@@ -502,10 +502,10 @@ DrawSortedGameObject:				; draw the current sorted object with its frame and fli
 	lda.w Xpos,x
 	adc.w #$0080
 	sec
-	sbc.b $CB
+	sbc.b Hpos
 	sta.b $0A
 	sec
-	lda.b $CD
+	lda.b Vpos
 	sbc.w Ypos,x
 	clc
 	adc.w #$005E

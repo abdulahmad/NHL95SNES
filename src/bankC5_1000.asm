@@ -866,7 +866,7 @@ waitxsr:							; no caller found (not traced)
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsl.l CODE_C52295
+	jsl.l setvideo
 	lda.b Vcount
 .loop3:								; loop: if A = Vcount go to .loop3, call ReadPads, pull A, A - 1, ...
 	cmp.b Vcount

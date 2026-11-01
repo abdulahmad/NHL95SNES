@@ -8,7 +8,7 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 StartSound = $CF040B
 SignedSquareTable = $C38A4A
-CODE_C382B6 = $C382B6
+StartBenchCheer = $C382B6
 ApproxLength = $C38778
 randomd0A = $C37E95
 randoma8 = $C37EAA

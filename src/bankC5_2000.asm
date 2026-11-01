@@ -210,10 +210,10 @@ CODE_C52037:						; called from other segments
 	stx.b $04
 	stz.b QueueBusy
 	jsl.l WaitTransfers
-	stz.w $07E6
-	stz.w $07E4
+	stz.w vramrow
+	stz.w Oldrow
 	lda.w #$FE90
-	sta.w $07F8
+	sta.w Vscroll
 	ldy.w #$4800
 	lda.w #MeterFontTiles&$FFFF
 	ldx.w #MeterFontTiles>>16
@@ -238,11 +238,11 @@ CODE_C52037:						; called from other segments
 CODE_C52227:						; called from other segments
 	jsl.l forceblack
 	lda.w #$03E7
-	sta.w $07E4
+	sta.w Oldrow
 	lda.w #$0001
 	trb.w sflags
-	stz.b $CB
-	stz.b $CD
+	stz.b Hpos
+	stz.b Vpos
 	lda.b $5F
 	dec a
 	dec a
@@ -283,16 +283,18 @@ CODE_C5226A:						; called from other segments
 	ldx.b a3
 	rtl
 freezewindow:						; called from other segments
-	lda.b $CD
+	lda.b Vpos
 	sta.w yc1
-	lda.b $CB
+	lda.b Hpos
 	sta.w xc1
 	lda.w #$0040
 	tsb.w sflags
 	rtl
-CODE_C52295:						; called from other segments
+setvideo:							; once per game frame: the sprite table built for the next vblank
+									; (BuildSpriteOAM, PackOAMHigh, TransfersReady + 1), the scroll and the
+									; rink rows
 	jsl.l AnimateSprites
-	jsl.l CODE_C526E8
+	jsl.l updatescroll
 	jsl.l CODE_C526FB
 	jsl.l UpdateGameObjectSprites
 	jsl.l CODE_C522BF
@@ -300,10 +302,10 @@ CODE_C52295:						; called from other segments
 	jsl.l PackOAMHigh
 	inc.w TransfersReady
 	jsl.l showref
-	jsl.l CODE_C528D5
+	jsl.l updatescroll_rows
 	ldx.b a3
 	rtl
-CODE_C522BF:						; from CODE_C52295 and other segments
+CODE_C522BF:						; from setvideo and other segments
 	dec.b QueueBusy
 	tsc
 	sta.b $1C
@@ -356,10 +358,10 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	clc
 	adc.w #$0080
 	sec
-	sbc.b $CB
+	sbc.b Hpos
 	sta.b $0A
 	sec
-	lda.b $CD
+	lda.b Vpos
 	sbc.w Ypos,y
 	clc
 	adc.w #$005E
@@ -811,17 +813,18 @@ CODE_C526A7:						; from CODE_C52348
 	lda.b $28
 	tcs
 	rts
-CODE_C526E8:						; from CODE_C52295 and other segments
+updatescroll:						; sets the rink scroll from the camera position: Hscroll = Hpos - $80,
+									; Vscroll = -Vpos - $70
 	sec
-	lda.b $CB
+	lda.b Hpos
 	sbc.w #$0080
-	sta.w $07B2
+	sta.w Hscroll
 	sec
 	lda.w #$FF90
-	sbc.b $CD
-	sta.w $07F8
+	sbc.b Vpos
+	sta.w Vscroll
 	rtl
-CODE_C526FB:						; from CODE_C52295 and other segments
+CODE_C526FB:						; from setvideo and other segments
 	dec.b QueueBusy
 	tsc
 	sta.b $1C
@@ -841,10 +844,10 @@ CODE_C52706:						; from CODE_C52832
 	lda.w Xpos,x
 	adc.w #$0074
 	sec
-	sbc.b $CB
+	sbc.b Hpos
 	sta.b $0A
 	sec
-	lda.b $CD
+	lda.b Vpos
 	sbc.w Ypos,x
 	clc
 	adc.w #$006A
@@ -1073,8 +1076,9 @@ CODE_C528D3:						; called from other segments
 	rtl
 CODE_C528D4:						; called from other segments
 	rtl
-CODE_C528D5:						; from CODE_C52295 and other segments
-	lda.w $07F8
+updatescroll_rows:					; queues the rink map rows that the vertical scroll brought on screen;
+									; BG2VScroll from Vscroll + $170
+	lda.w Vscroll
 	clc
 	adc.w #$0170
 	sta.w BG2VScroll
@@ -1083,7 +1087,7 @@ CODE_C528D5:						; from CODE_C52295 and other segments
 	lsr a
 	tax
 	sec
-	sbc.w $07E4
+	sbc.w Oldrow
 	bne .1
 	jmp.w .6
 .1:									; if plus go to .3, A xor $FFFF, A + 1, if A >= $0019 go to .2, ...
@@ -1094,33 +1098,33 @@ CODE_C528D5:						; from CODE_C52295 and other segments
 	bcs .2
 	and.w #$001F
 	sta.b tmp1
-	stx.w $07E4
-	lda.w $07E6
+	stx.w Oldrow
+	lda.w vramrow
 	sec
 	sbc.b tmp1
 	and.w #$001F
-	sta.w $07E6
+	sta.w vramrow
 	sta.b tmp2
 	stx.b tmp0
 	bra .4
-.2:									; tmp1 = $001D, A = X, A and $001F, $07E6 = A, ...
+.2:									; tmp1 = $001D, A = X, A and $001F, vramrow = A, ...
 	lda.w #$001D
 	sta.b tmp1
 	txa
 	and.w #$001F
-	sta.w $07E6
+	sta.w vramrow
 	sta.b tmp2
 	stx.b tmp0
-	stx.w $07E4
+	stx.w Oldrow
 	bra .4
-.3:									; $07E4 = X, if A >= $0019 go to .2, tmp1 = A, A + $07E6, ...
-	stx.w $07E4
+.3:									; Oldrow = X, if A >= $0019 go to .2, tmp1 = A, A + vramrow, ...
+	stx.w Oldrow
 	cmp.w #$0019
 	bcs .2
 	sta.b tmp1
-	adc.w $07E6
+	adc.w vramrow
 	and.w #$001F
-	sta.w $07E6
+	sta.w vramrow
 	adc.w #$001D
 	sec
 	sbc.b tmp1
@@ -1212,8 +1216,8 @@ CODE_C528D5:						; from CODE_C52295 and other segments
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-.6:									; A = $07B2, A + $00C0, BG2HScroll = A, return
-	lda.w $07B2
+.6:									; A = Hscroll, A + $00C0, BG2HScroll = A, return
+	lda.w Hscroll
 	clc
 	adc.w #$00C0
 	sta.w BG2HScroll
@@ -1271,10 +1275,10 @@ checkwindow:						; called from other segments
 	lda.w Xpos,x
 	sta.b d3
 	sta.w xc1
-.4:									; A = d2, A - $CD, d0 = A, if A - $FFF7 >= 0 go to .5, ...
+.4:									; A = d2, A - Vpos, d0 = A, if A - $FFF7 >= 0 go to .5, ...
 	lda.b d2
 	sec
-	sbc.b $CD
+	sbc.b Vpos
 	sta.b d0
 	cmp.w #$FFF7
 	bpl .5
@@ -1299,10 +1303,10 @@ checkwindow:						; called from other segments
 	bmi .6
 	lda.w #$0100
 	sta.b d1
-.6:									; A = d1, A - $CD, if the result = 0 go to .9, A / 2, ...
+.6:									; A = d1, A - Vpos, if the result = 0 go to .9, A / 2, ...
 	lda.b d1
 	sec
-	sbc.b $CD
+	sbc.b Vpos
 	beq .9
 	lsr a
 	lsr a
@@ -1315,14 +1319,14 @@ checkwindow:						; called from other segments
 	cmp.w #$0000
 	bne .8
 	inc a
-.8:									; A + $CD, $CD = A
+.8:									; A + Vpos, Vpos = A
 	clc
-	adc.b $CD
-	sta.b $CD
-.9:									; A = d3, A - $CB, d0 = A, if A - $FFD8 >= 0 go to .10, ...
+	adc.b Vpos
+	sta.b Vpos
+.9:									; A = d3, A - Hpos, d0 = A, if A - $FFD8 >= 0 go to .10, ...
 	lda.b d3
 	sec
-	sbc.b $CB
+	sbc.b Hpos
 	sta.b d0
 	cmp.w #$FFD8
 	bpl .10
@@ -1347,10 +1351,10 @@ checkwindow:						; called from other segments
 	bmi .11
 	lda.w #$0038
 	sta.b d1
-.11:								; A = d1, A - $CB, if the result = 0 go to .rtl, A / 2, ...
+.11:								; A = d1, A - Hpos, if the result = 0 go to .rtl, A / 2, ...
 	lda.b d1
 	sec
-	sbc.b $CB
+	sbc.b Hpos
 	beq .rtl
 	lsr a
 	lsr a
@@ -1363,10 +1367,10 @@ checkwindow:						; called from other segments
 	cmp.w #$0000
 	bne .13
 	inc a
-.13:								; A + $CB, $CB = A
+.13:								; A + Hpos, Hpos = A
 	clc
-	adc.b $CB
-	sta.b $CB
+	adc.b Hpos
+	sta.b Hpos
 .rtl:								; return
 	rtl
 doinput:							; called from other segments

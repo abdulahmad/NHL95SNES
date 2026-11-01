@@ -150,10 +150,10 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w pfteam,y
 	beq .17
 	lda.w #$0002
-.17:								; A + $0006, call CODE_C382B6, $06EE = $0002, X = a3, ...
+.17:								; A + $0006, call StartBenchCheer, $06EE = $0002, X = a3, ...
 	clc
 	adc.w #$0006
-	jsl.l CODE_C382B6
+	jsl.l StartBenchCheer
 	lda.w #$0002
 	sta.w $06EE
 	ldx.b a3
@@ -205,10 +205,10 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w pfteam,y
 	beq .25
 	lda.w #$0002
-.25:								; A + 1, A + 1, call CODE_C382B6, $06EE = $0002, ...
+.25:								; A + 1, A + 1, call StartBenchCheer, $06EE = $0002, ...
 	inc a
 	inc a
-	jsl.l CODE_C382B6
+	jsl.l StartBenchCheer
 	lda.w #$0002
 	sta.w $06EE
 	lda.w #$2448
@@ -297,10 +297,10 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	lda.w pfteam,y
 	beq .30
 	lda.w #$0002
-.30:								; A + $0006, call CODE_C382B6, X = a2, pfalock,x = $2708, ...
+.30:								; A + $0006, call StartBenchCheer, X = a2, pfalock,x = $2708, ...
 	clc
 	adc.w #$0006
-	jsl.l CODE_C382B6
+	jsl.l StartBenchCheer
 	ldx.b a2
 	lda.w #$2708
 	sta.w pfalock,x
@@ -1323,12 +1323,12 @@ assstanley:							; called from other segments
 	sta.w pflags,x
 	lda.w #$005A
 	sta.w temp3,x
-	lda.b $CB
+	lda.b Hpos
 	bpl .1
 	lda.w #$FFA6
 	sta.w temp3,x
-.1:									; temp4,x = $CD, pfalock,x = A, call SetSPAFromA
-	lda.b $CD
+.1:									; temp4,x = Vpos, pfalock,x = A, call SetSPAFromA
+	lda.b Vpos
 	sta.w temp4,x
 	sta.w pfalock,x
 	jsl.l SetSPAFromA

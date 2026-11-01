@@ -975,8 +975,8 @@ CODE_C43826:						; called from other segments
 	lda.w #$0008
 	trb.w tmflags
 	trb.w $1301
-	stz.b $CD
-	stz.b $CB
+	stz.b Vpos
+	stz.b Hpos
 	lda.w $2034
 	sta.w $0830
 	lda.w $2036

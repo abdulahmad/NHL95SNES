@@ -123,7 +123,7 @@ CODE_C47122:						; called from other segments
 	lda.b a2
 	inc a
 	inc a
-	jsl.l CODE_C382B6
+	jsl.l StartBenchCheer
 .1:									; if playerpad,x < 0 go to .2, A = PadRaw1,y, ...
 	ldy.w playerpad,x
 	bmi .2
@@ -166,12 +166,12 @@ CODE_C47122:						; called from other segments
 	sta.w temp2b,x
 	lda.w #$005A
 	sta.w temp3,x
-	lda.b $CB
+	lda.b Hpos
 	bpl .4
 	lda.w #$FFA6
 	sta.w temp3,x
-.4:									; temp4,x = $CD
-	lda.b $CD
+.4:									; temp4,x = Vpos
+	lda.b Vpos
 	sta.w temp4,x
 .5:									; $65 = $00C4, a0 = $883F, d0 = temp3,x, d1 = temp4,x, ...
 	lda.w #$00C4
@@ -522,8 +522,8 @@ chkprogress:						; from CODE_C471F0 and other segments
 	jsl.l FadeOutWait
 	jsl.l CODE_C5226A
 	lda.w #$0038
-	sta.b $CB
-	stz.b $CD
+	sta.b Hpos
+	stz.b Vpos
 	jsl.l freezewindow
 	lda.w #$FF00
 	tsb.w puckc

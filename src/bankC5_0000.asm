@@ -328,8 +328,8 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	clc
 	adc.w #$0096
 	sta.w cheervc
-.9:									; call CODE_C5033D, call demoread, A = sflags, ...
-	jsl.l CODE_C5033D
+.9:									; call DoGameFrame, call demoread, A = sflags, ...
+	jsl.l DoGameFrame
 	jsl.l demoread
 	lda.w sflags
 	bit.w #$0001
@@ -351,10 +351,12 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	rtl
 .12:								; go to Gameloop
 	jmp.w Gameloop
-CODE_C5033D:						; from Gameloop and other segments
-	jsl.l CODE_C382B7
+DoGameFrame:						; one frame of game logic: UpdateBenchCheer, periodicevents,
+									; updateplayers, checkwindow, updatereplay, then setvideo once
+									; TransfersReady is 0
+	jsl.l UpdateBenchCheer
 	jsl.l periodicevents
-	jsl.l CODE_C50393
+	jsl.l updateplayers
 	jsl.l checkwindow
 	jsl.l updatereplay
 .loop:								; loop: if TransfersReady is not 0 go to .loop, $28 = $1D8F, ...
@@ -364,8 +366,8 @@ CODE_C5033D:						; from Gameloop and other segments
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jml.l CODE_C52295
-periodicevents:						; from CODE_C5033D and other segments
+	jml.l setvideo
+periodicevents:						; from DoGameFrame and other segments
 	jsl.l CODE_C471F0
 	jsl.l updatecrowdf
 	jsl.l clockcont
@@ -383,7 +385,8 @@ periodicevents:						; from CODE_C5033D and other segments
 	jsl.l updatepwrplay
 .rtl:								; return
 	rtl
-CODE_C50393:						; from CODE_C5033D and other segments
+updateplayers:						; every object's frame: the old positions kept, the goalie at each end
+									; found, then updateanim, doinput and checkcoll among its steps
 	lda.w #$FFFF
 	sta.w $0664
 	sta.w $0666
@@ -1048,8 +1051,8 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	cmp.w $0960,x
 	bne .66
 	jmp.w .71
-.66:								; call CODE_C43FC8, if X >= $0018 go to .71, ...
-	jsl.l CODE_C43FC8
+.66:								; call checkcoll, if X >= $0018 go to .71, ...
+	jsl.l checkcoll
 	cpx.w #$0018
 	bcs .71
 	lda.w position,x
@@ -1268,7 +1271,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	cpy.w #$0068
 	bcc .loop
 	jsl.l CODE_C5226A
-	jsl.l CODE_C52295
+	jsl.l setvideo
 	inc.w gsp
 	lda.w gsp
 	cmp.w #$0003

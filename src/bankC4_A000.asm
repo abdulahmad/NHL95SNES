@@ -1350,7 +1350,7 @@ Goal:								; called from other segments
 	ldy.b a2
 	beq .16
 	lda.w #$0004
-	jsl.l CODE_C382B6
+	jsl.l StartBenchCheer
 	lda.l $7E24CA
 	sec
 	sbc.w #$0300
@@ -1359,10 +1359,10 @@ Goal:								; called from other segments
 .15:								; $7E24CA = A, go to .17
 	sta.l $7E24CA
 	bra .17
-.16:								; A + 1, A + 1, call CODE_C382B6, A = $7E24CA, ...
+.16:								; A + 1, A + 1, call StartBenchCheer, A = $7E24CA, ...
 	inc a
 	inc a
-	jsl.l CODE_C382B6
+	jsl.l StartBenchCheer
 	lda.l $7E24CA
 	clc
 	adc.w #$01F4
