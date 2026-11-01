@@ -677,7 +677,7 @@ CODE_C09529:						; called from ShootoutWonBy
 	sta.b d2
 	jsl.l CODE_C528D4
 	lda.w #$0800
-	sta.w $07D2
+	sta.w printa
 	lda.w #$000E
 	sta.b d0
 	lda.w #$0003
@@ -693,7 +693,7 @@ CODE_C09551:						; called from CODE_C0958F
 	sta.b d2
 	jsl.l CODE_C528D4
 	lda.w #$0800
-	sta.w $07D2
+	sta.w printa
 	lda.w #$000E
 	sta.b d0
 	lda.w #$0003
@@ -776,16 +776,16 @@ CODE_C095BF:						; called from ShootoutWonBy
 	sta.b $77
 	lda.w #$0005
 	sta.b d1
-.loop:								; loop: $07D2 = $3800, A = $0005, A - d1, if A is not $1878 go to .3, ...
+.loop:								; loop: printa = $3800, A = $0005, A - d1, if A is not $1878 go to .3, ...
 	lda.w #$3800
-	sta.w $07D2
+	sta.w printa
 	lda.w #$0005
 	sec
 	sbc.b d1
 	cmp.w $1878
 	bne .3
 	lda.w #$2000
-	sta.w $07D2
+	sta.w printa
 	lda.b [a3]
 	and.w #$00FF
 	dec a
@@ -799,18 +799,18 @@ CODE_C095BF:						; called from ShootoutWonBy
 	lda.w $2358
 .2:									; pull X
 	plx
-.3:									; $07D4 = $0005, $07D4 = $0008, A = [a3], A and $00FF, ...
+.3:									; printx = $0005, printx = $0008, A = [a3], A and $00FF, ...
 	lda.w #$0005
-	sta.w $07D4
+	sta.w printx
 	lda.w #$0008
-	sta.w $07D4
+	sta.w printx
 	lda.b [a3]
 	and.w #$00FF
 	dec a
 	sta.b d0
 	inc.b a3
-	inc.w $07D6
-	inc.w $07D6
+	inc.w printy
+	inc.w printy
 	dec.b d1
 	bmi .4
 	jmp.w .loop
@@ -1036,9 +1036,9 @@ CODE_C09855:						; called from CODE_C096C0, CODE_C096C0, ...
 	sta.b d2
 	jsl.l CODE_C528D4
 	lda.w #$0011
-	sta.w $07D4
+	sta.w printx
 	lda.w #$0002
-	sta.w $07D6
+	sta.w printy
 .1:									; $69 = DATA8_C098CE>>16, a1 = DATA8_C098CE, d0 = $0806, go to .2
 	lda.w #DATA8_C098CE>>16
 	sta.b $69
@@ -1063,9 +1063,9 @@ CODE_C09855:						; called from CODE_C096C0, CODE_C096C0, ...
 	bpl .4
 	dec.w $0806
 	bra .1
-.4:									; $07D2 = $3800, $91 = [a1], Y = $0002, d4 = [a1],y, ...
+.4:									; printa = $3800, $91 = [a1], Y = $0002, d4 = [a1],y, ...
 	lda.w #$3800
-	sta.w $07D2
+	sta.w printa
 	lda.b [a1]
 	sta.b $91
 	ldy.w #$0002
@@ -1115,17 +1115,17 @@ CODE_C09910:						; called from CODE_C09855
 	bvc .loop
 .2:									; d1 - 1
 	dec.b d1
-.loop:								; loop: $07D2 = $3800, if d1 is not $1888 go to .3, $07D2 = $2000
+.loop:								; loop: printa = $3800, if d1 is not $1888 go to .3, printa = $2000
 	lda.w #$3800
-	sta.w $07D2
+	sta.w printa
 	lda.b d1
 	cmp.w $1888
 	bne .3
 	lda.w #$2000
-	sta.w $07D2
-.3:									; $07D4 = $0002, A = a3, A and $00FF, A - 1, ...
+	sta.w printa
+.3:									; printx = $0002, A = a3, A and $00FF, A - 1, ...
 	lda.w #$0002
-	sta.w $07D4
+	sta.w printx
 	lda.b a3
 	and.w #$00FF
 	dec a
@@ -1138,16 +1138,16 @@ CODE_C09910:						; called from CODE_C09855
 	bpl .4
 	lda.w #$0010
 	sta.b r2
-.4:									; d0 = r1, call CODE_C50F08, a3 + 1, $07D6 + 1, ...
+.4:									; d0 = r1, call CODE_C50F08, a3 + 1, printy + 1, ...
 	lda.b r1
 	sta.b d0
 	jsl.l CODE_C50F08
 	inc.b a3
-	inc.w $07D6
+	inc.w printy
 	dec.b d1
 	bpl .loop
 	lda.w #$2000
-	sta.w $07D2
+	sta.w printa
 	rtl
 CODE_C0998F:						; called from CODE_C096C0
 	ldy.b d1

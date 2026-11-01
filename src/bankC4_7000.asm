@@ -815,7 +815,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	sta.b d0
 	ldx.b a3
 	jsl.l SetPA
-	jsl.l CODE_C513F4
+	jsl.l USBoard
 	bra .24
 .20:								; call StartPenaltyShot
 	jsl.l StartPenaltyShot

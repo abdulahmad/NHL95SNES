@@ -112,6 +112,9 @@ passspeed			=	$07CA		; speed of pass/shot
 passReceiverPlayerNum	=	$07CC	; the player the last pass was aimed at (negative = none)
 PKBonus				=	$07CE		; setplayer: penalty kill bonus (negative)
 PPBonus				=	$07D0		; setplayer: power play bonus
+printa				=	$07D2		; attribute (palette / priority bits) for print characters
+printx				=	$07D4		; print column (AlignBigNumber moves it left)
+printy				=	$07D6		; print row; pplpen prints no line from row 11 on
 puckcross			=	$07D8		; 2 entries of (x, frames): where / when the puck crosses the top / bottom
 recbpr				=	$07E0		; long pointer to the next replay frame record
 Oldrow				=	$07E4		; last rink map row (updatescroll_rows)
@@ -241,6 +244,7 @@ cont5team			=	$17BD		; Pad 5 (multitap) team word, the last of the five the loop
 goaliemode1			=	$17C1		; manual goalie flag per team (word, by team 0 / 2); StartGame_go sets it
 goaliemode2			=	$17C3		; visitors' manual goalie flag (goaliemode1+2); StartGame_go sets it
 defcontrol			=	$17C5		; defense control on / off per team (word, by team 0 / 2)
+tmdata				=	$17D3		; per team (y = 0/2): the team data address in bank $C3
 lcpad				=	$184C		; Per team (y = 0/2) the pad (d4) that opened the line change box, ...
 jmlvector			=	$1850		; RAM jml routine: $5C (jml) at +0, the target at +1..+3 (RunTasks)
 Optperlen			=	$186A		; the period length option (index into GetPeriodTime's tables)
@@ -269,6 +273,12 @@ foy					=	$2036		; face off spot y: Stop4Pen sets it, puckfaceoff2 puts it in pu
 newperiod			=	$234C		; 1 at a period start: puckfaceoff opens no line change box and clears it
 pspuckback			=	$234E		; penalty shot: pucknorm_move counts frames; EndPenaltyShot at $30
 pausemenuon			=	$2372		; $FFFF from the pause menu setup; Pausemode / Intermission clear it
+gst1				=	$2418		; per other game (x = game * 2): team 1 (SetScore)
+gst2				=	$2428		; per other game: team 2 (SetScore)
+gsper				=	$2458		; per other game: the period; 4 or more when over, 5 final (SetScore)
+gss1				=	$2468		; per other game: team 1's score (SetScore)
+gss2				=	$2478		; per other game: team 2's score (SetScore)
+gsflags				=	$2488		; per other game flags: bit 1 asks for a highlight; NewTicker2 skips $0006
 gamenum				=	$24C6		; the user's game: UpdateScores and NewTicker2 skip it
 tickerstart			=	$24C8		; TickerNum kept by Intermission; Intermission_tick stops there
 sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set

@@ -1483,7 +1483,7 @@ CODE_C54BE8:						; no caller found (not traced)
 	pei ($67)
 	pei ($69)
 	lda.w #$2000
-	sta.w $07D2
+	sta.w printa
 	lda.b d0
 	lsr a
 	lsr a
@@ -1531,17 +1531,17 @@ CODE_C54BE8:						; no caller found (not traced)
 	lda.b d1
 	beq .4
 	lda.w #$0C00
-	tsb.w $07D2
-.4:									; $69 = 0, a1 = $04F5, A = $07D4, A - $000B, ...
+	tsb.w printa
+.4:									; $69 = 0, a1 = $04F5, A = printx, A - $000B, ...
 	stz.b $69
 	lda.w #$04F5
 	sta.b a1
-	lda.w $07D4
+	lda.w printx
 	sec
 	sbc.w #$000B
-	sta.w $07D4
+	sta.w printx
 	lda.w #$4000
-	tsb.w $07D2
+	tsb.w printa
 	stz.b $69
 	lda.w #$04F5
 	sta.b a1
@@ -1555,7 +1555,7 @@ CODE_C54BE8:						; no caller found (not traced)
 	xba
 	sta.w $04F8
 	lda.w #$4000
-	trb.w $07D2
+	trb.w printa
 	pla
 	sta.b $69
 	pla

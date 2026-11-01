@@ -1715,14 +1715,14 @@ UpdateScores:						; no caller found (not traced)
 	sta.w TickerNum
 	asl a
 	sta.b a0
-.loop:								; loop: if d1 = gamenum go to .1, X = a0, A = $2488,x, A and $FFFD, ...
+.loop:								; loop: if d1 = gamenum go to .1, X = a0, A = gsflags,x, A and $FFFD, ...
 	lda.b d1
 	cmp.w gamenum
 	beq .1
 	ldx.b a0
-	lda.w $2488,x
+	lda.w gsflags,x
 	and.w #$FFFD
-	sta.w $2488,x
+	sta.w gsflags,x
 	bit.w #$0004
 	bne .1
 	jsl.l SetScore
@@ -1748,10 +1748,10 @@ CalcAttrib:							; no caller found (not traced)
 	clc
 	adc.w #$0138
 	sta.b r0
-.1:									; $65 = $00C3, a0 = $17D3,y, A = [a0], A and $07FF, ...
+.1:									; $65 = $00C3, a0 = tmdata,y, A = [a0], A and $07FF, ...
 	lda.w #$00C3
 	sta.b $65
-	lda.w $17D3,y
+	lda.w tmdata,y
 	sta.b a0
 	clc
 	lda.b [a0]

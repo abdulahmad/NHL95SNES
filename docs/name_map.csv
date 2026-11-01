@@ -7582,3 +7582,15 @@ $C51749,NewTicker,CODE_C51749,94S+code,"the same four instructions as 94S NewTic
 $2372,pausemenuon,,94S+code,"RAM: 94S pausemenuon side by side: Intermission and Pausemode clear it at the same steps; CODE_C5503C (the pause menu setup) sets $FFFF where 94S Pausemode_menu does",src/ram95s.asm
 $24C6,gamenum,,94S+code,"RAM: 94S gamenum side by side in Intermission_ticker and NewTicker2_next (ora with TickerNum); UpdateScores skips that game as 94S InitScores does",src/ram95s.asm
 $24C8,tickerstart,,94S+code,"RAM: 94S tickerstart side by side: Intermission saves TickerNum, Intermission_tick plays DoHiLights when the ticker comes round to it",src/ram95s.asm
+$C513F4,USBoard,CODE_C513F4,94S+purpose,"94S USBoard's job without the score redraw and the two print positions: the registers saved, DispPen for team 0 and team 2, restored, X = a3; called after SetPA where 94S InProgress calls USBoard",src/bankC5_1000.asm
+$C5147D,USBoard_rtl,CODE_C5147D,94S+code,"94S USBoard_rtl: the rtl after USBoard's ldx a3, the target of the same DispPen and pplpen branches",src/bankC5_1000.asm
+$07D2,printa,,94S+code,"RAM: 94S NewTicker3 side by side with NewTicker2: printa, printx, printy are three words in a row there and here ($2400 for the ticker text)",src/ram95s.asm
+$07D4,printx,,94S+code,"RAM: 94S AlignBigNumber and NewTicker3 side by side (dec printx; inc printx, kept on the stack)",src/ram95s.asm
+$07D6,printy,,94S+code,"RAM: 94S pplpen and NewTicker3 side by side (printy $0B test; printy - 5, - 4)",src/ram95s.asm
+$17D3,tmdata,,94S+code,"RAM: 94S pplpen side by side (lda tmdata,y); clearTeamStats stores both teams' addresses from the $C30000 table",src/ram95s.asm
+$2418,gst1,,94S+code,"RAM: 94S SetScore side by side: gst1 / gst2 loaded as the scoring and other team",src/ram95s.asm
+$2428,gst2,,94S+code,"RAM: 94S SetScore side by side",src/ram95s.asm
+$2458,gsper,,94S+code,"RAM: 94S SetScore side by side: the period test, 5 final, 3 overtime, + 1 per period",src/ram95s.asm
+$2468,gss1,,94S+code,"RAM: 94S SetScore side by side: the margin and the goals added",src/ram95s.asm
+$2478,gss2,,94S+code,"RAM: 94S SetScore side by side",src/ram95s.asm
+$2488,gsflags,,94S+code,"RAM: 94S SetScore (ora #2 for overtime) and NewTicker3 (bit #$0006) side by side",src/ram95s.asm

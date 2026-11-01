@@ -1295,7 +1295,7 @@ CODE_C48A41:						; called from other segments
 	stz.b d0
 	lda.w #$00C3
 	sta.b tmp1
-	lda.w $17D3,y
+	lda.w tmdata,y
 	sta.b tmp0
 	ldy.w #$0008
 	clc

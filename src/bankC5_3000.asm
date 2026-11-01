@@ -693,13 +693,13 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	asl a
 	tax
 	lda.l $C30000,x
-	sta.w $17D3
+	sta.w tmdata
 	lda.w $17CB
 	sta.w $17D9
 	asl a
 	tax
 	lda.l $C30000,x
-	sta.w $17D5
+	sta.w tmdata+2
 	rtl
 restoreteams:						; called from other segments
 	stz.b a2
@@ -730,7 +730,7 @@ CODE_C535EF:						; from PlayerShortName and other segments
 	ldy.b a2
 	lda.w #$00C3
 	sta.b $65
-	lda.w $17D3,y
+	lda.w tmdata,y
 	sta.b a0
 	lda.b [a0]
 	and.w #$07FF

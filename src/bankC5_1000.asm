@@ -26,7 +26,7 @@ CODE_C5111D:						; no caller found (not traced)
 	sta.b d0
 	cmp.w #$0004
 	bne .1
-	dec.w $07D4
+	dec.w printx
 	inc.b d0
 .1:									; $65 = $00C0, a0 = $9B54
 	lda.w #$00C0
@@ -74,13 +74,13 @@ CODE_C5111D:						; no caller found (not traced)
 	rtl
 AlignBigNumber:						; no caller found (not traced)
 	ldy.w #$0002
-.loop:								; loop: $07D4 - 1, A = [a1],y, A and $00FF, if A = $0031 go to .1, ...
-	dec.w $07D4
+.loop:								; loop: printx - 1, A = [a1],y, A and $00FF, if A = $0031 go to .1, ...
+	dec.w printx
 	lda.b [a1],y
 	and.w #$00FF
 	cmp.w #$0031
 	beq .1
-	dec.w $07D4
+	dec.w printx
 .1:									; Y + 1, A = Y, if A < [a1] go to .loop, return
 	iny
 	tya
@@ -104,11 +104,11 @@ SetScore:							; the score of the other game a0 for the ticker: its period step
 									; ended
 	phx
 	ldx.b a0
-	lda.w $2458,x
+	lda.w gsper,x
 	cmp.w #$0004
 	bcc .1
 	jmp.w .6
-.1:									; X = a0, if $2458,x is not $0003 go to .4, A = $0005
+.1:									; X = a0, if gsper,x is not $0003 go to .4, A = $0005
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -118,14 +118,14 @@ SetScore:							; the score of the other game a0 for the ticker: its period step
 	pei ($67)
 	pei ($69)
 	ldx.b a0
-	lda.w $2458,x
+	lda.w gsper,x
 	cmp.w #$0003
 	bne .4
 	lda.w #$0005
-	sta.w $2458,x
-	lda.w $2468,x
+	sta.w gsper,x
+	lda.w gss1,x
 	sec
-	sbc.w $2478,x
+	sbc.w gss2,x
 	bit.w #$8000
 	beq .2
 	eor.w #$FFFF
@@ -136,41 +136,41 @@ SetScore:							; the score of the other game a0 for the ticker: its period step
 	lda.w gsp
 	cmp.w #$0004
 	bne .3
-	lda.w $2468,x
-	cmp.w $2478,x
+	lda.w gss1,x
+	cmp.w gss2,x
 	bne .5
 	inc a
-	sta.w $2468,x
+	sta.w gss1,x
 	bra .5
-.3:									; $2458,x = $0003, A = $2488,x, A or $0002, $2488,x = A, ...
+.3:									; gsper,x = $0003, A = gsflags,x, A or $0002, gsflags,x = A, ...
 	lda.w #$0003
-	sta.w $2458,x
-	lda.w $2488,x
+	sta.w gsper,x
+	lda.w gsflags,x
 	ora.w #$0002
-	sta.w $2488,x
+	sta.w gsflags,x
 	bra .5
-.4:									; $2458,x + 1, d0 = $2418,x, d1 = $2428,x, call CODE_C512B1, ...
-	inc.w $2458,x
-	lda.w $2418,x
+.4:									; gsper,x + 1, d0 = gst1,x, d1 = gst2,x, call CODE_C512B1, ...
+	inc.w gsper,x
+	lda.w gst1,x
 	sta.b d0
-	lda.w $2428,x
+	lda.w gst2,x
 	sta.b d1
 	jsl.l CODE_C512B1
 	ldx.b a0
-	lda.w $2468,x
+	lda.w gss1,x
 	clc
 	adc.b d0
-	sta.w $2468,x
-	lda.w $2428,x
+	sta.w gss1,x
+	lda.w gst2,x
 	sta.b d0
-	lda.w $2418,x
+	lda.w gst1,x
 	sta.b d1
 	jsl.l CODE_C512B1
 	ldx.b a0
-	lda.w $2478,x
+	lda.w gss2,x
 	clc
 	adc.b d0
-	sta.w $2478,x
+	sta.w gss2,x
 .5:									; pull A, $69 = A, pull A, a1 = A, ...
 	pla
 	sta.b $69
@@ -349,7 +349,8 @@ showclockdma:						; puts the game clock (clockbcd as M:SS, no leading zero) in 
 	lda.w #$2CCF
 	ldx.w #$007E
 	jml.l QueueVRAMDMALen
-CODE_C513F4:						; called from other segments
+USBoard:							; the penalty box lists of both teams (DispPen for team 0, then 2) with
+									; the d and a registers kept; returns with X = a3
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -428,9 +429,9 @@ CODE_C513F4:						; called from other segments
 	pla
 	sta.b d0
 	ldx.b a3
-CODE_C5147D:						; from pplpen, DispPen
+USBoard_rtl:						; the return DispPen and pplpen leave through
 	rtl
-DispPen:							; from CODE_C513F4 and other segments
+DispPen:							; from USBoard and other segments
 	lda.b a2
 	beq .1
 	lda.w #$001A
@@ -469,7 +470,7 @@ DispPen:							; from CODE_C513F4 and other segments
 	and.w #$00FF
 	sta.b d0
 	bit.w #$0080
-	bne CODE_C5147D
+	bne USBoard_rtl
 	lda.b a2
 	beq .5
 	lda.w #$0034
@@ -483,9 +484,9 @@ DispPen:							; from CODE_C513F4 and other segments
 	jsl.l pplpen
 	bra .loop2
 pplpen:								; from DispPen and other segments
-	lda.w $07D6
+	lda.w printy
 	cmp.w #$000B
-	bcs CODE_C5147D
+	bcs USBoard_rtl
 	lda.b a2
 	beq .1
 	lda.w #$0034
@@ -498,7 +499,7 @@ pplpen:								; from DispPen and other segments
 	lda.w #$00C3
 	sta.b $69
 	ldy.b a2
-	lda.w $17D3,y
+	lda.w tmdata,y
 	sta.b a1
 	lda.b [a1]
 	and.w #$07FF
@@ -809,35 +810,35 @@ NewTicker2:							; the score ticker's next game: TickerNum counted down, skippi
 	asl a
 	sta.b a0
 	tax
-	lda.w $2488,x
+	lda.w gsflags,x
 	bit.w #$0006
 	bne NewTicker2
 	lda.w sflags
 	bit.w #$0001
 	bne .2
-.2:									; A = $07D6, A - $0005, $07D6 = A, d0 = $001C, ...
-	lda.w $07D6
+.2:									; A = printy, A - $0005, printy = A, d0 = $001C, ...
+	lda.w printy
 	sec
 	sbc.w #$0005
-	sta.w $07D6
+	sta.w printy
 	lda.w #$001C
 	sta.b d0
 	lda.w #$0005
 	sta.b d1
 	lda.b Vcount
 	sta.w tickervc
-	inc.w $07D4
-	lda.w $07D6
+	inc.w printx
+	lda.w printy
 	sec
 	sbc.w #$0004
-	sta.w $07D6
-	lda.w $07D4
+	sta.w printy
+	lda.w printx
 	pha
 	jsl.l GetShifter
 	lda.w #$2400
-	sta.w $07D2
+	sta.w printa
 	lda.b $01,s
-	sta.w $07D4
+	sta.w printx
 	lda.w $24C4
 	inc a
 	sta.b d0
