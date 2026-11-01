@@ -17,7 +17,7 @@
   by an award picture (SelkePic, ConnSmythePic, JenningsPic, ArtRossPic, NorrisPic). Bank $CC: raw frame tiles, then the
   rink map set (IceRinkMap, IceRinkTiles; its stream and IceRinkPalette run on into bank $CD). The remaining segments in
   banks $CD-$CF are incbin.
-- Next: segment bankCD_7000, org $CD70B6 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CC are all source (the code banks $C4
+- Next: segment bankCD_8000, org $CD8229 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CC are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank

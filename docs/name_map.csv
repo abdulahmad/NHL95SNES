@@ -2301,3 +2301,4 @@ $CD4B2D,PlayerPhotosANH,DATA8_CD4B2D,code,"Anaheim: 6 player photos, packed form
 $CD5E35,PhotoPalettesBOS,DATA8_CD5E35,code,"Boston: 16 colours for each of its 6 player photos; entry 1 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_5000.asm
 $CD5EF5,PlayerPhotosBOS,DATA8_CD5EF5,code,"Boston: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_5000.asm
 $CD6FF6,PhotoPalettesBUF,DATA8_CD6FF6,code,"Buffalo: 16 colours for each of its 6 player photos; entry 2 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_6000.asm
+$CD70B6,PlayerPhotosBUF,DATA8_CD70B6,code,"Buffalo: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_7000.asm
