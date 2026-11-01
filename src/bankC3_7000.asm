@@ -313,22 +313,22 @@ updatereplay:						; called from other segments
 	lda.w #$007F
 	sta.w $07E2
 	stz.w recbpr
-.5:									; A = $2100, $81 = recbpr, A 8-bit, d1 = $07E2, ...
+.5:									; A = $2100, WMADDL&$FF = recbpr, A 8-bit, WMADDH&$FF = $07E2, ...
 	phd
 	lda.w #$2100
 	tcd
 	lda.w recbpr
-	sta.b $81
+	sta.b WMADDL&$FF
 	sep #$20
 	lda.w $07E2
-	sta.b d1
+	sta.b WMADDH&$FF
 	lda.b #$0F
 	sta.w d2
 	ldx.w #$0000
 	ldy.w #$0001
-.loop:								; loop: $80 = Xpos,x, A = $0815,x, A and $0F, r3 = A, ...
+.loop:								; loop: WMDATA&$FF = Xpos,x, A = $0815,x, A and $0F, r3 = A, ...
 	lda.w Xpos,x
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $0815,x
 	and.b #$0F
 	sta.w r3
@@ -338,11 +338,11 @@ updatereplay:						; called from other segments
 	asl a
 	asl a
 	ora.w r3
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w Ypos,x
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w frame,x
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $0857,x
 	and.b #$3F
 	sta.w r3
@@ -352,7 +352,7 @@ updatereplay:						; called from other segments
 	asl a
 	asl a
 	ora.w r3
-	sta.b $80
+	sta.b WMDATA&$FF
 	inx
 	inx
 	dec.w d2
@@ -360,11 +360,11 @@ updatereplay:						; called from other segments
 	lda.b #$05
 	sta.w d2
 	ldx.w #$0000
-.loop2:								; loop: $80 = rostnum,x, $80 = $0EE2,x, if position,x >= 0 go to .6, ...
+.loop2:								; loop: WMDATA&$FF = rostnum,x, WMDATA&$FF = $0EE2,x, ...
 	lda.w rostnum,x
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $0EE2,x
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w position,x
 	bpl .6
 	lda.b #$FF
@@ -380,7 +380,7 @@ updatereplay:						; called from other segments
 	asl a
 	asl a
 	ora.w r3
-	sta.b $80
+	sta.b WMDATA&$FF
 	inx
 	inx
 	inx
@@ -388,66 +388,66 @@ updatereplay:						; called from other segments
 	dec.w d2
 	bpl .loop2
 	lda.w puckz
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w shadowz
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w recsfx
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w recsfxpitch
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $0779
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $077B
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w recsfx2
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w recsfxpitch2
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $077F
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $0781
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w d7
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $05B0
 	asl a
 	asl a
 	asl a
 	asl a
 	ora.w PadControlObj
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $05B4
 	asl a
 	asl a
 	asl a
 	asl a
 	ora.w $05B2
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $05B8
 	asl a
 	asl a
 	asl a
 	asl a
 	ora.w $05B6
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.l $7E24CA
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.l $7E24CB
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w PBnum
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $00CB
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $00CC
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $00CD
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $00CE
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $06F2
-	sta.b $80
+	sta.b WMDATA&$FF
 	lda.w $06F3
-	sta.b $80
+	sta.b WMDATA&$FF
 	rep #$20
 	lda.w #$FFFF
 	sta.w recsfx

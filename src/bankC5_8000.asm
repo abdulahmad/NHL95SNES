@@ -110,36 +110,36 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	stz.w VTIMEL
 	stz.w VTIMEH
 	stz.w MEMSEL
-	sta.b $00
+	sta.b INIDISP&$FF
 	sta.w brightness
-	stz.b r0
-	stz.b $2D
-	stz.b $33
+	stz.b TM&$FF
+	stz.b TS&$FF
+	stz.b SETINI&$FF
 	lda.b #$01
-	sta.b $05
-	stz.b QueueBusy
+	sta.b BGMODE&$FF
+	stz.b MOSAIC&$FF
 	ldx.b #$03
-	stx.b $01
-	sta.b $15
-	stz.b r1
-	stz.b $31
-	stz.b $32
-	stz.b $23
-	stz.b $24
-	stz.b $25
+	stx.b OBSEL&$FF
+	sta.b VMAIN&$FF
+	stz.b CGWSEL&$FF
+	stz.b CGADSUB&$FF
+	stz.b COLDATA&$FF
+	stz.b W12SEL&$FF
+	stz.b W34SEL&$FF
+	stz.b WOBJSEL&$FF
 	ldx.b #$FF
-	stx.b $26
-	stz.b $27
-	stx.b $28
-	stz.b $29
-	stz.b $02
-	stz.b $03
-	stz.b $1B
-	stz.b $1B
-	stz.b $1C
-	stz.b $04
-	stz.b $05
-	stz.b QueueBusy
+	stx.b WH0&$FF
+	stz.b WH1&$FF
+	stx.b WH2&$FF
+	stz.b WH3&$FF
+	stz.b OAMADDL&$FF
+	stz.b OAMADDH&$FF
+	stz.b M7A&$FF
+	stz.b M7A&$FF
+	stz.b M7B&$FF
+	stz.b OAMDATA&$FF
+	stz.b BGMODE&$FF
+	stz.b MOSAIC&$FF
 	ldx.b #$01
 	stx.w JOYSER0
 	stz.w JOYSER0
@@ -152,12 +152,12 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	stx.w A1B0
 	stz.w DAS0L
 	ldx.b #$7F
-	stx.b d1
-	stz.b $81
+	stx.b WMADDH&$FF
+	stz.b WMADDL&$FF
 	ldx.b #$01
 	stx.w MDMAEN
-	stz.b $81
-	stz.b $82
+	stz.b WMADDL&$FF
+	stz.b WMADDM&$FF
 	lda.w #$2000
 	sta.w DAS0L
 	stx.w MDMAEN

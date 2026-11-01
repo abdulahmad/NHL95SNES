@@ -1103,14 +1103,14 @@ CODE_C4C58B:						; called from other segments
 	lda.b $50
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b DMAQueueTail
+	lda.b $4E
 	bne .24
 	jmp.w .34
-.24:								; DAS0L = A, VMADDL = DMAQueueHead, A1B0 = NMISkip, A1T0L = $48, ...
+.24:								; DAS0L = A, VMADDL = $4C, A1B0 = $4A, A1T0L = $48, ...
 	sta.w DAS0L
-	lda.b DMAQueueHead
+	lda.b $4C
 	sta.w VMADDL
-	ldx.b NMISkip
+	ldx.b $4A
 	stx.w A1B0
 	lda.b $48
 	sta.w A1T0L
@@ -1118,45 +1118,45 @@ CODE_C4C58B:						; called from other segments
 	lda.b $46
 	bne .25
 	jmp.w .34
-.25:								; DAS0L = A, VMADDL = $44, A1B0 = $42, A1T0L = r3, ...
+.25:								; DAS0L = A, VMADDL = $44, A1B0 = $42, A1T0L = $40, ...
 	sta.w DAS0L
 	lda.b $44
 	sta.w VMADDL
 	ldx.b $42
 	stx.w A1B0
-	lda.b r3
+	lda.b $40
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
 	bne .26
 	jmp.w .34
-.26:								; DAS0L = A, VMADDL = p1, A1B0 = $3A, A1T0L = p0, ...
+.26:								; DAS0L = A, VMADDL = $3C, A1B0 = $3A, A1T0L = $38, ...
 	sta.w DAS0L
-	lda.b p1
+	lda.b $3C
 	sta.w VMADDL
 	ldx.b $3A
 	stx.w A1B0
-	lda.b p0
+	lda.b $38
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $36
 	bne .27
 	jmp.w .34
-.27:								; DAS0L = A, VMADDL = r2, A1B0 = $32, A1T0L = r1, ...
+.27:								; DAS0L = A, VMADDL = $34, A1B0 = $32, A1T0L = $30, ...
 	sta.w DAS0L
-	lda.b r2
+	lda.b $34
 	sta.w VMADDL
 	ldx.b $32
 	stx.w A1B0
-	lda.b r1
+	lda.b $30
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $2E
 	bne .28
 	jmp.w .34
-.28:								; DAS0L = A, VMADDL = r0, A1B0 = $2A, A1T0L = $28, ...
+.28:								; DAS0L = A, VMADDL = $2C, A1B0 = $2A, A1T0L = $28, ...
 	sta.w DAS0L
-	lda.b r0
+	lda.b $2C
 	sta.w VMADDL
 	ldx.b $2A
 	stx.w A1B0
@@ -1211,7 +1211,7 @@ CODE_C4C58B:						; called from other segments
 	lda.b $08
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b QueueBusy
+	lda.b $06
 	bne .33
 	jmp.w .34
 .33:								; DAS0L = A, VMADDL = $04, A1B0 = $02, A1T0L = $00, ...
@@ -1465,12 +1465,12 @@ CODE_C4C58B:						; called from other segments
 	sta.w VMADDL
 	lda.b $50
 	sta.w DMAP0
-	ldx.b DMAQueueTail
+	ldx.b $4E
 	stx.w A1B0
-	lda.b DMAQueueHead
+	lda.b $4C
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b NMISkip
+	lda.b $4A
 	bne .50
 	jmp.w .56
 .50:								; DAS0L = A, VMAIN = $48, VMADDL = $46, DMAP0 = $44, ...
@@ -1483,35 +1483,35 @@ CODE_C4C58B:						; called from other segments
 	sta.w DMAP0
 	ldx.b $42
 	stx.w A1B0
-	lda.b r3
+	lda.b $40
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
 	bne .51
 	jmp.w .56
-.51:								; DAS0L = A, VMAIN = p1, VMADDL = $3A, DMAP0 = p0, ...
+.51:								; DAS0L = A, VMAIN = $3C, VMADDL = $3A, DMAP0 = $38, ...
 	sta.w DAS0L
-	ldx.b p1
+	ldx.b $3C
 	stx.w VMAIN
 	lda.b $3A
 	sta.w VMADDL
-	lda.b p0
+	lda.b $38
 	sta.w DMAP0
 	ldx.b $36
 	stx.w A1B0
-	lda.b r2
+	lda.b $34
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $32
 	bne .52
 	jmp.w .56
-.52:								; DAS0L = A, VMAIN = r1, VMADDL = $2E, DMAP0 = r0, ...
+.52:								; DAS0L = A, VMAIN = $30, VMADDL = $2E, DMAP0 = $2C, ...
 	sta.w DAS0L
-	ldx.b r1
+	ldx.b $30
 	stx.w VMAIN
 	lda.b $2E
 	sta.w VMADDL
-	lda.b r0
+	lda.b $2C
 	sta.w DMAP0
 	ldx.b $2A
 	stx.w A1B0
@@ -1561,7 +1561,7 @@ CODE_C4C58B:						; called from other segments
 	sta.w VMADDL
 	lda.b $08
 	sta.w DMAP0
-	ldx.b QueueBusy
+	ldx.b $06
 	stx.w A1B0
 	lda.b $04
 	sta.w A1T0L
@@ -1672,14 +1672,14 @@ CODE_C4C58B:						; called from other segments
 	lda.b $50
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b DMAQueueTail
+	lda.b $4E
 	bne .65
 	jmp.w .75
-.65:								; DAS0L = A, CGADD = DMAQueueHead, A1B0 = NMISkip, A1T0L = $48, ...
+.65:								; DAS0L = A, CGADD = $4C, A1B0 = $4A, A1T0L = $48, ...
 	sta.w DAS0L
-	ldx.b DMAQueueHead
+	ldx.b $4C
 	stx.w CGADD
-	ldx.b NMISkip
+	ldx.b $4A
 	stx.w A1B0
 	lda.b $48
 	sta.w A1T0L
@@ -1687,45 +1687,45 @@ CODE_C4C58B:						; called from other segments
 	lda.b $46
 	bne .66
 	jmp.w .75
-.66:								; DAS0L = A, CGADD = $44, A1B0 = $42, A1T0L = r3, ...
+.66:								; DAS0L = A, CGADD = $44, A1B0 = $42, A1T0L = $40, ...
 	sta.w DAS0L
 	ldx.b $44
 	stx.w CGADD
 	ldx.b $42
 	stx.w A1B0
-	lda.b r3
+	lda.b $40
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
 	bne .67
 	jmp.w .75
-.67:								; DAS0L = A, CGADD = p1, A1B0 = $3A, A1T0L = p0, ...
+.67:								; DAS0L = A, CGADD = $3C, A1B0 = $3A, A1T0L = $38, ...
 	sta.w DAS0L
-	ldx.b p1
+	ldx.b $3C
 	stx.w CGADD
 	ldx.b $3A
 	stx.w A1B0
-	lda.b p0
+	lda.b $38
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $36
 	bne .68
 	jmp.w .75
-.68:								; DAS0L = A, CGADD = r2, A1B0 = $32, A1T0L = r1, ...
+.68:								; DAS0L = A, CGADD = $34, A1B0 = $32, A1T0L = $30, ...
 	sta.w DAS0L
-	ldx.b r2
+	ldx.b $34
 	stx.w CGADD
 	ldx.b $32
 	stx.w A1B0
-	lda.b r1
+	lda.b $30
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $2E
 	bne .69
 	jmp.w .75
-.69:								; DAS0L = A, CGADD = r0, A1B0 = $2A, A1T0L = $28, ...
+.69:								; DAS0L = A, CGADD = $2C, A1B0 = $2A, A1T0L = $28, ...
 	sta.w DAS0L
-	ldx.b r0
+	ldx.b $2C
 	stx.w CGADD
 	ldx.b $2A
 	stx.w A1B0
@@ -1780,7 +1780,7 @@ CODE_C4C58B:						; called from other segments
 	lda.b $08
 	sta.w A1T0L
 	sty.w MDMAEN
-	lda.b QueueBusy
+	lda.b $06
 	bne .74
 	jmp.w .75
 .74:								; DAS0L = A, CGADD = $04, A1B0 = $02, A1T0L = $00, ...

@@ -516,7 +516,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $05
 	asl a
 	asl a
-	ora.b QueueBusy
+	ora.b $06
 	asl a
 	asl a
 	ora.b $07
@@ -620,7 +620,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $2B
 	sta.w $1DA5
-	lda.b r0
+	lda.b $2C
 	asl a
 	asl a
 	ora.b $2D
@@ -631,7 +631,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $2F
 	sta.w $1DA4
-	lda.b r1
+	lda.b $30
 	asl a
 	asl a
 	ora.b $31
@@ -642,7 +642,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $33
 	sta.w $1DA3
-	lda.b r2
+	lda.b $34
 	asl a
 	asl a
 	ora.b $35
@@ -653,7 +653,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $37
 	sta.w $1DA2
-	lda.b p0
+	lda.b $38
 	asl a
 	asl a
 	ora.b $39
@@ -664,7 +664,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $3B
 	sta.w $1DA1
-	lda.b p1
+	lda.b $3C
 	asl a
 	asl a
 	ora.b $3D
@@ -675,7 +675,7 @@ CODE_C5F3DB:						; called from other segments
 	asl a
 	ora.b $3F
 	sta.w $1DA0
-	lda.b r3
+	lda.b $40
 	asl a
 	asl a
 	ora.b $41
@@ -703,18 +703,18 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $49
 	asl a
 	asl a
-	ora.b NMISkip
+	ora.b $4A
 	asl a
 	asl a
 	ora.b $4B
 	sta.w $1D9D
-	lda.b DMAQueueHead
+	lda.b $4C
 	asl a
 	asl a
 	ora.b $4D
 	asl a
 	asl a
-	ora.b DMAQueueTail
+	ora.b $4E
 	asl a
 	asl a
 	ora.b $4F
@@ -750,12 +750,12 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $5A
 	asl a
 	asl a
-	ora.b crowdhold
+	ora.b $5B
 	sta.w $1D99
 	lda.b $5C
 	asl a
 	asl a
-	ora.b Vcount
+	ora.b $5D
 	asl a
 	asl a
 	ora.b $5E
@@ -772,7 +772,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $62
 	asl a
 	asl a
-	ora.b a0
+	ora.b $63
 	sta.w $1D97
 	lda.b $64
 	asl a
@@ -783,7 +783,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $66
 	asl a
 	asl a
-	ora.b a1
+	ora.b $67
 	sta.w $1D96
 	lda.b $68
 	asl a
@@ -794,7 +794,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $6A
 	asl a
 	asl a
-	ora.b a2
+	ora.b $6B
 	sta.w $1D95
 	lda.b $6C
 	asl a
@@ -805,7 +805,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $6E
 	asl a
 	asl a
-	ora.b a3
+	ora.b $6F
 	sta.w $1D94
 	lda.b $70
 	asl a
@@ -816,7 +816,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $72
 	asl a
 	asl a
-	ora.b a4
+	ora.b $73
 	sta.w $1D93
 	lda.b $74
 	asl a
@@ -849,7 +849,7 @@ CODE_C5F3DB:						; called from other segments
 	ora.b $7E
 	asl a
 	asl a
-	ora.b d0
+	ora.b $7F
 	sta.w $1D90
 	rep #$20
 	lda.w #$0000

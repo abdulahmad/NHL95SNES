@@ -185,11 +185,11 @@ CODE_C40153:						; from CODE_C40000
 	phd
 	lda.w #$2100
 	tcd
-	stz.b $23
-	stz.b $25
-	stz.b $2A
-	stz.b $2E
-	stz.b r1
+	stz.b W12SEL&$FF
+	stz.b WOBJSEL&$FF
+	stz.b WBGLOG&$FF
+	stz.b TMW&$FF
+	stz.b CGWSEL&$FF
 	pld
 	stz.w BG2HScroll
 	ldy.w #$0000
@@ -635,17 +635,17 @@ CODE_C40444:						; from CODE_C40000
 	phd
 	lda.w #$2100
 	tcd
-	stz.b $23
+	stz.b W12SEL&$FF
 	lda.w #$00A0
-	sta.b $25
-	stz.b $2A
+	sta.b WOBJSEL&$FF
+	stz.b WBGLOG&$FF
 	lda.w #$1717
-	sta.b $2E
+	sta.b TMW&$FF
 	lda.w #$0310
-	sta.b r1
+	sta.b CGWSEL&$FF
 	sep #$20
 	lda.b #$E8
-	sta.b $32
+	sta.b COLDATA&$FF
 	rep #$20
 	pld
 	jsl.l CODE_C4BAF6

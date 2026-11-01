@@ -1081,136 +1081,136 @@ CODE_C38DAD:						; from CODE_C38CFC
 	tcd
 	lda.w #$0080
 	wai
-	sta.b $15
+	sta.b VMAIN&$FF
 	tya
 	clc
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C6FA,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C6FC,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C6FE,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C700,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C702,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C704,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C706,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C75C,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C75E,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C760,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C762,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C764,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C766,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C768,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C7BE,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C7C0,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C7C2,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C7C4,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C7C6,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C7C8,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C7CA,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C820,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C822,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C824,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C826,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C828,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C82A,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C82C,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C882,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C884,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C886,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C888,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C88A,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C88C,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C88E,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C8E4,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C8E6,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C8E8,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C8EA,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C8EC,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C8EE,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C8F0,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C946,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C948,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C94A,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C94C,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C94E,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C950,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C952,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	adc.w #$0020
-	sta.b $16
+	sta.b VMADDL&$FF
 	ldy.w $C9A8,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C9AA,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C9AC,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C9AE,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C9B0,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C9B2,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	ldy.w $C9B4,x
-	sty.b $18
+	sty.b VMDATAL&$FF
 	plb
 	pld
 	rts

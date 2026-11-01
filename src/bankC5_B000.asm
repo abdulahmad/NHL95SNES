@@ -430,7 +430,7 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	lda.w #$2100
 	tcd
 	lda.w #$0080
-	sta.b $15
+	sta.b VMAIN&$FF
 	jsr.w CODE_C5B4B6
 	jsr.w CODE_C5B4A1
 	jsr.w CODE_C5B4A1
