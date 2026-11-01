@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCD_2000 (org $CD25E0): banks $C0-$CC are all source. <- CURRENT
+bankCD_3000 (org $CD3879): banks $C0-$CC are all source. <- CURRENT
 
 ## Sources
 
@@ -557,6 +557,9 @@ bankCD_2000 (org $CD25E0): banks $C0-$CC are all source. <- CURRENT
   bankCD_2000). Bank $CC is all source.
 - 2026-10-31: bankCD_0000 matched: the rest of the IceRinkTiles stream.
 - 2026-10-31: bankCD_1000 matched: the rest of the IceRinkTiles stream, then IceRinkPalette.
+- 2026-10-31: bankCD_2000 matched: the Washington player photos (PhotoPalettesWSH, PlayerPhotosWSH). Photo sets as in bank $C0:
+  PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item
+  starts.
 
 ## ROM map
 
@@ -774,8 +777,8 @@ The first row that is still incbin is the current segment.
 | bankCC_F000 | matched 458 bytes | $CCFE36 | $CCFFFF | IceRinkTiles: the rink tiles chunk header and the start of its LZSS stream (continues in bank $CD); org moved to $CCFE36 |
 | bankCD_0000 | matched 4096 bytes | $CD0000 | $CD0FFF | the rest of the IceRinkTiles stream |
 | bankCD_1000 | matched 5600 bytes | $CD1000 | $CD25DF | the rest of the IceRinkTiles stream, then IceRinkPalette; end moved +$5E0 |
-| bankCD_2000 | incbin | $CD25E0 | $CD2FFF | <- CURRENT |
-| bankCD_3000 | incbin | $CD3000 | $CD3FFF | |
+| bankCD_2000 | matched 4761 bytes | $CD25E0 | $CD3878 | the Washington player photos (PhotoPalettesWSH, PlayerPhotosWSH); org moved to $CD25E0, end moved +$879 |
+| bankCD_3000 | incbin | $CD3879 | $CD3FFF | <- CURRENT |
 | bankCD_4000 | incbin | $CD4000 | $CD4FFF | |
 | bankCD_5000 | incbin | $CD5000 | $CD5FFF | |
 | bankCD_6000 | incbin | $CD6000 | $CD6FFF | |

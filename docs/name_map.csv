@@ -2292,3 +2292,5 @@ $CCECA5,DATA8_CCECA5,,new,"raw frame tiles for transfer index $423; pose not tra
 $CCEEA5,IceRinkMap,DATA8_CCEEA5,render+94S+code,"the rink map set, map chunk: 32 x 170 words (the two rink halves, 85 rows each), LZSS; CODE_C52037 loads the set through CODE_C58812 and CODE_C55524 reads its tiles chunk; 94S IceRinkMap",src/bankCC_E000.asm
 $CCFE36,IceRinkTiles,DATA8_CCFE36,render+94S+code,"the rink map set, tiles chunk: 520 4bpp tiles, LZSS; the stream runs to $CD2558 (through bankCD_0000 / bankCD_1000); 94S IceRinkTiles",src/bankCC_F000.asm
 $CD2559,IceRinkPalette,DATA8_CD2559,render+94S+code,"the rink map set, colours chunk: 4 palettes of 16 colours",src/bankCD_1000.asm
+$CD25E0,PhotoPalettesWSH,DATA8_CD25E0,code,"Washington: 16 colours for each of its 6 player photos; entry 24 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_2000.asm
+$CD26A0,PlayerPhotosWSH,DATA8_CD26A0,code,"Washington: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_2000.asm

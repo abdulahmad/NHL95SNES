@@ -4,6 +4,7 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+PhotoPalettesWSH = $CD25E0			; the Washington photo set
 PhotoPalettesTB = $C04CE7
 PhotoPalettesTOR = $C05DAC
 PhotoPalettesVAN = $C06E6D
