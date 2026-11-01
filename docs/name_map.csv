@@ -2323,3 +2323,5 @@ $CE09DA,PhotoPalettesHFD,DATA8_CE09DA,code,"Hartford: 16 colours for each of its
 $CE0A9A,PlayerPhotosHFD,DATA8_CE0A9A,code,"Hartford: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_0000.asm
 $CE1CC7,PhotoPalettesLA,DATA8_CE1CC7,code,"Los Angeles: 16 colours for each of its 6 player photos; entry 10 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_1000.asm
 $CE1D87,PlayerPhotosLA,DATA8_CE1D87,code,"Los Angeles: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_1000.asm
+$CE31C2,PhotoPalettesMTL,DATA8_CE31C2,code,"Montreal: 16 colours for each of its 6 player photos; entry 11 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_3000.asm
+$CE3282,PlayerPhotosMTL,DATA8_CE3282,code,"Montreal: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_3000.asm

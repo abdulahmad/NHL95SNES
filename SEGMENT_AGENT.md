@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCE_3000 (org $CE31C2): banks $C0-$CD are all source. <- CURRENT
+bankCE_4000 (org $CE4585): banks $C0-$CD are all source. <- CURRENT
 
 ## Sources
 
@@ -608,6 +608,9 @@ bankCE_3000 (org $CE31C2): banks $C0-$CD are all source. <- CURRENT
   where the next item starts.
 - 2026-10-31: bankCE_2000 matched: the rest of the PlayerPhotosLA stream. Photo sets as in bank $C0: PhotoPaletteTable points at
   the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item starts.
+- 2026-10-31: bankCE_3000 matched: the Montreal player photos (PhotoPalettesMTL, PlayerPhotosMTL). Photo sets as in bank $C0:
+  PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item
+  starts.
 
 ## ROM map
 
@@ -842,8 +845,8 @@ The first row that is still incbin is the current segment.
 | bankCE_0000 | matched 6965 bytes | $CE0192 | $CE1CC6 | DATA8_CE0192 (a per-frame offset table), then the Hartford player photos (PhotoPalettesHFD, PlayerPhotosHFD); org moved to $CE0192, end moved +$CC7 |
 | bankCE_1000 | matched 825 bytes | $CE1CC7 | $CE1FFF | the Los Angeles player photos (PhotoPalettesLA, PlayerPhotosLA; the stream continues); org moved to $CE1CC7 |
 | bankCE_2000 | matched 4546 bytes | $CE2000 | $CE31C1 | the rest of the PlayerPhotosLA stream; end moved +$1C2 |
-| bankCE_3000 | incbin | $CE31C2 | $CE3FFF | <- CURRENT |
-| bankCE_4000 | incbin | $CE4000 | $CE4FFF | |
+| bankCE_3000 | matched 5059 bytes | $CE31C2 | $CE4584 | the Montreal player photos (PhotoPalettesMTL, PlayerPhotosMTL); org moved to $CE31C2, end moved +$585 |
+| bankCE_4000 | incbin | $CE4585 | $CE4FFF | <- CURRENT |
 | bankCE_5000 | incbin | $CE5000 | $CE5FFF | |
 | bankCE_6000 | incbin | $CE6000 | $CE6FFF | |
 | bankCE_7000 | incbin | $CE7000 | $CE7FFF | |
