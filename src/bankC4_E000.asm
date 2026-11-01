@@ -429,7 +429,7 @@ CODE_C4E3CB:						; from ScoutingReport
 	lda.w #$5C11
 	ldx.w #$0008
 	ldy.w #$0012
-	jsl.l CODE_C55AB8
+	jsl.l StartScrollListLong
 	ldx.b $77
 	lda.b $22,x
 	and.w #$FFFE

@@ -1338,7 +1338,7 @@ SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both tea
 	ldy.w #$000C
 	jsl.l PrintThinCentred
 	rts
-CODE_C55AB8:						; called from other segments
+StartScrollListLong:				; StartScrollList for long calls
 	jsr.w StartScrollList
 	rtl
 StartScrollList:					; starts a scrolling list: X rows shown from text row Y, each row drawn by

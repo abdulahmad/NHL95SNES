@@ -1288,15 +1288,17 @@ CODE_C40A6D:						; called from other segments
 	ply
 	phy
 	ldx.w #$2DC9
-	jsr.w CODE_C40AA1
+	jsr.w AddPlayerSeasonStats
 	pla
 	clc
 	adc.w #$001A
 	tay
 	ldx.w #$3207
-	jsr.w CODE_C40AA1
+	jsr.w AddPlayerSeasonStats
 	rtl
-CODE_C40AA1:						; from CODE_C40A6D
+AddPlayerSeasonStats:				; adds one team's game player stats to the season totals in save RAM:
+									; skaters' goals and assists; for goalies who played, games + 1, goals
+									; against and saves (shots minus goals)
 	lda.w $0000,x
 	sta.b $10
 	lda.w $0002,x
@@ -1310,7 +1312,7 @@ CODE_C40AA1:						; from CODE_C40A6D
 	sty.b $0C
 	dec.b tmp2
 	bpl .2
-	jsl.l CODE_C5BD52
+	jsl.l SeasonGoalsLong
 	ldy.b $0C
 	stx.b tmp0
 	lda.w $003A,y
@@ -1319,9 +1321,9 @@ CODE_C40AA1:						; from CODE_C40A6D
 	adc.b tmp0
 	tax
 	lda.b $A5
-	jsr.w CODE_C40B4C
+	jsr.w SetSeasonGoals
 	lda.b $A5
-	jsl.l CODE_C5BD7D
+	jsl.l SeasonAssistsLong
 	stx.b tmp0
 	ldy.b $0C
 	lda.w $006E,y
@@ -1330,7 +1332,7 @@ CODE_C40AA1:						; from CODE_C40A6D
 	adc.b tmp0
 	tax
 	lda.b $A5
-	jsr.w CODE_C40B81
+	jsr.w SetSeasonAssists
 	bra .3
 .2:									; A = $003A,y, A or $00A2,y, if the result = 0 go to .3, A = $A5, ...
 	lda.w $003A,y
@@ -1338,12 +1340,12 @@ CODE_C40AA1:						; from CODE_C40A6D
 	and.w #$00FF
 	beq .3
 	lda.b $A5
-	jsl.l CODE_C5BDE7
+	jsl.l SeasonGoalieGamesLong
 	inx
 	lda.b $A5
-	jsr.w CODE_C40BB6
+	jsr.w SetSeasonGoalieGames
 	lda.b $A5
-	jsl.l CODE_C5BE33
+	jsl.l SeasonGoalsAgainstLong
 	ldy.b $0C
 	lda.w $003A,y
 	and.w #$00FF
@@ -1353,9 +1355,9 @@ CODE_C40AA1:						; from CODE_C40A6D
 	adc.b $0E
 	tax
 	lda.b $A5
-	jsr.w CODE_C40C0B
+	jsr.w SetSeasonGoalsAgainst
 	lda.b $A5
-	jsl.l CODE_C5BDA8
+	jsl.l SeasonSavesLong
 	stx.b tmp0
 	ldy.b $0C
 	lda.w $00A2,y
@@ -1366,7 +1368,7 @@ CODE_C40AA1:						; from CODE_C40A6D
 	adc.b tmp0
 	tax
 	lda.b $A5
-	jsr.w CODE_C40C62
+	jsr.w SetSeasonSaves
 .3:									; X = $0A, Y = $0C, X + 1, X + 1, ...
 	ldx.b $0A
 	ldy.b $0C
@@ -1379,7 +1381,7 @@ CODE_C40AA1:						; from CODE_C40A6D
 .4:									; return
 	plb
 	rts
-CODE_C40B4C:						; from CODE_C40AA1
+SetSeasonGoals:						; stores X as player A's season goals (9 bits at $30628F)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1412,7 +1414,7 @@ CODE_C40B4C:						; from CODE_C40AA1
 	ora.b tmp0
 	sta.l $30628F,x
 	rts
-CODE_C40B81:						; from CODE_C40AA1
+SetSeasonAssists:					; stores X as player A's season assists (9 bits at $306724)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1445,7 +1447,8 @@ CODE_C40B81:						; from CODE_C40AA1
 	ora.b tmp0
 	sta.l $306724,x
 	rts
-CODE_C40BB6:						; from CODE_C40AA1
+SetSeasonGoalieGames:				; stores X as goalie A's season games (7 bits at $307080 by its goalie
+									; index)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1496,7 +1499,7 @@ CODE_C40BB6:						; from CODE_C40AA1
 	ora.b $16
 	sta.l $307080,x
 	rts
-CODE_C40C0B:						; from CODE_C40AA1
+SetSeasonGoalsAgainst:				; stores X as goalie A's season goals against ($306724 and $30628F)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1544,7 +1547,8 @@ CODE_C40C0B:						; from CODE_C40AA1
 	ora.b $14
 	sta.l $306724,x
 	rts
-CODE_C40C62:						; from CODE_C40AA1
+SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at $306FED by its goalie
+									; index)
 	sta.b tmp0
 	asl a
 	adc.b tmp0

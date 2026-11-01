@@ -24,7 +24,7 @@ DrawLeagueLeaders:					; draws the League Leaders page for the current category 
 	jsl.l InitTextMap
 	jsl.l WaitTransfers
 	pla
-	jsr.w CODE_C5B631
+	jsr.w PrintPlayerCategory
 	ldx.w #$559D
 	lda.b $85
 	lsr a
@@ -50,10 +50,10 @@ DrawLeagueLeaders:					; draws the League Leaders page for the current category 
 	sta.b $81
 	tay
 	lda.b tmp0
-	jsr.w CODE_C5B4C2
+	jsr.w FillLeaderEntry
 	dec.b tmp0
-.loop2:								; loop: call CODE_C5B558, tmp0 - 1, if the result >= 0 go to .loop2, ...
-	jsr.w CODE_C5B558
+.loop2:								; loop: call AddLeaderEntry, tmp0 - 1, ...
+	jsr.w AddLeaderEntry
 	dec.b tmp0
 	bpl .loop2
 	jsl.l MarkWorkBuf
@@ -566,19 +566,20 @@ CODE_C5B4BC:						; from CODE_C5B4BC, CODE_C5B4AE
 	dec a
 	bpl CODE_C5B4BC
 	rts
-CODE_C5B4C2:						; from DrawLeagueLeaders, CODE_C5B558
+FillLeaderEntry:					; fills the leader entry at Y for player A: number and team, then goals /
+									; assists / points or, for a goalie, saves / shots / save percentage
 	pha
 	sta.w $0004,y
-	jsr.w CODE_C5B5EE
+	jsr.w PlayerNumberTeam
 	sta.w $000E,y
 	lda.b $01,s
 	jsr.w CODE_C5B53D
 	bcc .1
 	lda.b $01,s
-	jsr.w CODE_C5BD56
+	jsr.w SeasonGoals
 	sta.w $0008,y
 	lda.b $01,s
-	jsr.w CODE_C5BD81
+	jsr.w SeasonAssists
 	sta.w $000A,y
 	clc
 	sed
@@ -591,16 +592,16 @@ CODE_C5B4C2:						; from DrawLeagueLeaders, CODE_C5B558
 	pla
 	sta.b tmp0
 	rts
-.1:									; $0006,y = $0001, A = $01,s, call CODE_C5BDAC, $0008,y = A, ...
+.1:									; $0006,y = $0001, A = $01,s, call SeasonSaves, $0008,y = A, ...
 	lda.w #$0001
 	sta.w $0006,y
 	lda.b $01,s
-	jsr.w CODE_C5BDAC
+	jsr.w SeasonSaves
 	sta.w $0008,y
 	pei ($9F)
 	pei ($9F)
 	lda.b $05,s
-	jsr.w CODE_C5BE37
+	jsr.w SeasonGoalsAgainst
 	clc
 	sed
 	adc.w $0008,y
@@ -627,7 +628,7 @@ CODE_C5B4C2:						; from DrawLeagueLeaders, CODE_C5B558
 	pla
 	sta.b tmp0
 	rts
-CODE_C5B53D:						; from CODE_C5B4C2
+CODE_C5B53D:						; from FillLeaderEntry
 	cmp.w #$026A
 	bcc .1
 	phy
@@ -642,12 +643,13 @@ CODE_C5B53D:						; from CODE_C5B4C2
 	lda.l PlayerList,x
 	cmp.w #$4000
 	rts
-CODE_C5B558:						; from DrawLeagueLeaders
+AddLeaderEntry:						; adds player tmp0 to the League Leaders list at d0: a 16-byte entry
+									; (FillLeaderEntry) linked in sorted by category d1
 	lda.w #$0010
 	jsl.l AllocWorkBuf
 	tay
 	lda.b tmp0
-	jsr.w CODE_C5B4C2
+	jsr.w FillLeaderEntry
 	lda.b d1
 	asl a
 	tax
@@ -720,10 +722,11 @@ CODE_C5B5D7:						; from CODE_C5B59E, CODE_C5B572, CODE_C5B588
 	tyx
 	stz.w $0002,x
 	rts
-CODE_C5B5EA:						; called from other segments
-	jsr.w CODE_C5B5EE
+PlayerNumberTeamLong:				; PlayerNumberTeam for long calls
+	jsr.w PlayerNumberTeam
 	rtl
-CODE_C5B5EE:						; from CODE_C5B5EA, CODE_C5B4C2
+PlayerNumberTeam:					; A = player A's number in BCD (high byte) and team (low byte) from its
+									; 12-bit entry at $306A56
 	sta.b tmp1
 	asl a
 	adc.b tmp1
@@ -736,7 +739,7 @@ CODE_C5B5EE:						; from CODE_C5B5EA, CODE_C5B4C2
 	lsr a
 	and.w #$007F
 	tax
-	lda.l $C08C75,x
+	lda.l BCDTable-1,x
 	and.w #$FF00
 	pha
 	lda.b tmp1
@@ -755,7 +758,7 @@ CODE_C5B5EE:						; from CODE_C5B5EA, CODE_C5B4C2
 	xba
 	and.w #$007F
 	tax
-	lda.l $C08C75,x
+	lda.l BCDTable-1,x
 	and.w #$FF00
 	pha
 	lda.b tmp1
@@ -763,7 +766,8 @@ CODE_C5B5EE:						; from CODE_C5B5EA, CODE_C5B4C2
 	ora.b $01,s
 	plx
 	rts
-CODE_C5B631:						; from DrawLeagueLeaders
+PrintPlayerCategory:				; prints the League Leaders category name: Goals, Assists, Points, or for
+									; goalies Saves, Shots and the percentage
 	sta.b d1
 	asl a
 	tax
@@ -792,9 +796,9 @@ CODE_C5B631:						; from DrawLeagueLeaders
 	sta.b $D1
 	jsl.l PrintBoldRight
 	rts
-DATA8_C5B66A:						; not traced: a table read by CODE_C5B631
+DATA8_C5B66A:						; not traced: a table read by PrintPlayerCategory
 	db $6A,$4B,$6F,$4B,$75,$4B
-DATA8_C5B670:						; not traced: a table read by CODE_C5B631
+DATA8_C5B670:						; not traced: a table read by PrintPlayerCategory
 	db $7A,$4B,$9E,$4B,$5C,$56
 CODE_C5B676:						; called from other segments
 	jsr.w BinToBCD
@@ -1472,7 +1476,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	plx
 	lda.w $2E03,x
 	pha
-	jsr.w CODE_C5BD30
+	jsr.w PlayerNumberBCD
 	jsr.w CODE_C5A321
 	lda.w #$0072
 	sta.b $CF
@@ -1482,14 +1486,14 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	lda.w #$0093
 	sta.b $CF
 	lda.b $01,s
-	jsr.w CODE_C5BDAC
+	jsr.w SeasonSaves
 	pei ($9F)
 	pha
 	jsr.w CODE_C5BCCC
 	lda.w #$00B5
 	sta.b $CF
 	lda.b $05,s
-	jsr.w CODE_C5BE37
+	jsr.w SeasonGoalsAgainst
 	pei ($9F)
 	clc
 	sed
@@ -1538,7 +1542,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	plx
 	lda.w $2E03,x
 	pha
-	jsr.w CODE_C5BD30
+	jsr.w PlayerNumberBCD
 	jsr.w CODE_C5A321
 	lda.w #$0072
 	sta.b $CF
@@ -1548,13 +1552,13 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	lda.w #$0093
 	sta.b $CF
 	lda.b $01,s
-	jsr.w CODE_C5BD56
+	jsr.w SeasonGoals
 	pha
 	jsr.w CODE_C5BCCC
 	lda.w #$00B5
 	sta.b $CF
 	lda.b $03,s
-	jsr.w CODE_C5BD81
+	jsr.w SeasonAssists
 	pha
 	jsr.w CODE_C5BCCC
 	lda.w #$00D7
@@ -1607,7 +1611,8 @@ CODE_C5BCE3:						; from DrawSeasonTeamStats
 	jsl.l PrintThinCentred
 	jsl.l WaitTransfers
 	rts
-CODE_C5BD30:						; from DrawSeasonPlayerRow and other segments
+PlayerNumberBCD:					; A = player A's sweater number in BCD (the 7-bit field of its 12-bit
+									; entry at $306A56)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1629,10 +1634,11 @@ CODE_C5BD30:						; from DrawSeasonPlayerRow and other segments
 	lda.l BCDTable,x
 	and.w #$00FF
 	rts
-CODE_C5BD52:						; called from other segments
-	jsr.w CODE_C5BD56
+SeasonGoalsLong:					; SeasonGoals for long calls
+	jsr.w SeasonGoals
 	rtl
-CODE_C5BD56:						; from CODE_C5BD52, CODE_C5B4C2, DrawSeasonPlayerRow
+SeasonGoals:						; A = player A's season goals in BCD, X binary (9 bits a player in the
+									; save RAM array at $30628F)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1655,10 +1661,11 @@ CODE_C5BD56:						; from CODE_C5BD52, CODE_C5B4C2, DrawSeasonPlayerRow
 	and.w #$01FF
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BD7D:						; called from other segments
-	jsr.w CODE_C5BD81
+SeasonAssistsLong:					; SeasonAssists for long calls
+	jsr.w SeasonAssists
 	rtl
-CODE_C5BD81:						; from CODE_C5BD7D, CODE_C5B4C2, DrawSeasonPlayerRow
+SeasonAssists:						; A = player A's season assists in BCD, X binary (9 bits a player in the
+									; save RAM array at $306724)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1681,10 +1688,11 @@ CODE_C5BD81:						; from CODE_C5BD7D, CODE_C5B4C2, DrawSeasonPlayerRow
 	and.w #$01FF
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BDA8:						; called from other segments
-	jsr.w CODE_C5BDAC
+SeasonSavesLong:					; SeasonSaves for long calls
+	jsr.w SeasonSaves
 	rtl
-CODE_C5BDAC:						; from CODE_C5BDA8, DrawSeasonPlayerRow, CODE_C5B4C2
+SeasonSaves:						; A = goalie A's season saves in BCD, X binary: its goalie index (7 bits
+									; at $30628F), then 12 bits a goalie at $306FED
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1720,10 +1728,11 @@ CODE_C5BDAC:						; from CODE_C5BDA8, DrawSeasonPlayerRow, CODE_C5B4C2
 	and.w #$0FFF
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BDE7:						; called from other segments
-	jsr.w CODE_C5BDEB
+SeasonGoalieGamesLong:				; SeasonGoalieGames for long calls
+	jsr.w SeasonGoalieGames
 	rtl
-CODE_C5BDEB:						; from CODE_C5BDE7
+SeasonGoalieGames:					; A = goalie A's season games in BCD, X binary: its goalie index (7 bits
+									; at $30628F), then 7 bits a goalie at $307080
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1766,10 +1775,11 @@ CODE_C5BDEB:						; from CODE_C5BDE7
 	and.w #$007F
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BE33:						; called from other segments
-	jsr.w CODE_C5BE37
+SeasonGoalsAgainstLong:				; SeasonGoalsAgainst for long calls
+	jsr.w SeasonGoalsAgainst
 	rtl
-CODE_C5BE37:						; from CODE_C5BE33, DrawSeasonPlayerRow, CODE_C5B4C2
+SeasonGoalsAgainst:					; A = goalie A's season goals against in BCD, X binary (9 bits at $306724
+									; and two more at $30628F)
 	sta.b tmp0
 	asl a
 	adc.b tmp0

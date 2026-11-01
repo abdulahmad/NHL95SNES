@@ -2076,7 +2076,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	adc.b tmp1
 	tay
 	lda.w $003A,y
-	jsr.w CODE_C5BD30
+	jsr.w PlayerNumberBCD
 	lda.b tmp0
 	tax
 	lda.b tmp2

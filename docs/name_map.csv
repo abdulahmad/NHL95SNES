@@ -3322,21 +3322,21 @@ $C40A10,.1,CODE_C40A10,new,"branch target only used in CODE_C40A02",src/bankC4_0
 $C40A1C,.loop,CODE_C40A1C,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
 $C40A51,.2,CODE_C40A51,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
 $C40A54,.3,CODE_C40A54,new,"branch target only used in CODE_C40A02",src/bankC4_0000.asm
-$C40AAF,.1,CODE_C40AAF,new,"branch target only used in CODE_C40AA1",src/bankC4_0000.asm
-$C40AEF,.2,CODE_C40AEF,new,"branch target only used in CODE_C40AA1",src/bankC4_0000.asm
-$C40B3C,.3,CODE_C40B3C,new,"branch target only used in CODE_C40AA1",src/bankC4_0000.asm
-$C40B4A,.4,CODE_C40B4A,new,"branch target only used in CODE_C40AA1",src/bankC4_0000.asm
-$C40B6B,.loop,CODE_C40B6B,new,"branch target only used in CODE_C40B4C",src/bankC4_0000.asm
-$C40B72,.1,CODE_C40B72,new,"branch target only used in CODE_C40B4C",src/bankC4_0000.asm
-$C40BA0,.loop,CODE_C40BA0,new,"branch target only used in CODE_C40B81",src/bankC4_0000.asm
-$C40BA7,.1,CODE_C40BA7,new,"branch target only used in CODE_C40B81",src/bankC4_0000.asm
-$C40BD1,.loop,CODE_C40BD1,new,"branch target only used in CODE_C40BB6",src/bankC4_0000.asm
-$C40BF5,.loop2,CODE_C40BF5,new,"branch target only used in CODE_C40BB6",src/bankC4_0000.asm
-$C40BFC,.1,CODE_C40BFC,new,"branch target only used in CODE_C40BB6",src/bankC4_0000.asm
-$C40C3C,.loop,CODE_C40C3C,new,"branch target only used in CODE_C40C0B",src/bankC4_0000.asm
-$C40C49,.1,CODE_C40C49,new,"branch target only used in CODE_C40C0B",src/bankC4_0000.asm
-$C40C7C,.loop,CODE_C40C7C,new,"branch target only used in CODE_C40C62",src/bankC4_0000.asm
-$C40CA3,.1,CODE_C40CA3,new,"branch target only used in CODE_C40C62",src/bankC4_0000.asm
+$C40AAF,.1,CODE_C40AAF,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
+$C40AEF,.2,CODE_C40AEF,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
+$C40B3C,.3,CODE_C40B3C,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
+$C40B4A,.4,CODE_C40B4A,new,"branch target only used in AddPlayerSeasonStats",src/bankC4_0000.asm
+$C40B6B,.loop,CODE_C40B6B,new,"branch target only used in SetSeasonGoals",src/bankC4_0000.asm
+$C40B72,.1,CODE_C40B72,new,"branch target only used in SetSeasonGoals",src/bankC4_0000.asm
+$C40BA0,.loop,CODE_C40BA0,new,"branch target only used in SetSeasonAssists",src/bankC4_0000.asm
+$C40BA7,.1,CODE_C40BA7,new,"branch target only used in SetSeasonAssists",src/bankC4_0000.asm
+$C40BD1,.loop,CODE_C40BD1,new,"branch target only used in SetSeasonGoalieGames",src/bankC4_0000.asm
+$C40BF5,.loop2,CODE_C40BF5,new,"branch target only used in SetSeasonGoalieGames",src/bankC4_0000.asm
+$C40BFC,.1,CODE_C40BFC,new,"branch target only used in SetSeasonGoalieGames",src/bankC4_0000.asm
+$C40C3C,.loop,CODE_C40C3C,new,"branch target only used in SetSeasonGoalsAgainst",src/bankC4_0000.asm
+$C40C49,.1,CODE_C40C49,new,"branch target only used in SetSeasonGoalsAgainst",src/bankC4_0000.asm
+$C40C7C,.loop,CODE_C40C7C,new,"branch target only used in SetSeasonSaves",src/bankC4_0000.asm
+$C40CA3,.1,CODE_C40CA3,new,"branch target only used in SetSeasonSaves",src/bankC4_0000.asm
 $C40CBF,.loop,CODE_C40CBF,new,"branch target only used in CODE_C40CB3",src/bankC4_0000.asm
 $C40CE8,.loop,CODE_C40CE8,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
 $C40CF2,.1,CODE_C40CF2,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
@@ -6476,14 +6476,14 @@ $C5B43E,.3,CODE_C5B43E,new,"branch target only used in CODE_C5B38F",src/bankC5_B
 $C5B446,.loop,CODE_C5B446,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
 $C5B464,.4,CODE_C5B464,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
 $C5B473,.5,CODE_C5B473,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
-$C5B4F7,.1,CODE_C5B4F7,new,"branch target only used in CODE_C5B4C2",src/bankC5_B000.asm
-$C5B533,.2,CODE_C5B533,new,"branch target only used in CODE_C5B4C2",src/bankC5_B000.asm
+$C5B4F7,.1,CODE_C5B4F7,new,"branch target only used in FillLeaderEntry",src/bankC5_B000.asm
+$C5B533,.2,CODE_C5B533,new,"branch target only used in FillLeaderEntry",src/bankC5_B000.asm
 $C5B54E,.1,CODE_C5B54E,new,"branch target only used in CODE_C5B53D",src/bankC5_B000.asm
 $C5B579,.loop,CODE_C5B579,new,"branch target only used in CODE_C5B572",src/bankC5_B000.asm
 $C5B58F,.loop,CODE_C5B58F,new,"branch target only used in CODE_C5B588",src/bankC5_B000.asm
 $C5B5A5,.loop,CODE_C5B5A5,new,"branch target only used in CODE_C5B59E",src/bankC5_B000.asm
-$C5B618,.1,CODE_C5B618,new,"branch target only used in CODE_C5B5EE",src/bankC5_B000.asm
-$C5B642,.1,CODE_C5B642,new,"branch target only used in CODE_C5B631",src/bankC5_B000.asm
+$C5B618,.1,CODE_C5B618,new,"branch target only used in PlayerNumberTeam",src/bankC5_B000.asm
+$C5B642,.1,CODE_C5B642,new,"branch target only used in PrintPlayerCategory",src/bankC5_B000.asm
 $C5B67E,.loop,CODE_C5B67E,new,"branch target only used in BinToBCD",src/bankC5_B000.asm
 $C5B693,.1,CODE_C5B693,new,"branch target only used in BinToBCD",src/bankC5_B000.asm
 $C5B6D0,.1,CODE_C5B6D0,new,"branch target only used in DrawLeaderRow",src/bankC5_B000.asm
@@ -6513,15 +6513,15 @@ $C5BB3A,.6,CODE_C5BB3A,new,"branch target only used in CODE_C5B983",src/bankC5_B
 $C5BBE9,.1,CODE_C5BBE9,new,"branch target only used in DrawSeasonPlayerRow",src/bankC5_B000.asm
 $C5BC62,.2,CODE_C5BC62,new,"branch target only used in DrawSeasonPlayerRow",src/bankC5_B000.asm
 $C5BC6C,.3,CODE_C5BC6C,new,"branch target only used in DrawSeasonPlayerRow",src/bankC5_B000.asm
-$C5BD40,.1,CODE_C5BD40,new,"branch target only used in CODE_C5BD30",src/bankC5_B000.asm
-$C5BD43,.2,CODE_C5BD43,new,"branch target only used in CODE_C5BD30",src/bankC5_B000.asm
-$C5BD6F,.loop,CODE_C5BD6F,new,"branch target only used in CODE_C5BD56",src/bankC5_B000.asm
-$C5BD9A,.loop,CODE_C5BD9A,new,"branch target only used in CODE_C5BD81",src/bankC5_B000.asm
-$C5BDC5,.loop,CODE_C5BDC5,new,"branch target only used in CODE_C5BDAC",src/bankC5_B000.asm
-$C5BDDF,.1,CODE_C5BDDF,new,"branch target only used in CODE_C5BDAC",src/bankC5_B000.asm
-$C5BE04,.loop,CODE_C5BE04,new,"branch target only used in CODE_C5BDEB",src/bankC5_B000.asm
-$C5BE26,.loop2,CODE_C5BE26,new,"branch target only used in CODE_C5BDEB",src/bankC5_B000.asm
-$C5BE56,.loop,CODE_C5BE56,new,"branch target only used in CODE_C5BE37",src/bankC5_B000.asm
+$C5BD40,.1,CODE_C5BD40,new,"branch target only used in PlayerNumberBCD",src/bankC5_B000.asm
+$C5BD43,.2,CODE_C5BD43,new,"branch target only used in PlayerNumberBCD",src/bankC5_B000.asm
+$C5BD6F,.loop,CODE_C5BD6F,new,"branch target only used in SeasonGoals",src/bankC5_B000.asm
+$C5BD9A,.loop,CODE_C5BD9A,new,"branch target only used in SeasonAssists",src/bankC5_B000.asm
+$C5BDC5,.loop,CODE_C5BDC5,new,"branch target only used in SeasonSaves",src/bankC5_B000.asm
+$C5BDDF,.1,CODE_C5BDDF,new,"branch target only used in SeasonSaves",src/bankC5_B000.asm
+$C5BE04,.loop,CODE_C5BE04,new,"branch target only used in SeasonGoalieGames",src/bankC5_B000.asm
+$C5BE26,.loop2,CODE_C5BE26,new,"branch target only used in SeasonGoalieGames",src/bankC5_B000.asm
+$C5BE56,.loop,CODE_C5BE56,new,"branch target only used in SeasonGoalsAgainst",src/bankC5_B000.asm
 $C5BEB3,.1,CODE_C5BEB3,new,"branch target only used in DrawStandingsRow",src/bankC5_B000.asm
 $C5BEBB,.2,CODE_C5BEBB,new,"branch target only used in DrawStandingsRow",src/bankC5_B000.asm
 $C5BEC6,.3,CODE_C5BEC6,new,"branch target only used in DrawStandingsRow",src/bankC5_B000.asm
@@ -7676,3 +7676,26 @@ $C59D45,WriteSaveBits5,CODE_C59D45,code,"from the code: one call, then falls int
 $C59D3F,WriteSaveBits7,CODE_C59D3F,code,"from the code: two calls, then falls into WriteSaveBits5",src/bankC5_9000.asm
 $C59D96,ReadSaveBits5,CODE_C59D96,code,"from the code: byte Y / 8 shifted right by Y and 7, the low 5 bits",src/bankC5_9000.asm
 $C59B36,SaveCreatedPlayer,CODE_C59B36,code,"from the code: the slot search with ReadSaveBits5, the list entry, the names from the two entry buffers, the ratings through WriteSaveBits4; ModifyRatings' start goes here",src/bankC5_9000.asm
+$C5BD56,SeasonGoals,CODE_C5BD56,code,"from the code: bit A * 9 of $30628F, 9 bits, BinToBCD; the Gls column of DrawSeasonPlayerRow, SetSeasonGoals writes it back",src/bankC5_B000.asm
+$C5BD52,SeasonGoalsLong,CODE_C5BD52,code,"jsr SeasonGoals, rtl; AddPlayerSeasonStats calls it",src/bankC5_B000.asm
+$C5BD81,SeasonAssists,CODE_C5BD81,code,"from the code: bit A * 9 of $306724, 9 bits, BinToBCD; the Ast column of DrawSeasonPlayerRow, SetSeasonAssists writes it back",src/bankC5_B000.asm
+$C5BD7D,SeasonAssistsLong,CODE_C5BD7D,code,"jsr SeasonAssists, rtl",src/bankC5_B000.asm
+$C5BDAC,SeasonSaves,CODE_C5BDAC,code,"from the code; the Svs column of DrawSeasonPlayerRow (Sht = Svs + SeasonGoalsAgainst), AddPlayerSeasonStats adds shots minus goals and SetSeasonSaves writes it back",src/bankC5_B000.asm
+$C5BDA8,SeasonSavesLong,CODE_C5BDA8,code,"jsr SeasonSaves, rtl",src/bankC5_B000.asm
+$C5BE37,SeasonGoalsAgainst,CODE_C5BE37,code,"from the code; DrawSeasonPlayerRow's Sht column is it plus SeasonSaves; AddPlayerSeasonStats adds the game's goals against and SetSeasonGoalsAgainst writes it back",src/bankC5_B000.asm
+$C5BE33,SeasonGoalsAgainstLong,CODE_C5BE33,code,"jsr SeasonGoalsAgainst, rtl",src/bankC5_B000.asm
+$C5BDEB,SeasonGoalieGames,CODE_C5BDEB,code,"from the code; AddPlayerSeasonStats adds 1 for each goalie with goals or shots against in the game and SetSeasonGoalieGames writes it back",src/bankC5_B000.asm
+$C5BDE7,SeasonGoalieGamesLong,CODE_C5BDE7,code,"jsr SeasonGoalieGames, rtl",src/bankC5_B000.asm
+$C40B4C,SetSeasonGoals,CODE_C40B4C,code,"from the code: the field SeasonGoals reads",src/bankC4_0000.asm
+$C40B81,SetSeasonAssists,CODE_C40B81,code,"from the code: the field SeasonAssists reads",src/bankC4_0000.asm
+$C40BB6,SetSeasonGoalieGames,CODE_C40BB6,code,"from the code: the field SeasonGoalieGames reads",src/bankC4_0000.asm
+$C40C0B,SetSeasonGoalsAgainst,CODE_C40C0B,code,"from the code: the field SeasonGoalsAgainst reads",src/bankC4_0000.asm
+$C40C62,SetSeasonSaves,CODE_C40C62,code,"from the code: the field SeasonSaves reads",src/bankC4_0000.asm
+$C40AA1,AddPlayerSeasonStats,CODE_C40AA1,genesis+purpose,"95 Genesis AddPlayerSeasonStats's job (goals, assists ... of a team into the save RAM stat blocks); the SNES keeps goalie games, goals against and saves where 95 Genesis keeps shots and penalty minutes",src/bankC4_0000.asm
+$C5BD30,PlayerNumberBCD,CODE_C5BD30,code,"from the code: entry A * 1.5 bytes, the 7-bit field through BCDTable; the No= column of DrawSeasonPlayerRow",src/bankC5_B000.asm
+$C5B5EE,PlayerNumberTeam,CODE_C5B5EE,code,"from the code: the 7-bit field through BCDTable-1 (its high byte) and the 5-bit field; SaveCreatedPlayer writes team $1A there",src/bankC5_B000.asm
+$C5B5EA,PlayerNumberTeamLong,CODE_C5B5EA,code,"jsr PlayerNumberTeam, rtl",src/bankC5_B000.asm
+$C5B631,PrintPlayerCategory,CODE_C5B631,genesis+purpose,"95 Genesis PrintPlayerCategory's job (the category name in individual mode); the two string tables after it",src/bankC5_B000.asm
+$C5B4C2,FillLeaderEntry,CODE_C5B4C2,code,"from the code: PlayerNumberTeam, SeasonGoals, SeasonAssists or SeasonSaves, SeasonGoalsAgainst and the percentage at +8 / +$A / +$C",src/bankC5_B000.asm
+$C5B558,AddLeaderEntry,CODE_C5B558,code,"from the code: AllocWorkBuf $10, FillLeaderEntry, the insert routine for d1 from DATA8_C5B56C",src/bankC5_B000.asm
+$C55AB8,StartScrollListLong,CODE_C55AB8,code,"jsr StartScrollList, rtl",src/bankC5_5000.asm

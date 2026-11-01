@@ -1114,7 +1114,7 @@ AwardDescs:							; per award: the description text; read by DrawAward
 DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the team's logo sprite
 									; when he has none) and his name
 	pha
-	jsl.l CODE_C5B5EA
+	jsl.l PlayerNumberTeamLong
 	and.w #$00FF
 	sta.w $17C9
 	asl a
@@ -1303,7 +1303,7 @@ AwardScanTbl:						; the routine that finds the winner of each award, in award o
 									; (FindAwardWinner)
 	dw ScanVezina,ScanSelke,ScanConnSmythe,ScanJennings
 	dw ScanHart,ScanArtRoss,ScanNorris,ScanPresidents
-ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one CODE_C5BDA8
+ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one SeasonSavesLong
 									; scores highest
 	lda.w #$0000
 	sta.b a2
@@ -1320,7 +1320,7 @@ ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one CODE_
 	tax
 	lda.w $2E03,x
 	sta.b a3
-	jsl.l CODE_C5BDA8
+	jsl.l SeasonSavesLong
 	lda.b tmp0
 	cmp.b a2
 	bcc .loop
@@ -1354,11 +1354,11 @@ ScanSelke:							; Selke Trophy: from the team CODE_C4DF5B picks, the forward wi
 	tax
 	lda.w $2E05,x
 	sta.b a3
-	jsl.l CODE_C5BD52
+	jsl.l SeasonGoalsLong
 	lda.b tmp0
 	sta.b tmp1
 	lda.b a3
-	jsl.l CODE_C5BD7D
+	jsl.l SeasonAssistsLong
 	lda.b tmp0
 	clc
 	adc.b tmp1
@@ -1420,7 +1420,7 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 	bcc .1
 	lda.b $71
 	rts
-ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, the goalie CODE_C5BDE7
+ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, ...
 									; scores highest
 	stz.b a2
 	jsr.w CODE_C4DF5B
@@ -1436,7 +1436,7 @@ ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, the goali
 	tax
 	lda.w $2E03,x
 	sta.b a3
-	jsl.l CODE_C5BDE7
+	jsl.l SeasonGoalieGamesLong
 	lda.b tmp0
 	cmp.b a2
 	bcc .loop
@@ -1517,11 +1517,11 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	tax
 	lda.w $2E03,x
 	sta.b a3
-	jsl.l CODE_C5BD52
+	jsl.l SeasonGoalsLong
 	lda.b tmp0
 	sta.b tmp1
 	lda.b a3
-	jsl.l CODE_C5BD7D
+	jsl.l SeasonAssistsLong
 	lda.b tmp0
 	clc
 	adc.b tmp1
@@ -1621,11 +1621,11 @@ ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one wi
 	dex
 	dex
 	bpl .loop2
-	jsl.l CODE_C5BD52
+	jsl.l SeasonGoalsLong
 	lda.b tmp0
 	sta.b tmp1
 	lda.b a3
-	jsl.l CODE_C5BD7D
+	jsl.l SeasonAssistsLong
 	lda.b tmp0
 	clc
 	adc.b tmp1
@@ -1660,11 +1660,11 @@ ScanNorris:							; Norris Trophy: from the team CODE_C4DF5B picks, the defencem
 	tax
 	lda.w $2E03,x
 	sta.b a3
-	jsl.l CODE_C5BD52
+	jsl.l SeasonGoalsLong
 	lda.b tmp0
 	sta.b tmp1
 	lda.b a3
-	jsl.l CODE_C5BD7D
+	jsl.l SeasonAssistsLong
 	lda.b tmp0
 	clc
 	adc.b tmp1
