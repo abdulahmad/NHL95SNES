@@ -672,7 +672,7 @@ DATA8_CF04E3:						; the sounds (CODE_CF0313 reads entry A): a long pointer to t
 	dd DATA8_CF41BE					; sound 31
 	dd DATA8_CF4351					; sound 32
 	dd DATA8_CF4402					; sound 33
-	dd $CFC262						; sound 34
+	dd DATA8_CFC262					; sound 34
 	dd DATA8_CF5717|$80000000		; sound 35
 	dd DATA8_CF46CE|$80000000		; sound 36
 	dd DATA8_CF590B|$81000000		; sound 37
@@ -719,7 +719,7 @@ SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 	dd Sample20						; sample 20
 	dd Sample21						; sample 21
 	dd Sample22						; sample 22
-	dd $CFC561						; sample 23
+	dd Sample23						; sample 23
 	dd Sample24						; sample 24
 	dd Sample25						; sample 25
 	dd Sample26						; sample 26
