@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC7_1000 (org $C710BE): banks $C0-$C6 are all source. <- CURRENT
+bankC7_2000 (org $C7219E): banks $C0-$C6 are all source. <- CURRENT
 
 ## Sources
 
@@ -349,6 +349,8 @@ bankC7_1000 (org $C710BE): banks $C0-$C6 are all source. <- CURRENT
   there. The specific trophy is not named. Bank $C6 is all source.
 - 2026-10-31: bankC7_0000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC7_1000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -469,8 +471,8 @@ The first row that is still incbin is the current segment.
 | bankC6_E000 | matched 3712 bytes | $C6E1E8 | $C6F067 | raw frame tiles (poses not traced); org moved to $C6E1E8, end moved +$68 |
 | bankC6_F000 | matched 5334 bytes | $C6F068 | $C7053D | raw frame tiles; trophy map set (ends in next bank) |
 | bankC7_0000 | matched 2944 bytes | $C7053E | $C710BD | raw frame tiles (poses not traced); org moved to $C7053E, end moved +$BE |
-| bankC7_1000 | incbin | $C710BE | $C71FFF | <- CURRENT |
-| bankC7_2000 | incbin | $C72000 | $C72FFF | |
+| bankC7_1000 | matched 4320 bytes | $C710BE | $C7219D | raw frame tiles (poses not traced); org moved to $C710BE, end moved +$19E |
+| bankC7_2000 | incbin | $C7219E | $C72FFF | <- CURRENT |
 | bankC7_3000 | incbin | $C73000 | $C73FFF | |
 | bankC7_4000 | incbin | $C74000 | $C74FFF | |
 | bankC7_5000 | incbin | $C75000 | $C75FFF | |
