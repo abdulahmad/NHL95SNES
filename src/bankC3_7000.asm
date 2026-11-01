@@ -1725,7 +1725,7 @@ RenderReplayFrame:					; build the replay frame sprites and queue display update
 	jsl.l UpdateGameObjectSprites
 	jsl.l PackOAMHigh
 	inc.w TransfersReady
-	jsl.l CODE_C38CF5
+	jsl.l showref
 	jsl.l CODE_C528D5
 	ldx.b a3
 	rtl

@@ -549,7 +549,7 @@ checkob:							; called from other segments
 	lda.w RefCnt
 	bpl .6
 	phx
-	jsl.l CODE_C38CFC
+	jsl.l PushRef
 	plx
 	bra .6
 .8:									; if d1 - pucky < 0 go to .5

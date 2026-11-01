@@ -299,7 +299,7 @@ CODE_C52295:						; called from other segments
 	jsl.l BuildSpriteOAM
 	jsl.l PackOAMHigh
 	inc.w TransfersReady
-	jsl.l CODE_C38CF5
+	jsl.l showref
 	jsl.l CODE_C528D5
 	ldx.b a3
 	rtl

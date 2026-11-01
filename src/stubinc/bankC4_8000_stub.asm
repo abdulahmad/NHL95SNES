@@ -9,7 +9,7 @@ incsrc "../ram95s.asm"
 StartSound = $CF040B
 GetFrameHot = $C37FE2				; return the current frame hot spot in d0 and d1
 ApproxLength = $C38778
-CODE_C38CFC = $C38CFC
+PushRef = $C38CFC					; draw a referee frame or clear the referee window
 randoma8 = $C37EAA
 CODE_C37EBF = $C37EBF
 vtoa = $C37F6D

@@ -209,7 +209,7 @@ CODE_C471F0:						; called from other segments
 	jsl.l updatepentime
 	jsl.l checkfornewpen
 	jsl.l chkprogress
-	jml.l CODE_C38C4A
+	jml.l UpdatePA
 chkatop:							; from CODE_C47FD4 and other segments
 	stz.b d1
 	lda.w pucky
@@ -352,13 +352,13 @@ checkfornewpen:						; from CODE_C471F0 and other segments
 	jmp.w .loop
 .rtl:								; return
 	rtl
-.8:									; A = $0008, if not zero go to .7, d0 = $0030, call CODE_C38C6D, ...
+.8:									; A = $0008, if not zero go to .7, d0 = $0030, call SetPA, ...
 	lda.w #$0008
 	tsb.w gmode
 	bne .7
 	lda.w #$0030
 	sta.b d0
-	jsl.l CODE_C38C6D
+	jsl.l SetPA
 	jmp.w .loop
 Stop4Pen:							; from checkfornewpen and other segments
 	lda.w #$FFFF
@@ -468,7 +468,7 @@ Stop4Pen:							; from checkfornewpen and other segments
 	tsb.w gmode
 	lda.w #$000A
 	sta.b d0
-	jml.l CODE_C38C6D
+	jml.l SetPA
 chkprogress:						; from CODE_C471F0 and other segments
 	lda.w gmode
 	bit.w #$0004
@@ -538,13 +538,13 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w #$FF00
 	tsb.w $1147
 	stz.w RefCnt
-	jsl.l CODE_C38C4A
+	jsl.l UpdatePA
 	lda.w #$0032
 	sta.w RefCnt
 	stz.b d0
 	stz.w tmp0
 	phx
-	jsl.l CODE_C38CFC
+	jsl.l PushRef
 	plx
 	stz.w fadestep
 	rtl
@@ -814,7 +814,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	pla
 	sta.b d0
 	ldx.b a3
-	jsl.l CODE_C38C6D
+	jsl.l SetPA
 	jsl.l CODE_C513F4
 	bra .24
 .20:								; call StartPenaltyShot
@@ -825,8 +825,8 @@ chkprogress:						; from CODE_C471F0 and other segments
 	lda.w $2CF5
 	beq .22
 	jmp.w .6
-.22:								; call CODE_C38C6D, go to .24
-	jsl.l CODE_C38C6D
+.22:								; call SetPA, go to .24
+	jsl.l SetPA
 	bra .24
 .23:								; A = $0004, a3 = $001C, d0 = $001B, call assreplace
 	lda.w #$0004

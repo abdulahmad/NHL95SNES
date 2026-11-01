@@ -918,14 +918,14 @@ DATA8_C38A4A:						; not traced: a table read by CODE_C37684, CODE_C45BD2, CODE_
 	db $40,$02,$11,$02,$E4,$01,$B9,$01,$90,$01,$69,$01,$44,$01,$21,$01
 	db $00,$01,$E1,$00,$C4,$00,$A9,$00,$90,$00,$79,$00,$64,$00,$51,$00
 	db $40,$00,$31,$00,$24,$00,$19,$00,$10,$00,$09,$00,$04,$00,$01,$00
-CODE_C38C4A:						; called from other segments
+UpdatePA:							; advance the referee animation and penalty message timers
 	lda.w RefCnt
 	bmi .rtl
 	sec
 	sbc.b d7
 	sta.w RefCnt
 	bpl .1
-	jsl.l CODE_C38C95
+	jsl.l SetPA2
 .1:									; A = $1143, A - d7, $1143 = A, if plus go to .rtl, ...
 	lda.w $1143
 	sec
@@ -936,7 +936,7 @@ CODE_C38C4A:						; called from other segments
 	sta.w $1143
 .rtl:								; return
 	rtl
-CODE_C38C6D:						; called from other segments
+SetPA:								; start the referee animation and message for penalty d0
 	lda.b d0
 	sta.w $1149
 	stz.w $1147
@@ -945,14 +945,14 @@ CODE_C38C6D:						; called from other segments
 	cmp.w #$000E
 	bne .1
 	jsl.l CODE_C51825
-.1:									; $1143 = $7FFF, if $2CF5 = 0 go to CODE_C38C95, $1143 = $003C
+.1:									; $1143 = $7FFF, if $2CF5 = 0 go to SetPA2, $1143 = $003C
 	lda.w #$7FFF
 	sta.w $1143
 	lda.w $2CF5
-	beq CODE_C38C95
+	beq SetPA2
 	lda.w #$003C
 	sta.w $1143
-CODE_C38C95:						; from CODE_C38C4A, CODE_C38C6D and other segments
+SetPA2:								; step the referee animation and draw its next frame
 	phx
 	lda.w $1147
 	bpl .2
@@ -998,15 +998,15 @@ CODE_C38C95:						; from CODE_C38C4A, CODE_C38C6D and other segments
 	xba
 	and.w #$00FF
 	sta.b tmp0
-	jsl.l CODE_C38CFC
+	jsl.l PushRef
 .4:									; pull X, return
 	plx
 	rtl
-CODE_C38CF5:						; called from other segments
+showref:							; clear the referee window changed flag
 	lda.w #$0200
 	trb.w sflags
 	rtl
-CODE_C38CFC:						; from CODE_C38C95 and other segments
+PushRef:							; draw a referee frame or clear the referee window
 	lda.b tmp0
 	cmp.w #$0040
 	beq .2
@@ -1021,28 +1021,29 @@ CODE_C38CFC:						; from CODE_C38C95 and other segments
 	lda.l DATA8_C38D43,x
 	tax
 	ldy.w #$5842
-	jsr.w CODE_C38DAD
+	jsr.w CopyRefereeFrameToVRAM
 	lda.w #$0200
 	tsb.w sflags
 	rtl
-.2:									; if $234A = 0 go to .3, call CODE_C38D6D
+.2:									; if $234A = 0 go to .3, call ClearRefereeMessage
 	lda.w $234A
 	beq .3
-	jsl.l CODE_C38D6D
-.3:									; TransfersReady + 1, X = $001C, Y = $5842, call CODE_C38DAD, ...
+	jsl.l ClearRefereeMessage
+.3:									; TransfersReady + 1, X = $001C, Y = $5842, call CopyRefereeFrameToVRAM,
+									; ...
 	inc.w TransfersReady
 	ldx.w #$001C
 	ldy.w #$5842
-	jsr.w CODE_C38DAD
+	jsr.w CopyRefereeFrameToVRAM
 	lda.w #$0200
 	tsb.w sflags
 	stz.w $2348
 	rtl
-DATA8_C38D43:						; not traced: a table read by CODE_C38CFC
+DATA8_C38D43:						; not traced: a table read by PushRef
 	db $00,$00,$0E,$00,$1C,$00,$2A,$00,$38,$00,$46,$00,$54,$00,$10,$03
 	db $1E,$03,$2C,$03,$3A,$03,$48,$03,$56,$03,$64,$03,$20,$06,$2E,$06
 	db $3C,$06,$4A,$06,$58,$06,$66,$06,$74,$06
-CODE_C38D6D:						; from CODE_C38CFC and other segments
+ClearRefereeMessage:				; queue blank tiles over the referee message rows
 	lda.l DATA8_C58942
 	sta.w $364E
 	lda.w #$003D
@@ -1074,7 +1075,7 @@ CODE_C38D6D:						; from CODE_C38CFC and other segments
 	stx.b $00
 	stz.b QueueBusy
 	rtl
-CODE_C38DAD:						; from CODE_C38CFC
+CopyRefereeFrameToVRAM:				; copy the selected referee map frame to VRAM
 	phd
 	pea.w $7E7F
 	plb
