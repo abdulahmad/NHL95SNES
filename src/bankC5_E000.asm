@@ -553,14 +553,14 @@ CODE_C5E3AE:						; no caller found (not traced)
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3C6:						; no caller found (not traced)
 	sep #$20
-	lda.w $186E
+	lda.w OptLine
 	sta.l $30604C
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3D4:						; no caller found (not traced)
 	sep #$20
-	lda.w $186C
+	lda.w OptPen
 	sta.l $30604B
 	rep #$20
 	rts
