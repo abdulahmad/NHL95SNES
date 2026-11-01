@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC9_F000 (org $C9F14B): banks $C0-$C8 are all source. <- CURRENT
+bankCA_0000 (org $CA09D9): banks $C0-$C9 are all source. <- CURRENT
 
 ## Sources
 
@@ -448,6 +448,10 @@ bankC9_F000 (org $C9F14B): banks $C0-$C8 are all source. <- CURRENT
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankC9_E000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankC9_F000 matched: raw frame tiles; JenningsPic, an award picture (ends in next bank). Transfer extents come
+  from CODE_C5F368 and its size lookup; pointer entries use labels as targets become source. JenningsPic is AwardPictures entry
+  3 (William M. Jennings Trophy); its map and tile LZSS ends match the chunk lengths and it runs to $CA09D8. Bank $C9 is all
+  source.
 
 ## ROM map
 
@@ -614,8 +618,8 @@ The first row that is still incbin is the current segment.
 | bankC9_C000 | matched 4224 bytes | $C9C18B | $C9D20A | raw frame tiles (poses not traced); org moved to $C9C18B, end moved +$20B |
 | bankC9_D000 | matched 3648 bytes | $C9D20B | $C9E04A | raw frame tiles (poses not traced); org moved to $C9D20B, end moved +$4B |
 | bankC9_E000 | matched 4352 bytes | $C9E04B | $C9F14A | raw frame tiles (poses not traced); org moved to $C9E04B, end moved +$14B |
-| bankC9_F000 | incbin | $C9F14B | $C9FFFF | <- CURRENT |
-| bankCA_0000 | incbin | $CA0000 | $CA0FFF | |
+| bankC9_F000 | matched 6286 bytes | $C9F14B | $CA09D8 | raw frame tiles; JenningsPic, an award picture (ends in next bank); org moved to $C9F14B, end moved +$9D9 |
+| bankCA_0000 | incbin | $CA09D9 | $CA0FFF | <- CURRENT |
 | bankCA_1000 | incbin | $CA1000 | $CA1FFF | |
 | bankCA_2000 | incbin | $CA2000 | $CA2FFF | |
 | bankCA_3000 | incbin | $CA3000 | $CA3FFF | |
