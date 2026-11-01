@@ -702,7 +702,7 @@ SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 	dd Sample03						; sample 3
 	dd Sample04						; sample 4
 	dd Sample05						; sample 5
-	dd $CFD29C						; sample 6
+	dd Sample06						; sample 6
 	dd Sample07						; sample 7
 	dd Sample08						; sample 8
 	dd Sample09						; sample 9
