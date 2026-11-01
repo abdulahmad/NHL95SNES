@@ -7,7 +7,7 @@ CODE_C37FE2:						; called from other segments
 	lda.w $0856,y
 	asl a
 	tax
-	lda.l $CE0192,x
+	lda.l DATA8_CE0192,x
 	eor.w #$FFFF
 	inc a
 	sta.b $83
