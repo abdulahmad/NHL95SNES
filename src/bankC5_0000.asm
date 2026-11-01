@@ -140,7 +140,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 .5:									; $17D1 = $0001
 	lda.w #$0001
 	sta.w $17D1
-.6:									; BA_Sktr_SCnum = $FFFF, if $189C = 0 go to StartPer, return
+.6:									; BA_Sktr_SCnum = $FFFF, if shootoutmode = 0 go to StartPer, return
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	lda.w shootoutmode
@@ -313,7 +313,7 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	jsr.w CODE_C50E9B
 .7:									; call CODE_C50E9B
 	jsr.w CODE_C50E9B
-.8:									; if $07AE = 0 go to .9, A = Vcount, A - $07B0, if A < $0096 go to .9, ...
+.8:									; if cheercnt = 0 go to .9, A = Vcount, A - cheervc, ...
 	lda.w cheercnt
 	beq .9
 	lda.b Vcount
@@ -341,7 +341,7 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	tsb.w sflags
 .10:								; call Pausemode
 	jsl.l Pausemode
-.11:								; if $189C = 0 go to .12, if $18A2 = 0 go to .12, return
+.11:								; if shootoutmode = 0 go to .12, if $18A2 = 0 go to .12, return
 	lda.w shootoutmode
 	beq .12
 	lda.w $18A2
@@ -781,7 +781,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	bne .43
 	lda.w puckvz
 	beq .44
-.43:								; A = puckvz, A - $07A8, puckvz = A, X = A, ...
+.43:								; A = puckvz, A - gravstep, puckvz = A, X = A, ...
 	lda.w puckvz
 	sec
 	sbc.w gravstep
@@ -1094,7 +1094,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sta.w Xpos,x
 	lda.w $0960,x
 	sta.w Ypos,x
-.71:								; A = $0A00,x, A - $07A4, if the result >= 0 go to .72, A = $0000
+.71:								; A = $0A00,x, A - impactstep, if the result >= 0 go to .72, A = $0000
 	lda.w $0A00,x
 	sec
 	sbc.w impactstep

@@ -1683,7 +1683,7 @@ CODE_C55D14:						; from ScrollListUp
 	dec.w $4693
 	dec.w $4696
 	bra .loop
-.2:									; $0565 = 0, $058D = 0
+.2:									; padlast = 0, $058D = 0
 	stz.w padlast
 	stz.w $058D
 CODE_C55D6A:						; from ScrollListUp

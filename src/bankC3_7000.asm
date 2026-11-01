@@ -264,7 +264,7 @@ CODE_C371AB:						; called from other segments
 	cmp.w #$0481
 	bcc .4
 	lda.w #$0480
-.4:									; A - $07A4, if the result >= 0 go to .5, A = $0000
+.4:									; A - impactstep, if the result >= 0 go to .5, A = $0000
 	sec
 	sbc.w impactstep
 	bpl .5

@@ -1067,7 +1067,7 @@ CODE_C49B74:						; from CODE_C49B59
 	sec
 	sbc.b d1
 	sta.b d1
-.4:									; $65 = DATA8_C49C87>>16, a0 = DATA8_C49C87, A = temp2,x, A - $07A4, ...
+.4:									; $65 = DATA8_C49C87>>16, a0 = DATA8_C49C87, A = temp2,x, ...
 	lda.w #DATA8_C49C87>>16
 	sta.b $65
 	lda.w #DATA8_C49C87

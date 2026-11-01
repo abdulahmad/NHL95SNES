@@ -310,13 +310,13 @@ CODE_C36C49:						; called from other segments
 	lda.b $C9
 	and.w #$FFF0
 	bne .6
-.5:									; $058D = 0, $0565 = 0, pausepad = $FFFF, return
+.5:									; $058D = 0, padlast = 0, pausepad = $FFFF, return
 	stz.w $058D
 	stz.w padlast
 	lda.w #$FFFF
 	sta.w pausepad
 	rtl
-.6:									; $058D = A, repeatdelayframes + 1, if A = $0565 go to .rtl, ...
+.6:									; $058D = A, repeatdelayframes + 1, if A = padlast go to .rtl, ...
 	sta.w $058D
 	inc.w repeatdelayframes
 	cmp.w padlast

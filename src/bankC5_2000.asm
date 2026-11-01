@@ -1240,7 +1240,7 @@ checkwindow:						; called from other segments
 	lda.w #$0020
 	sta.w yleader
 	bra .2
-.1:									; A = yleader, A - $07A4, yleader = A, if A - $FFE1 >= 0 go to .2, ...
+.1:									; A = yleader, A - impactstep, yleader = A, ...
 	lda.w yleader
 	sec
 	sbc.w impactstep
