@@ -52,7 +52,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segment
 	jsl.l CODE_C092B3
 	bra CODE_C50056
 CODE_C5008D:						; from CODE_C50056
-	jsl.l CODE_C54E27
+	jsl.l Create_HotCold_Table
 	jsr.w CODE_C52CC1
 	jsl.l CODE_C4E12C
 	jsr.w CODE_C53984
@@ -350,7 +350,7 @@ CODE_C5033D:						; from CODE_C50308 and other segments
 	jsl.l periodicevents
 	jsl.l CODE_C50393
 	jsl.l checkwindow
-	jsl.l CODE_C371F9
+	jsl.l updatereplay
 CODE_C50351:						; from CODE_C50351
 	lda.w TransfersReady
 	bne CODE_C50351
@@ -946,7 +946,7 @@ CODE_C50810:						; from CODE_C50803
 	cpx.w puckc
 	bne CODE_C5081F
 	stz.b d4
-	jsl.l CODE_C38043
+	jsl.l setpads
 CODE_C5081F:						; from CODE_C50810
 	cpx.w #$0018
 	bcs CODE_C50851
@@ -968,7 +968,7 @@ CODE_C5081F:						; from CODE_C50810
 	iny
 	iny
 	sty.b d4
-	jsl.l CODE_C52AF8
+	jsl.l doinput
 CODE_C50851:						; from CODE_C5081F
 	lda.w pfalock,x
 	bne CODE_C50874
@@ -1471,16 +1471,16 @@ CODE_C50D0C:						; no caller found (not traced)
 	sta.w $079E
 CODE_C50D14:						; from CODE_C50D0C
 	rtl
-CODE_C50D15:						; from CODE_C50E62
+startpause:							; from CODE_C50E62
 	stz.w $0591
-CODE_C50D18:						; from CODE_C501AC, CODE_C50D24 and other segments
+CODE_C50D18:						; from CODE_C501AC, PauseFromPad and other segments
 	lda.w $2CF5
 	bne CODE_C50D23
 	lda.w #$0001
 	tsb.w sflags
 CODE_C50D23:						; from CODE_C50D18
 	rtl
-CODE_C50D24:						; from CODE_C50E42 and other segments
+PauseFromPad:						; from CODE_C50E42 and other segments
 	sta.w $0591
 	bra CODE_C50D18
 CODE_C50D29:						; from CODE_C5032B and other segments
@@ -1632,7 +1632,7 @@ CODE_C50E42:						; from CODE_C50E59
 	bit.w #$1000
 	beq CODE_C50E59
 	pla
-	jmp.w CODE_C50D24
+	jmp.w PauseFromPad
 CODE_C50E59:						; from CODE_C50E42
 	plx
 	inx
@@ -1651,7 +1651,7 @@ CODE_C50E62:						; from demoread
 	lda.b d1
 	bit.w #$1000
 	beq CODE_C50E81
-	jmp.w CODE_C50D15
+	jmp.w startpause
 CODE_C50E81:						; from CODE_C50E62
 	lda.b d1
 	bne CODE_C50E86

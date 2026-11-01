@@ -1276,7 +1276,7 @@ CODE_C51B89:						; from CODE_C51B75
 	bne CODE_C51BB6
 CODE_C51B9D:						; from CODE_C51B89
 	lda.w #$0005
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	dec a
 	dec a
 	and.w #$0007
@@ -1421,7 +1421,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 CODE_C51CD2:						; from CODE_C51CC1
 	lda.w #$FFFF
 	sta.w puckc
-	jsl.l CODE_C493E1
+	jsl.l pucknorm_move
 	lda.w pflags,x
 	bit.w #$0002
 	bne CODE_C51CE7

@@ -1113,7 +1113,7 @@ NMI_Tick:							; Vcount + 1, the fade, FrameCount, then the frame hook
 	pea.w NMI_FrameHookReturn-1
 	jml.w [FrameHook]
 NMI_FrameHookReturn:				; NMI after the frame hook: pads and sound, then restore and rti
-	jsl.l CODE_C36D3A
+	jsl.l Multi5Bios
 	rep #$30
 	jsl.l CODE_CF00FE
 	stz.b NMISkip

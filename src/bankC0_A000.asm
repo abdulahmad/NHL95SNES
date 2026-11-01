@@ -7,9 +7,9 @@ asstab:								; the assignment routines, by assignment number (as 94S asstab; t
 	dd rtss,assdefo,assdefd,asswingd
 	dd asswingo,asscenterd,asscentero,CODE_C48A71
 	dd CODE_C47122,assstanley,asseben,CODE_C47B3F
-	dd CODE_C545C7,asspenalty,assdopen,CODE_C488BB
+	dd assbench,asspenalty,assdopen,assgoalietopuck
 	dd CODE_C49B59,CODE_C42DB8,assnearest,CODE_C498A1
-	dd assdumpin,asspassrec,CODE_C4375B,CODE_C4376F
+	dd assdumpin,asspassrec,CODE_C4375B,assfaceoffpl
 	dd CODE_C493CA,CODE_C4A65D,pucknothing,CODE_C51CC1
 	dd CODE_C43826
 asspuckc_postab:					; 10 positions (x, y) as 94S asspuckc_postab

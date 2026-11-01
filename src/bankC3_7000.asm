@@ -280,7 +280,7 @@ CODE_C371E5:						; from CODE_C371DC
 	tay
 	lda.w #$0015
 	jml.l CODE_CF00E3
-CODE_C371F9:						; called from other segments
+updatereplay:						; called from other segments
 	lda.w gmode
 	bit.w #$0010
 	bne CODE_C37209
@@ -288,11 +288,11 @@ CODE_C371F9:						; called from other segments
 	beq CODE_C3720F
 	dec a
 	bne CODE_C3720C
-CODE_C37209:						; from CODE_C371F9
+CODE_C37209:						; from updatereplay
 	jmp.w CODE_C3736A
-CODE_C3720C:						; from CODE_C371F9
+CODE_C3720C:						; from updatereplay
 	sta.w replaydelay
-CODE_C3720F:						; from CODE_C371F9
+CODE_C3720F:						; from updatereplay
 	lda.w sflags
 	bit.w #$0400
 	bne CODE_C37242
@@ -1740,7 +1740,7 @@ randomd0A:							; from CODE_C37EBF, randomd0s, randomd0sd0 and other segments
 	clc
 	plx
 	rtl
-CODE_C37EAA:						; called from other segments
+randoma8:							; called from other segments
 	phx
 	pha
 CODE_C37EAC:						; from randomd0A

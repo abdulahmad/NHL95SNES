@@ -537,7 +537,7 @@ CODE_C42DF5:						; from CODE_C42DCD
 	lda.w #$0000
 CODE_C42E08:						; from CODE_C42DF5
 	sta.w temp1,x
-	jsl.l CODE_C4837C
+	jsl.l checkob
 	lda.w breakaway
 	beq CODE_C42E33
 	lda.w Ypos,x

@@ -7,12 +7,12 @@ chk4pass:							; called from other segments
 	lda.w #$0010
 	clc
 	adc.w spodds,x
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	cmp.w #$0009
 	bcs CODE_C4A00B
 CODE_C49FD2:						; from chk4pass
 	lda.w #$0006
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	sta.b d0
 	cpx.w #$000C
 	bcc CODE_C49FE6
@@ -1799,19 +1799,19 @@ CODE_C4AEF8:						; from CODE_C4AED5
 	sec
 	sbc.w $097C
 	bpl CODE_C4AF74
-	bra CODE_C4AF12
+	bra ChkOffsides_blue
 CODE_C4AF0A:						; from CODE_C4AEF8
 	lda.b d0
 	sec
 	sbc.w $097C
 	bmi CODE_C4AF74
-CODE_C4AF12:						; from CODE_C4AEF8
+ChkOffsides_blue:					; from CODE_C4AEF8
 	jsl.l StartBreakaway
 	lda.w gmode
 	bit.w #$0020
 	bne CODE_C4AF21
 	jmp.w CODE_C4AF74
-CODE_C4AF21:						; from CODE_C4AF12
+CODE_C4AF21:						; from ChkOffsides_blue
 	lda.w #$0062
 	sta.b d0
 	lda.w gmode
@@ -1841,7 +1841,7 @@ CODE_C4AF4E:						; from CODE_C4AF3F
 	ldy.b a2
 	lda.w tmsort,y
 	sta.b a0
-CODE_C4AF5A:						; from CODE_C4AF75
+ChkOffsides_loop:					; from CODE_C4AF75
 	ldy.b a0
 	lda.w position,y
 	bmi CODE_C4AF75
@@ -1855,11 +1855,11 @@ CODE_C4AF5A:						; from CODE_C4AF75
 	sta.w tmflags,y
 CODE_C4AF74:						; from ClearOffsidesIfAllPlayers, CODE_C4AEF8, ChkOffsides_other, ...
 	rtl
-CODE_C4AF75:						; from CODE_C4AF5A
+CODE_C4AF75:						; from ChkOffsides_loop
 	inc.b a0
 	inc.b a0
 	dec.b d2
-	bpl CODE_C4AF5A
+	bpl ChkOffsides_loop
 	rtl
 ChkOffsides_other:					; from CODE_C4AED5
 	lda.w #$0000

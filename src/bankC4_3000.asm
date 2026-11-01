@@ -771,11 +771,11 @@ CODE_C43768:						; from CODE_C4375B
 CODE_C43769:						; from CODE_C4375B
 	stz.w $18AA
 	jmp.w assexit
-CODE_C4376F:						; called from other segments
+assfaceoffpl:						; called from other segments
 	lda.w pfalock,x
 	beq CODE_C43777
 	jmp.w CODE_C43825
-CODE_C43777:						; from CODE_C4376F
+CODE_C43777:						; from assfaceoffpl
 	lda.w sflags
 	bit.w #$0100
 	beq CODE_C437F7
@@ -852,7 +852,7 @@ CODE_C43819:						; from CODE_C4380F
 	lda.w #$0001
 	sta.w pf2aip,x
 	jml.l SetSPA
-CODE_C43825:						; from CODE_C4376F, CODE_C437B7
+CODE_C43825:						; from assfaceoffpl, CODE_C437B7
 	rtl
 CODE_C43826:						; called from other segments
 	lda.w pflags,x

@@ -383,7 +383,7 @@ CODE_C482B4:						; from CODE_C482AA
 	lda.w #$FFFD
 	sta.w tmpdst,y
 	lda.w #$0007
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	cmp.w #$0000
 	bne CODE_C482D8
 	lda.w #$FFFC
@@ -470,12 +470,12 @@ CODE_C4833E:						; from CODE_C482D9
 	sta.b d0
 	ldx.b a3
 	rtl
-CODE_C4837C:						; called from other segments
+checkob:							; called from other segments
 	lda.w gmode
 	bit.w #$0020
 	bne CODE_C48387
 	jmp.w CODE_C48400
-CODE_C48387:						; from CODE_C4837C
+CODE_C48387:						; from checkob
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -538,7 +538,7 @@ CODE_C483EE:						; from CODE_C483D8, CODE_C48401
 	sta.b $81
 	pla
 	sta.b d0
-CODE_C48400:						; from CODE_C4837C
+CODE_C48400:						; from checkob
 	rtl
 CODE_C48401:						; from CODE_C483BF, CODE_C48423
 	lda.w #$0014
@@ -842,7 +842,7 @@ CODE_C4866B:						; from CODE_C4865F
 	ply
 CODE_C4866C:						; from StartBreakaway
 	rtl
-CODE_C4866D:						; called from other segments
+StartPenaltyShot:					; called from other segments
 	lda.w penshot
 	bne CODE_C486C6
 	lda.w BA_Sktr_SCnum
@@ -852,10 +852,10 @@ CODE_C4866D:						; called from other segments
 	sta.w BA_Team
 	inc.w $12ED
 	bra CODE_C4868B
-CODE_C48685:						; from CODE_C4866D
+CODE_C48685:						; from StartPenaltyShot
 	stz.w BA_Team
 	inc.w $12EB
-CODE_C4868B:						; from CODE_C4866D
+CODE_C4868B:						; from StartPenaltyShot
 	phy
 	lda.w BA_Team
 	eor.w #$0002
@@ -879,7 +879,7 @@ CODE_C4868B:						; from CODE_C4866D
 	sta.w $18BC
 	stz.w $2034
 	stz.w $2036
-CODE_C486C6:						; from CODE_C4866D
+CODE_C486C6:						; from StartPenaltyShot
 	rtl
 EndPenaltyShot:						; called from other segments
 	lda.w PenShotActive
@@ -1113,7 +1113,7 @@ CODE_C488A7:						; from CPgoalie
 	jml.l setpersonel
 CODE_C488BA:						; from CPgoalie, CODE_C488A7
 	rtl
-CODE_C488BB:						; called from other segments
+assgoalietopuck:					; called from other segments
 	lda.w #$0006
 	ora.w goalieflags,x
 	sta.w goalieflags,x
@@ -1127,7 +1127,7 @@ CODE_C488BB:						; called from other segments
 	beq CODE_C488DD
 	eor.w #$FFFF
 	inc a
-CODE_C488DD:						; from CODE_C488BB
+CODE_C488DD:						; from assgoalietopuck
 	sta.b r0
 	cmp.w #$00EB
 	bmi CODE_C488F2
@@ -1136,7 +1136,7 @@ CODE_C488DD:						; from CODE_C488BB
 	lda.w #$FFFB
 	and.w goalieflags,x
 	sta.w goalieflags,x
-CODE_C488F2:						; from CODE_C488BB, CODE_C488DD
+CODE_C488F2:						; from assgoalietopuck, CODE_C488DD
 	lda.w Xpos,x
 	cmp.w #$FFD0
 	bmi CODE_C48919

@@ -110,13 +110,13 @@ CODE_C493BC:						; from CODE_C4939D
 CODE_C493CA:						; called from other segments
 	lda.w #$0002
 	trb.w $0D7C
-	beq CODE_C493E1
+	beq pucknorm_move
 	stz.w $0AFC
 	stz.w $0B1C
 	lda.w #$0078
 	sta.w $0B9C
 	stz.w $234E
-CODE_C493E1:						; from CODE_C493CA and other segments
+pucknorm_move:						; from CODE_C493CA and other segments
 	lda.w $07DA
 	sec
 	sbc.b d7
@@ -133,7 +133,7 @@ CODE_C493E1:						; from CODE_C493CA and other segments
 	adc.w #$0005
 	sta.w $0AFC
 	jsl.l CODE_C494E6
-CODE_C49408:						; from CODE_C493E1
+CODE_C49408:						; from pucknorm_move
 	lda.w puckc
 	bmi CODE_C4945D
 	sta.b a2
@@ -235,7 +235,7 @@ CODE_C494D1:						; from CODE_C4945D, CODE_C494A8
 CODE_C494DF:						; from CODE_C494D1
 	jsl.l pucknothing
 	jmp.w checkpuckcoll
-CODE_C494E6:						; from CODE_C493E1 and other segments
+CODE_C494E6:						; from pucknorm_move and other segments
 	phx
 	lda.w #$010E
 	sta.b d4
@@ -870,7 +870,7 @@ CODE_C49A12:						; from CODE_C49A05
 	bcs CODE_C49A28
 	lda.w #$0010
 	adc.w shotacc,x
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	cmp.w #$000F
 	bcs CODE_C49A83
 CODE_C49A28:						; from CODE_C49A12

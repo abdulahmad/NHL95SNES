@@ -370,7 +370,7 @@ CODE_C36CBF:						; called from other segments
 	rtl
 DATA8_C36D2A:						; not traced: a table read by CODE_C36CBF
 	db $08,$02,$06,$08,$04,$03,$05,$08,$00,$01,$07,$08,$08,$08,$08,$08
-CODE_C36D3A:						; called from other segments
+Multi5Bios:							; called from other segments
 	php
 	sep #$20
 	rep #$10

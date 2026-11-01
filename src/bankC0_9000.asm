@@ -397,7 +397,7 @@ CODE_C092B3:						; called from CODE_C50056; the first game routine after the ma
 	lda.w $186C
 	pha
 	stz.w $186C
-	jsl.l CODE_C54E27
+	jsl.l Create_HotCold_Table
 	jsl.l CODE_C52CA3
 	jsl.l CODE_C53980
 	stz.b a2
@@ -474,7 +474,7 @@ CODE_C09366:						; loop
 CODE_C0937C:						; from CODE_C09366
 	sty.w $18B6
 CODE_C0937F:						; from CODE_C09366
-	jsl.l CODE_C4866D
+	jsl.l StartPenaltyShot
 	lda.b a2
 	beq CODE_C093B2
 	lda.w $18A0

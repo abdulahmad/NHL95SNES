@@ -200,7 +200,7 @@ CODE_C471DE:						; from CODE_C471A7
 	jsl.l SetSPA
 CODE_C471E2:						; from CODE_C47177 and other segments
 	lda.w #$0078
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	sta.w temp1,x
 	rtl
 CODE_C471ED:						; from CODE_C471A7
@@ -818,7 +818,7 @@ CODE_C4769A:						; from CODE_C4768A
 	jsl.l CODE_C513F4
 	bra CODE_C4770C
 CODE_C476E1:						; from CODE_C4753F
-	jsl.l CODE_C4866D
+	jsl.l StartPenaltyShot
 CODE_C476E5:						; from CODE_C47560
 	lda.w #$0000
 	sta.b (a0)
@@ -1346,7 +1346,7 @@ CODE_C47AE9:						; from CODE_C47ACD
 	lda.w #$0014
 	sec
 	sbc.w $0F60,x
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	cmp.w #$0002
 	bcs CODE_C47ACC
 	lda.w gmode
@@ -1530,7 +1530,7 @@ CODE_C47C8C:						; called from other segments
 	adc.w checking,y
 	sec
 	sbc.w $0E00,x
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	cmp.w #$000C
 	bcc CODE_C47D0A
 CODE_C47CB6:						; from CODE_C47C8C
@@ -1598,7 +1598,7 @@ CODE_C47D39:						; from asspenalty
 	ora.w #$1000
 	sta.w pflags,x
 	stz.b d4
-	jsl.l CODE_C38043
+	jsl.l setpads
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x

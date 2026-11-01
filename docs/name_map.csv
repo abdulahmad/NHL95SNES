@@ -2857,3 +2857,19 @@ $18B0,BA_Sktr_SCnum,,94S+code,"RAM: Penalty shot / shootout shooter object (SCnu
 $18B4,BA_Team,,94S+code,"RAM: Shooting team of the penalty shot / shootout turn (0 home, 2 visitors): (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $18BE,penshot,,94S+code,"RAM: Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $C4075F,GetShifter,CODE_C4075F,94S+code,"games of the round less one and its first win bit; called where 94S NewTicker2_next, UpdateScores calls GetShifter; the same code (instruction match 0.933, start checked)",src/bankC4_0000.asm
+$C4376F,assfaceoffpl,CODE_C4376F,94S+code,"assignment: the two players taking the face off; same code (start match 0.84, compared side by side)",src/bankC4_3000.asm
+$C4837C,checkob,CODE_C4837C,94S+code,"Show the little warning referee when a teammate is over the blue line; same code with pei saves (start match 0.83, side by side)",src/bankC4_8000.asm
+$C4866D,StartPenaltyShot,CODE_C4866D,94S+code,"Set a penalty shot pending for shooter BA_Sktr_SCnum: penshot = 1, the shooting team BA_Team (and its count tmPenShots), the shooter number ; same code (start match 0.81, side by side)",src/bankC4_8000.asm
+$C545C7,assbench,CODE_C545C7,94S+code,"assignment: skate to the bench door and swap players; same code (start match 0.79, side by side)",src/bankC5_4000.asm
+$C52AF8,doinput,CODE_C52AF8,94S+code,"pad input for player X; same code (start match 0.74, side by side); calls setpads and jumps to PauseFromPad where 94S does",src/bankC5_2000.asm
+$C36D3A,Multi5Bios,CODE_C36D3A,94S+code,"read the five pads: pads 1 and 2 from the auto read, pads 3 to 5 through; same code (start match 0.74, side by side)",src/bankC3_6000.asm
+$C493E1,pucknorm_move,CODE_C493E1,94S+code,"same code (start match 0.73, side by side)",src/bankC4_9000.asm
+$C488BB,assgoalietopuck,CODE_C488BB,94S+code,"X = goalie; asstab entry; same code (start match 0.72, side by side)",src/bankC4_8000.asm
+$C4AF12,ChkOffsides_blue,CODE_C4AF12,94S+code,"puck crossed the line: StartBreakaway, go on if gmoffs is set; same code, the blue line tuned (side by side)",src/bankC4_A000.asm
+$C371F9,updatereplay,CODE_C371F9,94S+code,"Save this frame into the replay buffer; same code (start match 0.69, side by side)",src/bankC3_7000.asm
+$C54E27,Create_HotCold_Table,CODE_C54E27,94S+code,"fill HotColdTable with random values -12 to 12; same code, a limit tuned (side by side)",src/bankC5_4000.asm
+$C38043,setpads,CODE_C38043,94S+code,"pad marker d4 follows player X; doinput calls it where 94S doinput calls setpads; the same code",src/bankC3_8000.asm
+$C50D24,PauseFromPad,CODE_C50D24,94S+code,"Pause for pad A: pausepad = A, then startpause; doinput jumps to it where 94S does; the same code",src/bankC5_0000.asm
+$C4AF5A,ChkOffsides_loop,CODE_C4AF5A,94S+code,"skater a0: skip empty spots, flag if his Ypos is past the line; the same code (start match 0.79, side by side)",src/bankC4_A000.asm
+$C37EAA,randoma8,CODE_C37EAA,94S+code,"random number below A; Create_HotCold_Table calls it where 94S calls randoma8; randoma8 with its fall-through tail",src/bankC3_7000.asm
+$C50D15,startpause,CODE_C50D15,94S+code,"set the pause mode flag and return; PauseFromPad branches to it where 94S jumps to startpause; sets the pause bit of sflags (95 clears the pause pad first)",src/bankC5_0000.asm

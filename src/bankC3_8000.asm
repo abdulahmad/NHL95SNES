@@ -56,7 +56,7 @@ CODE_C3800F:						; no caller found (not traced)
 	rtl
 DATA8_C3803D:						; not traced: data between routines
 	db $A9,$20,$4E,$85,$83,$6B
-CODE_C38043:						; called from other segments
+setpads:							; called from other segments
 	txa
 	lsr a
 	ldy.b d4

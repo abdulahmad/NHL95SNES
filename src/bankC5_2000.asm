@@ -1369,18 +1369,18 @@ CODE_C52AF2:						; from CODE_C52AEC
 	sta.b $CB
 CODE_C52AF7:						; from CODE_C52AC0, CODE_C52AD9
 	rtl
-CODE_C52AF8:						; called from other segments
-	jsl.l CODE_C38043
+doinput:							; called from other segments
+	jsl.l setpads
 	dec.b d4
 	dec.b d4
 	lda.b d3
 	bit.w #$1000
 	beq CODE_C52B0D
 	lda.b d4
-	jmp.w CODE_C50D24
+	jmp.w PauseFromPad
 CODE_C52B0C:						; from CODE_C52B18
 	rtl
-CODE_C52B0D:						; from CODE_C52AF8
+CODE_C52B0D:						; from doinput
 	lda.w sflags
 	bit.w #$0100
 	beq CODE_C52B18
@@ -1495,7 +1495,7 @@ CODE_C52BF1:						; from CODE_C52BE6
 CODE_C52BFA:						; from CODE_C52B4E
 	lda.w pfalock,x
 	bne CODE_C52B98
-	jsl.l CODE_C4837C
+	jsl.l checkob
 	lda.w position,x
 	bne CODE_C52C0D
 	lda.w pf2aip,x

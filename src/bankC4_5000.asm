@@ -278,7 +278,7 @@ CODE_C45147:						; from CODE_C45127, CODE_C4506C, CODE_C45265
 	bit.w #$4000
 	bne CODE_C45144
 	lda.w #$0190
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	asl a
 	ldy.b a2
 	sec

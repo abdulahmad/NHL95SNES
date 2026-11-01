@@ -8,7 +8,7 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 CODE_CFEE6C = $CFEE6C
 IceRinkMap = $CCEEA5				; the rink map set
-CODE_C38043 = $C38043
+setpads = $C38043
 CODE_C382B8 = $C382B8
 CODE_C3856E = $C3856E
 CODE_C38CF5 = $C38CF5
@@ -22,7 +22,7 @@ CODE_C4A0C1 = $C4A0C1
 SetShotMode = $C49858
 CODE_C498D3 = $C498D3
 setpassmode = $C49DC7
-CODE_C4837C = $C4837C
+checkob = $C4837C
 doplayeracc = $C4694F
 Holdplayer = $C45610
 CODE_C43734 = $C43734
@@ -43,7 +43,7 @@ CODE_C539D7 = $C539D7
 CODE_C53A29 = $C53A29
 AnimateSprites = $C5E9C7
 BuildSpriteOAM = $C5F0D1
-CODE_C50D24 = $C50D24
+PauseFromPad = $C50D24
 CODE_C51C58 = $C51C58
 CODE_C58812 = $C58812
 CODE_C5897B = $C5897B

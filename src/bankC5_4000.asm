@@ -734,12 +734,12 @@ CODE_C545B8:						; from CODE_C54568
 	jmp.w CODE_C54B60
 CODE_C545C6:						; from CODE_C545B8
 	rtl
-CODE_C545C7:						; asstab entry 12: an assignment routine
+assbench:							; asstab entry 12: an assignment routine
 	lda.w temp1,x
 	cmp.w #$0064
 	bne CODE_C545D2
 	jmp.w CODE_C546D7
-CODE_C545D2:						; from CODE_C545C7
+CODE_C545D2:						; from assbench
 	jsl.l check4bench
 	lda.w pflags,x
 	bit.w #$4000
@@ -851,7 +851,7 @@ CODE_C546A6:						; from CODE_C54693
 	sta.w pfalock,x
 CODE_C546D6:						; from CODE_C54706, CODE_C54693, CODE_C546A6
 	rtl
-CODE_C546D7:						; from CODE_C545C7
+CODE_C546D7:						; from assbench
 	lda.w pnum,x
 	asl a
 	sta.b d0
@@ -1751,11 +1751,11 @@ CODE_C54DFB:						; from SetupTeamForIntermission and other segments
 	sta.w tmline,x
 CODE_C54E26:						; from CODE_C54DFB
 	rtl
-CODE_C54E27:						; called from other segments
+Create_HotCold_Table:				; called from other segments
 	ldx.w #$026F
 CODE_C54E2A:						; from CODE_C54E53
 	lda.w #$000E
-	jsl.l CODE_C37EAA
+	jsl.l randoma8
 	cmp.w #$000D
 	bcc CODE_C54E39
 	lda.w #$000C
