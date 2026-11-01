@@ -1012,13 +1012,13 @@ goalieacc:							; called from other segments
 	sbc.b tmp1
 	sta.w $0E20,x
 	phx
-	jsl.l CODE_C45ABE
+	jsl.l playeracc
 	plx
 	pla
 	sta.w $0E20,x
 	rtl
-.14:								; go to CODE_C45ABE
-	jml.l CODE_C45ABE
+.14:								; go to playeracc
+	jml.l playeracc
 ChkGoalies:							; called from other segments
 	lda.w gmclock
 	bne rtss
@@ -2270,8 +2270,8 @@ CODE_C48BAA:						; from CODE_C48B5E, CODE_C48B8E
 	beq .91
 	bmi .91
 	jmp.w stopna
-.91:								; go to CODE_C45ABE
-	jml.l CODE_C45ABE
+.91:								; go to playeracc
+	jml.l playeracc
 .92:								; go to .78
 	jmp.w .78
 .rtl3:								; return

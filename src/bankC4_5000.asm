@@ -1349,7 +1349,7 @@ assstanley:							; called from other segments
 	sta.w facedir,x
 	lda.w #$0014
 	sta.w pfalock,x
-	jmp.w CODE_C45ABE
+	jmp.w playeracc
 .rtl:								; return
 	rtl
 CODE_C45A9F:						; called from other segments
@@ -1369,23 +1369,26 @@ CODE_C45A9F:						; called from other segments
 	beq .loop
 	dec.b a0
 	rtl
-CODE_C45ABE:						; from assstanley and other segments
+playeracc:							; player X accelerates toward direction d2 (0 up, clockwise): the routine
+									; of that direction from PlayerAccOneFrame (d7 = 1) or PlayerAccFrames
 	lda.b d2
 	asl a
 	tax
 	lda.b d7
 	dec a
 	beq .1
-	jmp (DATA8_C45ADD,x)
-.1:									; jump through DATA8_C45ACD,x
-	jmp (DATA8_C45ACD,x)
-DATA8_C45ACD:						; jump table: the routine for each index
-	dw CODE_C45AED,CODE_C45D0F,CODE_C45EE5,CODE_C46075
-	dw CODE_C4624F,CODE_C463E3,CODE_C465C1,CODE_C46755
-DATA8_C45ADD:						; jump table: the routine for each index
-	dw CODE_C45BB4,CODE_C45DF8,CODE_C45FAC,CODE_C4615F
-	dw CODE_C46317,CODE_C464CE,CODE_C46689,CODE_C4683F
-CODE_C45AED:						; from DATA8_C45ACD
+	jmp (PlayerAccFrames,x)
+.1:									; jump through PlayerAccOneFrame,x
+	jmp (PlayerAccOneFrame,x)
+PlayerAccOneFrame:					; the acceleration routine of each direction (0 up, clockwise) when d7 is
+									; 1: one step
+	dw PlayerAccDir0,PlayerAccDir1,PlayerAccDir2,PlayerAccDir3
+	dw PlayerAccDir4,PlayerAccDir5,PlayerAccDir6,PlayerAccDir7
+PlayerAccFrames:					; the acceleration routine of each direction (0 up, clockwise) when d7 is
+									; not 1: the step taken twice
+	dw PlayerAccDir0x2,PlayerAccDir1x2,PlayerAccDir2x2,PlayerAccDir3x2
+	dw PlayerAccDir4x2,PlayerAccDir5x2,PlayerAccDir6x2,PlayerAccDir7x2
+PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4693F,x
 	sta.b d1
 	ldx.b curobj
@@ -1482,7 +1485,8 @@ CODE_C45AED:						; from DATA8_C45ACD
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C45BB4:						; from DATA8_C45ADD
+PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4693F,x
 	sta.b d1
 	ldx.b curobj
@@ -1684,7 +1688,7 @@ CODE_C45D05:						; from DATA8_C45C7D
 	sec
 	sbc.b r2
 	rts
-CODE_C45D0F:						; from DATA8_C45ACD
+PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -1799,7 +1803,8 @@ CODE_C45D0F:						; from DATA8_C45ACD
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C45DF8:						; from DATA8_C45ADD
+PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -1918,7 +1923,7 @@ CODE_C45DF8:						; from DATA8_C45ADD
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C45EE5:						; from DATA8_C45ACD
+PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	ldx.b curobj

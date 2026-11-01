@@ -701,8 +701,8 @@ $C436DC,DATA8_C436DC,,new,"an rtl no traced code reaches (in bankC4_3000)",src/b
 $C436DD,DATA8_C436DD,,new,"not traced: a table read by CODE_C4366D (in bankC4_3000)",src/bankC4_3000.asm
 $C44CDD,DATA8_C44CDD,,new,"not traced: a table read by CODE_C44D4D, CODE_C44D62 (in bankC4_4000)",src/bankC4_4000.asm
 $C45519,DATA8_C45519,,new,"not traced: a table read by CODE_C45413 (in bankC4_5000)",src/bankC4_5000.asm
-$C45ACD,DATA8_C45ACD,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
-$C45ADD,DATA8_C45ADD,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
+$C45ACD,PlayerAccOneFrame,DATA8_C45ACD,code,"playeracc jumps through it by d2 when d7 = 1",src/bankC4_5000.asm
+$C45ADD,PlayerAccFrames,DATA8_C45ADD,code,"playeracc jumps through it by d2 otherwise; its routines add the step at $0D80,x twice where PlayerAccOneFrame's add it once",src/bankC4_5000.asm
 $C45C7D,DATA8_C45C7D,,new,"jump table: the routine for each index (in bankC4_5000)",src/bankC4_5000.asm
 $C4692F,DATA8_C4692F,,new,"not traced: a table read by CODE_C45FAC, CODE_C46075, CODE_C4615F, ... (in bankC4_6000)",src/bankC4_6000.asm
 $C4693F,DATA8_C4693F,,new,"not traced: a table read by CODE_C46075, CODE_C4615F, CODE_C4624F, ... (in bankC4_6000)",src/bankC4_6000.asm
@@ -3809,143 +3809,143 @@ $C45A65,.1,CODE_C45A65,new,"branch target only used in assstanley",src/bankC4_50
 $C45A71,.2,CODE_C45A71,new,"branch target only used in assstanley",src/bankC4_5000.asm
 $C45A9E,.rtl,CODE_C45A9E,new,"branch target only used in assstanley",src/bankC4_5000.asm
 $C45AA4,.loop,CODE_C45AA4,new,"branch target only used in CODE_C45A9F",src/bankC4_5000.asm
-$C45ACA,.1,CODE_C45ACA,new,"branch target only used in CODE_C45ABE",src/bankC4_5000.asm
-$C45B03,.1,CODE_C45B03,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45B09,.2,CODE_C45B09,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45B3C,.3,CODE_C45B3C,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45B7D,.4,CODE_C45B7D,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45B87,.5,CODE_C45B87,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45BAF,.6,CODE_C45BAF,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45BB3,.rtl,CODE_C45BB3,new,"branch target only used in CODE_C45AED",src/bankC4_5000.asm
-$C45BCA,.1,CODE_C45BCA,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45BD2,.2,CODE_C45BD2,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45C05,.3,CODE_C45C05,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45C46,.4,CODE_C45C46,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45C50,.5,CODE_C45C50,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45C78,.6,CODE_C45C78,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45C7C,.rtl,CODE_C45C7C,new,"branch target only used in CODE_C45BB4",src/bankC4_5000.asm
-$C45D2B,.1,CODE_C45D2B,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45D31,.2,CODE_C45D31,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45D4E,.3,CODE_C45D4E,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45D54,.4,CODE_C45D54,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45D7A,.5,CODE_C45D7A,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45DBB,.6,CODE_C45DBB,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45DC5,.7,CODE_C45DC5,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45DCB,.8,CODE_C45DCB,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45DF3,.9,CODE_C45DF3,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45DF7,.rtl,CODE_C45DF7,new,"branch target only used in CODE_C45D0F",src/bankC4_5000.asm
-$C45E14,.1,CODE_C45E14,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45E1C,.2,CODE_C45E1C,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45E39,.3,CODE_C45E39,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45E41,.4,CODE_C45E41,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45E67,.5,CODE_C45E67,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45EA8,.6,CODE_C45EA8,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45EB2,.7,CODE_C45EB2,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45EB8,.8,CODE_C45EB8,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45EE0,.9,CODE_C45EE0,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45EE4,.rtl,CODE_C45EE4,new,"branch target only used in CODE_C45DF8",src/bankC4_5000.asm
-$C45EFB,.1,CODE_C45EFB,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45F01,.2,CODE_C45F01,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45F34,.3,CODE_C45F34,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45F75,.4,CODE_C45F75,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45F7F,.5,CODE_C45F7F,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45FA7,.6,CODE_C45FA7,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45FAB,.rtl,CODE_C45FAB,new,"branch target only used in CODE_C45EE5",src/bankC4_5000.asm
-$C45FC2,.1,CODE_C45FC2,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C45FCA,.2,CODE_C45FCA,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C45FFD,.3,CODE_C45FFD,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C4603E,.4,CODE_C4603E,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C46048,.5,CODE_C46048,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C46070,.6,CODE_C46070,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C46074,.rtl,CODE_C46074,new,"branch target only used in CODE_C45FAC",src/bankC4_6000.asm
-$C46091,.1,CODE_C46091,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C46098,.2,CODE_C46098,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C460B5,.3,CODE_C460B5,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C460BB,.4,CODE_C460BB,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C460E1,.5,CODE_C460E1,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C46122,.6,CODE_C46122,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C4612C,.7,CODE_C4612C,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C46132,.8,CODE_C46132,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C4615A,.9,CODE_C4615A,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C4615E,.rtl,CODE_C4615E,new,"branch target only used in CODE_C46075",src/bankC4_6000.asm
-$C4617B,.1,CODE_C4617B,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C46186,.2,CODE_C46186,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C461A3,.3,CODE_C461A3,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C461AB,.4,CODE_C461AB,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C461D1,.5,CODE_C461D1,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C46212,.6,CODE_C46212,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C4621C,.7,CODE_C4621C,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C46222,.8,CODE_C46222,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C4624A,.9,CODE_C4624A,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C4624E,.rtl,CODE_C4624E,new,"branch target only used in CODE_C4615F",src/bankC4_6000.asm
-$C46265,.1,CODE_C46265,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C4626C,.2,CODE_C4626C,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C4629F,.3,CODE_C4629F,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C462E0,.4,CODE_C462E0,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C462EA,.5,CODE_C462EA,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C46312,.6,CODE_C46312,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C46316,.rtl,CODE_C46316,new,"branch target only used in CODE_C4624F",src/bankC4_6000.asm
-$C4632D,.1,CODE_C4632D,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C46338,.2,CODE_C46338,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C4636B,.3,CODE_C4636B,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C463AC,.4,CODE_C463AC,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C463B6,.5,CODE_C463B6,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C463DE,.6,CODE_C463DE,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C463E2,.rtl,CODE_C463E2,new,"branch target only used in CODE_C46317",src/bankC4_6000.asm
-$C463FF,.1,CODE_C463FF,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C46406,.2,CODE_C46406,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C46423,.3,CODE_C46423,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C4642A,.4,CODE_C4642A,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C46450,.5,CODE_C46450,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C46491,.6,CODE_C46491,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C4649B,.7,CODE_C4649B,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C464A1,.8,CODE_C464A1,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C464C9,.9,CODE_C464C9,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C464CD,.rtl,CODE_C464CD,new,"branch target only used in CODE_C463E3",src/bankC4_6000.asm
-$C464EA,.1,CODE_C464EA,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C464F5,.2,CODE_C464F5,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C46512,.3,CODE_C46512,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C4651D,.4,CODE_C4651D,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C46543,.5,CODE_C46543,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C46584,.6,CODE_C46584,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C4658E,.7,CODE_C4658E,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C46594,.8,CODE_C46594,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C465BC,.9,CODE_C465BC,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C465C0,.rtl,CODE_C465C0,new,"branch target only used in CODE_C464CE",src/bankC4_6000.asm
-$C465D7,.1,CODE_C465D7,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C465DE,.2,CODE_C465DE,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C46611,.3,CODE_C46611,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C46652,.4,CODE_C46652,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C4665C,.5,CODE_C4665C,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C46684,.6,CODE_C46684,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C46688,.rtl,CODE_C46688,new,"branch target only used in CODE_C465C1",src/bankC4_6000.asm
-$C4669F,.1,CODE_C4669F,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C466AA,.2,CODE_C466AA,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C466DD,.3,CODE_C466DD,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C4671E,.4,CODE_C4671E,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C46728,.5,CODE_C46728,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C46750,.6,CODE_C46750,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C46754,.rtl,CODE_C46754,new,"branch target only used in CODE_C46689",src/bankC4_6000.asm
-$C46771,.1,CODE_C46771,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C46777,.2,CODE_C46777,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C46794,.3,CODE_C46794,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C4679B,.4,CODE_C4679B,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C467C1,.5,CODE_C467C1,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C46802,.6,CODE_C46802,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C4680C,.7,CODE_C4680C,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C46812,.8,CODE_C46812,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C4683A,.9,CODE_C4683A,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C4683E,.rtl,CODE_C4683E,new,"branch target only used in CODE_C46755",src/bankC4_6000.asm
-$C4685B,.1,CODE_C4685B,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C46863,.2,CODE_C46863,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C46880,.3,CODE_C46880,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C4688B,.4,CODE_C4688B,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C468B1,.5,CODE_C468B1,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C468F2,.6,CODE_C468F2,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C468FC,.7,CODE_C468FC,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C46902,.8,CODE_C46902,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C4692A,.9,CODE_C4692A,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
-$C4692E,.rtl,CODE_C4692E,new,"branch target only used in CODE_C4683F",src/bankC4_6000.asm
+$C45ACA,.1,CODE_C45ACA,new,"branch target only used in playeracc",src/bankC4_5000.asm
+$C45B03,.1,CODE_C45B03,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45B09,.2,CODE_C45B09,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45B3C,.3,CODE_C45B3C,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45B7D,.4,CODE_C45B7D,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45B87,.5,CODE_C45B87,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45BAF,.6,CODE_C45BAF,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45BB3,.rtl,CODE_C45BB3,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
+$C45BCA,.1,CODE_C45BCA,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45BD2,.2,CODE_C45BD2,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45C05,.3,CODE_C45C05,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45C46,.4,CODE_C45C46,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45C50,.5,CODE_C45C50,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45C78,.6,CODE_C45C78,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45C7C,.rtl,CODE_C45C7C,new,"branch target only used in PlayerAccDir0x2",src/bankC4_5000.asm
+$C45D2B,.1,CODE_C45D2B,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45D31,.2,CODE_C45D31,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45D4E,.3,CODE_C45D4E,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45D54,.4,CODE_C45D54,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45D7A,.5,CODE_C45D7A,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45DBB,.6,CODE_C45DBB,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45DC5,.7,CODE_C45DC5,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45DCB,.8,CODE_C45DCB,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45DF3,.9,CODE_C45DF3,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45DF7,.rtl,CODE_C45DF7,new,"branch target only used in PlayerAccDir1",src/bankC4_5000.asm
+$C45E14,.1,CODE_C45E14,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45E1C,.2,CODE_C45E1C,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45E39,.3,CODE_C45E39,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45E41,.4,CODE_C45E41,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45E67,.5,CODE_C45E67,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45EA8,.6,CODE_C45EA8,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45EB2,.7,CODE_C45EB2,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45EB8,.8,CODE_C45EB8,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45EE0,.9,CODE_C45EE0,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45EE4,.rtl,CODE_C45EE4,new,"branch target only used in PlayerAccDir1x2",src/bankC4_5000.asm
+$C45EFB,.1,CODE_C45EFB,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45F01,.2,CODE_C45F01,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45F34,.3,CODE_C45F34,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45F75,.4,CODE_C45F75,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45F7F,.5,CODE_C45F7F,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45FA7,.6,CODE_C45FA7,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45FAB,.rtl,CODE_C45FAB,new,"branch target only used in PlayerAccDir2",src/bankC4_5000.asm
+$C45FC2,.1,CODE_C45FC2,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C45FCA,.2,CODE_C45FCA,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C45FFD,.3,CODE_C45FFD,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C4603E,.4,CODE_C4603E,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C46048,.5,CODE_C46048,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C46070,.6,CODE_C46070,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C46074,.rtl,CODE_C46074,new,"branch target only used in PlayerAccDir2x2",src/bankC4_6000.asm
+$C46091,.1,CODE_C46091,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C46098,.2,CODE_C46098,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C460B5,.3,CODE_C460B5,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C460BB,.4,CODE_C460BB,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C460E1,.5,CODE_C460E1,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C46122,.6,CODE_C46122,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C4612C,.7,CODE_C4612C,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C46132,.8,CODE_C46132,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C4615A,.9,CODE_C4615A,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C4615E,.rtl,CODE_C4615E,new,"branch target only used in PlayerAccDir3",src/bankC4_6000.asm
+$C4617B,.1,CODE_C4617B,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C46186,.2,CODE_C46186,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C461A3,.3,CODE_C461A3,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C461AB,.4,CODE_C461AB,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C461D1,.5,CODE_C461D1,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C46212,.6,CODE_C46212,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C4621C,.7,CODE_C4621C,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C46222,.8,CODE_C46222,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C4624A,.9,CODE_C4624A,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C4624E,.rtl,CODE_C4624E,new,"branch target only used in PlayerAccDir3x2",src/bankC4_6000.asm
+$C46265,.1,CODE_C46265,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C4626C,.2,CODE_C4626C,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C4629F,.3,CODE_C4629F,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C462E0,.4,CODE_C462E0,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C462EA,.5,CODE_C462EA,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C46312,.6,CODE_C46312,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C46316,.rtl,CODE_C46316,new,"branch target only used in PlayerAccDir4",src/bankC4_6000.asm
+$C4632D,.1,CODE_C4632D,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C46338,.2,CODE_C46338,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C4636B,.3,CODE_C4636B,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C463AC,.4,CODE_C463AC,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C463B6,.5,CODE_C463B6,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C463DE,.6,CODE_C463DE,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C463E2,.rtl,CODE_C463E2,new,"branch target only used in PlayerAccDir4x2",src/bankC4_6000.asm
+$C463FF,.1,CODE_C463FF,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C46406,.2,CODE_C46406,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C46423,.3,CODE_C46423,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C4642A,.4,CODE_C4642A,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C46450,.5,CODE_C46450,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C46491,.6,CODE_C46491,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C4649B,.7,CODE_C4649B,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C464A1,.8,CODE_C464A1,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C464C9,.9,CODE_C464C9,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C464CD,.rtl,CODE_C464CD,new,"branch target only used in PlayerAccDir5",src/bankC4_6000.asm
+$C464EA,.1,CODE_C464EA,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C464F5,.2,CODE_C464F5,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C46512,.3,CODE_C46512,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C4651D,.4,CODE_C4651D,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C46543,.5,CODE_C46543,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C46584,.6,CODE_C46584,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C4658E,.7,CODE_C4658E,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C46594,.8,CODE_C46594,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C465BC,.9,CODE_C465BC,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C465C0,.rtl,CODE_C465C0,new,"branch target only used in PlayerAccDir5x2",src/bankC4_6000.asm
+$C465D7,.1,CODE_C465D7,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C465DE,.2,CODE_C465DE,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C46611,.3,CODE_C46611,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C46652,.4,CODE_C46652,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C4665C,.5,CODE_C4665C,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C46684,.6,CODE_C46684,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C46688,.rtl,CODE_C46688,new,"branch target only used in PlayerAccDir6",src/bankC4_6000.asm
+$C4669F,.1,CODE_C4669F,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C466AA,.2,CODE_C466AA,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C466DD,.3,CODE_C466DD,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C4671E,.4,CODE_C4671E,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C46728,.5,CODE_C46728,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C46750,.6,CODE_C46750,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C46754,.rtl,CODE_C46754,new,"branch target only used in PlayerAccDir6x2",src/bankC4_6000.asm
+$C46771,.1,CODE_C46771,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C46777,.2,CODE_C46777,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C46794,.3,CODE_C46794,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C4679B,.4,CODE_C4679B,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C467C1,.5,CODE_C467C1,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C46802,.6,CODE_C46802,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C4680C,.7,CODE_C4680C,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C46812,.8,CODE_C46812,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C4683A,.9,CODE_C4683A,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C4683E,.rtl,CODE_C4683E,new,"branch target only used in PlayerAccDir7",src/bankC4_6000.asm
+$C4685B,.1,CODE_C4685B,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C46863,.2,CODE_C46863,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C46880,.3,CODE_C46880,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C4688B,.4,CODE_C4688B,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C468B1,.5,CODE_C468B1,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C468F2,.6,CODE_C468F2,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C468FC,.7,CODE_C468FC,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C46902,.8,CODE_C46902,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C4692A,.9,CODE_C4692A,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
+$C4692E,.rtl,CODE_C4692E,new,"branch target only used in PlayerAccDir7x2",src/bankC4_6000.asm
 $C46957,.1,CODE_C46957,new,"branch target only used in doplayeracc",src/bankC4_6000.asm
 $C4696E,.2,CODE_C4696E,new,"branch target only used in doplayeracc",src/bankC4_6000.asm
 $C4698A,.3,CODE_C4698A,new,"branch target only used in doplayeracc",src/bankC4_6000.asm
@@ -7374,3 +7374,20 @@ $C5EC73,SpriteAnimClearVFlip,CODE_C5EC73,code,"clear the vertical tile flip attr
 $C5EC7E,SpriteAnimClearFlag4000,CODE_C5EC7E,code,"clear the animation flag $4000 and continue",src/bankC5_E000.asm
 $C5EC89,SpriteAnimBranchIfFlagClear,CODE_C5EC89,code,"jump to the byte position if animation flag $4000 is clear",src/bankC5_E000.asm
 $C5ECF1,UploadSpriteFrames,CODE_C5ECF1,code,"upload each frame in the object's negative-terminated frame list",src/bankC5_E000.asm
+$C45ABE,playeracc,CODE_C45ABE,94S+purpose,"same job as 94S playeracc (accelerate player X toward direction d2 with the wall cancels), called from the same places (assstanley, goalieacc, revplayeracc which noturn0 falls into, CODE_C48BAA); 95 has a routine per direction and frame count where 94S computes the step",src/bankC4_5000.asm
+$C45AED,PlayerAccDir0,CODE_C45AED,code,"entry 0 of PlayerAccOneFrame",src/bankC4_5000.asm
+$C45BB4,PlayerAccDir0x2,CODE_C45BB4,code,"entry 0 of PlayerAccFrames",src/bankC4_5000.asm
+$C45D0F,PlayerAccDir1,CODE_C45D0F,code,"entry 1 of PlayerAccOneFrame",src/bankC4_5000.asm
+$C45DF8,PlayerAccDir1x2,CODE_C45DF8,code,"entry 1 of PlayerAccFrames",src/bankC4_5000.asm
+$C45EE5,PlayerAccDir2,CODE_C45EE5,code,"entry 2 of PlayerAccOneFrame",src/bankC4_5000.asm
+$C45FAC,PlayerAccDir2x2,CODE_C45FAC,code,"entry 2 of PlayerAccFrames",src/bankC4_6000.asm
+$C46075,PlayerAccDir3,CODE_C46075,code,"entry 3 of PlayerAccOneFrame",src/bankC4_6000.asm
+$C4615F,PlayerAccDir3x2,CODE_C4615F,code,"entry 3 of PlayerAccFrames",src/bankC4_6000.asm
+$C4624F,PlayerAccDir4,CODE_C4624F,code,"entry 4 of PlayerAccOneFrame",src/bankC4_6000.asm
+$C46317,PlayerAccDir4x2,CODE_C46317,code,"entry 4 of PlayerAccFrames",src/bankC4_6000.asm
+$C463E3,PlayerAccDir5,CODE_C463E3,code,"entry 5 of PlayerAccOneFrame",src/bankC4_6000.asm
+$C464CE,PlayerAccDir5x2,CODE_C464CE,code,"entry 5 of PlayerAccFrames",src/bankC4_6000.asm
+$C465C1,PlayerAccDir6,CODE_C465C1,code,"entry 6 of PlayerAccOneFrame",src/bankC4_6000.asm
+$C46689,PlayerAccDir6x2,CODE_C46689,code,"entry 6 of PlayerAccFrames",src/bankC4_6000.asm
+$C46755,PlayerAccDir7,CODE_C46755,code,"entry 7 of PlayerAccOneFrame",src/bankC4_6000.asm
+$C4683F,PlayerAccDir7x2,CODE_C4683F,code,"entry 7 of PlayerAccFrames",src/bankC4_6000.asm

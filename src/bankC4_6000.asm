@@ -1,7 +1,8 @@
 ; Segment bankC4_6000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C45FAC
-CODE_C45FAC:						; called from other segments
+PlayerAccDir2x2:					; playeracc toward direction 2 (right), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	ldx.b curobj
@@ -100,7 +101,7 @@ CODE_C45FAC:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C46075:						; called from other segments
+PlayerAccDir3:						; playeracc toward direction 3 (down-right), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -216,7 +217,8 @@ CODE_C46075:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C4615F:						; called from other segments
+PlayerAccDir3x2:					; playeracc toward direction 3 (down-right), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -336,7 +338,7 @@ CODE_C4615F:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C4624F:						; called from other segments
+PlayerAccDir4:						; playeracc toward direction 4 (down), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4693F,x
 	sta.b d1
 	ldx.b curobj
@@ -434,7 +436,8 @@ CODE_C4624F:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C46317:						; called from other segments
+PlayerAccDir4x2:					; playeracc toward direction 4 (down), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4693F,x
 	sta.b d1
 	ldx.b curobj
@@ -534,7 +537,7 @@ CODE_C46317:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C463E3:						; called from other segments
+PlayerAccDir5:						; playeracc toward direction 5 (down-left), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -651,7 +654,8 @@ CODE_C463E3:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C464CE:						; called from other segments
+PlayerAccDir5x2:					; playeracc toward direction 5 (down-left), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -772,7 +776,7 @@ CODE_C464CE:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C465C1:						; called from other segments
+PlayerAccDir6:						; playeracc toward direction 6 (left), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	ldx.b curobj
@@ -870,7 +874,8 @@ CODE_C465C1:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C46689:						; called from other segments
+PlayerAccDir6x2:					; playeracc toward direction 6 (left), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	ldx.b curobj
@@ -970,7 +975,7 @@ CODE_C46689:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C46755:						; called from other segments
+PlayerAccDir7:						; playeracc toward direction 7 (up-left), one step (PlayerAccOneFrame)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -1086,7 +1091,8 @@ CODE_C46755:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-CODE_C4683F:						; called from other segments
+PlayerAccDir7x2:					; playeracc toward direction 7 (up-left), the step taken twice
+									; (PlayerAccFrames)
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	lda.l DATA8_C4693F,x
@@ -1206,9 +1212,9 @@ CODE_C4683F:						; called from other segments
 	jml.l setpde
 .rtl:								; return
 	rtl
-DATA8_C4692F:						; not traced: a table read by CODE_C45FAC, CODE_C46075, CODE_C4615F, ...
+DATA8_C4692F:						; not traced: a table read by PlayerAccDir2x2, PlayerAccDir3, ...
 	db $00,$00,$04,$00,$07,$00,$04,$00,$00,$00,$FC,$FF,$F9,$FF,$FC,$FF
-DATA8_C4693F:						; not traced: a table read by CODE_C46075, CODE_C4615F, CODE_C4624F, ...
+DATA8_C4693F:						; not traced: a table read by PlayerAccDir3, PlayerAccDir3x2, ...
 	db $07,$00,$04,$00,$00,$00,$FC,$FF,$F9,$FF,$FC,$FF,$00,$00,$04,$00
 doplayeracc:						; from CODE_C470E7 and other segments
 	lda.w position,x
@@ -1519,8 +1525,8 @@ revplayeracc:						; from doplayeracc, noturn0
 	lda.b d2
 	eor.w #$0004
 	sta.b d2
-.1:									; go to CODE_C45ABE
-	jmp.w CODE_C45ABE
+.1:									; go to playeracc
+	jmp.w playeracc
 CODE_C46BF6:						; from CODE_C47040 and other segments
 	stz.b tmp2
 	lda.w Xpos,x
