@@ -2068,3 +2068,7 @@ $CAFBF9,DATA8_CAFBF9,,new,"raw frame tiles for transfer index $2D5; pose not tra
 $CAFDF9,ArtRossPicMap,DATA8_CAFDF9,render+genesis+code,"the picture of award 5 (Art Ross Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 5, whose AwardNames text reads Art Ross Trophy. 95G ArtRossPic",src/bankCA_F000.asm
 $CAFECC,ArtRossPicTiles,DATA8_CAFECC,render+genesis+code,"its tiles (82, 4bpp, LZSS)",src/bankCA_F000.asm
 $CB088E,ArtRossPicPalette,DATA8_CB088E,render+genesis+code,"its colours (16)",src/bankCA_F000.asm
+$CB08B5,DATA8_CB08B5,,new,"raw frame tiles for transfer index $2D6; pose not traced",src/bankCB_0000.asm
+$CB0B15,DATA8_CB0B15,,new,"raw frame tiles for transfer index $2D7; pose not traced",src/bankCB_0000.asm
+$CB0D15,DATA8_CB0D15,,new,"raw frame tiles for transfer index $2D8; pose not traced",src/bankCB_0000.asm
+$CB0F75,DATA8_CB0F75,,new,"raw frame tiles for transfer index $2D9; pose not traced",src/bankCB_0000.asm

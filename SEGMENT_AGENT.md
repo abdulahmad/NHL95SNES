@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCB_0000 (org $CB08B5): banks $C0-$CA are all source. <- CURRENT
+bankCB_1000 (org $CB1175): banks $C0-$CA are all source. <- CURRENT
 
 ## Sources
 
@@ -485,6 +485,8 @@ bankCB_0000 (org $CB08B5): banks $C0-$CA are all source. <- CURRENT
 - 2026-10-31: bankCA_F000 matched: raw frame tiles; ArtRossPic, an award picture (ends in next bank). Transfer extents come from
   CODE_C5F368 and its size lookup; pointer entries use labels as targets become source. ArtRossPic is AwardPictures entry 5 (Art
   Ross Trophy); its map and tile LZSS ends match the chunk lengths and it runs to $CB08B4. Bank $CA is all source.
+- 2026-10-31: bankCB_0000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -668,8 +670,8 @@ The first row that is still incbin is the current segment.
 | bankCA_D000 | matched 4192 bytes | $CAD0D9 | $CAE138 | raw frame tiles (poses not traced); org moved to $CAD0D9, end moved +$139 |
 | bankCA_E000 | matched 3840 bytes | $CAE139 | $CAF038 | raw frame tiles (poses not traced); org moved to $CAE139, end moved +$39 |
 | bankCA_F000 | matched 6268 bytes | $CAF039 | $CB08B4 | raw frame tiles; ArtRossPic, an award picture (ends in next bank); org moved to $CAF039, end moved +$8B5 |
-| bankCB_0000 | incbin | $CB08B5 | $CB0FFF | <- CURRENT |
-| bankCB_1000 | incbin | $CB1000 | $CB1FFF | |
+| bankCB_0000 | matched 2240 bytes | $CB08B5 | $CB1174 | raw frame tiles (poses not traced); org moved to $CB08B5, end moved +$175 |
+| bankCB_1000 | incbin | $CB1175 | $CB1FFF | <- CURRENT |
 | bankCB_2000 | incbin | $CB2000 | $CB2FFF | |
 | bankCB_3000 | incbin | $CB3000 | $CB3FFF | |
 | bankCB_4000 | incbin | $CB4000 | $CB4FFF | |
