@@ -99,14 +99,14 @@ skatetopuck:						; called from other segments
 	lsr a
 	and.w #$01FE
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	sta.b d0
 	lda.b d1
 	and.w #$07F8
 	lsr a
 	lsr a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	ldx.b a3
 	adc.b d0
 	cmp.w #$000E

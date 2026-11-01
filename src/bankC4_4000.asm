@@ -1517,14 +1517,14 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C3884A,x
+	lda.l SquareTable,x
 	sta.b d1
 	lda.b d0
 	and.w #$00FF
 	asl a
 	tax
 	lda.b d1
-	adc.l DATA8_C3884A,x
+	adc.l SquareTable,x
 	sta.b d0
 	ldx.b curobj
 	lda.w #$00C4
@@ -1573,9 +1573,9 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C3884A,x
+	lda.l SquareTable,x
 	ldx.b d1
-	adc.l DATA8_C3884A,x
+	adc.l SquareTable,x
 	sta.b d0
 	ldx.b a3
 	cmp.w #$0091
@@ -1713,20 +1713,20 @@ CODE_C44D3D:						; from checkpuckcoll_ccx
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C3884A,x
+	lda.l SquareTable,x
 	sta.b d0
 	lda.b d1
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C3884A,x
+	lda.l SquareTable,x
 	adc.b d0
 	sta.b d0
 	lda.b d2
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C3884A,x
+	lda.l SquareTable,x
 	ldx.b curobj
 	sta.b d1
 	lda.w $0CFC

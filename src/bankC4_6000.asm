@@ -23,7 +23,7 @@ PlayerAccDir2x2:					; playeracc toward direction 2 (right), the step taken twic
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09C1,x
@@ -31,7 +31,7 @@ PlayerAccDir2x2:					; playeracc toward direction 2 (right), the step taken twic
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -123,7 +123,7 @@ PlayerAccDir3:						; playeracc toward direction 3 (down-right), one step (Playe
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -142,7 +142,7 @@ PlayerAccDir3:						; playeracc toward direction 3 (down-right), one step (Playe
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -242,7 +242,7 @@ PlayerAccDir3x2:					; playeracc toward direction 3 (down-right), the step taken
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -263,7 +263,7 @@ PlayerAccDir3x2:					; playeracc toward direction 3 (down-right), the step taken
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -358,7 +358,7 @@ PlayerAccDir4:						; playeracc toward direction 4 (down), one step (PlayerAccOn
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09A1,x
@@ -366,7 +366,7 @@ PlayerAccDir4:						; playeracc toward direction 4 (down), one step (PlayerAccOn
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($83)
@@ -459,7 +459,7 @@ PlayerAccDir4x2:					; playeracc toward direction 4 (down), the step taken twice
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09A1,x
@@ -467,7 +467,7 @@ PlayerAccDir4x2:					; playeracc toward direction 4 (down), the step taken twice
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($83)
@@ -559,7 +559,7 @@ PlayerAccDir5:						; playeracc toward direction 5 (down-left), one step (Player
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -579,7 +579,7 @@ PlayerAccDir5:						; playeracc toward direction 5 (down-left), one step (Player
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -679,7 +679,7 @@ PlayerAccDir5x2:					; playeracc toward direction 5 (down-left), the step taken 
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -701,7 +701,7 @@ PlayerAccDir5x2:					; playeracc toward direction 5 (down-left), the step taken 
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -796,7 +796,7 @@ PlayerAccDir6:						; playeracc toward direction 6 (left), one step (PlayerAccOn
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09C1,x
@@ -804,7 +804,7 @@ PlayerAccDir6:						; playeracc toward direction 6 (left), one step (PlayerAccOn
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -897,7 +897,7 @@ PlayerAccDir6x2:					; playeracc toward direction 6 (left), the step taken twice
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09C1,x
@@ -905,7 +905,7 @@ PlayerAccDir6x2:					; playeracc toward direction 6 (left), the step taken twice
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -996,7 +996,7 @@ PlayerAccDir7:						; playeracc toward direction 7 (up-left), one step (PlayerAc
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -1016,7 +1016,7 @@ PlayerAccDir7:						; playeracc toward direction 7 (up-left), one step (PlayerAc
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -1115,7 +1115,7 @@ PlayerAccDir7x2:					; playeracc toward direction 7 (up-left), the step taken tw
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -1137,7 +1137,7 @@ PlayerAccDir7x2:					; playeracc toward direction 7 (up-left), the step taken tw
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -1366,7 +1366,7 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	sta.b d4
 	ldx.b a3
 	lda.w $09C1,x
@@ -1374,7 +1374,7 @@ doplayeracc:						; from CODE_C470E7 and other segments
 	asl a
 	tax
 	lda.b d4
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	lda.w #$0300
 	sec

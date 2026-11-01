@@ -821,14 +821,14 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	lsr a
 	and.w #$01FE
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	sta.b d0
 	lda.b d3
 	lsr a
 	and.w #$03FC
 	lsr a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	adc.b d0
 	cmp.b $91
 	bcs .5
@@ -1844,7 +1844,7 @@ Sroot:								; no caller found (not traced)
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C3884A,x
+	lda.l SquareTable,x
 	cmp.b d0
 	bcc .8
 	pla

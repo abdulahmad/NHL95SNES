@@ -852,7 +852,7 @@ FillPlayerAssignments:				; fill the player assignment ring with d0 and advance 
 	inx
 	inx
 	rtl
-DATA8_C3884A:						; not traced: a table read by CODE_C44BF1, CODE_C44C5D, CODE_C44DC7
+SquareTable:						; the squares of 0-255 as words (read with the byte times 2)
 	db $00,$00,$01,$00,$04,$00,$09,$00,$10,$00,$19,$00,$24,$00,$31,$00
 	db $40,$00,$51,$00,$64,$00,$79,$00,$90,$00,$A9,$00,$C4,$00,$E1,$00
 	db $00,$01,$21,$01,$44,$01,$69,$01,$90,$01,$B9,$01,$E4,$01,$11,$02
@@ -885,7 +885,8 @@ DATA8_C3884A:						; not traced: a table read by CODE_C44BF1, CODE_C44C5D, CODE_
 	db $40,$D2,$11,$D4,$E4,$D5,$B9,$D7,$90,$D9,$69,$DB,$44,$DD,$21,$DF
 	db $00,$E1,$E1,$E2,$C4,$E4,$A9,$E6,$90,$E8,$79,$EA,$64,$EC,$51,$EE
 	db $40,$F0,$31,$F2,$24,$F4,$19,$F6,$10,$F8,$09,$FA,$04,$FC,$01,$FE
-DATA8_C38A4A:						; not traced: a table read by CODE_C37684, CODE_C45BD2, CODE_C45E1C, ...
+SignedSquareTable:					; the squares of a signed byte as words: entry n holds n squared below 128
+									; and 256-n squared from 128 on
 	db $00,$00,$01,$00,$04,$00,$09,$00,$10,$00,$19,$00,$24,$00,$31,$00
 	db $40,$00,$51,$00,$64,$00,$79,$00,$90,$00,$A9,$00,$C4,$00,$E1,$00
 	db $00,$01,$21,$01,$44,$01,$69,$01,$90,$01,$B9,$01,$E4,$01,$11,$02

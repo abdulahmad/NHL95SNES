@@ -9,7 +9,7 @@ incsrc "../ram95s.asm"
 QueueSoundCmd = $CF00E3
 StartSound = $CF040B
 StartSoundVolume = $CF0418			; sound routine in bankCF_0000
-DATA8_C3884A = $C3884A
+SquareTable = $C3884A
 GetFrameHot = $C37FE2				; return the current frame hot spot in d0 and d1
 ApproxLength = $C38778
 puckbody = $C4A6B1

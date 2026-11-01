@@ -7,8 +7,8 @@ incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 QueueSoundCmd = $CF00E3
-DATA8_C3884A = $C3884A
-DATA8_C38A4A = $C38A4A
+SquareTable = $C3884A
+SignedSquareTable = $C38A4A
 UpdateGameObjectSprites = $C382B8	; queue changed player frames and build sorted object sprites
 SprSort = $C384FC
 showref = $C38CF5					; clear the referee window changed flag

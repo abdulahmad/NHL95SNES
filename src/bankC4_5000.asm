@@ -1408,7 +1408,7 @@ PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneF
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09A1,x
@@ -1416,7 +1416,7 @@ PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneF
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($83)
@@ -1508,7 +1508,7 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09A1,x
@@ -1516,7 +1516,7 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($83)
@@ -1710,7 +1710,7 @@ PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerA
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -1729,7 +1729,7 @@ PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerA
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -1828,7 +1828,7 @@ PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken t
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
@@ -1849,7 +1849,7 @@ PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken t
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)
@@ -1943,7 +1943,7 @@ PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccO
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
 	lda.w $09C1,x
@@ -1951,7 +1951,7 @@ PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccO
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b d3
 	ldx.b curobj
 	pei ($7F)

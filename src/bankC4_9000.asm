@@ -416,14 +416,14 @@ chk4shot:							; called from other segments
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C38A4A,x
+	lda.l SignedSquareTable,x
 	tay
 	lda.b d1
 	and.w #$00FF
 	asl a
 	tax
 	tya
-	adc.l DATA8_C38A4A,x
+	adc.l SignedSquareTable,x
 	sta.b tmp0
 	ldx.b curobj
 	cmp.w #$2711

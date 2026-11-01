@@ -1493,8 +1493,8 @@ $C38662,DATA8_C38662,,new,"not traced: a table read by CODE_C38585 (in bankC3_80
 $C38664,DATA8_C38664,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
 $C38666,DATA8_C38666,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
 $C38668,DATA8_C38668,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
-$C3884A,DATA8_C3884A,,new,"not traced: a table read by CODE_C44BF1, CODE_C44C5D, CODE_C44DC7 (in bankC3_8000)",src/bankC3_8000.asm
-$C38A4A,DATA8_C38A4A,,new,"not traced: a table read by CODE_C37684, CODE_C45BD2, CODE_C45E1C, ... (in bankC3_8000)",src/bankC3_8000.asm
+$C3884A,SquareTable,DATA8_C3884A,code,"256 words n * n; checkpuckcoll_ccx and the bank $C4 collision code square distances with it where 94S calls Mul8U",src/bankC3_8000.asm
+$C38A4A,SignedSquareTable,DATA8_C38A4A,code,"256 words; PlayerAccDir0 ... and bank $C3 code read it",src/bankC3_8000.asm
 $C38D43,DATA8_C38D43,,new,"not traced: a table read by CODE_C38D0E (in bankC3_8000)",src/bankC3_8000.asm
 $C38EFE,Sample03,,new,"sound sample 3 of the sample list: header, then BRR blocks",src/bankC3_9000.asm
 $C3965A,Sample04,,new,"sound sample 4 of the sample list: header, then BRR blocks",src/bankC3_9000.asm
