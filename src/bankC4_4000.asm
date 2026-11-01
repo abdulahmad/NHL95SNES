@@ -350,8 +350,8 @@ wallcollb_out:						; from wallcollb, CODE_C44212
 	bpl .1
 	lda.w #$8000
 	tsb.w $08FC
-.1:									; $0874 = 0, if gmclock is not 0 go to .2, A = $2002, A * 2, ...
-	stz.w $0874
+.1:									; frame+$1E = 0, if gmclock is not 0 go to .2, A = $2002, A * 2, ...
+	stz.w frame+$1E
 	lda.w gmclock
 	bne .2
 	lda.w $2002

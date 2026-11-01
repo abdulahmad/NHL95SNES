@@ -109,7 +109,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	stz.w penshotlive
 	stz.w lastperiod
 	stz.w teampads
-	stz.w $14F7
+	stz.w teampads+2
 	ldx.w #$0008
 .2:									; if cont1team,x is not $0001 go to .3, teampads + 1, go to .4
 	lda.w cont1team,x
@@ -117,10 +117,10 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	bne .3
 	inc.w teampads
 	bra .4
-.3:									; if A is not $0002 go to .4, $14F7 + 1
+.3:									; if A is not $0002 go to .4, teampads+2 + 1
 	cmp.w #$0002
 	bne .4
-	inc.w $14F7
+	inc.w teampads+2
 .4:									; A - 1, A * 2, padside,x = A, X - 1, ...
 	dec a
 	asl a
@@ -1121,20 +1121,20 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	bpl .74
 	lda.w #$FF65
 	sta.w puckx
-	ldx.w $0872
+	ldx.w frame+$1C
 	cpx.w #$01B3
 	bne .74
-	sta.w $0832
+	sta.w Xpos+$1E
 .74:								; if puckx - $009B < 0 go to .75, puckx = $009B, ...
 	lda.w puckx
 	cmp.w #$009B
 	bmi .75
 	lda.w #$009B
 	sta.w puckx
-	ldx.w $0872
+	ldx.w frame+$1C
 	cpx.w #$01B3
 	bne .75
-	sta.w $0832
+	sta.w Xpos+$1E
 .75:								; if puckz is not 0 go to .77, if pucky - $FEAE < 0 go to .77, ...
 	lda.w puckz
 	bne .77
@@ -1148,14 +1148,14 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	bpl .76
 	lda.w #$FEC7
 	sta.w pucky
-	sta.w $08B4
-.76:								; if pucky - $013E < 0 go to .77, pucky = $013E, $08B4 = A
+	sta.w Ypos+$1E
+.76:								; if pucky - $013E < 0 go to .77, pucky = $013E, Ypos+$1E = A
 	lda.w pucky
 	cmp.w #$013E
 	bmi .77
 	lda.w #$013E
 	sta.w pucky
-	sta.w $08B4
+	sta.w Ypos+$1E
 .77:								; if puckc < 0 go to .rtl, $2000 = pucky
 	lda.w puckc
 	bmi .rtl

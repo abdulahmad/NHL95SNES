@@ -444,7 +444,7 @@ PlayShootout:						; the shootout: shootoutmode set, two options saved, the shoo
 	sta.w OptLine
 	rtl
 ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
-	stz.w $189E
+	stz.w shootoutstop
 	stz.w shootoutturnover
 	pei ($6B)
 	jsl.l ClearPenaltyBuffer

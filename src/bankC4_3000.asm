@@ -973,11 +973,11 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	jsl.l ClrHor
 	lda.w #$0008
 	tsb.w tmflags
-	tsb.w $1301
+	tsb.w tmflags+2
 	jsl.l CloseLCBoxes
 	lda.w #$0008
 	trb.w tmflags
-	trb.w $1301
+	trb.w tmflags+2
 	stz.b Vpos
 	stz.b Hpos
 	lda.w fox
@@ -998,9 +998,9 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w #$FEE8
 	sta.w $08B0
 	lda.w #$01B3
-	sta.w $0874
+	sta.w frame+$1E
 	stz.w $0C9E
-	stz.w $08FE
+	stz.w attribute+$1E
 	stz.w $08FC
 	lda.w #$0040
 	trb.w sflags

@@ -1245,7 +1245,7 @@ PenGoalStuff:						; called from other segments
 	sta.w tmPwrGoals,y
 	lda.w #$0001
 	tsb.w tmflags
-	tsb.w $1301
+	tsb.w tmflags+2
 .8:									; pull A, $65 = A, pull A, a0 = A, ...
 	pla
 	sta.b $65

@@ -7571,3 +7571,7 @@ $C51E0C,AwayFaceoffLineChange,CODE_C51E0C,code,"94S puckfaceoff .6 (a local labe
 $C51F48,FirstTeamPad,CODE_C51F48,code,"94S puckfaceoff .10 (a local label there)",src/bankC5_1000.asm
 $C51F60,HomePadPlayer,CODE_C51F60,code,"94S puckfaceoff .11 (a local label there)",src/bankC5_1000.asm
 $C51F6E,AwayPadPlayer,CODE_C51F6E,code,"94S puckfaceoff .12 (a local label there)",src/bankC5_1000.asm
+$14E5,CrowdLoud,,94S+code,"RAM: 94S puckfaceoff clears CrowdLoud at the same first step (side by side); 95 has no other use of it",src/ram95s.asm
+$189E,shootoutstop,,94S+code,"RAM: 94S: PlayShootout clears it, SetPA sets 1 in a shootout, puckfaceoff ends the turn while it is set; the same three steps here (side by side)",src/ram95s.asm
+$234C,newperiod,,94S+code,"RAM: 94S newperiod at the same puckfaceoff steps (side by side); SetupTeamForIntermission sets 1 as in 94S",src/ram95s.asm
+$234E,pspuckback,,94S+code,"RAM: 94S pucknorm / pucknorm_move side by side: pucknorm clears it, pucknorm_move counts it up to $30 (then EndPenaltyShot) or clears it",src/ram95s.asm

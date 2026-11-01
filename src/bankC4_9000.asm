@@ -110,13 +110,13 @@ CODE_C4939D:						; from GoaliePuckVector
 pucknorm:							; assignment (asstab entry 24): the puck most of the time; a new
 									; assignment clears its timers, then pucknorm_move
 	lda.w #$0002
-	trb.w $0D7C
+	trb.w pflags+$1C
 	beq pucknorm_move
 	stz.w temp1+$1C
-	stz.w $0B1C
+	stz.w temp2+$1C
 	lda.w #$0078
-	sta.w $0B9C
-	stz.w $234E
+	sta.w temp2b+$1C
+	stz.w pspuckback
 pucknorm_move:						; from pucknorm and other segments
 	lda.w puckcross+2
 	sec
@@ -200,15 +200,15 @@ pucknorm_move:						; from pucknorm and other segments
 	lda.w puckvy
 	dec a
 	bpl .9
-.8:									; A = $234E, A + 1, $234E = A, if A < $0030 go to .10, ...
-	lda.w $234E
+.8:									; A = pspuckback, A + 1, pspuckback = A, if A < $0030 go to .10, ...
+	lda.w pspuckback
 	inc a
-	sta.w $234E
+	sta.w pspuckback
 	cmp.w #$0030
 	bcc .10
 	jsl.l EndPenaltyShot
-.9:									; $234E = 0
-	stz.w $234E
+.9:									; pspuckback = 0
+	stz.w pspuckback
 .10:								; if puckx is not OldXpos+$1C go to .12, ...
 	lda.w puckx
 	cmp.w OldXpos+$1C
@@ -218,15 +218,15 @@ pucknorm_move:						; from pucknorm and other segments
 	bne .12
 	lda.w #$0006
 	sta.b d0
-	dec.w $0B9C
+	dec.w temp2b+$1C
 	bpl .13
 	jsl.l AddPenalty2
 	bra .13
-.11:								; $234E = 0
-	stz.w $234E
-.12:								; $0B9C = $0078
+.11:								; pspuckback = 0
+	stz.w pspuckback
+.12:								; temp2b+$1C = $0078
 	lda.w #$0078
-	sta.w $0B9C
+	sta.w temp2b+$1C
 .13:								; A = puckvz, A and $FF00, if the result = 0 go to .14, ...
 	lda.w puckvz
 	and.w #$FF00

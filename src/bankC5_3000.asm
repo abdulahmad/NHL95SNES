@@ -859,8 +859,8 @@ CODE_C53651:						; called from other segments
 .5:									; p0 - 1, if the result is not 0 go to .loop4
 	dec.b p0
 	bne .loop4
-.6:									; if $14F7 = 0 go to .rtl, p0 = $0005, X = $05BE, $05BE = $FFFF, ...
-	lda.w $14F7
+.6:									; if teampads+2 = 0 go to .rtl, p0 = $0005, X = $05BE, $05BE = $FFFF, ...
+	lda.w teampads+2
 	beq .rtl
 	lda.w #$0005
 	sta.b p0

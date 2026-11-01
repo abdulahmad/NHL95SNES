@@ -909,7 +909,7 @@ CODE_C51825:						; called from other segments
 	inc.w $18AA
 	lda.w #$FFFF
 	sta.w lcpad
-	sta.w $184E
+	sta.w lcpad+2
 	jsl.l CloseLCBoxes
 	lda.w $2038
 	sec
@@ -1344,13 +1344,13 @@ CODE_C51AFF:						; called from other segments
 	sty.b a2
 	ldx.b a3
 	jsl.l a2touchpuck
-.10:								; A = tmflags, A and $FFFB, tmflags = A, A = $1301, ...
+.10:								; A = tmflags, A and $FFFB, tmflags = A, A = tmflags+2, ...
 	lda.w tmflags
 	and.w #$FFFB
 	sta.w tmflags
-	lda.w $1301
+	lda.w tmflags+2
 	and.w #$FFFB
-	sta.w $1301
+	sta.w tmflags+2
 	ldx.b a3
 	jsl.l RandomWord
 	and.w #$07FF
@@ -1426,10 +1426,10 @@ CODE_C51C58:						; called from other segments
 	jml.l SetSPAFromA
 puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play; PeriodOver
 									; when the clock has run out, Stop4Pen for a penalty
-	stz.w $14E5
+	stz.w CrowdLoud
 	lda.w shootoutmode
 	beq .1
-	lda.w $189E
+	lda.w shootoutstop
 	beq .1
 	inc.w shootoutturnover
 	rtl
@@ -1478,15 +1478,15 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	ora.w penshotlive
 	beq .8
 	jmp.w WaitForFaceoffLineChanges
-.8:									; lcpad = $FFFF, $184E = A, $18E2 = 0, $18E4 = 0, ...
+.8:									; lcpad = $FFFF, lcpad+2 = A, $18E2 = 0, $18E4 = 0, ...
 	lda.w #$FFFF
 	sta.w lcpad
-	sta.w $184E
+	sta.w lcpad+2
 	stz.w $18E2
 	stz.w $18E4
 	lda.w #$0008
 	trb.w tmflags
-	trb.w $1301
+	trb.w tmflags+2
 	lda.w cont1team
 	ora.w cont2team
 	ora.w cont3team
@@ -1498,8 +1498,8 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	lda.w #$0040
 	tsb.w sflags
 	jsl.l ClrHor
-.9:									; if $234C is not 0 go to .10, if teampads = 0 go to .10, ...
-	lda.w $234C
+.9:									; if newperiod is not 0 go to .10, if teampads = 0 go to .10, ...
+	lda.w newperiod
 	bne .10
 	lda.w teampads
 	beq .10
@@ -1507,17 +1507,17 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	lsr a
 	sta.b d0
 	jsl.l HomeFaceoffLineChange
-.10:								; if $234C is not 0 go to .11, if $14F7 = 0 go to .11, ...
-	lda.w $234C
+.10:								; if newperiod is not 0 go to .11, if teampads+2 = 0 go to .11, ...
+	lda.w newperiod
 	bne .11
-	lda.w $14F7
+	lda.w teampads+2
 	beq .11
 	jsl.l AwayPadPlayer
 	lsr a
 	sta.b d0
 	jsl.l AwayFaceoffLineChange
-.11:								; $234C = 0, a1 = 0, a2 = $0002, d0 = A, ...
-	stz.w $234C
+.11:								; newperiod = 0, a1 = 0, a2 = $0002, d0 = A, ...
+	stz.w newperiod
 	stz.b a1
 	lda.w #$0002
 	sta.b a2

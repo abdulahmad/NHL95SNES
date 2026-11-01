@@ -475,8 +475,8 @@ UpdateGameObjectSprites:			; queue changed player frames and build sorted object
 	stx.b tmp1
 	sta.w $0880
 	jsl.l QueueFrameTiles
-.14:								; if $0872 = $0892 go to .15, tmp1 = $2034, $0892 = A, ...
-	lda.w $0872
+.14:								; if frame+$1C = $0892 go to .15, tmp1 = $2034, $0892 = A, ...
+	lda.w frame+$1C
 	cmp.w $0892
 	beq .15
 	ldx.w #$2034
@@ -711,7 +711,7 @@ defaultsprites_0:					; clear object state, load initial fields and sort the obj
 	sta.w $088E
 	lda.w $0870
 	sta.w $0890
-	lda.w $0874
+	lda.w frame+$1E
 	sta.w $0894
 	jmp.w SprSort
 DATA8_C38658:						; not traced: a table read by defaultsprites_0
@@ -960,7 +960,7 @@ SetPA2:								; step the referee animation and draw its next frame
 	lda.w shootoutmode
 	beq .1
 	lda.w #$0001
-	sta.w $189E
+	sta.w shootoutstop
 .1:									; A = $1147, pull X, return
 	lda.w $1147
 	plx

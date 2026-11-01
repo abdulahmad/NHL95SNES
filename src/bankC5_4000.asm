@@ -1456,12 +1456,12 @@ CloseLCBoxes:						; closes each team's open line change box (tmflags bit 3, onl
 	sta.w tmflags
 	stz.b a2
 	jsl.l lcfound_close
-.1:									; A = $1301, if $0008 bits clear go to .2, A and $FFF7, $1301 = A, ...
-	lda.w $1301
+.1:									; A = tmflags+2, if $0008 bits clear go to .2, A and $FFF7, ...
+	lda.w tmflags+2
 	bit.w #$0008
 	beq .2
 	and.w #$FFF7
-	sta.w $1301
+	sta.w tmflags+2
 	lda.w #$0002
 	sta.b a2
 	jsl.l lcfound_close
@@ -1733,7 +1733,7 @@ lcfound:							; from lineinput and other segments
 SetupTeamForIntermission:			; called from other segments
 	jsl.l ResetBench
 	lda.w #$0001
-	sta.w $234C
+	sta.w newperiod
 	stz.b a2
 	lda.w #$0002
 	sta.b a3
@@ -1830,7 +1830,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	lda.w TransfersReady
 	bne .loop
 	lda.w teampads
-	ora.w $14F7
+	ora.w teampads+2
 	bne .4
 	stz.w padside
 	jsl.l ReadActiveMenuPad

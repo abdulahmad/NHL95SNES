@@ -753,7 +753,7 @@ DATA8_C4A645:						; not traced: a table read by CODE_C4A52A
 puckshadow:							; assignment (asstab entry 25): the puck shadow (object 15): under the
 									; puck when the puck frame is $01B3, else at a fixed spot flipped by the
 									; puck's end
-	lda.w $0874
+	lda.w frame+$1E
 	cmp.w $0894
 	beq .1
 	phx
@@ -767,29 +767,29 @@ puckshadow:							; assignment (asstab entry 25): the puck shadow (object 15): u
 	sta.w $0894
 	jsl.l QueueFrameTiles
 	plx
-	lda.w $0874
-.1:									; if A is not $01B3 go to .2, $0832 = puckx, A = pucky, A + 1, ...
+	lda.w frame+$1E
+.1:									; if A is not $01B3 go to .2, Xpos+$1E = puckx, A = pucky, A + 1, ...
 	cmp.w #$01B3
 	bne .2
 	lda.w puckx
-	sta.w $0832
+	sta.w Xpos+$1E
 	lda.w pucky
 	inc a
-	sta.w $08B4
+	sta.w Ypos+$1E
 	rtl
-.2:									; Y = A, if the result = 0 go to .rtl, $0832 = $0030, A = $0133, ...
+.2:									; Y = A, if the result = 0 go to .rtl, Xpos+$1E = $0030, A = $0133, ...
 	tay
 	beq .rtl
 	lda.w #$0030
-	sta.w $0832
+	sta.w Xpos+$1E
 	lda.w #$0133
 	bit.w pucky
 	bpl .3
 	lda.w #$8000
-	sta.w $08FE
+	sta.w attribute+$1E
 	lda.w #$FEAF
-.3:									; $08B4 = A
-	sta.w $08B4
+.3:									; Ypos+$1E = A
+	sta.w Ypos+$1E
 .rtl:								; return
 	rtl
 puckbody:							; called from other segments

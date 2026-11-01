@@ -185,7 +185,7 @@ CODE_C480E4:						; from CODE_C48073 and other segments
 	sta.w tmap,y
 	lda.w #$0001
 	tsb.w tmflags
-	tsb.w $1301
+	tsb.w tmflags+2
 	lda.w #$00C0
 	sta.b $65
 	lda.w #$9B2A

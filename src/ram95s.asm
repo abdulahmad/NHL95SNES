@@ -221,6 +221,7 @@ tmpde				=	$130B		; energy of each roster player (word per player)
 tmpdst				=	$1373		; bench/ice/box state of each roster player
 tmboxlist			=	$13DB		; penalty box list of roster players (bytes, negative ends)
 CwdExciteLvl		=	$14E3		; crowd excitement: raised by hits and goals, set per playoff stage at a
+CrowdLoud			=	$14E5		; puckfaceoff clears it; no other code uses it
 teampads			=	$14F5		; pads on the home / away team
 playerpad			=	$14F9		; per player object: the controlling pad * 2, negative = none
 c1playernum			=	$1511		; per pad (5 words): the player object it controls
@@ -249,6 +250,7 @@ lastperiod			=	$1876		; the period just finished: PeriodOver copies gsp, StartGa
 homeshooters		=	$188C		; the home team's 8 shootout shooters (InitShooters)
 awayshooters		=	$1894		; the visitors' 8 shootout shooters (InitShooters)
 shootoutmode		=	$189C		; Nonzero during the shootout: PlayShootout sets 1 and clears it at the
+shootoutstop		=	$189E		; shootout turn whistle: ShootoutTurn clears it, SetPA2 sets 1
 shootoutround		=	$18A0		; the shootout round, from 1 (PlayShootout)
 shootoutturnover	=	$18A2		; shootout turn over: ShootoutTurn clears it, puckfaceoff counts it up
 shootoutdecider		=	$18A4		; 1 from round 5, after the first shot: ShootoutTurn compares the scores
@@ -264,6 +266,8 @@ pstimer				=	$18C2		; shot time limit: SetupPenaltyShot sets 900, Gameloop count
 BlockMove			=	$18FA		; RAM routine phb, mvn, plb, rtl; the mvn banks at +2 (ClearRAM7E)
 fox					=	$2034		; face off spot x: Stop4Pen sets it, puckfaceoff2 puts it in puckx
 foy					=	$2036		; face off spot y: Stop4Pen sets it, puckfaceoff2 puts it in pucky
+newperiod			=	$234C		; 1 at a period start: puckfaceoff opens no line change box and clears it
+pspuckback			=	$234E		; penalty shot: pucknorm_move counts frames; EndPenaltyShot at $30
 sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set
 
 ; work RAM, long addresses
