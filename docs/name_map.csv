@@ -1509,3 +1509,5 @@ $C3CDBF,Sample24,,new,"sound sample 24 of the sample list: header, then BRR bloc
 $C3D52D,Sample25,,new,"sound sample 25 of the sample list: header, then BRR blocks",src/bankC3_D000.asm
 $C3DC1D,Sample30,,new,"sound sample 30 of the sample list: header, then BRR blocks",src/bankC3_D000.asm
 $C3E82F,Sample29,,new,"sound sample 29 of the sample list: header, then BRR blocks",src/bankC3_E000.asm
+$C60000,DATA8_C60000,,new,"frame source low words; read by CODE_C5F368",src/bankC6_0000.asm
+$C60848,DATA8_C60848,,new,"source bank and transfer-layout index; read by CODE_C5F368",src/bankC6_0000.asm

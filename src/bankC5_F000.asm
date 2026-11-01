@@ -435,9 +435,9 @@ CODE_C5F368:						; called from other segments
 	lda.b $9F
 	asl a
 	tax
-	lda.l $C60000,x
+	lda.l DATA8_C60000,x
 	sta.b $2C
-	lda.l $C60848,x
+	lda.l DATA8_C60848,x
 	sta.b $2E
 	xba
 	and.w #$00FF

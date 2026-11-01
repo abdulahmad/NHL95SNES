@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC6_0000 (org $C60000): banks $C0-$C5 are all source. <- CURRENT
+bankC6_1000 (org $C61090): next segment in ROM order. <- CURRENT
 
 ## Sources
 
@@ -314,6 +314,8 @@ bankC6_0000 (org $C60000): banks $C0-$C5 are all source. <- CURRENT
 - 2026-10-31: bankC3_D000 matched: Sample25, Sample30 (labels and ROM cuts).
 - 2026-10-31: bankC3_E000 matched: the start of Sample29 (labels and ROM cuts).
 - 2026-10-31: bankC3_F000 matched: the rest of Sample29, then zeros to the end of the bank (labels and ROM cuts).
+- 2026-10-31: bankC6_0000 matched: frame source low words and bank/layout words. Transfer extents come from CODE_C5F368 and its
+  size lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -417,8 +419,8 @@ The first row that is still incbin is the current segment.
 | bankC5_D000 | matched 3922 bytes | $C5D00D | $C5DF5E | game code with CODE_ names and their callers, three return points of indirect calls (pea label-1, then jmp through a pointer); out of ROM order, org moved to $C5D00D, end moved -$A1 |
 | bankC5_E000 | matched 4370 bytes | $C5DF5F | $C5F070 | game code, then the sprite object routines CreateSprite, UploadSpriteFrame, AnimateSprites (with the script command table DATA8_C5EABA), CreateSpriteSharePal; 12 small routines with no caller found are decoded and say so; out of ROM order, org moved to $C5DF5F, end moved +$71 |
 | bankC5_F000 | matched 3983 bytes | $C5F071 | $C5FFFF | UnpackStream0 (its loop runs through the bank $85 mirror and code built in the DMA registers), BuildSpriteOAM, game code with CODE_ names, the zero fill (padbyte / pad); out of ROM order, org moved to $C5F071 |
-| bankC6_0000 | incbin <- CURRENT | $C60000 | $C60FFF | |
-| bankC6_1000 | incbin | $C61000 | $C61FFF | |
+| bankC6_0000 | matched 4240 bytes | $C60000 | $C6108F | frame source low words and bank/layout words; end moved +$90 |
+| bankC6_1000 | incbin | $C61090 | $C61FFF | <- CURRENT |
 | bankC6_2000 | incbin | $C62000 | $C62FFF | |
 | bankC6_3000 | incbin | $C63000 | $C63FFF | |
 | bankC6_4000 | incbin | $C64000 | $C64FFF | |

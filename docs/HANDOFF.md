@@ -14,7 +14,7 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC6_0000, org $C60000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C5 are all source (the code banks $C4
+- Next: segment bankC6_1000, org $C61090 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C5 are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
@@ -28,6 +28,15 @@
   17 $C0EAA2, 14 $C0EC5E, 15 $C0F288; the others are in banks $C2, $C3, $C4 and $CF.
 
 ## Notes for the next segments
+
+- Bank $C6 frame tables: DATA8_C60000 / DATA8_C60848 are 1060 parallel low-word and bank/layout words.
+  CODE_C5F368 uses A as a frame index; it queues raw ROM transfers to VRAM, without an unpacker. A layout word at
+  $CFF27C gives two equal transfers of twice its low byte, followed by a transfer of its high byte (zero parts skipped).
+  There are 759 nonzero-bank pointers in banks $C6-$CC, with 95 in $C6 ($C62968-$C6FDE7). Within each bank their
+  transfer extents exactly meet the next pointer. Entries with bank zero are retained literally (including 0 and 1).
+  CODE_C382B8 updates changed frame indices; CODE_C521EB and the bankC5_5000 setup also queue fixed frame indices.
+  Three more word tables start at $C61090, $C618D8 and $C62120, each 1060 words, read by the bank $CF frame code.
+  The code uses the first and second on its normal path, the second and third on its mirrored path.
 
 - Code runs in banks $C0-$CF (reset `jml $C580C6`, NMI `jml $C08B45`), mostly with DB = $80. The engine is not the 94S engine: the
   unpacker, the transfer queues and the sound driver are different code, so 94S names need a purpose match, not a code match.
@@ -81,6 +90,11 @@
 - `tools/check_comments.py` with no arguments checks all of src and is clean; keep it so.
 
 ## Unsure
+
+- Bank $C6: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
+  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The bytes
+  after the last frame transfer in this bank are not yet classified. The bank $CF readers are still incbin; their
+  operands must use the new table labels when that code is converted (including DATA8_C60848+1).
 
 - ArrowFontTiles and MeterFontTiles are named from their rendered tiles; the screens that load them (VRAM $4A00 from $C5521E,
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.
