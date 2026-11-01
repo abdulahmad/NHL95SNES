@@ -254,7 +254,7 @@ PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 
 	dd PhotoPalettesANH,PhotoPalettesBOS,PhotoPalettesBUF,PhotoPalettesCGY
 	dd PhotoPalettesCHI,PhotoPalettesDAL,PhotoPalettesDET,PhotoPalettesEDM
 	dd PhotoPalettesFLA,PhotoPalettesHFD,PhotoPalettesLA,PhotoPalettesMTL
-	dd PhotoPalettesNJ,PhotoPalettesNYI,$CE6D00,$CE8087
+	dd PhotoPalettesNJ,PhotoPalettesNYI,PhotoPalettesNYR,$CE8087
 	dd $CE93D3,$CEA782,$CEB8A0,$CECBDA
 	dd $CEDDCB,PhotoPalettesTB,PhotoPalettesTOR,PhotoPalettesVAN
 	dd PhotoPalettesWSH,PhotoPalettesWPG
