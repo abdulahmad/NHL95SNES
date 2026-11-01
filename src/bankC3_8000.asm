@@ -13,14 +13,14 @@ CODE_C37FE2:						; called from other segments
 	sta.b d1
 	lda.w attribute,y
 	bit.w #$0800
-	beq CODE_C38007
+	beq .1
 	lda.l DATA8_CDF94A,x
 	eor.w #$FFFF
 	inc a
 	sta.b d0
 	plx
 	rtl
-CODE_C38007:						; from CODE_C37FE2
+.1:									; d0 = DATA8_CDF94A,x, pull X, return
 	lda.l DATA8_CDF94A,x
 	sta.b d0
 	plx
@@ -117,9 +117,9 @@ IRQ_StatsScroll3:					; IRQ hook: the last BG1 scroll split, then IRQ_StatsScrol
 CODE_C380D1:						; called from other segments
 	lda.w $1864
 	cmp.w #$0001
-	bne CODE_C380DA
+	bne .1
 	rtl
-CODE_C380DA:						; from CODE_C380D1
+.1:									; push X, push Y, A = $FFFF
 	phx
 	phy
 	pei ($81)
@@ -138,44 +138,44 @@ CODE_C380DA:						; from CODE_C380D1
 	ldy.w gsp
 	lda.w #$584C
 	cpy.w #$0003
-	bne CODE_C3810E
+	bne .2
 	ldy.w gameclock
-	beq CODE_C3810E
+	beq .2
 	lda.w #$59AC
-CODE_C3810E:						; from CODE_C380DA
+.2:									; X = $0013, Y = $0005, call CODE_C58C36, A = gsp, ...
 	ldx.w #$0013
 	ldy.w #$0005
 	jsl.l CODE_C58C36
 	lda.w gsp
 	ldy.w #$586D
 	cmp.w #$0003
-	bne CODE_C3812B
+	bne .3
 	lda.w gameclock
-	beq CODE_C3812B
+	beq .3
 	ldy.w #$59CD
-CODE_C3812B:						; from CODE_C3810E
+.3:									; X = $00C3, A = $5A14, call QueueVRAMDMALen, A = $588D, ...
 	ldx.w #$00C3
 	lda.w #$5A14
 	jsl.l QueueVRAMDMALen
 	lda.w #$588D
 	ldy.w gsp
 	cpy.w #$0003
-	bne CODE_C38148
+	bne .4
 	ldy.w gameclock
-	beq CODE_C38148
+	beq .4
 	lda.w #$59ED
-CODE_C38148:						; from CODE_C3812B
+.4:									; a0 = A, if $2CE3 < 0 go to .5, call CODE_C3817D, ...
 	sta.b a0
 	ldx.w $2CE3
-	bmi CODE_C38162
+	bmi .5
 	jsr.w CODE_C3817D
 	ldx.w $2CE5
-	bmi CODE_C38162
+	bmi .5
 	jsr.w CODE_C3817D
 	ldx.w $2CE7
-	bmi CODE_C38162
+	bmi .5
 	jsr.w CODE_C3817D
-CODE_C38162:						; from CODE_C38148
+.5:									; pull A, a2 = A, pull A, $6D = A, ...
 	pla
 	sta.b a2
 	pla
@@ -195,13 +195,13 @@ CODE_C38162:						; from CODE_C38148
 	ply
 	plx
 	rtl
-CODE_C3817D:						; from CODE_C38148
+CODE_C3817D:						; from CODE_C380D1
 	stx.b $65
 	lda.w #$0000
 	cpx.w #$001A
-	bcc CODE_C38188
+	bcc .1
 	inc a
-CODE_C38188:						; from CODE_C3817D
+.1:									; call CODE_C56100, call CODE_C4C3AE, call CODE_C5625E, A = X, ...
 	jsl.l CODE_C56100
 	jsl.l CODE_C4C3AE
 	jsl.l CODE_C5625E
@@ -216,12 +216,12 @@ CODE_C38188:						; from CODE_C3817D
 	asl a
 	asl a
 	cmp.w #$0340
-	bcc CODE_C381AF
+	bcc .2
 	adc.w #$2FDE
-	bra CODE_C381B2
-CODE_C381AF:						; from CODE_C38188
+	bra .3
+.2:									; A + $2EE1
 	adc.w #$2EE1
-CODE_C381B2:						; from CODE_C38188
+.3:									; X = A, A = $000D, call CODE_C55F8A, call CODE_C5625E, ...
 	tax
 	lda.w #$000D
 	jsl.l CODE_C55F8A
@@ -239,25 +239,25 @@ CODE_C381B2:						; from CODE_C38188
 	adc.w #$0020
 	sta.b a0
 	rts
-CODE_C381D5:						; from CODE_C380DA
+CODE_C381D5:						; from CODE_C380D1
 	ldx.w $2DC9
-CODE_C381D8:						; from CODE_C381D8
+.loop:								; loop: X - 1, A = X, call CODE_C381F4, if X >= $2DCB go to .loop, ...
 	dex
 	txa
 	jsr.w CODE_C381F4
 	cpx.w $2DCB
-	bcs CODE_C381D8
+	bcs .loop
 	ldx.w $3207
-CODE_C381E5:						; from CODE_C381E5
+.loop2:								; loop: X - 1, A = X, A + $001A, call CODE_C381F4, ...
 	dex
 	txa
 	clc
 	adc.w #$001A
 	jsr.w CODE_C381F4
 	cpx.w $3209
-	bcs CODE_C381E5
+	bcs .loop2
 	rts
-CODE_C381F4:						; from CODE_C381D8, CODE_C381E5
+CODE_C381F4:						; from CODE_C381D5
 	tay
 	lda.w $1413,y
 	and.w #$00FF
@@ -269,43 +269,43 @@ CODE_C381F4:						; from CODE_C381D8, CODE_C381E5
 	adc.b tmp0
 	sta.b tmp2
 	lda.w $2CE3
-	bmi CODE_C38256
+	bmi .3
 	clc
 	lda.w $2CE9
 	adc.w $2CEB
 	cmp.b tmp2
-	bcc CODE_C38256
-	bne CODE_C38223
+	bcc .3
+	bne .1
 	lda.w $2CE9
 	cmp.b tmp0
-	bcc CODE_C38256
-CODE_C38223:						; from CODE_C381F4
+	bcc .3
+.1:									; if $2CE5 < 0 go to .4, A = $2CED, A + $2CEF, if A < tmp2 go to .4, ...
 	lda.w $2CE5
-	bmi CODE_C38288
+	bmi .4
 	clc
 	lda.w $2CED
 	adc.w $2CEF
 	cmp.b tmp2
-	bcc CODE_C38288
-	bne CODE_C3823C
+	bcc .4
+	bne .2
 	lda.w $2CED
 	cmp.b tmp0
-	bcc CODE_C38288
-CODE_C3823C:						; from CODE_C38223
+	bcc .4
+.2:									; if $2CE7 < 0 go to .5, A = $2CF1, A + $2CF3, if A < tmp2 go to .5, ...
 	lda.w $2CE7
-	bmi CODE_C382A8
+	bmi .5
 	clc
 	lda.w $2CF1
 	adc.w $2CF3
 	cmp.b tmp2
-	bcc CODE_C382A8
-	bne CODE_C38255
+	bcc .5
+	bne .rts
 	lda.w $2CF1
 	cmp.b tmp0
-	bcc CODE_C382A8
-CODE_C38255:						; from CODE_C3823C
+	bcc .5
+.rts:								; return
 	rts
-CODE_C38256:						; from CODE_C381F4
+.3:									; $2CE7 = $2CE5, $2CE5 = $2CE3, $2CF1 = $2CED, $2CED = $2CE9, ...
 	lda.w $2CE5
 	sta.w $2CE7
 	lda.w $2CE3
@@ -324,7 +324,7 @@ CODE_C38256:						; from CODE_C381F4
 	lda.b tmp1
 	sta.w $2CEB
 	rts
-CODE_C38288:						; from CODE_C38223
+.4:									; $2CE7 = $2CE5, $2CF1 = $2CED, $2CF3 = $2CEF, $2CE5 = Y, ...
 	lda.w $2CE5
 	sta.w $2CE7
 	lda.w $2CED
@@ -337,7 +337,7 @@ CODE_C38288:						; from CODE_C38223
 	lda.b tmp1
 	sta.w $2CEF
 	rts
-CODE_C382A8:						; from CODE_C3823C
+.5:									; $2CE7 = Y, $2CF1 = tmp0, $2CF3 = tmp1, return
 	sty.w $2CE7
 	lda.b tmp0
 	sta.w $2CF1
@@ -351,139 +351,139 @@ CODE_C382B7:						; called from other segments
 CODE_C382B8:						; called from other segments
 	lda.b $48
 	lsr a
-	bcc CODE_C382C0
-	jmp.w CODE_C38359
-CODE_C382C0:						; from CODE_C382B8
+	bcc .1
+	jmp.w .8
+.1:									; A = $0862, if A = $0882 go to .2, tmp2 = $2100, tmp1 = $2018, ...
 	lda.w $0862
 	cmp.w $0882
-	beq CODE_C382D9
+	beq .2
 	ldx.w #$2100
 	stx.b tmp2
 	ldx.w #$2018
 	stx.b tmp1
 	sta.w $0882
 	jsl.l CODE_C5F368
-CODE_C382D9:						; from CODE_C382C0
+.2:									; A = $0864, if A = $0884 go to .3, tmp2 = $2108, tmp1 = $201C, ...
 	lda.w $0864
 	cmp.w $0884
-	beq CODE_C382F2
+	beq .3
 	ldx.w #$2108
 	stx.b tmp2
 	ldx.w #$201C
 	stx.b tmp1
 	sta.w $0884
 	jsl.l CODE_C5F368
-CODE_C382F2:						; from CODE_C382D9
+.3:									; A = $0866, if A = $0886 go to .4, tmp2 = $2120, tmp1 = $2020, ...
 	lda.w $0866
 	cmp.w $0886
-	beq CODE_C3830B
+	beq .4
 	ldx.w #$2120
 	stx.b tmp2
 	ldx.w #$2020
 	stx.b tmp1
 	sta.w $0886
 	jsl.l CODE_C5F368
-CODE_C3830B:						; from CODE_C382F2
+.4:									; A = $0868, if A = $0888 go to .5, tmp2 = $2128, tmp1 = $2024, ...
 	lda.w $0868
 	cmp.w $0888
-	beq CODE_C38324
+	beq .5
 	ldx.w #$2128
 	stx.b tmp2
 	ldx.w #$2024
 	stx.b tmp1
 	sta.w $0888
 	jsl.l CODE_C5F368
-CODE_C38324:						; from CODE_C3830B
+.5:									; A = $086A, if A = $088A go to .6, tmp2 = $2140, tmp1 = $2028, ...
 	lda.w $086A
 	cmp.w $088A
-	beq CODE_C3833D
+	beq .6
 	ldx.w #$2140
 	stx.b tmp2
 	ldx.w #$2028
 	stx.b tmp1
 	sta.w $088A
 	jsl.l CODE_C5F368
-CODE_C3833D:						; from CODE_C38324
+.6:									; A = $086C, if A = $088C go to .7, tmp2 = $2148, tmp1 = $202C, ...
 	lda.w $086C
 	cmp.w $088C
-	beq CODE_C38356
+	beq .7
 	ldx.w #$2148
 	stx.b tmp2
 	ldx.w #$202C
 	stx.b tmp1
 	sta.w $088C
 	jsl.l CODE_C5F368
-CODE_C38356:						; from CODE_C3833D
-	jmp.w CODE_C383EF
-CODE_C38359:						; from CODE_C382B8
+.7:									; go to .14
+	jmp.w .14
+.8:									; A = frame, if A = $0876 go to .9, tmp2 = $20A0, tmp1 = $2000, ...
 	lda.w frame
 	cmp.w $0876
-	beq CODE_C38372
+	beq .9
 	ldx.w #$20A0
 	stx.b tmp2
 	ldx.w #$2000
 	stx.b tmp1
 	sta.w $0876
 	jsl.l CODE_C5F368
-CODE_C38372:						; from CODE_C38359
+.9:									; A = $0858, if A = $0878 go to .10, tmp2 = $20A8, tmp1 = $2004, ...
 	lda.w $0858
 	cmp.w $0878
-	beq CODE_C3838B
+	beq .10
 	ldx.w #$20A8
 	stx.b tmp2
 	ldx.w #$2004
 	stx.b tmp1
 	sta.w $0878
 	jsl.l CODE_C5F368
-CODE_C3838B:						; from CODE_C38372
+.10:								; A = $085A, if A = $087A go to .11, tmp2 = $20C0, tmp1 = $2008, ...
 	lda.w $085A
 	cmp.w $087A
-	beq CODE_C383A4
+	beq .11
 	ldx.w #$20C0
 	stx.b tmp2
 	ldx.w #$2008
 	stx.b tmp1
 	sta.w $087A
 	jsl.l CODE_C5F368
-CODE_C383A4:						; from CODE_C3838B
+.11:								; A = $085C, if A = $087C go to .12, tmp2 = $20C8, tmp1 = $200C, ...
 	lda.w $085C
 	cmp.w $087C
-	beq CODE_C383BD
+	beq .12
 	ldx.w #$20C8
 	stx.b tmp2
 	ldx.w #$200C
 	stx.b tmp1
 	sta.w $087C
 	jsl.l CODE_C5F368
-CODE_C383BD:						; from CODE_C383A4
+.12:								; A = $085E, if A = $087E go to .13, tmp2 = $20E0, tmp1 = $2010, ...
 	lda.w $085E
 	cmp.w $087E
-	beq CODE_C383D6
+	beq .13
 	ldx.w #$20E0
 	stx.b tmp2
 	ldx.w #$2010
 	stx.b tmp1
 	sta.w $087E
 	jsl.l CODE_C5F368
-CODE_C383D6:						; from CODE_C383BD
+.13:								; A = $0860, if A = $0880 go to .14, tmp2 = $20E8, tmp1 = $2014, ...
 	lda.w $0860
 	cmp.w $0880
-	beq CODE_C383EF
+	beq .14
 	ldx.w #$20E8
 	stx.b tmp2
 	ldx.w #$2014
 	stx.b tmp1
 	sta.w $0880
 	jsl.l CODE_C5F368
-CODE_C383EF:						; from CODE_C38356, CODE_C383D6
+.14:								; A = $0872, if A = $0892 go to .15, tmp1 = $2034, $0892 = A, ...
 	lda.w $0872
 	cmp.w $0892
-	beq CODE_C38403
+	beq .15
 	ldx.w #$2034
 	stx.b tmp1
 	sta.w $0892
 	jsl.l CODE_C5F368
-CODE_C38403:						; from CODE_C383EF
+.15:								; QueueBusy - 1, $1C = A, A = $28, Y = $2A, ...
 	dec.b QueueBusy
 	tsc
 	sta.b $1C
@@ -512,7 +512,7 @@ CODE_C38415:						; from CODE_C3846C
 	sta.b $0C
 	lda.w attribute,x
 	and.w #$0800
-	beq CODE_C38455
+	beq .1
 	lda.l DATA8_C384BC,x
 	sta.b tmp1
 	lda.l DATA8_C384DC,x
@@ -521,7 +521,7 @@ CODE_C38415:						; from CODE_C3846C
 	bmi CODE_C3846C
 	beq CODE_C3846C
 	jml.l CODE_CFEE25
-CODE_C38455:						; from CODE_C38415
+.1:									; tmp1 = DATA8_C3847C,x, tmp2 = DATA8_C3849C,x, ...
 	lda.l DATA8_C3847C,x
 	sta.b tmp1
 	lda.l DATA8_C3849C,x
@@ -530,7 +530,7 @@ CODE_C38455:						; from CODE_C38415
 	bmi CODE_C3846C
 	beq CODE_C3846C
 	jml.l CODE_CFEE6C
-CODE_C3846C:						; from CODE_C38415, CODE_C38455 and other segments
+CODE_C3846C:						; from CODE_C38415 and other segments
 	ldx.b $1A
 	dex
 	bpl CODE_C38415
@@ -541,10 +541,10 @@ CODE_C3846C:						; from CODE_C38415, CODE_C38455 and other segments
 	sty.b $2A
 	stz.b QueueBusy
 	rtl
-DATA8_C3847C:						; not traced: a table read by CODE_C38455
+DATA8_C3847C:						; not traced: a table read by CODE_C38415
 	db $00,$20,$04,$20,$08,$20,$0C,$20,$10,$20,$14,$20,$18,$22,$1C,$22
 	db $20,$22,$24,$22,$28,$22,$2C,$22,$30,$20,$30,$20,$34,$20,$35,$20
-DATA8_C3849C:						; not traced: a table read by CODE_C38455
+DATA8_C3849C:						; not traced: a table read by CODE_C38415
 	db $A0,$20,$A8,$20,$C0,$20,$C8,$20,$E0,$20,$E8,$20,$00,$23,$08,$23
 	db $20,$23,$28,$23,$40,$23,$48,$23,$60,$21,$68,$21,$80,$21,$80,$35
 DATA8_C384BC:						; not traced: a table read by CODE_C38415
@@ -553,7 +553,7 @@ DATA8_C384BC:						; not traced: a table read by CODE_C38415
 DATA8_C384DC:						; not traced: a table read by CODE_C38415
 	db $A0,$60,$A8,$60,$C0,$60,$C8,$60,$E0,$60,$E8,$60,$00,$63,$08,$63
 	db $20,$63,$28,$63,$40,$63,$48,$63,$60,$61,$68,$61,$80,$61,$80,$75
-SprSort:							; from CODE_C3863A and other segments
+SprSort:							; from CODE_C3856E and other segments
 	phx
 	phy
 	pei ($7F)
@@ -563,17 +563,17 @@ SprSort:							; from CODE_C3863A and other segments
 	pei ($87)
 	pei ($89)
 	ldx.w #$0000
-CODE_C3850D:						; from CODE_C3850D
+.loop:								; loop: Ylist,x = Ypos,x, X + 1, X + 1, if X is not $0020 go to .loop
 	lda.w Ypos,x
 	sta.w Ylist,x
 	inx
 	inx
 	cpx.w #$0020
-	bne CODE_C3850D
-CODE_C3851A:						; from CODE_C3854F
+	bne .loop
+.loop2:								; loop: d2 = 0, X = $0000
 	stz.b d2
 	ldx.w #$0000
-CODE_C3851F:						; from CODE_C3854F
+.loop3:								; loop: A = $10E1,x, A and $00FF, d1 = A, A = OOlist,x, ...
 	lda.w $10E1,x
 	and.w #$00FF
 	sta.b d1
@@ -584,8 +584,8 @@ CODE_C3851F:						; from CODE_C3854F
 	lda.w Ylist,y
 	ldy.b d1
 	cmp.w Ylist,y
-	bmi CODE_C3854F
-	beq CODE_C3854F
+	bmi .1
+	beq .1
 	lda.w OOlist,x
 	xba
 	sta.w OOlist,x
@@ -595,12 +595,12 @@ CODE_C3851F:						; from CODE_C3854F
 	ldy.b d0
 	sta.w OOlistpos,y
 	inc.b d2
-CODE_C3854F:						; from CODE_C3851F
+.1:									; X + 1, if X is not $000F go to .loop3, if d2 is not 0 go to .loop2, ...
 	inx
 	cpx.w #$000F
-	bne CODE_C3851F
+	bne .loop3
 	lda.b d2
-	bne CODE_C3851A
+	bne .loop2
 	pla
 	sta.b $89
 	pla
@@ -618,18 +618,18 @@ CODE_C3854F:						; from CODE_C3851F
 	rtl
 CODE_C3856E:						; called from other segments
 	ldx.w #$0000
-CODE_C38571:						; from CODE_C38571
+.loop:								; loop: Xpos,x = 0, X + 1, X + 1, if X is not $07CC go to .loop, ...
 	stz.w Xpos,x
 	inx
 	inx
 	cpx.w #$07CC
-	bne CODE_C38571
+	bne .loop
 	stz.b d6
 	stz.b a1
 	stz.b a2
 	stz.b a3
 	stz.b a4
-CODE_C38585:						; from CODE_C38609
+.loop2:								; loop: X = a2, Y = a3, $0C20,y = d6, $0900,y = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	lda.b d6
@@ -664,22 +664,22 @@ CODE_C38585:						; from CODE_C38609
 	lda.w #$0000
 	sta.w pfnc,y
 	cpy.w #$001E
-	bne CODE_C385EE
+	bne .1
 	lda.w #$0001
 	sta.w pfnc,y
-CODE_C385EE:						; from CODE_C38585
+.1:									; A + 1, A and $0001, pfgoal,y = A, if X < $006C go to .2, ...
 	cpx.w #$006C
 	rol a
 	inc a
 	and.w #$0001
 	sta.w pfgoal,y
 	cpx.w #$006C
-	bcc CODE_C38609
+	bcc .2
 	cpx.w #$00D8
-	bcs CODE_C38609
+	bcs .2
 	lda.w #$0034
 	sta.w pfteam,y
-CODE_C38609:						; from CODE_C385EE
+.2:									; a3 + 1, a3 + 1, A 8-bit, A = d6, ...
 	inc.b a3
 	inc.b a3
 	sep #$20
@@ -701,9 +701,9 @@ CODE_C38609:						; from CODE_C385EE
 	sta.b a2
 	lda.b d6
 	cmp.w #$0010
-	beq CODE_C3863A
-	jmp.w CODE_C38585
-CODE_C3863A:						; from CODE_C38609
+	beq .3
+	jmp.w .loop2
+.3:									; $0A38 = $FFFF, $0A3A = A, $088E = $086E, $0890 = $0870, ...
 	lda.w #$FFFF
 	sta.w $0A38
 	sta.w $0A3A
@@ -714,21 +714,21 @@ CODE_C3863A:						; from CODE_C38609
 	lda.w $0874
 	sta.w $0894
 	jmp.w SprSort
-DATA8_C38658:						; not traced: a table read by CODE_C38585
+DATA8_C38658:						; not traced: a table read by CODE_C3856E
 	db $60,$01
-DATA8_C3865A:						; not traced: a table read by CODE_C38585
+DATA8_C3865A:						; not traced: a table read by CODE_C3856E
 	db $C0,$00,$00,$00
-DATA8_C3865E:						; not traced: a table read by CODE_C38585
+DATA8_C3865E:						; not traced: a table read by CODE_C3856E
 	db $01,$00
-DATA8_C38660:						; not traced: a table read by CODE_C38585
+DATA8_C38660:						; not traced: a table read by CODE_C3856E
 	db $00,$00
-DATA8_C38662:						; not traced: a table read by CODE_C38585
+DATA8_C38662:						; not traced: a table read by CODE_C3856E
 	db $08,$00
-DATA8_C38664:						; not traced: a table read by CODE_C38585
+DATA8_C38664:						; not traced: a table read by CODE_C3856E
 	db $04,$00
-DATA8_C38666:						; not traced: a table read by CODE_C38585
+DATA8_C38666:						; not traced: a table read by CODE_C3856E
 	db $00,$00
-DATA8_C38668:						; not traced: a table read by CODE_C38585
+DATA8_C38668:						; not traced: a table read by CODE_C3856E
 	db $00,$00,$38,$FF,$9C,$FF,$00,$00,$01,$00,$00,$00,$08,$00,$04,$00
 	db $00,$00,$00,$00,$38,$FF,$B0,$FF,$00,$00,$01,$00,$00,$00,$08,$00
 	db $04,$00,$00,$00,$00,$00,$38,$FF,$C4,$FF,$00,$00,$01,$00,$00,$00
@@ -748,52 +748,52 @@ DATA8_C38668:						; not traced: a table read by CODE_C38585
 	db $00,$00,$00,$00,$B3,$01,$00,$00,$03,$00,$03,$00,$19,$00,$00,$00
 ApproxLength:						; called from other segments
 	cmp.w #$0000
-	bpl CODE_C38781
+	bpl .1
 	eor.w #$FFFF
 	inc a
-CODE_C38781:						; from ApproxLength
+.1:									; tmp0 = A, A = Y, if the result >= 0 go to .2, A xor $FFFF, ...
 	sta.b tmp0
 	tya
-	bpl CODE_C3878A
+	bpl .2
 	eor.w #$FFFF
 	inc a
-CODE_C3878A:						; from CODE_C38781
+.2:									; if A >= tmp0 go to .3, A / 2, A + tmp0, return
 	cmp.b tmp0
-	bcs CODE_C38793
+	bcs .3
 	lsr a
 	clc
 	adc.b tmp0
 	rtl
-CODE_C38793:						; from CODE_C3878A
+.3:									; tmp0 / 2, A + tmp0, return
 	lsr.b tmp0
 	clc
 	adc.b tmp0
 	rtl
 CODE_C38799:						; called from other segments
 	ldx.w #$0000
-CODE_C3879C:						; from CODE_C387C3
+.loop:								; loop: A = $0830, A - Xpos,x, d0 = A, if plus go to .1, ...
 	sec
 	lda.w $0830
 	sbc.w Xpos,x
 	sta.b d0
-	bpl CODE_C387AC
+	bpl .1
 	eor.w #$FFFF
 	inc a
 	sec
-CODE_C387AC:						; from CODE_C3879C
+.1:									; r3 = A, A = pucky, A - Ypos,x, d1 = A, ...
 	sta.b r3
 	lda.w pucky
 	sbc.w Ypos,x
 	sta.b d1
-	bpl CODE_C387BC
+	bpl .2
 	eor.w #$FFFF
 	inc a
-CODE_C387BC:						; from CODE_C387AC
+.2:									; if A < r3 go to .3, r3 / 2, A * 2
 	cmp.b r3
-	bcc CODE_C387C3
+	bcc .3
 	lsr.b r3
 	asl a
-CODE_C387C3:						; from CODE_C387BC
+.3:									; A / 2, A + r3, $05E4,x = A, call vtoa, ...
 	lsr a
 	adc.b r3
 	sta.w $05E4,x
@@ -802,7 +802,7 @@ CODE_C387C3:						; from CODE_C387BC
 	inx
 	inx
 	cpx.w #$0020
-	bcc CODE_C3879C
+	bcc .loop
 	rtl
 CODE_C387D8:						; called from other segments
 	lda.w #$0080
@@ -818,11 +818,11 @@ CODE_C387D8:						; called from other segments
 CODE_C387F2:						; from CODE_C387D8 and other segments
 	tya
 	ldy.w #$0008
-CODE_C387F6:						; from CODE_C387F6
+.loop:								; loop: VMDATAL = A, A + 1, Y - 1, if the result >= 0 go to .loop, ...
 	sta.l VMDATAL
 	inc a
 	dey
-	bpl CODE_C387F6
+	bpl .loop
 	rtl
 CODE_C387FF:						; called from other segments
 	lda.w #$01FE
@@ -919,21 +919,21 @@ DATA8_C38A4A:						; not traced: a table read by CODE_C37684, CODE_C45BD2, CODE_
 	db $40,$00,$31,$00,$24,$00,$19,$00,$10,$00,$09,$00,$04,$00,$01,$00
 CODE_C38C4A:						; called from other segments
 	lda.w RefCnt
-	bmi CODE_C38C6C
+	bmi .rtl
 	sec
 	sbc.b d7
 	sta.w RefCnt
-	bpl CODE_C38C5B
+	bpl .1
 	jsl.l CODE_C38C95
-CODE_C38C5B:						; from CODE_C38C4A
+.1:									; A = $1143, A - d7, $1143 = A, if plus go to .rtl, ...
 	lda.w $1143
 	sec
 	sbc.b d7
 	sta.w $1143
-	bpl CODE_C38C6C
+	bpl .rtl
 	lda.w #$7FFF
 	sta.w $1143
-CODE_C38C6C:						; from CODE_C38C4A, CODE_C38C5B
+.rtl:								; return
 	rtl
 CODE_C38C6D:						; called from other segments
 	lda.b d0
@@ -942,34 +942,34 @@ CODE_C38C6D:						; called from other segments
 	jsl.l CODE_C481D5
 	lda.b d0
 	cmp.w #$000E
-	bne CODE_C38C84
+	bne .1
 	jsl.l CODE_C51825
-CODE_C38C84:						; from CODE_C38C6D
+.1:									; $1143 = $7FFF, if $2CF5 = 0 go to CODE_C38C95, $1143 = $003C
 	lda.w #$7FFF
 	sta.w $1143
 	lda.w $2CF5
 	beq CODE_C38C95
 	lda.w #$003C
 	sta.w $1143
-CODE_C38C95:						; from CODE_C38C4A, CODE_C38C84 and other segments
+CODE_C38C95:						; from CODE_C38C4A, CODE_C38C6D and other segments
 	phx
 	lda.w $1147
-	bpl CODE_C38CAB
+	bpl .2
 	lda.w $189C
-	beq CODE_C38CA6
+	beq .1
 	lda.w #$0001
 	sta.w $189E
-CODE_C38CA6:						; from CODE_C38C95
+.1:									; A = $1147, pull X, return
 	lda.w $1147
 	plx
 	rtl
-CODE_C38CAB:						; from CODE_C38C95
+.2:									; tmp0 = A, A + 1, A + 1, $1147 = A, ...
 	sta.b tmp0
 	inc a
 	inc a
 	sta.w $1147
 	ldx.w $1149
-	beq CODE_C38CF3
+	beq .4
 	lda.l DATA8_C34499,x
 	tax
 	lda.l DATA8_C3449B,x
@@ -981,12 +981,12 @@ CODE_C38CAB:						; from CODE_C38C95
 	adc.b tmp0
 	tax
 	lda.l DATA8_C3449A,x
-	bpl CODE_C38CDC
+	bpl .3
 	eor.w #$FFFF
 	inc a
 	ldx.w #$FFFF
 	stx.w $1147
-CODE_C38CDC:						; from CODE_C38CAB
+.3:									; tmp0 = A, A and $00FF, A * 2, A * 2, ...
 	sta.b tmp0
 	and.w #$00FF
 	asl a
@@ -998,22 +998,22 @@ CODE_C38CDC:						; from CODE_C38CAB
 	and.w #$00FF
 	sta.b tmp0
 	jsl.l CODE_C38CFC
-CODE_C38CF3:						; from CODE_C38CAB
+.4:									; pull X, return
 	plx
 	rtl
 CODE_C38CF5:						; called from other segments
 	lda.w #$0200
 	trb.w sflags
 	rtl
-CODE_C38CFC:						; from CODE_C38CDC and other segments
+CODE_C38CFC:						; from CODE_C38C95 and other segments
 	lda.b tmp0
 	cmp.w #$0040
-	beq CODE_C38D24
+	beq .2
 	cmp.w #$0014
-	beq CODE_C38D0E
+	beq .1
 	lda.w #$0001
 	sta.w $2348
-CODE_C38D0E:						; from CODE_C38CFC
+.1:									; A = tmp0, A * 2, X = A, A = DATA8_C38D43,x, ...
 	lda.b tmp0
 	asl a
 	tax
@@ -1024,11 +1024,11 @@ CODE_C38D0E:						; from CODE_C38CFC
 	lda.w #$0200
 	tsb.w sflags
 	rtl
-CODE_C38D24:						; from CODE_C38CFC
+.2:									; if $234A = 0 go to .3, call CODE_C38D6D
 	lda.w $234A
-	beq CODE_C38D2D
+	beq .3
 	jsl.l CODE_C38D6D
-CODE_C38D2D:						; from CODE_C38D24
+.3:									; TransfersReady + 1, X = $001C, Y = $5842, call CODE_C38DAD, ...
 	inc.w TransfersReady
 	ldx.w #$001C
 	ldy.w #$5842
@@ -1037,11 +1037,11 @@ CODE_C38D2D:						; from CODE_C38D24
 	tsb.w sflags
 	stz.w $2348
 	rtl
-DATA8_C38D43:						; not traced: a table read by CODE_C38D0E
+DATA8_C38D43:						; not traced: a table read by CODE_C38CFC
 	db $00,$00,$0E,$00,$1C,$00,$2A,$00,$38,$00,$46,$00,$54,$00,$10,$03
 	db $1E,$03,$2C,$03,$3A,$03,$48,$03,$56,$03,$64,$03,$20,$06,$2E,$06
 	db $3C,$06,$4A,$06,$58,$06,$66,$06,$74,$06
-CODE_C38D6D:						; from CODE_C38D24 and other segments
+CODE_C38D6D:						; from CODE_C38CFC and other segments
 	lda.l DATA8_C58942
 	sta.w $364E
 	lda.w #$003D
@@ -1059,21 +1059,21 @@ CODE_C38D6D:						; from CODE_C38D24 and other segments
 	tay
 	ldx.w #$0002
 	lda.w #$5940
-CODE_C38D96:						; from CODE_C38D96
+.loop:								; loop: push Y, push A, A + $0020, X - 1, ...
 	phy
 	pha
 	adc.w #$0020
 	pea.w $007E
 	pea.w $364E
 	dex
-	bpl CODE_C38D96
+	bpl .loop
 	lda.b $00
 	tsx
 	tcs
 	stx.b $00
 	stz.b QueueBusy
 	rtl
-CODE_C38DAD:						; from CODE_C38D0E, CODE_C38D2D
+CODE_C38DAD:						; from CODE_C38CFC
 	phd
 	pea.w $7E7F
 	plb

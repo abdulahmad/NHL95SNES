@@ -191,15 +191,15 @@ DATA8_C360D4:						; not traced: a table read by CODE_C5B22D, CODE_C5AE8D, CODE_
 CODE_C36B83:						; called from other segments
 	lda.l $306041
 	cmp.w #$001C
-	bcc CODE_C36B8F
+	bcc .1
 	lda.w #$001B
-CODE_C36B8F:						; from CODE_C36B83
+.1:									; $17C9 = A, A = $306043, if A < $001C go to .2, A = $001B
 	sta.w $17C9
 	lda.l $306043
 	cmp.w #$001C
-	bcc CODE_C36B9E
+	bcc .2
 	lda.w #$001B
-CODE_C36B9E:						; from CODE_C36B8F
+.2:									; $17CB = A, A = $30604D, A and $0001, $190A = A, ...
 	sta.w $17CB
 	lda.l $30604D
 	and.w #$0001
@@ -207,23 +207,23 @@ CODE_C36B9E:						; from CODE_C36B8F
 	lda.l $306049
 	and.w #$00FF
 	cmp.w #$0003
-	bcc CODE_C36BBA
+	bcc .3
 	lda.w #$0002
-CODE_C36BBA:						; from CODE_C36B9E
+.3:									; $186A = A, A = $30604C, A and $00FF, if A < $0003 go to .4, ...
 	sta.w $186A
 	lda.l $30604C
 	and.w #$00FF
 	cmp.w #$0003
-	bcc CODE_C36BCC
+	bcc .4
 	lda.w #$0002
-CODE_C36BCC:						; from CODE_C36BBA
+.4:									; $186E = A, A = $30604B, A and $00FF, if A < $0003 go to .5, ...
 	sta.w $186E
 	lda.l $30604B
 	and.w #$00FF
 	cmp.w #$0003
-	bcc CODE_C36BDE
+	bcc .5
 	lda.w #$0002
-CODE_C36BDE:						; from CODE_C36BCC
+.5:									; $186C = A, A = $30604A, A and $0001, $1870 = A, ...
 	sta.w $186C
 	lda.l $30604A
 	and.w #$0001
@@ -236,23 +236,23 @@ CODE_C36BDE:						; from CODE_C36BCC
 	sta.w $1872
 	lda.l $306045
 	cmp.w #$0006
-	bcc CODE_C36C0B
+	bcc .6
 	lda.w #$0005
-CODE_C36C0B:						; from CODE_C36BDE
+.6:									; $1906 = A, A = $306047, if A < $0006 go to .7, A = $0005
 	sta.w $1906
 	lda.l $306047
 	cmp.w #$0006
-	bcc CODE_C36C1A
+	bcc .7
 	lda.w #$0005
-CODE_C36C1A:						; from CODE_C36C0B
+.7:									; $1908 = A, if A is not $0000 go to .rtl, ...
 	sta.w $1908
 	cmp.w #$0000
-	bne CODE_C36C2B
+	bne .rtl
 	cmp.w $1906
-	bne CODE_C36C2B
+	bne .rtl
 	inc a
 	sta.w $1906
-CODE_C36C2B:						; from CODE_C36C1A
+.rtl:								; return
 	rtl
 CODE_C36C2C:						; called from other segments
 	rtl
@@ -265,64 +265,64 @@ CODE_C36C2D:						; called from other segments
 	sta.w $058D
 	inc.w repeatdelayframes
 	cmp.w $0565
-	beq CODE_C36C48
+	beq .rtl
 	stz.w repeatdelayframes
 	sta.w $0565
-CODE_C36C48:						; from CODE_C36C2D
+.rtl:								; return
 	rtl
 CODE_C36C49:						; called from other segments
 	stz.w $0591
 	bit.w $1525
-	bmi CODE_C36C58
+	bmi .1
 	lda.b PadRaw1
 	and.w #$FFF0
-	bne CODE_C36CAD
-CODE_C36C58:						; from CODE_C36C49
+	bne .6
+.1:									; $0591 + 1, $0591 + 1, if minus go to .2, A = PadRaw2, ...
 	inc.w $0591
 	inc.w $0591
 	bit.w $1527
-	bmi CODE_C36C6A
+	bmi .2
 	lda.b PadRaw2
 	and.w #$FFF0
-	bne CODE_C36CAD
-CODE_C36C6A:						; from CODE_C36C58
+	bne .6
+.2:									; $0591 + 1, $0591 + 1, if minus go to .3, A = $C5, ...
 	inc.w $0591
 	inc.w $0591
 	bit.w $1529
-	bmi CODE_C36C7C
+	bmi .3
 	lda.b $C5
 	and.w #$FFF0
-	bne CODE_C36CAD
-CODE_C36C7C:						; from CODE_C36C6A
+	bne .6
+.3:									; $0591 + 1, $0591 + 1, if minus go to .4, A = $C7, ...
 	inc.w $0591
 	inc.w $0591
 	bit.w $152B
-	bmi CODE_C36C8E
+	bmi .4
 	lda.b $C7
 	and.w #$FFF0
-	bne CODE_C36CAD
-CODE_C36C8E:						; from CODE_C36C7C
+	bne .6
+.4:									; $0591 + 1, $0591 + 1, if minus go to .5, A = $C9, ...
 	inc.w $0591
 	inc.w $0591
 	bit.w $152D
-	bmi CODE_C36CA0
+	bmi .5
 	lda.b $C9
 	and.w #$FFF0
-	bne CODE_C36CAD
-CODE_C36CA0:						; from CODE_C36C8E
+	bne .6
+.5:									; $058D = 0, $0565 = 0, $0591 = $FFFF, return
 	stz.w $058D
 	stz.w $0565
 	lda.w #$FFFF
 	sta.w $0591
 	rtl
-CODE_C36CAD:						; from CODE_C36C49, CODE_C36C58, CODE_C36C6A, CODE_C36C7C, ...
+.6:									; $058D = A, repeatdelayframes + 1, if A = $0565 go to .rtl, ...
 	sta.w $058D
 	inc.w repeatdelayframes
 	cmp.w $0565
-	beq CODE_C36CBE
+	beq .rtl
 	stz.w repeatdelayframes
 	sta.w $0565
-CODE_C36CBE:						; from CODE_C36CAD
+.rtl:								; return
 	rtl
 CODE_C36CBF:						; called from other segments
 	lda.b PadRaw1
@@ -376,10 +376,10 @@ Multi5Bios:							; called from other segments
 	rep #$10
 	stz.w $0598
 	stz.w $0599
-CODE_C36D45:						; from CODE_C36D45
+.loop:								; loop: A = $4212, if the result is not 0 go to .loop, ...
 	lda.w $4212
 	and.b #$01
-	bne CODE_C36D45
+	bne .loop
 	ldx.w $4218
 	stx.b PadRaw1
 	txa
@@ -394,9 +394,9 @@ CODE_C36D45:						; from CODE_C36D45
 	and.b #$0F
 	sta.w $0596
 	lda.w mp5present
-	bne CODE_C36D71
-	jmp.w CODE_C36E56
-CODE_C36D71:						; from CODE_C36D45
+	bne .1
+	jmp.w .4
+.1:									; $C5 = $421E, A = X, A and $0F, $0597 = A, ...
 	ldx.w $421E
 	stx.b $C5
 	txa
@@ -410,19 +410,19 @@ CODE_C36D71:						; from CODE_C36D45
 	stz.w $4201
 	lda.w $059E
 	ora.w mp5warning
-	bne CODE_C36DAB
+	bne .3
 	lda.w cont4team
 	ora.w cont5team
-	bne CODE_C36DAB
+	bne .3
 	lda.w mp5readdelay
-	beq CODE_C36DA6
+	beq .2
 	dec a
 	sta.w mp5readdelay
-	jmp.w CODE_C36E5D
-CODE_C36DA6:						; from CODE_C36D71
+	jmp.w .5
+.2:									; mp5readdelay = $1E
 	lda.b #$1E
 	sta.w mp5readdelay
-CODE_C36DAB:						; from CODE_C36D71
+.3:									; A = $4017, A / 2, A / 2, A = $4017, ...
 	lda.w $4017
 	lsr a
 	rol.b $C8
@@ -514,21 +514,21 @@ CODE_C36DAB:						; from CODE_C36D71
 	rol.w $0598
 	lsr a
 	rol.w $0599
-	bra CODE_C36E5D
-CODE_C36E56:						; from CODE_C36D45
+	bra .5
+.4:									; A = $4017, A / 2
 	lda.w $4017
 	lsr a
 	rol.w $0596
-CODE_C36E5D:						; from CODE_C36D71, CODE_C36DAB
+.5:									; $4201 = $80, A = mp5warning, A and $01, mp5warning = A, ...
 	lda.b #$80
 	sta.w $4201
 	lda.w mp5warning
 	and.b #$01
 	sta.w mp5warning
 	lda.w mp5checktimer
-	beq CODE_C36E72
+	beq .6
 	dec.w mp5checktimer
-CODE_C36E72:						; from CODE_C36E5D
+.6:									; JOYSER0 = 0, JOYSER0 = $01, A = JOYSER0, A and $02, ...
 	stz.w JOYSER0
 	lda.b #$01
 	sta.w JOYSER0
@@ -544,14 +544,14 @@ CODE_C36E72:						; from CODE_C36E5D
 	eor.w $1537
 	stx.w $1537
 	ora.w $1539
-	beq CODE_C36E9F
+	beq .7
 	lda.b #$10
 	sta.w mp5checktimer
-CODE_C36E9F:						; from CODE_C36E72
+.7:									; if mp5checktimer is not 0 go to .8, go to .12
 	lda.w mp5checktimer
-	bne CODE_C36EA6
-	bra CODE_C36EDB
-CODE_C36EA6:						; from CODE_C36E9F
+	bne .8
+	bra .12
+.8:									; call Multi5ConnectCheck, $C5 = $000F, $C7 = X, $C9 = X, ...
 	jsl.l Multi5ConnectCheck
 	ldx.w #$000F
 	stx.b $C5
@@ -559,72 +559,72 @@ CODE_C36EA6:						; from CODE_C36E9F
 	stx.b $C9
 	lda.w mp5connect
 	and.b #$80
-	beq CODE_C36EC1
+	beq .9
 	lda.b #$01
 	tsb.w mp5warning
-	bra CODE_C36EC6
-CODE_C36EC1:						; from CODE_C36EA6
+	bra .10
+.9:									; A = $01
 	lda.b #$01
 	trb.w mp5warning
-CODE_C36EC6:						; from CODE_C36EA6
+.10:								; A = mp5connect, if the result = 0 go to .11, A = $01, go to .13
 	lda.w mp5connect
 	and.b #$40
-	beq CODE_C36ED4
+	beq .11
 	lda.b #$01
 	tsb.w mp5present
-	bra CODE_C36EDE
-CODE_C36ED4:						; from CODE_C36EC6
+	bra .13
+.11:								; A = $01, go to .13
 	lda.b #$01
 	trb.w mp5present
-	bra CODE_C36EDE
-CODE_C36EDB:						; from CODE_C36E9F
+	bra .13
+.12:								; JOYSER0 = 0
 	stz.w JOYSER0
-CODE_C36EDE:						; from CODE_C36EC6, CODE_C36ED4
+.13:								; A = mp5padsig, if A = $01 go to .14, PadRaw1 = $000F, ...
 	lda.w mp5padsig
 	cmp.b #$01
-	beq CODE_C36EEF
+	beq .14
 	ldx.w #$000F
 	stx.b PadRaw1
 	ldx.w mp5present
-	beq CODE_C36EEF
-CODE_C36EEF:						; from CODE_C36EDE
+	beq .14
+.14:								; A = $0596, if A = $01 go to .15, PadRaw2 = $000F, ...
 	lda.w $0596
 	cmp.b #$01
-	beq CODE_C36F00
+	beq .15
 	ldx.w #$000F
 	stx.b PadRaw2
 	ldx.w mp5present
-	beq CODE_C36F29
-CODE_C36F00:						; from CODE_C36EEF
+	beq .18
+.15:								; if mp5present = 0 go to .18, A = $0597, if A = $01 go to .16, ...
 	lda.w mp5present
-	beq CODE_C36F29
+	beq .18
 	lda.w $0597
 	cmp.b #$01
-	beq CODE_C36F11
+	beq .16
 	ldx.w #$000F
 	stx.b $C5
-CODE_C36F11:						; from CODE_C36F00
+.16:								; A = $0598, if A = $01 go to .17, $C7 = $000F
 	lda.w $0598
 	cmp.b #$01
-	beq CODE_C36F1D
+	beq .17
 	ldx.w #$000F
 	stx.b $C7
-CODE_C36F1D:						; from CODE_C36F11
+.17:								; A = $0599, if A = $01 go to .18, $C9 = $000F
 	lda.w $0599
 	cmp.b #$01
-	beq CODE_C36F29
+	beq .18
 	ldx.w #$000F
 	stx.b $C9
-CODE_C36F29:						; from CODE_C36EEF, CODE_C36F00, CODE_C36F1D
+.18:								; if mp5warning = 0 go to .19, PadRaw1 = $0000, PadRaw2 = X, $C5 = X, ...
 	lda.w mp5warning
-	beq CODE_C36F3B
+	beq .19
 	ldx.w #$0000
 	stx.b PadRaw1
 	stx.b PadRaw2
 	stx.b $C5
 	stx.b $C7
 	stx.b $C9
-CODE_C36F3B:						; from CODE_C36F29
+.19:								; return
 	plp
 	rtl
 CODE_C36F3D:						; called from other segments
@@ -641,39 +641,39 @@ CODE_C36F3D:						; called from other segments
 	stz.w mp5readdelay
 	lda.w mp5connect
 	and.w #$0080
-	beq CODE_C36F6A
+	beq .1
 	lda.w #$0001
 	tsb.w mp5warning
-	bra CODE_C36F70
-CODE_C36F6A:						; from CODE_C36F3D
+	bra .2
+.1:									; A = $0001
 	lda.w #$0001
 	trb.w mp5warning
-CODE_C36F70:						; from CODE_C36F3D
+.2:									; A = mp5connect, if the result = 0 go to .3, A = $0001, go to .4
 	lda.w mp5connect
 	and.w #$0040
-	beq CODE_C36F80
+	beq .3
 	lda.w #$0001
 	tsb.w mp5present
-	bra CODE_C36F86
-CODE_C36F80:						; from CODE_C36F70
+	bra .4
+.3:									; A = $0001
 	lda.w #$0001
 	trb.w mp5present
-CODE_C36F86:						; from CODE_C36F70
+.4:									; return
 	plb
 	rtl
-Multi5ConnectCheck:					; from CODE_C36F3D, CODE_C36EA6 and other segments
+Multi5ConnectCheck:					; from CODE_C36F3D, Multi5Bios and other segments
 	php
 	sep #$30
 	stz.w mp5connect
-CODE_C36F8E:						; from CODE_C36F8E
+.loop:								; loop: A = $4212, if the result is not 0 go to .loop, JOYSER0 = 0, ...
 	lda.w $4212
 	and.b #$01
-	bne CODE_C36F8E
+	bne .loop
 	stz.w JOYSER0
 	lda.b #$01
 	sta.w JOYSER0
 	ldx.b #$08
-CODE_C36F9F:						; from CODE_C36F9F
+.loop2:								; loop: A = JOYSER0, A / 2, A / 2, A = $4017, ...
 	lda.w JOYSER0
 	lsr a
 	lsr a
@@ -683,10 +683,10 @@ CODE_C36F9F:						; from CODE_C36F9F
 	lsr a
 	rol.w $04A2
 	dex
-	bne CODE_C36F9F
+	bne .loop2
 	stz.w JOYSER0
 	ldx.b #$08
-CODE_C36FB7:						; from CODE_C36FB7
+.loop3:								; loop: A = JOYSER0, A / 2, A / 2, A = $4017, ...
 	lda.w JOYSER0
 	lsr a
 	lsr a
@@ -696,24 +696,24 @@ CODE_C36FB7:						; from CODE_C36FB7
 	lsr a
 	rol.w $04A1
 	dex
-	bne CODE_C36FB7
+	bne .loop3
 	lda.w $04A0
 	cmp.b #$FF
-	bne CODE_C36FDD
+	bne .1
 	lda.w Multi5Sig
 	cmp.b #$FF
-	beq CODE_C36FDD
+	beq .1
 	lda.b #$00
 	sta.w mp5connect
-CODE_C36FDD:						; from CODE_C36FB7
+.1:									; A = $04A2, if A is not $FF go to .2, A = $04A1, if A = $FF go to .2, ...
 	lda.w $04A2
 	cmp.b #$FF
-	bne CODE_C36FF0
+	bne .2
 	lda.w $04A1
 	cmp.b #$FF
-	beq CODE_C36FF0
+	beq .2
 	lda.b #$00
 	sta.w mp5connect
-CODE_C36FF0:						; from CODE_C36FDD
+.2:									; return
 	plp
 	rtl
