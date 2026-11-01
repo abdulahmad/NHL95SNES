@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_9000 (org $C38EFE), after bankC3_8000. <- CURRENT
+bankC3_A000 (org $C3AC29), after bankC3_9000 (the rest of bank $C3 is sound samples). <- CURRENT
 
 ## Sources
 
@@ -306,6 +306,8 @@ bankC3_9000 (org $C38EFE), after bankC3_8000. <- CURRENT
 - 2026-10-31: bankC3_8000 matched: the rest of bank $C3's code and the data tables it reads (DATA8_ labels; bank $C4 code uses
   them now, e.g. a table of squares at DATA8_C3884A). The sound samples start after it. End moved to $C38EFD, bankC3_9000 org to
   $C38EFE.
+- 2026-10-31: bankC3_9000 matched: sound samples 3 and 4 (labels and ROM cuts). The rest of bank $C3 is samples back to back
+  (03, 04, 05, 28, 07, 08, 24, 25, 30, 29) to $C3FE0F, then zeros; each segment starts at a sample.
 
 ## ROM map
 
@@ -370,8 +372,8 @@ The first row that is still incbin is the current segment.
 | bankC3_6000 | matched 4082 bytes | $C36000 | $C36FF1 | data tables (db, DATA8_ labels where code reads them) to $C36B82, then game code with CODE_ names and their callers; out of ROM order, end moved -$E |
 | bankC3_7000 | matched 4080 bytes | $C36FF2 | $C37FE1 | game code with CODE_ names and their callers; routines with no reference anywhere are decoded and say so; out of ROM order, org moved to $C36FF2, end moved -$1E |
 | bankC3_8000 | matched 3868 bytes | $C37FE2 | $C38EFD | the rest of the game code with CODE_ names and their callers, data tables read with long addresses (a squares table, ...); out of ROM order, org moved to $C37FE2, end moved -$102 |
-| bankC3_9000 | incbin <- CURRENT | $C38EFE | $C39FFF | org moved to $C38EFE |
-| bankC3_A000 | incbin | $C3A000 | $C3AFFF | |
+| bankC3_9000 | matched 7467 bytes | $C38EFE | $C3AC28 | Sample03, Sample04 (labels and ROM cuts); org moved to the sample start; org moved to $C38EFE, end moved +$C29 |
+| bankC3_A000 | incbin <- CURRENT | $C3AC29 | $C3AFFF | |
 | bankC3_B000 | incbin | $C3B000 | $C3BFFF | |
 | bankC3_C000 | incbin | $C3C000 | $C3CFFF | |
 | bankC3_D000 | incbin | $C3D000 | $C3DFFF | |
