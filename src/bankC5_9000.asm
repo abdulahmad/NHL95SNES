@@ -724,9 +724,9 @@ CODE_C59651:						; from CODE_C59651, StartSeason, CODE_C5963A
 DATA8_C5967A:						; the front end screen handlers, one per screen state (CODE_C59651 runs
 									; the one of the current state each frame)
 	dw NameEntry,NameEntry,AskNameOk,EditPlayerInfo
-	dw ModifyRatings,CODE_C59767,CODE_C5AC07,CODE_C5A816
-	dw CODE_C5A5B0,CODE_C5A623,CODE_C5A66E,CODE_C5A773
-	dw CODE_C5AB16,CODE_C5AB27
+	dw ModifyRatings,CODE_C59767,SeasonOptionsInput,GamesTodayInput
+	dw LeagueLeadersInput,SeasonTeamStatsInput,SeasonPlayerStatsInput,StandingsInput
+	dw NoGameSelectedInput,StartSeasonInput
 AskNameOk:							; Is the player name ok: up / down Yes / No; start: No starts over
 									; (CreatePlayer), Yes draws the position, weight, number and hand page
 									; (screen state 3)

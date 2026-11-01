@@ -54,7 +54,7 @@ CODE_C5DE9B = $C5DE9B
 CODE_C5C0BE = $C5C0BE
 CODE_C5C6B7 = $C5C6B7
 CODE_C5AFCC = $C5AFCC
-CODE_C5B1AF = $C5B1AF
+DrawStandings = $C5B1AF
 CODE_C5B20E = $C5B20E
 CODE_C5B22D = $C5B22D
 CODE_C5B369 = $C5B369
@@ -81,5 +81,6 @@ LeagueLeadersScreen = $C5AFB6
 SeasonTeamStats = $C5B07C
 SeasonPlayerStats = $C5B0EA
 WonCheckTiles = $C03CF9
+GameSetUp_reenter = $C58D44
 
 incsrc "../bankC5_A000.asm"

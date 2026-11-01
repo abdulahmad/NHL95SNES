@@ -99,7 +99,8 @@ BackdropColour:						; 1 colour queued to CGRAM colour 0
 	dw $7F98
 DATA8_C04CAB:						; not traced
 	dw $0009,$0009,$000B,$0012,$0012,$000A
-DATA8_C04CB7:						; 4 words picked by an option number, passed to a text routine
+DivisionNames:						; the packed text of the 4 division names: Western / Pacific, Western /
+									; Central, Eastern / Atlantic, Eastern / Northeast
 	dw $46E2,$46EF,$46FC,$4709
 DATA8_C04CBF:						; 4 bytes picked by the same option
 	db $06,$0A,$21,$11

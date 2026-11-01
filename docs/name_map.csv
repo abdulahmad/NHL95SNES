@@ -95,7 +95,7 @@ $C04A87,DarkBlueColoursHook,,code,"NMI hook ($C4044B sets it through SetNMIHook)
 $C04AA9,DATA8_C04AA9,,new,"256 words, entry n = (n / 8) * $20 + (n & 7) * 2; read at $C5E7F2, $C5E897, $C5EA77, $C5F012",src/bankC0_4000.asm
 $C04CA9,BackdropColour,,code,"1 colour ($7F98) that $C52091 / $C5576A queue to CGRAM colour 0",src/bankC0_4000.asm
 $C04CAB,DATA8_C04CAB,,new,"6 words, not traced",src/bankC0_4000.asm
-$C04CB7,DATA8_C04CB7,,new,"4 words picked by $83 * 2 at $C5B1E1 and passed in X to the text routine $C4BCA4",src/bankC0_4000.asm
+$C04CB7,DivisionNames,DATA8_C04CB7,code,"4 offsets into bank $C3's packed text ($C346E2 ...); DrawStandings prints the one of division d1",src/bankC0_4000.asm
 $C04CBF,DATA8_C04CBF,,new,"4 bytes picked by $83 at $C5BFE2",src/bankC0_4000.asm
 $C04CC3,DATA8_C04CC3,,new,"4 bytes picked by $83 at $C5BFEB",src/bankC0_4000.asm
 $C04CC7,BitMaskTable,,94S,"the 16 single-bit words, as 94S BitMaskTable (93S); $C50C08 ORs one into the save RAM flags at $30:6051",src/bankC0_4000.asm
@@ -593,7 +593,7 @@ $C5A354,DATA8_C5A354,,new,"a word pointing at CODE_C5A359, followed by jmp CODE_
 $C5A81B,DATA8_C5A81B,,new,"jump table (3 routines) in bankC5_A000",src/bankC5_A000.asm
 $C5AC73,SeasonMenuJumps,DATA8_C5AC73,genesis+purpose,"same job as 95G SeasonMenuJumps (the season menu items' routines); the order of the League Menu page; CODE_C5AC07 jumps through it",src/bankC5_A000.asm
 $C5AE40,DATA8_C5AE40,,new,"8 bytes FF FE FC F8 F0 E0 C0 80 (left masks?) between routines; no reader found",src/bankC5_A000.asm
-$C5B1FE,DATA8_C5B1FE,,new,"not traced: a table read by CODE_C5B1AF (in bankC5_B000)",src/bankC5_B000.asm
+$C5B1FE,StandingsStatTitles,DATA8_C5B1FE,code,"8 offsets into bank $C3's packed text; DrawStandings prints the one of stat d0",src/bankC5_B000.asm
 $C5B35D,DATA8_C5B35D,,new,"not traced: a table read by CODE_C5B346 (in bankC5_B000)",src/bankC5_B000.asm
 $C5B363,DATA8_C5B363,,new,"not traced: a table read by CODE_C5B346 (in bankC5_B000)",src/bankC5_B000.asm
 $C5B56C,DATA8_C5B56C,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
@@ -6363,46 +6363,46 @@ $C5A45D,.3,CODE_C5A45D,new,"branch target only used in CODE_C5A440",src/bankC5_A
 $C5A467,.rts,CODE_C5A467,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
 $C5A556,.1,CODE_C5A556,new,"branch target only used in SeasonOptions",src/bankC5_A000.asm
 $C5A57E,.loop,CODE_C5A57E,new,"branch target only used in SeasonOptions",src/bankC5_A000.asm
-$C5A5C3,.1,CODE_C5A5C3,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A5D3,.2,CODE_C5A5D3,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A5DB,.3,CODE_C5A5DB,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A5EA,.rts,CODE_C5A5EA,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A5EB,.4,CODE_C5A5EB,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A5FE,.5,CODE_C5A5FE,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A608,.6,CODE_C5A608,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A613,.7,CODE_C5A613,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A617,.8,CODE_C5A617,new,"branch target only used in CODE_C5A5B0",src/bankC5_A000.asm
-$C5A633,.1,CODE_C5A633,new,"branch target only used in CODE_C5A623",src/bankC5_A000.asm
-$C5A64C,.rts,CODE_C5A64C,new,"branch target only used in CODE_C5A623",src/bankC5_A000.asm
-$C5A64D,.2,CODE_C5A64D,new,"branch target only used in CODE_C5A623",src/bankC5_A000.asm
-$C5A659,.3,CODE_C5A659,new,"branch target only used in CODE_C5A623",src/bankC5_A000.asm
-$C5A65F,.4,CODE_C5A65F,new,"branch target only used in CODE_C5A623",src/bankC5_A000.asm
-$C5A668,.5,CODE_C5A668,new,"branch target only used in CODE_C5A623",src/bankC5_A000.asm
-$C5A681,.1,CODE_C5A681,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A69B,.2,CODE_C5A69B,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6A3,.3,CODE_C5A6A3,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6A8,.rts,CODE_C5A6A8,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6A9,.4,CODE_C5A6A9,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6BC,.5,CODE_C5A6BC,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6C8,.6,CODE_C5A6C8,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6CA,.7,CODE_C5A6CA,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6D5,.8,CODE_C5A6D5,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6D9,.9,CODE_C5A6D9,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6E2,.10,CODE_C5A6E2,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A6E5,.11,CODE_C5A6E5,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
-$C5A71A,.12,CODE_C5A71A,new,"branch target only used in CODE_C5A66E",src/bankC5_A000.asm
+$C5A5C3,.1,CODE_C5A5C3,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A5D3,.2,CODE_C5A5D3,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A5DB,.3,CODE_C5A5DB,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A5EA,.rts,CODE_C5A5EA,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A5EB,.4,CODE_C5A5EB,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A5FE,.5,CODE_C5A5FE,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A608,.6,CODE_C5A608,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A613,.7,CODE_C5A613,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A617,.8,CODE_C5A617,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
+$C5A633,.1,CODE_C5A633,new,"branch target only used in SeasonTeamStatsInput",src/bankC5_A000.asm
+$C5A64C,.rts,CODE_C5A64C,new,"branch target only used in SeasonTeamStatsInput",src/bankC5_A000.asm
+$C5A64D,.2,CODE_C5A64D,new,"branch target only used in SeasonTeamStatsInput",src/bankC5_A000.asm
+$C5A659,.3,CODE_C5A659,new,"branch target only used in SeasonTeamStatsInput",src/bankC5_A000.asm
+$C5A65F,.4,CODE_C5A65F,new,"branch target only used in SeasonTeamStatsInput",src/bankC5_A000.asm
+$C5A668,.5,CODE_C5A668,new,"branch target only used in SeasonTeamStatsInput",src/bankC5_A000.asm
+$C5A681,.1,CODE_C5A681,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A69B,.2,CODE_C5A69B,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6A3,.3,CODE_C5A6A3,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6A8,.rts,CODE_C5A6A8,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6A9,.4,CODE_C5A6A9,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6BC,.5,CODE_C5A6BC,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6C8,.6,CODE_C5A6C8,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6CA,.7,CODE_C5A6CA,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6D5,.8,CODE_C5A6D5,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6D9,.9,CODE_C5A6D9,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6E2,.10,CODE_C5A6E2,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A6E5,.11,CODE_C5A6E5,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
+$C5A71A,.12,CODE_C5A71A,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
 $C5A73F,.1,CODE_C5A73F,new,"branch target only used in CODE_C5A72D",src/bankC5_A000.asm
-$C5A786,.1,CODE_C5A786,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7A2,.rts,CODE_C5A7A2,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7A3,.2,CODE_C5A7A3,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7AE,.3,CODE_C5A7AE,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7BB,.4,CODE_C5A7BB,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7C5,.5,CODE_C5A7C5,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7D8,.6,CODE_C5A7D8,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7E1,.7,CODE_C5A7E1,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7EC,.8,CODE_C5A7EC,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7EE,.9,CODE_C5A7EE,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
-$C5A7F4,.10,CODE_C5A7F4,new,"branch target only used in CODE_C5A773",src/bankC5_A000.asm
+$C5A786,.1,CODE_C5A786,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7A2,.rts,CODE_C5A7A2,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7A3,.2,CODE_C5A7A3,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7AE,.3,CODE_C5A7AE,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7BB,.4,CODE_C5A7BB,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7C5,.5,CODE_C5A7C5,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7D8,.6,CODE_C5A7D8,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7E1,.7,CODE_C5A7E1,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7EC,.8,CODE_C5A7EC,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7EE,.9,CODE_C5A7EE,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
+$C5A7F4,.10,CODE_C5A7F4,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
 $C5A831,.1,CODE_C5A831,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
 $C5A84B,.2,CODE_C5A84B,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
 $C5A85C,.rts,CODE_C5A85C,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
@@ -6434,22 +6434,22 @@ $C5AA44,.4,CODE_C5AA44,new,"branch target only used in CODE_C5A9FE",src/bankC5_A
 $C5AA50,.5,CODE_C5AA50,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
 $C5AA53,.6,CODE_C5AA53,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
 $C5AA66,.7,CODE_C5AA66,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AB1B,.rts,CODE_C5AB1B,new,"branch target only used in CODE_C5AB16",src/bankC5_A000.asm
-$C5AB1C,.1,CODE_C5AB1C,new,"branch target only used in CODE_C5AB16",src/bankC5_A000.asm
-$C5AB2D,.1,CODE_C5AB2D,new,"branch target only used in CODE_C5AB27",src/bankC5_A000.asm
-$C5AB40,.2,CODE_C5AB40,new,"branch target only used in CODE_C5AB27",src/bankC5_A000.asm
-$C5AB4F,.3,CODE_C5AB4F,new,"branch target only used in CODE_C5AB27",src/bankC5_A000.asm
-$C5AB58,.4,CODE_C5AB58,new,"branch target only used in CODE_C5AB27",src/bankC5_A000.asm
-$C5AB69,.5,CODE_C5AB69,new,"branch target only used in CODE_C5AB27",src/bankC5_A000.asm
-$C5AB76,.6,CODE_C5AB76,new,"branch target only used in CODE_C5AB27",src/bankC5_A000.asm
-$C5AC17,.1,CODE_C5AC17,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC2E,.rts,CODE_C5AC2E,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC2F,.2,CODE_C5AC2F,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC36,.3,CODE_C5AC36,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC43,.4,CODE_C5AC43,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC4F,.5,CODE_C5AC4F,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC59,.6,CODE_C5AC59,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
-$C5AC67,.7,CODE_C5AC67,new,"branch target only used in CODE_C5AC07",src/bankC5_A000.asm
+$C5AB1B,.rts,CODE_C5AB1B,new,"branch target only used in NoGameSelectedInput",src/bankC5_A000.asm
+$C5AB1C,.1,CODE_C5AB1C,new,"branch target only used in NoGameSelectedInput",src/bankC5_A000.asm
+$C5AB2D,.1,CODE_C5AB2D,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
+$C5AB40,.2,CODE_C5AB40,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
+$C5AB4F,.3,CODE_C5AB4F,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
+$C5AB58,.4,CODE_C5AB58,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
+$C5AB69,.5,CODE_C5AB69,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
+$C5AB76,.6,CODE_C5AB76,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
+$C5AC17,.1,CODE_C5AC17,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC2E,.rts,CODE_C5AC2E,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC2F,.2,CODE_C5AC2F,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC36,.3,CODE_C5AC36,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC43,.4,CODE_C5AC43,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC4F,.5,CODE_C5AC4F,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC59,.6,CODE_C5AC59,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
+$C5AC67,.7,CODE_C5AC67,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
 $C5AC92,.loop,CODE_C5AC92,new,"branch target only used in CODE_C5AC84",src/bankC5_A000.asm
 $C5ACBE,.1,CODE_C5ACBE,new,"branch target only used in GamesToday",src/bankC5_A000.asm
 $C5AE56,.1,CODE_C5AE56,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
@@ -7442,3 +7442,13 @@ $C57329,PauseReplay,CODE_C57329,94S+purpose,"same job as 94S PauseReplay, side b
 $C53F8D,resetplstuff,CODE_C53F8D,94S+code,"the same code as 94S resetplstuff: the d0-d2 / a0-a4 words saved, .t1 for a2 = 0 and 2, the words back",src/bankC5_3000.asm
 $C53FE5,ResetTeamPlayers,CODE_C53FE5,code,"the body 94S keeps as resetplstuff's local .t1, the same code side by side (tmflags, tmsort, pf2aip, pflags, SetSPAFromA, impact, nopuck, pfnc / pfrev / pfalock); 95 also clears bit $0800 of $08E0,x when $0FC0,x is set",src/bankC5_4000.asm
 $C57149,AttribEnergy,CODE_C57149,94S+purpose,"same job as 94S AttribEnergy (energy word / 40, at most 100, printed): the energy from the team's tmpde block, OptLine 2 gives $1000, Div16x8U by $28, cap $64, then BinToBCD / BCDText / PrintBoldCentredStr",src/bankC5_7000.asm
+$C58D44,.reenter,,code,"GameSetUp: the stz of the idle count $23BC before the loop; CODE_C5AB27 (Start New) jumped here as jmp $8D44",src/bankC5_8000.asm
+$C5B1AF,DrawStandings,CODE_C5B1AF,genesis+purpose,"same job as 95G DrawStandings (the group title and the standings lines); StandingsScreen and StandingsInput call it; the titles in StandingsStatTitles, the names in DivisionNames",src/bankC5_B000.asm
+$C5A816,GamesTodayInput,CODE_C5A816,code,"GamesToday sets the state 7; DATA8_C5967A entry 7",src/bankC5_A000.asm
+$C5A5B0,LeagueLeadersInput,CODE_C5A5B0,code,"the page CODE_C5AFCC sets the state 8; DATA8_C5967A entry 8",src/bankC5_A000.asm
+$C5A623,SeasonTeamStatsInput,CODE_C5A623,code,"SeasonTeamStats sets the state 9; CODE_C5B7F1 redraws; DATA8_C5967A entry 9",src/bankC5_A000.asm
+$C5A66E,SeasonPlayerStatsInput,CODE_C5A66E,code,"SeasonPlayerStats sets the state 10; DATA8_C5967A entry 10",src/bankC5_A000.asm
+$C5A773,StandingsInput,CODE_C5A773,code,"DrawStandings sets the state 11; DATA8_C5967A entry 11",src/bankC5_A000.asm
+$C5AB16,NoGameSelectedInput,CODE_C5AB16,code,"NoGameSelected sets the state 12; DATA8_C5967A entry 12",src/bankC5_A000.asm
+$C5AB27,StartSeasonInput,CODE_C5AB27,code,"StartSeason sets the state 13; Start New runs CODE_C5ABAE / CODE_C5ABC4 / CODE_C59217 / CODE_C59308, then GameSetUp_reenter; DATA8_C5967A entry 13",src/bankC5_A000.asm
+$C5AC07,SeasonOptionsInput,CODE_C5AC07,code,"SeasonOptions sets the state 6; DATA8_C5967A entry 6",src/bankC5_A000.asm

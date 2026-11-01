@@ -598,7 +598,7 @@ CODE_C5A50B:						; from CODE_C5A507, SeasonOptions and other segments
 	rts
 SeasonOptions:						; the League Menu (season mode): draws its page (Play Games, NHL
 									; Standings, Games Today, League Leaders, Team Stats, Player Stats) and
-									; makes CODE_C5AC07 the screen's handler
+									; makes SeasonOptionsInput the screen's handler
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -646,7 +646,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	lda.w #$0006
 	sta.b $99
 	stz.w fadestep
-CODE_C5A599:						; from CODE_C5AC07
+CODE_C5A599:						; from SeasonOptionsInput
 	ldx.b a0
 	lda.w #$0030
 	sta.b $05,x
@@ -660,7 +660,9 @@ CODE_C5A599:						; from CODE_C5AC07
 	adc.w #$003E
 	sta.b $08,x
 	rts
-CODE_C5A5B0:						; called from other segments
+LeagueLeadersInput:					; the League Leaders screen each frame (screen state 8): up / down scroll,
+									; left / right / B redraw it with another category, start / select back to
+									; the League Menu
 	jsr.w ScrollListArrows
 	lda.w repeatdelayframes
 	beq .1
@@ -716,7 +718,8 @@ CODE_C5A5B0:						; called from other segments
 	eor.w #$0001
 	sta.b $85
 	jmp.w CODE_C5AFCC
-CODE_C5A623:						; called from other segments
+SeasonTeamStatsInput:				; the Season Team Stats screen each frame (screen state 9): left / right
+									; switch the team, start / select back to the League Menu
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -752,7 +755,9 @@ CODE_C5A623:						; called from other segments
 .5:									; $17C9 = A, go to CODE_C5B7F1
 	sta.w $17C9
 	jmp.w CODE_C5B7F1
-CODE_C5A66E:						; called from other segments
+SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen state 10): up / down
+									; scroll, B goalies / players, left / right switch the team, start /
+									; select back to the League Menu
 	jsr.w ScrollListArrows
 	lda.w repeatdelayframes
 	beq .1
@@ -840,7 +845,7 @@ CODE_C5A66E:						; called from other segments
 	jsr.w StartScrollList
 	jsl.l SendTextMap
 	rts
-CODE_C5A72D:						; from CODE_C5A66E
+CODE_C5A72D:						; from SeasonPlayerStatsInput
 	pea.w $559D
 	pea.w $55BD
 	lda.b d0
@@ -870,7 +875,9 @@ CODE_C5A72D:						; from CODE_C5A66E
 	jsl.l PrintBoldLeft
 	jsl.l WaitTransfers
 	rts
-CODE_C5A773:						; called from other segments
+StandingsInput:						; the NHL Standings screen each frame (screen state 11): up / down / left
+									; / right change the division or the stat (DrawStandings), start / select
+									; back to the League Menu
 	jsr.w ScrollListArrows
 	lda.w repeatdelayframes
 	beq .1
@@ -940,15 +947,16 @@ CODE_C5A773:						; called from other segments
 	jsl.l DeleteSprite
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
-	jmp.w CODE_C5B1AF
-CODE_C5A80B:						; from CODE_C5A773
+	jmp.w DrawStandings
+CODE_C5A80B:						; from StandingsInput
 	lda.w #$01D0
-CODE_C5A80E:						; from CODE_C5A773
+CODE_C5A80E:						; from StandingsInput
 	clc
 	adc.b $D3
 	jsl.l ClearRAM7E
 	rts
-CODE_C5A816:						; called from other segments
+GamesTodayInput:					; the Games Today screen each frame (screen state 7): its current step's
+									; routine from DATA8_C5A81B
 	ldx.b $89
 	jmp (DATA8_C5A81B,x)
 DATA8_C5A81B:						; jump table: the routine for each index
@@ -1323,7 +1331,8 @@ CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	jsl.l PrintItalicLeftStr
 	jsl.l SendTextMap
 	rts
-CODE_C5AB16:						; called from other segments
+NoGameSelectedInput:				; the A game must be selected warning each frame (screen state 12): start
+									; / select back to the League Menu
 	lda.w repeatdelayframes
 	beq .1
 .rts:								; return
@@ -1333,7 +1342,9 @@ CODE_C5AB16:						; called from other segments
 	bit.w #$3000
 	beq .rts
 	jmp.w SeasonOptions
-CODE_C5AB27:						; called from other segments
+StartSeasonInput:					; the season in progress question each frame (screen state 13): up / down
+									; Continue Old / Start New; Continue Old goes to the League Menu, Start
+									; New clears the season and goes back to the setup screen
 	lda.w repeatdelayframes
 	beq .1
 	rts
@@ -1386,13 +1397,13 @@ CODE_C5AB27:						; called from other segments
 	jsr.w CODE_C59217
 	lda.w #$5CC1
 	jsl.l CODE_C59308
-	jmp.w $8D44
+	jmp.w GameSetUp_reenter
 CODE_C5ABA1:						; called from other segments
 	lda.w #$0002
 	sta.w $1864
 	jsl.l CODE_C4CFF5
 	jmp.w CODE_C5963A
-CODE_C5ABAE:						; from CODE_C5AB27
+CODE_C5ABAE:						; from StartSeasonInput
 	clc
 	lda.w #$0400
 	adc.b $D3
@@ -1401,7 +1412,7 @@ CODE_C5ABAE:						; from CODE_C5AB27
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-CODE_C5ABC4:						; from CODE_C5AB27 and other segments
+CODE_C5ABC4:						; from StartSeasonInput and other segments
 	lda.w #$001B
 	ldx.w #$48E2
 	ldy.w #$468C
@@ -1425,8 +1436,8 @@ CODE_C5ABC4:						; from CODE_C5AB27 and other segments
 	lda.w #$0010
 	sta.w $010E
 	rts
-CODE_C5AC07:						; the League Menu each frame: up / down move, B / start / select run the
-									; item (SeasonMenuJumps), X leaves
+SeasonOptionsInput:					; the League Menu each frame (screen state 6): up / down move, B / start /
+									; select run the item (SeasonMenuJumps), X leaves
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -1481,7 +1492,7 @@ SeasonMenuJumps:					; the routine of each League Menu item: Play Games, NHL Sta
 									; Today, League Leaders, Team Stats, Player Stats
 	dw MenuPlayGames,StandingsScreen,GamesToday,LeagueLeadersScreen
 	dw SeasonTeamStats,SeasonPlayerStats
-CODE_C5AC7F:						; from CODE_C5AC07
+CODE_C5AC7F:						; from SeasonOptionsInput
 	lda.w #$0C00
 	sta.b tmp0
 CODE_C5AC84:						; from CODE_C5ACA3
@@ -1504,7 +1515,7 @@ CODE_C5AC84:						; from CODE_C5ACA3
 	dey
 	bpl .loop
 	rts
-CODE_C5ACA3:						; from CODE_C5AC07
+CODE_C5ACA3:						; from SeasonOptionsInput
 	lda.w #$0000
 	sta.b tmp0
 	bra CODE_C5AC84

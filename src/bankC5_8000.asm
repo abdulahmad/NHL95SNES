@@ -1679,6 +1679,8 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 .1:									; fadestep = 0, $23BA = 0, $23BC = 0
 	stz.w fadestep
 	stz.w $23BA
+.reenter:							; the idle count cleared, ...
+									; after Start New
 	stz.w $23BC
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady

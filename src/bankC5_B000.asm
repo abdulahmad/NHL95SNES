@@ -197,7 +197,9 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 	stz.b d0
 	jsl.l CODE_C5E37E
 	stz.b d1
-CODE_C5B1AF:						; called from other segments
+DrawStandings:						; draws the standings page: the teams of division d1 sorted by stat d0 as
+									; a scrolling list (CODE_C5BE72 a row), the stat's title and the
+									; division's name; screen state 11
 	jsr.w CODE_C5C029
 	jsr.w CODE_C5BFE0
 	stz.b $69
@@ -208,7 +210,7 @@ CODE_C5B1AF:						; called from other segments
 	lda.b d0
 	asl a
 	tax
-	lda.l DATA8_C5B1FE,x
+	lda.l StandingsStatTitles,x
 	tax
 	ldy.w #$0007
 	lda.w #$00F0
@@ -219,7 +221,7 @@ CODE_C5B1AF:						; called from other segments
 	lda.b d1
 	asl a
 	tax
-	lda.l DATA8_C04CB7,x
+	lda.l DivisionNames,x
 	tax
 	ldy.w #$0013
 	jsl.l PrintItalicCentred
@@ -229,7 +231,9 @@ CODE_C5B1AF:						; called from other segments
 	sta.b $99
 	stz.w fadestep
 	rts
-DATA8_C5B1FE:						; not traced: a table read by CODE_C5B1AF
+StandingsStatTitles:				; the packed text of each standings stat title: Wins / Losses / Ties,
+									; Points, Goals Scored Avg., Goals Allowed Avg., Save %, Shooting Pct.,
+									; Shots Per Game, Shots Allowed
 	db $2E,$56,$75,$4B,$3D,$56,$4C,$56,$5C,$56,$6B,$56,$76,$56,$83,$56
 CODE_C5B20E:						; from CODE_C5B22D and other segments
 	stz.b d4
@@ -1795,7 +1799,7 @@ CODE_C5BE37:						; from CODE_C5BE33, CODE_C5BBDD, CODE_C5B4C2
 	ora.b tmp0
 	sta.b tmp0
 	jmp.w BinToBCD
-CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to StartScrollList
+CODE_C5BE72:						; a callback: DrawStandings passes it to StartScrollList
 	lda.w #$000A
 	sta.b $CF
 	lda.b a3
