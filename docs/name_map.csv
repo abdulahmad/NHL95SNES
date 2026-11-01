@@ -1517,3 +1517,10 @@ $C62120,DATA8_C62120,,new,"placement words read by the mirrored frame path; axis
 $C62968,DATA8_C62968,,new,"raw frame tiles for transfer index $002; pose not traced",src/bankC6_2000.asm
 $C62BE8,DATA8_C62BE8,,new,"raw frame tiles for transfer index $003; pose not traced",src/bankC6_2000.asm
 $C62E28,DATA8_C62E28,,new,"raw frame tiles for transfer index $006; pose not traced",src/bankC6_2000.asm
+$C630A8,DATA8_C630A8,,new,"raw frame tiles for transfer index $007; pose not traced",src/bankC6_3000.asm
+$C63308,DATA8_C63308,,new,"raw frame tiles for transfer index $008; pose not traced",src/bankC6_3000.asm
+$C63508,DATA8_C63508,,new,"raw frame tiles for transfer index $00A; pose not traced",src/bankC6_3000.asm
+$C63788,DATA8_C63788,,new,"raw frame tiles for transfer index $00B; pose not traced",src/bankC6_3000.asm
+$C639E8,DATA8_C639E8,,new,"raw frame tiles for transfer index $00E; pose not traced",src/bankC6_3000.asm
+$C63C68,DATA8_C63C68,,new,"raw frame tiles for transfer index $00F; pose not traced",src/bankC6_3000.asm
+$C63EC8,DATA8_C63EC8,,new,"raw frame tiles for transfer index $010; pose not traced",src/bankC6_3000.asm
