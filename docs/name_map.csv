@@ -2313,3 +2313,4 @@ $CDBAD3,PlayerPhotosDET,DATA8_CDBAD3,code,"Detroit: 6 player photos, packed form
 $CDCC79,PhotoPalettesEDM,DATA8_CDCC79,code,"Edmonton: 16 colours for each of its 6 player photos; entry 7 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_C000.asm
 $CDCD39,PlayerPhotosEDM,DATA8_CDCD39,code,"Edmonton: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_C000.asm
 $CDDF5E,PhotoPalettesFLA,DATA8_CDDF5E,code,"Florida: 16 colours for each of its 6 player photos; entry 8 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_D000.asm
+$CDE01E,PlayerPhotosFLA,DATA8_CDE01E,code,"Florida: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_E000.asm
