@@ -1,3 +1,3 @@
 ; Segment bankCD_C000: not yet disassembled.
-org $CDC000
-	incbin "../Extracted/segments/bankCD_C000.bin"
+org $CDCC79
+	incbin "../Extracted/segments/bankCD_C000.bin":$C79..$1000
