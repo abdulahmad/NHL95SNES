@@ -604,7 +604,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
@@ -618,7 +618,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	adc.w #$331F
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.w #$000C
 	jsl.l PrintBoldLeftStr
 	jsl.l WaitTransfers
@@ -640,7 +640,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
@@ -654,7 +654,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	adc.w #$2EE1
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.w #$000C
 	jsl.l PrintBoldRightStr
 	jsl.l WaitTransfers
@@ -786,13 +786,13 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	ldx.w #$2EE1
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.w #$000C
 	jsl.l PrintBoldRightStr
 	jsl.l WaitTransfers
@@ -811,13 +811,13 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
 	jsl.l CODE_C5B676
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
 	ldx.w #$331F
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.w #$000C
 	jsl.l PrintBoldLeftStr
 	jsl.l WaitTransfers
@@ -897,7 +897,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.l $C30004,x
 	and.w #$00FF
 	jsl.l CODE_C5B676
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
@@ -916,7 +916,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.l $C30004,x
 	and.w #$00FF
 	jsl.l CODE_C5B676
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr

@@ -686,9 +686,9 @@ CODE_C40444:						; from CODE_C40000
 	lda.w #$000A
 	sta.b tmp0
 	lda.w #$0000
-.loop5:								; loop: tmp1 = A, call CODE_C55EC3, Y = tmp0, X = mesarea, ...
+.loop5:								; loop: tmp1 = A, call BCDTextLong, Y = tmp0, X = mesarea, ...
 	sta.b tmp1
-	jsl.l CODE_C55EC3
+	jsl.l BCDTextLong
 	ldy.b tmp0
 	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr

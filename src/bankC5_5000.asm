@@ -1456,7 +1456,7 @@ StartScrollList:					; starts a scrolling list: X rows shown from text row Y, ea
 	lda.b a4
 	sta.b $6D
 CODE_C55BC8:						; from CODE_C55BD1
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C55BD1-1
 	jmp ($0075)
 CODE_C55BD1:						; from CODE_C55BC8
@@ -1521,11 +1521,11 @@ CODE_C55C25:						; from CODE_C55C12, CODE_C55C45
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + a4, $6D = A, call CODE_C55D73, jump through $0075
+.1:									; A + a4, $6D = A, call ClearTextRow, jump through $0075
 	clc
 	adc.b a4
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C55C45-1
 	jmp ($0075)
 CODE_C55C45:						; from CODE_C55C25
@@ -1560,11 +1560,11 @@ ScrollListDown:						; scrolls a scrolling list down a row (the pad's down) when
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + a4, $6D = A, call CODE_C55D73, jump through $0075
+.1:									; A + a4, $6D = A, call ClearTextRow, jump through $0075
 	clc
 	adc.b a4
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C55C86-1
 	jmp ($0075)
 CODE_C55C86:						; from ScrollListDown
@@ -1633,11 +1633,11 @@ ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows 
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + a4, $6D = A, call CODE_C55D73, jump through $0075
+.1:									; A + a4, $6D = A, call ClearTextRow, jump through $0075
 	clc
 	adc.b a4
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C55D10-1
 	jmp ($0075)
 CODE_C55D10:						; from ScrollListUp
@@ -1690,7 +1690,7 @@ CODE_C55D6A:						; from ScrollListUp
 	rts
 DATA8_C55D6B:						; jump table: the routine for each index (code in bankC5_6000 uses it)
 	dw CODE_C55D8A,CODE_C55DAC,CODE_C55DEF,CODE_C55E3D
-CODE_C55D73:						; from CODE_C55C25, ScrollListDown, ScrollListUp, ...
+ClearTextRow:						; clears row $6D of the text map at $D3 (32 tiles)
 	lda.b $6D
 	xba
 	lsr a
@@ -1848,7 +1848,7 @@ CODE_C55E57:						; called from other segments
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-CODE_C55EC3:						; called from other segments
+BCDTextLong:						; BCDText for long calls
 	jsr.w BCDText
 	rtl
 BCDText:							; the BCD number A as text (no leading zeros, zero ended) at the start of
@@ -1910,7 +1910,9 @@ BCDTextAt:							; the BCD number A as text (no leading zeros, zero ended) at X 
 	rts
 CODE_C55F1F:						; called from other segments
 	ldy.w #mesarea
-CODE_C55F22:						; from CODE_C55F8A and other segments
+FitName:							; copies the zero-ended name at X to Y in at most A characters: as it is,
+									; else the first name as an initial ('F= Last'), else cut short with '=';
+									; X = Y
 	sty.b $2E
 	sta.b r0
 	phx
@@ -1972,15 +1974,16 @@ CODE_C55F22:						; from CODE_C55F8A and other segments
 	rep #$20
 	ldx.b $2E
 	rts
-CODE_C55F8A:						; called from other segments
+FitNameToWorkBuf:					; FitName into a new work buffer entry of A + 2 bytes (long calls)
 	pha
 	adc.w #$0002
 	jsl.l AllocWorkBuf
 	tay
 	pla
-	jsr.w CODE_C55F22
+	jsr.w FitName
 	rtl
-CODE_C55F98:						; called from other segments
+UnpackFitName:						; unpacks text X (UnpackText) and fits the name in at most A characters in
+									; place, as FitName does
 	sta.b r0
 	jsl.l UnpackText
 	stx.b $2E

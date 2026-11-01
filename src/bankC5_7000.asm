@@ -1061,7 +1061,7 @@ CODE_C57779:						; from CODE_C57578
 CODE_C577C3:						; from CODE_C57578
 	lda.w #$000C
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	lda.w #$001E
 	sta.b $CF
 	lda.w #$00D0
@@ -1319,7 +1319,7 @@ CODE_C57997:						; from PauseGoalie
 	lda.w #$0001
 	sta.w $24DC
 CODE_C579F4:						; from CODE_C57A4D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	lda.b a3
 	ldx.w #$2000
 	sta.b d0

@@ -5839,7 +5839,7 @@ $C55D02,.1,CODE_C55D02,new,"branch target only used in ScrollListUp",src/bankC5_
 $C55D17,.loop,CODE_C55D17,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
 $C55D54,.1,CODE_C55D54,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
 $C55D64,.2,CODE_C55D64,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
-$C55D81,.loop,CODE_C55D81,new,"branch target only used in CODE_C55D73",src/bankC5_5000.asm
+$C55D81,.loop,CODE_C55D81,new,"branch target only used in ClearTextRow",src/bankC5_5000.asm
 $C55E14,.1,CODE_C55E14,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
 $C55E2A,.2,CODE_C55E2A,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
 $C55E65,.1,CODE_C55E65,new,"branch target only used in CODE_C55E57",src/bankC5_5000.asm
@@ -5848,18 +5848,18 @@ $C55EEE,.2,CODE_C55EEE,new,"branch target only used in BCDTextAt",src/bankC5_500
 $C55EF7,.3,CODE_C55EF7,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
 $C55F03,.4,CODE_C55F03,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
 $C55F0F,.5,CODE_C55F0F,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
-$C55F29,.loop,CODE_C55F29,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
-$C55F35,.1,CODE_C55F35,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
-$C55F43,.loop2,CODE_C55F43,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
-$C55F53,.loop3,CODE_C55F53,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
-$C55F70,.loop4,CODE_C55F70,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
-$C55F85,.2,CODE_C55F85,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
-$C55FA5,.loop,CODE_C55FA5,new,"branch target only used in CODE_C55F98",src/bankC5_5000.asm
-$C55FAE,.1,CODE_C55FAE,new,"branch target only used in CODE_C55F98",src/bankC5_5000.asm
-$C55FB7,.loop2,CODE_C55FB7,new,"branch target only used in CODE_C55F98",src/bankC5_5000.asm
-$C55FC7,.loop3,CODE_C55FC7,new,"branch target only used in CODE_C55F98",src/bankC5_5000.asm
-$C55FF8,.2,CODE_C55FF8,new,"branch target only used in CODE_C55F98",src/bankC5_5000.asm
-$C56000,.3,CODE_C56000,new,"branch target only used in CODE_C55F98",src/bankC5_5000.asm
+$C55F29,.loop,CODE_C55F29,new,"branch target only used in FitName",src/bankC5_5000.asm
+$C55F35,.1,CODE_C55F35,new,"branch target only used in FitName",src/bankC5_5000.asm
+$C55F43,.loop2,CODE_C55F43,new,"branch target only used in FitName",src/bankC5_5000.asm
+$C55F53,.loop3,CODE_C55F53,new,"branch target only used in FitName",src/bankC5_5000.asm
+$C55F70,.loop4,CODE_C55F70,new,"branch target only used in FitName",src/bankC5_5000.asm
+$C55F85,.2,CODE_C55F85,new,"branch target only used in FitName",src/bankC5_5000.asm
+$C55FA5,.loop,CODE_C55FA5,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
+$C55FAE,.1,CODE_C55FAE,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
+$C55FB7,.loop2,CODE_C55FB7,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
+$C55FC7,.loop3,CODE_C55FC7,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
+$C55FF8,.2,CODE_C55FF8,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
+$C56000,.3,CODE_C56000,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
 $C56010,.loop,CODE_C56010,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
 $C56019,.1,CODE_C56019,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
 $C56020,.loop2,CODE_C56020,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
@@ -7707,3 +7707,8 @@ $C5BBBC,RefreshSpritesLong,CODE_C5BBBC,code,"jsr RefreshSprites, rtl",src/bankC5
 $C534B5,PushNumber,CODE_C534B5,94S+code,"the same code as 94S PushNumber side by side (mesareaEnd, Div16x8U by 10, the length word); 95 stores the digit values without adding $30",src/bankC5_3000.asm
 $04F5,mesarea,,94S+code,"RAM: 2 votes; RemapOut and gamefps on both sides have 94S's offset; the print routines take it as their string (ldx #mesarea)",src/ram95s.asm
 $0513,mesareaEnd,,94S+code,"RAM: PushNumber side by side with 94S (lda #mesareaEnd, the digits written backward, the length word before them); at 94S's offset from mesarea",src/ram95s.asm
+$C55F22,FitName,CODE_C55F22,code,"from the code: the copy, the length test against r0, the initial with $3D (the font's full stop) after it, then the cut with $3D",src/bankC5_5000.asm
+$C55F8A,FitNameToWorkBuf,CODE_C55F8A,code,"from the code: AllocWorkBuf A + 2, then FitName with Y = the entry",src/bankC5_5000.asm
+$C55F98,UnpackFitName,CODE_C55F98,code,"from the code: UnpackText, then the same length test, initial and cut as FitName",src/bankC5_5000.asm
+$C55D73,ClearTextRow,CODE_C55D73,code,"from the code: $6D * 64 + $D3, 32 words of 0; the scrolling list routines call it",src/bankC5_5000.asm
+$C55EC3,BCDTextLong,CODE_C55EC3,code,"jsr BCDText, rtl",src/bankC5_5000.asm

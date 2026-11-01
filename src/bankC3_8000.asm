@@ -221,10 +221,10 @@ PrintScoringLeader:					; queue the team and player name of one scoring leader
 	bra .3
 .2:									; A + $2EE1
 	adc.w #$2EE1
-.3:									; X = A, A = $000D, call CODE_C55F8A, call CODE_C5625E, ...
+.3:									; X = A, A = $000D, call FitNameToWorkBuf, call CODE_C5625E, ...
 	tax
 	lda.w #$000D
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	jsl.l CODE_C5625E
 	txa
 	ldx.w #$007E

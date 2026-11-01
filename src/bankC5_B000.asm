@@ -934,7 +934,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	sty.b $65
 	ldx.w #mesarea
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	bra .13
 .12:								; push X, A * 2, X = A, A = PlayerList,x, ...
 	phx
@@ -945,7 +945,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	and.w #$3FFF
 	tax
 	lda.w #$000C
-	jsr.w CODE_C55F98
+	jsr.w UnpackFitName
 .13:								; Y = $6D, call PrintBoldLeftStr, pull X, push X, ...
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
@@ -1474,7 +1474,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	adc.w #$2EE1
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	plx
@@ -1540,7 +1540,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	adc.w #$2EE1
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	plx

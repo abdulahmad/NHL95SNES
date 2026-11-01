@@ -458,7 +458,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	sta.b $CF
 	jsl.l UnpackText
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	plx
@@ -561,7 +561,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	sta.b $CF
 	ldx.w #mesarea
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	ldy.b $65
@@ -1223,7 +1223,7 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	adc.w #$331F
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.b a3
@@ -1571,7 +1571,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	adc.w #$0118
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.b $91
@@ -1793,7 +1793,7 @@ PrintTradedPlayers:					; prints the chosen players of a trade list (bit 0 of ea
 	adc.w #$0118
 	tax
 	lda.w #$000C
-	jsl.l CODE_C55F8A
+	jsl.l FitNameToWorkBuf
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	inc.b $6D

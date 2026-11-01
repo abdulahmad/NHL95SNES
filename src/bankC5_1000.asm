@@ -1034,7 +1034,7 @@ CODE_C51911:						; from ShowGoalBox
 	adc.w #$0008
 	tax
 	lda.w #$000D
-	jsr.w CODE_C55F22
+	jsr.w FitName
 	ldx.w #mesarea
 	jsr.w CODE_C56262
 	jsl.l CopyString2

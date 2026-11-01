@@ -1396,11 +1396,11 @@ CODE_C5DAC2:						; from CODE_C5DAAF, CODE_C5DAE2
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + $05,s, $6D = A, call CODE_C55D73, jump through $008F
+.1:									; A + $05,s, $6D = A, call ClearTextRow, jump through $008F
 	clc
 	adc.b $05,s
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C5DAE2-1
 	jmp ($008F)
 CODE_C5DAE2:						; from CODE_C5DAC2
@@ -1445,11 +1445,11 @@ CODE_C5DAF3:						; called from other segments
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + $6F,x, $6D = A, call CODE_C55D73, jump through $008F
+.1:									; A + $6F,x, $6D = A, call ClearTextRow, jump through $008F
 	clc
 	adc.b $6F,x
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C5DB30-1
 	jmp ($008F)
 CODE_C5DB30:						; from CODE_C5DAF3
@@ -1543,11 +1543,11 @@ CODE_C5DB9F:						; called from other segments
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + $6F,x, $6D = A, call CODE_C55D73, jump through $008F
+.1:									; A + $6F,x, $6D = A, call ClearTextRow, jump through $008F
 	clc
 	adc.b $6F,x
 	sta.b $6D
-	jsr.w CODE_C55D73
+	jsr.w ClearTextRow
 	pea.w CODE_C5DBE0-1
 	jmp ($008F)
 CODE_C5DBE0:						; from CODE_C5DB9F
