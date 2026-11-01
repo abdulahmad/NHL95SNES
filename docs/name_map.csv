@@ -7663,3 +7663,9 @@ $1537,mp5port2last,,94S+code,"RAM: 2 votes; mp5checktimer and mp5present on both
 $1539,mp5portchg,,94S+code,"RAM: 2 votes; mp5checktimer and mp5present on both sides have 94S's offset",src/ram95s.asm
 $2348,refwindow,,94S+code,"RAM: 1 vote from a long operand; ScoreSum and newperiod on both sides have 94S's offset",src/ram95s.asm
 $24C4,playoffRoundIdx,,94S+code,"RAM: 1 vote from a long operand; gsflags and gamenum on both sides have 94S's offset",src/ram95s.asm
+$18C4,sopathx,,94S+code,"RAM: 1 vote; the six sopath words are in 94S's order at the offset of pstimer, penshot and psfoxsave; assbreakaway's skateto target x as in 94S",src/ram95s.asm
+$18C6,sopathy,,94S+code,"RAM: 1 vote; the skateto target y, negated for pfgoal 0 as in 94S",src/ram95s.asm
+$18C8,sopathnext,,94S+code,"RAM: 2 votes; d0 against it takes the next point, negative goes to the shot step as in 94S",src/ram95s.asm
+$18CA,sopathpoint,,94S+code,"RAM: 1 vote; cleared at the start, incremented by the next-point step as in 94S",src/ram95s.asm
+$18CC,sopathside,,94S+code,"RAM: 1 vote; its sign picks the shot direction as in 94S",src/ram95s.asm
+$18CE,sopathface,,94S+code,"RAM: 2 votes; stored with the next point, the shot comes when facedir moves away from it as in 94S",src/ram95s.asm

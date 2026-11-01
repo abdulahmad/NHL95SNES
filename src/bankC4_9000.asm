@@ -1045,24 +1045,24 @@ CODE_C49B74:						; from assbreakaway
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-	stz.w $18CA
+	stz.w sopathpoint
 	lda.w seed
 	and.w #$0003
 	sta.w temp3,x
 	jsr.w CODE_C49CDB
-.2:									; if $18C8 < 0 go to .5, if d0 - $18C8 < 0 go to .3, call CODE_C49C88, ...
-	lda.w $18C8
+.2:									; if sopathnext < 0 go to .5, if d0 - sopathnext < 0 go to .3, ...
+	lda.w sopathnext
 	bmi .5
 	lda.b d0
-	cmp.w $18C8
+	cmp.w sopathnext
 	bmi .3
 	jsr.w CODE_C49C88
 	lda.w facedir,x
-	sta.w $18CE
-.3:									; d0 = $18C4, d1 = $18C6, if pfgoal,x is not 0 go to .4, A = $0000, ...
-	lda.w $18C4
+	sta.w sopathface
+.3:									; d0 = sopathx, d1 = sopathy, if pfgoal,x is not 0 go to .4, ...
+	lda.w sopathx
 	sta.b d0
-	lda.w $18C6
+	lda.w sopathy
 	sta.b d1
 	lda.w pfgoal,x
 	bne .4
@@ -1080,10 +1080,10 @@ CODE_C49B74:						; from assbreakaway
 	sbc.w impactstep
 	sta.w temp2,x
 	jml.l skateto
-.5:									; A = facedir,x, A - $18CE, if the result = 0 go to .3, A + 1, ...
+.5:									; A = facedir,x, A - sopathface, if the result = 0 go to .3, A + 1, ...
 	lda.w facedir,x
 	sec
-	sbc.w $18CE
+	sbc.w sopathface
 	beq .3
 	inc a
 	and.w #$0007
@@ -1103,7 +1103,7 @@ CODE_C49B74:						; from assbreakaway
 	inc a
 	inc a
 	sta.b d0
-	ldy.w $18CC
+	ldy.w sopathside
 	bpl .8
 	lda.b d0
 	clc
@@ -1147,9 +1147,9 @@ CODE_C49B74:						; from assbreakaway
 DATA8_C49C87:						; not traced: a table read by CODE_C49B74
 	db $6B
 CODE_C49C88:						; from CODE_C49B74
-	lda.w $18CA
+	lda.w sopathpoint
 	asl a
-	adc.w $18CA
+	adc.w sopathpoint
 	asl a
 	tay
 	lda.w #DATA8_C49CC3>>16
@@ -1158,24 +1158,24 @@ CODE_C49C88:						; from CODE_C49B74
 	sta.b a0
 	lda.b [a0],y
 	sta.b d0
-	lda.w $18CC
+	lda.w sopathside
 	bpl .1
 	lda.w #$0000
 	sec
 	sbc.b d0
 	sta.b d0
-.1:									; $18C4 = d0, Y + 1, Y + 1, $18C6 = [a0],y, ...
+.1:									; sopathx = d0, Y + 1, Y + 1, sopathy = [a0],y, ...
 	lda.b d0
-	sta.w $18C4
+	sta.w sopathx
 	iny
 	iny
 	lda.b [a0],y
-	sta.w $18C6
+	sta.w sopathy
 	iny
 	iny
 	lda.b [a0],y
-	sta.w $18C8
-	inc.w $18CA
+	sta.w sopathnext
+	inc.w sopathpoint
 	rts
 DATA8_C49CC3:						; not traced: a table read by CODE_C49C88
 	db $28,$00,$78,$00,$50,$00,$EA,$FF,$97,$00,$8C,$00,$EA,$FF,$E6,$00
@@ -1209,13 +1209,13 @@ CODE_C49CDB:						; from CODE_C49B74
 	bne .5
 	eor.w #$FFFF
 	inc a
-.5:									; $18CC = A, $18C4 = A, $18C6 = $0028, $18C8 = $001E, ...
-	sta.w $18CC
-	sta.w $18C4
+.5:									; sopathside = A, sopathx = A, sopathy = $0028, sopathnext = $001E, ...
+	sta.w sopathside
+	sta.w sopathx
 	lda.w #$0028
-	sta.w $18C6
+	sta.w sopathy
 	lda.w #$001E
-	sta.w $18C8
+	sta.w sopathnext
 	rts
 .6:									; if Xpos,x - $0020 >= 0 go to .13, if Xpos,x - $FFE0 < 0 go to .13, ...
 	lda.w Xpos,x
@@ -1248,20 +1248,20 @@ CODE_C49CDB:						; from CODE_C49B74
 	bne .11
 	eor.w #$FFFF
 	inc a
-.11:								; $18CC = A, $18C4 = A
-	sta.w $18CC
-	sta.w $18C4
-.12:								; $18CA = $0002, $18C6 = $0097, $18C8 = $008C, return
+.11:								; sopathside = A, sopathx = A
+	sta.w sopathside
+	sta.w sopathx
+.12:								; sopathpoint = $0002, sopathy = $0097, sopathnext = $008C, return
 	lda.w #$0002
-	sta.w $18CA
+	sta.w sopathpoint
 	lda.w #$0097
-	sta.w $18C6
+	sta.w sopathy
 	lda.w #$008C
-	sta.w $18C8
+	sta.w sopathnext
 	rts
-.13:								; $18CC = A, $18C4 = 0, go to .12
-	sta.w $18CC
-	stz.w $18C4
+.13:								; sopathside = A, sopathx = 0, go to .12
+	sta.w sopathside
+	stz.w sopathx
 	bra .12
 Findhittype:						; from SetShotMode, CODE_C4A20F, CODE_C49E91, ...
 	lda.b d0
