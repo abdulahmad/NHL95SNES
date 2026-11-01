@@ -64,6 +64,7 @@ Sample21 = $C0A965					; sample 21, in another segment
 Sample22 = $C0B5BF					; sample 22, in another segment
 Sample24 = $C3CDBF					; sample 24, in another segment
 Sample25 = $C3D52D					; sample 25, in another segment
+Sample26 = $CF95A4					; sample 26, in another segment
 Sample28 = $C3B574					; sample 28, in another segment
 Sample29 = $C3E82F					; sample 29, in another segment
 Sample30 = $C3DC1D					; sample 30, in another segment
