@@ -14,7 +14,7 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC6_A000, org $C6A1A8 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C5 are all source (the code banks $C4
+- Next: segment bankC6_B000, org $C6B108 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$C5 are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
