@@ -1348,7 +1348,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .10
-	jml.l CODE_C40296
+	jml.l RecordPlayoffDay
 .10:								; A = $306050, A + 1, $306050 = A, $306051 = $0000, ...
 	lda.l $306050
 	inc a

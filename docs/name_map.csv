@@ -3244,18 +3244,18 @@ $C40054,.7,CODE_C40054,new,"branch target only used in PlayoffBracketScreen",src
 $C4005E,.8,CODE_C4005E,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
 $C40066,.9,CODE_C40066,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
 $C400F2,.rts,CODE_C400F2,new,"branch target only used in BracketMarkSeries",src/bankC4_0000.asm
-$C401FF,.loop,CODE_C401FF,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
-$C4024E,.1,CODE_C4024E,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
-$C40254,.2,CODE_C40254,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
-$C40264,.3,CODE_C40264,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
-$C40285,.loop,CODE_C40285,new,"branch target only used in CODE_C40280",src/bankC4_0000.asm
-$C402A2,.1,CODE_C402A2,new,"branch target only used in CODE_C40296",src/bankC4_0000.asm
-$C402B3,.2,CODE_C402B3,new,"branch target only used in CODE_C40296",src/bankC4_0000.asm
-$C402C4,.3,CODE_C402C4,new,"branch target only used in CODE_C40296",src/bankC4_0000.asm
-$C402DD,.4,CODE_C402DD,new,"branch target only used in CODE_C40296",src/bankC4_0000.asm
-$C402EB,.5,CODE_C402EB,new,"branch target only used in CODE_C40296",src/bankC4_0000.asm
-$C4030A,.loop,CODE_C4030A,new,"branch target only used in CODE_C40305",src/bankC4_0000.asm
-$C40316,.1,CODE_C40316,new,"branch target only used in CODE_C40305",src/bankC4_0000.asm
+$C401FF,.loop,CODE_C401FF,new,"branch target only used in BuildPlayoffDay",src/bankC4_0000.asm
+$C4024E,.1,CODE_C4024E,new,"branch target only used in BuildPlayoffDay",src/bankC4_0000.asm
+$C40254,.2,CODE_C40254,new,"branch target only used in BuildPlayoffDay",src/bankC4_0000.asm
+$C40264,.3,CODE_C40264,new,"branch target only used in BuildPlayoffDay",src/bankC4_0000.asm
+$C40285,.loop,CODE_C40285,new,"branch target only used in PlayoffTeamAtRound",src/bankC4_0000.asm
+$C402A2,.1,CODE_C402A2,new,"branch target only used in RecordPlayoffDay",src/bankC4_0000.asm
+$C402B3,.2,CODE_C402B3,new,"branch target only used in RecordPlayoffDay",src/bankC4_0000.asm
+$C402C4,.3,CODE_C402C4,new,"branch target only used in RecordPlayoffDay",src/bankC4_0000.asm
+$C402DD,.4,CODE_C402DD,new,"branch target only used in RecordPlayoffDay",src/bankC4_0000.asm
+$C402EB,.5,CODE_C402EB,new,"branch target only used in RecordPlayoffDay",src/bankC4_0000.asm
+$C4030A,.loop,CODE_C4030A,new,"branch target only used in AdvancePlayoffTeam",src/bankC4_0000.asm
+$C40316,.1,CODE_C40316,new,"branch target only used in AdvancePlayoffTeam",src/bankC4_0000.asm
 $C40377,.1,CODE_C40377,new,"branch target only used in CODE_C40322",src/bankC4_0000.asm
 $C4037C,.2,CODE_C4037C,new,"branch target only used in CODE_C40322",src/bankC4_0000.asm
 $C403A1,.3,CODE_C403A1,new,"branch target only used in CODE_C40322",src/bankC4_0000.asm
@@ -7960,3 +7960,7 @@ $C40153,ExitPlayoffBracket,CODE_C40153,code,"from the code: FadeOutWait, the HDM
 $C4097B,ToggleTeamBarHighlight,CODE_C4097B,code,"from the code: ToggleTeamBarRow at X and X + $B0",src/bankC4_0000.asm
 $C40985,ToggleTeamBarRow,CODE_C40985,code,"from the code: eor #$0400 over 12 words",src/bankC4_0000.asm
 $C403C2,ScrollBracketToCursor,CODE_C403C2,code,"from the code: the difference from DATA8_C40FF8 by a1, the step, CODE_C4064B",src/bankC4_0000.asm
+$C401E5,BuildPlayoffDay,CODE_C401E5,code,"from the code: the 16 series at $3D5E / $3D7C, the wins at $307865, the marks at $2C46, the record count to $2C42; the Play Games item goes here in play mode 3",src/bankC4_0000.asm
+$C40280,PlayoffTeamAtRound,CODE_C40280,code,"from the code: the search over the 16 slots",src/bankC4_0000.asm
+$C40296,RecordPlayoffDay,CODE_C40296,code,"from the code: the record loop, AdvancePlayoffTeam for the winner, $3075B4 + 1; FinishSeasonDay goes here in play mode 3; 95 Genesis RecordPlayoffGame's job for one game",src/bankC4_0000.asm
+$C40305,AdvancePlayoffTeam,CODE_C40305,code,"from the code: the search over the 16 slots, the round byte + 1",src/bankC4_0000.asm

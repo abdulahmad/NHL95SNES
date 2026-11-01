@@ -1670,12 +1670,12 @@ NoGameSelected:						; the warning A game must be selected. / Okay (screen state
 DATA8_C5AE40:						; not traced: data between routines
 	db $FF,$FE,$FC,$F8,$F0,$E0,$C0,$80
 MenuPlayGames:						; League Menu Play Games: when the season is over (play mode 3), the end
-									; of season (CODE_C401E5); else the day's games from the schedule
+									; of season (BuildPlayoffDay); else the day's games from the schedule
 	stz.b tmp0
 	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
-	jml.l CODE_C401E5
+	jml.l BuildPlayoffDay
 .1:									; A = $306050, A and $00FF, d0 = A, call CODE_C5B20E, ...
 	lda.l $306050
 	and.w #$00FF
@@ -1787,7 +1787,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
-	jml.l CODE_C40296
+	jml.l RecordPlayoffDay
 .1:									; call RecordDayResults, call SaveDayGameStats, A = $306050, A + 1, ...
 	jsr.w RecordDayResults
 	jsr.w SaveDayGameStats

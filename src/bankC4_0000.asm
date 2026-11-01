@@ -223,7 +223,9 @@ ExitPlayoffBracket:					; leaves the playoff bracket for the League Menu (Season
 	jsl.l WaitTransfers
 	stz.w fadestep
 	jml.l SeasonOptions
-CODE_C401E5:						; called from other segments
+BuildPlayoffDay:					; the day's playoff game records from the series still running (marked
+									; ones for the user), then FinishSeasonDay; with none left
+									; StanleyCupScreen, SeasonAwards and Reset
 	lda.w #$0000
 	sta.l $306051
 	jsl.l ResetWorkBuf
@@ -276,19 +278,20 @@ CODE_C401E5:						; called from other segments
 	beq .3
 	sta.l $7E2C42
 	jml.l FinishSeasonDay
-.3:									; A = $0004, call CODE_C40280, push A, A = $0003, ...
+.3:									; A = $0004, call PlayoffTeamAtRound, push A, A = $0003, ...
 	plb
 	lda.w #$0004
-	jsr.w CODE_C40280
+	jsr.w PlayoffTeamAtRound
 	pha
 	lda.w #$0003
-	jsr.w CODE_C40280
+	jsr.w PlayoffTeamAtRound
 	tax
 	pla
 	jsl.l StanleyCupScreen
 	jsl.l SeasonAwards
 	jml.l Reset
-CODE_C40280:						; from CODE_C401E5
+PlayoffTeamAtRound:					; A = the playoff team whose round ($307874) is A, from the team list at
+									; $3075A4
 	sep #$20
 	ldx.w #$0010
 .loop:								; loop: X - 1, if A is not $307874,x go to .loop, A = $3075A4,x, ...
@@ -299,7 +302,9 @@ CODE_C40280:						; from CODE_C401E5
 	rep #$20
 	and.w #$00FF
 	rts
-CODE_C40296:						; called from other segments
+RecordPlayoffDay:					; adds each of the day's playoff results to its series wins at $307865 (+1
+									; home, +$10 away; a series starts at 3-3 when $30604D is 0) and moves a
+									; team that reaches 4 wins on a round, then the playoff day + 1
 	lda.w $2C42
 	sta.b tmp0
 	pea.w $7E7F
@@ -328,14 +333,14 @@ CODE_C40296:						; called from other segments
 	cmp.w #$0040
 	bcc .4
 	lda.w $0002,y
-	jsr.w CODE_C40305
+	jsr.w AdvancePlayoffTeam
 	bra .5
-.4:									; A and $000F, if A < $0004 go to .5, A = $0004,y, call CODE_C40305
+.4:									; A and $000F, if A < $0004 go to .5, A = $0004,y, call AdvancePlayoffTeam
 	and.w #$000F
 	cmp.w #$0004
 	bcc .5
 	lda.w $0004,y
-	jsr.w CODE_C40305
+	jsr.w AdvancePlayoffTeam
 .5:									; A = Y, A + $010A, Y = A, tmp0 - 1, ...
 	tya
 	adc.w #$010A
@@ -348,7 +353,8 @@ CODE_C40296:						; called from other segments
 	inc a
 	sta.l $3075B4
 	jml.l CODE_C5ADDC
-CODE_C40305:						; from CODE_C40296
+AdvancePlayoffTeam:					; the playoff team A one round on ($307874 + 1 in its slot of the list at
+									; $3075A4)
 	sep #$20
 	ldx.w #$000F
 .loop:								; loop: if A = $3075A4,x go to .1, X - 1, ...
@@ -1221,7 +1227,7 @@ CODE_C40999:						; from CODE_C409E3
 	dex
 	bpl .loop
 	rts
-CODE_C409E3:						; from CODE_C401E5, SetupPlayoffBracket
+CODE_C409E3:						; from BuildPlayoffDay, SetupPlayoffBracket
 	jsl.l WaitTransfers
 	lda.w #$364E
 	ldy.w #$1000
@@ -1606,7 +1612,7 @@ SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at $306FED b
 	ora.b tmp0
 	sta.l $306FED,x
 	rts
-CODE_C40CB3:						; from CODE_C40296
+CODE_C40CB3:						; from RecordPlayoffDay
 	lda.w $2C42
 	sta.b tmp0
 	pea.w $7E7F
