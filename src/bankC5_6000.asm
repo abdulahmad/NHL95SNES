@@ -493,7 +493,7 @@ DrawPeriodStats:					; the period stats: the periods played and Total, the headi
 	ply
 	iny
 	pla
-	cmp.w $1876
+	cmp.w lastperiod
 	beq .1
 	inc a
 	bra .loop
@@ -557,7 +557,7 @@ CODE_C56453:						; from DrawPeriodStats
 	ply
 	iny
 	pla
-	cmp.w $1876
+	cmp.w lastperiod
 	beq .1
 	inc a
 	bra .loop

@@ -1513,7 +1513,7 @@ Goal:								; called from other segments
 	jsl.l CODE_C4AD04
 	lda.b a2
 	bne .29
-	lda.w $12AD
+	lda.w tmscore+2
 	sec
 	sbc.w tmscore
 	bmi .29

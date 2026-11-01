@@ -5184,19 +5184,19 @@ $C50AA8,.4,CODE_C50AA8,new,"branch target only used in clockcont_0",src/bankC5_0
 $C50AC2,.rtl,CODE_C50AC2,new,"branch target only used in clockcont_0",src/bankC5_0000.asm
 $C50AC3,.5,CODE_C50AC3,new,"branch target only used in clockcont_0",src/bankC5_0000.asm
 $C50AD0,.6,CODE_C50AD0,new,"branch target only used in clockcont_0",src/bankC5_0000.asm
-$C50AF1,.loop,CODE_C50AF1,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50AFF,.1,CODE_C50AFF,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50B2F,.2,CODE_C50B2F,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50B3D,.3,CODE_C50B3D,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50B5A,.4,CODE_C50B5A,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50B5D,.5,CODE_C50B5D,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50B7C,.6,CODE_C50B7C,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50B8C,.7,CODE_C50B8C,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50BA5,.8,CODE_C50BA5,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50BA8,.9,CODE_C50BA8,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50BB9,.loop2,CODE_C50BB9,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50BCB,.10,CODE_C50BCB,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
-$C50BE5,.11,CODE_C50BE5,new,"branch target only used in CODE_C50ADD",src/bankC5_0000.asm
+$C50AF1,.loop,CODE_C50AF1,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50AFF,.1,CODE_C50AFF,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50B2F,.2,CODE_C50B2F,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50B3D,.3,CODE_C50B3D,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50B5A,.4,CODE_C50B5A,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50B5D,.5,CODE_C50B5D,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50B7C,.6,CODE_C50B7C,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50B8C,.7,CODE_C50B8C,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50BA5,.8,CODE_C50BA5,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50BA8,.9,CODE_C50BA8,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50BB9,.loop2,CODE_C50BB9,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50BCB,.10,CODE_C50BCB,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
+$C50BE5,.11,CODE_C50BE5,new,"branch target only used in PeriodOver",src/bankC5_0000.asm
 $C50BF3,.loop,CODE_C50BF3,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
 $C50BF9,.1,CODE_C50BF9,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
 $C50D02,.rts,CODE_C50D02,new,"branch target only used in CODE_C50BEC",src/bankC5_0000.asm
@@ -5554,8 +5554,8 @@ $C534BF,.loop,CODE_C534BF,new,"branch target only used in CODE_C534B5",src/bankC
 $C534F2,.loop,CODE_C534F2,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
 $C534FC,.1,CODE_C534FC,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
 $C53516,.loop2,CODE_C53516,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
-$C5354B,.1,CODE_C5354B,new,"branch target only used in CODE_C53535",src/bankC5_3000.asm
-$C53568,.2,CODE_C53568,new,"branch target only used in CODE_C53535",src/bankC5_3000.asm
+$C5354B,.1,CODE_C5354B,new,"branch target only used in ResetClock",src/bankC5_3000.asm
+$C53568,.2,CODE_C53568,new,"branch target only used in ResetClock",src/bankC5_3000.asm
 $C5357F,.loop,CODE_C5357F,new,"branch target only used in clearTeamStats",src/bankC5_3000.asm
 $C535D7,.loop,CODE_C535D7,new,"branch target only used in CODE_C535CA",src/bankC5_3000.asm
 $C535DE,.1,CODE_C535DE,new,"branch target only used in CODE_C535CA",src/bankC5_3000.asm
@@ -7474,3 +7474,10 @@ $C58CCD,RandomBelowA,CODE_C58CCD,code,"a shift generator in $466E-$4671; WRDIVL 
 $C58B48,SetupMode7Screen,CODE_C58B48,code,"IntroSequence calls it first",src/bankC5_8000.asm
 $C58BE4,SetupMode1Screen,CODE_C58BE4,code,"DeveloperCredits calls it first",src/bankC5_8000.asm
 $C58C36,Framer,CODE_C58C36,94S+purpose,"same job as 94S Framer (draw a frame and fill it, width / height); 95 takes the size in X / Y and the VRAM address in A and builds the rows in the buffer at $364E; called for the message boxes (shootout, referee ...)",src/bankC5_8000.asm
+$1876,lastperiod,,94S+code,"RAM: 94S lastperiod: PeriodOver sets it from gsp and StartGame_go clears it where 94S does; DrawPeriodStats draws the periods up to it",src/ram95s.asm
+$17B3,PerTimeTotal,,94S+code,"RAM: ResetClock stores d0 to gameclock, $17B3 and gmclock where 94S ResetClock stores gameclock, PerTimeTotal and gmclock",src/ram95s.asm
+$186A,Optperlen,,94S+code,"RAM: GetPeriodTime indexes its period length tables with it as 94S GetPeriodTime does with Optperlen; set from the saved options at $306049 (values above 2 become 2) and saved back there by CODE_C5E3E2",src/ram95s.asm
+$C50ADD,PeriodOver,CODE_C50ADD,94S+code,"94S PeriodOver's steps: the gmode direction bit toggled, tmpdst $FFFD back to $FFFE, gsp + 1 (tied after period 3: overtime; past overtime gsp 4 unless $1864 is 3), ResetClock, Intermission, lastperiod = gsp, BA_Sktr_SCnum $FFFF, jmp StartPer; at gsp 4 Restart, or with $1864 2 or 3 the steps from CODE_C5E49A on",src/bankC5_0000.asm
+$C53535,ResetClock,CODE_C53535,94S+code,"94S ResetClock's steps; also $1151 = the clock as BCD minutes and seconds (GetPeriodTime's tmp0, $0025 in the shootout, $0500 in that overtime)",src/bankC5_3000.asm
+$C510F6,GetPeriodTime,CODE_C510F6,94S+code,"94S GetPeriodTime with a second table: DATA8_C5110A holds 300, 600, 1200 and 30 seconds, DATA8_C51112 $0500, $1000, $2000 and $0030 (BCD minutes and seconds)",src/bankC5_1000.asm
+$C50E94,FadeOut,CODE_C50E94,94S+code,"94S FadeOut sets fadestep $FFFF and installs BrightnessHook; here only fadestep (the NMI reads it); called twice from PeriodOver and from bank C3 code",src/bankC5_0000.asm

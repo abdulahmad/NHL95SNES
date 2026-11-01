@@ -636,8 +636,10 @@ CODE_C534E8:						; called from other segments
 	stx.b $69
 	plx
 	rtl
-CODE_C53535:						; called from other segments
-	jsl.l CODE_C510F6
+ResetClock:							; sets the period length: gameclock, PerTimeTotal and gmclock from
+									; GetPeriodTime (25 in the shootout, 300 in overtime when $1864 is 0) and
+									; the clock digits
+	jsl.l GetPeriodTime
 	lda.w shootoutmode
 	beq .1
 	lda.w #$0019
@@ -657,10 +659,10 @@ CODE_C53535:						; called from other segments
 	sta.w $1151
 	lda.w #$012C
 	sta.b d0
-.2:									; gameclock = d0, $17B3 = A, gmclock = A, return
+.2:									; gameclock = d0, PerTimeTotal = A, gmclock = A, return
 	lda.b d0
 	sta.w gameclock
-	sta.w $17B3
+	sta.w PerTimeTotal
 	sta.w gmclock
 	rtl
 clearTeamStats:						; clears the team stats (keeping both goalies), the penalty box lists
@@ -1254,7 +1256,7 @@ CODE_C539D7:						; called from other segments
 	jsr.w CODE_C53A75
 	ldy.w #$5B1C
 	jsl.l QueueVRAMDMALen
-	lda.w $12AD
+	lda.w tmscore+2
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldx.w #$04F5
@@ -1629,17 +1631,17 @@ setplayer:							; from CODE_C53B51 and other segments
 	sbc.w #$0002
 	bmi .14
 	bne .11
-	jsl.l CODE_C510F6
+	jsl.l GetPeriodTime
 	lda.b d0
 	lsr a
 	sec
 	sbc.w gameclock
 	beq .11
 	bpl .14
-.11:								; A = tmscore, A - $12AD, tmp0 = A, if zero go to .13, ...
+.11:								; A = tmscore, A - tmscore+2, tmp0 = A, if zero go to .13, ...
 	lda.w tmscore
 	sec
-	sbc.w $12AD
+	sbc.w tmscore+2
 	sta.b tmp0
 	beq .13
 	lda.w pfteam,x

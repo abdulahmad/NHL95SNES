@@ -1,9 +1,10 @@
 ; Segment bankC5_1000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C510F6
-CODE_C510F6:						; called from other segments
+GetPeriodTime:						; d0 = the period length in seconds for the period length option
+									; (Optperlen), tmp0 the same as BCD minutes and seconds
 	phx
-	lda.w $186A
+	lda.w Optperlen
 	asl a
 	tax
 	lda.l DATA8_C51112,x
@@ -12,9 +13,9 @@ CODE_C510F6:						; called from other segments
 	sta.b d0
 	plx
 	rtl
-DATA8_C5110A:						; not traced: a table read by CODE_C510F6
+DATA8_C5110A:						; not traced: a table read by GetPeriodTime
 	db $2C,$01,$58,$02,$B0,$04,$1E,$00
-DATA8_C51112:						; not traced: a table read by CODE_C510F6
+DATA8_C51112:						; not traced: a table read by GetPeriodTime
 	db $00,$05,$00,$10,$00,$20,$30,$00
 CODE_C5111A:						; from CODE_C51DEA and other segments
 	ldx.b a3
@@ -1438,18 +1439,18 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	sta.w pflags,x
 	lda.w gameclock
 	bne .3
-	jml.l CODE_C50ADD
-.3:									; A = gmode, if $0040 bits clear go to .4, go to CODE_C50ADD
+	jml.l PeriodOver
+.3:									; A = gmode, if $0040 bits clear go to .4, go to PeriodOver
 	lda.w gmode
 	bit.w #$0040
 	beq .4
-	jml.l CODE_C50ADD
-.4:									; if gsp is not $0003 go to .5, if tmscore = $12AD go to .5, ...
+	jml.l PeriodOver
+.4:									; if gsp is not $0003 go to .5, if tmscore = tmscore+2 go to .5, ...
 	lda.w gsp
 	cmp.w #$0003
 	bne .5
 	lda.w tmscore
-	cmp.w $12AD
+	cmp.w tmscore+2
 	beq .5
 	jml.l clockcont_0
 .5:									; A = gmode, if $0008 bits clear go to .6, go to Stop4Pen

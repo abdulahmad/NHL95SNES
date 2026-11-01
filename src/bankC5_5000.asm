@@ -688,7 +688,7 @@ CODE_C5547C:						; from CODE_C550E2
 	jsl.l CODE_C534E8
 	ldy.w #$00D7
 	jsr.w CODE_C554CA
-	lda.w $12AD
+	lda.w tmscore+2
 	sta.b d0
 	jsl.l CODE_C534E8
 	ldy.w #$00C3

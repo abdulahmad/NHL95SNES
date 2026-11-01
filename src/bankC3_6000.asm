@@ -209,8 +209,8 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	cmp.w #$0003
 	bcc .3
 	lda.w #$0002
-.3:									; $186A = A, A = $30604C, A and $00FF, if A < $0003 go to .4, ...
-	sta.w $186A
+.3:									; Optperlen = A, A = $30604C, A and $00FF, if A < $0003 go to .4, ...
+	sta.w Optperlen
 	lda.l $30604C
 	and.w #$00FF
 	cmp.w #$0003

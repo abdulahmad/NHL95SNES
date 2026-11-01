@@ -107,7 +107,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	sta.l $7E234C
 	stz.w penshot
 	stz.w $18C0
-	stz.w $1876
+	stz.w lastperiod
 	stz.w teampads
 	stz.w $14F7
 	ldx.w #$0008
@@ -161,7 +161,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	sta.b a2
 	jsl.l reenergizeteam
 	jsl.l CODE_C52227
-	jsl.l CODE_C53535
+	jsl.l ResetClock
 	jsl.l InitCrowdExcite
 	lda.w #$FFFF
 	sta.w pausepad
@@ -1176,7 +1176,7 @@ clockcont_0:						; called from other segments
 	cmp.w #$0002
 	bcs .1
 	jmp.w .5
-.1:									; d0 = $0008, a3 = $0000, d2 = $0005, if tmscore = $12AD go to .5, ...
+.1:									; d0 = $0008, a3 = $0000, d2 = $0005, if tmscore = tmscore+2 go to .5, ...
 	lda.w #$0008
 	sta.b d0
 	ldx.w #$0000
@@ -1184,7 +1184,7 @@ clockcont_0:						; called from other segments
 	lda.w #$0005
 	sta.b d2
 	lda.w tmscore
-	cmp.w $12AD
+	cmp.w tmscore+2
 	beq .5
 	bpl .loop
 	ldx.w #$000C
@@ -1214,7 +1214,7 @@ clockcont_0:						; called from other segments
 	sta.w gmclock
 	tsb.w gmode
 	lda.w tmscore
-	cmp.w $12AD
+	cmp.w tmscore+2
 	bmi .4
 	lda.w #$0000
 	sta.l $7E24CA
@@ -1247,8 +1247,10 @@ clockcont_0:						; called from other segments
 	lda.w #$0002
 	sta.b d0
 	jml.l ShootoutWonBy
-CODE_C50ADD:						; called from other segments
-	jsl.l CODE_C50E94
+PeriodOver:							; end of a period (jumped to when the clock runs out): play turned around,
+									; gsp counted with the tie check, Intermission, then StartPer for the next
+									; period or the end of the game
+	jsl.l FadeOut
 	jsl.l forceblack
 	lda.w gmode
 	eor.w #$0002
@@ -1279,14 +1281,14 @@ CODE_C50ADD:						; called from other segments
 	beq .2
 	lda.w #$0004
 	sta.w gsp
-.2:									; if tmscore = $12AD go to .3, gsp = $0004
+.2:									; if tmscore = tmscore+2 go to .3, gsp = $0004
 	lda.w tmscore
-	cmp.w $12AD
+	cmp.w tmscore+2
 	beq .3
 	lda.w #$0004
 	sta.w gsp
-.3:									; call CODE_C53535, if gsp is not $0004 go to .5, call CODE_C5D5CD, ...
-	jsl.l CODE_C53535
+.3:									; call ResetClock, if gsp is not $0004 go to .5, call CODE_C5D5CD, ...
+	jsl.l ResetClock
 	lda.w gsp
 	cmp.w #$0004
 	bne .5
@@ -1298,14 +1300,14 @@ CODE_C50ADD:						; called from other segments
 	bne .5
 .4:									; call CODE_C5DD47
 	jsr.w CODE_C5DD47
-.5:									; call Intermission, if gsp = $0004 go to .6, $1876 = gsp, ...
+.5:									; call Intermission, if gsp = $0004 go to .6, lastperiod = gsp, ...
 	jsl.l Intermission
 	lda.w gsp
 	cmp.w #$0004
 	beq .6
 	lda.w gsp
-	sta.w $1876
-	jsl.l CODE_C50E94
+	sta.w lastperiod
+	jsl.l FadeOut
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jmp.w StartPer
@@ -1358,7 +1360,7 @@ CODE_C50ADD:						; called from other segments
 	pea.w $7E7F
 	plb
 	jmp.w CODE_C5AF07
-CODE_C50BEC:						; from CODE_C50ADD
+CODE_C50BEC:						; from PeriodOver
 	ldy.w #$0000
 	tyx
 	clc
@@ -1384,7 +1386,7 @@ CODE_C50BEC:						; from CODE_C50ADD
 	sta.l $7F8F1A,x
 	sta.l $7F8F16,x
 	sta.b tmp0
-	lda.w $12AD
+	lda.w tmscore+2
 	sta.l $7F8F00,x
 	sta.l $7F8F04,x
 	sta.l $7F8F2C,x
@@ -1671,7 +1673,7 @@ CODE_C50E8D:						; no caller found (not traced)
 	lda.w #$0005
 	sta.w fadestep
 	rtl
-CODE_C50E94:						; from CODE_C50ADD and other segments
+FadeOut:							; starts a fade out: fadestep = $FFFF
 	lda.w #$FFFF
 	sta.w fadestep
 	rtl
@@ -1979,7 +1981,7 @@ GetPeriodTimeRemaining:				; called from other segments
 	asl a
 	asl a
 	asl a
-	ora.w $17B3
+	ora.w PerTimeTotal
 	sec
 	sbc.w gameclock
 	sta.b d0

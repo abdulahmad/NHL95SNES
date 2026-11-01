@@ -1104,7 +1104,7 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	stz.w $079C
 	lda.w #$03FF
 	sta.w $079E
-	jsl.l CODE_C50E94
+	jsl.l FadeOut
 	jsl.l forceblack
 	lda.w shootoutmode
 	bne .19
