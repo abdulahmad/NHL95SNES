@@ -164,14 +164,17 @@
   ($1864: Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player). The start-up screens run a task list
   (StartTasks, AddTask, RunTasks through jmlvector, RemoveTask). The pause: Pausemode (game loop) and Intermission
   call Pausemode_menu, as in 94S. The text: Print<Font><Align>[Str] (UnpackText or CopyString, then DrawText,
-  QueueTextTiles, MapTextTiles), the fonts by label; the flag $4000 print variants (CODE_C4BC2C ...) are not named.
+  QueueTextTiles, MapTextTiles), the fonts by label; flag $4000 (Print<Font>FixedLeft ...) takes the glyph width
+  from p0 (DrawNextTextCharacter: bit $0E puts bit 14 in V).
   Sound calls: QueueSoundCmd, StartSound, LoadSounds (the driver is not 94S's). Gameloop, PlayShootout, StartPer,
   StartGame_go, ReadPads match 94S; weak RAM votes are taken only where a side by side was read (../work/side.py
   ADDR NAME; bank $C0 code is read from the source). ../work/resum2.py refreshes the generated summaries after RAM names.
   SpriteAnimCommands is now traced. Bank $C3's game code is named (3 CODE_ labels left: bare rtl entries and an
   unclear helper). A 94S match below the 0.85 propagation threshold can still hold: read it side by side (FallDown,
-  checkpuckcoll_ccx, SetScore were found that way; a size difference keeps the score low). Still unnamed: much of
-  bank $C4's game code (the assignment and collision helpers, the screens in bankC4_C000 / D000 / E000 / F000).
+  checkpuckcoll_ccx, SetScore were found that way; a size difference keeps the score low). Bank $C4's engine code
+  is named (a Codex run, reviewed and cherry-picked: the assignment, collision, goal avoidance, penalty clock,
+  goalie and text rendering helpers); still unnamed there: bankC4_0000 (46), B000 (48), C000 (12), D000 (29),
+  E000 (18), F000 (15), mostly front-end tasks, season / save handling and scouting helpers.
   Bank $C5: the front end's screen states 0-13 have named handlers (DATA8_C5967A); each scrolling list's row
   routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. Still unnamed in
   bank $C5: much of the game side (bankC5_0000 / 1000 / 2000 / 3000 / 4000), the Edit Lines player list
@@ -247,8 +250,7 @@
   (DATA8_C04CB7 is DivisionNames; the two byte tables after it are picked by the same division number).
   DigitFontTiles and LinePieceTiles are named from the rendered tiles; BG3ScrollHDMA1/2 from the HDMA set-up.
 - WonCheckTiles / WonCheckPalette: named from the rendered tiles; the screen is not traced.
-- Fonts: named from their rendered glyphs; the screens that draw with them are not traced. The meaning of flag $4000 is not
-  traced.
+- Fonts: named from their rendered glyphs; the screens that draw with them are not traced.
 - SoundDriver: CPU uploads and queue sends, sample/sequence starts, volume/pitch controls and data reception are
   named from the CPU/SPC trace. Commands 5/30 (.l0540) snapshot DSP registers then enter command 31 (.l054C), which
   executes a host-port handshake; its full host-side contract is not traced. Commands 10-12 (.l056B, .l0830,
