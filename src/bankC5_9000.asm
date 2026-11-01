@@ -452,11 +452,11 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	dec a
 .2:									; cont1team,y = A
 	sta.w cont1team,y
-.3:									; Y - 1, Y - 1, if the result >= 0 go to .loop2, call CODE_C5D0F5, ...
+.3:									; Y - 1, Y - 1, if the result >= 0 go to .loop2, call UserNameEntry, ...
 	dey
 	dey
 	bpl .loop2
-	jsr.w CODE_C5D0F5
+	jsr.w UserNameEntry
 	lda.w $1864
 	jsl.l CODE_CF039E
 	jsl.l FadeOutWait

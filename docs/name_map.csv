@@ -6682,22 +6682,22 @@ $C5D08B,.rts,CODE_C5D08B,new,"branch target only used in TradeValue",src/bankC5_
 $C5D0B8,.1,CODE_C5D0B8,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
 $C5D0DF,.2,CODE_C5D0DF,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
 $C5D0EF,.3,CODE_C5D0EF,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
-$C5D111,.loop,CODE_C5D111,new,"branch target only used in CODE_C5D0F5",src/bankC5_D000.asm
-$C5D120,.1,CODE_C5D120,new,"branch target only used in CODE_C5D0F5",src/bankC5_D000.asm
-$C5D123,.loop2,CODE_C5D123,new,"branch target only used in CODE_C5D0F5",src/bankC5_D000.asm
-$C5D132,.rts,CODE_C5D132,new,"branch target only used in CODE_C5D0F5",src/bankC5_D000.asm
-$C5D133,.2,CODE_C5D133,new,"branch target only used in CODE_C5D0F5",src/bankC5_D000.asm
-$C5D145,.3,CODE_C5D145,new,"branch target only used in CODE_C5D0F5",src/bankC5_D000.asm
-$C5D160,.loop,CODE_C5D160,new,"branch target only used in CODE_C5D156",src/bankC5_D000.asm
-$C5D192,.1,CODE_C5D192,new,"branch target only used in CODE_C5D156",src/bankC5_D000.asm
-$C5D1A4,.2,CODE_C5D1A4,new,"branch target only used in CODE_C5D156",src/bankC5_D000.asm
-$C5D1B1,.3,CODE_C5D1B1,new,"branch target only used in CODE_C5D156",src/bankC5_D000.asm
-$C5D1BF,.4,CODE_C5D1BF,new,"branch target only used in CODE_C5D156",src/bankC5_D000.asm
+$C5D111,.loop,CODE_C5D111,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
+$C5D120,.1,CODE_C5D120,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
+$C5D123,.loop2,CODE_C5D123,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
+$C5D132,.rts,CODE_C5D132,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
+$C5D133,.2,CODE_C5D133,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
+$C5D145,.3,CODE_C5D145,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
+$C5D160,.loop,CODE_C5D160,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
+$C5D192,.1,CODE_C5D192,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
+$C5D1A4,.2,CODE_C5D1A4,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
+$C5D1B1,.3,CODE_C5D1B1,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
+$C5D1BF,.4,CODE_C5D1BF,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
 $C5D1D2,.loop,CODE_C5D1D2,new,"branch target only used in CODE_C5D1C5",src/bankC5_D000.asm
-$C5D21A,.1,CODE_C5D21A,new,"branch target only used in CODE_C5D1EF",src/bankC5_D000.asm
-$C5D22F,.2,CODE_C5D22F,new,"branch target only used in CODE_C5D1EF",src/bankC5_D000.asm
-$C5D26D,.loop,CODE_C5D26D,new,"branch target only used in CODE_C5D1EF",src/bankC5_D000.asm
-$C5D2A8,.3,CODE_C5D2A8,new,"branch target only used in CODE_C5D1EF",src/bankC5_D000.asm
+$C5D21A,.1,CODE_C5D21A,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
+$C5D22F,.2,CODE_C5D22F,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
+$C5D26D,.loop,CODE_C5D26D,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
+$C5D2A8,.3,CODE_C5D2A8,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
 $C5D2C3,.1,CODE_C5D2C3,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
 $C5D2D0,.2,CODE_C5D2D0,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
 $C5D2D8,.3,CODE_C5D2D8,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
@@ -6708,27 +6708,27 @@ $C5D322,.2,CODE_C5D322,new,"branch target only used in CODE_C5D303",src/bankC5_D
 $C5D32D,.3,CODE_C5D32D,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
 $C5D330,.4,CODE_C5D330,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
 $C5D34E,.loop,CODE_C5D34E,new,"branch target only used in CODE_C5D33A",src/bankC5_D000.asm
-$C5D372,.loop,CODE_C5D372,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D3AB,.1,CODE_C5D3AB,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D3BF,.2,CODE_C5D3BF,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D3D4,.3,CODE_C5D3D4,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D3EA,.4,CODE_C5D3EA,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D3EC,.5,CODE_C5D3EC,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D3F1,.6,CODE_C5D3F1,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D406,.7,CODE_C5D406,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D415,.8,CODE_C5D415,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D41F,.9,CODE_C5D41F,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D427,.10,CODE_C5D427,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D42E,.11,CODE_C5D42E,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D431,.12,CODE_C5D431,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D43D,.13,CODE_C5D43D,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D447,.14,CODE_C5D447,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D44C,.loop2,CODE_C5D44C,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D485,.15,CODE_C5D485,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D4D4,.rts,CODE_C5D4D4,new,"branch target only used in CODE_C5D36F",src/bankC5_D000.asm
-$C5D52B,.1,CODE_C5D52B,new,"branch target only used in CODE_C5D4D5",src/bankC5_D000.asm
-$C5D52E,.loop,CODE_C5D52E,new,"branch target only used in CODE_C5D4D5",src/bankC5_D000.asm
-$C5D539,.2,CODE_C5D539,new,"branch target only used in CODE_C5D4D5",src/bankC5_D000.asm
+$C5D372,.loop,CODE_C5D372,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D3AB,.1,CODE_C5D3AB,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D3BF,.2,CODE_C5D3BF,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D3D4,.3,CODE_C5D3D4,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D3EA,.4,CODE_C5D3EA,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D3EC,.5,CODE_C5D3EC,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D3F1,.6,CODE_C5D3F1,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D406,.7,CODE_C5D406,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D415,.8,CODE_C5D415,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D41F,.9,CODE_C5D41F,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D427,.10,CODE_C5D427,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D42E,.11,CODE_C5D42E,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D431,.12,CODE_C5D431,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D43D,.13,CODE_C5D43D,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D447,.14,CODE_C5D447,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D44C,.loop2,CODE_C5D44C,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D485,.15,CODE_C5D485,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D4D4,.rts,CODE_C5D4D4,new,"branch target only used in EditUserName",src/bankC5_D000.asm
+$C5D52B,.1,CODE_C5D52B,new,"branch target only used in DrawNameGrid",src/bankC5_D000.asm
+$C5D52E,.loop,CODE_C5D52E,new,"branch target only used in DrawNameGrid",src/bankC5_D000.asm
+$C5D539,.2,CODE_C5D539,new,"branch target only used in DrawNameGrid",src/bankC5_D000.asm
 $C5D5F1,.1,CODE_C5D5F1,new,"branch target only used in CODE_C5D5CD",src/bankC5_D000.asm
 $C5D5FC,.rtl,CODE_C5D5FC,new,"branch target only used in CODE_C5D5CD",src/bankC5_D000.asm
 $C5D614,.1,CODE_C5D614,new,"branch target only used in CODE_C5D5FD",src/bankC5_D000.asm
@@ -7139,3 +7139,8 @@ $C59930,ModifyRatings,CODE_C59930,genesis+purpose,"same job as 95G ModifyRatings
 $C406A8,CheckCreateSlots,CODE_C406A8,genesis+purpose,"same job as 95G CheckCreateSlots (are 20 created players made); 20 slots of $9C from offset 3 (CODE_C406C4 reads the save RAM bits at $307162); the Alert page at $C35471; CreatePlayer calls it",src/bankC4_0000.asm
 $C406DD,CheckTradesFrozen,CODE_C406DD,code,"reads the save RAM byte at $3075B4; the Alert page at $C354B1; SignFreeAgents, ReleasePlayers and TradePlayers call it first",src/bankC4_0000.asm
 $C406EA,ShowAlert,CODE_C406EA,code,"the pages at $C35471 / $C354B1 (title Alert) pushed by CheckCreateSlots / CheckTradesFrozen",src/bankC4_0000.asm
+$C5D0F5,UserNameEntry,CODE_C5D0F5,genesis+purpose,"same job as 95G UserNameEntry (the name entry for the pads in use when user records are on); the option word $1904; the names go to $4688 / $468A ($FFFF none); SetContTeams calls it",src/bankC5_D000.asm
+$C5D156,NameEntryScreen,CODE_C5D156,genesis+purpose,"same job as 95G NameEntryScreen (NAME ENTRY with the name log); the choice in $65",src/bankC5_D000.asm
+$C5D1EF,DrawNameLog,CODE_C5D1EF,code,"the page at $C3542B (Name Entry); CODE_C5D2B4 fetches each name; NameEntryScreen calls it",src/bankC5_D000.asm
+$C5D36F,EditUserName,CODE_C5D36F,code,"NameEntryScreen calls it on B; the keys are the page at $C3543D",src/bankC5_D000.asm
+$C5D4D5,DrawNameGrid,CODE_C5D4D5,code,"the page at $C3543D and the grid rows $C3490D / $C34914 / $C34922",src/bankC5_D000.asm

@@ -126,7 +126,9 @@ CODE_C5D0A9:						; from ExecuteTrade
 	cpy.b tmp0
 	bne .1
 	rts
-CODE_C5D0F5:						; called from other segments
+UserNameEntry:						; with user records on (not in practice): NameEntryScreen for the first
+									; pad on the home team, then for the first on the away team, keeping each
+									; one's name
 	lda.w #$FFFF
 	sta.w $4688
 	sta.w $468A
@@ -157,25 +159,26 @@ CODE_C5D0F5:						; called from other segments
 	bne .loop2
 .rts:								; return
 	rts
-.2:									; a2 = $17C9, $0591 = Y, call CODE_C5D156, $4688 = $65, ...
+.2:									; a2 = $17C9, $0591 = Y, call NameEntryScreen, $4688 = $65, ...
 	lda.w $17C9
 	sta.b a2
 	sty.w $0591
-	jsr.w CODE_C5D156
+	jsr.w NameEntryScreen
 	lda.b $65
 	sta.w $4688
 	bra .1
-.3:									; a2 = $17CB, $0591 = Y, call CODE_C5D156, $468A = $65, ...
+.3:									; a2 = $17CB, $0591 = Y, call NameEntryScreen, $468A = $65, ...
 	lda.w $17CB
 	sta.b a2
 	sty.w $0591
-	jsr.w CODE_C5D156
+	jsr.w NameEntryScreen
 	lda.b $65
 	sta.w $468A
 	rts
-CODE_C5D156:						; from CODE_C5D0F5
+NameEntryScreen:					; the Name Entry screen of a pad: the 8 user names (up / down), B edits
+									; one (EditUserName), start takes it
 	jsl.l FadeOutWait
-	jsr.w CODE_C5D1EF
+	jsr.w DrawNameLog
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1, call CODE_C37065, $26 + 1, ...
 	inc.w TransfersReady
@@ -194,7 +197,7 @@ CODE_C5D156:						; from CODE_C5D0F5
 	lda.w $058D
 	bit.w #$8000
 	beq .1
-	jsr.w CODE_C5D36F
+	jsr.w EditUserName
 	bra .loop
 .1:									; if $0400 bits clear go to .2, A = $65, A + 1, if A < $0008 go to .3, ...
 	bit.w #$0400
@@ -225,7 +228,7 @@ CODE_C5D156:						; from CODE_C5D0F5
 	bit.w #$1000
 	beq .loop
 	rts
-CODE_C5D1C5:						; from CODE_C5D0F5
+CODE_C5D1C5:						; from UserNameEntry
 	jsl.l FadeOutWait
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -244,7 +247,8 @@ CODE_C5D1C5:						; from CODE_C5D0F5
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
 	rts
-CODE_C5D1EF:						; from CODE_C5D156
+DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user names,
+									; numbered
 	stz.b $65
 	ldx.b a0
 	lda.w #$0010
@@ -329,7 +333,7 @@ CODE_C5D1EF:						; from CODE_C5D156
 	bne .loop
 	jsl.l CODE_C4C2AA
 	rts
-CODE_C5D2B4:						; from CODE_C5D1EF, CODE_C5D36F
+CODE_C5D2B4:						; from DrawNameLog, EditUserName
 	asl a
 	asl a
 	sta.b tmp0
@@ -381,7 +385,7 @@ CODE_C5D2E2:						; from CODE_C5D2B4
 	and.w #$001F
 	plx
 	rts
-CODE_C5D303:						; from CODE_C5D36F
+CODE_C5D303:						; from EditUserName
 	asl a
 	asl a
 	sta.b tmp0
@@ -445,8 +449,9 @@ CODE_C5D33A:						; from CODE_C5D303
 	tay
 	plx
 	rts
-CODE_C5D36F:						; from CODE_C5D156
-	jsr.w CODE_C5D4D5
+EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid): pad to a
+									; letter, B to select, Y to go back, start when done, X cancels
+	jsr.w DrawNameGrid
 .loop:								; loop: TransfersReady + 1, call CODE_C37065, $26 + 1, ...
 	inc.w TransfersReady
 	wai
@@ -610,7 +615,7 @@ CODE_C5D36F:						; from CODE_C5D156
 	jsr.w CODE_C5D77F
 .rts:								; return
 	rts
-CODE_C5D4D5:						; from CODE_C5D36F
+DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	lda.b $D3
 	clc
 	adc.w #$0380
@@ -657,7 +662,7 @@ CODE_C5D4D5:						; from CODE_C5D36F
 	stz.b a1
 	jsr.w CODE_C5D54B
 	rts
-CODE_C5D54B:						; from CODE_C5D36F, CODE_C5D4D5
+CODE_C5D54B:						; from EditUserName, DrawNameGrid
 	jsr.w CODE_C5D567
 	ldy.b a0
 	lda.b a1
@@ -673,7 +678,7 @@ CODE_C5D54B:						; from CODE_C5D36F, CODE_C5D4D5
 CODE_C5D567:						; from CODE_C5D54B
 	lda.w #$0000
 	bra CODE_C5D56F
-CODE_C5D56C:						; from CODE_C5D36F
+CODE_C5D56C:						; from EditUserName
 	lda.w #$0C00
 CODE_C5D56F:						; from CODE_C5D567
 	sta.b tmp0
@@ -703,7 +708,7 @@ CODE_C5D599:						; from CODE_C5D56F
 	ora.b tmp0
 	sta.w $0000,y
 	rts
-CODE_C5D5A5:						; from CODE_C5D4D5, CODE_C5D36F
+CODE_C5D5A5:						; from DrawNameGrid, EditUserName
 	lda.b $65
 	xba
 	lsr a
@@ -948,7 +953,7 @@ CODE_C5D76E:						; from CODE_C5D6F5
 	rol a
 	and.w #$001F
 	rts
-CODE_C5D77F:						; from CODE_C5D36F
+CODE_C5D77F:						; from EditUserName
 	stz.b d0
 	stz.b $81
 	stz.b d1
