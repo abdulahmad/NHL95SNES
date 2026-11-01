@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCF_B000 (org $CFB000): banks $C0-$CE are all source. <- CURRENT
+bankCF_C000 (org $CFC262): banks $C0-$CE are all source. <- CURRENT
 
 ## Sources
 
@@ -681,6 +681,9 @@ bankCF_B000 (org $CFB000): banks $C0-$CE are all source. <- CURRENT
 - 2026-10-31: bankCF_A000 matched: sound data: Sample31. Sounds are a length word and their data (CODE_CF0313 sends the samples
   each lists from +3); samples a 12-byte header and BRR blocks to the end flag. The sound table and SampleList in bankCF_0000
   use the new labels.
+- 2026-10-31: bankCF_B000 matched: sound data: the rest of Sample31. Sounds are a length word and their data (CODE_CF0313 sends
+  the samples each lists from +3); samples a 12-byte header and BRR blocks to the end flag. The sound table and SampleList in
+  bankCF_0000 use the new labels.
 
 ## ROM map
 
@@ -939,8 +942,8 @@ The first row that is still incbin is the current segment.
 | bankCF_8000 | matched 5215 bytes | $CF8145 | $CF95A3 | sound data: sound 39 (DATA8_CF8145); org moved to $CF8145, end moved +$5A4 |
 | bankCF_9000 | matched 5385 bytes | $CF95A4 | $CFAAAC | sound data: Sample26; org moved to $CF95A4, end moved +$AAD |
 | bankCF_A000 | matched 1363 bytes | $CFAAAD | $CFAFFF | sound data: Sample31; org moved to $CFAAAD |
-| bankCF_B000 | incbin | $CFB000 | $CFBFFF | <- CURRENT |
-| bankCF_C000 | incbin | $CFC000 | $CFCFFF | |
+| bankCF_B000 | matched 4706 bytes | $CFB000 | $CFC261 | sound data: the rest of Sample31; end moved +$262 |
+| bankCF_C000 | incbin | $CFC262 | $CFCFFF | <- CURRENT |
 | bankCF_D000 | incbin | $CFD000 | $CFDFFF | |
 | bankCF_E000 | incbin | $CFE000 | $CFEFFF | |
 | bankCF_F000 | incbin | $CFF000 | $CFFFFF | |
