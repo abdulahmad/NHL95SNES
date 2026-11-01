@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_F000 (org $C3F000), after bankC3_E000. <- CURRENT
+bankC6_0000 (org $C60000): banks $C0-$C5 are all source. <- CURRENT
 
 ## Sources
 
@@ -313,6 +313,7 @@ bankC3_F000 (org $C3F000), after bankC3_E000. <- CURRENT
 - 2026-10-31: bankC3_C000 matched: Sample08, Sample24 (labels and ROM cuts).
 - 2026-10-31: bankC3_D000 matched: Sample25, Sample30 (labels and ROM cuts).
 - 2026-10-31: bankC3_E000 matched: the start of Sample29 (labels and ROM cuts).
+- 2026-10-31: bankC3_F000 matched: the rest of Sample29, then zeros to the end of the bank (labels and ROM cuts).
 
 ## ROM map
 
@@ -383,7 +384,7 @@ The first row that is still incbin is the current segment.
 | bankC3_C000 | matched 3615 bytes | $C3C70E | $C3D52C | Sample08, Sample24 (labels and ROM cuts); org moved to $C3C70E, end moved +$52D |
 | bankC3_D000 | matched 4866 bytes | $C3D52D | $C3E82E | Sample25, Sample30 (labels and ROM cuts); org moved to $C3D52D, end moved +$82F |
 | bankC3_E000 | matched 2001 bytes | $C3E82F | $C3EFFF | the start of Sample29 (labels and ROM cuts); org moved to $C3E82F |
-| bankC3_F000 | incbin <- CURRENT | $C3F000 | $C3FFFF | |
+| bankC3_F000 | matched 4096 bytes | $C3F000 | $C3FFFF | the rest of Sample29, then zeros to the end of the bank (labels and ROM cuts) |
 | bankC4_0000 | matched 4102 bytes | $C40000 | $C41005 | game code with CODE_ names and their callers, jump tables DATA8_C400FE / C40130, then data tables (DATA8_ with their readers); out of ROM order, end moved +$6 |
 | bankC4_1000 | matched 4138 bytes | $C41006 | $C4202F | data tables (not traced), DATA8_ labels where code reads them with long addresses; from DATA8_C41E48 they look like animation lists (word pointers per direction to frame / value pairs); out of ROM order, org moved to $C41006, end moved +$30 |
 | bankC4_2000 | matched 4366 bytes | $C42030 | $C4313D | more data tables (not traced), then game code with CODE_ names: asstab routines, one routine passed as a long pointer (lda #bank / #low) to the routine at $C45950; out of ROM order, org moved to $C42030, end moved +$13E |
@@ -416,7 +417,7 @@ The first row that is still incbin is the current segment.
 | bankC5_D000 | matched 3922 bytes | $C5D00D | $C5DF5E | game code with CODE_ names and their callers, three return points of indirect calls (pea label-1, then jmp through a pointer); out of ROM order, org moved to $C5D00D, end moved -$A1 |
 | bankC5_E000 | matched 4370 bytes | $C5DF5F | $C5F070 | game code, then the sprite object routines CreateSprite, UploadSpriteFrame, AnimateSprites (with the script command table DATA8_C5EABA), CreateSpriteSharePal; 12 small routines with no caller found are decoded and say so; out of ROM order, org moved to $C5DF5F, end moved +$71 |
 | bankC5_F000 | matched 3983 bytes | $C5F071 | $C5FFFF | UnpackStream0 (its loop runs through the bank $85 mirror and code built in the DMA registers), BuildSpriteOAM, game code with CODE_ names, the zero fill (padbyte / pad); out of ROM order, org moved to $C5F071 |
-| bankC6_0000 | incbin | $C60000 | $C60FFF | |
+| bankC6_0000 | incbin <- CURRENT | $C60000 | $C60FFF | |
 | bankC6_1000 | incbin | $C61000 | $C61FFF | |
 | bankC6_2000 | incbin | $C62000 | $C62FFF | |
 | bankC6_3000 | incbin | $C63000 | $C63FFF | |
