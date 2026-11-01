@@ -3,9 +3,9 @@
 org $C40000
 CODE_C40000:						; called from other segments
 	jsr.w CODE_C40444
-.1:									; call CODE_C4CEDB, call CODE_C36C2D, $26 + 1, ...
-	jsl.l CODE_C4CEDB
-	jsl.l CODE_C36C2D
+.1:									; call WaitTransfers, call ReadMenuPads, $26 + 1, ...
+	jsl.l WaitTransfers
+	jsl.l ReadMenuPads
 	inc.b $26
 	lda.w repeatdelayframes
 	beq .2
@@ -165,7 +165,7 @@ CODE_C40152:						; from DATA8_C400FE, DATA8_C40130
 CODE_C40153:						; from CODE_C40000
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0070
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
@@ -193,9 +193,9 @@ CODE_C40153:						; from CODE_C40000
 	pld
 	stz.w BG2HScroll
 	ldy.w #$0000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5000
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	lda.w #GradientBarTiles&$FFFF
 	ldx.w #GradientBarTiles>>16
 	jsl.l DecompressUnpackbuf
@@ -213,7 +213,7 @@ CODE_C40153:						; from CODE_C40000
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.w fadestep
 	jml.l SeasonOptions
 CODE_C401E5:						; called from other segments
@@ -534,9 +534,9 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l SetupHDMA
 	db $44,$26,$F1,$0F,$C4,$7E		; inline parameters
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldx.b a0
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b a0
 	jsl.l CODE_C5BBBC
 	jsl.l ResetWorkBuf
@@ -582,7 +582,7 @@ CODE_C40444:						; from CODE_C40000
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #TeamNameBarsMap&$FFFF
 	ldx.w #TeamNameBarsMap>>16
 	jsl.l CODE_C58812
@@ -655,8 +655,8 @@ CODE_C40444:						; from CODE_C40000
 	lda.w #$0100
 	sta.b $D1
 	jsl.l PrintBoldCentred
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.l $30604D
 	and.w #$00FF
 	beq .2
@@ -735,7 +735,7 @@ CODE_C4062A:						; from CODE_C40444, CODE_C400AC
 	ply
 	dey
 	bpl .loop2
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	plx
 	dex
 	bpl .loop
@@ -841,17 +841,17 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	lda.w #$FFFF
 	sta.w BG3VScroll
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b d7
 	ldx.b $9D
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b $9D
 	jsl.l CODE_C5A507
 	jsl.l ResetWorkBuf
@@ -865,9 +865,9 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	stz.w fadestep
 	stz.w repeatdelayframes
 	stz.w $058D
-.loop:								; loop: call CODE_C3716D, call CODE_C36C2D, ...
+.loop:								; loop: call CODE_C3716D, call ReadMenuPads, ...
 	jsl.l CODE_C3716D
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -1211,7 +1211,7 @@ CODE_C40999:						; from CODE_C409E3
 	bpl .loop
 	rts
 CODE_C409E3:						; from CODE_C401E5, CODE_C40444
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$364E
 	ldy.w #$1000
 	jsl.l ClearRAM7E

@@ -68,7 +68,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 									; (EALogoESprite, EALogoASprite, SportsWordSprite, ElectronicWordSprite
 									; ...), run by tasks until they end
 	jsl.l Multi5Bios
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	ldx.w #DATA8_C07F7B>>16
 	lda.w #DATA8_C07F7B&$FFFF
 	jsl.l CODE_CF0134
@@ -146,7 +146,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$F254
 	sta.b d3
 	ldx.b a0
@@ -959,7 +959,7 @@ TaskFrameEnd:						; the last task of the list: the sprites to OAM (when task fl
 	rtl
 TaskStartKey:						; a task: start clears task flag bit 15 (so TaskEndCheck ends the list)
 									; and sets bit 0
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	lda.w repeatdelayframes
 	bne .rtl
 	lda.w $058D
@@ -1427,8 +1427,8 @@ PrintTextPage:						; prints the text page whose descriptor is at A in bank $C3:
 	inx
 	inx
 	bra .2
-.11:								; call CODE_C4C2AA, go to RestoreWorkBuf
-	jsl.l CODE_C4C2AA
+.11:								; call SendTextMap, go to RestoreWorkBuf
+	jsl.l SendTextMap
 	jmp.w RestoreWorkBuf
 PrintBoldCentred:					; prints the packed text X at row Y in BoldFontGlyphs, centred between the
 									; margins

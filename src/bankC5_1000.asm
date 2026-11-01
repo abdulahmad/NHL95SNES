@@ -1011,8 +1011,8 @@ CODE_C51911:						; from CODE_C51825
 	tax
 	lda.w $0000,x
 	and.w #$00FF
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$0020
 	sta.w $04F5,x
 	txa
@@ -1093,9 +1093,9 @@ CODE_C51999:						; called from other segments
 	cmp.w #$0001
 	beq .4
 	ldx.w $2020
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.w $2022
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	lda.w $2024
 	sta.w $18E0
 .4:									; pull A, pull Y, pull X, FrameCount = 0, ...

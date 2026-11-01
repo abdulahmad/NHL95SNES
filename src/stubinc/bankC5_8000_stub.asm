@@ -7,14 +7,14 @@ incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 CODE_C36B83 = $C36B83
-CODE_C36C2D = $C36C2D
-CODE_C4C2AA = $C4C2AA
+ReadMenuPads = $C36C2D
+SendTextMap = $C4C2AA
 UnpackText = $C4C3BA
 ResetWorkBuf = $C4C530
 AllocWorkBuf = $C4C558
 AllocWorkBuf2 = $C4C561
 FreeWorkBuf = $C4C56A
-CODE_C4CEDB = $C4CEDB
+WaitTransfers = $C4CEDB
 CODE_C4CEF5 = $C4CEF5
 PrintBoldCentred = $C4BBE5
 PrintBoldCentredStr = $C4BBF1
@@ -22,13 +22,13 @@ PrintItalicLeft = $C4BC26
 PrintItalicCentred = $C4BCA4
 PrintItalicRight = $C4BCBC
 CODE_C5611C = $C5611C
-CODE_C55EC7 = $C55EC7
+BCDText = $C55EC7
 Opening = $C50000
 BuildSpriteOAM = $C5F0D1
 CODE_C5F3DB = $C5F3DB
 AnimateSprites = $C5E9C7
 CODE_C5E50E = $C5E50E
-CODE_C5B67A = $C5B67A
+BinToBCD = $C5B67A
 WaitFrame = $C08D7E
 ScreenOn = $C08E99
 BlankScreen = $C08E74

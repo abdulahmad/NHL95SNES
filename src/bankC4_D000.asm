@@ -156,15 +156,15 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	sta.w BG1VScroll
 	sta.w BG2VScroll
 	ldy.w #$3800
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$3C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5800
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$3000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -193,7 +193,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$5420
 	sta.b tmp0
 	lda.w #$214A
@@ -291,7 +291,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	ldy.w #$0001
 	clc
 	jsl.l StartTasks
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$00A3
 	jsl.l CODE_CF040B
 	ldx.w #CODE_C4B6D2>>16
@@ -748,15 +748,15 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	sta.w $18DE
 	lda.w #$54F9
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	stz.w fadestep
 	stz.b $26
 	stz.b a0
-.loop:								; loop: call CODE_C3716D, call CODE_C36C2D, A = $058D, A and $FFF0, ...
+.loop:								; loop: call CODE_C3716D, call ReadMenuPads, A = $058D, A and $FFF0, ...
 	jsl.l CODE_C3716D
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	lda.w $058D
 	and.w #$FFF0
 	tsb.b a0
@@ -810,11 +810,11 @@ CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	ldy.w #$2000
 	jsl.l MapSetToVRAM
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	jsl.l CODE_C4BAF6
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	sep #$20
@@ -877,7 +877,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2864
 	ldx.w #$5245
 	jsl.l CODE_C387D8
@@ -890,18 +890,18 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	sta.w BG2VScroll
 	lda.w #$5419
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C2AA
+	jsl.l WaitTransfers
+	jsl.l SendTextMap
 	stz.w fadestep
 	stz.b a0
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w DrawAward
 	jsr.w FindAwardWinner
 	jsr.w DrawAwardWinner
-.loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -954,12 +954,12 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	lda.w #$0005
 	sta.w $18DE
 	ldy.w #$5000
-	jsl.l CODE_C589B0
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l ClearVRAM
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	ldx.b $75
 	bmi .1
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	lda.w #$FFFF
 	sta.b $75
 .1:									; X = a4, A = $22,x, A and $FFFE, $22,x = A, ...
@@ -997,7 +997,7 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	tax
 	ldy.w #$0015
 	jsl.l PrintBoldCentred
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.b a0
 	asl a
 	asl a
@@ -1048,7 +1048,7 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1076,8 +1076,8 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$0009
 	sta.w $18DE
 	rts
@@ -1185,7 +1185,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	bra .2
 .1:									; X = a4, A = $22,x, A and $FFFE, $22,x = A, ...
 	ldx.b a4
@@ -1233,8 +1233,8 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	ldy.w #$000F
 	jsl.l PrintBoldCentredStr
 	jsl.l CODE_C5A4B5
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	ldy.w #$2864
 	ldx.w #$5245
 	jsl.l CODE_C387D8
@@ -1285,8 +1285,8 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	jsl.l CreateSprite
 	stx.b $75
 	jsl.l CODE_C5A4B5
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	ldy.w #$2864
 	ldx.w #$5245
 	jsl.l CODE_C387D8

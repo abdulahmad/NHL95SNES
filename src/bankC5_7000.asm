@@ -13,8 +13,8 @@ CODE_C56F5C:						; called from other segments
 	sbc.w #$0040
 	ldy.w #$0028
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -264,9 +264,9 @@ CODE_C57149:						; from DATA8_C570E8
 	cmp.w #$0065
 	bcc .3
 	lda.w #$0064
-.3:									; call CODE_C5B67A, call CODE_C55EC7, Y = $6D, X = $04F5, ...
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+.3:									; call BinToBCD, call BCDText, Y = $6D, X = $04F5, ...
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
@@ -287,16 +287,16 @@ CODE_C5719B:						; from DATA8_C570E8
 	asl a
 	asl a
 	adc.w #$008C
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C571B4:						; from DATA8_C570E8
 	jsr.w CODE_C571CB
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
@@ -496,7 +496,7 @@ CODE_C57329:						; called from other segments
 	sta.b $08
 	stz.b $22
 	ldx.w $18F0
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jsl.l CODE_C558D7
 	jsl.l CODE_C55513
 	pei ($9B)
@@ -516,7 +516,7 @@ CODE_C57329:						; called from other segments
 EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / right changes
 									; the line); start returns
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	jsl.l GetPadTeam
 	ldy.w #$2801
@@ -562,15 +562,15 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	sty.b $65
 .5:									; call CODE_C574A4
 	jsr.w CODE_C574A4
-.6:									; call CODE_C4C2AA, fadestep = 0
-	jsl.l CODE_C4C2AA
+.6:									; call SendTextMap, fadestep = 0
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -647,8 +647,8 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	adc.w #$0300
 	ldy.w #$02C0
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	stz.b $69
 	jmp.w .5
 .13:								; if $8000 bits clear go to .14, call CODE_C57578, go to .2
@@ -784,8 +784,8 @@ CODE_C57578:						; from EditLinesScreen
 	adc.w #$0300
 	ldy.w #$0400
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	stz.b $7D
 	stz.b $7B
 	stz.b $91
@@ -813,13 +813,13 @@ CODE_C57578:						; from EditLinesScreen
 	ldy.w #$000E
 	jsr.w CODE_C55ABC
 	jsr.w CODE_C577C3
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -876,11 +876,11 @@ CODE_C57578:						; from EditLinesScreen
 	bcs .loop
 	inc a
 	sta.b $7D
-.9:									; call CODE_C576CC, call CODE_C577C3, call CODE_C55C12, call CODE_C4C2AA
+.9:									; call CODE_C576CC, call CODE_C577C3, call CODE_C55C12, call SendTextMap
 	jsr.w CODE_C576CC
 	jsr.w CODE_C577C3
 	jsr.w CODE_C55C12
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .10:								; if $8000 bits clear go to .11, A = $65, A + $7B, $7B = A, ...
 	bit.w #$8000
 	beq .11
@@ -897,11 +897,11 @@ CODE_C57578:						; from EditLinesScreen
 	bra .12
 .11:								; go to .loop
 	jmp.w .loop
-.12:								; X = $77, call CODE_C5E596, X = $79, call CODE_C5E596, ...
+.12:								; X = $77, call DeleteSprite, X = $79, call DeleteSprite, ...
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jsr.w CODE_C5BBC0
 	pla
 	sta.b $69
@@ -911,14 +911,14 @@ CODE_C57578:						; from EditLinesScreen
 	sta.b $65
 	pla
 	sta.b $7B
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.b $D3
 	clc
 	adc.w #$0300
 	ldy.w #$0400
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	sep #$20
@@ -951,8 +951,8 @@ CODE_C576CC:						; from CODE_C57578
 	plx
 	dex
 	bpl .loop
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	rts
 CODE_C576FD:						; a callback: CODE_C57578 passes it to CODE_C55ABC
 	ldx.w #$2000
@@ -986,8 +986,8 @@ CODE_C576FD:						; a callback: CODE_C57578 passes it to CODE_C55ABC
 	phx
 	lda.l $7DFFF8,x
 	and.w #$00FF
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldLeftStr
@@ -1040,12 +1040,12 @@ CODE_C57779:						; from CODE_C57578
 	bcc .2
 	sbc.b tmp2
 	bpl .loop2
-.2:									; A + a4, call CODE_C5755C, call CODE_C4C2AA, call CODE_C4CEDB, ...
+.2:									; A + a4, call CODE_C5755C, call SendTextMap, call WaitTransfers, ...
 	clc
 	adc.b a4
 	jsr.w CODE_C5755C
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	ldx.w #$0000
 	lda.w $0565
 	beq .rts
@@ -1176,7 +1176,7 @@ CODE_C5788C:						; from DATA8_C57810
 PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, left / right
 									; the stat); B puts the chosen one in tmgoalie (setpersonel) and returns
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	lda.w #$5395
 	jsl.l PrintTextPage
@@ -1208,16 +1208,16 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	lda.b a1
 .2:									; $69 = A
 	sta.b $69
-.loop:								; loop: call CODE_C57997, call CODE_C4C2AA, fadestep = 0
+.loop:								; loop: call CODE_C57997, call SendTextMap, fadestep = 0
 	jsr.w CODE_C57997
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop2:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop3:								; loop: if TransfersReady is not 0 go to .loop3, call CODE_C36C2D, ...
+.loop3:								; loop: if TransfersReady is not 0 go to .loop3, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop3
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1387,7 +1387,7 @@ CODE_C57A4D:						; from CODE_C579F4
 ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A draws each row);
 									; from the pause menu, and from CODE_C5AF07 with X: EXIT MENU
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	lda.w #$0010
 	sta.b $CF
@@ -1414,9 +1414,9 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	lda.l $3075B4
 	inc a
 	and.w #$00FF
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	plx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	stz.w $04F5,x
 	bra .2
 .1:									; A = Y, call CODE_C56168
@@ -1466,12 +1466,12 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	ldx.w #$000B
 	ldy.w #$000B
 	jsr.w CODE_C55ABC
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.w fadestep
-.loop2:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop2:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -1545,8 +1545,8 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	jsl.l PrintBoldLeft
 	plx
 	lda.l $7F8F00,x
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.b $6D
 	jsl.l PrintBoldRightStr
@@ -1563,8 +1563,8 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	lda.b $01,s
 	tax
 	lda.l $7F8F02,x
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.b $6D
 	jsl.l PrintBoldRightStr
@@ -1588,7 +1588,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 									; rows sorted), a page of win / loss records, goals or saves; the pad
 									; changes the page, start returns
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	stz.b $7D
 	lda.w #$0000
@@ -1724,18 +1724,18 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	adc.w #$0180
 	ldy.w #$02C0
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	ldx.b $7D
 	jsr (DATA8_C57DCD,x)
-.11:								; call CODE_C4C2AA, call CODE_C4CEDB, fadestep = 0
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+.11:								; call SendTextMap, call WaitTransfers, fadestep = 0
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	stz.w fadestep
-.loop3:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop3:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -1916,8 +1916,8 @@ CODE_C57EAA:						; from PrintWinRecords
 	sta.b $D1
 	lda.w $365A,x
 CODE_C57EEF:						; from CODE_C57EAA
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.b $6D
 CODE_C57EFA:						; from CODE_C57EAA
@@ -1971,8 +1971,8 @@ CODE_C57F39:						; from PrintGoalRecords
 	sta.b $D1
 	ldx.b a3
 	lda.w $3650,x
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$6220
 	sta.w $04F5,x
 	inx

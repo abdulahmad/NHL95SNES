@@ -72,7 +72,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -125,14 +125,14 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	ldx.w #$50D6
 	ldy.w #$0017
 	jsl.l PrintBoldCentred
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	stz.w BG2HScroll
 	stz.w fadestep
-.loop2:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop2:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -157,11 +157,11 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	bne .1
 	jsr.w CODE_C4F2AE
 	rtl
-.1:									; BG2VScroll = $0002, Y = $5C00, call CODE_C589E4, call CODE_C4BAF6, ...
+.1:									; BG2VScroll = $0002, Y = $5C00, call QueueClearVRAM, ...
 	lda.w #$0002
 	sta.w BG2VScroll
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	jsl.l CODE_C4BAF6
 	lda.w #$0010
 	sta.b $CF
@@ -211,7 +211,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	tax
 	ldy.w #$000E
 	jsl.l PrintThinCentred
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.b $22
 	stz.b $24
 	ldx.w #$0070
@@ -226,7 +226,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	ldy.w #$2000
 	jsl.l MapSetToVRAM
 	ldy.w #$5000
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	lda.w #BlueColoursHook
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
@@ -284,7 +284,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	jsl.l CODE_C387D8
 	jsl.l CODE_C5A4B5
 	jsl.l CODE_C5A4DE
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0006
 	sta.w $2DA5
 	jsr.w ShowMatchups
@@ -304,10 +304,10 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	jsr.w CODE_C4E3CB
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -381,7 +381,7 @@ CODE_C4E387:						; from ScoutingReport, CODE_C4EBC8
 	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l ClearNMIHook
 	jml.l CODE_C5E50E
 NextMatchup:						; the next matchup of the scouting report (after 6, 0), then ShowMatchups
@@ -404,9 +404,9 @@ PrevMatchup:						; the previous matchup of the scouting report (before 0, 6), t
 	jmp.w ShowMatchups
 CODE_C4E3BF:						; from ScoutingReport
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 CODE_C4E3CB:						; from ScoutingReport
 	lda.b $7B
 	sta.b $7D
@@ -424,8 +424,8 @@ CODE_C4E3CB:						; from ScoutingReport
 	adc.w #$0440
 	ldy.w #$02C0
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$5C11
 	ldx.w #$0008
 	ldy.w #$0012
@@ -446,8 +446,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	adc.w #$0140
 	ldy.w #$0240
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	ldx.b d7
 	lda.b $22,x
 	and.w #$FFFE
@@ -608,7 +608,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ldx.w #$04F5
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	pla
 	asl a
 	asl a
@@ -621,7 +621,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
 	jsl.l PrintBoldLeftStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$00B0
 	sta.b $CF
 	lda.w #$00E8
@@ -644,7 +644,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ldx.w #$04F5
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	pla
 	asl a
 	asl a
@@ -657,7 +657,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
 	jsl.l PrintBoldRightStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -669,9 +669,9 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	tax
 	ldy.w #$0007
 	jsl.l PrintBoldCentred
-	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	rts
 .7:									; a0 = $2EA7, A and $00FF, $6D = A, X = A, ...
@@ -795,7 +795,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
 	jsl.l PrintBoldRightStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$0050
@@ -820,7 +820,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
 	jsl.l PrintBoldLeftStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
@@ -828,9 +828,9 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ldx.w #$49B8
 	ldy.w #$0007
 	jsl.l PrintBoldCentred
-	jsl.l CODE_C4CEDB
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	rts
 .12:								; $04F5 = 0, $364E = 0, X = $364E, Y = $3650, ...
@@ -882,7 +882,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ldx.w #$4ECC
 	ldy.w #$0008
 	jsl.l PrintBoldCentred
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$0050
@@ -901,7 +901,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ldx.w #$04F5
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$00B0
 	sta.b $CF
 	lda.w #$00E8
@@ -920,8 +920,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ldx.w #$04F5
 	ldy.w #$000B
 	jsl.l PrintBoldCentredStr
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	rts
 CODE_C4E885:						; from ScoutingReport
 	stz.b a2
@@ -1385,8 +1385,8 @@ CODE_C4EBC8:						; from ScoutingReport
 	sta.b $95
 	ldx.b $81
 	stx.b $7D
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 .rts:								; return
 	rts
 .6:									; if $23BA = 0 go to .rts, pull A, go to CODE_C4E387
@@ -1414,7 +1414,7 @@ CODE_C4EC58:						; from CODE_C4EBC8
 	beq .rts
 	phx
 	jsl.l CODE_C55C54
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	plx
 .rts:								; return
 	rts

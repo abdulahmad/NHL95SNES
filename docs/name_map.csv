@@ -2974,7 +2974,7 @@ $C36BDE,.5,CODE_C36BDE,new,"branch target only used in CODE_C36B83",src/bankC3_6
 $C36C0B,.6,CODE_C36C0B,new,"branch target only used in CODE_C36B83",src/bankC3_6000.asm
 $C36C1A,.7,CODE_C36C1A,new,"branch target only used in CODE_C36B83",src/bankC3_6000.asm
 $C36C2B,.rtl,CODE_C36C2B,new,"branch target only used in CODE_C36B83",src/bankC3_6000.asm
-$C36C48,.rtl,CODE_C36C48,new,"branch target only used in CODE_C36C2D",src/bankC3_6000.asm
+$C36C48,.rtl,CODE_C36C48,new,"branch target only used in ReadMenuPads",src/bankC3_6000.asm
 $C36C58,.1,CODE_C36C58,new,"branch target only used in CODE_C36C49",src/bankC3_6000.asm
 $C36C6A,.2,CODE_C36C6A,new,"branch target only used in CODE_C36C49",src/bankC3_6000.asm
 $C36C7C,.3,CODE_C36C7C,new,"branch target only used in CODE_C36C49",src/bankC3_6000.asm
@@ -5843,11 +5843,11 @@ $C55D81,.loop,CODE_C55D81,new,"branch target only used in CODE_C55D73",src/bankC
 $C55E14,.1,CODE_C55E14,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
 $C55E2A,.2,CODE_C55E2A,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
 $C55E65,.1,CODE_C55E65,new,"branch target only used in CODE_C55E57",src/bankC5_5000.asm
-$C55EE1,.1,CODE_C55EE1,new,"branch target only used in CODE_C55ECA",src/bankC5_5000.asm
-$C55EEE,.2,CODE_C55EEE,new,"branch target only used in CODE_C55ECA",src/bankC5_5000.asm
-$C55EF7,.3,CODE_C55EF7,new,"branch target only used in CODE_C55ECA",src/bankC5_5000.asm
-$C55F03,.4,CODE_C55F03,new,"branch target only used in CODE_C55ECA",src/bankC5_5000.asm
-$C55F0F,.5,CODE_C55F0F,new,"branch target only used in CODE_C55ECA",src/bankC5_5000.asm
+$C55EE1,.1,CODE_C55EE1,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
+$C55EEE,.2,CODE_C55EEE,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
+$C55EF7,.3,CODE_C55EF7,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
+$C55F03,.4,CODE_C55F03,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
+$C55F0F,.5,CODE_C55F0F,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
 $C55F29,.loop,CODE_C55F29,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
 $C55F35,.1,CODE_C55F35,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
 $C55F43,.loop2,CODE_C55F43,new,"branch target only used in CODE_C55F22",src/bankC5_5000.asm
@@ -6484,8 +6484,8 @@ $C5B58F,.loop,CODE_C5B58F,new,"branch target only used in CODE_C5B588",src/bankC
 $C5B5A5,.loop,CODE_C5B5A5,new,"branch target only used in CODE_C5B59E",src/bankC5_B000.asm
 $C5B618,.1,CODE_C5B618,new,"branch target only used in CODE_C5B5EE",src/bankC5_B000.asm
 $C5B642,.1,CODE_C5B642,new,"branch target only used in CODE_C5B631",src/bankC5_B000.asm
-$C5B67E,.loop,CODE_C5B67E,new,"branch target only used in CODE_C5B67A",src/bankC5_B000.asm
-$C5B693,.1,CODE_C5B693,new,"branch target only used in CODE_C5B67A",src/bankC5_B000.asm
+$C5B67E,.loop,CODE_C5B67E,new,"branch target only used in BinToBCD",src/bankC5_B000.asm
+$C5B693,.1,CODE_C5B693,new,"branch target only used in BinToBCD",src/bankC5_B000.asm
 $C5B6D0,.1,CODE_C5B6D0,new,"branch target only used in CODE_C5B6A1",src/bankC5_B000.asm
 $C5B6DC,.2,CODE_C5B6DC,new,"branch target only used in CODE_C5B6A1",src/bankC5_B000.asm
 $C5B6F0,.3,CODE_C5B6F0,new,"branch target only used in CODE_C5B6A1",src/bankC5_B000.asm
@@ -6825,14 +6825,14 @@ $C5E555,.loop,CODE_C5E555,new,"branch target only used in CODE_C5E51C",src/bankC
 $C5E565,.loop2,CODE_C5E565,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
 $C5E577,.loop3,CODE_C5E577,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
 $C5E588,.loop4,CODE_C5E588,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
-$C5E59C,.1,CODE_C5E59C,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E5A0,.loop,CODE_C5E5A0,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E5AA,.2,CODE_C5E5AA,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E5D9,.3,CODE_C5E5D9,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E5DD,.4,CODE_C5E5DD,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E5FC,.5,CODE_C5E5FC,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E611,.6,CODE_C5E611,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
-$C5E626,.7,CODE_C5E626,new,"branch target only used in CODE_C5E596",src/bankC5_E000.asm
+$C5E59C,.1,CODE_C5E59C,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E5A0,.loop,CODE_C5E5A0,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E5AA,.2,CODE_C5E5AA,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E5D9,.3,CODE_C5E5D9,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E5DD,.4,CODE_C5E5DD,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E5FC,.5,CODE_C5E5FC,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E611,.6,CODE_C5E611,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
+$C5E626,.7,CODE_C5E626,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
 $C5E671,.1,CODE_C5E671,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
 $C5E6FA,.2,CODE_C5E6FA,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
 $C5E749,.3,CODE_C5E749,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
@@ -7208,3 +7208,12 @@ $C4BCAA,PrintThinCentred,CODE_C4BCAA,code,"flags 5 (16 x 16, per character width
 $C4BDAE,PrintTitle,CODE_C4BDAE,code,"PrintTextPage prints page titles with it; $D5 = $2400, then $2800 for the bar",src/bankC4_B000.asm
 $C4BDCA,PrintTitleStr,CODE_C4BDCA,code,"as PrintTitle",src/bankC4_B000.asm
 $C4BDE6,PrintTitleBar,CODE_C4BDE6,code,"builds the string in a work buffer, then DrawText, QueueTextTiles, MapTextTiles",src/bankC4_B000.asm
+$C4CEDB,WaitTransfers,CODE_C4CEDB,code,"inc TransfersReady, wai, rtl; the screens call it after queueing VRAM / CGRAM records",src/bankC4_C000.asm
+$C4C2AA,SendTextMap,CODE_C4C2AA,94S+purpose,"same job as 94S SendTextMap (the text map, $800 bytes, to VRAM); 95 pushes a record on the VRAM transfer stack from the text map pointer $D3 where 94S DMAs at once",src/bankC4_C000.asm
+$C5E596,DeleteSprite,CODE_C5E596,code,"the counterpart of CreateSprite: the active list $1AE2 (count $1B02), palette slot uses $46B8, free list $1AF2 ($1B04)",src/bankC5_E000.asm
+$C55EC7,BCDText,CODE_C55EC7,code,"X = 0, then BCDTextAt; the buffer $04F5",src/bankC5_5000.asm
+$C55ECA,BCDTextAt,CODE_C55ECA,code,"up to 4 digits from the high nibble down, '0' + digit, the last digit always; the buffer $04F5",src/bankC5_5000.asm
+$C5B67A,BinToBCD,CODE_C5B67A,code,"hundreds counted in decimal mode, then BCDTable for the rest",src/bankC5_B000.asm
+$C36C2D,ReadMenuPads,CODE_C36C2D,code,"PadRaw1, PadRaw2, $C5, $C7, $C9 into $058D; $0565 the last value; the menu loops act when repeatdelayframes is 0",src/bankC3_6000.asm
+$C589E4,QueueClearVRAM,CODE_C589E4,code,"two records on the VRAM stack at $02: $400 bytes each, modes $1808 / $1908",src/bankC5_8000.asm
+$C589B0,ClearVRAM,CODE_C589B0,code,"the same records, then jml WaitTransfers",src/bankC5_8000.asm

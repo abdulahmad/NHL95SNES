@@ -168,11 +168,11 @@ CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
 	ora.w cont5team
 	bne .2
 	jsl.l CODE_CF03D0
-.2:									; if $17D1 = 0 go to .3, Y = $5800, call CODE_C589B0, call CODE_C50D18
+.2:									; if $17D1 = 0 go to .3, Y = $5800, call ClearVRAM, call CODE_C50D18
 	lda.w $17D1
 	beq .3
 	ldy.w #$5800
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	jsl.l CODE_C50D18
 .3:									; $2034 = 0, $2036 = 0, a3 = $001C, d0 = $001B, ...
 	stz.w $2034
@@ -1585,10 +1585,10 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.w $2CF5
 	bne .1
 	jsl.l CODE_C52264
-.1:									; Vcount = 0, $07C6 = 0, call CODE_C4CEDB, $2372 = 0, ...
+.1:									; Vcount = 0, $07C6 = 0, call WaitTransfers, $2372 = 0, ...
 	stz.b Vcount
 	stz.w $07C6
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.w $2372
 	stz.w $1857
 	jsl.l forceblack

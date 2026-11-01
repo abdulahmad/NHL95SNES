@@ -81,7 +81,7 @@ CODE_C59052:						; called from other segments
 	sta.b $18
 	lda.b $08,x
 	sta.b $1A
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	lda.w $17C9
 	jsl.l CreateSprite
 	stx.b d7
@@ -95,7 +95,7 @@ CODE_C59052:						; called from other segments
 	sta.b $18
 	lda.b $08,x
 	sta.b $1A
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	lda.w $17CB
 	jsl.l CreateSprite
 	stx.b $9D
@@ -141,7 +141,7 @@ CODE_C590BB:						; from CODE_C596C0, CODE_C596AF, CODE_C59DBE
 	iny
 	dex
 	bpl .loop
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 setoptions:							; builds the game setup screen: its graphics and HDMA, then the Game Setup
 									; page
@@ -159,10 +159,10 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	ldx.w #TeamPalettes>>16
 	jsl.l Decompress
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$0000
-	jsl.l CODE_C589E4
-	jsl.l CODE_C4CEDB
+	jsl.l QueueClearVRAM
+	jsl.l WaitTransfers
 	lda.w #GradientBarTiles&$FFFF
 	ldx.w #GradientBarTiles>>16
 	jsl.l DecompressUnpackbuf
@@ -181,7 +181,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	stx.b $00
 	stz.b QueueBusy
 	stz.w DMAEnShadow
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0070
 	jsl.l SetupHDMA
 	db $03,$21,$1B,$49,$C0,$00		; inline parameters
@@ -229,7 +229,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	jsl.l CODE_C4BAF6
 	lda.w #$56CE
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #BlueColoursHook&$FFFF
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
@@ -250,7 +250,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #$0020
 	jsl.l CreateSprite
 	jsr.w CODE_C592A9
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$C000
 	sta.w DMAEnShadow
 	lda.w #$2C46
@@ -311,8 +311,8 @@ CODE_C592A9:						; from setoptions
 	adc.b $D3
 	ldy.w #$0200
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w $1864
 	asl a
 	tax
@@ -418,9 +418,9 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	stz.b d1
 	stz.b $85
 	jsr.w ControllerSetupScreen
-.loop:								; loop: call CODE_C36CBF, call CODE_C4CEDB, $26 + 1, ...
+.loop:								; loop: call CODE_C36CBF, call WaitTransfers, $26 + 1, ...
 	jsl.l CODE_C36CBF
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -588,11 +588,11 @@ CODE_C594C6:						; from CODE_C59483, CODE_C59483, ...
 ControllerSetupScreen:				; builds the controller setup screen: a sprite for each pad and the
 									; Controller Setup page
 	ldx.b a0
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b a4
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $75
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jsr.w CODE_C5BBC0
 	lda.w #$0003
 	sta.b $1E
@@ -645,12 +645,12 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	clc
 	adc.w #$0400
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	lda.w #$8000
 	sta.w DMAEnShadow
 	lda.w #$FFFF
 	sta.w BG3VScroll
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C5A50B
 	jsr.w CODE_C5BBC0
 	lda.w #$0005
@@ -691,7 +691,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	sta.b $08,x
 	lda.w #$0018
 	jsr.w CODE_C5909D
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	lda.w #$000D
 	sta.b $99
 	bra CODE_C59651
@@ -706,8 +706,8 @@ CreatePlayer:						; play mode Make Player: CheckCreateSlots, the Create Player 
 	jsr.w DrawNameEntry
 	stz.w fadestep
 CODE_C59651:						; from CODE_C59651, StartSeason, CODE_C5963A
-	jsl.l CODE_C4CEDB
-	jsl.l CODE_C36C2D
+	jsl.l WaitTransfers
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -783,7 +783,7 @@ CODE_C596D3:						; from AskNameOk
 	ldy.w #$0700
 	jsl.l ClearRAM7E
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	lda.w #$5746
 	jsl.l PrintTextPage
 	lda.w #$0010
@@ -791,7 +791,7 @@ CODE_C596D3:						; from AskNameOk
 	ldx.w #$04F5
 	ldy.w #$0002
 	jsl.l PrintTitleStr
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.b d0
 	stz.b $85
 	lda.w #$0032
@@ -918,7 +918,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	ldy.b $71
 	ldx.w #$04F5
 	jsl.l CODE_C4BC46
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 .15:								; if a3 is not 0 go to .16, return
 	lda.b a3
@@ -940,7 +940,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	ldy.b $71
 	ldx.w #$4673
 	jsl.l PrintItalicLeftStr
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	lda.w #$3E3E
 	sta.w $04F5
 	sta.w $04F7
@@ -953,7 +953,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	lda.w #$000A
 	sta.b $69
 	stz.b a3
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 .17:								; call CODE_C598C9, call CODE_C598EB, X = Y, $04F5,x = 0, ...
 	jsr.w CODE_C598C9
@@ -973,7 +973,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	lda.b $D3
 	adc.w #$0300
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$56DC
 	jsl.l PrintTextPage
 	inc.b $99
@@ -994,7 +994,7 @@ CODE_C598C9:						; from NameEntry
 	clc
 	adc.w #$0040
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C598EB:						; from NameEntry
 	sep #$30
@@ -1015,7 +1015,7 @@ ModifyRatings:						; Create Player screen state 4: the goalie or skater ratings
 									; pick, left / right change); start stores the player in save RAM
 									; (CODE_C59B36), X cancels
 	jsr.w CODE_C59938
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C59938:						; from ModifyRatings
 	lda.b d0
@@ -1128,8 +1128,8 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	stz.w $0002,x
 	stz.w $0004,x
 	stz.w $0006,x
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.b d6
 	asl a
 	tax
@@ -1181,8 +1181,8 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	stz.w $0002,x
 	stz.w $0004,x
 	stz.w $0006,x
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.b d6
 	asl a
 	tax
@@ -1223,8 +1223,8 @@ CODE_C59AB0:						; from CODE_C599E7, CODE_C59A4B
 	asl a
 	adc.b tmp1
 	adc.w #$0019
-	jsr.w CODE_C5B67A
-	jmp.w CODE_C55EC7
+	jsr.w BinToBCD
+	jmp.w BCDText
 CODE_C59ABF:						; from CODE_C59998
 	lda.w #$0007
 	jsr.w CODE_C59978
@@ -1594,7 +1594,7 @@ EditPlayerInfo:						; Create Player screen state 3: position, weight, number, h
 	lda.b $26
 	lsr a
 	bcs .1
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .1:									; go to CODE_C59F62
 	jmp.w CODE_C59F62
 CODE_C59DBE:						; from EditPlayerInfo
@@ -1673,14 +1673,14 @@ CODE_C59DBE:						; from EditPlayerInfo
 	ldy.w #$0580
 	jsl.l ClearRAM7E
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	lda.w #$576C
 	ldx.b d0
 	beq .9
 	lda.w #$57AE
-.9:									; call PrintTextPage, call CODE_C4CEDB, X = a0, A = $0003, ...
+.9:									; call PrintTextPage, call WaitTransfers, X = a0, A = $0003, ...
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.b a0
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
@@ -1717,8 +1717,8 @@ CODE_C59DBE:						; from EditPlayerInfo
 	asl a
 	adc.b tmp1
 	adc.w #$0019
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldx.w #$04F5
 	jsl.l PrintBoldRightStr
 	ply
@@ -1738,8 +1738,8 @@ CODE_C59DBE:						; from EditPlayerInfo
 	inc a
 	cmp.w #$0014
 	bcc .loop2
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	stz.w fadestep
 	rts
 DATA8_C59EF2:						; jump table: the routine for each index

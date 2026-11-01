@@ -904,11 +904,11 @@ CODE_C43826:						; called from other segments
 	bcc .2
 	lda.w #$0258
 	sta.l $7E24CA
-.2:									; call FadeOutWait, fadestep = $001E, call CODE_C4CEDB, ...
+.2:									; call FadeOutWait, fadestep = $001E, call WaitTransfers, ...
 	jsl.l FadeOutWait
 	lda.w #$001E
 	sta.w fadestep
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l CODE_C539D7
 	lda.w PBnum
 	beq .4
@@ -1351,10 +1351,10 @@ CODE_C43826:						; called from other segments
 	cmp.w #$0001
 	bne .38
 	jmp.w CODE_C43FC1
-.38:								; $2016 = $0001, call CODE_C4CEDB, call RestoreWorkBuf, A = $0A00, ...
+.38:								; $2016 = $0001, call WaitTransfers, call RestoreWorkBuf, A = $0A00, ...
 	lda.w #$0001
 	sta.w $2016
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.w #$0A00
 	jsl.l AllocWorkBuf
@@ -1409,7 +1409,7 @@ CODE_C43826:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w $201E
 	clc
 	adc.w #$0005
@@ -1647,7 +1647,7 @@ CODE_C43EC6:						; from CODE_C43826
 	sta.w BA_Sktr_SCnum
 	jml.l CODE_C51AFF
 CODE_C43F0D:						; from CODE_C43826
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0014
 	ldy.w #$0008
 	lda.w #$5846

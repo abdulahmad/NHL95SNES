@@ -14,14 +14,14 @@ LeagueLeadersScreen:				; League Menu League Leaders: the players leading a stat
 	pea.w $0000
 CODE_C5AFCC:						; called from other segments
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	pla
 	jsr.w CODE_C5B631
 	ldx.w #$559D
@@ -75,14 +75,14 @@ CODE_C5AFCC:						; called from other segments
 	sta.b a1
 	lda.w #$556D
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.b $69
 	lda.w #CODE_C5B6A1
 	ldx.w #$000D
 	ldy.w #$0009
 	jsr.w CODE_C55ABC
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$0008
 	sta.b $99
 	stz.w fadestep
@@ -99,8 +99,8 @@ SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (recor
 	lda.w #$FFFA
 	sta.w BG2VScroll
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
-	jsl.l CODE_C4CEDB
+	jsl.l ClearVRAM
+	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$11
 	sta.l TM
@@ -109,15 +109,15 @@ SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (recor
 	jsl.l CODE_C4BAF6
 	lda.w #$55F1
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$50A8
 	jsl.l CODE_C387D8
 	stz.w $17C9
 	stz.b d7
 	jsr.w CODE_C5B7F1
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$17
 	sta.l TM
@@ -139,8 +139,8 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	lda.w #$FFFA
 	sta.w BG2VScroll
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
-	jsl.l CODE_C4CEDB
+	jsl.l ClearVRAM
+	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$11
 	sta.l TM
@@ -149,7 +149,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	jsl.l CODE_C4BAF6
 	lda.w #$5583
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$50A8
 	jsl.l CODE_C387D8
@@ -168,8 +168,8 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	jsr.w CODE_C55ABC
 	stz.b d7
 	jsr.w CODE_C5BCD9
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$17
 	sta.l TM
@@ -188,12 +188,12 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$5553
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.b d0
 	jsl.l CODE_C5E37E
 	stz.b d1
@@ -223,8 +223,8 @@ CODE_C5B1AF:						; called from other segments
 	tax
 	ldy.w #$0013
 	jsl.l PrintItalicCentred
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$000B
 	sta.b $99
 	stz.w fadestep
@@ -261,10 +261,10 @@ CODE_C5B22D:						; called from other segments
 	adc.b $D3
 	ldy.w #$0540
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	ldy.w #$5000
-	jsl.l CODE_C589E4
-	jsl.l CODE_C4CEDB
+	jsl.l QueueClearVRAM
+	jsl.l WaitTransfers
 	lda.w #$0011
 	sta.w $3652
 	ldx.b a0
@@ -352,8 +352,8 @@ CODE_C5B22D:						; called from other segments
 	adc.w #$0003
 	tay
 	jsl.l PrintThinCentred
-.1:									; call CODE_C4CEDB, $3652 = $0017, X = a4, A = $22,x, ...
-	jsl.l CODE_C4CEDB
+.1:									; call WaitTransfers, $3652 = $0017, X = a4, A = $22,x, ...
+	jsl.l WaitTransfers
 	lda.w #$0017
 	sta.w $3652
 	ldx.b a4
@@ -416,7 +416,7 @@ CODE_C5B369:						; from CODE_C5B22D and other segments
 	lda.b tmp1
 	rts
 CODE_C5B38F:						; from CODE_C5B22D and other segments
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	phd
 	lda.b $85
 	lsr a
@@ -616,8 +616,8 @@ CODE_C5B4C2:						; from CODE_C5AFCC, CODE_C5B558
 	jsl.l Div32x32U
 	ply
 	lda.b r0
-.2:									; call CODE_C5B67A, $000C,y = A, pull A, tmp0 = A, ...
-	jsr.w CODE_C5B67A
+.2:									; call BinToBCD, $000C,y = A, pull A, tmp0 = A, ...
+	jsr.w BinToBCD
 	sta.w $000C,y
 	pla
 	sta.b tmp0
@@ -792,9 +792,9 @@ DATA8_C5B66A:						; not traced: a table read by CODE_C5B631
 DATA8_C5B670:						; not traced: a table read by CODE_C5B631
 	db $7A,$4B,$9E,$4B,$5C,$56
 CODE_C5B676:						; called from other segments
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	rtl
-CODE_C5B67A:						; from CODE_C5B676, CODE_C5B6A1, CODE_C5B7F1, CODE_C5BE72, ...
+BinToBCD:							; A (binary, below 10000) as BCD
 	pei ($9F)
 	stz.b tmp0
 .loop:								; loop: if A < $0064 go to .1, A - $0064, X = A, A = tmp0, ...
@@ -822,8 +822,8 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	sta.b $CF
 	lda.b a3
 	inc a
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldLeftStr
@@ -982,7 +982,7 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	adc.b $01,s
 	tax
 	lda.w $0008,x
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldRightStr
@@ -1006,43 +1006,43 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	lda.b $D3
 	adc.w #$0266
 	jsr.w CODE_C5B96D
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$00F8
 	sta.b $D1
 	lda.w $17C9
 	jsr.w CODE_C5B983
 	phy
 	lda.w $0004,y
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
 	lda.w $0006,y
 	phx
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	plx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
 	lda.w $0008,y
 	phx
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	plx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ldx.w #$04F5
 	ldy.w #$0009
 	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0010,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1052,21 +1052,21 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ldx.w #$04F5
 	ldy.w #$000B
 	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0012,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1076,37 +1076,37 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ldx.w #$04F5
 	ldy.w #$000D
 	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0014,y
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.w #$000F
 	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0016,y
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.w #$0011
 	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $001A,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1116,21 +1116,21 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ldx.w #$04F5
 	ldy.w #$0013
 	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0030,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1140,16 +1140,16 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
 CODE_C5B95A:						; called from other segments
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ldx.w #$04F5
 	ldy.w #$0015
 	jsl.l PrintItalicRightStr
 	ply
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5B96D:						; from CODE_C5B7F1, CODE_C5B96D
 	pha
@@ -1438,7 +1438,7 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C55ABC
 	lda.w #$000C
@@ -1504,8 +1504,8 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C
 	beq .2
 	jsl.l Div32x32U
 	lda.b r0
-.2:									; call CODE_C5B67A, pull X, pull X, pull X, ...
-	jsr.w CODE_C5B67A
+.2:									; call BinToBCD, pull X, pull X, pull X, ...
+	jsr.w BinToBCD
 	plx
 	plx
 	plx
@@ -1560,7 +1560,7 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C
 	plx
 	plx
 CODE_C5BCCC:						; from CODE_C5BBDD
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
@@ -1572,7 +1572,7 @@ CODE_C5BCD9:						; from SeasonPlayerStats and other segments
 	sta.b $1A
 CODE_C5BCE3:						; from CODE_C5B7F1
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b d7
 	jsr.w CODE_C5A4B9
 	lda.w $17C9
@@ -1590,7 +1590,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	adc.w #$0180
 	ldy.w #$0080
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	lda.w $17C9
 	asl a
 	tax
@@ -1598,7 +1598,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	tax
 	ldy.w #$0006
 	jsl.l PrintThinCentred
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 CODE_C5BD30:						; from CODE_C5BBDD and other segments
 	sta.b tmp0
@@ -1647,7 +1647,7 @@ CODE_C5BD56:						; from CODE_C5BD52, CODE_C5B4C2, CODE_C5BBDD
 	rol a
 	and.w #$01FF
 	sta.b tmp0
-	jmp.w CODE_C5B67A
+	jmp.w BinToBCD
 CODE_C5BD7D:						; called from other segments
 	jsr.w CODE_C5BD81
 	rtl
@@ -1673,7 +1673,7 @@ CODE_C5BD81:						; from CODE_C5BD7D, CODE_C5B4C2, CODE_C5BBDD
 	rol a
 	and.w #$01FF
 	sta.b tmp0
-	jmp.w CODE_C5B67A
+	jmp.w BinToBCD
 CODE_C5BDA8:						; called from other segments
 	jsr.w CODE_C5BDAC
 	rtl
@@ -1709,10 +1709,10 @@ CODE_C5BDAC:						; from CODE_C5BDA8, CODE_C5BBDD, CODE_C5B4C2
 	lsr a
 	lsr a
 	lsr a
-.1:									; A and $0FFF, tmp0 = A, go to CODE_C5B67A
+.1:									; A and $0FFF, tmp0 = A, go to BinToBCD
 	and.w #$0FFF
 	sta.b tmp0
-	jmp.w CODE_C5B67A
+	jmp.w BinToBCD
 CODE_C5BDE7:						; called from other segments
 	jsr.w CODE_C5BDEB
 	rtl
@@ -1758,7 +1758,7 @@ CODE_C5BDEB:						; from CODE_C5BDE7
 	rol a
 	and.w #$007F
 	sta.b tmp0
-	jmp.w CODE_C5B67A
+	jmp.w BinToBCD
 CODE_C5BE33:						; called from other segments
 	jsr.w CODE_C5BE37
 	rtl
@@ -1794,14 +1794,14 @@ CODE_C5BE37:						; from CODE_C5BE33, CODE_C5BBDD, CODE_C5B4C2
 	asl a
 	ora.b tmp0
 	sta.b tmp0
-	jmp.w CODE_C5B67A
+	jmp.w BinToBCD
 CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	lda.w #$000A
 	sta.b $CF
 	lda.b a3
 	inc a
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldLeftStr
@@ -1853,37 +1853,37 @@ DATA8_C5BEDD:						; jump table: the routine for each index
 CODE_C5BEED:						; from DATA8_C5BEDD
 	phy
 	lda.w $0004,y
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
 	lda.w $0006,y
 	phx
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	plx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
 	lda.w $0008,y
 	phx
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	plx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ply
 	rts
 CODE_C5BF1D:						; from DATA8_C5BEDD
 	lda.w $000A,y
-	jsr.w CODE_C5B67A
-	jmp.w CODE_C55EC7
+	jsr.w BinToBCD
+	jmp.w BCDText
 CODE_C5BF26:						; from DATA8_C5BEDD
 	lda.w $0010,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1893,17 +1893,17 @@ CODE_C5BF26:						; from DATA8_C5BEDD
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jmp.w CODE_C55ECA
+	jmp.w BCDTextAt
 CODE_C5BF50:						; from DATA8_C5BEDD
 	lda.w $0012,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1913,25 +1913,25 @@ CODE_C5BF50:						; from DATA8_C5BEDD
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jmp.w CODE_C55ECA
+	jmp.w BCDTextAt
 CODE_C5BF7A:						; from DATA8_C5BEDD
 	lda.w $0014,y
-	jsr.w CODE_C5B67A
-	jmp.w CODE_C55EC7
+	jsr.w BinToBCD
+	jmp.w BCDText
 CODE_C5BF83:						; from DATA8_C5BEDD
 	lda.w $0016,y
-	jsr.w CODE_C5B67A
-	jmp.w CODE_C55EC7
+	jsr.w BinToBCD
+	jmp.w BCDText
 CODE_C5BF8C:						; from DATA8_C5BEDD
 	lda.w $001A,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1941,17 +1941,17 @@ CODE_C5BF8C:						; from DATA8_C5BEDD
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jmp.w CODE_C55ECA
+	jmp.w BCDTextAt
 CODE_C5BFB6:						; from DATA8_C5BEDD
 	lda.w $0030,y
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	sta.b r2
 	xba
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	inx
@@ -1961,7 +1961,7 @@ CODE_C5BFB6:						; from DATA8_C5BEDD
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.b r2
 	and.w #$000F
-	jmp.w CODE_C55ECA
+	jmp.w BCDTextAt

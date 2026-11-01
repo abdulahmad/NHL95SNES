@@ -22,8 +22,8 @@ CODE_C5800C:						; called from other segments
 	sta.b $D1
 	ldx.b a3
 	lda.w $3654,x
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$6220
 	sta.w $04F5,x
 	inx
@@ -1234,7 +1234,7 @@ CODE_C5897B:						; called from other segments
 	stx.b $02
 	stz.b QueueBusy
 	rtl
-CODE_C589B0:						; from CODE_C58A3F
+ClearVRAM:							; QueueClearVRAM, then WaitTransfers
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -1257,8 +1257,9 @@ CODE_C589B0:						; from CODE_C58A3F
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jml.l CODE_C4CEDB
-CODE_C589E4:						; called from other segments
+	jml.l WaitTransfers
+QueueClearVRAM:						; queues a clear of $400 words of VRAM at Y (two DMAs from ZeroFillWord:
+									; the low bytes, then the high)
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -1314,9 +1315,9 @@ CODE_C58A3F:						; called from other segments
 	jsr.w SetBGMapRegs
 	db $58,$50,$5C,$5C,$30,$00		; inline parameters
 	ldy.w #$5800
-	jsr.w CODE_C589B0
+	jsr.w ClearVRAM
 	ldy.w #$0000
-	jsr.w CODE_C589B0
+	jsr.w ClearVRAM
 	rtl
 ZeroFillWord:						; the zero word the VRAM clears DMA from (fixed source)
 	db $00,$00
@@ -1446,7 +1447,7 @@ CODE_C58B2E:						; called from other segments
 	rtl
 CODE_C58B48:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
 	pea.w $7E80
@@ -1512,7 +1513,7 @@ CODE_C58BB9:						; called from other segments
 	plx
 	rtl
 CODE_C58BE4:						; called from other segments
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
 	jsr.w SetBGMapRegs
@@ -1624,7 +1625,7 @@ CODE_C58C36:						; called from other segments
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jml.l CODE_C4CEDB
+	jml.l WaitTransfers
 CODE_C58CCD:						; called from other segments
 	sep #$20
 	pha
@@ -1681,10 +1682,10 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	stz.w $23BC
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	ldx.b $99
 	jsr (DATA8_C58DF0,x)
@@ -1979,8 +1980,8 @@ CODE_C58F75:						; from CODE_C58EE0
 	bra .2
 .1:									; call PrintItalicCentred
 	jsl.l PrintItalicCentred
-.2:									; call CODE_C4C2AA, return
-	jsl.l CODE_C4C2AA
+.2:									; call SendTextMap, return
+	jsl.l SendTextMap
 	rts
 CODE_C58FD2:						; from CODE_C58F28
 	sta.b $08,x

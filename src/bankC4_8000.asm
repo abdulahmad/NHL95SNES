@@ -887,7 +887,7 @@ EndPenaltyShot:						; called from other segments
 	lda.w penshot
 	beq .rtl
 	phx
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l CODE_C4785E
 	stz.w PenShotActive
 	stz.w penshot

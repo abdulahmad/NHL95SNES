@@ -1402,7 +1402,7 @@ CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
 	jsr.w CODE_C54114
 	pha
 	tay
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -1427,14 +1427,14 @@ CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	pla
 	cmp.w #$5AB5
 	bcc .1
 	jsl.l CODE_C539D7
-.1:									; call CODE_C51397, call CODE_C4CEDB, go to CODE_C5111A
+.1:									; call CODE_C51397, call WaitTransfers, go to CODE_C5111A
 	jsl.l CODE_C51397
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jml.l CODE_C5111A
 CODE_C54BAF:						; called from other segments
 	lda.w $186E
@@ -1851,5 +1851,5 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	sta.b $08
 	stz.b $22
 	ldx.w $18F0
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jmp.w CODE_C55513

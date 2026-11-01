@@ -233,10 +233,10 @@ CODE_C5D1C5:						; from UserNameEntry
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$0008
-.loop:								; loop: push Y, X = $73,y, call CODE_C5E596, pull Y, ...
+.loop:								; loop: push Y, X = $73,y, call DeleteSprite, pull Y, ...
 	phy
 	ldx.b $73,y
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ply
 	dey
 	dey
@@ -259,7 +259,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	ldy.w #$0700
 	jsl.l ClearRAM7E
 	ldy.w #$5000
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	ldy.w #$2801
 	lda.b a2
 	cmp.w $17C9
@@ -300,10 +300,10 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	ldy.w #$0009
 	jsl.l PrintThinCentred
 	lda.w #$0000
-.loop:								; loop: push A, A + 1, call CODE_C55EC7, $04F5,x = $003D, ...
+.loop:								; loop: push A, A + 1, call BCDText, $04F5,x = $003D, ...
 	pha
 	inc a
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003D
 	sta.w $04F5,x
 	lda.w #$0014
@@ -326,12 +326,12 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	tay
 	ldx.w #$04F5
 	jsl.l PrintBoldLeftStr
-.3:									; pull A, A + 1, if A is not $0008 go to .loop, call CODE_C4C2AA, ...
+.3:									; pull A, A + 1, if A is not $0008 go to .loop, call SendTextMap, ...
 	pla
 	inc a
 	cmp.w #$0008
 	bne .loop
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5D2B4:						; from DrawNameLog, EditUserName
 	asl a
@@ -537,9 +537,9 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.w #$3E3E
 	sta.w $04F5,x
 	stx.b $69
-.10:								; call CODE_C5D5A5, call CODE_C4C2AA
+.10:								; call CODE_C5D5A5, call SendTextMap
 	jsr.w CODE_C5D5A5
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .11:								; go to .loop
 	jmp.w .loop
 .12:								; if $0040 bits clear go to .13, A = $65, call CODE_C5D2B4, go to .14
@@ -596,7 +596,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	ldx.w #$4F4A
 	ldy.w #$001A
 	jsl.l PrintBoldLeft
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	ldx.b a0
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
@@ -700,7 +700,7 @@ CODE_C5D56F:						; from CODE_C5D567
 	iny
 	iny
 	jsr.w CODE_C5D599
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5D599:						; from CODE_C5D56F
 	lda.w $0000,y
@@ -1127,21 +1127,21 @@ CODE_C5D85D:						; called from other segments
 	ldx.b d0
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.w #$0006
 	jsl.l PrintBoldLeftStr
 	ldx.b d1
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.w #$0007
 	jsl.l PrintBoldLeftStr
 	ldx.b $81
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.w #$0008
 	jsl.l PrintBoldLeftStr
@@ -1152,7 +1152,7 @@ CODE_C5D85D:						; called from other segments
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.w #$0009
 	jsl.l PrintBoldLeftStr
@@ -1162,7 +1162,7 @@ CODE_C5D8E7:						; called from other segments
 	stz.b $77
 	stz.b $79
 	stz.b a2
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $00,$2C,$4E,$3E,$7E,$00		; inline parameters
@@ -1404,7 +1404,7 @@ CODE_C5DAC2:						; from CODE_C5DAAF, CODE_C5DAE2
 	pea.w CODE_C5DAE2-1
 	jmp ($008F)
 CODE_C5DAE2:						; from CODE_C5DAC2
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.b $91
 	inc a
@@ -1453,7 +1453,7 @@ CODE_C5DAF3:						; called from other segments
 	pea.w CODE_C5DB30-1
 	jmp ($008F)
 CODE_C5DB30:						; from CODE_C5DAF3
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	bra CODE_C5DB38
 CODE_C5DB36:						; from CODE_C5DAF3
 	pla
@@ -1551,7 +1551,7 @@ CODE_C5DB9F:						; called from other segments
 	pea.w CODE_C5DBE0-1
 	jmp ($008F)
 CODE_C5DBE0:						; from CODE_C5DB9F
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	bra CODE_C5DBE8
 CODE_C5DBE6:						; from CODE_C5DB9F
 	pla

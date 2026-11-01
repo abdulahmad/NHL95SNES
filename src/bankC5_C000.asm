@@ -127,7 +127,7 @@ CODE_C5C0BE:						; called from other segments
 	sta.b $1A
 	jsr.w CODE_C5A4B9
 	jsr.w CODE_C5A4E2
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5194
 	jsl.l CODE_C387D8
@@ -151,10 +151,10 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C1F6
 	stz.w fadestep
-.loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	ldx.b a0
@@ -254,34 +254,34 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	bra .14
 .13:								; $81 - 1
 	dec.b $81
-.14:								; call CODE_C5C4FC, call CODE_C5D85D, call CODE_C55C12, call CODE_C4C2AA
+.14:								; call CODE_C5C4FC, call CODE_C5D85D, call CODE_C55C12, call SendTextMap
 	jsr.w CODE_C5C4FC
 	jsr.w CODE_C5D85D
 	jsr.w CODE_C55C12
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .15:								; go to .loop
 	jmp.w .loop
 CODE_C5C1F6:						; from SignFreeAgents
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	lda.w #$FFFF
 	sta.w BG3VScroll
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 CODE_C5C214:						; called from other segments
 	ldy.w #$2C01
 	ldx.w #$5115
 	jsl.l CODE_C387D8
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b d7
 	ldx.b a4
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $75
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $9D
 	lda.w #$00D0
 	sta.b $05,x
@@ -397,9 +397,9 @@ CODE_C5C214:						; called from other segments
 	ldy.w #$000E
 	jsr.w CODE_C55ABC
 	stz.b $85
-.4:									; call CODE_C5D85D, call CODE_C4C2AA, return
+.4:									; call CODE_C5D85D, call SendTextMap, return
 	jsr.w CODE_C5D85D
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	ldx.b a3
@@ -444,7 +444,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldLeftStr
@@ -568,7 +568,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$0010
 	sta.b $CF
 	ldy.b $6D
@@ -593,11 +593,11 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	and.w #$000F
 	bne .16
 	ldy.w #$0010
-.16:								; $24DC = Y, call CODE_C5C6B7, call CODE_C5B67A, call CODE_C55EC7, ...
+.16:								; $24DC = Y, call CODE_C5C6B7, call BinToBCD, call BCDText, ...
 	sty.w $24DC
 	jsr.w CODE_C5C6B7
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$00C8
 	sta.b $CF
 	lda.w #$00F0
@@ -911,10 +911,10 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C826
 	stz.w fadestep
-.loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	ldx.b a0
@@ -1028,31 +1028,31 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	lda.b (tmp0)
 	inc a
 	sta.b (tmp0)
-.15:								; call CODE_C5D85D, call CODE_C55C12, call CODE_C4C2AA
+.15:								; call CODE_C5D85D, call CODE_C55C12, call SendTextMap
 	jsr.w CODE_C5D85D
 	jsr.w CODE_C55C12
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .16:								; go to .loop
 	jmp.w .loop
 CODE_C5C826:						; from ReleasePlayers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	lda.w #$FFFF
 	sta.w BG3VScroll
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2C01
 	ldx.w #$5115
 	jsl.l CODE_C387D8
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b a4
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $75
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $9D
 	lda.w #$00D0
 	sta.b $05,x
@@ -1128,7 +1128,7 @@ CODE_C5C826:						; from ReleasePlayers
 	ldy.w #$000E
 	jsr.w CODE_C55ABC
 	jsr.w CODE_C5D85D
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	lda.w #$0010
@@ -1202,7 +1202,7 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$04F5
@@ -1238,8 +1238,8 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	lda.w $331D,x
 	sta.w $04FB
 	jsr.w CODE_C5C6B7
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$00C8
 	sta.b $CF
 	lda.w #$00F0
@@ -1290,10 +1290,10 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	jsl.l FadeOutWait
 	jsr.w CODE_C5CB36
 	stz.w fadestep
-.1:									; TransfersReady + 1, call CODE_C36C2D, $26 + 1, call CODE_C5DA09, ...
+.1:									; TransfersReady + 1, call ReadMenuPads, $26 + 1, call CODE_C5DA09, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C5DA09
 	ldx.b a0
@@ -1378,25 +1378,25 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	eor.w #$0001
 	sta.w $364E,x
 	jsr.w CODE_C5DA58
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .12:								; go to .1
 	jmp.w .1
 CODE_C5CB36:						; from TradePlayers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	lda.w #$FFFF
 	sta.w BG3VScroll
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $9D
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b a4
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $75
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b a0
 	lda.w #$0003
 	jsl.l CODE_C5ECBD
@@ -1404,7 +1404,7 @@ CODE_C5CB36:						; from TradePlayers
 	jsl.l CODE_C4BAF6
 	lda.w #$56F2
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5084
 	jsl.l CODE_C387D8
@@ -1479,8 +1479,8 @@ CODE_C5CB36:						; from TradePlayers
 	sta.b $75
 	lda.w #CODE_C5CC4D
 	jsr.w CODE_C5D8E7
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	stz.b $85
 	rts
 CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
@@ -1547,7 +1547,7 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$04F5
@@ -1585,8 +1585,8 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	lda.w $0116,x
 	sta.w $04FB
 	jsr.w CODE_C5C6B7
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	lda.w #$00C8
 	sta.b $CF
 	lda.w #$00F0
@@ -1601,10 +1601,10 @@ GMDecisionScreen:					; the trade decision: DrawGMDecision, then start does an a
 									; (CheckTrade, ExecuteTrade) and leaves, X goes back to TradePlayers
 	jsr.w DrawGMDecision
 	stz.w fadestep
-.loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
+.loop:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1645,27 +1645,27 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	pla
 	pla
 	jmp.w GameSetUp
-.1:									; call FadeOutWait, DMAEnShadow = $8000, Y = $5000, call CODE_C589E4, ...
+.1:									; call FadeOutWait, DMAEnShadow = $8000, Y = $5000, ...
 	jsl.l FadeOutWait
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
-	jsl.l CODE_C4CEDB
+	jsl.l QueueClearVRAM
+	jsl.l WaitTransfers
 	ldx.b a0
 	lda.w #$012C
 	sta.b $05,x
 	ldx.b d3
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b d3
 	ldx.b $8D
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b $8D
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$53FF
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5084
 	jsl.l CODE_C387D8
@@ -1739,10 +1739,10 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	tax
 	ldy.w #$0014
 	jsl.l PrintBoldLeft
-.5:									; $D5 = $2000, call CODE_C4C2AA, return
+.5:									; $D5 = $2000, call SendTextMap, return
 	lda.w #$2000
 	sta.b $D5
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 PrintTradedPlayers:					; prints the chosen players of a trade list (bit 0 of each entry): No
 									; Selections when none, Etc. after 8

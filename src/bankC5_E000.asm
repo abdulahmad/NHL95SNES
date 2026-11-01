@@ -664,7 +664,7 @@ DATA8_C5E499:						; not traced: data between routines
 	db $6B
 CODE_C5E49A:						; called from other segments
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.w DMAEnShadow
 	jsl.l CODE_C5E50E
 	jsr.w CODE_C55951
@@ -676,7 +676,7 @@ CODE_C5E49A:						; called from other segments
 	ldx.w #$4692
 	ldy.w #$000C
 	jsl.l PrintItalicCentred
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.w fadestep
 	lda.w #$000F
 .loop:								; loop: if A is not brightness go to .loop, return
@@ -785,7 +785,8 @@ CODE_C5E51C:						; from CODE_C5E50E
 	lda.w #$1D8F
 	sta.b $28
 	rts
-CODE_C5E596:						; from CODE_C5EBAE and other segments
+DeleteSprite:						; removes the sprite object X: out of the active list, its palette slot
+									; released, onto the free list
 	lda.w $1B02
 	bne .1
 	rtl
@@ -1629,7 +1630,7 @@ CODE_C5EB88:						; no caller found (not traced)
 	bra CODE_C5EB7F
 CODE_C5EBAE:						; from DATA8_C5EABA
 	tyx
-	jsr.w CODE_C5E596
+	jsr.w DeleteSprite
 	ldy.b tmp0
 	clc
 	jmp.w CODE_C5E9EA

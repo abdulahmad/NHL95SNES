@@ -445,7 +445,7 @@ MapTextTiles:						; writes the text map entries of the tiles DrawText made (row
 	sec
 	sbc.b $12
 	rtl
-CODE_C4C2AA:						; called from other segments
+SendTextMap:						; queues the text map ($800 bytes) for VRAM at $5C00
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1844,7 +1844,8 @@ CODE_C4C58B:						; called from other segments
 	lda.w #$0001
 	sta.w MDMAEN
 	rtl
-CODE_C4CEDB:						; called from other segments
+WaitTransfers:						; lets the NMI run the queued transfers (TransfersReady + 1) and waits for
+									; it (wai)
 	inc.w TransfersReady
 	wai
 	rtl

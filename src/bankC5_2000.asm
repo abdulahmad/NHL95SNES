@@ -132,7 +132,7 @@ CODE_C52037:						; called from other segments
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #CenterIceTiles&$FFFF
 	ldx.w #CenterIceTiles>>16
 	jsl.l DecompressUnpackbuf
@@ -172,7 +172,7 @@ CODE_C52037:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #RefsMap&$FFFF
 	ldx.w #RefsMap>>16
 	jsl.l CODE_C58812
@@ -209,7 +209,7 @@ CODE_C52037:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.w $07E6
 	stz.w $07E4
 	lda.w #$FE90
@@ -219,7 +219,7 @@ CODE_C52037:						; called from other segments
 	ldx.w #MeterFontTiles>>16
 	jsl.l DecompressToVRAM
 	jsl.l CODE_C5897B
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$FFFF
 	sta.w $151B
 	sta.w $151D

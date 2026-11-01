@@ -158,7 +158,7 @@ DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Qui
 	dw CODE_C56B7B,CODE_C56B8C
 CODE_C5503C:						; called from other segments
 	jsl.l forceblack
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.w #$FFFF
 	sta.w $2372
@@ -183,7 +183,7 @@ CODE_C5503C:						; called from other segments
 	tcs
 	stx.b $02
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l CODE_C387FF
 	lda.w #$2D60
 	jsl.l AllocWorkBuf
@@ -238,7 +238,7 @@ CODE_C550E2:						; from CODE_C55A09
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$11
 	sta.l TM
@@ -351,17 +351,17 @@ CODE_C550E2:						; from CODE_C55A09
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C5547C
 	jsr.w CODE_C55367
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$4100
 	jsl.l FreeWorkBuf
 	ldy.w #$4A00
 	lda.w #ArrowFontTiles&$FFFF
 	ldx.w #ArrowFontTiles>>16
 	jsl.l DecompressToVRAM
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l ScreenOn
 	rts
 CODE_C5522E:						; from CODE_C5503C
@@ -540,7 +540,7 @@ CODE_C55367:						; from CODE_C550E2, CODE_C54FA9
 	sta.b tmp2
 	lda.w #$001A
 	jsr.w CODE_C5538C
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 CODE_C5538C:						; from CODE_C55367
 	pha
@@ -612,10 +612,10 @@ CODE_C553D6:						; from CODE_C553CC
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	pla
 	and.w #$000F
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.w #$0020
 	sta.w $04F5,x
 	inx
@@ -759,9 +759,9 @@ CODE_C55513:						; called from other segments
 	lda.w $18F8
 	beq .1
 	jsl.l CODE_CF0427
-.1:									; DMAEnShadow = 0, call CODE_C4CEDB, $32 = $007E, A = $21F0, ...
+.1:									; DMAEnShadow = 0, call WaitTransfers, $32 = $007E, A = $21F0, ...
 	stz.w DMAEnShadow
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$007E
 	sta.b $32
 	lda.w #$21F0
@@ -800,7 +800,7 @@ CODE_C55513:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$21F0
 	jsl.l FreeWorkBuf
 	ldx.w #$20A0
@@ -875,7 +875,7 @@ CODE_C55513:						; called from other segments
 	stx.b tmp1
 	lda.w $088C
 	jsl.l CODE_C5F368
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$2180
 	stx.b tmp2
 	ldx.w #$2034
@@ -928,7 +928,7 @@ CODE_C55513:						; called from other segments
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$01E0
 	jsl.l FreeWorkBuf
 	lda.w #IceRinkMap&$FFFF
@@ -1024,7 +1024,7 @@ CODE_C55513:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$4100
 	jsl.l FreeWorkBuf
 	lda.w #$4E00
@@ -1072,7 +1072,7 @@ CODE_C55513:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$4E00
 	jsl.l FreeWorkBuf
 	lda.w #$03E7
@@ -1118,14 +1118,14 @@ CODE_C55513:						; called from other segments
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	sep #$20
 	lda.b #$13
 	sta.l TM
 	rep #$20
 	jsl.l CODE_C53A29
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jml.l RestoreWorkBuf
 CODE_C5589E:						; called from other segments
 	dec.b QueueBusy
@@ -1145,7 +1145,7 @@ CODE_C5589E:						; called from other segments
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0802
 	jsl.l FreeWorkBuf
 	jml.l MarkWorkBuf
@@ -1201,7 +1201,7 @@ CODE_C558D7:						; from CODE_C55A09 and other segments
 	and.w #$FF00
 	ora.w #$00B9
 	jsl.l CODE_C5EE9B
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jml.l RestoreWorkBuf
 CODE_C55951:						; from CODE_C55A40 and other segments
 	stz.w DMAEnShadow
@@ -1225,11 +1225,11 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	ldy.w #$2000
 	jsr.w CODE_C5852B
 	ldy.w #$5000
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	ldy.w #$5400
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	lda.w #BlueColoursHook&$FFFF
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
@@ -1263,7 +1263,7 @@ CODE_C55951:						; from CODE_C55A40 and other segments
 	stz.b QueueBusy
 	jsr.w CODE_C5A4B9
 	jsr.w CODE_C5A4E2
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0240
 	jsl.l FreeWorkBuf
 	lda.w #$0002
@@ -1280,18 +1280,18 @@ CODE_C55A09:						; from CODE_C5630D, CODE_C563C8 and other segments
 	lda.w #$0800
 	jsl.l FreeWorkBuf
 	sta.w $18E0
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l CODE_C558D7
 	ldy.w #$5000
-	jsl.l CODE_C589E4
-	jsl.l CODE_C4CEDB
+	jsl.l QueueClearVRAM
+	jsl.l WaitTransfers
 	stz.w $058D
 	lda.w $190E
 	jmp.w CODE_C550E2
 CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	pha
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	pla
 	jsl.l PrintTextPage
@@ -1342,7 +1342,7 @@ CODE_C55ABC:						; from CODE_C55AB8, CODE_C562A4 and other segments
 	stx.b $71
 	sty.b a4
 	stz.b $69
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $00,$2C,$9D,$46,$7E,$00		; inline parameters
@@ -1455,7 +1455,7 @@ CODE_C55BC8:						; from CODE_C55BD1
 	pea.w CODE_C55BD1-1
 	jmp ($0075)
 CODE_C55BD1:						; from CODE_C55BC8
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	inc.b $6D
 	inc.b a3
@@ -1523,7 +1523,7 @@ CODE_C55C25:						; from CODE_C55C12, CODE_C55C45
 	pea.w CODE_C55C45-1
 	jmp ($0075)
 CODE_C55C45:						; from CODE_C55C25
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.b a3
 	inc a
@@ -1562,7 +1562,7 @@ CODE_C55C58:						; from CODE_C55C54, CODE_C56301 and other segments
 	pea.w CODE_C55C86-1
 	jmp ($0075)
 CODE_C55C86:						; from CODE_C55C58
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	bra CODE_C55C93
 CODE_C55C8C:						; from CODE_C55C93
 	stz.w $0565
@@ -1635,7 +1635,7 @@ CODE_C55CE6:						; from CODE_C562C6 and other segments
 	pea.w CODE_C55D10-1
 	jmp ($0075)
 CODE_C55D10:						; from CODE_C55CE6
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 CODE_C55D14:						; from CODE_C55CE6
 	ldx.w #$0008
 .loop:								; loop: X - 1, if the result < 0 go to .2, A 8-bit, A = tmp2, ...
@@ -1710,7 +1710,7 @@ CODE_C55D8A:						; from DATA8_C55D6B
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
@@ -1725,7 +1725,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
@@ -1740,7 +1740,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	lda.l BCDTable,x
 	and.w #$00FF
 	tyx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
@@ -1772,8 +1772,8 @@ CODE_C55DEF:						; from DATA8_C55D6B
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-.2:									; call CODE_C55EC7, $04F5,x = $003C, Y = $6D, X = $04F5, ...
-	jsr.w CODE_C55EC7
+.2:									; call BCDText, $04F5,x = $003C, Y = $6D, X = $04F5, ...
+	jsr.w BCDText
 	lda.w #$003C
 	sta.w $04F5,x
 	ldy.b $6D
@@ -1793,7 +1793,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55E57:						; called from other segments
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldy.w $17C9
 	lda.b a2
 	beq .1
@@ -1839,15 +1839,17 @@ CODE_C55E57:						; called from other segments
 	tax
 	ldy.w #$0009
 	jsl.l PrintThinCentred
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	rts
 CODE_C55EC3:						; called from other segments
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	rtl
-CODE_C55EC7:						; from CODE_C55D8A, CODE_C55DAC, CODE_C55EC3, CODE_C55DEF, ...
+BCDText:							; the BCD number A as text (no leading zeros, zero ended) at the start of
+									; the number buffer
 	ldx.w #$0000
-CODE_C55ECA:						; from CODE_C55DAC, CODE_C5605D, CODE_C553D6, ...
+BCDTextAt:							; the BCD number A as text (no leading zeros, zero ended) at X in the
+									; number buffer; X moves past it
 	phy
 	ldy.w #$0000
 	pha

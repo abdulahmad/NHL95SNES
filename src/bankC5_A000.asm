@@ -70,15 +70,15 @@ CODE_C59F79:						; called from other segments
 	lda.w $053B
 	jsr.w CODE_C5A083
 	tsb.w $04F9
-.2:									; call CODE_C5C6B7, call CODE_C5B67A, call CODE_C55EC7, Y = $0015, ...
+.2:									; call CODE_C5C6B7, call BinToBCD, call BCDText, Y = $0015, ...
 	jsr.w CODE_C5C6B7
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.w #$0015
 	jsr.w CODE_C5A05A
 	lda.b d2
-	jsr.w CODE_C5B67A
-	jsr.w CODE_C55EC7
+	jsr.w BinToBCD
+	jsr.w BCDText
 	ldy.w #$0016
 CODE_C5A05A:						; from CODE_C59F79
 	lda.w $04F9
@@ -111,19 +111,19 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	lda.w #$FFFF
 	sta.w BG3VScroll
 	ldy.w #$5C00
-	jsl.l CODE_C589B0
+	jsl.l ClearVRAM
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $9D
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b a4
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $75
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
 	lda.w #$5714
@@ -166,7 +166,7 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	ldy.w #$0006
 	ldx.w #$04F5
 	jsl.l CODE_C4BC46
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	lda.w #$0006
 	sta.b $71
 	lda.w #$0008
@@ -230,7 +230,7 @@ CODE_C5A1A5:						; from CODE_C5A20D
 	iny
 	iny
 	jsr.w CODE_C5A1CA
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5A1CA:						; from CODE_C5A1A5
 	lda.w $0000,y
@@ -285,7 +285,7 @@ CODE_C5A2B4:						; called from other segments
 	asl a
 	asl a
 	adc.w #$008C
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	jsr.w CODE_C5A321
 	ldx.w #$04F6
 	ldy.w #$000B
@@ -295,7 +295,7 @@ CODE_C5A2D3:						; called from other segments
 	lda.w #$000E
 	jsr.w CODE_C5A304
 	lda.b d1
-	jsr.w CODE_C5B67A
+	jsr.w BinToBCD
 	jsr.w CODE_C5A321
 	ldx.w #$04F7
 	ldy.w #$000E
@@ -417,7 +417,7 @@ DATA8_C5A3BF:						; a pointer to CODE_C5A397 (its reader is not traced)
 CODE_C5A3C1:						; from CODE_C5A356 and other segments
 	lda.w $17CB
 	sta.l $306043
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	pei ($CF)
 	pei ($D1)
 	lda.w #$0340
@@ -503,7 +503,7 @@ DATA8_C5A468:						; a pointer to CODE_C5A440 (its reader is not traced)
 CODE_C5A46A:						; from CODE_C5A3FF and other segments
 	lda.w $17C9
 	sta.l $306041
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	pei ($CF)
 	pei ($D1)
 	lda.w #$0360
@@ -521,7 +521,7 @@ CODE_C5A48F:						; from CODE_C5A4A5
 	lda.l DATA8_C3585C,x
 	tax
 	jsl.l PrintThinCentred
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	pla
 	sta.b $D1
 	pla
@@ -590,10 +590,10 @@ CODE_C5A507:						; called from other segments
 	rtl
 CODE_C5A50B:						; from CODE_C5A507, SeasonOptions and other segments
 	ldx.b a4
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b a4
 	ldx.b $75
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	stz.b $75
 	rts
 SeasonOptions:						; the League Menu (season mode): draws its page (Play Games, NHL
@@ -602,12 +602,12 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	lda.w #$FFFF
 	sta.w BG3VScroll
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0002
 	sta.w $1864
 	lda.l $306050
@@ -618,11 +618,11 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	bne .1
 	jsl.l CODE_C40D96
 	inc.w $1864
-.1:									; X = d7, call CODE_C5E596, X = $9D, call CODE_C5E596, ...
+.1:									; X = d7, call DeleteSprite, X = $9D, call DeleteSprite, ...
 	ldx.b d7
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $9D
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jsr.w CODE_C5A50B
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C4BAF6
@@ -688,12 +688,12 @@ CODE_C5A5B0:						; called from other segments
 	bne .8
 .rts:								; return
 	rts
-.4:									; call FadeOutWait, X = $77, call CODE_C5E596, X = $79, ...
+.4:									; call FadeOutWait, X = $77, call DeleteSprite, X = $79, ...
 	jsl.l FadeOutWait
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jmp.w SeasonOptions
 .5:									; A = d1, A - 1, if the result >= 0 go to .7, A = $0002, ...
 	lda.b d1
@@ -780,12 +780,12 @@ CODE_C5A66E:						; called from other segments
 	bne .4
 .rts:								; return
 	rts
-.4:									; call FadeOutWait, X = $77, call CODE_C5E596, X = $79, ...
+.4:									; call FadeOutWait, X = $77, call DeleteSprite, X = $79, ...
 	jsl.l FadeOutWait
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jmp.w SeasonOptions
 .5:									; A = $17C9, A + 1, if A < $001A go to .6, A = $0000
 	lda.w $17C9
@@ -811,17 +811,17 @@ CODE_C5A66E:						; called from other segments
 	lda.w #$0019
 .10:								; $17C9 = A
 	sta.w $17C9
-.11:								; X = $77, call CODE_C5E596, X = $79, call CODE_C5E596, ...
+.11:								; X = $77, call DeleteSprite, X = $79, call DeleteSprite, ...
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	lda.b $D3
 	clc
 	adc.w #$0280
 	ldy.w #$0380
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	jsr.w CODE_C5BCD9
 	jsr.w CODE_C52CC1
 	lda.w $2DCB
@@ -838,7 +838,7 @@ CODE_C5A66E:						; called from other segments
 	ldx.w #$000C
 	ldy.w #$000B
 	jsr.w CODE_C55ABC
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5A72D:						; from CODE_C5A66E
 	pea.w $559D
@@ -868,7 +868,7 @@ CODE_C5A72D:						; from CODE_C5A66E
 	ldy.w #$0018
 	plx
 	jsl.l PrintBoldLeft
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 CODE_C5A773:						; called from other segments
 	jsr.w CODE_C55BE8
@@ -910,12 +910,12 @@ CODE_C5A773:						; called from other segments
 	bpl .3
 	lda.w #$0003
 	bra .3
-.5:									; call FadeOutWait, X = $77, call CODE_C5E596, X = $79, ...
+.5:									; call FadeOutWait, X = $77, call DeleteSprite, X = $79, ...
 	jsl.l FadeOutWait
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jmp.w SeasonOptions
 .6:									; d0 - 1, if the result >= 0 go to .9, A = $0007, go to .8
 	dec.b d0
@@ -933,13 +933,13 @@ CODE_C5A773:						; called from other segments
 .9:									; Y = $0270, call CODE_C5A80B
 	ldy.w #$0270
 	jsr.w CODE_C5A80B
-.10:								; X = $77, call CODE_C5E596, X = $79, call CODE_C5E596, ...
+.10:								; X = $77, call DeleteSprite, X = $79, call DeleteSprite, ...
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l DeleteSprite
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	jmp.w CODE_C5B1AF
 CODE_C5A80B:						; from CODE_C5A773
 	lda.w #$01D0
@@ -1306,7 +1306,7 @@ CODE_C5AA94:						; from CODE_C5A821
 	adc.w #$0003
 	tay
 	jsl.l PrintThinCentred
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	lda.b $D3
@@ -1321,7 +1321,7 @@ CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	ldx.w #$04F5
 	ldy.w #$0005
 	jsl.l PrintItalicLeftStr
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 CODE_C5AB16:						; called from other segments
 	lda.w repeatdelayframes
@@ -1352,10 +1352,10 @@ CODE_C5AB27:						; called from other segments
 	lda.w #$0018
 	jsr.w CODE_C5909D
 	lda.w #$00B5
-.3:									; X = a0, $08,x = A, call CODE_C4C2AA, return
+.3:									; X = a0, $08,x = A, call SendTextMap, return
 	ldx.b a0
 	sta.b $08,x
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	rts
 .4:									; A = $0015, call CODE_C5909D, A = $0018, call CODE_C590BB, ...
 	lda.w #$0015
@@ -1398,8 +1398,8 @@ CODE_C5ABAE:						; from CODE_C5AB27
 	adc.b $D3
 	ldy.w #$0280
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	rts
 CODE_C5ABC4:						; from CODE_C5AB27 and other segments
 	lda.w #$001B
@@ -1461,9 +1461,9 @@ CODE_C5AC07:						; the League Menu each frame: up / down move, B / start / sele
 	bpl .5
 	lda.w #$0005
 	sta.b d6
-.5:									; call CODE_C5ACA3, call CODE_C4C2AA, go to CODE_C5A599
+.5:									; call CODE_C5ACA3, call SendTextMap, go to CODE_C5A599
 	jsr.w CODE_C5ACA3
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	jmp.w CODE_C5A599
 .6:									; call CODE_C5AC7F, A = d6, A + 1, if A < $0006 go to .7, ...
 	jsr.w CODE_C5AC7F
@@ -1472,10 +1472,10 @@ CODE_C5AC07:						; the League Menu each frame: up / down move, B / start / sele
 	cmp.w #$0006
 	bcc .7
 	lda.w #$0000
-.7:									; d6 = A, call CODE_C5ACA3, call CODE_C4C2AA, go to CODE_C5A599
+.7:									; d6 = A, call CODE_C5ACA3, call SendTextMap, go to CODE_C5A599
 	sta.b d6
 	jsr.w CODE_C5ACA3
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	jmp.w CODE_C5A599
 SeasonMenuJumps:					; the routine of each League Menu item: Play Games, NHL Standings, Games
 									; Today, League Leaders, Team Stats, Player Stats
@@ -1511,7 +1511,7 @@ CODE_C5ACA3:						; from CODE_C5AC07
 GamesToday:							; League Menu Games Today: the day's games (B marks a game, the pad
 									; changes the day, start goes back to the League Menu)
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w $1864
 	cmp.w #$0003
 	bne .1
@@ -1521,7 +1521,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	ldx.w #WonCheckTiles>>16
 	jsl.l DecompressUnpackbuf
 	ldy.w #$5C00
-	jsl.l CODE_C589E4
+	jsl.l QueueClearVRAM
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1546,7 +1546,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $40,$2C,$35,$4A,$C0,$7E		; inline parameters
@@ -1602,7 +1602,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	jsl.l CODE_C4BAF6
 	lda.w #$568E
 	jsl.l PrintTextPage
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.l $306050
 	and.w #$00FF
 	sta.b d0
@@ -1628,8 +1628,8 @@ NoGameSelected:						; the warning A game must be selected. / Okay (screen state
 	adc.w #$0180
 	ldy.w #$0580
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
-	jsl.l CODE_C4CEDB
+	jsl.l SendTextMap
+	jsl.l WaitTransfers
 	lda.w #$2C00
 	sta.b $D5
 	lda.w #$0032
@@ -1647,7 +1647,7 @@ NoGameSelected:						; the warning A game must be selected. / Okay (screen state
 	ldy.w #$000E
 	ldx.w #$47B3
 	jsl.l PrintItalicLeft
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	ldx.b a0
 	lda.w #$0064
 	sta.b $05,x

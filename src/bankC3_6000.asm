@@ -256,7 +256,8 @@ CODE_C36B83:						; called from other segments
 	rtl
 CODE_C36C2C:						; called from other segments
 	rtl
-CODE_C36C2D:						; called from other segments
+ReadMenuPads:						; the buttons of all 5 pads ORed into the menu pad word; repeatdelayframes
+									; counts the frames they stay the same (0 on a change)
 	lda.b PadRaw1
 	ora.b PadRaw2
 	ora.b $C5

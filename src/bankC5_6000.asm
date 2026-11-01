@@ -73,7 +73,7 @@ CODE_C5605D:						; from CODE_C56A77, CODE_C56D3F, CODE_C5711B and other segment
 	lda.l BCDTable,x
 	and.w #$00FF
 	tyx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.w #$003F
 	sta.w $04F5,x
 	inx
@@ -118,10 +118,10 @@ CODE_C560AC:						; called from other segments
 	lsr a
 	lsr a
 	tyx
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	pla
 	and.w #$000F
-	jsr.w CODE_C55ECA
+	jsr.w BCDTextAt
 	lda.w #$003F
 	sta.w $04F5,x
 	inx
@@ -356,14 +356,14 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	ldy.w #$000F
 	lda.w #CODE_C56310
 	jsr.w CODE_C55ABC
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -437,14 +437,14 @@ ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches betw
 	jsr.w CODE_C55A40
 	stz.b $7B
 	jsr.w DrawPeriodStats
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -467,7 +467,7 @@ ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches betw
 	eor.w #$0001
 	sta.b $7B
 	jsr.w DrawPeriodStats
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	bra .loop
 .1:									; if $1000 bits clear go to .loop, go to CODE_C55A09
 	bit.w #$1000
@@ -549,7 +549,7 @@ CODE_C56453:						; from DrawPeriodStats
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	lda.b $01,s
 	tay
 	ldx.w #$04F5
@@ -566,7 +566,7 @@ CODE_C56453:						; from DrawPeriodStats
 	ldx.b tmp0
 	lda.l BCDTable,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
 	rts
@@ -574,7 +574,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 									; (left / right) or its goalies (B); Y switches the team, up / down
 									; scroll, start returns
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	lda.w #$533B
 	jsl.l PrintTextPage
@@ -607,7 +607,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	adc.w #$0040
 	ldy.w #$0012
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .2:									; call CODE_C55E57, X = $2DC9, if a2 = 0 go to .3, X = $3207
 	jsr.w CODE_C55E57
 	ldx.w #$2DC9
@@ -634,14 +634,14 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	ldy.w #$000D
 	jsr.w CODE_C55ABC
 	jsr.w CODE_C56880
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -693,20 +693,20 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	jsr.w CODE_C5663A
 	jsr.w CODE_C55C12
 	jsr.w CODE_C56880
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 .11:								; if $4000 bits clear go to .13, A = a2, A xor $0002, a2 = A
 	bit.w #$4000
 	beq .13
 	lda.b a2
 	eor.w #$0002
 	sta.b a2
-.12:								; X = $7B, call CODE_C5E596, X = $77, call CODE_C5E596, ...
+.12:								; X = $7B, call DeleteSprite, X = $77, call DeleteSprite, ...
 	ldx.b $7B
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $77
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	ldx.b $79
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jsr.w CODE_C5660A
 	jmp.w .1
 .13:								; if $8000 bits clear go to .15, A = $D3, A + $02C0, Y = $0040, ...
@@ -735,7 +735,7 @@ CODE_C5660A:						; from ShowPlayerStats
 	pha
 	ldy.w #$0380
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4C2AA
+	jsl.l SendTextMap
 	pla
 	sec
 	sbc.w #$0100
@@ -747,7 +747,7 @@ CODE_C5660A:						; from ShowPlayerStats
 	adc.w #$0040
 	ldy.w #$0020
 	jsl.l ClearRAM7E
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	rts
 CODE_C5663A:						; from ShowPlayerStats
 	ldx.w #$2DC9
@@ -1003,8 +1003,8 @@ CODE_C5680B:						; from CODE_C56759, CODE_C5683C
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-.3:									; call CODE_C55EC7, Y = $6D, X = $04F5, call PrintBoldCentredStr, ...
-	jsr.w CODE_C55EC7
+.3:									; call BCDText, Y = $6D, X = $04F5, call PrintBoldCentredStr, ...
+	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #$04F5
 	jsl.l PrintBoldCentredStr
@@ -1195,15 +1195,15 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	ldx.w #$0006
 	ldy.w #$0012
 	jsr.w CODE_C55ABC
-.2:									; call CODE_C4C2AA, fadestep = 0
-	jsl.l CODE_C4C2AA
+.2:									; call SendTextMap, fadestep = 0
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	lda.b a1
 	beq .3
@@ -1352,7 +1352,7 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	tax
 	lda.l DATA8_C34499,x
 	and.w #$00FF
-	jsr.w CODE_C55EC7
+	jsr.w BCDText
 	ldx.w #$04F5
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
@@ -1451,7 +1451,7 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	ldx.w #$0096
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc
@@ -1521,15 +1521,15 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	ldx.w #$0006
 	ldy.w #$0012
 	jsr.w CODE_C55ABC
-.2:									; call CODE_C4C2AA, fadestep = 0
-	jsl.l CODE_C4C2AA
+.2:									; call SendTextMap, fadestep = 0
+	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	lda.b a1
 	beq .3
@@ -1710,7 +1710,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	lda.w #$0001
 	sta.w $24DC
 	jsl.l FadeOutWait
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	jsr.w CODE_C55951
 	lda.w #$5369
 	jsl.l PrintTextPage
@@ -1734,10 +1734,10 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
 	lda.w TransfersReady
 	bne .loop2
-	jsl.l CODE_C36C2D
+	jsl.l ReadMenuPads
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1806,9 +1806,9 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	bra .9
 .8:									; go to .loop
 	jmp.w .loop
-.9:									; X = $7B, call CODE_C5E596, go to .1
+.9:									; X = $7B, call DeleteSprite, go to .1
 	ldx.b $7B
-	jsl.l CODE_C5E596
+	jsl.l DeleteSprite
 	jmp.w .1
 .10:								; go to CODE_C55A09
 	jmp.w CODE_C55A09

@@ -218,7 +218,7 @@ CODE_C37171:						; from CODE_C3716D and other segments
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
 	inc.b $26
-	jml.l CODE_C4CEDB
+	jml.l WaitTransfers
 CODE_C3718D:						; called from other segments
 	lda.w gsp
 	cmp.w #$0003
@@ -469,7 +469,7 @@ CODE_C3736B:						; called from other segments
 	tsb.w sflags
 	jsl.l CODE_C52264
 	jsl.l CODE_C5897B
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$13
 	sta.l TM
@@ -756,7 +756,7 @@ CODE_C374CF:						; from CODE_C37609, CODE_C377DB
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l CODE_C37E57
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	stz.w $0782
 CODE_C37609:						; from CODE_C377DB
 	inc.w $2CE1
@@ -1011,7 +1011,7 @@ CODE_C377DB:						; from CODE_C37609
 	lda.l $7E24DA
 	beq .7
 	jsl.l CODE_C5897B
-	jsl.l CODE_C4CEDB
+	jsl.l WaitTransfers
 	lda.w #$0000
 	sta.l $7E24DA
 .7:									; A = sflags3, A xor $0002, sflags3 = A
