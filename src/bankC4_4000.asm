@@ -458,7 +458,7 @@ CODE_C44366:						; from CODE_C44325
 	bcs CODE_C44376
 	lda.w #$0003
 CODE_C44376:						; from CODE_C44366
-	jsl.l $CF0418
+	jsl.l CODE_CF0418
 CODE_C4437A:						; from CODE_C44325
 	lda.b $8B
 	lsr a
@@ -504,7 +504,7 @@ CODE_C443A1:						; from CODE_C442B5
 	lda.w $09C0,x
 	sta.b $3A
 	lda.w #$0003
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 CODE_C443CB:						; from CODE_C443A1
 	lda.b $87
 	lsr a
@@ -761,7 +761,7 @@ CODE_C445DD:						; from CODE_C445A9
 	stz.w $18AE
 	stz.w $18AC
 	lda.w #$000C
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	lda.l $7E24CA
 	clc
 	adc.w #$012C
@@ -1859,7 +1859,7 @@ CODE_C44EE1:						; from CODE_C45141, CODE_C449FE and other segments
 	tay
 	ldx.w #$0008
 	lda.w #$0004
-	jsl.l $CF00E3
+	jsl.l CODE_CF00E3
 	ply
 	plx
 	rtl

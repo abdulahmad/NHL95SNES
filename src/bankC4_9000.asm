@@ -978,7 +978,7 @@ CODE_C49AFB:						; from CODE_C49A83
 	sta.w $08DE
 CODE_C49AFE:						; from CODE_C49930, CODE_C49A83
 	pla
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	ldx.b $6F
 	ldy.w #$010E
 	lda.w $0FE0,x

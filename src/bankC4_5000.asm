@@ -352,7 +352,7 @@ CODE_C45238:						; from CODE_C45228
 	lda.w $1020,y
 	bne CODE_C45247
 	lda.w #$0004
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	rtl
 CODE_C45247:						; from CODE_C45238
 	lda.l $7E24CA
@@ -1132,7 +1132,7 @@ CODE_C458BC:						; from CODE_C458A2
 	lda.w $09C0,x
 	sta.b $3A
 	lda.w #$000F
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 CODE_C458DA:						; from CODE_C458BC
 	lda.w #$1AEE
 	stz.w $1060,x

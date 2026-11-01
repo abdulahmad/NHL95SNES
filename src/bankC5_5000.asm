@@ -750,11 +750,11 @@ CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
 	ply
 	rts
 CODE_C55513:						; called from other segments
-	jsl.l $CF039E
+	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	lda.w $18F8
 	beq CODE_C55524
-	jsl.l $CF0427
+	jsl.l CODE_CF0427
 CODE_C55524:						; from CODE_C55513
 	stz.w DMAEnShadow
 	jsl.l CODE_C4CEDB

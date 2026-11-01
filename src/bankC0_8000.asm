@@ -1115,7 +1115,7 @@ NMI_Tick:							; Vcount + 1, the fade, FrameCount, then the frame hook
 NMI_FrameHookReturn:				; NMI after the frame hook: pads and sound, then restore and rti
 	jsl.l CODE_C36D3A
 	rep #$30
-	jsl.l $CF00FE
+	jsl.l CODE_CF00FE
 	stz.b NMISkip
 	ply
 	plx

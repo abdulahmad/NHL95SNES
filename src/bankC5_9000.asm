@@ -457,7 +457,7 @@ CODE_C59412:						; from CODE_C593F5
 	bpl CODE_C593F5
 	jsr.w CODE_C5D0F5
 	lda.w $1864
-	jsl.l $CF039E
+	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	jsl.l forceblack
 	jsl.l CODE_C5E50E

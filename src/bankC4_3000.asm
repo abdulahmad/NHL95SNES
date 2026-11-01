@@ -893,8 +893,8 @@ CODE_C43831:						; from CODE_C43826
 	pei ($7B)
 	pei ($7D)
 	lda.w #$0006
-	jsl.l $CF040B
-	jsl.l $CF038E
+	jsl.l CODE_CF040B
+	jsl.l CODE_CF038E
 	lda.w #$FFFF
 	sta.w $0776
 	sta.w $077C
@@ -923,11 +923,11 @@ CODE_C4389A:						; from CODE_C43831
 	beq CODE_C438D5
 	bcs CODE_C438CC
 	lda.w #$0004
-	jsl.l $CF048A
+	jsl.l CODE_CF048A
 	bra CODE_C438FD
 CODE_C438CC:						; from CODE_C4389A
 	lda.w #$0001
-	jsl.l $CF048A
+	jsl.l CODE_CF048A
 	bra CODE_C438FD
 CODE_C438D5:						; from CODE_C4389A
 	ldy.w $078A
@@ -944,7 +944,7 @@ CODE_C438EB:						; from CODE_C438D5
 	bne CODE_C438F6
 	lda.w #$0002
 CODE_C438F6:						; from CODE_C438EB
-	jsl.l $CF048A
+	jsl.l CODE_CF048A
 	stz.w $078A
 CODE_C438FD:						; from CODE_C4389A, CODE_C438D5, CODE_C438CC
 	lda.w #$000D

@@ -462,7 +462,7 @@ CODE_C473E9:						; from CODE_C473DE
 	sta.w $0772
 CODE_C473F4:						; from CODE_C473E9
 	lda.w #$0012
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	stz.w $113B
 	lda.w #$0004
 	tsb.w $10F1
@@ -972,7 +972,7 @@ CODE_C477E6:						; from CODE_C477D5
 CODE_C47825:						; from CODE_C477E6
 	lda.w #$0001
 CODE_C47828:						; from CODE_C477E6
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 CODE_C4782C:						; from CODE_C477E6
 	jsl.l CODE_C516C2
 	lda.b $67

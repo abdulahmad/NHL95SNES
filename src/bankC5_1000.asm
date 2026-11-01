@@ -662,7 +662,7 @@ CODE_C515AF:						; from CODE_C515A1
 	sta.b $7F
 	jsl.l CODE_C558CC
 	jsl.l CODE_C5589E
-	jsl.l $CF03D0
+	jsl.l CODE_CF03D0
 CODE_C51659:						; from CODE_C515A1
 	stz.b $5D
 	stz.w $07C6
@@ -1210,7 +1210,7 @@ CODE_C51AE9:						; from CODE_C51ADA
 	jml.l CODE_C4818C
 CODE_C51AFF:						; called from other segments
 	lda.w #$000D
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	lda.w #$0100
 	trb.w $10F5
 	stz.w $2016

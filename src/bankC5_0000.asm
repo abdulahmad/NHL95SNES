@@ -19,7 +19,7 @@ CODE_C5000A:						; from CODE_C5000A
 	sta.w $1850
 	jsl.l forceblack
 	jsl.l CODE_C36F3D
-	jsl.l $CF0000
+	jsl.l CODE_CF0000
 	jsl.l CODE_C4B09F
 	jsl.l CODE_C4B97E
 	jsl.l CODE_C4D657
@@ -36,7 +36,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segment
 	lda.w #$1FFF
 	tcs
 	stz.w $24C4
-	jsl.l $CF04B6
+	jsl.l CODE_CF04B6
 	lda.w #$445C
 	sta.w $1850
 	lda.w #$C08B
@@ -134,7 +134,7 @@ CODE_C5014C:						; from CODE_C5014C
 	dex
 	dex
 	bpl CODE_C5014C
-	jsl.l $CF0427
+	jsl.l CODE_CF0427
 	bra CODE_C50161
 CODE_C5015B:						; from CODE_C5014C
 	lda.w #$0001
@@ -167,7 +167,7 @@ CODE_C50176:						; from CODE_C5016D
 	ora.w $17BB
 	ora.w $17BD
 	bne CODE_C501AC
-	jsl.l $CF03D0
+	jsl.l CODE_CF03D0
 CODE_C501AC:						; from CODE_C50176
 	lda.w $17D1
 	beq CODE_C501BC
@@ -247,7 +247,7 @@ CODE_C50233:						; from CODE_C50226
 	and.w #$03FF
 	bne CODE_C50269
 	lda.w #$0005
-	jsl.l $CF048A
+	jsl.l CODE_CF048A
 CODE_C50269:						; from CODE_C50233
 	pla
 	plx
@@ -809,7 +809,7 @@ CODE_C506A3:						; from CODE_C50692
 	xba
 	tsb.b $9F
 	lda.w #$000D
-	jsl.l $CF0418
+	jsl.l CODE_CF0418
 CODE_C506F0:						; from CODE_C503D8, CODE_C50452, CODE_C5045D, CODE_C50692, ...
 	sec
 	lda.w $0830
@@ -1164,7 +1164,7 @@ CODE_C50A14:						; called from other segments
 	sta.b $7F
 	jsl.l CODE_C43734
 	lda.w #$0007
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	stz.b $38
 	lda.w $114B
 	cmp.w #$0002
@@ -1346,7 +1346,7 @@ CODE_C50BCB:						; from CODE_C50BB9
 	sta.l $306051
 	dec a
 	sta.b $9F
-	jsl.l $CF04B6
+	jsl.l CODE_CF04B6
 	jmp.w CODE_C5ADDC
 CODE_C50BE5:						; from CODE_C50BB9
 	pea.w $7E7F
@@ -1600,9 +1600,9 @@ CODE_C50DDD:						; from CODE_C50D29
 CODE_C50E02:						; from CODE_C50DDD
 	stz.w $17D1
 	lda.w #$0006
-	jsl.l $CF040B
-	jsl.l $CF038E
-	jsl.l $CF03D0
+	jsl.l CODE_CF040B
+	jsl.l CODE_CF038E
+	jsl.l CODE_CF03D0
 	lda.w #$FFFF
 	sta.w $0776
 	sta.w $077C

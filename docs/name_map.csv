@@ -2349,3 +2349,19 @@ $CEF3C2,PresidentsPicPalette,DATA8_CEF3C2,render+genesis+code,"its colours (16)"
 $CEF3E9,StanleyCupMap,DATA8_CEF3E9,render+94S+code,"the Stanley Cup (rendered): map chunk, 8 x 14 tiles, LZSS; CODE_C4DFD6 loads the set through CODE_C5881C; named as 94S StanleyCupMap",src/bankCE_F000.asm
 $CEF4C7,StanleyCupTiles,DATA8_CEF4C7,render+94S+code,"its tiles (87, 4bpp, LZSS); 94S StanleyCupTiles",src/bankCE_F000.asm
 $CEFE50,StanleyCupPalette,DATA8_CEFE50,render+94S+code,"its colours (16); 94S StanleyCupPalette",src/bankCE_F000.asm
+$CF004B,SPCUpload,CODE_CF004B,94S+code,"send upload blocks (length, sound RAM address, bytes; length 0 ends with the start address) at X:A through the sound CPU boot loader; CODE_CF001A sends SoundRAMClear, then SoundDriver; 94S SPCUpload",src/bankCF_0000.asm
+$CF04E3,DATA8_CF04E3,,new,"the sounds (CODE_CF0313 reads entry A): a long pointer to the sound, then a flag byte ($00, or $80-$83 for the last five; not traced)",src/bankCF_0000.asm
+$CF0583,DATA8_CF0583,,new,"four lists in this bank (CODE_CF0313): records of a sample number and a word, ended by a byte of $21 or more",src/bankCF_0000.asm
+$CF058B,DATA8_CF058B,,new,"list 0 of DATA8_CF0583",src/bankCF_0000.asm
+$CF059E,DATA8_CF059E,,new,"list 1 of DATA8_CF0583",src/bankCF_0000.asm
+$CF05B1,DATA8_CF05B1,,new,"list 2 of DATA8_CF0583",src/bankCF_0000.asm
+$CF05C1,DATA8_CF05C1,,new,"list 3 of DATA8_CF0583",src/bankCF_0000.asm
+$CF05D4,DATA8_CF05D4,,new,"a byte list ending in $FF; CODE_CF04B6 passes it to CODE_CF0134",src/bankCF_0000.asm
+$CF05DD,SampleList,DATA8_CF05DD,code,"the 33 sound samples: a long pointer each (dd: then a zero); CODE_CF01E0 sends sample A to the sound CPU",src/bankCF_0000.asm
+$CF0661,DATA8_CF0661,,new,"not traced (no reader found)",src/bankCF_0000.asm
+$CF0663,DATA8_CF0663,,new,"a byte list ending in $FF; CODE_CF0427 passes it to CODE_CF0134",src/bankCF_0000.asm
+$CF0679,DATA8_CF0679,,new,"sound 1 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_0000.asm
+$CF0949,DATA8_CF0949,,new,"sound 2 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_0000.asm
+$CF0AFB,DATA8_CF0AFB,,new,"sound 3 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_0000.asm
+$CF0CDC,DATA8_CF0CDC,,new,"sound 0 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_0000.asm
+$CF0E46,DATA8_CF0E46,,new,"sound 4 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_0000.asm

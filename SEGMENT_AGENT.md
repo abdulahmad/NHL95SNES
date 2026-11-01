@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCF_0000 (org $CF0000): banks $C0-$CE are all source. <- CURRENT
+bankCF_1000 (org $CF1099): banks $C0-$CE are all source. <- CURRENT
 
 ## Sources
 
@@ -646,6 +646,11 @@ bankCF_0000 (org $CF0000): banks $C0-$CE are all source. <- CURRENT
   Stanley Cup), then zeros to the end of the bank. PresidentsPic is AwardPictures entry 7; the Stanley Cup set (rendered; 94S
   names) is loaded by CODE_C4DFD6, whose immediates and AwardPictures now use the labels. All LZSS ends match their chunk
   lengths. Bank $CE is all source.
+- 2026-10-31: bankCF_0000 matched: the sound code ($CF0000-$CF04E2, the code pipeline; SPCUpload as 94S, the uploads of
+  SoundRAMClear and SoundDriver), then DATA8_CF04E3 (40 sounds: a long pointer and a flag byte each), DATA8_CF0583 and its four
+  lists, DATA8_CF05D4, SampleList (33 long pointers; entries 26 and 27 share a sample), DATA8_CF0663 and sounds 0-4. Each sound
+  is a length word and its data; CODE_CF0313 sends the samples it lists from +3. The numeric jsl / jml into bank $CF in banks
+  $C0-$C5 are CODE_ labels now.
 
 ## ROM map
 
@@ -893,8 +898,8 @@ The first row that is still incbin is the current segment.
 | bankCE_D000 | matched 565 bytes | $CEDDCB | $CEDFFF | the St. Louis player photos (PhotoPalettesSTL, PlayerPhotosSTL; the stream continues); org moved to $CEDDCB |
 | bankCE_E000 | matched 4267 bytes | $CEE000 | $CEF0AA | the rest of the PlayerPhotosSTL stream; end moved +$AB |
 | bankCE_F000 | matched 3925 bytes | $CEF0AB | $CEFFFF | PresidentsPic (the Presidents Trophy picture), then StanleyCupMap / Tiles / Palette (the Stanley Cup), then zeros to the end of the bank; org moved to $CEF0AB |
-| bankCF_0000 | incbin | $CF0000 | $CF0FFF | <- CURRENT |
-| bankCF_1000 | incbin | $CF1000 | $CF1FFF | |
+| bankCF_0000 | matched 4249 bytes | $CF0000 | $CF1098 | the sound code (CODE_ names; SPCUpload), the sound table DATA8_CF04E3, small lists, SampleList, sounds 0-4; end moved +$99 |
+| bankCF_1000 | incbin | $CF1099 | $CF1FFF | <- CURRENT |
 | bankCF_2000 | incbin | $CF2000 | $CF2FFF | |
 | bankCF_3000 | incbin | $CF3000 | $CF3FFF | |
 | bankCF_4000 | incbin | $CF4000 | $CF4FFF | |

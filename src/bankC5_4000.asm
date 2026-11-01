@@ -1792,7 +1792,7 @@ CODE_C54E6A:						; from CODE_C54E59
 	sta.b $6F
 	rtl
 CODE_C54E6D:						; called from other segments
-	jsl.l $CF039E
+	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	stz.w $18F8
 	lda.w $17D1
@@ -1802,10 +1802,10 @@ CODE_C54E6D:						; called from other segments
 CODE_C54E82:						; from CODE_C54E6D
 	lda.w #$05D7
 	ldx.w #$00CF
-	jsl.l $CF0134
+	jsl.l CODE_CF0134
 	lda.w #$00A5
-	jsl.l $CF040B
-	jsl.l $CF03D0
+	jsl.l CODE_CF040B
+	jsl.l CODE_CF03D0
 	dec.w $18F8
 CODE_C54E9A:						; from CODE_C54E6D
 	jsr.w CODE_C5503C

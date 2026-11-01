@@ -346,7 +346,7 @@ CODE_C4824A:						; called from other segments
 	lda.w #$003C
 	sta.b $5B
 	lda.w #$000A
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	ldy.b $6B
 	lda.w $0814,y
 	sta.w $080A
@@ -818,7 +818,7 @@ CODE_C4862C:						; called from other segments
 	lda.w $18BE
 	bne CODE_C48644
 	lda.w #$0001
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 CODE_C48644:						; from CODE_C4862C
 	lda.w $14E3
 	clc

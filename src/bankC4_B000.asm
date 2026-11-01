@@ -69,7 +69,7 @@ CODE_C4B09F:						; called from other segments
 	jsl.l CODE_C36C2D
 	ldx.w #$00C0
 	lda.w #$7F7B
-	jsl.l $CF0134
+	jsl.l CODE_CF0134
 	lda.w #CODE_C4B05E
 	ldx.w #CODE_C4B05E>>16
 	jsl.l SetNMIHook
@@ -749,7 +749,7 @@ CODE_C4B66E:						; passed as a long pointer (lda # of its bank and address) to 
 	lda.w #CODE_C4B689
 	sta.w $0002,x
 	lda.w #$0014
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	lda.w #$0011
 	bra CODE_C4B6CE
 CODE_C4B688:						; a task routine: stored as the next routine of a task
@@ -761,7 +761,7 @@ CODE_C4B689:						; a task routine: stored as the next routine of a task
 	lda.w #CODE_C4B6A3
 	sta.w $0002,x
 	lda.w #$0013
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	lda.w #$0010
 	bra CODE_C4B6CE
 CODE_C4B6A3:						; a task routine: stored as the next routine of a task
@@ -771,7 +771,7 @@ CODE_C4B6A3:						; a task routine: stored as the next routine of a task
 	lda.w #CODE_C4B6BD
 	sta.w $0002,x
 	lda.w #$0016
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	lda.w #$0009
 	bra CODE_C4B6CE
 CODE_C4B6BD:						; a task routine: stored as the next routine of a task
@@ -782,13 +782,13 @@ CODE_C4B6BD:						; a task routine: stored as the next routine of a task
 	sta.w $0002,x
 	lda.w #$0015
 CODE_C4B6CE:						; from CODE_C4B66E, CODE_C4B689, CODE_C4B6A3
-	jml.l $CF040B
+	jml.l CODE_CF040B
 CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B763
 	lda.w $0008,x
 	cmp.w #$0177
 	bcc CODE_C4B6EA
 	lda.w #$00A4
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	stz.w $1EA7
 	lda.w #CODE_C4B6EA
 	sta.w $0002,x

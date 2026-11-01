@@ -279,7 +279,7 @@ CODE_C371E5:						; from CODE_C371DC
 	ora.b $9F
 	tay
 	lda.w #$0015
-	jml.l $CF00E3
+	jml.l CODE_CF00E3
 CODE_C371F9:						; called from other segments
 	lda.w $10F1
 	bit.w #$0010

@@ -168,10 +168,10 @@ CODE_C4E140:						; from CODE_C4E12C
 	jsl.l CODE_C4BDAE
 	lda.w #$05D9
 	ldx.w #$00CF
-	jsl.l $CF0134
+	jsl.l CODE_CF0134
 	lda.w #$00A6
-	jsl.l $CF040B
-	jsl.l $CF03D0
+	jsl.l CODE_CF040B
+	jsl.l CODE_CF03D0
 	lda.w $17C9
 	cmp.w #$001A
 	bcc CODE_C4E188
@@ -374,7 +374,7 @@ CODE_C4E37C:						; from CODE_C4E36B
 CODE_C4E384:						; from CODE_C4E37C
 	jmp.w CODE_C4E2D9
 CODE_C4E387:						; from CODE_C4E32B, CODE_C4EC4F
-	jsl.l $CF039E
+	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	jsl.l CODE_C4CEDB

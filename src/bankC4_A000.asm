@@ -222,7 +222,7 @@ CODE_C4A181:						; from CODE_C4A176
 	bmi CODE_C4A195
 	jsl.l CODE_C4A254
 	lda.w #$000B
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	jmp.w CODE_C4A1F2
 CODE_C4A195:						; from CODE_C4A181
 	lda.w $07C8
@@ -815,7 +815,7 @@ CODE_C4A6C3:						; from CODE_C4A6B1
 CODE_C4A6E6:						; from CODE_C4A6C3
 	lda.w #$0011
 CODE_C4A6E9:						; from CODE_C4A6C3
-	jsl.l $CF0418
+	jsl.l CODE_CF0418
 	stz.w $08DE
 	ldy.b $6B
 	lda.w #$0008
@@ -977,7 +977,7 @@ CODE_C4A840:						; from CODE_C4A82C
 	xba
 	tsb.b $9F
 	lda.w #$0011
-	jsl.l $CF0418
+	jsl.l CODE_CF0418
 	lda.w $09DC
 	cmp.w #$3000
 	bpl CODE_C4A85C
@@ -994,7 +994,7 @@ CODE_C4A868:						; from CODE_C4A85C
 	lda.w $1020,y
 	beq CODE_C4A878
 	lda.w #$000A
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	bra CODE_C4A889
 CODE_C4A878:						; from CODE_C4A868
 	lda.l $7E24CA
@@ -1343,9 +1343,9 @@ CODE_C4AB18:						; from CODE_C4AAFA
 	sta.w $12FB,y
 CODE_C4AB26:						; from CODE_C4AB18
 	lda.w #$0009
-	jsl.l $CF00E3
+	jsl.l CODE_CF00E3
 	lda.w #$00A2
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	stz.w $06EC
 	ldy.b $6B
 	beq CODE_C4AB55
@@ -1370,7 +1370,7 @@ CODE_C4AB55:						; from CODE_C4AB26
 	lda.w #$0078
 	sta.b $5B
 	lda.w #$0003
-	jsl.l $CF0485
+	jsl.l CODE_CF0485
 CODE_C4AB73:						; from CODE_C4AB4F
 	lda.b $5D
 	sta.w $07EC
@@ -1659,7 +1659,7 @@ CODE_C4AD97:						; from CODE_C4AD47
 	trb.w $10F5
 CODE_C4ADD6:						; from CODE_C4AE5F
 	lda.w #$000D
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	jsl.l CODE_C4843B
 	jmp.w CODE_C4AE6D
 CODE_C4ADE4:						; from CODE_C4AE3F

@@ -292,7 +292,7 @@ CODE_C4D193:						; called from other segments
 	jsl.l CODE_C4B743
 	jsl.l CODE_C4CEDB
 	lda.w #$00A3
-	jsl.l $CF040B
+	jsl.l CODE_CF040B
 	ldx.w #CODE_C4B6D2>>16
 	lda.w #CODE_C4B6D2
 	ldy.w #$FF00
@@ -763,7 +763,7 @@ CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
 	bne CODE_C4D75D
 	lda.w #$05D4
 	ldx.w #$00CF
-	jsl.l $CF0134
+	jsl.l CODE_CF0134
 	bra CODE_C4D73A
 CODE_C4D75D:						; from CODE_C4D73A
 	cmp.w #$00C3
@@ -830,14 +830,14 @@ CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
 	jsl.l SetNMIHook
 	rts
 CODE_C4D818:						; called from other segments
-	jsl.l $CF039E
+	jsl.l CODE_CF039E
 	lda.w #$05DB
 	ldx.w #$00CF
 	ldy.w #$FF00
-	jsl.l $CF0134
+	jsl.l CODE_CF0134
 	lda.w #$00A7
-	jsl.l $CF040B
-	jsl.l $CF03D0
+	jsl.l CODE_CF040B
+	jsl.l CODE_CF03D0
 	jsr.w CODE_C4D773
 	lda.w #$003D
 	sta.b $1A

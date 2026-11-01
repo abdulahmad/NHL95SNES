@@ -19,7 +19,7 @@
   WSH, WPG, ANH, BOS, BUF, CGY, CHI, DAL, DET, EDM and FLA, HartPic, then DATA8_CDF94A (a per-frame table that runs into
   bank $CE). Bank $CE: DATA8_CE0192 (the parallel per-frame table), the photo sets of HFD, LA, MTL, NJ, NYI, NYR, OTW, PHI,
   PIT, QUE, SJ and STL, PresidentsPic, the Stanley Cup map set and a zero fill. The segments of bank $CF are incbin.
-- Next: segment bankCF_0000, org $CF0000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CE are all source (the code banks $C4
+- Next: segment bankCF_1000, org $CF1099 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CE are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
@@ -104,6 +104,13 @@
 - Stanley Cup: StanleyCupMap / Tiles / Palette ($CEF3E9-$CEFE76, 8 x 14 tiles, 87 tiles, one palette) after
   PresidentsPic; rendered as the Stanley Cup and named as 94S StanleyCupMap / Tiles / Palette. CODE_C4DFD6 loads it
   (through CODE_C5881C). Zeros fill bank $CE after it.
+- Bank $CF: the sound code ($CF0000-$CF04E2; SPCUpload as 94S, the rest CODE_ names), DATA8_CF04E3 (40 sounds: a long
+  pointer and a flag byte), DATA8_CF0583 (four lists of sample records), DATA8_CF05D4, SampleList (33 long pointers as dd;
+  entries 26 and 27 share Sample26), DATA8_CF0661 / DATA8_CF0663, then the sounds back to back ($CF0679-$CF95A3 and
+  $CFC262-$CFC560; each a length word and its data; CODE_CF0313 sends the samples listed from +3), Sample26, Sample31,
+  Sample23, Sample06, and code again from $CFEE1D. ../work/sndseg.py J writes the data segments and keeps the sound table
+  and SampleList entries current. For bank $CF the whole-bank decode drops the raw jsl search of bank $C3 (all source now;
+  it seeded sample bytes) and a seed with the wrong M/X at $CF0204; $CF0000,x / $CF0001,x are bank bases (3-byte records).
 
 ## Setup notes
 
