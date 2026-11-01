@@ -368,7 +368,7 @@ DoGameFrame:						; one frame of game logic: UpdateBenchCheer, periodicevents,
 	sta.b $2A
 	jml.l setvideo
 periodicevents:						; from DoGameFrame and other segments
-	jsl.l CODE_C471F0
+	jsl.l PenaltyManager
 	jsl.l updatecrowdf
 	jsl.l clockcont
 	lda.w lldisp

@@ -1354,7 +1354,7 @@ assstanley:							; called from other segments
 	jmp.w playeracc
 .rtl:								; return
 	rtl
-CODE_C45A9F:						; called from other segments
+RemovePlayerFromList:				; remove a player from the penalty box list by shifting later entries down
 	lda.w #$FFFF
 	sta.b d2
 .loop:								; loop: d2 + 1, A = a0, A + d2, Y = A, ...

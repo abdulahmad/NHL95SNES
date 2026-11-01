@@ -205,7 +205,7 @@ CODE_C471E2:						; from assscore and other segments
 	rtl
 CODE_C471ED:						; from assscore
 	jmp.w skateto
-CODE_C471F0:						; called from other segments
+PenaltyManager:						; update penalty clocks, new penalties, referee progress and announcements
 	jsl.l updatepentime
 	jsl.l checkfornewpen
 	jsl.l chkprogress
@@ -252,7 +252,7 @@ CountPowerPlayTime:					; from CODE_C47FD4 and other segments
 	sta.w tmPwrPlayTime,y
 .rtl:								; return
 	rtl
-checkfornewpen:						; from CODE_C471F0 and other segments
+checkfornewpen:						; from PenaltyManager and other segments
 	lda.w sfhormode
 	beq .1
 	jmp.w .rtl
@@ -469,7 +469,7 @@ Stop4Pen:							; from checkfornewpen and other segments
 	lda.w #$000A
 	sta.b d0
 	jml.l SetPA
-chkprogress:						; from CODE_C471F0 and other segments
+chkprogress:						; from PenaltyManager and other segments
 	lda.w gmode
 	bit.w #$0004
 	bne .1
@@ -1233,12 +1233,12 @@ PenGoalStuff:						; called from other segments
 	bne .loop2
 	lda.w #$0000
 	sta.w tmpdst,y
-	jsl.l CODE_C45A9F
+	jsl.l RemovePlayerFromList
 	ldy.b a1
 	lda.w tmap,y
 	inc a
 	sta.w tmap,y
-	jsr.w CODE_C47A7C
+	jsr.w RestorePenaltyPad
 	ldy.b a2
 	lda.w tmPwrGoals,y
 	inc a
@@ -1264,7 +1264,7 @@ PenGoalStuff:						; called from other segments
 	pla
 	sta.b d0
 	rtl
-CODE_C47A7C:						; from PenGoalStuff
+RestorePenaltyPad:					; restore a disabled team pad to the player returning from a penalty
 	phx
 	tyx
 	lda.w teampads,x
@@ -1592,8 +1592,8 @@ asspenalty:							; called from other segments
 	bit.w #$0002
 	bne .1
 	jmp.w .2
-.1:									; call CODE_C47E65, A = pflags,x, A and $FFF9, A or $1000, ...
-	jsl.l CODE_C47E65
+.1:									; call ReassignPenaltyPads, A = pflags,x, A and $FFF9, A or $1000, ...
+	jsl.l ReassignPenaltyPads
 	lda.w pflags,x
 	and.w #$FFF9
 	ora.w #$1000
@@ -1688,11 +1688,11 @@ asspenalty:							; called from other segments
 	lda.b d0
 	sec
 	sbc.w #$FFF8
-	bmi CODE_C47E64
+	bmi PenaltyPadReturn
 	stz.w Xvel,x
 	lda.w facedir,x
 	cmp.b d2
-	bne CODE_C47E64
+	bne PenaltyPadReturn
 .8:									; Ypos,x = temp4,x, Xpos,x = $009B, A = attribute,x, A and $F7FF, ...
 	lda.w temp4,x
 	sta.w Ypos,x
@@ -1712,9 +1712,9 @@ asspenalty:							; called from other segments
 	lda.w #$000E
 	sta.b d0
 	jml.l assreplace
-CODE_C47E64:						; from CODE_C47E65, asspenalty
+PenaltyPadReturn:					; return from penalty controller reassignment
 	rtl
-CODE_C47E65:						; from asspenalty and other segments
+ReassignPenaltyPads:				; reassign team controllers when a player leaves for the penalty box
 	ldy.b a2
 	lda.w teampads,y
 	cmp.w #$0004
@@ -1738,11 +1738,11 @@ CODE_C47E65:						; from asspenalty and other segments
 	cpy.b d1
 	beq .4
 	bcc .4
-.2:									; X = curobj, if playerpad,x >= 0 go to .3, go to CODE_C47E64
+.2:									; X = curobj, if playerpad,x >= 0 go to .3, go to PenaltyPadReturn
 	ldx.b curobj
 	lda.w playerpad,x
 	bpl .3
-	jmp.w CODE_C47E64
+	jmp.w PenaltyPadReturn
 .3:									; d4 = A, call PassPadToTeammate, return
 	sta.b d4
 	jsl.l PassPadToTeammate

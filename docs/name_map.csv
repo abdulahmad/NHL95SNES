@@ -3753,7 +3753,6 @@ $C45A3E,.9,CODE_C45A3E,new,"branch target only used in skateto",src/bankC4_5000.
 $C45A65,.1,CODE_C45A65,new,"branch target only used in assstanley",src/bankC4_5000.asm
 $C45A71,.2,CODE_C45A71,new,"branch target only used in assstanley",src/bankC4_5000.asm
 $C45A9E,.rtl,CODE_C45A9E,new,"branch target only used in assstanley",src/bankC4_5000.asm
-$C45AA4,.loop,CODE_C45AA4,new,"branch target only used in CODE_C45A9F",src/bankC4_5000.asm
 $C45ACA,.1,CODE_C45ACA,new,"branch target only used in playeracc",src/bankC4_5000.asm
 $C45B03,.1,CODE_C45B03,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
 $C45B09,.2,CODE_C45B09,new,"branch target only used in PlayerAccDir0",src/bankC4_5000.asm
@@ -4019,9 +4018,6 @@ $C47A15,.6,CODE_C47A15,new,"branch target only used in PenGoalStuff",src/bankC4_
 $C47A17,.loop2,CODE_C47A17,new,"branch target only used in PenGoalStuff",src/bankC4_7000.asm
 $C47A2F,.7,CODE_C47A2F,new,"branch target only used in PenGoalStuff",src/bankC4_7000.asm
 $C47A63,.8,CODE_C47A63,new,"branch target only used in PenGoalStuff",src/bankC4_7000.asm
-$C47A89,.loop,CODE_C47A89,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
-$C47A93,.1,CODE_C47A93,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
-$C47AB2,.2,CODE_C47AB2,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
 $C47B53,.1,CODE_C47B53,new,"branch target only used in assepen",src/bankC4_7000.asm
 $C47B64,.2,CODE_C47B64,new,"branch target only used in assepen",src/bankC4_7000.asm
 $C47B8F,.3,CODE_C47B8F,new,"branch target only used in assepen",src/bankC4_7000.asm
@@ -4046,17 +4042,6 @@ $C47DEB,.5,CODE_C47DEB,new,"branch target only used in asspenalty",src/bankC4_70
 $C47E04,.6,CODE_C47E04,new,"branch target only used in asspenalty",src/bankC4_7000.asm
 $C47E12,.7,CODE_C47E12,new,"branch target only used in asspenalty",src/bankC4_7000.asm
 $C47E2D,.8,CODE_C47E2D,new,"branch target only used in asspenalty",src/bankC4_7000.asm
-$C47E7D,.loop,CODE_C47E7D,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47E85,.1,CODE_C47E85,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47E91,.2,CODE_C47E91,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47E9B,.3,CODE_C47E9B,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47EA2,.4,CODE_C47EA2,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47EAC,.loop2,CODE_C47EAC,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47EB6,.5,CODE_C47EB6,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47ECB,.6,CODE_C47ECB,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47ED2,.loop3,CODE_C47ED2,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47EDC,.7,CODE_C47EDC,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
-$C47EFA,.8,CODE_C47EFA,new,"branch target only used in CODE_C47E65",src/bankC4_7000.asm
 $C47F2A,.1,CODE_C47F2A,new,"branch target only used in PenBoxSpot",src/bankC4_7000.asm
 $C47F3B,.2,CODE_C47F3B,new,"branch target only used in PenBoxSpot",src/bankC4_7000.asm
 $C47F5B,.1,CODE_C47F5B,new,"branch target only used in assdopen",src/bankC4_7000.asm
@@ -4066,21 +4051,10 @@ $C47FB4,.rtl,CODE_C47FB4,new,"branch target only used in SeatPenaltyBox",src/ban
 $C47FC3,.1,CODE_C47FC3,new,"branch target only used in updatepentime",src/bankC4_8000.asm
 $C47FCB,.2,CODE_C47FCB,new,"branch target only used in updatepentime",src/bankC4_8000.asm
 $C47FD4,.3,CODE_C47FD4,new,"branch target only used in updatepentime",src/bankC4_8000.asm
-$C48001,.1,CODE_C48001,new,"branch target only used in CODE_C47FFA",src/bankC4_8000.asm
-$C48029,.1,CODE_C48029,new,"branch target only used in CODE_C48011",src/bankC4_8000.asm
-$C4804E,.2,CODE_C4804E,new,"branch target only used in CODE_C48011",src/bankC4_8000.asm
-$C48067,.1,CODE_C48067,new,"branch target only used in CODE_C48051",src/bankC4_8000.asm
-$C4806E,.2,CODE_C4806E,new,"branch target only used in CODE_C48051",src/bankC4_8000.asm
-$C4807A,.1,CODE_C4807A,new,"branch target only used in CODE_C48073",src/bankC4_8000.asm
-$C4808F,.rtl,CODE_C4808F,new,"branch target only used in CODE_C48073",src/bankC4_8000.asm
-$C4809C,.1,CODE_C4809C,new,"branch target only used in CODE_C48090",src/bankC4_8000.asm
-$C480AB,.2,CODE_C480AB,new,"branch target only used in CODE_C48090",src/bankC4_8000.asm
 $C480CC,.1,CODE_C480CC,new,"branch target only used in PenShotChk",src/bankC4_8000.asm
 $C480DB,.2,CODE_C480DB,new,"branch target only used in PenShotChk",src/bankC4_8000.asm
 $C480E0,.3,CODE_C480E0,new,"branch target only used in PenShotChk",src/bankC4_8000.asm
 $C480E3,.rtl,CODE_C480E3,new,"branch target only used in PenShotChk",src/bankC4_8000.asm
-$C4810B,.loop,CODE_C4810B,new,"branch target only used in CODE_C480E4",src/bankC4_8000.asm
-$C4813C,.1,CODE_C4813C,new,"branch target only used in CODE_C480E4",src/bankC4_8000.asm
 $C48190,.loop,CODE_C48190,new,"branch target only used in ClearPenaltyBuffer",src/bankC4_8000.asm
 $C481AD,.1,CODE_C481AD,new,"branch target only used in checkagr",src/bankC4_8000.asm
 $C481D1,.2,CODE_C481D1,new,"branch target only used in checkagr",src/bankC4_8000.asm
@@ -7825,3 +7799,41 @@ $C46FF6,.5,CODE_C46FF6,new,"branch target only used in ClassifyGoalieGoalPath",s
 $C4700B,.6,CODE_C4700B,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
 $C4701C,.7,CODE_C4701C,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
 $C4701F,.8,CODE_C4701F,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C45A9F,RemovePlayerFromList,CODE_C45A9F,94S+code,"94S RemovePlayerFromList instruction sequence including byte copy from tmboxlist to tmboxlist-1 through negative terminator and decrement a0",src/bankC4_5000.asm
+$C45AA4,.loop,CODE_C45AA4,new,"branch target only used in RemovePlayerFromList",src/bankC4_5000.asm
+$C471F0,PenaltyManager,CODE_C471F0,94S+code,"94S PenaltyManager same four calls in order: updatepentime, checkfornewpen, chkprogress, tail UpdatePA",src/bankC4_7000.asm
+$C47A7C,RestorePenaltyPad,CODE_C47A7C,code,"PenGoalStuff helper finds a disabled pad for team a1, restores padside and cont1team, assigns it to curobj",src/bankC4_7000.asm
+$C47A89,.loop,CODE_C47A89,new,"branch target only used in RestorePenaltyPad",src/bankC4_7000.asm
+$C47A93,.1,CODE_C47A93,new,"branch target only used in RestorePenaltyPad",src/bankC4_7000.asm
+$C47AB2,.2,CODE_C47AB2,new,"branch target only used in RestorePenaltyPad",src/bankC4_7000.asm
+$C47E64,PenaltyPadReturn,CODE_C47E64,code,"shared rtl for asspenalty and its controller reassignment helper",src/bankC4_7000.asm
+$C47E65,ReassignPenaltyPads,CODE_C47E65,code,"counts active skaters against teampads, rotates disabled pad selection and passes the penalized player pad to a teammate",src/bankC4_7000.asm
+$C47E7D,.loop,CODE_C47E7D,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47E85,.1,CODE_C47E85,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47E91,.2,CODE_C47E91,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47E9B,.3,CODE_C47E9B,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47EA2,.4,CODE_C47EA2,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47EAC,.loop2,CODE_C47EAC,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47EB6,.5,CODE_C47EB6,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47ECB,.6,CODE_C47ECB,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47ED2,.loop3,CODE_C47ED2,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47EDC,.7,CODE_C47EDC,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47EFA,.8,CODE_C47EFA,new,"branch target only used in ReassignPenaltyPads",src/bankC4_7000.asm
+$C47FFA,UpdateTeamPenaltyTimes,CODE_C47FFA,code,"94S updatepentime local .1 selects team box-list offset and initializes two timed slots",src/bankC4_8000.asm
+$C48001,.1,CODE_C48001,new,"branch target only used in UpdateTeamPenaltyTimes",src/bankC4_8000.asm
+$C48011,UpdatePenaltyListEntry,CODE_C48011,code,"94S updatepentime local .3 walks tmboxlist, ticks at most two ordinary penalties and removes expired entries",src/bankC4_8000.asm
+$C48029,.1,CODE_C48029,new,"branch target only used in UpdatePenaltyListEntry",src/bankC4_8000.asm
+$C4804E,.2,CODE_C4804E,new,"branch target only used in UpdatePenaltyListEntry",src/bankC4_8000.asm
+$C48050,PenaltyTimeReturn,CODE_C48050,code,"shared rtl of updatepentime and release checks",src/bankC4_8000.asm
+$C48051,CheckTimedPenaltyReleases,CODE_C48051,code,"94S updatepentime local .5 checks the one or two players saved in mesarea",src/bankC4_8000.asm
+$C48067,.1,CODE_C48067,new,"branch target only used in CheckTimedPenaltyReleases",src/bankC4_8000.asm
+$C4806E,.2,CODE_C4806E,new,"branch target only used in CheckTimedPenaltyReleases",src/bankC4_8000.asm
+$C48073,ReleaseExpiredPenalty,CODE_C48073,code,"94S updatepentime local .2xx converts team and player offsets, calls releasepl only for zero tmpdst",src/bankC4_8000.asm
+$C4807A,.1,CODE_C4807A,new,"branch target only used in ReleaseExpiredPenalty",src/bankC4_8000.asm
+$C4808F,.rtl,CODE_C4808F,new,"branch target only used in ReleaseExpiredPenalty",src/bankC4_8000.asm
+$C48090,UpdateCoincidentalPenalty,CODE_C48090,code,"94S updatepentime local .6 decrements flagged state and removes list entry at either coincidental phase boundary",src/bankC4_8000.asm
+$C4809C,.1,CODE_C4809C,new,"branch target only used in UpdateCoincidentalPenalty",src/bankC4_8000.asm
+$C480AB,.2,CODE_C480AB,new,"branch target only used in UpdateCoincidentalPenalty",src/bankC4_8000.asm
+$C480E4,releasepl,CODE_C480E4,94S+purpose,"94S releasepl allocates a negative-position slot, increments tmap, chooses priolist position, calls Setplass and setplayer and marks pflags; 95 unrolls scratch save/restore",src/bankC4_8000.asm
+$C4810B,.loop,CODE_C4810B,new,"branch target only used in releasepl",src/bankC4_8000.asm
+$C4813C,.1,CODE_C4813C,new,"branch target only used in releasepl",src/bankC4_8000.asm

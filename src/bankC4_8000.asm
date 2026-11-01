@@ -6,21 +6,21 @@ updatepentime:						; called from other segments
 	trb.w sflags3
 	lda.w gmclock
 	beq .1
-	jmp.w CODE_C48050
-.1:									; if PenShotActive = 0 go to .2, go to CODE_C48050
+	jmp.w PenaltyTimeReturn
+.1:									; if PenShotActive = 0 go to .2, go to PenaltyTimeReturn
 	lda.w PenShotActive
 	beq .2
-	jmp.w CODE_C48050
+	jmp.w PenaltyTimeReturn
 .2:									; A = Penaltytimer, Y = d7, Y - 1, if the result = 0 go to .3, ...
 	lda.w Penaltytimer
 	ldy.b d7
 	dey
 	beq .3
 	dec a
-.3:									; A - 1, Penaltytimer = A, if plus go to CODE_C48050, A + $0018, ...
+.3:									; A - 1, Penaltytimer = A, if plus go to PenaltyTimeReturn, A + $0018, ...
 	dec a
 	sta.w Penaltytimer
-	bpl CODE_C48050
+	bpl PenaltyTimeReturn
 	clc
 	adc.w #$0018
 	sta.w Penaltytimer
@@ -29,10 +29,10 @@ updatepentime:						; called from other segments
 	jsl.l chkatop
 	jsl.l CountPowerPlayTime
 	stz.b a2
-	jsl.l CODE_C47FFA
+	jsl.l UpdateTeamPenaltyTimes
 	lda.w #$0002
 	sta.b a2
-CODE_C47FFA:						; from updatepentime and other segments
+UpdateTeamPenaltyTimes:				; start the penalty clock update for team a2
 	lda.b a2
 	beq .1
 	lda.w #$001A
@@ -44,26 +44,27 @@ CODE_C47FFA:						; from updatepentime and other segments
 	lda.w #$0002
 	sta.b d1
 	sta.b d3
-CODE_C48011:						; from CODE_C48011, CODE_C48090
+UpdatePenaltyListEntry:				; tick the next active penalty in the team box list
 	ldy.b a0
 	lda.w tmboxlist,y
 	inc.b a0
 	and.w #$00FF
 	sta.b d0
 	bit.w #$0080
-	bne CODE_C48051
+	bne CheckTimedPenaltyReleases
 	lda.b a2
 	beq .1
 	lda.w #$0034
-.1:									; A + d0, Y = A, A = tmpdst,y, if a $4000 bit set go to CODE_C48090, ...
+.1:									; A + d0, Y = A, A = tmpdst,y, if a $4000 bit set go to
+									; UpdateCoincidentalPenalty, ...
 	clc
 	adc.b d0
 	tay
 	lda.w tmpdst,y
 	bit.w #$4000
-	bne CODE_C48090
+	bne UpdateCoincidentalPenalty
 	dec.b d1
-	bmi CODE_C48011
+	bmi UpdatePenaltyListEntry
 	lda.b d0
 	sta.b [a1]
 	inc.b a1
@@ -72,60 +73,61 @@ CODE_C48011:						; from CODE_C48011, CODE_C48090
 	dec a
 	sta.w tmpdst,y
 	bne .2
-	jsl.l CODE_C45A9F
-.2:									; go to CODE_C48011
-	bra CODE_C48011
-CODE_C48050:						; from updatepentime, CODE_C48073, updatepentime, ...
+	jsl.l RemovePlayerFromList
+.2:									; go to UpdatePenaltyListEntry
+	bra UpdatePenaltyListEntry
+PenaltyTimeReturn:					; return from the penalty clock update
 	rtl
-CODE_C48051:						; from CODE_C48011
+CheckTimedPenaltyReleases:			; check the players whose ordinary penalties were timed for release
 	lda.w mesarea
 	sta.b d0
 	lda.b d1
 	cmp.w #$0001
-	beq CODE_C48073
+	beq ReleaseExpiredPenalty
 	lda.b d1
 	bne .1
-	jsl.l CODE_C48073
+	jsl.l ReleaseExpiredPenalty
 	bra .2
-.1:									; if d1 is not $FFFF go to CODE_C48050
+.1:									; if d1 is not $FFFF go to PenaltyTimeReturn
 	lda.b d1
 	cmp.w #$FFFF
-	bne CODE_C48050
+	bne PenaltyTimeReturn
 .2:									; d0 = $04F7
 	lda.w mesarea+2
 	sta.b d0
-CODE_C48073:						; from CODE_C48051 and other segments
+ReleaseExpiredPenalty:				; release the selected player when the penalty time reaches zero
 	lda.b a2
 	beq .1
 	lda.w #$0034
-.1:									; A + d0, Y = A, if tmpdst,y - $0006 >= 0 go to CODE_C48050, ...
+.1:									; A + d0, Y = A, if tmpdst,y - $0006 >= 0 go to PenaltyTimeReturn, ...
 	clc
 	adc.b d0
 	tay
 	lda.w tmpdst,y
 	cmp.w #$0006
-	bpl CODE_C48050
+	bpl PenaltyTimeReturn
 	lda.w tmpdst,y
 	bne .rtl
-	jsl.l CODE_C480E4
+	jsl.l releasepl
 .rtl:								; return
 	rtl
-CODE_C48090:						; from CODE_C48011
+UpdateCoincidentalPenalty:			; tick a coincidental penalty and advance or finish its timed state
 	dec a
 	sta.w tmpdst,y
 	bit.w #$0800
 	bne .1
-	jmp.w CODE_C48011
-.1:									; if a $1000 bit set go to .2, tmpdst,y = $1000, go to CODE_C45A9F
+	jmp.w UpdatePenaltyListEntry
+.1:									; if a $1000 bit set go to .2, tmpdst,y = $1000, go to
+									; RemovePlayerFromList
 	bit.w #$1000
 	bne .2
 	lda.w #$1000
 	sta.w tmpdst,y
-	jml.l CODE_C45A9F
-.2:									; tmpdst,y = $0000, go to CODE_C45A9F
+	jml.l RemovePlayerFromList
+.2:									; tmpdst,y = $0000, go to RemovePlayerFromList
 	lda.w #$0000
 	sta.w tmpdst,y
-	jml.l CODE_C45A9F
+	jml.l RemovePlayerFromList
 PenShotChk:							; called from other segments
 	lda.w gmode
 	bit.w #$0010
@@ -149,7 +151,7 @@ PenShotChk:							; called from other segments
 	lda.w #$0000
 .rtl:								; return
 	rtl
-CODE_C480E4:						; from CODE_C48073 and other segments
+releasepl:							; return the released penalty player to an available on-ice slot
 	pei ($7F)
 	pei ($81)
 	pei ($83)
