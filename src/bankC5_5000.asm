@@ -758,7 +758,7 @@ CODE_C55513:						; called from other segments
 	jsl.l FadeOutWait
 	lda.w $18F8
 	beq .1
-	jsl.l CODE_CF0427
+	jsl.l LoadTeamSongs
 .1:									; DMAEnShadow = 0, call WaitTransfers, $32 = $007E, A = $21F0, ...
 	stz.w DMAEnShadow
 	jsl.l WaitTransfers

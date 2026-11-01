@@ -418,8 +418,8 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	stz.b d1
 	stz.b $85
 	jsr.w ControllerSetupScreen
-.loop:								; loop: call CODE_C36CBF, call WaitTransfers, $26 + 1, ...
-	jsl.l CODE_C36CBF
+.loop:								; loop: call ReadPads, call WaitTransfers, $26 + 1, ...
+	jsl.l ReadPads
 	jsl.l WaitTransfers
 	inc.b $26
 	jsl.l AnimateSprites

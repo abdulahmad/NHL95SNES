@@ -1476,7 +1476,7 @@ $C35F60,DATA8_C35F60,,new,"not traced: read by CODE_C56168, CODE_C57A7D, CODE_C5
 $C35F62,DATA8_C35F62,,new,"not traced: read by CODE_C5A8B0",src/bankC3_5000.asm
 $C36000,DATA8_C36000,,new,"not traced: data between routines (in bankC3_6000)",src/bankC3_6000.asm
 $C360D4,DATA8_C360D4,,new,"not traced: a table read by CODE_C5B22D, CODE_C5AE8D, CODE_C5B216 (in bankC3_6000)",src/bankC3_6000.asm
-$C36D2A,DATA8_C36D2A,,new,"not traced: a table read by CODE_C36CBF (in bankC3_6000)",src/bankC3_6000.asm
+$C36D2A,PadDirection,DATA8_C36D2A,94S+code,"the same 16 bytes as 94S PadDirection; ReadPads reads it",src/bankC3_6000.asm
 $C377BB,DATA8_C377BB,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm
 $C377BD,DATA8_C377BD,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm
 $C3803D,DATA8_C3803D,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
@@ -5084,18 +5084,18 @@ $C501AC,.2,CODE_C501AC,new,"branch target only used in CODE_C5016D",src/bankC5_0
 $C501BC,.3,CODE_C501BC,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
 $C501FF,.4,CODE_C501FF,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
 $C50202,.5,CODE_C50202,new,"branch target only used in CODE_C5016D",src/bankC5_0000.asm
-$C50226,.1,CODE_C50226,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C50233,.2,CODE_C50233,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C50269,.3,CODE_C50269,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C502B1,.4,CODE_C502B1,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C502BF,.5,CODE_C502BF,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C502E0,.6,CODE_C502E0,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C502E8,.7,CODE_C502E8,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C502EB,.8,CODE_C502EB,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C50308,.9,CODE_C50308,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C5032B,.10,CODE_C5032B,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C5032F,.11,CODE_C5032F,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
-$C5033A,.12,CODE_C5033A,new,"branch target only used in CODE_C5021B",src/bankC5_0000.asm
+$C50226,.1,CODE_C50226,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C50233,.2,CODE_C50233,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C50269,.3,CODE_C50269,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C502B1,.4,CODE_C502B1,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C502BF,.5,CODE_C502BF,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C502E0,.6,CODE_C502E0,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C502E8,.7,CODE_C502E8,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C502EB,.8,CODE_C502EB,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C50308,.9,CODE_C50308,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C5032B,.10,CODE_C5032B,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C5032F,.11,CODE_C5032F,new,"branch target only used in Gameloop",src/bankC5_0000.asm
+$C5033A,.12,CODE_C5033A,new,"branch target only used in Gameloop",src/bankC5_0000.asm
 $C50351,.loop,CODE_C50351,new,"branch target only used in CODE_C5033D",src/bankC5_0000.asm
 $C50392,.rtl,CODE_C50392,new,"branch target only used in periodicevents",src/bankC5_0000.asm
 $C503B1,.1,CODE_C503B1,new,"branch target only used in CODE_C50393",src/bankC5_0000.asm
@@ -6987,9 +6987,9 @@ $CF03CF,.rtl,CODE_CF03CF,new,"branch target only used in SoundVolumeDown",src/ba
 $CF03E0,.loop,CODE_CF03E0,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
 $CF03EE,.1,CODE_CF03EE,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
 $CF0401,.rtl,CODE_CF0401,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
-$CF0442,.loop,CODE_CF0442,new,"branch target only used in CODE_CF0427",src/bankCF_0000.asm
-$CF045C,.1,CODE_CF045C,new,"branch target only used in CODE_CF0427",src/bankCF_0000.asm
-$CF0490,.loop,CODE_CF0490,new,"branch target only used in CODE_CF048A",src/bankCF_0000.asm
+$CF0442,.loop,CODE_CF0442,new,"branch target only used in LoadTeamSongs",src/bankCF_0000.asm
+$CF045C,.1,CODE_CF045C,new,"branch target only used in LoadTeamSongs",src/bankCF_0000.asm
+$CF0490,.loop,CODE_CF0490,new,"branch target only used in PlayTeamSong",src/bankCF_0000.asm
 $CF04C0,.1,CODE_CF04C0,new,"branch target only used in CODE_CF04B6",src/bankCF_0000.asm
 $CF04DC,.2,CODE_CF04DC,new,"branch target only used in CODE_CF04B6",src/bankCF_0000.asm
 $CFEE5C,.1,CODE_CFEE5C,new,"branch target only used in CODE_CFEE25",src/bankCF_E000.asm
@@ -7234,3 +7234,8 @@ $C55C58,ScrollListDown,CODE_C55C58,code,"the stats screens call it on $0400",src
 $C55CE6,ScrollListUp,CODE_C55CE6,code,"the stats screens call it on $0800",src/bankC5_5000.asm
 $C5F368,QueueFrameTiles,CODE_C5F368,code,"records on the VRAM stack at $00: two transfers of twice the layout's low byte (VRAM $6000 + tmp2 * 16 and $100 on), then one of its high byte ($A0) to tmp1's slot; the frame code of bank $C3 calls it when an object's frame changes",src/bankC5_F000.asm
 $C5F3DB,PackOAMHigh,CODE_C5F3DB,code,"runs with the direct page at $1E00; four 2-bit entries a byte, stored from $1DAF down",src/bankC5_F000.asm
+$C5021B,Gameloop,CODE_C5021B,94S+code,"the same code as 94S Gameloop after 95's first lines (a double buffer swap): gameframes / the fps (Mul16x8U, Div32U), gsp 2 with a 1 in 1024 RandomWord plays PlayTeamSong 5, timestep / impactstep / velstep / gravstep from Vcount - OldVcount, ReadPads, the sflags tests; demoread and Pausemode as in 94S",src/bankC5_0000.asm
+$C36CBF,ReadPads,CODE_C36CBF,94S+code,"the same code as 94S ReadPads, side by side (paddir of the five pads, GetNewPresses, padchange ored)",src/bankC3_6000.asm
+$C36FF2,GetNewPresses,CODE_C36FF2,94S+code,"the same code as 94S GetNewPresses, side by side",src/bankC3_7000.asm
+$CF048A,PlayTeamSong,CODE_CF048A,94S+purpose,"same job as 94S PlayTeamSong (song A of the home team); waits up to 1000 polls for $7E on port 3, nothing when port 2 bits $38 are set, then StartSound with the byte at $50D4 + A; Gameloop calls it as 94S does",src/bankCF_0000.asm
+$CF0427,LoadTeamSongs,CODE_CF0427,code,"the list at $7E50D4 ended by $FF; LoadSounds for DATA8_CF0663 first; PlayTeamSong plays from it",src/bankCF_0000.asm

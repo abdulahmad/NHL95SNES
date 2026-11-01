@@ -923,11 +923,11 @@ CODE_C43826:						; called from other segments
 	beq .4
 	bcs .3
 	lda.w #$0004
-	jsl.l CODE_CF048A
+	jsl.l PlayTeamSong
 	bra .7
-.3:									; A = $0001, call CODE_CF048A, go to .7
+.3:									; A = $0001, call PlayTeamSong, go to .7
 	lda.w #$0001
-	jsl.l CODE_CF048A
+	jsl.l PlayTeamSong
 	bra .7
 .4:									; if $078A is not 0 go to .5, if $1864 = $0004 go to .7, ...
 	ldy.w $078A
@@ -943,8 +943,8 @@ CODE_C43826:						; called from other segments
 	ldy.w $078A
 	bne .6
 	lda.w #$0002
-.6:									; call CODE_CF048A, $078A = 0
-	jsl.l CODE_CF048A
+.6:									; call PlayTeamSong, $078A = 0
+	jsl.l PlayTeamSong
 	stz.w $078A
 .7:									; A = $000D, A = $0001, iflags = 0, replaydelay = 0, ...
 	lda.w #$000D

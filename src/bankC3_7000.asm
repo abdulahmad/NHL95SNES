@@ -1,7 +1,8 @@
 ; Segment bankC3_7000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C36FF2
-CODE_C36FF2:						; called from other segments
+GetNewPresses:						; the changed buttons (padchange) and the new presses (padnew) of the five
+									; pads, from their last state
 	lda.b PadRaw1
 	eor.w $0565
 	sta.w $0579
@@ -763,8 +764,8 @@ CODE_C37609:						; from CODE_C377DB
 	ldx.b d7
 	bne .1
 	inx
-.1:									; call CODE_C36CBF, call CODE_C370A5, d7 = $0001, if minus go to .2, ...
-	jsl.l CODE_C36CBF
+.1:									; call ReadPads, call CODE_C370A5, d7 = $0001, if minus go to .2, ...
+	jsl.l ReadPads
 	jsl.l CODE_C370A5
 	lda.w #$0001
 	sta.b d7

@@ -134,7 +134,7 @@ CODE_C5009B:						; called from other segments
 	dex
 	dex
 	bpl .loop3
-	jsl.l CODE_CF0427
+	jsl.l LoadTeamSongs
 	bra .6
 .5:									; $17D1 = $0001
 	lda.w #$0001
@@ -209,9 +209,11 @@ CODE_C5016D:						; from CODE_C50ADD, CODE_C5009B and other segments
 	stz.w $07F6
 	stz.w $07C6
 	lda.w $189C
-	beq CODE_C5021B
+	beq Gameloop
 	rtl
-CODE_C5021B:						; from CODE_C5016D, CODE_C5021B and other segments
+Gameloop:							; the game loop: frame counts and the speed, a random team song, the time
+									; steps from Vcount, ReadPads, the clock and the game, Pausemode on the
+									; sflags pause bit
 	lda.b $26
 	lsr a
 	lda.w #$E000
@@ -247,7 +249,7 @@ CODE_C5021B:						; from CODE_C5016D, CODE_C5021B and other segments
 	and.w #$03FF
 	bne .3
 	lda.w #$0005
-	jsl.l CODE_CF048A
+	jsl.l PlayTeamSong
 .3:									; pull A, pull X, d7 = A, timestep = A, ...
 	pla
 	plx
@@ -266,7 +268,7 @@ CODE_C5021B:						; from CODE_C5016D, CODE_C5021B and other segments
 	sta.w $07A8
 	stx.w $07F6
 	stx.w $07C6
-	jsl.l CODE_C36CBF
+	jsl.l ReadPads
 	lda.w sflags
 	bit.w #$0001
 	bne .8
@@ -343,9 +345,9 @@ CODE_C5021B:						; from CODE_C5016D, CODE_C5021B and other segments
 	lda.w $18A2
 	beq .12
 	rtl
-.12:								; go to CODE_C5021B
-	jmp.w CODE_C5021B
-CODE_C5033D:						; from CODE_C5021B and other segments
+.12:								; go to Gameloop
+	jmp.w Gameloop
+CODE_C5033D:						; from Gameloop and other segments
 	jsl.l CODE_C382B7
 	jsl.l periodicevents
 	jsl.l CODE_C50393
@@ -1611,7 +1613,7 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.w $07F6
 	sta.w $07C6
 	rtl
-demoread:							; from CODE_C5021B and other segments
+demoread:							; from Gameloop and other segments
 	lda.w $1864
 	cmp.w #$0004
 	bne .3
@@ -1669,7 +1671,7 @@ CODE_C50E94:						; from CODE_C50ADD and other segments
 	lda.w #$FFFF
 	sta.w fadestep
 	rtl
-CODE_C50E9B:						; from CODE_C5021B
+CODE_C50E9B:						; from Gameloop
 	lda.w gameclock
 	beq .rts
 	lda.w $114F

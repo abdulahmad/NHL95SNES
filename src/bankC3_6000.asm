@@ -325,43 +325,44 @@ CODE_C36C49:						; called from other segments
 	sta.w $0565
 .rtl:								; return
 	rtl
-CODE_C36CBF:						; called from other segments
+ReadPads:							; once per frame: each pad's direction (PadDirection), then the changed
+									; and new buttons (GetNewPresses)
 	lda.b PadRaw1
 	xba
 	and.w #$000F
 	tax
-	lda.l DATA8_C36D2A,x
+	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w paddir
 	lda.b PadRaw2
 	xba
 	and.w #$000F
 	tax
-	lda.l DATA8_C36D2A,x
+	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w $0571
 	lda.b $C5
 	xba
 	and.w #$000F
 	tax
-	lda.l DATA8_C36D2A,x
+	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w $0573
 	lda.b $C7
 	xba
 	and.w #$000F
 	tax
-	lda.l DATA8_C36D2A,x
+	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w $0575
 	lda.b $C9
 	xba
 	and.w #$000F
 	tax
-	lda.l DATA8_C36D2A,x
+	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w $0577
-	jsr.w CODE_C36FF2
+	jsr.w GetNewPresses
 	lda.w $0579
 	ora.w $057B
 	ora.w $057D
@@ -369,7 +370,8 @@ CODE_C36CBF:						; called from other segments
 	ora.w $0581
 	sta.w $058D
 	rtl
-DATA8_C36D2A:						; not traced: a table read by CODE_C36CBF
+PadDirection:						; the d-pad bits (up, down, left, right) to a direction: 0 up, then
+									; clockwise to 7 up-left; 8 for none or opposite directions
 	db $08,$02,$06,$08,$04,$03,$05,$08,$00,$01,$07,$08,$08,$08,$08,$08
 Multi5Bios:							; called from other segments
 	php

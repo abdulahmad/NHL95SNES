@@ -518,8 +518,8 @@ CODE_C09336:						; called from CODE_C092B3
 	lda.w #$0000
 	sta.w BA_Sktr_SCnum
 	stz.w BA_Team
-.8:									; call CODE_C5021B, return
-	jsl.l CODE_C5021B
+.8:									; call Gameloop, return
+	jsl.l Gameloop
 	rtl
 ShootoutWonBy:						; jumps to its end at once: the shootout check after it is not reached
 	jmp.w .6
@@ -617,9 +617,9 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	lda.w #$0005
 	ldx.w #$0050
 	jsl.l ScreenOn
-.loop:								; loop: call WaitFrame, call CODE_C36CBF, call CODE_C370A5, ...
+.loop:								; loop: call WaitFrame, call ReadPads, call CODE_C370A5, ...
 	jsl.l WaitFrame
-	jsl.l CODE_C36CBF
+	jsl.l ReadPads
 	jsl.l CODE_C370A5
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
@@ -949,9 +949,9 @@ CODE_C096C0:						; called from ShootoutWonBy
 .7:									; $1888 = A, call CODE_C09855
 	sta.w $1888
 	jsl.l CODE_C09855
-.loop:								; loop: call WaitFrame, call CODE_C36CBF, call CODE_C370A5, ...
+.loop:								; loop: call WaitFrame, call ReadPads, call CODE_C370A5, ...
 	jsl.l WaitFrame
-	jsl.l CODE_C36CBF
+	jsl.l ReadPads
 	jsl.l CODE_C370A5
 	jsl.l ProcessInputWithRepeat
 	lda.b d1

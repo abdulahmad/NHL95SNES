@@ -9,7 +9,7 @@ incsrc "../ram95s.asm"
 SoundVolumeDown = $CF039E
 CODE_C3716D = $C3716D
 ReadMenuPads = $C36C2D
-CODE_C36CBF = $C36CBF
+ReadPads = $C36CBF
 DATA8_C4C4A6 = $C4C4A6
 SendTextMap = $C4C2AA
 ResetWorkBuf = $C4C530

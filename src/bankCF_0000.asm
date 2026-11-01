@@ -188,7 +188,7 @@ LoadSounds:							; loads the samples and sounds of the list at X:A into the sou
 	sta.w $49BA
 	plx
 	pla
-CODE_CF0162:						; from CODE_CF0427 and other segments
+CODE_CF0162:						; from LoadTeamSongs and other segments
 	sta.b r2
 	stx.b $36
 .loop:								; loop: A = [r2], A and $00FF, if a $0080 bit set go to .1, r2 + 1, ...
@@ -554,7 +554,8 @@ CODE_CF0418:						; called from other segments
 	ply
 	plx
 	rtl
-CODE_CF0427:						; called from other segments
+LoadTeamSongs:						; the home team's 6 songs from TeamSongs into a list (each $FF a random
+									; DefaultSongs pick), loaded to the sound CPU with DATA8_CF0663
 	ldx.w #DATA8_CF0663>>16
 	lda.w #DATA8_CF0663&$FFFF
 	jsl.l LoadSounds
@@ -600,7 +601,8 @@ CODE_CF0485:						; called from other segments
 	phx
 	sta.b tmp0
 	bra CODE_CF04A8
-CODE_CF048A:						; called from other segments
+PlayTeamSong:						; plays song A of the home team's songs (LoadTeamSongs) when the sound CPU
+									; is ready and not busy
 	phx
 	sta.b tmp0
 	ldx.w #$03E8
@@ -619,7 +621,7 @@ CODE_CF04A8:						; from CODE_CF0485
 	lda.w $50D4,x
 	and.w #$00FF
 	jsl.l StartSound
-CODE_CF04B4:						; from CODE_CF048A
+CODE_CF04B4:						; from PlayTeamSong
 	plx
 	rtl
 CODE_CF04B6:						; called from other segments
@@ -736,7 +738,7 @@ SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 	dd Sample32						; sample 32
 DATA8_CF0661:						; not traced (no reader found)
 	db $A6,$FF
-DATA8_CF0663:						; a byte list ending in $FF; CODE_CF0427 passes it to LoadSounds
+DATA8_CF0663:						; a byte list ending in $FF; LoadTeamSongs passes it to LoadSounds
 	db $02,$03,$04,$05,$06,$07,$08,$09,$0A,$0B,$0C,$0D,$0E,$0F,$10,$11,$12,$01,$1A,$1B,$A2,$FF
 DATA8_CF0679:						; sound 1 of DATA8_CF04E3: a length word, then its data; CODE_CF0313
 									; sends the samples it lists from +3 (a count, then the sample numbers)
