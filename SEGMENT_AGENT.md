@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_E000 (org $C3E82F), after bankC3_D000. <- CURRENT
+bankC3_F000 (org $C3F000), after bankC3_E000. <- CURRENT
 
 ## Sources
 
@@ -312,6 +312,7 @@ bankC3_E000 (org $C3E82F), after bankC3_D000. <- CURRENT
 - 2026-10-31: bankC3_B000 matched: Sample28, Sample07 (labels and ROM cuts).
 - 2026-10-31: bankC3_C000 matched: Sample08, Sample24 (labels and ROM cuts).
 - 2026-10-31: bankC3_D000 matched: Sample25, Sample30 (labels and ROM cuts).
+- 2026-10-31: bankC3_E000 matched: the start of Sample29 (labels and ROM cuts).
 
 ## ROM map
 
@@ -381,8 +382,8 @@ The first row that is still incbin is the current segment.
 | bankC3_B000 | matched 4506 bytes | $C3B574 | $C3C70D | Sample28, Sample07 (labels and ROM cuts); org moved to $C3B574, end moved +$70E |
 | bankC3_C000 | matched 3615 bytes | $C3C70E | $C3D52C | Sample08, Sample24 (labels and ROM cuts); org moved to $C3C70E, end moved +$52D |
 | bankC3_D000 | matched 4866 bytes | $C3D52D | $C3E82E | Sample25, Sample30 (labels and ROM cuts); org moved to $C3D52D, end moved +$82F |
-| bankC3_E000 | incbin <- CURRENT | $C3E82F | $C3EFFF | |
-| bankC3_F000 | incbin | $C3F000 | $C3FFFF | |
+| bankC3_E000 | matched 2001 bytes | $C3E82F | $C3EFFF | the start of Sample29 (labels and ROM cuts); org moved to $C3E82F |
+| bankC3_F000 | incbin <- CURRENT | $C3F000 | $C3FFFF | |
 | bankC4_0000 | matched 4102 bytes | $C40000 | $C41005 | game code with CODE_ names and their callers, jump tables DATA8_C400FE / C40130, then data tables (DATA8_ with their readers); out of ROM order, end moved +$6 |
 | bankC4_1000 | matched 4138 bytes | $C41006 | $C4202F | data tables (not traced), DATA8_ labels where code reads them with long addresses; from DATA8_C41E48 they look like animation lists (word pointers per direction to frame / value pairs); out of ROM order, org moved to $C41006, end moved +$30 |
 | bankC4_2000 | matched 4366 bytes | $C42030 | $C4313D | more data tables (not traced), then game code with CODE_ names: asstab routines, one routine passed as a long pointer (lda #bank / #low) to the routine at $C45950; out of ROM order, org moved to $C42030, end moved +$13E |

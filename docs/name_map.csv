@@ -1508,3 +1508,4 @@ $C3C70E,Sample08,,new,"sound sample 8 of the sample list: header, then BRR block
 $C3CDBF,Sample24,,new,"sound sample 24 of the sample list: header, then BRR blocks",src/bankC3_C000.asm
 $C3D52D,Sample25,,new,"sound sample 25 of the sample list: header, then BRR blocks",src/bankC3_D000.asm
 $C3DC1D,Sample30,,new,"sound sample 30 of the sample list: header, then BRR blocks",src/bankC3_D000.asm
+$C3E82F,Sample29,,new,"sound sample 29 of the sample list: header, then BRR blocks",src/bankC3_E000.asm
