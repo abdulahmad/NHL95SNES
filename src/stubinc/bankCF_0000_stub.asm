@@ -6,6 +6,15 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+DATA8_CF1099 = $CF1099				; sound 5, in another segment
+DATA8_CF1284 = $CF1284				; sound 6, in another segment
+DATA8_CF1454 = $CF1454				; sound 7, in another segment
+DATA8_CF1582 = $CF1582				; sound 8, in another segment
+DATA8_CF1718 = $CF1718				; sound 9, in another segment
+DATA8_CF19C0 = $CF19C0				; sound 10, in another segment
+DATA8_CF1BBF = $CF1BBF				; sound 11, in another segment
+DATA8_CF1D38 = $CF1D38				; sound 12, in another segment
+DATA8_CF1EFB = $CF1EFB				; sound 13, in another segment
 Sample00 = $C0C1CB					; sample 0, in another segment
 Sample01 = $C0BE7A					; sample 1, in another segment
 Sample02 = $C4F2FC					; sample 2, in another segment

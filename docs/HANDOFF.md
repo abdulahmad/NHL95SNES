@@ -19,7 +19,7 @@
   WSH, WPG, ANH, BOS, BUF, CGY, CHI, DAL, DET, EDM and FLA, HartPic, then DATA8_CDF94A (a per-frame table that runs into
   bank $CE). Bank $CE: DATA8_CE0192 (the parallel per-frame table), the photo sets of HFD, LA, MTL, NJ, NYI, NYR, OTW, PHI,
   PIT, QUE, SJ and STL, PresidentsPic, the Stanley Cup map set and a zero fill. The segments of bank $CF are incbin.
-- Next: segment bankCF_1000, org $CF1099 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CE are all source (the code banks $C4
+- Next: segment bankCF_2000, org $CF2123 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CE are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank

@@ -1,3 +1,3 @@
 ; Segment bankCF_2000: not yet disassembled.
-org $CF2000
-	incbin "../Extracted/segments/bankCF_2000.bin"
+org $CF2123
+	incbin "../Extracted/segments/bankCF_2000.bin":$123..$1000
