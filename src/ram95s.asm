@@ -108,7 +108,7 @@ passspeed			=	$07CA		; speed of pass/shot
 passReceiverPlayerNum	=	$07CC	; the player the last pass was aimed at (negative = none)
 PKBonus				=	$07CE		; setplayer: penalty kill bonus (negative)
 PPBonus				=	$07D0		; setplayer: power play bonus
-puckcross			=	$07DA		; 2 entries of (x, frames): where / when the puck crosses the top / bottom
+puckcross			=	$07D8		; 2 entries of (x, frames): where / when the puck crosses the top / bottom
 recbpr				=	$07E0		; long pointer to the next replay frame record
 Oldrow				=	$07E4		; last rink map row (updatescroll_rows)
 vramrow				=	$07E6		; BG2 tile map row at the top of the ring buffer (updatescroll_rows)
@@ -130,7 +130,7 @@ puckz				=	$08D8		; puck height
 shadowz				=	$08DA		; height of object 15, the puck shadow (setsortcords)
 puckvz				=	$08DE		; puck height speed
 attribute			=	$08E0		; frame attribute bits (attrxflip, attryflip)
-OldYpos				=	$097C		; per object: the Y position of the previous frame
+OldYpos				=	$0960		; per object: the Y position of the previous frame
 Xvel				=	$09A0		; x speed (puckvx is Xvel+puckscnum)
 puckvx				=	$09BC		; puck x speed
 Yvel				=	$09C0		; y speed

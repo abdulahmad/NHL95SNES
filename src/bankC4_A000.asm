@@ -1533,14 +1533,14 @@ Goal:								; called from other segments
 	lda.w pucky
 	bpl .31
 	ldy.w #$FEEA
-.31:								; pucky = Y, puckvz = $0600, puckz = 0, puckcross = $FFFF, ...
+.31:								; pucky = Y, puckvz = $0600, puckz = 0, puckcross+2 = $FFFF, ...
 	sty.w pucky
 	lda.w #$0600
 	sta.w puckvz
 	stz.w puckz
 	lda.w #$FFFF
-	sta.w puckcross
-	sta.w $07DE
+	sta.w puckcross+2
+	sta.w puckcross+6
 	sta.w $109C
 	lda.w #$001A
 	sta.b d0
@@ -1798,13 +1798,13 @@ ChkOffsides:						; the offsides check: ClearOffsidesIfAllPlayers for both sides
 	bmi .2
 	lda.b d0
 	sec
-	sbc.w OldYpos
+	sbc.w OldYpos+$1C
 	bpl CODE_C4AF74
 	bra ChkOffsides_blue
-.2:									; A = d0, A - OldYpos, if the result < 0 go to CODE_C4AF74
+.2:									; A = d0, A - OldYpos+$1C, if the result < 0 go to CODE_C4AF74
 	lda.b d0
 	sec
-	sbc.w OldYpos
+	sbc.w OldYpos+$1C
 	bmi CODE_C4AF74
 ChkOffsides_blue:					; from ChkOffsides
 	jsl.l StartBreakaway
@@ -1873,13 +1873,13 @@ ChkOffsides_other:					; from ChkOffsides
 	bmi .1
 	lda.b d0
 	sec
-	sbc.w OldYpos
+	sbc.w OldYpos+$1C
 	bpl CODE_C4AF74
 	bra .2
-.1:									; A = d0, A - OldYpos, if the result < 0 go to CODE_C4AF74
+.1:									; A = d0, A - OldYpos+$1C, if the result < 0 go to CODE_C4AF74
 	lda.b d0
 	sec
-	sbc.w OldYpos
+	sbc.w OldYpos+$1C
 	bmi CODE_C4AF74
 .2:									; call StartBreakaway, A = gmode, if a $0020 bit set go to .3, ...
 	jsl.l StartBreakaway

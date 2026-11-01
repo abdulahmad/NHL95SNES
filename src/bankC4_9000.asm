@@ -117,14 +117,14 @@ CODE_C493CA:						; called from other segments
 	sta.w $0B9C
 	stz.w $234E
 pucknorm_move:						; from CODE_C493CA and other segments
-	lda.w puckcross
+	lda.w puckcross+2
 	sec
 	sbc.b d7
-	sta.w puckcross
-	lda.w $07DE
+	sta.w puckcross+2
+	lda.w puckcross+6
 	sec
 	sbc.b d7
-	sta.w $07DE
+	sta.w puckcross+6
 	lda.w $0AFC
 	sec
 	sbc.b d7
@@ -208,12 +208,12 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	jsl.l EndPenaltyShot
 .9:									; $234E = 0
 	stz.w $234E
-.10:								; if $0830 is not $093C go to .12, if pucky is not OldYpos go to .12, ...
+.10:								; if $0830 is not $093C go to .12, ...
 	lda.w $0830
 	cmp.w $093C
 	bne .12
 	lda.w pucky
-	cmp.w OldYpos
+	cmp.w OldYpos+$1C
 	bne .12
 	lda.w #$0006
 	sta.b d0
@@ -271,13 +271,13 @@ CODE_C49504:						; from CODE_C494E6 and other segments
 	bit.w #$0800
 	beq .1
 	ora.w #$F000
-.1:									; $36 = A, r1 = puckvy, call Div32S, puckcross,y = r0, ...
+.1:									; $36 = A, r1 = puckvy, call Div32S, puckcross+2,y = r0, ...
 	sta.b $36
 	lda.w puckvy
 	sta.b r1
 	jsl.l Div32S
 	lda.b r0
-	sta.w puckcross,y
+	sta.w puckcross+2,y
 	lda.b r0
 	asl a
 	asl a
@@ -297,13 +297,13 @@ CODE_C49504:						; from CODE_C494E6 and other segments
 	bpl .3
 	lda.w #$FF65
 	sta.b d0
-.3:									; $07D8,y = d0, return
+.3:									; puckcross,y = d0, return
 	lda.b d0
-	sta.w $07D8,y
+	sta.w puckcross,y
 	rtl
 CODE_C4956B:						; from CODE_C49501
 	lda.w #$FFFF
-	sta.w puckcross,y
+	sta.w puckcross+2,y
 	rtl
 puckflip:							; called from other segments
 	lda.b d0

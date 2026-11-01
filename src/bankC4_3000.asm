@@ -956,8 +956,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	stz.w replaydelay
 	lda.w #$FFFF
 	sta.w RefCnt
-	sta.w puckcross
-	sta.w $07DE
+	sta.w puckcross+2
+	sta.w puckcross+6
 	sta.w puckz
 	sta.w passReceiverPlayerNum
 	asl a

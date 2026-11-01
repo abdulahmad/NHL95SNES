@@ -2877,9 +2877,9 @@ $C54541,lineinput,CODE_C54541,94S+code,"pad input for the line change box; calle
 $0595,mp5padsig,,94S+code,"RAM: Multi5Bios: 5 bytes, one per pad: the low nibble of JOYxL (controller (the operand of 17 of 17 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $0778,recsfxpitch,,94S+code,"RAM: StartSoundVoice / PuckSfx / updatepwrplay store the voice pitch (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $077E,recsfxpitch2,,94S+code,"RAM: QueueSound copies recsfxpitch here with recsfx2; ReplayMode restores (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
-$07DA,puckcross,,94S+code,"RAM: 2 entries of (x, frames): where / when the puck crosses the top / bottom (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$07D8,puckcross,,94S+code,"RAM: 2 entries of (x, frames): where / when the puck crosses the top / bottom; pucknorm_move counts puckcross+2 and puckcross+6 down where 94S counts puckcross+pcframes and puckcross+pcsize+pcframes; first defined at $07DA (the frames word of entry 0) when the vote tool read +pcframes as +0",src/ram95s.asm
 $08DA,shadowz,,94S+code,"RAM: height of object 15, the puck shadow (setsortcords) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
-$097C,OldYpos,,94S+code,"RAM: per object: the Y position of the previous frame (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$0960,OldYpos,,94S+code,"RAM: per object: Ypos before this frame's move; updateplayers copies Ypos,x to it as 94S updateplayers does (7 of 7 aligned votes, the 94S operands OldYpos+puckscnum counted at +$1C); first defined at $097C, the puck's entry, when the vote tool read +puckscnum as +0",src/ram95s.asm
 $0E00,legstr,,94S+code,"RAM: per object: the player's leg strength rating (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $0FC0,handed,,94S+code,"RAM: nonzero: left handed (inverted bit 0 of byte 4) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $1145,RefCnt,,94S+code,"RAM: ref graphics control (negative = idle) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm

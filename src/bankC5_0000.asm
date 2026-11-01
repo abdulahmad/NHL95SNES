@@ -397,14 +397,14 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	lda.w puckz
 	sta.w $08DC
 	ldx.w #$001E
-.1:									; curobj = X, $0920,x = Xpos,x, $0940,x = $0836,x, $0960,x = Ypos,x, ...
+.1:									; curobj = X, $0920,x = Xpos,x, $0940,x = $0836,x, OldYpos,x = Ypos,x, ...
 	stx.b curobj
 	lda.w Xpos,x
 	sta.w $0920,x
 	lda.w $0836,x
 	sta.w $0940,x
 	lda.w Ypos,x
-	sta.w $0960,x
+	sta.w OldYpos,x
 	lda.w $08B8,x
 	sta.w $0980,x
 	cpx.w #$0018
@@ -1048,7 +1048,7 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	cmp.w $0920,x
 	bne .66
 	lda.b d3
-	cmp.w $0960,x
+	cmp.w OldYpos,x
 	bne .66
 	jmp.w .71
 .66:								; call checkcoll, if X >= $0018 go to .71, ...
@@ -1070,11 +1070,11 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	beq .67
 	eor.w #$FFFF
 	inc a
-.67:								; A - $0113, r0 = A, A = $0960,x, if $8000 bits clear go to .68, ...
+.67:								; A - $0113, r0 = A, A = OldYpos,x, if $8000 bits clear go to .68, ...
 	sec
 	sbc.w #$0113
 	sta.b r0
-	lda.w $0960,x
+	lda.w OldYpos,x
 	bit.w #$8000
 	beq .68
 	eor.w #$FFFF
@@ -1094,10 +1094,10 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	bcc .71
 	cmp.w #$011D
 	bcs .71
-.70:								; Xpos,x = $0920,x, Ypos,x = $0960,x
+.70:								; Xpos,x = $0920,x, Ypos,x = OldYpos,x
 	lda.w $0920,x
 	sta.w Xpos,x
-	lda.w $0960,x
+	lda.w OldYpos,x
 	sta.w Ypos,x
 .71:								; A = impact,x, A - impactstep, if the result >= 0 go to .72, A = $0000
 	lda.w impact,x

@@ -108,13 +108,13 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 	lda.b d3
 	sta.w Ylist,x
 	rtl
-.6:									; if SPA,x >= $28F6 go to .rtl, Xpos,x = $0920,x, Ypos,x = $0960,x
+.6:									; if SPA,x >= $28F6 go to .rtl, Xpos,x = $0920,x, Ypos,x = OldYpos,x
 	lda.w SPA,x
 	cmp.w #$28F6
 	bcs .rtl
 	lda.w $0920,x
 	sta.w Xpos,x
-	lda.w $0960,x
+	lda.w OldYpos,x
 	sta.w Ypos,x
 .rtl:								; return
 	rtl
@@ -646,7 +646,7 @@ checkgoal:							; from checkwallcoll and other segments
 	sbc.w $0980,x
 	sta.b d1
 	lda.w Ypos,x
-	sbc.w $0960,x
+	sbc.w OldYpos,x
 	sta.b $85
 	lda.b $84
 	sta.b d1
