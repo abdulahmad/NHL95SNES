@@ -1955,7 +1955,8 @@ CODE_C53F66:						; from setplayer
 	rep #$20
 	and.w #$00FF
 	rts
-CODE_C53F8D:						; called from other segments
+resetplstuff:						; resets the players of both teams (ResetTeamPlayers for a2 = 0 and 2),
+									; keeping the work words
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1971,10 +1972,10 @@ CODE_C53F8D:						; called from other segments
 	pei ($6F)
 	pei ($71)
 	stz.b a2
-	jsl.l CODE_C53FE5
+	jsl.l ResetTeamPlayers
 	lda.w #$0002
 	sta.b a2
-	jsl.l CODE_C53FE5
+	jsl.l ResetTeamPlayers
 	pla
 	sta.b $71
 	pla

@@ -1,7 +1,9 @@
 ; Segment bankC5_4000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C53FE5
-CODE_C53FE5:						; called from other segments
+ResetTeamPlayers:					; resets team a2: its flag $0010 cleared, then for its 6 players the
+									; animation (ready for position 0, glide for others), impact, puck block
+									; and collision flags
 	ldy.b a2
 	lda.w tmflags,y
 	and.w #$FFEF
@@ -1845,7 +1847,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	bit.w #$3000
 	beq .3
 .resume:							; start / select leave the pause screen: back to the game (CODE_C55513);
-									; CODE_C57329 comes here after the replay
+									; PauseReplay comes here after the replay
 	lda.w $18EE
 	sta.w $18E0
 	sta.b $08

@@ -489,7 +489,8 @@ CODE_C571CB:						; from CODE_C571C7, CODE_C57187, CODE_C5719B, CODE_C571B4
 DATA8_C57309:						; not traced: a table read by CODE_C571CB
 	db $00,$00,$01,$02,$03,$03,$02,$01,$02,$01,$03,$02,$01,$01,$01,$01
 	db $00,$00,$00,$09,$02,$02,$09,$09,$02,$02,$02,$02,$02,$02,$02,$02
-CODE_C57329:						; called from other segments
+PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcountmark+2 set
+									; back two, ReplayMode, then back to the pause screen's exit
 	jsl.l FadeOutWait
 	lda.w $18EE
 	sta.w $18E0

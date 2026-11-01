@@ -5643,11 +5643,11 @@ $C53F49,.17,CODE_C53F49,new,"branch target only used in setplayer",src/bankC5_30
 $C53F7A,.1,CODE_C53F7A,new,"branch target only used in CODE_C53F66",src/bankC5_3000.asm
 $C53F81,.2,CODE_C53F81,new,"branch target only used in CODE_C53F66",src/bankC5_3000.asm
 $C53F87,.3,CODE_C53F87,new,"branch target only used in CODE_C53F66",src/bankC5_3000.asm
-$C53FFA,.1,CODE_C53FFA,new,"branch target only used in CODE_C53FE5",src/bankC5_4000.asm
-$C54008,.2,CODE_C54008,new,"branch target only used in CODE_C53FE5",src/bankC5_4000.asm
-$C54020,.3,CODE_C54020,new,"branch target only used in CODE_C53FE5",src/bankC5_4000.asm
-$C54023,.4,CODE_C54023,new,"branch target only used in CODE_C53FE5",src/bankC5_4000.asm
-$C5403F,.5,CODE_C5403F,new,"branch target only used in CODE_C53FE5",src/bankC5_4000.asm
+$C53FFA,.1,CODE_C53FFA,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
+$C54008,.2,CODE_C54008,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
+$C54020,.3,CODE_C54020,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
+$C54023,.4,CODE_C54023,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
+$C5403F,.5,CODE_C5403F,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
 $C5406F,.rtl,CODE_C5406F,new,"branch target only used in CODE_C5404A",src/bankC5_4000.asm
 $C540A7,.loop,CODE_C540A7,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
 $C540C3,.1,CODE_C540C3,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
@@ -6016,7 +6016,7 @@ $C572EB,.18,CODE_C572EB,new,"branch target only used in CODE_C571CB",src/bankC5_
 $C572F6,.19,CODE_C572F6,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
 $C57302,.20,CODE_C57302,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
 $C57307,.21,CODE_C57307,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57358,.1,CODE_C57358,new,"branch target only used in CODE_C57329",src/bankC5_7000.asm
+$C57358,.1,CODE_C57358,new,"branch target only used in PauseReplay",src/bankC5_7000.asm
 $C573A0,.1,CODE_C573A0,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
 $C573A2,.2,CODE_C573A2,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
 $C573B8,.3,CODE_C573B8,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
@@ -7438,3 +7438,6 @@ $C381F4,InsertScoringLeader,CODE_C381F4,code,"reads goal and assist bytes, compa
 $C387F2,WriteNineMapTiles,CODE_C387F2,code,"MapTileBlock calls this once and falls through for its second row; TYA then a countdown from eight writes and increments A nine times",src/bankC3_8000.asm
 $C387FF,BackupPauseBuffers,CODE_C387FF,code,"pause setup calls this after saving VRAM; allocates $1FE and $210 bytes and copies two WRAM buffers; pause exit copies them back using the saved pointer",src/bankC3_8000.asm
 $C38824,FillPlayerAssignments,CODE_C38824,code,"stores X in puckc and calls the assignment push helper eight times; that helper decrements assnum modulo eight and writes d0 into the assignment ring, then X advances by two",src/bankC3_8000.asm
+$C57329,PauseReplay,CODE_C57329,94S+purpose,"same job as 94S PauseReplay, side by side: d7 kept, vcountmark+2 = Vcount+2 - 2, ReplayMode, d7 / timestep back; 95 skips ReplayMode when $17D1 is set and jumps to Pausemode_menu_resume; the first item of the pause menu's Options tab",src/bankC5_7000.asm
+$C53F8D,resetplstuff,CODE_C53F8D,94S+code,"the same code as 94S resetplstuff: the d0-d2 / a0-a4 words saved, .t1 for a2 = 0 and 2, the words back",src/bankC5_3000.asm
+$C53FE5,ResetTeamPlayers,CODE_C53FE5,code,"the body 94S keeps as resetplstuff's local .t1, the same code side by side (tmflags, tmsort, pf2aip, pflags, SetSPAFromA, impact, nopuck, pfnc / pfrev / pfalock); 95 also clears bit $0800 of $08E0,x when $0FC0,x is set",src/bankC5_4000.asm

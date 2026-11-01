@@ -1027,7 +1027,7 @@ CODE_C43826:						; called from other segments
 	inc.b a2
 	jsl.l setpersonel
 	jsl.l CODE_C53B51
-	jsl.l CODE_C53F8D
+	jsl.l resetplstuff
 	lda.w #$FFFF
 	sta.w tmtouch2
 	sta.w tmtouch3

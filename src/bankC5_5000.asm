@@ -143,7 +143,7 @@ DATA8_C55012:						; game mode 1, Info tab: Team Roster, Score Summry, Records (
 									; jumps through it)
 	dw TeamRoster,ShowScoringSummary,RecordHoldersScreen
 DATA8_C55018:						; game mode 1, Options tab: Inst Replay, Quit Game
-	dw CODE_C57329,CODE_C56B80
+	dw PauseReplay,CODE_C56B80
 DATA8_C5501C:						; pause menu Info tab: Team Roster, Score Summry, Penalties, Records,
 									; Other Scores (CODE_C54F38)
 	dw TeamRoster,ShowScoringSummary,ShowPenaltySummary,RecordHoldersScreen
@@ -152,7 +152,7 @@ DATA8_C55026:						; pause menu Stats tab: Game Stats, Period Stats, Player Stat
 	dw ShowGameStats,ShowPeriodStats,ShowPlayerStats
 DATA8_C5502C:						; pause menu Options tab: Inst Replay, Edit Lines, Chnge Goalie, the
 									; goalie mode, Time Out, Quit Game
-	dw CODE_C57329,EditLinesScreen,PauseGoalie,PauseGoalieMode
+	dw PauseReplay,EditLinesScreen,PauseGoalie,PauseGoalieMode
 	dw PauseTimeout,CODE_C56B80
 DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Quit Game
 	dw CODE_C56B7B,CODE_C56B8C
