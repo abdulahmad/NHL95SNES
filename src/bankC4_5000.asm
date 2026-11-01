@@ -1588,39 +1588,39 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 .rtl:								; return
 	rtl
 DATA8_C45C7D:						; jump table: the routine for each index
-	dw CODE_C45C9D,CODE_C45CA0,CODE_C45CA1,CODE_C45CA3
-	dw CODE_C45CA9,CODE_C45CAC,CODE_C45CB3,CODE_C45CBA
-	dw CODE_C45CC5,CODE_C45CC9,CODE_C45CD1,CODE_C45CD9
-	dw CODE_C45CE5,CODE_C45CED,CODE_C45CF9,CODE_C45D05
-CODE_C45C9D:						; from DATA8_C45C7D
+	dw ScaleSkatingSpeed0,ScaleSkatingSpeed1,ScaleSkatingSpeed2,ScaleSkatingSpeed3
+	dw ScaleSkatingSpeed4,ScaleSkatingSpeed5,ScaleSkatingSpeed6,ScaleSkatingSpeed7
+	dw ScaleSkatingSpeed8,ScaleSkatingSpeed9,ScaleSkatingSpeed10,ScaleSkatingSpeed11
+	dw ScaleSkatingSpeed12,ScaleSkatingSpeed13,ScaleSkatingSpeed14,ScaleSkatingSpeed15
+ScaleSkatingSpeed0:					; multiply the bounded skating speed factor in A by 0
 	lda.w #$0000
-CODE_C45CA0:						; from DATA8_C45C7D
+ScaleSkatingSpeed1:					; multiply the bounded skating speed factor in A by 1
 	rts
-CODE_C45CA1:						; from DATA8_C45C7D
+ScaleSkatingSpeed2:					; multiply the bounded skating speed factor in A by 2
 	asl a
 	rts
-CODE_C45CA3:						; from DATA8_C45C7D
+ScaleSkatingSpeed3:					; multiply the bounded skating speed factor in A by 3
 	sta.b r2
 	asl a
 	adc.b r2
 	rts
-CODE_C45CA9:						; from DATA8_C45C7D
+ScaleSkatingSpeed4:					; multiply the bounded skating speed factor in A by 4
 	asl a
 	asl a
 	rts
-CODE_C45CAC:						; from DATA8_C45C7D
+ScaleSkatingSpeed5:					; multiply the bounded skating speed factor in A by 5
 	sta.b r2
 	asl a
 	asl a
 	adc.b r2
 	rts
-CODE_C45CB3:						; from DATA8_C45C7D
+ScaleSkatingSpeed6:					; multiply the bounded skating speed factor in A by 6
 	asl a
 	sta.b r2
 	asl a
 	adc.b r2
 	rts
-CODE_C45CBA:						; from DATA8_C45C7D
+ScaleSkatingSpeed7:					; multiply the bounded skating speed factor in A by 7
 	sta.b $36
 	asl a
 	sta.b r2
@@ -1628,26 +1628,26 @@ CODE_C45CBA:						; from DATA8_C45C7D
 	adc.b r2
 	adc.b $36
 	rts
-CODE_C45CC5:						; from DATA8_C45C7D
+ScaleSkatingSpeed8:					; multiply the bounded skating speed factor in A by 8
 	asl a
 	asl a
 	asl a
 	rts
-CODE_C45CC9:						; from DATA8_C45C7D
+ScaleSkatingSpeed9:					; multiply the bounded skating speed factor in A by 9
 	sta.b r2
 	asl a
 	asl a
 	asl a
 	adc.b r2
 	rts
-CODE_C45CD1:						; from DATA8_C45C7D
+ScaleSkatingSpeed10:				; multiply the bounded skating speed factor in A by 10
 	asl a
 	sta.b r2
 	asl a
 	asl a
 	adc.b r2
 	rts
-CODE_C45CD9:						; from DATA8_C45C7D
+ScaleSkatingSpeed11:				; multiply the bounded skating speed factor in A by 11
 	sta.b $36
 	asl a
 	sta.b r2
@@ -1656,14 +1656,14 @@ CODE_C45CD9:						; from DATA8_C45C7D
 	adc.b r2
 	adc.b $36
 	rts
-CODE_C45CE5:						; from DATA8_C45C7D
+ScaleSkatingSpeed12:				; multiply the bounded skating speed factor in A by 12
 	asl a
 	asl a
 	sta.b r2
 	asl a
 	adc.b r2
 	rts
-CODE_C45CED:						; from DATA8_C45C7D
+ScaleSkatingSpeed13:				; multiply the bounded skating speed factor in A by 13
 	sta.b $36
 	asl a
 	asl a
@@ -1672,7 +1672,7 @@ CODE_C45CED:						; from DATA8_C45C7D
 	adc.b r2
 	adc.b $36
 	rts
-CODE_C45CF9:						; from DATA8_C45C7D
+ScaleSkatingSpeed14:				; multiply the bounded skating speed factor in A by 14
 	asl a
 	sta.b $36
 	asl a
@@ -1681,7 +1681,7 @@ CODE_C45CF9:						; from DATA8_C45C7D
 	adc.b r2
 	adc.b $36
 	rts
-CODE_C45D05:						; from DATA8_C45C7D
+ScaleSkatingSpeed15:				; multiply the bounded skating speed factor in A by 15
 	sta.b r2
 	asl a
 	asl a

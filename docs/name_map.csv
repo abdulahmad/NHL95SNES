@@ -7765,3 +7765,19 @@ $C47CB6,.1,CODE_C47CB6,new,"branch target only used in Bcheck",src/bankC4_7000.a
 $C47D0A,.rtl,CODE_C47D0A,new,"branch target only used in Bcheck",src/bankC4_7000.asm
 $C47D0B,.2,CODE_C47D0B,new,"branch target only used in Bcheck",src/bankC4_7000.asm
 $C47D1F,.3,CODE_C47D1F,new,"branch target only used in Bcheck",src/bankC4_7000.asm
+$C45C9D,ScaleSkatingSpeed0,CODE_C45C9D,code,"legspd-indexed DATA8_C45C7D entry 0; shifts and adds implement multiplication by 0 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CA0,ScaleSkatingSpeed1,CODE_C45CA0,code,"legspd-indexed DATA8_C45C7D entry 1; shifts and adds implement multiplication by 1 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CA1,ScaleSkatingSpeed2,CODE_C45CA1,code,"legspd-indexed DATA8_C45C7D entry 2; shifts and adds implement multiplication by 2 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CA3,ScaleSkatingSpeed3,CODE_C45CA3,code,"legspd-indexed DATA8_C45C7D entry 3; shifts and adds implement multiplication by 3 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CA9,ScaleSkatingSpeed4,CODE_C45CA9,code,"legspd-indexed DATA8_C45C7D entry 4; shifts and adds implement multiplication by 4 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CAC,ScaleSkatingSpeed5,CODE_C45CAC,code,"legspd-indexed DATA8_C45C7D entry 5; shifts and adds implement multiplication by 5 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CB3,ScaleSkatingSpeed6,CODE_C45CB3,code,"legspd-indexed DATA8_C45C7D entry 6; shifts and adds implement multiplication by 6 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CBA,ScaleSkatingSpeed7,CODE_C45CBA,code,"legspd-indexed DATA8_C45C7D entry 7; shifts and adds implement multiplication by 7 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CC5,ScaleSkatingSpeed8,CODE_C45CC5,code,"legspd-indexed DATA8_C45C7D entry 8; shifts and adds implement multiplication by 8 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CC9,ScaleSkatingSpeed9,CODE_C45CC9,code,"legspd-indexed DATA8_C45C7D entry 9; shifts and adds implement multiplication by 9 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CD1,ScaleSkatingSpeed10,CODE_C45CD1,code,"legspd-indexed DATA8_C45C7D entry 10; shifts and adds implement multiplication by 10 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CD9,ScaleSkatingSpeed11,CODE_C45CD9,code,"legspd-indexed DATA8_C45C7D entry 11; shifts and adds implement multiplication by 11 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CE5,ScaleSkatingSpeed12,CODE_C45CE5,code,"legspd-indexed DATA8_C45C7D entry 12; shifts and adds implement multiplication by 12 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CED,ScaleSkatingSpeed13,CODE_C45CED,code,"legspd-indexed DATA8_C45C7D entry 13; shifts and adds implement multiplication by 13 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45CF9,ScaleSkatingSpeed14,CODE_C45CF9,code,"legspd-indexed DATA8_C45C7D entry 14; shifts and adds implement multiplication by 14 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C45D05,ScaleSkatingSpeed15,CODE_C45D05,code,"legspd-indexed DATA8_C45C7D entry 15; shifts and adds implement multiplication by 15 for the bounded energy-derived speed input",src/bankC4_5000.asm
