@@ -1,3 +1,3 @@
 ; Segment bankC7_E000: not yet disassembled.
-org $C7E000
-	incbin "../Extracted/segments/bankC7_E000.bin"
+org $C7E0BE
+	incbin "../Extracted/segments/bankC7_E000.bin":$BE..$1000
