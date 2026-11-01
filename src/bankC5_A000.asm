@@ -137,15 +137,15 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	lda.w #$001A
 	ldy.w #$000C
 	ldx.w #$490D
-	jsl.l CODE_C4BC2C
+	jsl.l PrintItalicFixedLeft
 	lda.w #$001A
 	ldy.w #$000F
 	ldx.w #$4914
-	jsl.l CODE_C4BC2C
+	jsl.l PrintItalicFixedLeft
 	lda.w #$001A
 	ldy.w #$0012
 	ldx.w #$491B
-	jsl.l CODE_C4BC2C
+	jsl.l PrintItalicFixedLeft
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$3E3E
@@ -160,12 +160,12 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	lda.w #$000F
 	ldy.w #$0008
 	ldx.w #mesarea
-	jsl.l CODE_C4BC46
+	jsl.l PrintItalicFixedLeftStr
 	stz.w mesarea+8
 	lda.w #$000F
 	ldy.w #$0006
 	ldx.w #mesarea
-	jsl.l CODE_C4BC46
+	jsl.l PrintItalicFixedLeftStr
 	jsl.l SendTextMap
 	lda.w #$0006
 	sta.b $71

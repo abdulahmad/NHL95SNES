@@ -628,15 +628,15 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	lda.w #$001A
 	ldy.w #$000F
 	ldx.w #$490D
-	jsl.l CODE_C4BC2C
+	jsl.l PrintItalicFixedLeft
 	lda.w #$001A
 	ldy.w #$0012
 	ldx.w #$4914
-	jsl.l CODE_C4BC2C
+	jsl.l PrintItalicFixedLeft
 	lda.w #$001A
 	ldy.w #$0015
 	ldx.w #$4922
-	jsl.l CODE_C4BC2C
+	jsl.l PrintItalicFixedLeft
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$543D
@@ -725,7 +725,7 @@ CODE_C5D5A5:						; from DrawNameGrid, EditUserName
 	tay
 	ldx.w #mesarea
 	lda.w #$000A
-	jsl.l CODE_C4BC68
+	jsl.l PrintBoldFixedLeftStr
 	rts
 CODE_C5D5CD:						; called from other segments
 	lda.w OptPlayMode

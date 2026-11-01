@@ -4497,54 +4497,6 @@ $C4BDF5,.1,CODE_C4BDF5,new,"branch target only used in PrintTitleBar",src/bankC4
 $C4BE07,.loop,CODE_C4BE07,new,"branch target only used in PrintTitleBar",src/bankC4_B000.asm
 $C4BE40,.1,CODE_C4BE40,new,"branch target only used in DrawText",src/bankC4_B000.asm
 $C4BE4B,.2,CODE_C4BE4B,new,"branch target only used in DrawText",src/bankC4_B000.asm
-$C4BE5F,.1,CODE_C4BE5F,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BE73,.2,CODE_C4BE73,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BE79,.3,CODE_C4BE79,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BE99,.4,CODE_C4BE99,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BEA6,.5,CODE_C4BEA6,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BEB1,.6,CODE_C4BEB1,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BEB5,.7,CODE_C4BEB5,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BEBE,.8,CODE_C4BEBE,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BED1,.9,CODE_C4BED1,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BEF4,.10,CODE_C4BEF4,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BF01,.11,CODE_C4BF01,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
-$C4BF54,.1,CODE_C4BF54,new,"branch target only used in CODE_C4BF47",src/bankC4_C000.asm
-$C4BF61,.2,CODE_C4BF61,new,"branch target only used in CODE_C4BF47",src/bankC4_C000.asm
-$C4BF74,.1,CODE_C4BF74,new,"branch target only used in CODE_C4BF67",src/bankC4_C000.asm
-$C4BF81,.2,CODE_C4BF81,new,"branch target only used in CODE_C4BF67",src/bankC4_C000.asm
-$C4BF91,.1,CODE_C4BF91,new,"branch target only used in CODE_C4BF84",src/bankC4_C000.asm
-$C4BF9E,.2,CODE_C4BF9E,new,"branch target only used in CODE_C4BF84",src/bankC4_C000.asm
-$C4BFAE,.1,CODE_C4BFAE,new,"branch target only used in CODE_C4BFA1",src/bankC4_C000.asm
-$C4BFBB,.2,CODE_C4BFBB,new,"branch target only used in CODE_C4BFA1",src/bankC4_C000.asm
-$C4BFCB,.1,CODE_C4BFCB,new,"branch target only used in CODE_C4BFBE",src/bankC4_C000.asm
-$C4BFD8,.2,CODE_C4BFD8,new,"branch target only used in CODE_C4BFBE",src/bankC4_C000.asm
-$C4BFE8,.1,CODE_C4BFE8,new,"branch target only used in CODE_C4BFDB",src/bankC4_C000.asm
-$C4BFF5,.2,CODE_C4BFF5,new,"branch target only used in CODE_C4BFDB",src/bankC4_C000.asm
-$C4C005,.1,CODE_C4C005,new,"branch target only used in CODE_C4BFF8",src/bankC4_C000.asm
-$C4C012,.2,CODE_C4C012,new,"branch target only used in CODE_C4BFF8",src/bankC4_C000.asm
-$C4C022,.1,CODE_C4C022,new,"branch target only used in CODE_C4C015",src/bankC4_C000.asm
-$C4C02F,.2,CODE_C4C02F,new,"branch target only used in CODE_C4C015",src/bankC4_C000.asm
-$C4C048,.1,CODE_C4C048,new,"branch target only used in CODE_C4C03B",src/bankC4_C000.asm
-$C4C066,.2,CODE_C4C066,new,"branch target only used in CODE_C4C03B",src/bankC4_C000.asm
-$C4C07C,.rtl,CODE_C4C07C,new,"branch target only used in CODE_C4C070",src/bankC4_C000.asm
-$C4C0C2,.1,CODE_C4C0C2,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C0D7,.2,CODE_C4C0D7,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C0EC,.3,CODE_C4C0EC,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C101,.4,CODE_C4C101,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C116,.5,CODE_C4C116,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C12B,.6,CODE_C4C12B,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C140,.7,CODE_C4C140,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C143,.8,CODE_C4C143,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C158,.9,CODE_C4C158,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C160,.10,CODE_C4C160,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C175,.11,CODE_C4C175,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C18A,.12,CODE_C4C18A,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C19F,.13,CODE_C4C19F,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C1B4,.14,CODE_C4C1B4,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C1C9,.15,CODE_C4C1C9,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C1DE,.16,CODE_C4C1DE,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C1F3,.17,CODE_C4C1F3,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C209,.18,CODE_C4C209,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
 $C4C264,.1,CODE_C4C264,new,"branch target only used in QueueTextTiles",src/bankC4_C000.asm
 $C4C28B,.loop,CODE_C4C28B,new,"branch target only used in MapTextTiles",src/bankC4_C000.asm
 $C4C29E,.1,CODE_C4C29E,new,"branch target only used in MapTextTiles",src/bankC4_C000.asm
@@ -7885,3 +7837,72 @@ $C4BC14,PrintBoldRightROMStr,CODE_C4BC14,code,"RenderBoldRightROMStr followed by
 $C4BC98,PrintItalicLeftROMStr,CODE_C4BC98,code,"RenderItalicLeftROMStr followed by shared upload and map tail",src/bankC4_B000.asm
 $C4BCB6,PrintItalicCentredROMStr,CODE_C4BCB6,code,"RenderItalicCentredROMStr followed by shared upload and map tail",src/bankC4_B000.asm
 $C4BE2E,AppendTitleBarByte,CODE_C4BE2E,code,"8-bit store A to bank 7E at X then increment X and rts",src/bankC4_B000.asm
+$C4BC2C,PrintItalicFixedLeft,CODE_C4BC2C,code,"new evidence for flag 4000: DrawText uses caller p0 instead of glyph width at BE53 .7; this entry saves A to p0 and unpacks text",src/bankC4_B000.asm
+$C4BC32,DrawItalicFixedLeft,CODE_C4BC32,code,"sets flags 4003 and italic font then draws with caller p0 width and uploads; DrawText BE53 .7 proves width override",src/bankC4_B000.asm
+$C4BC46,PrintItalicFixedLeftStr,CODE_C4BC46,code,"saves A to p0, copies RAM string and enters fixed-width italic drawing",src/bankC4_B000.asm
+$C4BC4E,PrintBoldFixedLeft,CODE_C4BC4E,code,"saves A to p0, unpacks text and enters flags 4000 bold drawing; no caller found",src/bankC4_B000.asm
+$C4BC54,DrawBoldFixedLeft,CODE_C4BC54,code,"sets flag 4000 and bold font; DrawText uses p0 width and skips bold kerning at BE53 .8",src/bankC4_B000.asm
+$C4BC68,PrintBoldFixedLeftStr,CODE_C4BC68,code,"saves A to p0, copies RAM string and enters fixed-width bold drawing",src/bankC4_B000.asm
+$C4BE53,DrawNextTextCharacter,CODE_C4BE53,code,"pops string cursor, handles end and spaces, selects glyph metrics and source, then prepares row blit",src/bankC4_B000.asm
+$C4BE5F,.1,CODE_C4BE5F,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BE73,.2,CODE_C4BE73,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BE79,.3,CODE_C4BE79,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BE99,.4,CODE_C4BE99,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BEA6,.5,CODE_C4BEA6,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BEB1,.6,CODE_C4BEB1,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BEB5,.7,CODE_C4BEB5,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BEBE,.8,CODE_C4BEBE,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BED1,.9,CODE_C4BED1,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BEF4,.10,CODE_C4BEF4,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BF01,.11,CODE_C4BF01,new,"branch target only used in DrawNextTextCharacter",src/bankC4_B000.asm
+$C4BF1A,DrawGlyphRow,CODE_C4BF1A,code,"loads two bitplane rows from font, saves source and target, dispatches by pixel column modulo eight via address-minus-one table",src/bankC4_B000.asm
+$C4BF47,DrawGlyphPixel0,CODE_C4BF47,code,"row dispatch entry ORs mask 80 into the two destination planes then continues at pixel 1 if width remains",src/bankC4_C000.asm
+$C4BF54,.1,CODE_C4BF54,new,"branch target only used in DrawGlyphPixel0",src/bankC4_C000.asm
+$C4BF61,.2,CODE_C4BF61,new,"branch target only used in DrawGlyphPixel0",src/bankC4_C000.asm
+$C4BF64,DrawGlyphRowDoneJump,CODE_C4BF64,code,"early row-exhaustion trampoline to row continuation",src/bankC4_C000.asm
+$C4BF67,DrawGlyphPixel1,CODE_C4BF67,code,"row dispatch entry shifts source planes and ORs mask 40 before width check",src/bankC4_C000.asm
+$C4BF74,.1,CODE_C4BF74,new,"branch target only used in DrawGlyphPixel1",src/bankC4_C000.asm
+$C4BF81,.2,CODE_C4BF81,new,"branch target only used in DrawGlyphPixel1",src/bankC4_C000.asm
+$C4BF84,DrawGlyphPixel2,CODE_C4BF84,code,"row dispatch entry shifts source planes and ORs mask 20 before width check",src/bankC4_C000.asm
+$C4BF91,.1,CODE_C4BF91,new,"branch target only used in DrawGlyphPixel2",src/bankC4_C000.asm
+$C4BF9E,.2,CODE_C4BF9E,new,"branch target only used in DrawGlyphPixel2",src/bankC4_C000.asm
+$C4BFA1,DrawGlyphPixel3,CODE_C4BFA1,code,"row dispatch entry shifts source planes and ORs mask 10 before width check",src/bankC4_C000.asm
+$C4BFAE,.1,CODE_C4BFAE,new,"branch target only used in DrawGlyphPixel3",src/bankC4_C000.asm
+$C4BFBB,.2,CODE_C4BFBB,new,"branch target only used in DrawGlyphPixel3",src/bankC4_C000.asm
+$C4BFBE,DrawGlyphPixel4,CODE_C4BFBE,code,"row dispatch entry shifts source planes and ORs mask 08 before width check",src/bankC4_C000.asm
+$C4BFCB,.1,CODE_C4BFCB,new,"branch target only used in DrawGlyphPixel4",src/bankC4_C000.asm
+$C4BFD8,.2,CODE_C4BFD8,new,"branch target only used in DrawGlyphPixel4",src/bankC4_C000.asm
+$C4BFDB,DrawGlyphPixel5,CODE_C4BFDB,code,"row dispatch entry shifts source planes and ORs mask 04 before width check",src/bankC4_C000.asm
+$C4BFE8,.1,CODE_C4BFE8,new,"branch target only used in DrawGlyphPixel5",src/bankC4_C000.asm
+$C4BFF5,.2,CODE_C4BFF5,new,"branch target only used in DrawGlyphPixel5",src/bankC4_C000.asm
+$C4BFF8,DrawGlyphPixel6,CODE_C4BFF8,code,"row dispatch entry shifts source planes and ORs mask 02 before width check",src/bankC4_C000.asm
+$C4C005,.1,CODE_C4C005,new,"branch target only used in DrawGlyphPixel6",src/bankC4_C000.asm
+$C4C012,.2,CODE_C4C012,new,"branch target only used in DrawGlyphPixel6",src/bankC4_C000.asm
+$C4C015,DrawGlyphPixel7,CODE_C4C015,code,"row dispatch entry ORs mask 01 then advances destination by 16 bytes and restarts pixel 0 if width remains",src/bankC4_C000.asm
+$C4C022,.1,CODE_C4C022,new,"branch target only used in DrawGlyphPixel7",src/bankC4_C000.asm
+$C4C02F,.2,CODE_C4C02F,new,"branch target only used in DrawGlyphPixel7",src/bankC4_C000.asm
+$C4C03B,DrawGlyphNextRow,CODE_C4C03B,code,"restores row source and destination, advances by two, selects lower tile half for tall fonts or advances character",src/bankC4_C000.asm
+$C4C048,.1,CODE_C4C048,new,"branch target only used in DrawGlyphNextRow",src/bankC4_C000.asm
+$C4C066,.2,CODE_C4C066,new,"branch target only used in DrawGlyphNextRow",src/bankC4_C000.asm
+$C4C068,AdvanceTextCursor,CODE_C4C068,code,"adds A to text pixel cursor then jumps back to character reader",src/bankC4_C000.asm
+$C4C070,FinishTextDraw,CODE_C4C070,code,"updates maximum rendered right extent with the final pixel cursor and rtl",src/bankC4_C000.asm
+$C4C07C,.rtl,CODE_C4C07C,new,"branch target only used in FinishTextDraw",src/bankC4_C000.asm
+$C4C08D,CheckGlyphLeftOverlap,CODE_C4C08D,code,"tests leading glyph-column bits against existing destination bitplanes, including second tile row for tall fonts",src/bankC4_C000.asm
+$C4C0C2,.1,CODE_C4C0C2,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C0D7,.2,CODE_C4C0D7,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C0EC,.3,CODE_C4C0EC,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C101,.4,CODE_C4C101,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C116,.5,CODE_C4C116,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C12B,.6,CODE_C4C12B,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C140,.7,CODE_C4C140,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C143,.8,CODE_C4C143,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C158,.9,CODE_C4C158,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C160,.10,CODE_C4C160,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C175,.11,CODE_C4C175,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C18A,.12,CODE_C4C18A,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C19F,.13,CODE_C4C19F,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C1B4,.14,CODE_C4C1B4,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C1C9,.15,CODE_C4C1C9,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C1DE,.16,CODE_C4C1DE,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C1F3,.17,CODE_C4C1F3,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm
+$C4C209,.18,CODE_C4C209,new,"branch target only used in CheckGlyphLeftOverlap",src/bankC4_C000.asm

@@ -1471,10 +1471,10 @@ PrintItalicLeft:					; prints the packed text X at row Y in ItalicFontGlyphs fro
 									; margin
 	jsl.l RenderItalicLeft
 	bra UploadAndMapText
-CODE_C4BC2C:						; called from other segments
+PrintItalicFixedLeft:				; print packed italic text from the left margin with glyph width A
 	sta.b p0
 	jsl.l UnpackText
-CODE_C4BC32:						; from CODE_C4BC46
+DrawItalicFixedLeft:				; draw and upload italic text with the supplied fixed glyph width
 	lda.w #$4003
 	sta.b $0E
 	lda.w #ItalicFontGlyphs&$FFFF
@@ -1485,14 +1485,14 @@ CODE_C4BC32:						; from CODE_C4BC46
 	ply
 UploadAndMapTextJump:				; continue to queue and map the rendered text
 	bra UploadAndMapText
-CODE_C4BC46:						; called from other segments
+PrintItalicFixedLeftStr:			; print a RAM string in italic with glyph width A
 	sta.b p0
 	jsl.l CopyString
-	bra CODE_C4BC32
-CODE_C4BC4E:						; no caller found (not traced)
+	bra DrawItalicFixedLeft
+PrintBoldFixedLeft:					; print packed bold text from the left margin with glyph width A
 	sta.b p0
 	jsl.l UnpackText
-CODE_C4BC54:						; from CODE_C4BC68
+DrawBoldFixedLeft:					; draw and upload bold text with the supplied fixed glyph width
 	lda.w #$4000
 	sta.b $0E
 	lda.w #BoldFontGlyphs&$FFFF
@@ -1502,10 +1502,10 @@ CODE_C4BC54:						; from CODE_C4BC68
 	jsl.l DrawText
 	ply
 	bra UploadAndMapTextJump
-CODE_C4BC68:						; called from other segments
+PrintBoldFixedLeftStr:				; print a RAM string in bold with glyph width A
 	sta.b p0
 	jsl.l CopyString
-	bra CODE_C4BC54
+	bra DrawBoldFixedLeft
 CopyString:							; copies the zero ended string at X (bank $7E) into a new work buffer;
 									; returns X = the copy
 	phy
@@ -1772,12 +1772,12 @@ DrawText:							; draws the text at X (zero ended) from pixel column A into new 
 	jsl.l AllocClearWorkBuf
 	sta.b $A5
 	phx
-CODE_C4BE53:						; from CODE_C4C068
+DrawNextTextCharacter:				; read the next character and prepare its glyph for drawing
 	ply
 	lda.w $0000,y
 	and.w #$00FF
 	bne .1
-	jmp.w CODE_C4C070
+	jmp.w FinishTextDraw
 .1:									; Y + 1, push Y, if A is not $0020 go to .3, A = $0E, ...
 	iny
 	phy
@@ -1787,10 +1787,10 @@ CODE_C4BE53:						; from CODE_C4C068
 	bit.w #$0004
 	beq .2
 	lda.w #$0004
-	jmp.w CODE_C4C068
-.2:									; A = $18DE, go to CODE_C4C068
+	jmp.w AdvanceTextCursor
+.2:									; A = $18DE, go to AdvanceTextCursor
 	lda.w $18DE
-	jmp.w CODE_C4C068
+	jmp.w AdvanceTextCursor
 .3:									; A - $0030, X = A, if A < $0031 go to .4, A - $0020, ...
 	sec
 	sbc.w #$0030
@@ -1849,19 +1849,19 @@ CODE_C4BE53:						; from CODE_C4C068
 	cmp.b $12
 	bcc .11
 	sta.b $0A
-	jsr.w CODE_C4C08D
+	jsr.w CheckGlyphLeftOverlap
 	bcc .11
 	inc.b $0A
-	jsr.w CODE_C4C08D
+	jsr.w CheckGlyphLeftOverlap
 	bcc .11
 	inc.b $0A
 	bra .11
-.10:								; if p0 is not $007F go to .11, A = $18DE, go to CODE_C4C068
+.10:								; if p0 is not $007F go to .11, A = $18DE, go to AdvanceTextCursor
 	lda.b p0
 	cmp.w #$007F
 	bne .11
 	lda.w $18DE
-	jmp.w CODE_C4C068
+	jmp.w AdvanceTextCursor
 .11:								; A = $8000, A = $10, A + $0C, X = A, ...
 	lda.w #$8000
 	trb.b $0E
@@ -1876,7 +1876,7 @@ CODE_C4BE53:						; from CODE_C4C068
 	asl a
 	adc.b $A5
 	tay
-CODE_C4BF1A:						; from CODE_C4BE53
+DrawGlyphRow:						; load a glyph row and dispatch by its destination pixel column
 	phx
 	phy
 	sep #$20

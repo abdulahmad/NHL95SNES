@@ -917,7 +917,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	lda.w #$000F
 	ldy.b $71
 	ldx.w #mesarea
-	jsl.l CODE_C4BC46
+	jsl.l PrintItalicFixedLeftStr
 	jsl.l WaitTransfers
 	rts
 .15:								; if a3 is not 0 go to .16, return

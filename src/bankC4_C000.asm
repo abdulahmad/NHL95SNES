@@ -1,7 +1,7 @@
 ; Segment bankC4_C000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4BF47
-CODE_C4BF47:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+DrawGlyphPixel0:					; draw the next glyph pixel at column zero of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -13,12 +13,12 @@ CODE_C4BF47:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0080
 	sta.w $0001,y
-.2:									; X - 1, if the result is not 0 go to CODE_C4BF67
+.2:									; X - 1, if the result is not 0 go to DrawGlyphPixel1
 	dex
-	bne CODE_C4BF67
-CODE_C4BF64:						; from CODE_C4BF67, CODE_C4BF84, CODE_C4BFA1
-	jmp.w CODE_C4C03B
-CODE_C4BF67:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	bne DrawGlyphPixel1
+DrawGlyphRowDoneJump:				; continue after finishing the glyph row
+	jmp.w DrawGlyphNextRow
+DrawGlyphPixel1:					; draw the next glyph pixel at column one of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -30,10 +30,10 @@ CODE_C4BF67:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0040
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4BF64
+.2:									; X - 1, if the result = 0 go to DrawGlyphRowDoneJump
 	dex
-	beq CODE_C4BF64
-CODE_C4BF84:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	beq DrawGlyphRowDoneJump
+DrawGlyphPixel2:					; draw the next glyph pixel at column two of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -45,10 +45,10 @@ CODE_C4BF84:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0020
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4BF64
+.2:									; X - 1, if the result = 0 go to DrawGlyphRowDoneJump
 	dex
-	beq CODE_C4BF64
-CODE_C4BFA1:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	beq DrawGlyphRowDoneJump
+DrawGlyphPixel3:					; draw the next glyph pixel at column three of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -60,10 +60,10 @@ CODE_C4BFA1:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0010
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4BF64
+.2:									; X - 1, if the result = 0 go to DrawGlyphRowDoneJump
 	dex
-	beq CODE_C4BF64
-CODE_C4BFBE:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	beq DrawGlyphRowDoneJump
+DrawGlyphPixel4:					; draw the next glyph pixel at column four of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -75,10 +75,10 @@ CODE_C4BFBE:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0008
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4C03B
+.2:									; X - 1, if the result = 0 go to DrawGlyphNextRow
 	dex
-	beq CODE_C4C03B
-CODE_C4BFDB:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	beq DrawGlyphNextRow
+DrawGlyphPixel5:					; draw the next glyph pixel at column five of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -90,10 +90,10 @@ CODE_C4BFDB:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0004
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4C03B
+.2:									; X - 1, if the result = 0 go to DrawGlyphNextRow
 	dex
-	beq CODE_C4C03B
-CODE_C4BFF8:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	beq DrawGlyphNextRow
+DrawGlyphPixel6:					; draw the next glyph pixel at column six of the tile
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -105,10 +105,10 @@ CODE_C4BFF8:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0002
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4C03B
+.2:									; X - 1, if the result = 0 go to DrawGlyphNextRow
 	dex
-	beq CODE_C4C03B
-CODE_C4C015:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
+	beq DrawGlyphNextRow
+DrawGlyphPixel7:					; draw the last pixel column and continue into the next tile when needed
 	asl.b $16
 	bcc .1
 	lda.w $0000,y
@@ -120,15 +120,15 @@ CODE_C4C015:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	lda.w $0001,y
 	ora.w #$0001
 	sta.w $0001,y
-.2:									; X - 1, if the result = 0 go to CODE_C4C03B, A = Y, A + $0010, ...
+.2:									; X - 1, if the result = 0 go to DrawGlyphNextRow, A = Y, A + $0010, ...
 	dex
-	beq CODE_C4C03B
+	beq DrawGlyphNextRow
 	tya
 	clc
 	adc.w #$0010
 	tay
-	jmp.w CODE_C4BF47
-CODE_C4C03B:						; from CODE_C4BF64, CODE_C4BFBE, CODE_C4BFDB, CODE_C4BFF8, ...
+	jmp.w DrawGlyphPixel0
+DrawGlyphNextRow:					; advance to the next glyph row or finish the character
 	ply
 	iny
 	iny
@@ -137,7 +137,7 @@ CODE_C4C03B:						; from CODE_C4BF64, CODE_C4BFBE, CODE_C4BFDB, CODE_C4BFF8, ...
 	inx
 	cpx.b $3A
 	bcs .1
-	jmp.w CODE_C4BF1A
+	jmp.w DrawGlyphRow
 .1:									; A = $0E, A / 2, if carry clear go to .2, A = X, ...
 	lda.b $0E
 	lsr a
@@ -153,25 +153,25 @@ CODE_C4C03B:						; from CODE_C4BF64, CODE_C4BFBE, CODE_C4BFDB, CODE_C4BFF8, ...
 	lda.w #$8000
 	tsb.b $0E
 	bne .2
-	jmp.w CODE_C4BF1A
+	jmp.w DrawGlyphRow
 .2:									; A = p0
 	lda.b p0
-CODE_C4C068:						; called from other segments
+AdvanceTextCursor:					; advance the text pixel cursor by A and read the next character
 	clc
 	adc.b $0A
 	sta.b $0A
-	jmp.w CODE_C4BE53
-CODE_C4C070:						; called from other segments
+	jmp.w DrawNextTextCharacter
+FinishTextDraw:						; record the rightmost text extent and return
 	lda.b $0A
 	cmp.l $0018DC
 	bcc .rtl
 	sta.l $0018DC
 .rtl:								; return
 	rtl
-DATA8_C4C07D:						; the 8 routines CODE_C4BF1A runs (address - 1: pushed, then rts)
-	dw CODE_C4BF47-1,CODE_C4BF67-1,CODE_C4BF84-1,CODE_C4BFA1-1
-	dw CODE_C4BFBE-1,CODE_C4BFDB-1,CODE_C4BFF8-1,CODE_C4C015-1
-CODE_C4C08D:						; called from other segments
+DATA8_C4C07D:						; the 8 routines DrawGlyphRow runs (address - 1: pushed, then rts)
+	dw DrawGlyphPixel0-1,DrawGlyphPixel1-1,DrawGlyphPixel2-1,DrawGlyphPixel3-1
+	dw DrawGlyphPixel4-1,DrawGlyphPixel5-1,DrawGlyphPixel6-1,DrawGlyphPixel7-1
+CheckGlyphLeftOverlap:				; test whether the glyph leading column overlaps existing text pixels
 	lda.b $0A
 	and.w #$0007
 	tax
@@ -752,7 +752,7 @@ CopyString2:						; CopyString into the second work buffer (AllocWorkBuf2)
 	rtl
 DATA8_C4C4A6:						; not traced: data between routines
 	db $01,$02,$04,$08,$10,$20,$40,$80
-DATA8_C4C4AE:						; not traced: a table read by CODE_C4C08D
+DATA8_C4C4AE:						; not traced: a table read by CheckGlyphLeftOverlap
 	db $80,$40,$20,$10,$08,$04,$02,$01
 DATA8_C4C4B6:						; not traced: a table read by CODE_C4BEB1
 	db $0B,$07,$0B,$0B,$0B,$0B,$0B,$09,$0B,$0C,$05,$08,$0C,$06,$0B,$07
