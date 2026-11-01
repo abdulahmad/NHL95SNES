@@ -125,7 +125,7 @@ chk4pass:							; called from other segments
 	jmp.w assexit
 .rtl2:								; return
 	rtl
-CODE_C4A0C1:						; called from other segments
+passmode:							; process pass mode input and start the selected pass
 	lda.b d2
 	bit.w #$8000
 	bne dopass
@@ -139,7 +139,7 @@ CODE_C4A0C1:						; called from other segments
 	bra dopass
 .rtl:								; return
 	rtl
-dopass:								; from CODE_C4A0C1, chk4pass and other segments
+dopass:								; from passmode, chk4pass and other segments
 	stz.w onetimerreq
 	lda.w #$0004
 	trb.w sflags
@@ -267,7 +267,7 @@ dopass:								; from CODE_C4A0C1, chk4pass and other segments
 	jsl.l RandomWord
 	and.w #$0FFF
 	sta.w puckvz
-dopass_swing:						; from dopass, CODE_C4A52A
+dopass_swing:						; from dopass, LaunchDumpIn
 	lda.w position,x
 	bne .3
 	lda.w pfgoal,x
@@ -585,7 +585,7 @@ DumpInTarget:						; from assdumpin and other segments
 	sta.w passdir
 .rtl:								; return
 	rtl
-CODE_C4A4AB:						; called from other segments
+AssignDumpIn:						; replace the current assignment with a dump-in
 	lda.w #$0014
 	sta.b d0
 	jmp.w assreplace
@@ -640,10 +640,10 @@ assdumpin:							; called from other segments
 	sta.w dumpintarget
 	lda.w facedir,x
 	sta.w passdir
-.5:									; call CODE_C4A52A, go to assexit
-	jsl.l CODE_C4A52A
+.5:									; call LaunchDumpIn, go to assexit
+	jsl.l LaunchDumpIn
 	jmp.w assexit
-CODE_C4A52A:						; from assdumpin and other segments
+LaunchDumpIn:						; launch the puck toward the dump-in target and start the pass swing
 	txy
 	lda.w #$000F
 	sec
@@ -738,16 +738,16 @@ CODE_C4A52A:						; from assdumpin and other segments
 	lsr a
 	sta.w lastplayer
 	jmp.w dopass_swing
-DATA8_C4A5FD:						; not traced: a table read by CODE_C4A52A
+DATA8_C4A5FD:						; not traced: a table read by LaunchDumpIn
 	db $19,$00,$19,$00,$19,$00,$19,$00,$14,$00,$19,$00,$19,$00,$19,$00
 	db $19,$00,$19,$00,$14,$00,$19,$00
-DATA8_C4A615:						; not traced: a table read by CODE_C4A52A
+DATA8_C4A615:						; not traced: a table read by LaunchDumpIn
 	db $14,$00,$19,$00,$19,$00,$46,$00,$14,$00,$46,$00,$14,$00,$19,$00
 	db $19,$00,$46,$00,$14,$00,$46,$00
-DATA8_C4A62D:						; not traced: a table read by CODE_C4A52A
+DATA8_C4A62D:						; not traced: a table read by LaunchDumpIn
 	db $00,$00,$B0,$FF,$50,$00,$B0,$FF,$00,$00,$50,$00,$00,$00,$50,$00
 	db $B0,$FF,$B0,$FF,$00,$00,$50,$00
-DATA8_C4A645:						; not traced: a table read by CODE_C4A52A
+DATA8_C4A645:						; not traced: a table read by LaunchDumpIn
 	db $97,$FF,$8D,$FF,$8D,$FF,$4C,$FF,$29,$FF,$4C,$FF,$69,$00,$73,$00
 	db $73,$00,$B4,$00,$D7,$00,$B4,$00
 puckshadow:							; assignment (asstab entry 25): the puck shadow (object 15): under the

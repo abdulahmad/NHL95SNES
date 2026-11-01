@@ -383,7 +383,7 @@ chk4shot:							; called from other segments
 	lda.w seed
 	and.w #$0003
 	bne .2
-	jmp.w CODE_C4A4AB
+	jmp.w AssignDumpIn
 .2:									; A = $0020, A - spodds,x, A * 2, A * 2, ...
 	lda.w #$0020
 	sec
@@ -767,7 +767,7 @@ ShotMode:							; shot input for the puck carrier: doshot at animation frame $18
 	trb.w sflags
 .rtl:								; return
 	rtl
-doshot:								; from ShotMode, CODE_C49E91, ...
+doshot:								; from ShotMode, PassReceiverOneTimer, ...
 	jsl.l shotdiradj
 	pea.w $000D
 	lda.w passspeed
@@ -1014,19 +1014,19 @@ assbreakaway:						; assignment (asstab entry 16): the puck carrier on a breakaw
 	cpx.w puckc
 	bne .1
 	lda.w playerpad,x
-	bmi CODE_C49B74
+	bmi BreakawayFollowPath
 .1:									; go to assexit
 	jmp.w assexit
 DATA8_C49B66:						; an rtl no traced code reaches
 	db $6B
-CODE_C49B67:						; from CODE_C49B74
+BreakawayGlideStopped:				; glide and suspend puck pickup while breakaway play is stopped
 	jsl.l GlideBack
 	lda.w #$003C
 	sta.w nopuck,x
 	jmp.w donothing
-CODE_C49B74:						; from assbreakaway
+BreakawayFollowPath:				; follow the computer breakaway path and choose when to shoot
 	lda.w gmclock
-	bne CODE_C49B67
+	bne BreakawayGlideStopped
 	lda.w Ypos,x
 	sta.b d0
 	ldy.w pfgoal,x
@@ -1049,14 +1049,14 @@ CODE_C49B74:						; from assbreakaway
 	lda.w seed
 	and.w #$0003
 	sta.w temp3,x
-	jsr.w CODE_C49CDB
+	jsr.w InitBreakawayPath
 .2:									; if sopathnext < 0 go to .5, if d0 - sopathnext < 0 go to .3, ...
 	lda.w sopathnext
 	bmi .5
 	lda.b d0
 	cmp.w sopathnext
 	bmi .3
-	jsr.w CODE_C49C88
+	jsr.w AdvanceBreakawayPath
 	lda.w facedir,x
 	sta.w sopathface
 .3:									; d0 = sopathx, d1 = sopathy, if pfgoal,x is not 0 go to .4, ...
@@ -1144,9 +1144,9 @@ CODE_C49B74:						; from assbreakaway
 	lda.w #$0002
 	sta.w SPAcnt,x
 	jml.l doshot
-DATA8_C49C87:						; not traced: a table read by CODE_C49B74
+DATA8_C49C87:						; not traced: a table read by BreakawayFollowPath
 	db $6B
-CODE_C49C88:						; from CODE_C49B74
+AdvanceBreakawayPath:				; load the next breakaway waypoint and its advance threshold
 	lda.w sopathpoint
 	asl a
 	adc.w sopathpoint
@@ -1177,10 +1177,10 @@ CODE_C49C88:						; from CODE_C49B74
 	sta.w sopathnext
 	inc.w sopathpoint
 	rts
-DATA8_C49CC3:						; not traced: a table read by CODE_C49C88
+DATA8_C49CC3:						; not traced: a table read by AdvanceBreakawayPath
 	db $28,$00,$78,$00,$50,$00,$EA,$FF,$97,$00,$8C,$00,$EA,$FF,$E6,$00
 	db $B7,$00,$2C,$00,$E9,$00,$FF,$FF
-CODE_C49CDB:						; from CODE_C49B74
+InitBreakawayPath:					; choose the starting side and waypoint of the breakaway path
 	lda.b d0
 	cmp.w #$002E
 	bpl .6
@@ -1263,7 +1263,7 @@ CODE_C49CDB:						; from CODE_C49B74
 	sta.w sopathside
 	stz.w sopathx
 	bra .12
-Findhittype:						; from SetShotMode, CODE_C4A20F, CODE_C49E91, ...
+Findhittype:						; from SetShotMode, CODE_C4A20F, PassReceiverOneTimer, ...
 	lda.b d0
 	eor.w #$FFFF
 	inc a
@@ -1325,27 +1325,27 @@ asspassrec:							; called from other segments
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-.1:									; $0676,x - 1, if the result < 0 go to CODE_C49E78, ...
+.1:									; $0676,x - 1, if the result < 0 go to EndPassReceiverAssignment, ...
 	dec.w $0676,x
-	bmi CODE_C49E78
+	bmi EndPassReceiverAssignment
 	lda.w puckc
-	bpl CODE_C49E78
+	bpl EndPassReceiverAssignment
 	lda.w onetimerreq
-	bne CODE_C49E91
+	bne PassReceiverOneTimer
 	ldy.w playerpad,x
-	bmi CODE_C49E42
+	bmi PassReceiverTryOneTimer
 	lda.w padnew,y
 	bit.w #$8000
-	bne CODE_C49E78
+	bne EndPassReceiverAssignment
 	bit.w #$0080
-	beq CODE_C49E42
+	beq PassReceiverTryOneTimer
 	inc.w onetimerreq
 	lda.w #$7FFF
 	sta.w $0674
-	bra CODE_C49E91
+	bra PassReceiverOneTimer
 DATA8_C49E41:						; an rtl no traced code reaches
 	db $6B
-CODE_C49E42:						; from asspassrec
+PassReceiverTryOneTimer:			; let a computer pass receiver request a one-timer in the attacking zone
 	ldy.b a2
 	lda.w teampads,y
 	bne .3
@@ -1361,15 +1361,15 @@ CODE_C49E42:						; from asspassrec
 	inc.w onetimerreq
 	lda.w #$7FFF
 	sta.w $0674
-	jmp.w CODE_C49E91
+	jmp.w PassReceiverOneTimer
 .2:									; if Ypos,x - $005C >= 0 go to .1
 	lda.w Ypos,x
 	cmp.w #$005C
 	bpl .1
-.3:									; if puckc < 0 go to CODE_C49E90
+.3:									; if puckc < 0 go to PassReceiverReturn
 	lda.w puckc
-	bmi CODE_C49E90
-CODE_C49E78:						; from asspassrec, CODE_C49E91
+	bmi PassReceiverReturn
+EndPassReceiverAssignment:			; clear pass receiver state and end the assignment
 	lda.w #$FFFF
 	sta.w passReceiverPlayerNum
 	stz.w pfalock,x
@@ -1378,9 +1378,9 @@ CODE_C49E78:						; from asspassrec, CODE_C49E91
 	and.w #$FFFE
 	sta.w pflags,x
 	jmp.w assexit
-CODE_C49E90:						; from CODE_C49E42, CODE_C49E91
+PassReceiverReturn:					; return from the pass receiver update
 	rtl
-CODE_C49E91:						; from asspassrec, CODE_C49E42
+PassReceiverOneTimer:				; animate and time the pass receiver one-timer attempt
 	lda.w SPA,x
 	cmp.w #$1E48
 	beq .7
@@ -1420,11 +1420,11 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	bra .5
 .4:									; A = $1E48
 	lda.w #$1E48
-.5:									; call SetSPAFromA, go to CODE_C49E90
+.5:									; call SetSPAFromA, go to PassReceiverReturn
 	jsl.l SetSPAFromA
-	jmp.w CODE_C49E90
-.6:									; go to CODE_C49E78
-	jmp.w CODE_C49E78
+	jmp.w PassReceiverReturn
+.6:									; go to EndPassReceiverAssignment
+	jmp.w EndPassReceiverAssignment
 .7:									; nopuck,x = $000A, if SPAnum,x >= $0010 go to .6, if minus go to .6, ...
 	lda.w #$000A
 	sta.w nopuck,x
@@ -1507,12 +1507,13 @@ CODE_C49E91:						; from asspassrec, CODE_C49E42
 	pla
 	sta.b a2
 	jsl.l doshot
-	jmp.w CODE_C49E78
-.14:								; if puckc < 0 go to .rtl, if X = puckc go to .rtl, go to CODE_C49E78
+	jmp.w EndPassReceiverAssignment
+.14:								; if puckc < 0 go to .rtl, if X = puckc go to .rtl, go to
+									; EndPassReceiverAssignment
 	lda.w puckc
 	bmi .rtl
 	cpx.w puckc
 	beq .rtl
-	jmp.w CODE_C49E78
+	jmp.w EndPassReceiverAssignment
 .rtl:								; return
 	rtl

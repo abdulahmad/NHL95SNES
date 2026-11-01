@@ -1528,8 +1528,8 @@ doinput:							; called from other segments
 	bit.w #$0080
 	bne .29
 	jml.l doplayeracc
-.24:								; go to CODE_C4A0C1
-	jml.l CODE_C4A0C1
+.24:								; go to passmode
+	jml.l passmode
 .25:								; go to ShotMode
 	jml.l ShotMode
 .26:								; d0 = $0014, go to assinsert

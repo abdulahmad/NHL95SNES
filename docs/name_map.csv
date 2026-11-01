@@ -3423,23 +3423,6 @@ $C43251,.13,CODE_C43251,new,"branch target only used in assdefd",src/bankC4_3000
 $C4325E,.14,CODE_C4325E,new,"branch target only used in assdefd",src/bankC4_3000.asm
 $C4326D,.15,CODE_C4326D,new,"branch target only used in assdefd",src/bankC4_3000.asm
 $C43288,.16,CODE_C43288,new,"branch target only used in assdefd",src/bankC4_3000.asm
-$C432B8,.1,CODE_C432B8,new,"branch target only used in CODE_C432A1",src/bankC4_3000.asm
-$C432C5,.2,CODE_C432C5,new,"branch target only used in CODE_C432A1",src/bankC4_3000.asm
-$C432D4,.3,CODE_C432D4,new,"branch target only used in CODE_C432A1",src/bankC4_3000.asm
-$C432EF,.4,CODE_C432EF,new,"branch target only used in CODE_C432A1",src/bankC4_3000.asm
-$C43358,.1,CODE_C43358,new,"branch target only used in CODE_C43350",src/bankC4_3000.asm
-$C4337B,.2,CODE_C4337B,new,"branch target only used in CODE_C43350",src/bankC4_3000.asm
-$C4338F,.3,CODE_C4338F,new,"branch target only used in CODE_C43350",src/bankC4_3000.asm
-$C43392,.4,CODE_C43392,new,"branch target only used in CODE_C43350",src/bankC4_3000.asm
-$C433AA,.5,CODE_C433AA,new,"branch target only used in CODE_C43350",src/bankC4_3000.asm
-$C433B5,.6,CODE_C433B5,new,"branch target only used in CODE_C43350",src/bankC4_3000.asm
-$C433EC,.1,CODE_C433EC,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
-$C433FF,.2,CODE_C433FF,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
-$C43406,.3,CODE_C43406,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
-$C4340B,.4,CODE_C4340B,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
-$C43418,.5,CODE_C43418,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
-$C4341B,.6,CODE_C4341B,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
-$C43426,.7,CODE_C43426,new,"branch target only used in CODE_C433CE",src/bankC4_3000.asm
 $C43441,.1,CODE_C43441,new,"branch target only used in EvadePC",src/bankC4_3000.asm
 $C43465,.2,CODE_C43465,new,"branch target only used in EvadePC",src/bankC4_3000.asm
 $C4348D,.rtl,CODE_C4348D,new,"branch target only used in EvadePC",src/bankC4_3000.asm
@@ -3450,8 +3433,6 @@ $C434CF,.3,CODE_C434CF,new,"branch target only used in asswingd",src/bankC4_3000
 $C434E3,.4,CODE_C434E3,new,"branch target only used in asswingd",src/bankC4_3000.asm
 $C434E6,.5,CODE_C434E6,new,"branch target only used in asswingd",src/bankC4_3000.asm
 $C434F8,.6,CODE_C434F8,new,"branch target only used in asswingd",src/bankC4_3000.asm
-$C43566,.1,CODE_C43566,new,"branch target only used in CODE_C4353E",src/bankC4_3000.asm
-$C4358D,.1,CODE_C4358D,new,"branch target only used in CODE_C43575",src/bankC4_3000.asm
 $C435AA,.rtl,CODE_C435AA,new,"branch target only used in asswingo",src/bankC4_3000.asm
 $C435AB,.1,CODE_C435AB,new,"branch target only used in asswingo",src/bankC4_3000.asm
 $C435AE,.2,CODE_C435AE,new,"branch target only used in asswingo",src/bankC4_3000.asm
@@ -4223,55 +4204,11 @@ $C49B10,.16,CODE_C49B10,new,"branch target only used in doshot",src/bankC4_9000.
 $C49B26,.17,CODE_C49B26,new,"branch target only used in doshot",src/bankC4_9000.asm
 $C49B34,.rtl,CODE_C49B34,new,"branch target only used in doshot",src/bankC4_9000.asm
 $C49B63,.1,CODE_C49B63,new,"branch target only used in assbreakaway",src/bankC4_9000.asm
-$C49B8B,.1,CODE_C49B8B,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49BB4,.2,CODE_C49BB4,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49BC9,.3,CODE_C49BC9,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49BE0,.4,CODE_C49BE0,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49BF8,.5,CODE_C49BF8,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C15,.6,CODE_C49C15,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C1E,.7,CODE_C49C1E,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C36,.8,CODE_C49C36,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C5A,.9,CODE_C49C5A,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C63,.10,CODE_C49C63,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C72,.11,CODE_C49C72,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49C75,.12,CODE_C49C75,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
-$C49CAC,.1,CODE_C49CAC,new,"branch target only used in CODE_C49C88",src/bankC4_9000.asm
-$C49CF5,.1,CODE_C49CF5,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D06,.2,CODE_C49D06,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D0B,.3,CODE_C49D0B,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D0E,.4,CODE_C49D0E,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D17,.5,CODE_C49D17,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D2A,.6,CODE_C49D2A,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D4A,.7,CODE_C49D4A,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D5B,.8,CODE_C49D5B,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D60,.9,CODE_C49D60,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D63,.10,CODE_C49D63,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D6C,.11,CODE_C49D6C,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D72,.12,CODE_C49D72,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
-$C49D85,.13,CODE_C49D85,new,"branch target only used in CODE_C49CDB",src/bankC4_9000.asm
 $C49DB0,.1,CODE_C49DB0,new,"branch target only used in Findhittype",src/bankC4_9000.asm
 $C49DE6,.1,CODE_C49DE6,new,"branch target only used in setpassmode",src/bankC4_9000.asm
 $C49DEB,.2,CODE_C49DEB,new,"branch target only used in setpassmode",src/bankC4_9000.asm
 $C49DFA,.rtl,CODE_C49DFA,new,"branch target only used in setpassmode",src/bankC4_9000.asm
 $C49E15,.1,CODE_C49E15,new,"branch target only used in asspassrec",src/bankC4_9000.asm
-$C49E56,.1,CODE_C49E56,new,"branch target only used in CODE_C49E42",src/bankC4_9000.asm
-$C49E6B,.2,CODE_C49E6B,new,"branch target only used in CODE_C49E42",src/bankC4_9000.asm
-$C49E73,.3,CODE_C49E73,new,"branch target only used in CODE_C49E42",src/bankC4_9000.asm
-$C49EAA,.1,CODE_C49EAA,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49ECB,.2,CODE_C49ECB,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49ED4,.3,CODE_C49ED4,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49EE3,.4,CODE_C49EE3,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49EE6,.5,CODE_C49EE6,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49EED,.6,CODE_C49EED,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49EF0,.7,CODE_C49EF0,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49F2C,.8,CODE_C49F2C,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49F63,.9,CODE_C49F63,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49F69,.10,CODE_C49F69,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49F83,.11,CODE_C49F83,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49F8B,.12,CODE_C49F8B,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49F9D,.13,CODE_C49F9D,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49FAF,.14,CODE_C49FAF,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
-$C49FBC,.rtl,CODE_C49FBC,new,"branch target only used in CODE_C49E91",src/bankC4_9000.asm
 $C49FD2,.1,CODE_C49FD2,new,"branch target only used in chk4pass",src/bankC4_A000.asm
 $C49FE6,.2,CODE_C49FE6,new,"branch target only used in chk4pass",src/bankC4_A000.asm
 $C4A005,.3,CODE_C4A005,new,"branch target only used in chk4pass",src/bankC4_A000.asm
@@ -4283,7 +4220,6 @@ $C4A06E,.7,CODE_C4A06E,new,"branch target only used in chk4pass",src/bankC4_A000
 $C4A092,.loop,CODE_C4A092,new,"branch target only used in chk4pass",src/bankC4_A000.asm
 $C4A0A8,.8,CODE_C4A0A8,new,"branch target only used in chk4pass",src/bankC4_A000.asm
 $C4A0C0,.rtl2,CODE_C4A0C0,new,"branch target only used in chk4pass",src/bankC4_A000.asm
-$C4A0DC,.rtl,CODE_C4A0DC,new,"branch target only used in CODE_C4A0C1",src/bankC4_A000.asm
 $C4A106,.1,CODE_C4A106,new,"branch target only used in dopass",src/bankC4_A000.asm
 $C4A115,.2,CODE_C4A115,new,"branch target only used in dopass",src/bankC4_A000.asm
 $C4A12E,.loop,CODE_C4A12E,new,"branch target only used in dopass",src/bankC4_A000.asm
@@ -4316,10 +4252,6 @@ $C4A4E3,.2,CODE_C4A4E3,new,"branch target only used in assdumpin",src/bankC4_A00
 $C4A4E6,.3,CODE_C4A4E6,new,"branch target only used in assdumpin",src/bankC4_A000.asm
 $C4A510,.4,CODE_C4A510,new,"branch target only used in assdumpin",src/bankC4_A000.asm
 $C4A523,.5,CODE_C4A523,new,"branch target only used in assdumpin",src/bankC4_A000.asm
-$C4A580,.1,CODE_C4A580,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
-$C4A58F,.2,CODE_C4A58F,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
-$C4A591,.3,CODE_C4A591,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
-$C4A599,.4,CODE_C4A599,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
 $C4A666,.loop,CODE_C4A666,new,"branch target only used in puckshadow",src/bankC4_A000.asm
 $C4A680,.1,CODE_C4A680,new,"branch target only used in puckshadow",src/bankC4_A000.asm
 $C4A693,.2,CODE_C4A693,new,"branch target only used in puckshadow",src/bankC4_A000.asm
@@ -7911,3 +7843,93 @@ $C4C454,.1,CODE_C4C454,new,"branch target only used in AdvanceTextBits",src/bank
 $C4C45A,PeekTextBits,CODE_C4C45A,code,"loads source word from bank C3 and shifts right by current bit offset",src/bankC4_C000.asm
 $C4C466,.loop,CODE_C4C466,new,"branch target only used in PeekTextBits",src/bankC4_C000.asm
 $C4C46A,.rts,CODE_C4C46A,new,"branch target only used in PeekTextBits",src/bankC4_C000.asm
+$C432A1,DefenceScanTopThreats,CODE_C432A1,code,"assdefd top-end loop takes maximum projected opponent Y, adds defensive gap and sets temp4 target",src/bankC4_3000.asm
+$C432B8,.1,CODE_C432B8,new,"branch target only used in DefenceScanTopThreats",src/bankC4_3000.asm
+$C432C5,.2,CODE_C432C5,new,"branch target only used in DefenceScanTopThreats",src/bankC4_3000.asm
+$C432D4,.3,CODE_C432D4,new,"branch target only used in DefenceScanTopThreats",src/bankC4_3000.asm
+$C432EF,.4,CODE_C432EF,new,"branch target only used in DefenceScanTopThreats",src/bankC4_3000.asm
+$C4330F,DefenceSkateAndCheck,CODE_C4330F,code,"loads temp3 and temp4 target, calls skateto with empty callback then check4check",src/bankC4_3000.asm
+$C43344,OffensiveDefenceReturn,CODE_C43344,code,"rtl used when assdefo player has a controller",src/bankC4_3000.asm
+$C43348,DefenceTakePuckAssignment,CODE_C43348,code,"loads assignment 17 and jumps to assinsert; asstab entry 17 is asspuckc",src/bankC4_3000.asm
+$C43350,OffensiveDefenceThink,CODE_C43350,code,"assdefo continuation handles stopped clock and manual control, initializes timers and sets EvadePC callback",src/bankC4_3000.asm
+$C43358,.1,CODE_C43358,new,"branch target only used in OffensiveDefenceThink",src/bankC4_3000.asm
+$C4337B,.2,CODE_C4337B,new,"branch target only used in OffensiveDefenceThink",src/bankC4_3000.asm
+$C4338F,.3,CODE_C4338F,new,"branch target only used in OffensiveDefenceThink",src/bankC4_3000.asm
+$C43392,.4,CODE_C43392,new,"branch target only used in OffensiveDefenceThink",src/bankC4_3000.asm
+$C433AA,.5,CODE_C433AA,new,"branch target only used in OffensiveDefenceThink",src/bankC4_3000.asm
+$C433B5,.6,CODE_C433B5,new,"branch target only used in OffensiveDefenceThink",src/bankC4_3000.asm
+$C433C4,OffensiveDefenceBlendX,CODE_C433C4,code,"arithmetic-halves puckx and adds the selected lateral lane before shared target tail",src/bankC4_3000.asm
+$C433CE,OffensiveDefenceTargetY,CODE_C433CE,code,"sets d0 from A, chooses Y by puck zone and team flag, mirrors by pfgoal then skateto",src/bankC4_3000.asm
+$C433EC,.1,CODE_C433EC,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C433FF,.2,CODE_C433FF,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C43406,.3,CODE_C43406,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C4340B,.4,CODE_C4340B,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C43418,.5,CODE_C43418,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C4341B,.6,CODE_C4341B,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C43426,.7,CODE_C43426,new,"branch target only used in OffensiveDefenceTargetY",src/bankC4_3000.asm
+$C43531,DefensiveWingBottomLimit,CODE_C43531,code,"asswingd sets bottom goal-line bound in d2 and compares pucky before shared target tail",src/bankC4_3000.asm
+$C4353E,DefensiveWingTopTarget,CODE_C4353E,code,"asswingd top-end branch selects target from carrier position, team flag and puck Y",src/bankC4_3000.asm
+$C43566,.1,CODE_C43566,new,"branch target only used in DefensiveWingTopTarget",src/bankC4_3000.asm
+$C43571,DefensiveWingUseLimit,CODE_C43571,code,"copies selected Y limit d2 to target d1",src/bankC4_3000.asm
+$C43575,DefensiveWingSkate,CODE_C43575,code,"selects empty skateto callback and uses puckx when it lies on same side as d0",src/bankC4_3000.asm
+$C4358D,.1,CODE_C4358D,new,"branch target only used in DefensiveWingSkate",src/bankC4_3000.asm
+$C49B67,BreakawayGlideStopped,CODE_C49B67,code,"assbreakaway stopped-clock path GlideBack, nopuck 60 and donothing; only local .2 in 94S",src/bankC4_9000.asm
+$C49B74,BreakawayFollowPath,CODE_C49B74,code,"assbreakaway local .8 initializes path, advances at sopathnext, skates to waypoints and selects shot swing",src/bankC4_9000.asm
+$C49B8B,.1,CODE_C49B8B,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49BB4,.2,CODE_C49BB4,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49BC9,.3,CODE_C49BC9,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49BE0,.4,CODE_C49BE0,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49BF8,.5,CODE_C49BF8,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C15,.6,CODE_C49C15,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C1E,.7,CODE_C49C1E,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C36,.8,CODE_C49C36,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C5A,.9,CODE_C49C5A,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C63,.10,CODE_C49C63,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C72,.11,CODE_C49C72,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C75,.12,CODE_C49C75,new,"branch target only used in BreakawayFollowPath",src/bankC4_9000.asm
+$C49C88,AdvanceBreakawayPath,CODE_C49C88,code,"loads six-byte waypoint record by sopathpoint, mirrors X by sopathside, stores target and threshold then increments index",src/bankC4_9000.asm
+$C49CAC,.1,CODE_C49CAC,new,"branch target only used in AdvanceBreakawayPath",src/bankC4_9000.asm
+$C49CDB,InitBreakawayPath,CODE_C49CDB,code,"chooses initial lateral side using position, handedness and random bits, then sets sopathpoint and targets",src/bankC4_9000.asm
+$C49CF5,.1,CODE_C49CF5,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D06,.2,CODE_C49D06,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D0B,.3,CODE_C49D0B,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D0E,.4,CODE_C49D0E,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D17,.5,CODE_C49D17,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D2A,.6,CODE_C49D2A,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D4A,.7,CODE_C49D4A,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D5B,.8,CODE_C49D5B,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D60,.9,CODE_C49D60,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D63,.10,CODE_C49D63,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D6C,.11,CODE_C49D6C,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D72,.12,CODE_C49D72,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49D85,.13,CODE_C49D85,new,"branch target only used in InitBreakawayPath",src/bankC4_9000.asm
+$C49E42,PassReceiverTryOneTimer,CODE_C49E42,code,"computer team and attacking-zone test gates randomized onetimerreq, resets closest-distance sentinel then runs swing path",src/bankC4_9000.asm
+$C49E56,.1,CODE_C49E56,new,"branch target only used in PassReceiverTryOneTimer",src/bankC4_9000.asm
+$C49E6B,.2,CODE_C49E6B,new,"branch target only used in PassReceiverTryOneTimer",src/bankC4_9000.asm
+$C49E73,.3,CODE_C49E73,new,"branch target only used in PassReceiverTryOneTimer",src/bankC4_9000.asm
+$C49E78,EndPassReceiverAssignment,CODE_C49E78,code,"clears passReceiverPlayerNum, animation lock, onetimerreq and pflags bit 0 then assexit",src/bankC4_9000.asm
+$C49E90,PassReceiverReturn,CODE_C49E90,code,"shared rtl for pass receiver waiting and swing initialization",src/bankC4_9000.asm
+$C49E91,PassReceiverOneTimer,CODE_C49E91,code,"sets shot animation and counts swings, tracks hotspot distance, catches nearby puck and calls doshot",src/bankC4_9000.asm
+$C49EAA,.1,CODE_C49EAA,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49ECB,.2,CODE_C49ECB,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49ED4,.3,CODE_C49ED4,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49EE3,.4,CODE_C49EE3,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49EE6,.5,CODE_C49EE6,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49EED,.6,CODE_C49EED,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49EF0,.7,CODE_C49EF0,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49F2C,.8,CODE_C49F2C,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49F63,.9,CODE_C49F63,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49F69,.10,CODE_C49F69,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49F83,.11,CODE_C49F83,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49F8B,.12,CODE_C49F8B,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49F9D,.13,CODE_C49F9D,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49FAF,.14,CODE_C49FAF,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C49FBC,.rtl,CODE_C49FBC,new,"branch target only used in PassReceiverOneTimer",src/bankC4_9000.asm
+$C4A0C1,passmode,CODE_C4A0C1,94S+code,"94S passmode exact instruction sequence: changed pass button or selected direction enters dopass, direction 8 returns",src/bankC4_A000.asm
+$C4A0DC,.rtl,CODE_C4A0DC,new,"branch target only used in passmode",src/bankC4_A000.asm
+$C4A4AB,AssignDumpIn,CODE_C4A4AB,code,"loads assignment 20 and jumps to assreplace; asstab entry 20 is assdumpin",src/bankC4_A000.asm
+$C4A52A,LaunchDumpIn,CODE_C4A52A,code,"assdumpin launch continuation randomizes target using passacc, computes puck velocity, calls puckflip, clears carrier and starts pass swing",src/bankC4_A000.asm
+$C4A580,.1,CODE_C4A580,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm
+$C4A58F,.2,CODE_C4A58F,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm
+$C4A591,.3,CODE_C4A591,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm
+$C4A599,.4,CODE_C4A599,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm

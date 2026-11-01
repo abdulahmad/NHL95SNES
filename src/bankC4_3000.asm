@@ -35,7 +35,7 @@ assdefd:							; called from other segments
 	sbc.b d7
 	sta.w temp1,x
 	bmi .4
-	jmp.w CODE_C4330F
+	jmp.w DefenceSkateAndCheck
 .4:									; A + aidef,x, if the result >= 0 go to .5, A = $0000
 	clc
 	adc.w aidef,x
@@ -115,13 +115,14 @@ assdefd:							; called from other segments
 	cpx.w #$000C
 	bcs .12
 	ldy.w #$000C
-.12:								; d2 = $0006, d0 = $FC18, if pfgoal,x = 0 go to CODE_C432A1, d0 = $03E8
+.12:								; d2 = $0006, d0 = $FC18, if pfgoal,x = 0 go to DefenceScanTopThreats, d0
+									; = $03E8
 	lda.w #$0006
 	sta.b d2
 	lda.w #$FC18
 	sta.b d0
 	lda.w pfgoal,x
-	beq CODE_C432A1
+	beq DefenceScanTopThreats
 	lda.w #$03E8
 	sta.b d0
 .loop:								; loop: a0 = Y, A = pflags,y, if a $1000 bit set go to .15, ...
@@ -175,12 +176,12 @@ assdefd:							; called from other segments
 	lda.w temp3,x
 	eor.b d0
 	sta.b d1
-	bpl CODE_C4330F
+	bpl DefenceSkateAndCheck
 	stz.w temp3,x
-	bra CODE_C4330F
+	bra DefenceSkateAndCheck
 DATA8_C432A0:						; an rtl no traced code reaches
 	db $6B
-CODE_C432A1:						; from assdefd, CODE_C432A1
+DefenceScanTopThreats:				; scan opponents for the top-end defensive depth target
 	sty.b a0
 	lda.w pflags,y
 	bit.w #$1000
@@ -213,7 +214,7 @@ CODE_C432A1:						; from assdefd, CODE_C432A1
 	iny
 	iny
 	dec.b d2
-	bne CODE_C432A1
+	bne DefenceScanTopThreats
 	lda.b d0
 	clc
 	adc.w #$0028
@@ -235,9 +236,9 @@ CODE_C432A1:						; from assdefd, CODE_C432A1
 	lda.w temp3,x
 	eor.b d0
 	sta.b d1
-	bpl CODE_C4330F
+	bpl DefenceSkateAndCheck
 	stz.w temp3,x
-CODE_C4330F:						; from assdefd, CODE_C432A1
+DefenceSkateAndCheck:				; skate the defender to the saved target and look for a check
 	lda.w temp3,x
 	sta.b d0
 	lda.w temp4,x
@@ -250,31 +251,31 @@ CODE_C4330F:						; from assdefd, CODE_C432A1
 	jmp.w check4check
 assdefo:							; called from other segments
 	cpx.w puckc
-	beq CODE_C43348
+	beq DefenceTakePuckAssignment
 	ldy.w puckc
-	bmi CODE_C43350
+	bmi OffensiveDefenceThink
 	lda.w pfteam,x
 	cmp.w pfteam,y
-	beq CODE_C43350
+	beq OffensiveDefenceThink
 	lda.w #$0002
 	sta.b d0
 	jmp.w assreplace
-CODE_C43344:						; from CODE_C43350
+OffensiveDefenceReturn:				; return from the offensive defender assignment
 	rtl
 DATA8_C43345:						; not traced: data between routines
 	db $4C,$FD,$36
-CODE_C43348:						; from assdefo
+DefenceTakePuckAssignment:			; insert the puck carrier assignment for the defender
 	lda.w #$0011
 	sta.b d0
 	jmp.w assinsert
-CODE_C43350:						; from assdefo
+OffensiveDefenceThink:				; update computer offensive defender movement
 	lda.w gmclock
 	beq .1
 	jmp.w donothing
-.1:									; call check4bench, if playerpad,x >= 0 go to CODE_C43344, ...
+.1:									; call check4bench, if playerpad,x >= 0 go to OffensiveDefenceReturn, ...
 	jsl.l check4bench
 	lda.w playerpad,x
-	bpl CODE_C43344
+	bpl OffensiveDefenceReturn
 	lda.w pflags,x
 	bit.w #$0002
 	beq .2
@@ -313,16 +314,17 @@ CODE_C43350:						; from assdefo
 	eor.w #$FFFF
 	inc a
 	tay
-.6:									; d0 = Y, A = puckx, if the result < 0 go to CODE_C433C4, A = puckx, ...
+.6:									; d0 = Y, A = puckx, if the result < 0 go to OffensiveDefenceBlendX, A =
+									; puckx, ...
 	sty.b d0
 	lda.w puckx
 	eor.b d0
-	bmi CODE_C433C4
+	bmi OffensiveDefenceBlendX
 	lda.w puckx
-	bra CODE_C433CE
+	bra OffensiveDefenceTargetY
 DATA8_C433C3:						; an rtl no traced code reaches
 	db $6B
-CODE_C433C4:						; from CODE_C43350
+OffensiveDefenceBlendX:				; blend the puck X position into the defender lateral target
 	lda.w puckx
 	pha
 	asl a
@@ -330,7 +332,7 @@ CODE_C433C4:						; from CODE_C43350
 	ror a
 	clc
 	adc.b d0
-CODE_C433CE:						; from CODE_C43350
+OffensiveDefenceTargetY:			; choose the offensive defender depth and skate to the target
 	sta.b d0
 	ldy.b a2
 	lda.w tmflags,y
@@ -471,10 +473,11 @@ asswingd:							; called from other segments
 	bne .6
 	lda.w #$FF9C
 	sta.b d0
-.6:									; Y = puckc, if pfgoal,x = 0 go to CODE_C4353E, A = $0000, A - d0, ...
+.6:									; Y = puckc, if pfgoal,x = 0 go to DefensiveWingTopTarget, A = $0000, A -
+									; d0, ...
 	ldy.w puckc
 	lda.w pfgoal,x
-	beq CODE_C4353E
+	beq DefensiveWingTopTarget
 	lda.w #$0000
 	sec
 	sbc.b d0
@@ -484,55 +487,55 @@ asswingd:							; called from other segments
 	lda.w #$FFAE
 	sta.b d2
 	lda.w position,y
-	beq CODE_C43571
+	beq DefensiveWingUseLimit
 	ldy.b a2
 	lda.w tmflags,y
 	bit.w #$0010
-	bne CODE_C43571
+	bne DefensiveWingUseLimit
 	lda.b d2
 	sec
 	sbc.w pucky
-	bpl CODE_C43531
+	bpl DefensiveWingBottomLimit
 	lda.w pucky
 	sta.b d1
-	bra CODE_C43575
+	bra DefensiveWingSkate
 DATA8_C43530:						; an rtl no traced code reaches
 	db $6B
-CODE_C43531:						; from asswingd
+DefensiveWingBottomLimit:			; limit the defensive wing target at the bottom goal line
 	lda.w #$FEF2
 	sta.b d2
 	sec
 	sbc.w pucky
-	bmi CODE_C43575
-	bra CODE_C43571
-CODE_C4353E:						; from asswingd
+	bmi DefensiveWingSkate
+	bra DefensiveWingUseLimit
+DefensiveWingTopTarget:				; choose the defensive wing target depth at the top end
 	lda.w #$00A2
 	sta.b d1
 	lda.w #$0052
 	sta.b d2
 	lda.w position,y
-	beq CODE_C43571
+	beq DefensiveWingUseLimit
 	ldy.b a2
 	lda.w tmflags,y
 	bit.w #$0010
-	bne CODE_C43571
+	bne DefensiveWingUseLimit
 	lda.b d2
 	sec
 	sbc.w pucky
 	bmi .1
 	lda.w pucky
 	sta.b d1
-	bra CODE_C43575
-.1:									; d2 = $010E, A - pucky, if the result >= 0 go to CODE_C43575
+	bra DefensiveWingSkate
+.1:									; d2 = $010E, A - pucky, if the result >= 0 go to DefensiveWingSkate
 	lda.w #$010E
 	sta.b d2
 	sec
 	sbc.w pucky
-	bpl CODE_C43575
-CODE_C43571:						; from asswingd, CODE_C4353E, CODE_C43531
+	bpl DefensiveWingSkate
+DefensiveWingUseLimit:				; use the selected depth limit as the defensive wing target
 	lda.b d2
 	sta.b d1
-CODE_C43575:						; from asswingd, CODE_C4353E, CODE_C43531
+DefensiveWingSkate:					; finish the defensive wing lateral target and skate there
 	lda.w #$00C4
 	sta.b $65
 	lda.w #$883F
@@ -711,7 +714,7 @@ DATA8_C436DC:						; an rtl no traced code reaches
 DATA8_C436DD:						; not traced: a table read by asswingo
 	db $50,$00,$14,$00,$BA,$FF,$0A,$00,$64,$00,$14,$00,$3C,$00,$0A,$00
 	db $3C,$00,$32,$00,$E6,$00,$14,$00,$50,$00,$1E,$00,$FA,$00,$14,$00
-donothing:							; from CODE_C43350, assdefd, asswingd, ...
+donothing:							; from OffensiveDefenceThink, assdefd, asswingd, ...
 	lda.w playerpad,x
 	bpl .rtl
 	lda.w #$0008
