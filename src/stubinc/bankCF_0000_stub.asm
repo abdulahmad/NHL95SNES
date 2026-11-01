@@ -75,7 +75,7 @@ Sample31 = $CFAAAD					; sample 31, in another segment
 Sample32 = $C0D42B					; sample 32, in another segment
 SoundRAMClear = $C00F05				; the sound RAM clear program (bank $C0)
 SoundDriver = $C00F49				; the sound driver program (bank $C0)
-CODE_C58CCD = $C58CCD
+RandomBelowA = $C58CCD
 DefaultSongs = $C07F73
 TeamSongs = $C07ECB
 

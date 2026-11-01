@@ -142,10 +142,10 @@ ShowScoringLeaders:					; display the three leading scorers with their team and 
 	ldy.w gameclock
 	beq .2
 	lda.w #$59AC
-.2:									; X = $0013, Y = $0005, call CODE_C58C36, A = gsp, ...
+.2:									; X = $0013, Y = $0005, call Framer, A = gsp, ...
 	ldx.w #$0013
 	ldy.w #$0005
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	lda.w gsp
 	ldy.w #$586D
 	cmp.w #$0003

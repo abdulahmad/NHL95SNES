@@ -87,7 +87,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	jsr.w CODE_C4B1D6
 	lda.b $C9
 	jsr.w CODE_C4B1D6
-	jsl.l CODE_C58B48
+	jsl.l SetupMode7Screen
 	lda.w #$7FFF
 	jsl.l CODE_C58B2E
 	lda.b $08
@@ -1174,7 +1174,7 @@ CODE_C4B970:						; from DeveloperCredits and other segments
 DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISUAL CONCEPTS
 									; PRESENT (HighScoreMap, VisualConceptsMap), faded in and out by tasks
 	jsl.l InitTasks
-	jsl.l CODE_C58BE4
+	jsl.l SetupMode1Screen
 	jsl.l ResetPPURegs
 	jsl.l CODE_C58B2B
 	lda.w #$5900

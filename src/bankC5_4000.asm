@@ -68,7 +68,7 @@ CODE_C54070:						; from CODE_C5404A, lineinput and other segments
 	jsr.w CODE_C54114
 	sta.b d0
 	sty.b $81
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	lda.b a2
 	jsr.w CODE_C56104
 	jsl.l UnpackText2

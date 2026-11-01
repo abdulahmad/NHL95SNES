@@ -33,7 +33,7 @@ CODE_C52037:						; called from other segments
 	rep #$20
 	lda.w #IceRinkMap&$FFFF
 	ldx.w #IceRinkMap>>16
-	jsl.l CODE_C58812
+	jsl.l MapSetToUnpackbuf
 	ldx.w #$2A7E
 	clc
 .loop:								; loop: $7F9C7A,x = $50DC,x, X - 1, X - 1, ...
@@ -175,7 +175,7 @@ CODE_C52037:						; called from other segments
 	jsl.l WaitTransfers
 	lda.w #RefsMap&$FFFF
 	ldx.w #RefsMap>>16
-	jsl.l CODE_C58812
+	jsl.l MapSetToUnpackbuf
 	ldx.w #$092E
 	clc
 .loop2:								; loop: A = $50DC,x, A + $3420, $7FC6FA,x = A, X - 1, ...

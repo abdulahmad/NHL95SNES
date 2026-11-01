@@ -6187,8 +6187,8 @@ $C587B8,.loop3,CODE_C587B8,new,"branch target only used in CODE_C586CA",src/bank
 $C587EE,.4,CODE_C587EE,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
 $C587F0,.5,CODE_C587F0,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
 $C587FE,.loop4,CODE_C587FE,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
-$C5882B,.1,CODE_C5882B,new,"branch target only used in CODE_C5881C",src/bankC5_8000.asm
-$C58867,.loop,CODE_C58867,new,"branch target only used in CODE_C5881C",src/bankC5_8000.asm
+$C5882B,.1,CODE_C5882B,new,"branch target only used in MapSetToWRAM",src/bankC5_8000.asm
+$C58867,.loop,CODE_C58867,new,"branch target only used in MapSetToWRAM",src/bankC5_8000.asm
 $C5888E,.rts,CODE_C5888E,new,"branch target only used in CODE_C58874",src/bankC5_8000.asm
 $C588B9,.1,CODE_C588B9,new,"branch target only used in CODE_C5888F",src/bankC5_8000.asm
 $C588E8,.2,CODE_C588E8,new,"branch target only used in CODE_C5888F",src/bankC5_8000.asm
@@ -6199,10 +6199,10 @@ $C58925,.2,CODE_C58925,new,"branch target only used in CODE_C588EB",src/bankC5_8
 $C58934,.3,CODE_C58934,new,"branch target only used in CODE_C588EB",src/bankC5_8000.asm
 $C58A9F,.loop,CODE_C58A9F,new,"branch target only used in FadeOutWait",src/bankC5_8000.asm
 $C58BD0,.loop,CODE_C58BD0,new,"branch target only used in CODE_C58BB9",src/bankC5_8000.asm
-$C58C4A,.loop,CODE_C58C4A,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
-$C58C67,.loop2,CODE_C58C67,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
-$C58C81,.loop3,CODE_C58C81,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
-$C58CAF,.loop4,CODE_C58CAF,new,"branch target only used in CODE_C58C36",src/bankC5_8000.asm
+$C58C4A,.loop,CODE_C58C4A,new,"branch target only used in Framer",src/bankC5_8000.asm
+$C58C67,.loop2,CODE_C58C67,new,"branch target only used in Framer",src/bankC5_8000.asm
+$C58C81,.loop3,CODE_C58C81,new,"branch target only used in Framer",src/bankC5_8000.asm
+$C58CAF,.loop4,CODE_C58CAF,new,"branch target only used in Framer",src/bankC5_8000.asm
 $C58D3E,.1,CODE_C58D3E,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
 $C58D47,.loop,CODE_C58D47,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
 $C58D4A,.loop2,CODE_C58D4A,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
@@ -7468,3 +7468,9 @@ $C5C826,DrawReleasePage,CODE_C5C826,code,"the page at $C353D5; ReleasePlayers ca
 $C5CB36,DrawTradePage,CODE_C5CB36,code,"the page at $C356F2; TradePlayers calls it",src/bankC5_C000.asm
 $C5AFCC,DrawLeagueLeaders,CODE_C5AFCC,code,"LeagueLeadersScreen falls into it, LeagueLeadersInput comes back to it; the page at $C3556D",src/bankC5_B000.asm
 $C5B7F1,DrawSeasonTeamStats,CODE_C5B7F1,code,"SeasonTeamStats calls it, SeasonTeamStatsInput comes back to it on left / right",src/bankC5_B000.asm
+$C5881C,MapSetToWRAM,CODE_C5881C,code,"the three chunks of a map set (HANDOFF) through DecompressLZSS and CODE_C58467; MapSetToVRAM's counterpart for a buffer; the award, cup, rink, bracket and pad button sets use it",src/bankC5_8000.asm
+$C58812,MapSetToUnpackbuf,CODE_C58812,code,"sets r1 / $32 to unpackbuf, then the same steps as MapSetToWRAM",src/bankC5_8000.asm
+$C58CCD,RandomBelowA,CODE_C58CCD,code,"a shift generator in $466E-$4671; WRDIVL / WRDIVB, then RDMPYL (the remainder) after the divide's wait",src/bankC5_8000.asm
+$C58B48,SetupMode7Screen,CODE_C58B48,code,"IntroSequence calls it first",src/bankC5_8000.asm
+$C58BE4,SetupMode1Screen,CODE_C58BE4,code,"DeveloperCredits calls it first",src/bankC5_8000.asm
+$C58C36,Framer,CODE_C58C36,94S+purpose,"same job as 94S Framer (draw a frame and fill it, width / height); 95 takes the size in X / Y and the VRAM address in A and builds the rows in the buffer at $364E; called for the message boxes (shootout, referee ...)",src/bankC5_8000.asm

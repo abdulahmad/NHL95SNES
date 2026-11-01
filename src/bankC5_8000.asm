@@ -555,7 +555,7 @@ DecompressLZSS:						; LZSS (4 KB ring) from [$2C] to the WRAM port at X:A; a co
 	and.b #$01
 	sta.l WMADDH
 	rep #$20
-CODE_C58467:						; from CODE_C5881C
+CODE_C58467:						; from MapSetToWRAM
 	ldx.w #$01FE
 .loop:								; loop: $364E,x = 0, $384E,x = 0, $3A4E,x = 0, $3C4E,x = 0, ...
 	stz.w $364E,x
@@ -1019,12 +1019,13 @@ CODE_C586CA:						; from CODE_C5852B
 	bpl .loop4
 	rep #$20
 	rts
-CODE_C58812:						; called from other segments
+MapSetToUnpackbuf:					; MapSetToWRAM with the buffer unpackbuf
 	ldy.w #unpackbuf
 	sty.b r1
 	ldy.w #unpackbuf>>16
 	sty.b $32
-CODE_C5881C:						; called from other segments
+MapSetToWRAM:						; unpacks the map set at X:A into the WRAM buffer at r1 (bank in $32): the
+									; map, the tiles and the colours
 	sta.b r2
 	stx.b $36
 	clc
@@ -1069,7 +1070,7 @@ CODE_C5881C:						; called from other segments
 	bne .loop
 	rep #$20
 	rtl
-CODE_C58874:						; from CODE_C5881C
+CODE_C58874:						; from MapSetToWRAM
 	clc
 	lda.b [r2]
 	adc.b r2
@@ -1445,7 +1446,8 @@ CODE_C58B2E:						; called from other segments
 	rep #$20
 	dec.b QueueBusy
 	rtl
-CODE_C58B48:						; called from other segments
+SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE 7, M7SEL, the
+									; mode 7 scroll and matrix registers, OBSEL, TM
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	jsl.l ResetWorkBuf
@@ -1512,7 +1514,8 @@ CODE_C58BB9:						; called from other segments
 	rep #$20
 	plx
 	rtl
-CODE_C58BE4:						; called from other segments
+SetupMode1Screen:					; a mode 1 screen: the work buffer reset, the BG map registers
+									; (SetBGMapRegs), BGMODE 1, TM, the BG scrolls
 	jsl.l WaitTransfers
 	jsl.l ResetWorkBuf
 	jsl.l CODE_C5E50E
@@ -1542,7 +1545,8 @@ CODE_C58BE4:						; called from other segments
 	sta.w BG1VScroll
 	sta.w BG2VScroll
 	rtl
-CODE_C58C36:						; called from other segments
+Framer:								; draws a frame X tiles wide and Y high (its corners, edges and inside) to
+									; the VRAM map at A, queued row by row
 	sty.b tmp2
 	stx.b tmp1
 	sta.b tmp0
@@ -1626,7 +1630,8 @@ CODE_C58C36:						; called from other segments
 	stx.b $00
 	stz.b QueueBusy
 	jml.l WaitTransfers
-CODE_C58CCD:						; called from other segments
+RandomBelowA:						; A = a random number below A: the next byte of its generator divided by
+									; A, the remainder
 	sep #$20
 	pha
 	lda.w $4671

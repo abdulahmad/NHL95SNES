@@ -300,7 +300,7 @@ CODE_C481D5:						; called from other segments
 	ldx.w #$0012
 	ldy.w #$0003
 	lda.w #$584A
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	jsl.l CODE_C533E1
 	ldy.w #$588B
 	jsl.l QueueVRAMDMALen
@@ -316,7 +316,7 @@ CODE_C481D5:						; called from other segments
 	sta.w $1541
 	ldy.w #$0002
 	lda.w #$5941
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	ldy.w #$5962
 .4:									; pull A, A + $449B, X = $00C3, call QueueVRAMDMALen, ...
 	pla
@@ -414,7 +414,7 @@ CODE_C482D9:						; from CODE_C48241
 	lda.w #$58CA
 	ldx.w #$0012
 	ldy.w #$0004
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	lda.w #$5F1D
 	ldx.w #$00C3
 	ldy.w #$590B

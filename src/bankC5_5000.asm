@@ -194,7 +194,7 @@ CODE_C5503C:						; called from other segments
 	sta.b $32
 	lda.w #PauseScreenMap&$FFFF
 	ldx.w #PauseScreenMap>>16
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	lda.w #$012A
 	ldy.w #$0523
 	jsr.w CODE_C5522E
@@ -770,7 +770,7 @@ CODE_C55513:						; called from other segments
 	sta.b r1
 	lda.w #RefsMap&$FFFF
 	ldx.w #RefsMap>>16
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	ply
 	dec.b QueueBusy
 	lda.b $00
@@ -1089,7 +1089,7 @@ CODE_C55513:						; called from other segments
 	sta.b $32
 	lda.w #FaceOffMap&$FFFF
 	ldx.w #FaceOffMap>>16
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	dec.b QueueBusy
 	lda.b $00
 	tsx

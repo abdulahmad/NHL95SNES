@@ -26,7 +26,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	sta.b $32
 	ldx.w #StanleyCupMap>>16
 	lda.w #StanleyCupMap&$FFFF
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	dec.b QueueBusy
 	lda.b $00
 	tsx

@@ -261,7 +261,7 @@ CODE_C5E123:						; called from other segments
 CODE_C5E172:						; from CODE_C5DF5F, CODE_C5E123, CODE_C5E0B1, ...
 	pea.w $7F7E
 	plb
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	plb
 	rts
 CODE_C5E17C:						; called from other segments

@@ -1011,7 +1011,7 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	tay
 	lda.l AwardPictures,x
 	tyx
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	dec.b QueueBusy
 	lda.b $00
 	tsx

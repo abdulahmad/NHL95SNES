@@ -1365,7 +1365,7 @@ CODE_C43826:						; called from other segments
 	sta.b $32
 	lda.w #FaceOffMap&$FFFF
 	ldx.w #FaceOffMap>>16
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	lda.w $2024
 	tax
 	ldy.w #$04FF
@@ -1465,11 +1465,11 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	ldx.w $2034
 	bpl .3
 	lda.w #$59B2
-.3:									; push A, X = $000C, Y = $0002, call CODE_C58C36, ...
+.3:									; push A, X = $000C, Y = $0002, call Framer, ...
 	pha
 	ldx.w #$000C
 	ldy.w #$0002
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	ldx.w tmline
 	ldy.w $12B9
 	lda.w gmode
@@ -1651,7 +1651,7 @@ CODE_C43F0D:						; from CODE_C43826
 	ldx.w #$0014
 	ldy.w #$0008
 	lda.w #$5846
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	ldx.w #$2DC9
 	ldy.w BA_Team
 	beq .1
@@ -1690,7 +1690,7 @@ CODE_C43F0D:						; from CODE_C43826
 	ldx.w #$000A
 	ldy.w #$0003
 	lda.w #$5AE0
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	lda.w #$5F4A
 	ldx.w #$00C3
 	ldy.w #$5B01

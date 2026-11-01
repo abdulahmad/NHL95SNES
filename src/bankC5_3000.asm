@@ -1245,7 +1245,7 @@ CODE_C539D7:						; called from other segments
 	ldx.w #$0009
 	ldy.w #$0003
 	lda.w #$5AF7
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	lda.w $17CB
 	jsr.w CODE_C53A75
 	ldy.w #$5B18
@@ -1283,12 +1283,12 @@ CODE_C53A29:						; called from other segments
 	ldx.w #$000A
 	ldy.w #$0002
 	lda.w #$5B00
-	jml.l CODE_C58C36
-.1:									; X = $000A, Y = $0004, A = $5AC0, go to CODE_C58C36
+	jml.l Framer
+.1:									; X = $000A, Y = $0004, A = $5AC0, go to Framer
 	ldx.w #$000A
 	ldy.w #$0004
 	lda.w #$5AC0
-	jml.l CODE_C58C36
+	jml.l Framer
 DATA8_C53A61:						; not traced: data between routines
 	db $03,$B1,$F3,$F4,$03,$B2,$EE,$E4,$03,$B3,$F2,$E4,$03,$CF,$D4,$A0
 CODE_C53A71:						; called from other segments

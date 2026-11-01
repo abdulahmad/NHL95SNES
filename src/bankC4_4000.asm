@@ -1855,7 +1855,7 @@ CollisionSfx:						; the collision sound of players X and Y: sound driver comman
 	lsr a
 	tsb.b tmp0
 	lda.w #$0014
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	sec
 	sbc.w #$000A
 	xba

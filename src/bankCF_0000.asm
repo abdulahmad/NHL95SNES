@@ -585,7 +585,7 @@ LoadTeamSongs:						; the home team's 6 songs from TeamSongs into a list (each $
 	bne .1
 	phx
 	lda.w #$0007
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	tax
 	lda.l DefaultSongs,x
 	plx

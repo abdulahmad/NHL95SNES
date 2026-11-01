@@ -922,10 +922,10 @@ CODE_C51825:						; called from other segments
 	bit.w #$0080
 	bne .1
 	iny
-.1:									; X = $0013, A = $584C, call CODE_C58C36, Y = $0000, ...
+.1:									; X = $0013, A = $584C, call Framer, Y = $0000, ...
 	ldx.w #$0013
 	lda.w #$584C
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	ldy.w #$0000
 	ldx.b $6D
 	lda.w $203C,x

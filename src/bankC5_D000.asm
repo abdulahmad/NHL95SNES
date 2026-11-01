@@ -1767,7 +1767,7 @@ CODE_C5DD47:						; called from other segments
 	sbc.l $7F0008,x
 	bcc .1
 	beq .1
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	clc
 	adc.l $7F0008,x
 	sta.l $7F0008,x
@@ -1779,7 +1779,7 @@ CODE_C5DD47:						; called from other segments
 	sbc.l $7F000A,x
 	bcc .2
 	beq .2
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	clc
 	adc.l $7F000A,x
 	sta.l $7F000A,x
@@ -1811,7 +1811,7 @@ CODE_C5DDC0:						; from CODE_C5DD47
 	tax
 	lda.l $C30004,x
 	and.w #$00FF
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	sta.l WRDIVL
 	lda.w #$000A
 	sta.l WRDIVB

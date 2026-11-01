@@ -542,7 +542,7 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l ResetWorkBuf
 	lda.w #PlayoffBracketMap&$FFFF
 	ldx.w #PlayoffBracketMap>>16
-	jsl.l CODE_C58812
+	jsl.l MapSetToUnpackbuf
 	ldx.w #$15DE
 	clc
 .loop:								; loop: A = $50DC,x, A + $2A30, $7F9C7A,x = A, X - 1, ...
@@ -585,7 +585,7 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l WaitTransfers
 	lda.w #TeamNameBarsMap&$FFFF
 	ldx.w #TeamNameBarsMap>>16
-	jsl.l CODE_C58812
+	jsl.l MapSetToUnpackbuf
 	lda.w #$04E0
 	jsl.l AllocWorkBuf
 	jsl.l MarkWorkBuf
@@ -1270,7 +1270,7 @@ CODE_C40A60:						; from CODE_C40A02
 	lda.w #$0002
 	pea.w $7F7E
 	plb
-	jsl.l CODE_C58CCD
+	jsl.l RandomBelowA
 	plb
 	rts
 CODE_C40A6D:						; called from other segments

@@ -491,7 +491,7 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	sta.b r1
 	ldx.w #PadButtonsMap>>16
 	lda.w #PadButtonsMap&$FFFF
-	jsl.l CODE_C5881C
+	jsl.l MapSetToWRAM
 	ldx.b $08
 	ldy.w #$00DF
 	clc

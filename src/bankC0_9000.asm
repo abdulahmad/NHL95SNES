@@ -569,7 +569,7 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	ldx.w #$0010
 	ldy.w #$0004
 	lda.w #$5850
-	jsl.l CODE_C58C36
+	jsl.l Framer
 	pla
 	ldx.w #$007E
 	ldy.w #$5871
