@@ -2318,7 +2318,7 @@ $CDF32B,HartPicMap,DATA8_CDF32B,render+genesis+code,"the picture of award 4 (Har
 $CDF3B8,HartPicTiles,DATA8_CDF3B8,render+genesis+code,"its tiles (49, 4bpp, LZSS)",src/bankCD_F000.asm
 $CDF923,HartPicPalette,DATA8_CDF923,render+genesis+code,"its colours (16)",src/bankCD_F000.asm
 $CDF94A,DATA8_CDF94A,,new,"per frame number (1060 words, as DATA8_C60000): a signed offset; CODE_C37FE2 (frame from $0856,y) puts it in $7F, negated when $08E0,y has bit $0800; runs into bank $CE",src/bankCD_F000.asm
-$CE0192,DATA8_CE0192,,new,"per frame number (1060 words): a signed offset; CODE_C37FE2 puts",src/bankCE_0000.asm
+$CE0192,DATA8_CE0192,,new,"per frame number (1060 words, parallel to DATA8_CDF94A): a signed offset; CODE_C37FE2 (frame from $0856,y) puts it negated in $83",src/bankCE_0000.asm
 $CE09DA,PhotoPalettesHFD,DATA8_CE09DA,code,"Hartford: 16 colours for each of its 6 player photos; entry 9 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_0000.asm
 $CE0A9A,PlayerPhotosHFD,DATA8_CE0A9A,code,"Hartford: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_0000.asm
 $CE1CC7,PhotoPalettesLA,DATA8_CE1CC7,code,"Los Angeles: 16 colours for each of its 6 player photos; entry 10 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_1000.asm
@@ -2343,3 +2343,9 @@ $CECBDA,PhotoPalettesSJ,DATA8_CECBDA,code,"San Jose: 16 colours for each of its 
 $CECC9A,PlayerPhotosSJ,DATA8_CECC9A,code,"San Jose: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_C000.asm
 $CEDDCB,PhotoPalettesSTL,DATA8_CEDDCB,code,"St. Louis: 16 colours for each of its 6 player photos; entry 20 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCE_D000.asm
 $CEDE8B,PlayerPhotosSTL,DATA8_CEDE8B,code,"St. Louis: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCE_D000.asm
+$CEF0AB,PresidentsPicMap,DATA8_CEF0AB,render+genesis+code,"the picture of award 7 (Presidents Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 7, whose AwardNames text reads Presidents Trophy. 95G PresidentsPic",src/bankCE_F000.asm
+$CEF146,PresidentsPicTiles,DATA8_CEF146,render+genesis+code,"its tiles (34, 4bpp, LZSS)",src/bankCE_F000.asm
+$CEF3C2,PresidentsPicPalette,DATA8_CEF3C2,render+genesis+code,"its colours (16)",src/bankCE_F000.asm
+$CEF3E9,StanleyCupMap,DATA8_CEF3E9,render+94S+code,"the Stanley Cup (rendered): map chunk, 8 x 14 tiles, LZSS; CODE_C4DFD6 loads the set through CODE_C5881C; named as 94S StanleyCupMap",src/bankCE_F000.asm
+$CEF4C7,StanleyCupTiles,DATA8_CEF4C7,render+94S+code,"its tiles (87, 4bpp, LZSS); 94S StanleyCupTiles",src/bankCE_F000.asm
+$CEFE50,StanleyCupPalette,DATA8_CEFE50,render+94S+code,"its colours (16); 94S StanleyCupPalette",src/bankCE_F000.asm

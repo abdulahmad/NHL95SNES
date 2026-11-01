@@ -1084,7 +1084,7 @@ AwardPictures:						; the picture (map set) of each award, a long pointer; read 
 	dw HartPicMap&$FFFF,HartPicMap>>16	; 4: Hart Memorial Trophy
 	dw ArtRossPicMap&$FFFF,ArtRossPicMap>>16	; 5: Art Ross Trophy
 	dw NorrisPicMap&$FFFF,NorrisPicMap>>16	; 6: James Norris Memorial Trophy
-	dw $F0AB,$00CE					; 7: Presidents Trophy (PresidentsPicMap, not yet source)
+	dw PresidentsPicMap&$FFFF,PresidentsPicMap>>16	; 7: Presidents Trophy
 DATA8_C4DA75:						; not traced: a table read by CODE_C4D99C
 	db $3B,$2F,$4C,$5F,$31,$52,$42,$22
 AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D963

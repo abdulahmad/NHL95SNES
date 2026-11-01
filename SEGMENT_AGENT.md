@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCE_F000 (org $CEF0AB): banks $C0-$CD are all source. <- CURRENT
+bankCF_0000 (org $CF0000): banks $C0-$CE are all source. <- CURRENT
 
 ## Sources
 
@@ -642,6 +642,10 @@ bankCE_F000 (org $CEF0AB): banks $C0-$CD are all source. <- CURRENT
   where the next item starts.
 - 2026-10-31: bankCE_E000 matched: the rest of the PlayerPhotosSTL stream. Photo sets as in bank $C0: PhotoPaletteTable points
   at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item starts.
+- 2026-10-31: bankCE_F000 matched: PresidentsPic (the Presidents Trophy picture), then StanleyCupMap / Tiles / Palette (the
+  Stanley Cup), then zeros to the end of the bank. PresidentsPic is AwardPictures entry 7; the Stanley Cup set (rendered; 94S
+  names) is loaded by CODE_C4DFD6, whose immediates and AwardPictures now use the labels. All LZSS ends match their chunk
+  lengths. Bank $CE is all source.
 
 ## ROM map
 
@@ -888,8 +892,8 @@ The first row that is still incbin is the current segment.
 | bankCE_C000 | matched 4593 bytes | $CECBDA | $CEDDCA | the San Jose player photos (PhotoPalettesSJ, PlayerPhotosSJ); org moved to $CECBDA, end moved +$DCB |
 | bankCE_D000 | matched 565 bytes | $CEDDCB | $CEDFFF | the St. Louis player photos (PhotoPalettesSTL, PlayerPhotosSTL; the stream continues); org moved to $CEDDCB |
 | bankCE_E000 | matched 4267 bytes | $CEE000 | $CEF0AA | the rest of the PlayerPhotosSTL stream; end moved +$AB |
-| bankCE_F000 | incbin | $CEF0AB | $CEFFFF | <- CURRENT |
-| bankCF_0000 | incbin | $CF0000 | $CF0FFF | |
+| bankCE_F000 | matched 3925 bytes | $CEF0AB | $CEFFFF | PresidentsPic (the Presidents Trophy picture), then StanleyCupMap / Tiles / Palette (the Stanley Cup), then zeros to the end of the bank; org moved to $CEF0AB |
+| bankCF_0000 | incbin | $CF0000 | $CF0FFF | <- CURRENT |
 | bankCF_1000 | incbin | $CF1000 | $CF1FFF | |
 | bankCF_2000 | incbin | $CF2000 | $CF2FFF | |
 | bankCF_3000 | incbin | $CF3000 | $CF3FFF | |

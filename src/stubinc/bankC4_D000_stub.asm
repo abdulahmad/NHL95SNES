@@ -13,6 +13,7 @@ JenningsPicMap = $C9FFEB			; award 3 picture
 HartPicMap = $CDF32B				; award 4 picture
 ArtRossPicMap = $CAFDF9				; award 5 picture
 NorrisPicMap = $CBFDD5				; award 6 picture
+PresidentsPicMap = $CEF0AB			; award 7 picture
 CODE_C387D8 = $C387D8
 CODE_C3716D = $C3716D
 DATA8_C3585C = $C3585C

@@ -22,8 +22,8 @@ CODE_C4DFD6:						; called from other segments
 	sta.b $30
 	lda.w #$007E
 	sta.b $32
-	ldx.w #$00CE
-	lda.w #$F3E9
+	ldx.w #StanleyCupMap>>16
+	lda.w #StanleyCupMap&$FFFF
 	jsl.l CODE_C5881C
 	dec.b QueueBusy
 	lda.b $00
