@@ -92,8 +92,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .dspvalues:							; their values: all voices keyed off, the sample directory page, rest 0
 	db $00,$00,$FF,$00,$FE,$00,$00,$00
 .tcallvectors:						; copied to spcTcallVectors: the handlers of tcall 15 down to 0
-	dw .l0574,.l0467,.l04CD,.l0773,.l04DF,.l06A1,.l043F,.l038A
-	dw .l049C,.l06FD,.l070F,.l03A3,.l03D5,.l09A9,.l09AD,.l0452
+	dw .resetSequenceState,.readPackedEventByte,.findFreeVoice,.keyOnVoice
+	dw .findSampleVoice,.prepareSampleVoice,.readEventDelay,.keyOffVoice
+	dw .readStreamBit,.setDefaultSamplePitch,.setDefaultSampleVolume,.applyChannelPitchBend
+	dw .scalePitchFraction,.scaleSampleVolume,.scaleSequenceVolume,.setSampleEnvelope
 .version:							; the driver's name, version, authors and date
 	db "SMSG 3.07w Jason Andersen/John Schappert 8/17/1994"
 	base off
@@ -232,7 +234,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc y
 	mov a,($24)+y
 	mov .l047C+2,a
-	call .l09B9
+	call .setupSequencePointers
 	dec $09
 	mov y,$09
 .l0213:								; from .l023E, .l0241
@@ -266,7 +268,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l0241:								; from .l0213, .l021D, .l043B
 	dec y
 	bpl .l0213
-.l0244:								; from .l0405, .l0435
+.l0244:								; from .endChannel, .l0435
 	call .l0A66
 	mov y,#$00
 	mov a,($24)+y
@@ -465,7 +467,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 4
 	tcall 12
 	jmp .l023E
-.l038A:								; tcall 8
+.keyOffVoice:						; Tcall 8: keys off voice X and clears its sample and sequence ownership.
 	mov a,.voicebits+x
 	mov.b SPC_DSPADDR,#DSP_KOF
 	mov.b SPC_DSPDATA,a
@@ -476,9 +478,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $4F+x,a
 	mov $6F+x,a
 	mov $77+x,a
-.l03A2:								; event $81
+.eventNoOp:							; Event $81: returns without changing state.
 	ret
-.l03A3:								; tcall 4
+.applyChannelPitchBend:				; Tcall 4: offsets voice X's saved pitch by the signed bend of channel Y
+									; and writes DSP pitch.
 	push y
 	mov a,.voiceregs+x
 	or a,#$02
@@ -500,16 +503,17 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	movw ya,$04
 	subw ya,$02
 	bra .l03CD
-.l03CA:								; from .l03A3
+.l03CA:								; from .applyChannelPitchBend
 	tcall 3
 	addw ya,$04
-.l03CD:								; from .l03A3
+.l03CD:								; from .applyChannelPitchBend
 	mov.b SPC_DSPDATA,a
 	inc.b SPC_DSPADDR
 	mov.b SPC_DSPDATA,y
 	pop y
 	ret
-.l03D5:								; tcall 3
+.scalePitchFraction:				; Tcall 3: multiplies the scratch pitch word by twice A, keeping the
+									; product above its low byte.
 	asl a
 	push a
 	mov y,$02
@@ -521,7 +525,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $03,#$00
 	addw ya,$02
 	ret
-.l03E6:								; event $82
+.setChannelPitchBend:				; Event $82: reads the channel's signed pitch bend and applies it to its
+									; active voices.
 	tcall 14
 	mov ($3F)+y,a
 	mov x,#$07
@@ -540,11 +545,12 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	dec x
 	bpl .l03EB
 	ret
-.l0401:								; event $83
+.setChannelVibrato:					; Event $83: reads the channel's vibrato depth.
 	tcall 14
 	mov ($3B)+y,a
 	ret
-.l0405:								; event $80
+.endChannel:						; Event $80: ends the channel; releases or restarts the sequence when its
+									; last channel ends.
 	mov a,#$FF
 	mov ($37)+y,a
 	mov ($39)+y,a
@@ -572,13 +578,13 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov ($24)+y,a
 	set1 $15.7
 	jmp .l0244
-.l0435:								; from .l0405
+.l0435:								; from .endChannel
 	call .l05B0
 	jmp .l0244
-.l043B:								; from .l0405
+.l043B:								; from .endChannel
 	pop y
 	jmp .l0241
-.l043F:								; tcall 9
+.readEventDelay:					; Tcall 9: reads a channel delay byte, or a low/high delay pair after $FF.
 	tcall 14
 	cmp a,#$FF
 	bne .l044B
@@ -587,25 +593,27 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 14
 	mov ($39)+y,a
 	ret
-.l044B:								; from .l043F
+.l044B:								; from .readEventDelay
 	mov ($37)+y,a
 	mov a,#$00
 	mov ($39)+y,a
 	ret
-.l0452:								; tcall 0
+.setSampleEnvelope:					; Tcall 0: sets ADSR1 and either ADSR2 or GAIN from sample envelope A; DSP
+									; address starts at SRCN.
 	inc.b SPC_DSPADDR
 	mov x,a
 	mov a,$F580+x
 	mov.b SPC_DSPDATA,a
 	bmi .l045E
 	inc.b SPC_DSPADDR
-.l045E:								; from .l0452
+.l045E:								; from .setSampleEnvelope
 	inc.b SPC_DSPADDR
 	mov a,$F581+x
 	mov.b SPC_DSPDATA,a
 	mov a,x
 	ret
-.l0467:								; tcall 14
+.readPackedEventByte:				; Tcall 14: decodes a variable-length bitstream index and reads its byte
+									; from the sequence dictionary.
 	push x
 	mov x,#$00
 	mov $1F,x
@@ -626,7 +634,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FFFF+x
 	pop x
 	ret
-.l0481:								; no branch, call or table refers to it (a patched call may)
+.readRawEventByte:					; Alternate tcall 14: reads the next raw channel byte and advances its
+									; pointer.
 	mov a,($45)+y
 	mov .l0498+1,a
 	inc a
@@ -637,14 +646,15 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov ($47)+y,a
 	dec a
 	bra .l0495
-.l0493:								; from .l0481
+.l0493:								; from .readRawEventByte
 	mov a,($47)+y
-.l0495:								; from .l0481
+.l0495:								; from .readRawEventByte
 	mov .l0498+2,a
-.l0498:								; operand set by .l0481, .l0495
+.l0498:								; operand set by .readRawEventByte, .l0495
 	mov a,$FFFF
 	ret
-.l049C:								; tcall 7
+.readStreamBit:						; Tcall 7: returns the next channel stream bit in carry, consuming each
+									; byte low bit first.
 	mov a,($41)+y
 	dec a
 	bpl .l04C5
@@ -658,23 +668,24 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc a
 	mov ($47)+y,a
 	bra .l04BA
-.l04B5:								; from .l049C
+.l04B5:								; from .readStreamBit
 	mov a,($47)+y
 	mov .l04BA+2,a
-.l04BA:								; from .l049C; operand set by .l049C, .l04B5
+.l04BA:								; from .readStreamBit; operand set by .readStreamBit, .l04B5
 	mov a,$FFFF
 	lsr a
 	mov ($43)+y,a
 	mov a,#$07
 	mov ($41)+y,a
 	ret
-.l04C5:								; from .l049C
+.l04C5:								; from .readStreamBit
 	mov ($41)+y,a
 	mov a,($43)+y
 	lsr a
 	mov ($43)+y,a
 	ret
-.l04CD:								; tcall 13
+.findFreeVoice:						; Tcall 13: returns free voice X and its DSP base in A/Y, or carry set if
+									; none is free.
 	mov a,$1A
 	mov x,#$07
 .l04D1:								; loop
@@ -689,7 +700,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov y,a
 	clrc
 	ret
-.l04DF:								; tcall 11
+.findSampleVoice:					; Tcall 11: finds a voice with sample slot A; returns X and DSP base A,
+									; carry set if absent.
 	mov $09,a
 	mov $0A,x
 	mov x,#$07
@@ -712,7 +724,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	dw .setPlayingSampleVolume,.setPlayingSamplePitch,.stopSample,.resetSound
 	dw .stopAndReceiveData,.receiveData,.bootrom,.keyOffAll,.reportVoiceAges,.l0540,.l054C,.commandNoOp
 .events:							; handlers of music events $80 to $83
-	dw .l0405,.l03A2,.l03E6,.l0401
+	dw .endChannel,.eventNoOp,.setChannelPitchBend,.setChannelVibrato
 .bootrom:							; command 27
 	mov.b SPC_CONTROL,#$80			; boot ROM on
 	pcall $C0
@@ -747,7 +759,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	clr1 $15.4
 .l0573:								; from .l056B
 	ret
-.l0574:								; tcall 15
+.resetSequenceState:				; Tcall 15: restarts timer 0, resets the sequence context list, keys off
+									; voices and updates status.
 	mov.b SPC_T0TARGET,$11
 	set1.b spcControl.0
 	mov.b SPC_CONTROL,spcControl
@@ -777,7 +790,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	lsr a
 	tset.w $0020,a
 	ret
-.l05B0:								; called from .l0405, .l0435
+.l05B0:								; called from .endChannel, .l0435
 	dec $21
 	bne .l05B6
 	clr1 $15.7
@@ -834,7 +847,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov $31,a
 	mov a,$F601+x
 	mov $32,a
-.l060E:								; called from .l0405
+.l060E:								; called from .endChannel
 	mov a,$21
 	cmp a,#$05
 	bcc .l0615
@@ -875,7 +888,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	inc y
 	mov ($24)+y,a
 	mov .l047C+2,a
-	call .l09B9
+	call .setupSequencePointers
 	mov a,$09
 	mov y,#$06
 	mov ($24)+y,a
@@ -915,7 +928,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$1E
 	mov ($24)+y,a
 	ret
-.l06A1:								; tcall 10
+.prepareSampleVoice:				; Tcall 10: maps sample A to a slot and prepares a free voice; may queue
+									; the command if none is free.
 	mov x,a
 	mov a,$F480+x
 	push a
@@ -944,10 +958,10 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,.voicebits+x
 	tset.w $001C,a
 	pop x
-.l06D3:								; from .l06A1
+.l06D3:								; from .prepareSampleVoice
 	clrc
 	ret
-.l06D5:								; from .l06A1
+.l06D5:								; from .prepareSampleVoice
 	pop a
 	asl a
 	mov x,a
@@ -970,7 +984,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l06FB:								; from .l06D5
 	setc
 	ret
-.l06FD:								; tcall 6
+.setDefaultSamplePitch:				; Tcall 6: writes the sample's default pitch; X is slot times four, Y is
+									; voice base.
 	mov a,y
 	or a,#$02
 	mov.b SPC_DSPADDR,a
@@ -980,7 +995,8 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	mov a,$FD01+x
 	mov.b SPC_DSPDATA,a
 	ret
-.l070F:								; tcall 5
+.setDefaultSampleVolume:			; Tcall 5: writes the sample's scaled default stereo volume; X is slot
+									; times four, Y is voice base.
 	mov a,y
 	or a,#$00
 	mov.b SPC_DSPADDR,a
@@ -1058,11 +1074,11 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 5
 .l0771:								; from .playSampleVolume, .l074F, .l07BF
 	mov x,$09
-.l0773:								; tcall 12
+.keyOnVoice:						; Tcall 12: keys on voice X, enabling DSP output on the first use.
 	bbs $15.6,.l077B
 	call .l07E5
 	set1 $15.6
-.l077B:								; from .l0773
+.l077B:								; from .keyOnVoice
 	mov a,.voicebits+x
 	mov.b SPC_DSPADDR,#DSP_KOF
 	mov.b SPC_DSPDATA,#$00
@@ -1132,7 +1148,7 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 	tcall 2
 	mov.b SPC_DSPDATA,a
 	bra .l0771
-.l07E5:								; called from .l0773
+.l07E5:								; called from .keyOnVoice
 	mov.b SPC_DSPADDR,#DSP_FLG
 	mov.b SPC_DSPDATA,#$20
 	ret
@@ -1428,34 +1444,36 @@ SoundDriver:						; sound CPU program as upload blocks (length, sound RAM addres
 .l09A5:								; from .l0981
 	mov.b SPC_PORT3,#$7E
 	ret
-.l09A9:								; tcall 2
+.scaleSampleVolume:					; Tcall 2: multiplies A by the sample volume scale and divides by 127.
 	mov y,$1D
 	bra .l09B4
-.l09AD:								; tcall 1
+.scaleSequenceVolume:				; Tcall 1: multiplies A by the current sequence context's volume and
+									; divides by 127.
 	mov y,#$B7
 	mov x,a
 	mov a,($24)+y
 	mov y,a
 	mov a,x
-.l09B4:								; from .l09A9
+.l09B4:								; from .scaleSampleVolume
 	mul ya
 	mov x,#$7F
 	div ya,x
 	ret
-.l09B9:								; called from .l01F5, .l0615
+.setupSequencePointers:				; Selects raw or packed tcall 14 decoding and sets the current sequence's
+									; channel-array pointers.
 	mov y,#$00
 	mov a,($31)+y
 	bne .l09C8
-	mov a,#$81
-	mov $FFC2,a
-	mov a,#$04
+	mov a,#.readRawEventByte&$FF
+	mov spcTcallVectors+2,a
+	mov a,#.readRawEventByte>>8
 	bra .l09CF
-.l09C8:								; from .l09B9
-	mov a,#$67
-	mov $FFC2,a
-	mov a,#$04
-.l09CF:								; from .l09B9
-	mov $FFC3,a
+.l09C8:								; from .setupSequencePointers
+	mov a,#.readPackedEventByte&$FF
+	mov spcTcallVectors+2,a
+	mov a,#.readPackedEventByte>>8
+.l09CF:								; from .setupSequencePointers
+	mov spcTcallVectors+3,a
 	mov a,#$02
 	addw ya,$31
 	movw $33,ya

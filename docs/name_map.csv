@@ -7306,3 +7306,25 @@ $C0182E,.receiveData,.l0925,code,Nonnegative port 3 counters carry three bytes; 
 $C01724,.keyOffAll,.l081B,code,Descending voice loop invokes key-off helper for each voice.,src/bankC0_1000.asm
 $C01925,.reportVoiceAges,.l0A1C,code,"Age counters saturate at FF; reports max(15-age,0) nibbles in two handshaken pairs.",src/bankC0_1000.asm
 $C01632,.commandNoOp,.l0729,code,Handler consists only of RET.,src/bankC0_1000.asm
+$C0135B,.setSampleEnvelope,.l0452,code,Reads F580/F581 indexed by sample slot times two; ADSR1 sign selects ADSR2 versus GAIN.,src/bankC0_1000.asm
+$C018B6,.scaleSequenceVolume,.l09AD,code,Context offset B7 holds the volume captured at sequence start.,src/bankC0_1000.asm
+$C018B2,.scaleSampleVolume,.l09A9,code,Multiplier set by command 18; shared MUL/DIV tail with sequence volume scaling.,src/bankC0_1000.asm
+$C012DE,.scalePitchFraction,.l03D5,code,Computes unsigned pitch fraction for tcall 4 from scratch word 02/03 and doubled magnitude A.,src/bankC0_1000.asm
+$C012AC,.applyChannelPitchBend,.l03A3,code,Signed channel parameter through 3F selects adding/subtracting a scaled half-pitch baseline.,src/bankC0_1000.asm
+$C01618,.setDefaultSampleVolume,.l070F,code,Reads FD02/FD03 then scales through tcall 2 and writes DSP volume registers.,src/bankC0_1000.asm
+$C01606,.setDefaultSamplePitch,.l06FD,code,Reads FD00/FD01 and writes the selected voice's DSP pitch registers.,src/bankC0_1000.asm
+$C013A5,.readStreamBit,.l049C,code,Per-channel byte pointer and shift buffer are advanced when the remaining bit count expires.,src/bankC0_1000.asm
+$C01293,.keyOffVoice,.l038A,code,Writes DSP_KOF; marks voice for availability next tick and clears loop protection and ownership.,src/bankC0_1000.asm
+$C01348,.readEventDelay,.l043F,code,Stores delay low/high counters through 37/39; tick decrements these before reading the next event.,src/bankC0_1000.asm
+$C015AA,.prepareSampleVoice,.l06A1,code,Configures SRCN and envelope; carry clear on success; nonzero auxiliary high byte permits queuing.,src/bankC0_1000.asm
+$C013E8,.findSampleVoice,.l04DF,code,Compares raw slot against 4F+X; saves input A/X in scratch for the command handlers.,src/bankC0_1000.asm
+$C0167C,.keyOnVoice,.l0773,code,First use writes FLG 20; clears KOF then writes KON and clears the free-voice mask bit.,src/bankC0_1000.asm
+$C013D6,.findFreeVoice,.l04CD,code,Searches free-voice bitmask from voice 7 downward; carry clear on success.,src/bankC0_1000.asm
+$C01370,.readPackedEventByte,.l0467,code,Reads unary length then index bits through tcall 7; dictionary address patched per sequence.,src/bankC0_1000.asm
+$C0147D,.resetSequenceState,.l0574,code,Resets active sequence count/list and free-context pointers; timer target from saved period.,src/bankC0_1000.asm
+$C0130E,.endChannel,.l0405,code,Sets both channel delay counters FF; decrements live channel count and tests sequence loop flag.,src/bankC0_1000.asm
+$C012AB,.eventNoOp,.l03A2,code,RET handler; also the fall-through return of keyOffVoice.,src/bankC0_1000.asm
+$C012EF,.setChannelPitchBend,.l03E6,code,Reads next event byte into channel 3F array; matches context pointer and channel before tcall 4.,src/bankC0_1000.asm
+$C0130A,.setChannelVibrato,.l0401,code,Writes channel 3B array used by the sine-based pitch update at the end of each sequence tick.,src/bankC0_1000.asm
+$C0138A,.readRawEventByte,.l0481,code,setupSequencePointers patches tcall 14 to this routine when sequence header byte 0 is zero.,src/bankC0_1000.asm
+$C018C2,.setupSequencePointers,.l09B9,code,Nonzero first sequence byte selects dictionary decoding; zero selects raw byte reads.,src/bankC0_1000.asm

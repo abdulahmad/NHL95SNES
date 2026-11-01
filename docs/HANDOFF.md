@@ -226,4 +226,12 @@
   named from the CPU/SPC trace. Commands 5/30 (.l0540) snapshot DSP registers then enter command 31 (.l054C), which
   executes a host-port handshake; its full host-side contract is not traced. Commands 10-12 (.l056B, .l0830,
   .l0827) manipulate sequence playback flags; 11 also resets the sequence list, so pause/resume names are deferred.
-  The tcall routines and events still need their names recorded. Sound RAM buffers stay numbers.
+  All tcall targets and events are named. setupSequencePointers patches tcall 14 to readRawEventByte (.l0481)
+  for a zero first sequence byte, otherwise readPackedEventByte; the old missing-reference question is resolved.
+  Remaining auto labels inside SoundDriver are control-flow joins, loops, patched instruction sites and helpers
+  without a separately documented contract. Sound RAM buffers stay numbers.
+  CPU continuations CODE_CF0069/008B/0098/00FD/0239/04A8/04B4 keep auto labels; they are not independent APIs.
+  CODE_CF038E starts sample 2 once after LoadSounds, but its game-level trigger is not established; CODE_CF04B6
+  reloads and starts sequence $A4 under two flags whose game-level meanings are not established.
+  DATA8_CF0661 has no reader found. DATA8_CF0583 writes sample stereo-volume overrides, but LoadSequence indexes
+  it from r2 (the sequence pointer), not the flag byte in the sound table; the intended selection is unresolved.
