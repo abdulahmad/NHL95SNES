@@ -5203,8 +5203,8 @@ $C50D02,.rts,CODE_C50D02,new,"branch target only used in CODE_C50BEC",src/bankC5
 $C50D0B,.rtl,CODE_C50D0B,new,"branch target only used in CODE_C50D03",src/bankC5_0000.asm
 $C50D14,.rtl,CODE_C50D14,new,"branch target only used in CODE_C50D0C",src/bankC5_0000.asm
 $C50D23,.rtl,CODE_C50D23,new,"branch target only used in CODE_C50D18",src/bankC5_0000.asm
-$C50DDD,.1,CODE_C50DDD,new,"branch target only used in CODE_C50D29",src/bankC5_0000.asm
-$C50E02,.2,CODE_C50E02,new,"branch target only used in CODE_C50D29",src/bankC5_0000.asm
+$C50DDD,.1,CODE_C50DDD,new,"branch target only used in Pausemode",src/bankC5_0000.asm
+$C50E02,.2,CODE_C50E02,new,"branch target only used in Pausemode",src/bankC5_0000.asm
 $C50E42,.1,CODE_C50E42,new,"branch target only used in demoread",src/bankC5_0000.asm
 $C50E59,.2,CODE_C50E59,new,"branch target only used in demoread",src/bankC5_0000.asm
 $C50E62,.3,CODE_C50E62,new,"branch target only used in demoread",src/bankC5_0000.asm
@@ -5268,15 +5268,15 @@ $C514B8,.4,CODE_C514B8,new,"branch target only used in DispPen",src/bankC5_1000.
 $C514BA,.loop2,CODE_C514BA,new,"branch target only used in DispPen",src/bankC5_1000.asm
 $C514D2,.5,CODE_C514D2,new,"branch target only used in DispPen",src/bankC5_1000.asm
 $C514F3,.1,CODE_C514F3,new,"branch target only used in pplpen",src/bankC5_1000.asm
-$C5152D,.loop,CODE_C5152D,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C5154E,.1,CODE_C5154E,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C51577,.loop2,CODE_C51577,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C51586,.2,CODE_C51586,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C515A1,.3,CODE_C515A1,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C515AF,.4,CODE_C515AF,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C51659,.5,CODE_C51659,new,"branch target only used in CODE_C51523",src/bankC5_1000.asm
-$C51672,.1,CODE_C51672,new,"branch target only used in CODE_C51668",src/bankC5_1000.asm
-$C5167D,.2,CODE_C5167D,new,"branch target only used in CODE_C51668",src/bankC5_1000.asm
+$C5152D,.loop,CODE_C5152D,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C5154E,.1,CODE_C5154E,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C51577,.loop2,CODE_C51577,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C51586,.2,CODE_C51586,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C515A1,.3,CODE_C515A1,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C515AF,.4,CODE_C515AF,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C51659,.5,CODE_C51659,new,"branch target only used in Intermission",src/bankC5_1000.asm
+$C51672,.1,CODE_C51672,new,"branch target only used in Intermission_ticker",src/bankC5_1000.asm
+$C5167D,.2,CODE_C5167D,new,"branch target only used in Intermission_ticker",src/bankC5_1000.asm
 $C516B4,.1,CODE_C516B4,new,"branch target only used in NewTicker2_next",src/bankC5_1000.asm
 $C516BF,.2,CODE_C516BF,new,"branch target only used in NewTicker2_next",src/bankC5_1000.asm
 $C5173C,.1,CODE_C5173C,new,"branch target only used in CODE_C516C2",src/bankC5_1000.asm
@@ -5774,12 +5774,12 @@ $C54E4D,.3,CODE_C54E4D,new,"branch target only used in Create_HotCold_Table",src
 $C54E53,.4,CODE_C54E53,new,"branch target only used in Create_HotCold_Table",src/bankC5_4000.asm
 $C54E67,.1,CODE_C54E67,new,"branch target only used in GetTeamLines",src/bankC5_4000.asm
 $C54E6A,.2,CODE_C54E6A,new,"branch target only used in GetTeamLines",src/bankC5_4000.asm
-$C54E82,.1,CODE_C54E82,new,"branch target only used in CODE_C54E6D",src/bankC5_4000.asm
-$C54E9A,.2,CODE_C54E9A,new,"branch target only used in CODE_C54E6D",src/bankC5_4000.asm
-$C54EA9,.3,CODE_C54EA9,new,"branch target only used in CODE_C54E6D",src/bankC5_4000.asm
-$C54EAC,.loop,CODE_C54EAC,new,"branch target only used in CODE_C54E6D",src/bankC5_4000.asm
-$C54EC5,.4,CODE_C54EC5,new,"branch target only used in CODE_C54E6D",src/bankC5_4000.asm
-$C54EC9,.5,CODE_C54EC9,new,"branch target only used in CODE_C54E6D",src/bankC5_4000.asm
+$C54E82,.1,CODE_C54E82,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
+$C54E9A,.2,CODE_C54E9A,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
+$C54EA9,.3,CODE_C54EA9,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
+$C54EAC,.loop,CODE_C54EAC,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
+$C54EC5,.4,CODE_C54EC5,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
+$C54EC9,.5,CODE_C54EC9,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
 $C54F1A,.1,CODE_C54F1A,new,"branch target only used in CODE_C54F05",src/bankC5_5000.asm
 $C54F28,.2,CODE_C54F28,new,"branch target only used in CODE_C54F05",src/bankC5_5000.asm
 $C54F53,.1,CODE_C54F53,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
@@ -7178,3 +7178,7 @@ $C4B853,QueueColours,CODE_C4B853,code,"pushes the size (d3 * 2), Y, the bank and
 $C4B84C,QueueColours16,CODE_C4B84C,code,"sets d3 = $10 and falls into QueueColours",src/bankC4_B000.asm
 $1850,jmlvector,,94S+code,"RAM: the jml routine of 94S jmlvector (2 of 2 aligned votes); Opening stores $5C (jml) at +0, RunTasks and the assignment call (bankC4_5000) the target at +1..+3, then jsl to it",src/ram95s.asm
 $18FA,BlockMove,,code,"RAM: Opening writes $8B $54 at +0 and $AB $6B at +4 (phb, mvn, plb, rtl); ClearRAM7E and CODE_C58AF3 set the mvn banks at +2 and call it",src/ram95s.asm
+$C51523,Intermission,CODE_C51523,94S+code,"the same code as 94S Intermission, side by side: SetupTeamForIntermission, the objects' Xpos cleared, Vcount kept, the pause timer $0708, the ticker (Intermission_ticker), the pause pad from cont1team ... cont5team, InIntermission set",src/bankC5_1000.asm
+$C51668,Intermission_ticker,CODE_C51668,94S+code,"called by Intermission at the place of 94S Intermission_ticker, after the ticker start (tickervc) is set",src/bankC5_1000.asm
+$C50D29,Pausemode,CODE_C50D29,94S+purpose,"same job as 94S Pausemode (called from the game loop: keep the game, the pause menu, put it back); CODE_C5021B calls it when sflags bit 0 is set; saves $2CF5 and the direct page work words around the menu",src/bankC5_0000.asm
+$C54E6D,Pausemode_menu,CODE_C54E6D,94S+purpose,"same job as 94S Pausemode_menu (the pause menu, called from Pausemode and Intermission, as here); CODE_C5503C builds it, CODE_C54F05 reads the pad (tabs and items)",src/bankC5_4000.asm

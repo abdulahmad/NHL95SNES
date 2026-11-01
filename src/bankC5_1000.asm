@@ -507,7 +507,9 @@ pplpen:								; from DispPen and other segments
 	and.w #$00FF
 	sta.b d0
 	rtl
-CODE_C51523:						; called from other segments
+Intermission:						; the intermission between periods: the teams set up
+									; (SetupTeamForIntermission), the ticker, the pause pad, then
+									; Pausemode_menu
 	jsl.l SetupTeamForIntermission
 	lda.w #$0000
 	ldy.w #$001E
@@ -535,7 +537,7 @@ CODE_C51523:						; called from other segments
 	sec
 	sbc.w #$0150
 	sta.w $07F4
-	jsl.l CODE_C51668
+	jsl.l Intermission_ticker
 	lda.w TickerNum
 	sta.w $24C8
 	lda.w #$FFFF
@@ -599,7 +601,7 @@ CODE_C51523:						; called from other segments
 	pei ($79)
 	pei ($7B)
 	pei ($7D)
-	jsl.l CODE_C54E6D
+	jsl.l Pausemode_menu
 	pla
 	sta.b $7D
 	pla
@@ -669,9 +671,10 @@ CODE_C51523:						; called from other segments
 	stz.w $2372
 	stz.w $153F
 	stz.w $07F0
-CODE_C51667:						; from CODE_C51668
+CODE_C51667:						; from Intermission_ticker
 	rtl
-CODE_C51668:						; from CODE_C51523 and other segments
+Intermission_ticker:				; the intermission's ticker (Intermission calls it where 94S calls
+									; Intermission_ticker)
 	lda.w TickerNum
 	bmi .1
 	ora.w $24C6
@@ -782,7 +785,7 @@ CODE_C51749:						; no caller found (not traced)
 	cmp.w #$01E1
 	bcc CODE_C51752
 	rtl
-CODE_C51752:						; from CODE_C51668, NewTicker2_next, CODE_C51749, CODE_C51752, ...
+CODE_C51752:						; from Intermission_ticker, NewTicker2_next, CODE_C51749, CODE_C51752, ...
 	lda.w TickerNum
 	sta.b d3
 	bmi .rtl

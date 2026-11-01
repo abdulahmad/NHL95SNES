@@ -335,8 +335,8 @@ CODE_C5021B:						; from CODE_C5016D, CODE_C5021B and other segments
 	bne .11
 	lda.w #$0001
 	tsb.w sflags
-.10:								; call CODE_C50D29
-	jsl.l CODE_C50D29
+.10:								; call Pausemode
+	jsl.l Pausemode
 .11:								; if $189C = 0 go to .12, if $18A2 = 0 go to .12, return
 	lda.w $189C
 	beq .12
@@ -1292,8 +1292,8 @@ CODE_C50ADD:						; called from other segments
 	bne .5
 .4:									; call CODE_C5DD47
 	jsr.w CODE_C5DD47
-.5:									; call CODE_C51523, if gsp = $0004 go to .6, $1876 = gsp, ...
-	jsl.l CODE_C51523
+.5:									; call Intermission, if gsp = $0004 go to .6, $1876 = gsp, ...
+	jsl.l Intermission
 	lda.w gsp
 	cmp.w #$0004
 	beq .6
@@ -1483,7 +1483,8 @@ CODE_C50D18:						; from CODE_C5016D, PauseFromPad and other segments
 PauseFromPad:						; from demoread and other segments
 	sta.w $0591
 	bra CODE_C50D18
-CODE_C50D29:						; from CODE_C5021B and other segments
+Pausemode:							; the game loop's pause (the sflags pause bit): the game state saved,
+									; Pausemode_menu, the state back
 	lda.w $2CF5
 	pha
 	jsl.l CODE_C5226A
@@ -1517,7 +1518,7 @@ CODE_C50D29:						; from CODE_C5021B and other segments
 	pei ($79)
 	pei ($7B)
 	pei ($7D)
-	jsl.l CODE_C54E6D
+	jsl.l Pausemode_menu
 	pla
 	sta.b $7D
 	pla

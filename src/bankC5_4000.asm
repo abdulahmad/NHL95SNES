@@ -1792,7 +1792,8 @@ GetTeamLines:						; from SetPlList and other segments
 .2:									; a3 = A, return
 	sta.b a3
 	rtl
-CODE_C54E6D:						; called from other segments
+Pausemode_menu:						; the pause menu screen: its music, the Options tab first, the pad until
+									; start / select (.resume)
 	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	stz.w $18F8

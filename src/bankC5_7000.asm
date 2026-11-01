@@ -512,7 +512,7 @@ CODE_C57329:						; called from other segments
 	sta.b d7
 	sta.b $A2
 	pla
-	jmp.w CODE_C54E6D_resume
+	jmp.w Pausemode_menu_resume
 EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / right changes
 									; the line); start returns
 	jsl.l FadeOutWait
