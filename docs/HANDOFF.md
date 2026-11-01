@@ -233,5 +233,5 @@
   CPU continuations CODE_CF0069/008B/0098/00FD/0239/04A8/04B4 keep auto labels; they are not independent APIs.
   CODE_CF038E starts sample 2 once after LoadSounds, but its game-level trigger is not established; CODE_CF04B6
   reloads and starts sequence $A4 under two flags whose game-level meanings are not established.
-  DATA8_CF0661 has no reader found. DATA8_CF0583 writes sample stereo-volume overrides, but LoadSequence indexes
-  it from r2 (the sequence pointer), not the flag byte in the sound table; the intended selection is unresolved.
+  DATA8_CF0661 has no reader found. SampleVolumeOverrideLists writes sample stereo-volume overrides, but LoadSequence indexes
+  it from r2 (the sequence pointer), not the flag byte in SoundSequenceTable; the intended selection is unresolved.

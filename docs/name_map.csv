@@ -7328,3 +7328,5 @@ $C012EF,.setChannelPitchBend,.l03E6,code,Reads next event byte into channel 3F a
 $C0130A,.setChannelVibrato,.l0401,code,Writes channel 3B array used by the sine-based pitch update at the end of each sequence tick.,src/bankC0_1000.asm
 $C0138A,.readRawEventByte,.l0481,code,setupSequencePointers patches tcall 14 to this routine when sequence header byte 0 is zero.,src/bankC0_1000.asm
 $C018C2,.setupSequencePointers,.l09B9,code,Nonzero first sequence byte selects dictionary decoding; zero selects raw byte reads.,src/bankC0_1000.asm
+$CF04E3,SoundSequenceTable,DATA8_CF04E3,code,Low seven bits of sequence ID select the four-byte pointer/flag entry; flag selection logic remains unclear.,src/bankCF_0000.asm
+$CF0583,SampleVolumeOverrideLists,DATA8_CF0583,code,Consumer maps each sample ID to its driver slot and replaces FD02/FD03 stereo-volume defaults; list selection unresolved.,src/bankCF_0000.asm
