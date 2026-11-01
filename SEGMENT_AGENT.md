@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCE_1000 (org $CE1CC7): banks $C0-$CD are all source. <- CURRENT
+bankCE_2000 (org $CE2000): banks $C0-$CD are all source. <- CURRENT
 
 ## Sources
 
@@ -603,6 +603,9 @@ bankCE_1000 (org $CE1CC7): banks $C0-$CD are all source. <- CURRENT
 - 2026-10-31: bankCE_0000 matched: DATA8_CE0192 (a per-frame offset table), then the Hartford player photos (PhotoPalettesHFD,
   PlayerPhotosHFD). Photo sets as in bank $C0: PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00
   bytes and its end is where the next item starts.
+- 2026-10-31: bankCE_1000 matched: the Los Angeles player photos (PhotoPalettesLA, PlayerPhotosLA; the stream continues). Photo
+  sets as in bank $C0: PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is
+  where the next item starts.
 
 ## ROM map
 
@@ -835,8 +838,8 @@ The first row that is still incbin is the current segment.
 | bankCD_E000 | matched 4877 bytes | $CDE01E | $CDF32A | PlayerPhotosFLA (the Florida player photos, packed); org moved to $CDE01E, end moved +$32B |
 | bankCD_F000 | matched 3687 bytes | $CDF32B | $CE0191 | HartPic (the Hart Memorial Trophy picture), then DATA8_CDF94A (a per-frame offset table); org moved to $CDF32B, end moved +$192 |
 | bankCE_0000 | matched 6965 bytes | $CE0192 | $CE1CC6 | DATA8_CE0192 (a per-frame offset table), then the Hartford player photos (PhotoPalettesHFD, PlayerPhotosHFD); org moved to $CE0192, end moved +$CC7 |
-| bankCE_1000 | incbin | $CE1CC7 | $CE1FFF | <- CURRENT |
-| bankCE_2000 | incbin | $CE2000 | $CE2FFF | |
+| bankCE_1000 | matched 825 bytes | $CE1CC7 | $CE1FFF | the Los Angeles player photos (PhotoPalettesLA, PlayerPhotosLA; the stream continues); org moved to $CE1CC7 |
+| bankCE_2000 | incbin | $CE2000 | $CE2FFF | <- CURRENT |
 | bankCE_3000 | incbin | $CE3000 | $CE3FFF | |
 | bankCE_4000 | incbin | $CE4000 | $CE4FFF | |
 | bankCE_5000 | incbin | $CE5000 | $CE5FFF | |
