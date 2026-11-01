@@ -2107,3 +2107,10 @@ $CB5715,DATA8_CB5715,,new,"raw frame tiles for transfer index $32E; pose not tra
 $CB5975,DATA8_CB5975,,new,"raw frame tiles for transfer index $32F; pose not traced",src/bankCB_5000.asm
 $CB5BF5,DATA8_CB5BF5,,new,"raw frame tiles for transfer index $330; pose not traced",src/bankCB_5000.asm
 $CB5E75,DATA8_CB5E75,,new,"raw frame tiles for transfer index $331; pose not traced",src/bankCB_5000.asm
+$CB60D5,DATA8_CB60D5,,new,"raw frame tiles for transfer index $332; pose not traced",src/bankCB_6000.asm
+$CB6335,DATA8_CB6335,,new,"raw frame tiles for transfer index $333; pose not traced",src/bankCB_6000.asm
+$CB6535,DATA8_CB6535,,new,"raw frame tiles for transfer index $334; pose not traced",src/bankCB_6000.asm
+$CB6795,DATA8_CB6795,,new,"raw frame tiles for transfer index $335; pose not traced",src/bankCB_6000.asm
+$CB69F5,DATA8_CB69F5,,new,"raw frame tiles for transfer index $336; pose not traced",src/bankCB_6000.asm
+$CB6C55,DATA8_CB6C55,,new,"raw frame tiles for transfer index $337; pose not traced",src/bankCB_6000.asm
+$CB6E55,DATA8_CB6E55,,new,"raw frame tiles for transfer index $338; pose not traced",src/bankCB_6000.asm
