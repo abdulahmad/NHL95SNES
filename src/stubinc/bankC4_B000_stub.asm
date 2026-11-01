@@ -17,13 +17,13 @@ DATA8_C4C502 = $C4C502
 CODE_C4C068 = $C4C068
 CODE_C4C070 = $C4C070
 CODE_C4C08D = $C4C08D
-CODE_C4C20C = $C4C20C
-CODE_C4C270 = $C4C270
+QueueTextTiles = $C4C20C
+MapTextTiles = $C4C270
 CODE_C4C2AA = $C4C2AA
-CODE_C4C31D = $C4C31D
+TextWidth = $C4C31D
 CODE_C4C386 = $C4C386
 UnpackText = $C4C3BA
-CODE_C4C46B = $C4C46B
+CentreText = $C4C46B
 RestoreWorkBuf = $C4C536
 MarkWorkBuf = $C4C541
 AllocClearWorkBuf = $C4C547
@@ -50,5 +50,8 @@ DATA8_C07F7B = $C07F7B
 HighScoreMap = $C2BB69
 VisualConceptsMap = $C2B14A
 VisualConceptsPalette = $C2BB22
+BoldFontGlyphs = $C01A39
+ItalicFontGlyphs = $C01FF9
+ThinFontGlyphs = $C03239
 
 incsrc "../bankC4_B000.asm"

@@ -346,7 +346,7 @@ CODE_C59308:						; from CODE_C592A9
 	sta.b $CF
 	lda.l $C30002,x
 	tax
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	plx
 	phx
 	lda.w #$0094
@@ -365,10 +365,10 @@ CODE_C59308:						; from CODE_C592A9
 	lda.w $1864
 	cmp.w #$0007
 	bne .3
-	jsl.l CODE_C4BCBC
+	jsl.l PrintItalicRight
 	bra .4
-.3:									; call CODE_C4BCA4
-	jsl.l CODE_C4BCA4
+.3:									; call PrintItalicCentred
+	jsl.l PrintItalicCentred
 .4:									; pull X, pull Y, Y + 1, Y + 1, ...
 	plx
 	ply
@@ -659,31 +659,31 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	sta.b $CF
 	ldy.w #$0010
 	ldx.w #$479B
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	lda.w #$005C
 	sta.b $CF
 	ldy.w #$0010
 	ldx.w #$4724
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	ldy.w #$0011
 	ldx.w #$4735
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	ldy.w #$0012
 	ldx.w #$4743
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	ldy.w #$0013
 	ldx.w #$4753
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$0009
 	sta.w $18DE
 	lda.w #$0032
 	sta.b $CF
 	ldy.w #$0015
 	ldx.w #$4764
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	ldy.w #$0018
 	ldx.w #$476E
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	ldx.b a0
 	lda.w #$0028
 	sta.b $05,x
@@ -790,7 +790,7 @@ CODE_C596D3:						; from AskNameOk
 	sta.b $CF
 	ldx.w #$04F5
 	ldy.w #$0002
-	jsl.l CODE_C4BDCA
+	jsl.l PrintTitleStr
 	jsl.l CODE_C4C2AA
 	stz.b d0
 	stz.b $85
@@ -939,7 +939,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	mvn $7E,$7E
 	ldy.b $71
 	ldx.w #$4673
-	jsl.l CODE_C4BC9E
+	jsl.l PrintItalicLeftStr
 	jsl.l CODE_C4C2AA
 	lda.w #$3E3E
 	sta.w $04F5
@@ -967,7 +967,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	mvn $7E,$7E
 	ldy.b $71
 	ldx.w #$467D
-	jsl.l CODE_C4BC9E
+	jsl.l PrintItalicLeftStr
 	ldy.w #$0200
 	clc
 	lda.b $D3
@@ -1159,9 +1159,9 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	lda.b d0
 	bne .3
 	iny
-.3:									; X = $04F5, call CODE_C4BC1A, go to CODE_C59F79
+.3:									; X = $04F5, call PrintBoldRightStr, go to CODE_C59F79
 	ldx.w #$04F5
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	jmp.w CODE_C59F79
 DATA8_C59A4A:						; not reached by the traced code (data or unused code)
 	db $60
@@ -1213,9 +1213,9 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	lda.b d0
 	bne .3
 	iny
-.3:									; X = $04F5, call CODE_C4BC1A, go to CODE_C59F79
+.3:									; X = $04F5, call PrintBoldRightStr, go to CODE_C59F79
 	ldx.w #$04F5
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	jmp.w CODE_C59F79
 CODE_C59AB0:						; from CODE_C599E7, CODE_C59A4B
 	sta.b tmp1
@@ -1720,7 +1720,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	jsr.w CODE_C5B67A
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	ply
 	plx
 	iny

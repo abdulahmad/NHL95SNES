@@ -300,21 +300,21 @@ CODE_C5C214:						; called from other segments
 	sta.b $D1
 	ldy.w #$000C
 	ldx.w #$4F6C
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00C8
 	sta.b $D1
 	ldy.w #$000C
 	ldx.w #$4CD7
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
 	ldy.w #$000C
 	ldx.w #$4CDE
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$00A8
 	sta.b $CF
 	lda.w #$00F0
@@ -325,7 +325,7 @@ CODE_C5C214:						; called from other segments
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0009
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.w $1864
 	pha
 	lda.w #$0002
@@ -381,7 +381,7 @@ CODE_C5C214:						; called from other segments
 	sta.b $D1
 	ldx.w #$4CE3
 	ldy.w #$000E
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	ldx.b a0
 	lda.b $22,x
 	and.w #$FFFE
@@ -426,7 +426,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	lda.w #$00C8
 	sta.b $D1
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsr.w CODE_C5D794
 	cmp.w #$026A
 	bcs .4
@@ -447,7 +447,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b $01,s
 	clc
 	adc.w #$0008
@@ -458,7 +458,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	plx
 	ldy.w #$0000
 .loop:								; loop: $04F5,y = $C30000,x, X + 1, X + 1, Y + 1, ...
@@ -561,7 +561,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	ldy.b $65
 	jsr.w CODE_C5D821
 	sty.b $65
@@ -573,7 +573,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	sta.b $CF
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	ldy.b $65
 	ldx.w #$0001
 .loop4:								; loop: push X, call CODE_C5D83F, pull X, A 8-bit, ...
@@ -604,7 +604,7 @@ CODE_C5C34C:						; a callback: CODE_C5C214 passes it to CODE_C55ABC
 	sta.b $D1
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.w #$2000
 	sta.b $D5
 	rts
@@ -1071,21 +1071,21 @@ CODE_C5C826:						; from ReleasePlayers
 	sta.b $D1
 	ldy.w #$000C
 	ldx.w #$4F6C
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00C8
 	sta.b $D1
 	ldy.w #$000C
 	ldx.w #$4CD7
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
 	ldy.w #$000C
 	ldx.w #$4CDE
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$00A8
 	sta.b $CF
 	lda.w #$00F0
@@ -1096,7 +1096,7 @@ CODE_C5C826:						; from ReleasePlayers
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0009
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.w $1864
 	pha
 	lda.w #$0002
@@ -1167,13 +1167,13 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	beq .5
 	lda.w #$2400
 	sta.b $D5
-.5:									; $CF = $008C, $D1 = $00C8, Y = $6D, call CODE_C4BBE5, ...
+.5:									; $CF = $008C, $D1 = $00C8, Y = $6D, call PrintBoldCentred, ...
 	lda.w #$008C
 	sta.b $CF
 	lda.w #$00C8
 	sta.b $D1
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b a3
 	asl a
 	adc.w #$3207
@@ -1207,7 +1207,7 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	sta.b $CF
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0024
 	sta.b $CF
 	lda.b a3
@@ -1221,7 +1221,7 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b a3
 	asl a
 	asl a
@@ -1246,7 +1246,7 @@ CODE_C5C926:						; a callback: CODE_C5C826 passes it to CODE_C55ABC
 	sta.b $D1
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.w #$2000
 	sta.b $D5
 	rts
@@ -1423,20 +1423,20 @@ CODE_C5CB36:						; from TradePlayers
 	sta.b $D1
 	ldx.w #$4CD7
 	ldy.w #$0006
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	ldx.w #$4CD7
 	ldy.w #$000F
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
 	ldx.w #$4CDE
 	ldy.w #$0006
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	ldx.w #$4CDE
 	ldy.w #$000F
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w $1864
 	pha
 	lda.w #$0002
@@ -1512,13 +1512,13 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	beq .3
 	lda.w #$2400
 	sta.b $D5
-.3:									; $CF = $008C, $D1 = $00C8, Y = $6D, call CODE_C4BBE5, ...
+.3:									; $CF = $008C, $D1 = $00C8, Y = $6D, call PrintBoldCentred, ...
 	lda.w #$008C
 	sta.b $CF
 	lda.w #$00C8
 	sta.b $D1
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $91
 	asl a
 	adc.b d2
@@ -1552,7 +1552,7 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	sta.b $CF
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0024
 	sta.b $CF
 	lda.b $91
@@ -1567,7 +1567,7 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b $91
 	asl a
 	asl a
@@ -1593,7 +1593,7 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	sta.b $D1
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.w #$2000
 	sta.b $D5
 	rts
@@ -1685,7 +1685,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0005
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$2DC9
@@ -1711,13 +1711,13 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	lda.w #$2400
 	sta.b $D5
 	ldx.w #$4D53
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	bra .5
-.2:									; $D5 = $2800, X = $4D5A, call CODE_C4BC26, $D5 = $2000, ...
+.2:									; $D5 = $2800, X = $4D5A, call PrintItalicLeft, $D5 = $2000, ...
 	lda.w #$2800
 	sta.b $D5
 	ldx.w #$4D5A
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	lda.w #$2000
 	sta.b $D5
 	lda.b $01,s
@@ -1727,9 +1727,9 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	bra .4
 .3:									; X = $4D61
 	ldx.w #$4D61
-.4:									; Y = $0014, call CODE_C4BBFC, $CF = $0061, pull A, ...
+.4:									; Y = $0014, call PrintBoldLeft, $CF = $0061, pull A, ...
 	ldy.w #$0014
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$0061
 	sta.b $CF
 	pla
@@ -1738,7 +1738,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0014
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 .5:									; $D5 = $2000, call CODE_C4C2AA, return
 	lda.w #$2000
 	sta.b $D5
@@ -1764,7 +1764,7 @@ PrintTradedPlayers:					; prints the chosen players of a trade list (bit 0 of ea
 	bne .2
 	ldx.w #$4D3F
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	rts
 .2:									; tmp0 = X, tmp2 = 0, Y = $0000
 	stx.b tmp0
@@ -1789,7 +1789,7 @@ PrintTradedPlayers:					; prints the chosen players of a trade list (bit 0 of ea
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	inc.b $6D
 	ply
 	lda.b tmp2
@@ -1806,7 +1806,7 @@ PrintTradedPlayers:					; prints the chosen players of a trade list (bit 0 of ea
 	beq .loop2
 	ldx.w #$4D4A
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	rts
 CheckTrade:							; checks the trade: carry clear when it can go; else carry set, X = the
 									; team and r3 = the Illegal text (a roster rule broken) or the same team

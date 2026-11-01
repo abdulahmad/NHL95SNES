@@ -63,7 +63,7 @@ CODE_C5800C:						; called from other segments
 	ldx.w #$04F5
 	ldy.b $6D
 CODE_C58091:						; from CODE_C5800C
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	rts
@@ -81,7 +81,7 @@ CODE_C5809A:						; from CODE_C5800C
 	rts
 CODE_C580AB:						; called from other segments
 	ldy.w #$0006
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	rts
@@ -1958,7 +1958,7 @@ CODE_C58F75:						; from CODE_C58EE0
 	lda.l $C30002,x
 	tax
 	ldy.w $010E
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	plx
 	lda.w #$0094
 	sta.b $CF
@@ -1975,10 +1975,10 @@ CODE_C58F75:						; from CODE_C58EE0
 	lda.w $1864
 	cmp.w #$0007
 	bne .1
-	jsl.l CODE_C4BCBC
+	jsl.l PrintItalicRight
 	bra .2
-.1:									; call CODE_C4BCA4
-	jsl.l CODE_C4BCA4
+.1:									; call PrintItalicCentred
+	jsl.l PrintItalicCentred
 .2:									; call CODE_C4C2AA, return
 	jsl.l CODE_C4C2AA
 	rts

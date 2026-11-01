@@ -409,7 +409,7 @@ CODE_C56310:						; a callback: ShowGameStats passes it to CODE_C55ABC
 	lda.l $C30000,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	stz.b a2
 	lda.w #$00B8
 	sta.b $CF
@@ -489,7 +489,7 @@ DrawPeriodStats:					; the period stats: the periods played and Total, the headi
 	tax
 	lda.l DATA8_C35E25,x
 	tax
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	ply
 	iny
 	pla
@@ -497,10 +497,10 @@ DrawPeriodStats:					; the period stats: the periods played and Total, the headi
 	beq .1
 	inc a
 	bra .loop
-.1:									; X = $4C1C, Y = $0018, call CODE_C4BBE5, a1 = $4EEF, ...
+.1:									; X = $4C1C, Y = $0018, call PrintBoldCentred, a1 = $4EEF, ...
 	ldx.w #$4C1C
 	ldy.w #$0018
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$4EEF
 	sta.b a1
 	ldy.w #$129B
@@ -511,15 +511,15 @@ DrawPeriodStats:					; the period stats: the periods played and Total, the headi
 	ldx.w #$4B9E
 	lda.w #$4EE1
 	sta.b a1
-.2:									; a0 = Y, Y = $000F, call CODE_C4BCA4, Y = $0011, ...
+.2:									; a0 = Y, Y = $000F, call PrintItalicCentred, Y = $0011, ...
 	sty.b a0
 	ldy.w #$000F
-	jsl.l CODE_C4BCA4
+	jsl.l PrintItalicCentred
 	ldy.w #$0011
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	ldx.b a1
 	ldy.w #$001A
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$0090
 	sta.b $CF
 	lda.w #$00F0
@@ -553,7 +553,7 @@ CODE_C56453:						; from DrawPeriodStats
 	lda.b $01,s
 	tay
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	ply
 	iny
 	pla
@@ -568,7 +568,7 @@ CODE_C56453:						; from DrawPeriodStats
 	and.w #$00FF
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by a stat column
 									; (left / right) or its goalies (B); Y switches the team, up / down
@@ -936,7 +936,7 @@ CODE_C56759:						; a callback: ShowPlayerStats passes it to CODE_C55ABC
 	lda.w #$000E
 	jsr.w CODE_C55F1F
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b a2
 	beq .2
 	lda.b $65
@@ -1003,11 +1003,11 @@ CODE_C5680B:						; from CODE_C56759, CODE_C5683C
 	tax
 	lda.l BCDTable,x
 	and.w #$00FF
-.3:									; call CODE_C55EC7, Y = $6D, X = $04F5, call CODE_C4BBF1, ...
+.3:									; call CODE_C55EC7, Y = $6D, X = $04F5, call PrintBoldCentredStr, ...
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.w #$2000
 	sta.b $D5
 	lda.b $D1
@@ -1062,16 +1062,16 @@ CODE_C56880:						; from ShowPlayerStats
 	cpx.w #$FFFF
 	bne .1
 	jmp.w CODE_C56938
-.1:									; A = DATA8_C56989,x, X = A, Y = $0008, call CODE_C4BC26, ...
+.1:									; A = DATA8_C56989,x, X = A, Y = $0008, call PrintItalicLeft, ...
 	lda.l DATA8_C56989,x
 	tax
 	ldy.w #$0008
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	lda.w #$0020
 	sta.b $CF
 	ldx.w #$4EF6
 	ldy.w #$0019
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$4F6C
@@ -1106,9 +1106,9 @@ CODE_C5691F:						; from CODE_C56880, CODE_C56938
 	bne .1
 	lda.w #$2400
 	sta.b $D5
-.1:									; Y = $6D, call CODE_C4BBE5, $D5 = $2000, $CF = $D1, ...
+.1:									; Y = $6D, call PrintBoldCentred, $D5 = $2000, $CF = $D1, ...
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$2000
 	sta.b $D5
 	lda.b $D1
@@ -1117,12 +1117,12 @@ CODE_C5691F:						; from CODE_C56880, CODE_C56938
 CODE_C56938:						; from CODE_C56880
 	ldx.w #$47F8
 	ldy.w #$0008
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	lda.w #$0020
 	sta.b $CF
 	ldx.w #$4EFE
 	ldy.w #$0019
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$49B8
@@ -1184,7 +1184,7 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	sta.b $D5
 	ldx.w #$4C2D
 	ldy.w #$0011
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$2000
 	sta.b $D5
 	bra .2
@@ -1238,7 +1238,7 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	jmp.w CODE_C55A09
 CODE_C56A6B:						; from ShowPenaltySummary
 	ldy.w #$000F
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	rts
@@ -1272,7 +1272,7 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	ldx.w #$00C3
 	jsl.l CODE_C58BB9
 	ldy.b $6D
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	rts
 .2:									; $D5 = $2400, $CF = $0010, $D1 = $0030, A = $115C,x, ...
 	lda.w #$2400
@@ -1292,7 +1292,7 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	lda.l DATA8_C35E25,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$0060
@@ -1303,7 +1303,7 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	jsr.w CODE_C5605D
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	lda.w #$0080
@@ -1316,10 +1316,10 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	bra .4
 .3:									; continue
 	pea.w $2DC9
-.4:									; call CODE_C56104, Y = $6D, call CODE_C4BBE5, $CF = $D1, ...
+.4:									; call CODE_C56104, Y = $6D, call PrintBoldCentred, $CF = $D1, ...
 	jsr.w CODE_C56104
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00E0
@@ -1339,7 +1339,7 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	lda.w #$000C
 	jsr.w CODE_C55F1F
 	ldy.b $6D
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F8
@@ -1355,7 +1355,7 @@ CODE_C56A77:						; a callback: ShowPenaltySummary passes it to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.w #$2000
 	sta.b $D5
 	rts
@@ -1512,7 +1512,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	sta.b $D5
 	ldx.w #$4C43
 	ldy.w #$0011
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$2000
 	sta.b $D5
 	bra .2
@@ -1564,7 +1564,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	jmp.w CODE_C55A09
 CODE_C56D37:						; from ShowScoringSummary
 	ldy.w #$000F
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	rts
 CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	lda.b a3
@@ -1613,7 +1613,7 @@ CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	lda.w #$000C
 	jsr.w CODE_C55F1F
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 .5:									; pull X, return
 	plx
 	rts
@@ -1635,7 +1635,7 @@ CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	lda.l DATA8_C35E25,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$0050
@@ -1646,7 +1646,7 @@ CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	jsr.w CODE_C5605D
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	lda.w #$0068
@@ -1656,7 +1656,7 @@ CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	and.w #$0080
 	jsr.w CODE_C56104
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$0072
 	sta.b $CF
 	ldx.b $65
@@ -1674,7 +1674,7 @@ CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	lda.w #$000D
 	jsr.w CODE_C55F1F
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$00E0
 	sta.b $CF
 	ldx.b $65
@@ -1691,7 +1691,7 @@ CODE_C56D3F:						; a callback: ShowScoringSummary passes it to CODE_C55ABC
 	beq .8
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 .8:									; $D5 = $2000, return
 	lda.w #$2000
 	sta.b $D5

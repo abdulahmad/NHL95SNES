@@ -621,7 +621,7 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	lda.l DATA8_C4D10A,x
 	tax
 	ldy.b d6
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	ldx.b $95
 	lda.w #$2000
 	cmp.b $D5
@@ -981,13 +981,13 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	lda.l AwardNames,x
 	tax
 	ldy.w #$0012
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	plx
 	lda.l AwardNames+2,x
 	beq .2
 	tax
 	ldy.w #$0013
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 .2:									; $CF = 0, $D1 = $0100, pull X, A = AwardDescs,x, ...
 	stz.b $CF
 	lda.w #$0100
@@ -996,7 +996,7 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	lda.l AwardDescs,x
 	tax
 	ldy.w #$0015
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsl.l CODE_C4CEDB
 	lda.b a0
 	asl a
@@ -1125,7 +1125,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0012
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsl.l CODE_C52CA3
 	ldy.w #$FFFE
 	pla
@@ -1231,7 +1231,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	adc.w #$2EE1
 	tax
 	ldy.w #$000F
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	jsl.l CODE_C5A4B5
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
@@ -1253,7 +1253,7 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0012
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	stz.w $364E
 	ldx.w #$364E
 	ldy.w #$3650

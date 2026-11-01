@@ -90,7 +90,7 @@ CODE_C5A05A:						; from CODE_C59F79
 	lda.w #$2020
 	sta.w $04F5
 	ldx.w #$04F6
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	rts
 CODE_C5A07A:						; from CODE_C59F79, CODE_C5A083 and other segments
 	tax
@@ -273,7 +273,7 @@ CODE_C5A291:						; called from other segments
 	lda.l DATA8_C5A2A8,x
 	tax
 	ldy.w #$0008
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	rts
 DATA8_C5A2A8:						; not traced: a table read by CODE_C5A291
 	db $B8,$49,$BD,$49,$C7,$49,$D7,$49,$D2,$49,$E0,$49
@@ -289,7 +289,7 @@ CODE_C5A2B4:						; called from other segments
 	jsr.w CODE_C5A321
 	ldx.w #$04F6
 	ldy.w #$000B
-	jsl.l CODE_C4BC9E
+	jsl.l PrintItalicLeftStr
 	rts
 CODE_C5A2D3:						; called from other segments
 	lda.w #$000E
@@ -299,7 +299,7 @@ CODE_C5A2D3:						; called from other segments
 	jsr.w CODE_C5A321
 	ldx.w #$04F7
 	ldy.w #$000E
-	jsl.l CODE_C4BC9E
+	jsl.l PrintItalicLeftStr
 	rts
 CODE_C5A2EC:						; called from other segments
 	lda.w #$0011
@@ -308,9 +308,9 @@ CODE_C5A2EC:						; called from other segments
 	lda.b $85
 	beq .1
 	ldx.w #$49E9
-.1:									; Y = $0011, call CODE_C4BC26, return
+.1:									; Y = $0011, call PrintItalicLeft, return
 	ldy.w #$0011
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	rts
 CODE_C5A304:						; from CODE_C5A291, CODE_C5A2B4, CODE_C5A2D3, CODE_C5A2EC
 	xba
@@ -520,7 +520,7 @@ CODE_C5A48F:						; from CODE_C5A4A5
 	tax
 	lda.l DATA8_C3585C,x
 	tax
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsl.l CODE_C4C2AA
 	pla
 	sta.b $D1
@@ -864,10 +864,10 @@ CODE_C5A72D:						; from CODE_C5A66E
 	sta.b $CF
 	ldy.w #$0009
 	plx
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	ldy.w #$0018
 	plx
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	jsl.l CODE_C4CEDB
 	rts
 CODE_C5A773:						; called from other segments
@@ -1295,7 +1295,7 @@ CODE_C5AA94:						; from CODE_C5A821
 	lda.l DATA8_C3585C,x
 	tax
 	phy
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.b $8E
 	and.w #$00FF
 	asl a
@@ -1305,7 +1305,7 @@ CODE_C5AA94:						; from CODE_C5A821
 	pla
 	adc.w #$0003
 	tay
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsl.l CODE_C4C2AA
 	rts
 CODE_C5AAF0:						; from CODE_C5A821, GamesToday
@@ -1320,7 +1320,7 @@ CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	sta.b $CF
 	ldx.w #$04F5
 	ldy.w #$0005
-	jsl.l CODE_C4BC9E
+	jsl.l PrintItalicLeftStr
 	jsl.l CODE_C4C2AA
 	rts
 CODE_C5AB16:						; called from other segments
@@ -1636,17 +1636,17 @@ NoGameSelected:						; the warning A game must be selected. / Okay (screen state
 	sta.b $CF
 	ldx.w #$47A1
 	ldy.w #$0008
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	ldy.w #$000A
 	ldx.w #$47AB
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	lda.w #$2000
 	sta.b $D5
 	lda.w #$006E
 	sta.b $CF
 	ldy.w #$000E
 	ldx.w #$47B3
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	jsl.l CODE_C4C2AA
 	ldx.b a0
 	lda.w #$0064

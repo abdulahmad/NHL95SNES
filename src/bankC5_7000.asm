@@ -36,7 +36,7 @@ CODE_C56F5C:						; called from other segments
 	ply
 	jsr.w CODE_C56009
 	ldy.w #$000A
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b $7D
 	asl a
 	tax
@@ -55,7 +55,7 @@ CODE_C56F5C:						; called from other segments
 	ply
 	jsr.w CODE_C56009
 	ldy.w #$000B
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$000D
 	sta.b $6D
 	stz.b a3
@@ -76,7 +76,7 @@ CODE_C56FF5:						; from CODE_C5704D
 	sta.b $D1
 	ldx.w #$4F71
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00D0
@@ -98,7 +98,7 @@ CODE_C56FF5:						; from CODE_C5704D
 	adc.w #$0118
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$00D0
 	sta.b $CF
 	lda.b $7D
@@ -134,7 +134,7 @@ CODE_C5705E:						; from CODE_C570CC
 	lda.l DATA8_C35E47,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
@@ -166,7 +166,7 @@ CODE_C5705E:						; from CODE_C570CC
 	adc.w #$0118
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$00D0
 	sta.b $CF
 	lda.b $7D
@@ -229,10 +229,10 @@ CODE_C570F4:						; from DATA8_C570E8
 	lda.w #$2043
 	sta.w $04F5,x
 	stz.w $04F7,x
-.4:									; X = $04F5, Y = $6D, call CODE_C4BBF1, return
+.4:									; X = $04F5, Y = $6D, call PrintBoldCentredStr, return
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 .5:									; A * 2, X = A, A = DATA8_C35E9F,x, X = A, ...
 	asl a
@@ -240,7 +240,7 @@ CODE_C570F4:						; from DATA8_C570E8
 	lda.l DATA8_C35E9F,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	rts
 CODE_C57149:						; from DATA8_C570E8
 	lda.b d0
@@ -269,7 +269,7 @@ CODE_C57149:						; from DATA8_C570E8
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C57187:						; from DATA8_C570E8
 	jsr.w CODE_C571CB
@@ -279,7 +279,7 @@ CODE_C57187:						; from DATA8_C570E8
 	lda.l PhotoPaletteTable-4,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	rts
 CODE_C5719B:						; from DATA8_C570E8
 	jsr.w CODE_C571CB
@@ -291,7 +291,7 @@ CODE_C5719B:						; from DATA8_C570E8
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C571B4:						; from DATA8_C570E8
 	jsr.w CODE_C571CB
@@ -299,7 +299,7 @@ CODE_C571B4:						; from DATA8_C570E8
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C571C7:						; called from other segments
 	jsr.w CODE_C571CB
@@ -547,7 +547,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	sta.b $CF
 	ldy.w #$0018
 	ldx.w #$4F06
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 .3:									; A = $537F, call PrintTextPage, X = $2DC9, Y = $17DB, ...
 	lda.w #$537F
 	jsl.l PrintTextPage
@@ -676,11 +676,11 @@ CODE_C574A4:						; from EditLinesScreen
 	tax
 	lda.l DATA8_C35E37,x
 	tax
-.2:									; Y = $0008, call CODE_C4BC26, Y = $000A, call CODE_C4BDE6, ...
+.2:									; Y = $0008, call PrintItalicLeft, Y = $000A, call PrintTitleBar, ...
 	ldy.w #$0008
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	ldy.w #$000A
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	lda.w #$000D
 	sta.b $6D
 	stz.b a3
@@ -721,7 +721,7 @@ CODE_C57509:						; from CODE_C574A4
 	lda.l DATA8_C35E47,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
@@ -753,7 +753,7 @@ CODE_C57509:						; from CODE_C574A4
 	adc.w #$0118
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	rts
 CODE_C5755C:						; from EditLinesScreen, CODE_C57779
 	xba
@@ -990,12 +990,12 @@ CODE_C576FD:						; a callback: CODE_C57578 passes it to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0022
 	sta.b $CF
 	plx
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
@@ -1066,7 +1066,7 @@ CODE_C577C3:						; from CODE_C57578
 	sta.b $D1
 	ldx.w #$4F6C
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
@@ -1077,7 +1077,7 @@ CODE_C577C3:						; from CODE_C57578
 	lda.l DATA8_C35E67,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BC0E
+	jsl.l PrintBoldRight
 	rts
 CODE_C577F7:						; from CODE_C57578
 	stx.b tmp1
@@ -1291,10 +1291,10 @@ CODE_C57997:						; from PauseGoalie
 	sta.b $D1
 	ldx.w #$4F6C
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	ldy.b $6D
 	iny
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
@@ -1305,10 +1305,10 @@ CODE_C57997:						; from PauseGoalie
 	lda.l DATA8_C35E87,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BC0E
+	jsl.l PrintBoldRight
 	ldy.b $6D
 	iny
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	stz.b a3
 	lda.w #$000E
 	sta.b $6D
@@ -1345,7 +1345,7 @@ CODE_C579F4:						; from CODE_C57A4D
 	adc.w #$0118
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b $D1
 	sta.b $CF
 	lda.w #$00F0
@@ -1380,7 +1380,7 @@ CODE_C57A4D:						; from CODE_C579F4
 	sta.b $D1
 	ldx.w #$4C86
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$2000
 	sta.b $D5
 	rts
@@ -1395,7 +1395,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	sta.b $D1
 	ldx.w #$4C95
 	ldy.w #$0002
-	jsl.l CODE_C4BDAE
+	jsl.l PrintTitle
 	lda.l $306050
 	and.w #$00FF
 	tay
@@ -1422,17 +1422,17 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 .1:									; A = Y, call CODE_C56168
 	tya
 	jsr.w CODE_C56168
-.2:									; X = $04F5, Y = $0007, call CODE_C4BCB0, Y = $0009, ...
+.2:									; X = $04F5, Y = $0007, call PrintItalicCentredStr, Y = $0009, ...
 	ldx.w #$04F5
 	ldy.w #$0007
-	jsl.l CODE_C4BCB0
+	jsl.l PrintItalicCentredStr
 	ldy.w #$0009
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	lda.w $190E
 	beq .3
 	ldx.w #$4717
 	ldy.w #$0019
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 .3:									; d0 = $2C42, X = $0000, Y = X
 	lda.w $2C42
 	sta.b d0
@@ -1542,14 +1542,14 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	plx
 	lda.l $7F8F00,x
 	jsr.w CODE_C5B67A
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	rts
 .4:									; push X, A = $7F8EFC,x, A * 2, X = A, ...
 	phx
@@ -1559,7 +1559,7 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.b $01,s
 	tax
 	lda.l $7F8F02,x
@@ -1567,7 +1567,7 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	lda.w #$00C8
 	sta.b $CF
 	plx
@@ -1578,11 +1578,11 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	tax
 	lda.l DATA8_C35E25,x
 	tax
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	rts
-.5:									; X = $4F67, call CODE_C4BBFC, return
+.5:									; X = $4F67, call PrintBoldLeft, return
 	ldx.w #$4F67
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	rts
 RecordHoldersScreen:				; pause menu Records: the user records (win percentages worked out and the
 									; rows sorted), a page of win / loss records, goals or saves; the pad
@@ -1714,7 +1714,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	sta.b $D5
 	ldx.w #$4D98
 	ldy.w #$0006
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	lda.w #$2000
 	sta.b $D5
 	bra .11
@@ -1921,7 +1921,7 @@ CODE_C57EEF:						; from CODE_C57EAA
 	ldx.w #$04F5
 	ldy.b $6D
 CODE_C57EFA:						; from CODE_C57EAA
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	ldx.b a3
@@ -2012,7 +2012,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	ldx.w #$04F5
 	ldy.b $6D
 CODE_C57FBE:						; from CODE_C57F39
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	rts

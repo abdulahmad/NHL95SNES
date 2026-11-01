@@ -1321,7 +1321,7 @@ CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000C
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.w #$00A0
 	sta.b $CF
 	lda.w #$00E8
@@ -1332,7 +1332,7 @@ CODE_C55A40:						; from ShowGameStats, ShowPeriodStats
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000C
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	rts
 CODE_C55AB8:						; called from other segments
 	jsr.w CODE_C55ABC
@@ -1713,7 +1713,7 @@ CODE_C55D8A:						; from DATA8_C55D6B
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55DAC:						; from DATA8_C55D6B
 	ldx.b $65
@@ -1743,7 +1743,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	jsr.w CODE_C55ECA
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55DEF:						; from DATA8_C55D6B
 	ldx.b $65
@@ -1778,7 +1778,7 @@ CODE_C55DEF:						; from DATA8_C55D6B
 	sta.w $04F5,x
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55E3D:						; from DATA8_C55D6B
 	ldx.b $65
@@ -1790,7 +1790,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	jsr.w CODE_C5605D
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	rts
 CODE_C55E57:						; called from other segments
 	jsl.l CODE_C4CEDB
@@ -1838,7 +1838,7 @@ CODE_C55E57:						; called from other segments
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0009
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	rts

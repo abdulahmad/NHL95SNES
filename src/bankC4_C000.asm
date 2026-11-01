@@ -344,7 +344,7 @@ CODE_C4C08D:						; called from other segments
 .18:								; A 16-bit, return
 	rep #$20
 	rts
-CODE_C4C20C:						; called from other segments
+QueueTextTiles:						; queues the tiles DrawText made for VRAM (text row Y)
 	lda.w #$3000
 	sta.b p0
 	lda.b $12
@@ -406,7 +406,8 @@ CODE_C4C20C:						; called from other segments
 	stz.b QueueBusy
 	inc.w TransfersReady
 	rtl
-CODE_C4C270:						; called from other segments
+MapTextTiles:						; writes the text map entries of the tiles DrawText made (row Y, the
+									; palette bits of $D5)
 	lda.b $14
 	asl a
 	adc.b $D3
@@ -518,7 +519,8 @@ CODE_C4C2C6:						; no caller found (not traced)
 	tcs
 	stz.b QueueBusy
 	rtl
-CODE_C4C31D:						; from CODE_C4C46B and other segments
+TextWidth:							; the width in pixels of the text at X in the font of $0E (per character
+									; widths)
 	phx
 	lda.b $0E
 	bit.w #$0004
@@ -560,7 +562,7 @@ CODE_C4C31D:						; from CODE_C4C46B and other segments
 	lda.w $18DC
 	pha
 	lda.w #$0000
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ldy.w #$0400
 	lda.b $0E
 	lsr a
@@ -709,8 +711,9 @@ CODE_C4C45A:						; from CODE_C4C43D, CODE_C4C431
 	bne .loop
 .rts:								; return
 	rts
-CODE_C4C46B:						; called from other segments
-	jsl.l CODE_C4C31D
+CentreText:							; A = the pixel column that centres the text at X between the left and
+									; right margins
+	jsl.l TextWidth
 	lsr.b $0A
 	lda.b $D1
 	sec
@@ -721,7 +724,7 @@ CODE_C4C46B:						; called from other segments
 	clc
 	adc.b $CF
 	rtl
-CODE_C4C47E:						; called from other segments
+CopyString2:						; CopyString into the second work buffer (AllocWorkBuf2)
 	phy
 	phx
 	ldy.w #$0001
@@ -755,7 +758,7 @@ DATA8_C4C4B6:						; not traced: a table read by CODE_C4BEB1
 	db $0B,$07,$0B,$0B,$0B,$0B,$0B,$09,$0B,$0C,$05,$08,$0C,$06,$0B,$07
 	db $05,$0A,$0B,$0B,$0B,$0B,$0B,$0B,$0C,$07,$0C,$0C,$08,$0D,$0D,$0B
 	db $0B
-DATA8_C4C4D7:						; not traced: a table read by CODE_C4C31D, CODE_C4BE99
+DATA8_C4C4D7:						; not traced: a table read by TextWidth, CODE_C4BE99
 	db $0B,$0B,$0B,$0A,$0C,$09,$0C,$0B,$0A,$0B,$02,$03,$01,$83,$87,$83
 	db $84,$87,$87,$86,$87,$86,$86,$87,$86,$82,$85,$87,$85,$88,$87,$88
 	db $86,$88,$86,$85,$86,$86,$87,$88,$86,$86,$85

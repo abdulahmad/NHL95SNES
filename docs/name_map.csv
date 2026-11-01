@@ -4739,12 +4739,12 @@ $C4BBD3,.8,CODE_C4BBD3,new,"branch target only used in PrintTextPage",src/bankC4
 $C4BBD7,.9,CODE_C4BBD7,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
 $C4BBD8,.10,CODE_C4BBD8,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
 $C4BBDE,.11,CODE_C4BBDE,new,"branch target only used in PrintTextPage",src/bankC4_B000.asm
-$C4BC77,.loop,CODE_C4BC77,new,"branch target only used in CODE_C4BC70",src/bankC4_B000.asm
-$C4BC81,.1,CODE_C4BC81,new,"branch target only used in CODE_C4BC70",src/bankC4_B000.asm
-$C4BDF5,.1,CODE_C4BDF5,new,"branch target only used in CODE_C4BDE6",src/bankC4_B000.asm
-$C4BE07,.loop,CODE_C4BE07,new,"branch target only used in CODE_C4BDE6",src/bankC4_B000.asm
-$C4BE40,.1,CODE_C4BE40,new,"branch target only used in CODE_C4BE34",src/bankC4_B000.asm
-$C4BE4B,.2,CODE_C4BE4B,new,"branch target only used in CODE_C4BE34",src/bankC4_B000.asm
+$C4BC77,.loop,CODE_C4BC77,new,"branch target only used in CopyString",src/bankC4_B000.asm
+$C4BC81,.1,CODE_C4BC81,new,"branch target only used in CopyString",src/bankC4_B000.asm
+$C4BDF5,.1,CODE_C4BDF5,new,"branch target only used in PrintTitleBar",src/bankC4_B000.asm
+$C4BE07,.loop,CODE_C4BE07,new,"branch target only used in PrintTitleBar",src/bankC4_B000.asm
+$C4BE40,.1,CODE_C4BE40,new,"branch target only used in DrawText",src/bankC4_B000.asm
+$C4BE4B,.2,CODE_C4BE4B,new,"branch target only used in DrawText",src/bankC4_B000.asm
 $C4BE5F,.1,CODE_C4BE5F,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
 $C4BE73,.2,CODE_C4BE73,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
 $C4BE79,.3,CODE_C4BE79,new,"branch target only used in CODE_C4BE53",src/bankC4_B000.asm
@@ -4793,17 +4793,17 @@ $C4C1C9,.15,CODE_C4C1C9,new,"branch target only used in CODE_C4C08D",src/bankC4_
 $C4C1DE,.16,CODE_C4C1DE,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
 $C4C1F3,.17,CODE_C4C1F3,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
 $C4C209,.18,CODE_C4C209,new,"branch target only used in CODE_C4C08D",src/bankC4_C000.asm
-$C4C264,.1,CODE_C4C264,new,"branch target only used in CODE_C4C20C",src/bankC4_C000.asm
-$C4C28B,.loop,CODE_C4C28B,new,"branch target only used in CODE_C4C270",src/bankC4_C000.asm
-$C4C29E,.1,CODE_C4C29E,new,"branch target only used in CODE_C4C270",src/bankC4_C000.asm
+$C4C264,.1,CODE_C4C264,new,"branch target only used in QueueTextTiles",src/bankC4_C000.asm
+$C4C28B,.loop,CODE_C4C28B,new,"branch target only used in MapTextTiles",src/bankC4_C000.asm
+$C4C29E,.1,CODE_C4C29E,new,"branch target only used in MapTextTiles",src/bankC4_C000.asm
 $C4C2FF,.loop,CODE_C4C2FF,new,"branch target only used in CODE_C4C2C6",src/bankC4_C000.asm
-$C4C328,.1,CODE_C4C328,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
-$C4C33B,.2,CODE_C4C33B,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
-$C4C349,.3,CODE_C4C349,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
-$C4C350,.4,CODE_C4C350,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
-$C4C357,.5,CODE_C4C357,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
-$C4C35B,.6,CODE_C4C35B,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
-$C4C375,.7,CODE_C4C375,new,"branch target only used in CODE_C4C31D",src/bankC4_C000.asm
+$C4C328,.1,CODE_C4C328,new,"branch target only used in TextWidth",src/bankC4_C000.asm
+$C4C33B,.2,CODE_C4C33B,new,"branch target only used in TextWidth",src/bankC4_C000.asm
+$C4C349,.3,CODE_C4C349,new,"branch target only used in TextWidth",src/bankC4_C000.asm
+$C4C350,.4,CODE_C4C350,new,"branch target only used in TextWidth",src/bankC4_C000.asm
+$C4C357,.5,CODE_C4C357,new,"branch target only used in TextWidth",src/bankC4_C000.asm
+$C4C35B,.6,CODE_C4C35B,new,"branch target only used in TextWidth",src/bankC4_C000.asm
+$C4C375,.7,CODE_C4C375,new,"branch target only used in TextWidth",src/bankC4_C000.asm
 $C4C38D,.loop,CODE_C4C38D,new,"branch target only used in CODE_C4C386",src/bankC4_C000.asm
 $C4C397,.1,CODE_C4C397,new,"branch target only used in CODE_C4C386",src/bankC4_C000.asm
 $C4C3CD,.1,CODE_C4C3CD,new,"branch target only used in CODE_C4C3C4",src/bankC4_C000.asm
@@ -4819,8 +4819,8 @@ $C4C419,.10,CODE_C4C419,new,"branch target only used in CODE_C4C3C4",src/bankC4_
 $C4C454,.1,CODE_C4C454,new,"branch target only used in CODE_C4C447",src/bankC4_C000.asm
 $C4C466,.loop,CODE_C4C466,new,"branch target only used in CODE_C4C45A",src/bankC4_C000.asm
 $C4C46A,.rts,CODE_C4C46A,new,"branch target only used in CODE_C4C45A",src/bankC4_C000.asm
-$C4C485,.loop,CODE_C4C485,new,"branch target only used in CODE_C4C47E",src/bankC4_C000.asm
-$C4C48F,.1,CODE_C4C48F,new,"branch target only used in CODE_C4C47E",src/bankC4_C000.asm
+$C4C485,.loop,CODE_C4C485,new,"branch target only used in CopyString2",src/bankC4_C000.asm
+$C4C48F,.1,CODE_C4C48F,new,"branch target only used in CopyString2",src/bankC4_C000.asm
 $C4C5A8,.1,CODE_C4C5A8,new,"branch target only used in CODE_C4C58B",src/bankC4_C000.asm
 $C4C5AF,.2,CODE_C4C5AF,new,"branch target only used in CODE_C4C58B",src/bankC4_C000.asm
 $C4C5CB,.3,CODE_C4C5CB,new,"branch target only used in CODE_C4C58B",src/bankC4_C000.asm
@@ -7185,3 +7185,26 @@ $C54E6D,Pausemode_menu,CODE_C54E6D,94S+purpose,"same job as 94S Pausemode_menu (
 $0591,pausepad,,94S+code,"RAM: the controller that owns the pause menu (the operand of 4 of 4 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $17B7,cont2team,,94S+code,"RAM: Pad 2 team word of the cont1team array (93S/94G cont2team) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $17B9,cont3team,,94S+code,"RAM: Pad 3 team word of the cont1team array (94G cont3team) (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$C4BE34,DrawText,CODE_C4BE34,code,"the HANDOFF text routine: glyph = character - '0', flag bit 0 16 x 16 glyphs, bit 1 the lowercase set, bit 2 the per-character widths; the print routines then queue the tiles (QueueTextTiles) and map them (MapTextTiles)",src/bankC4_B000.asm
+$C4C20C,QueueTextTiles,CODE_C4C20C,code,"pushes a VRAM record on the stack at $00 for the tiles at the work buffer $A5, from the column in $12",src/bankC4_C000.asm
+$C4C270,MapTextTiles,CODE_C4C270,code,"the text map at $D3 (bank $7E); the print routines end with QueueTextTiles and MapTextTiles",src/bankC4_C000.asm
+$C4C31D,TextWidth,CODE_C4C31D,code,"sums DATA8_C4C4D7 / DATA8_C4C502 per character (spaces 4) into $0A",src/bankC4_C000.asm
+$C4C46B,CentreText,CODE_C4C46B,code,"($D1 - $CF) / 2 - TextWidth / 2 + $CF",src/bankC4_C000.asm
+$C4BC70,CopyString,CODE_C4BC70,code,"AllocWorkBuf for its length, then CODE_C58AF3 (BlockMove)",src/bankC4_B000.asm
+$C4C47E,CopyString2,CODE_C4C47E,code,"as CopyString",src/bankC4_C000.asm
+$C4BBE5,PrintBoldCentred,CODE_C4BBE5,code,"UnpackText, CentreText, DrawText, QueueTextTiles, MapTextTiles",src/bankC4_B000.asm
+$C4BBF1,PrintBoldCentredStr,CODE_C4BBF1,code,"as PrintBoldCentred",src/bankC4_B000.asm
+$C4BBFC,PrintBoldLeft,CODE_C4BBFC,code,"the left margin $CF",src/bankC4_B000.asm
+$C4BC08,PrintBoldLeftStr,CODE_C4BC08,code,"as PrintBoldLeft",src/bankC4_B000.asm
+$C4BC0E,PrintBoldRight,CODE_C4BC0E,code,"the right margin $D1 minus TextWidth",src/bankC4_B000.asm
+$C4BC1A,PrintBoldRightStr,CODE_C4BC1A,code,"as PrintBoldRight",src/bankC4_B000.asm
+$C4BC26,PrintItalicLeft,CODE_C4BC26,code,"flags 3 (16 x 16, lowercase set)",src/bankC4_B000.asm
+$C4BC9E,PrintItalicLeftStr,CODE_C4BC9E,code,"as PrintItalicLeft",src/bankC4_B000.asm
+$C4BCA4,PrintItalicCentred,CODE_C4BCA4,code,"UnpackText, then the copy and print of PrintItalicCentredStr",src/bankC4_B000.asm
+$C4BCB0,PrintItalicCentredStr,CODE_C4BCB0,code,"CentreText with flags 3",src/bankC4_B000.asm
+$C4BCBC,PrintItalicRight,CODE_C4BCBC,code,"flags 3, the right margin minus TextWidth",src/bankC4_B000.asm
+$C4BC20,PrintItalicRightStr,CODE_C4BC20,code,"as PrintItalicRight",src/bankC4_B000.asm
+$C4BCAA,PrintThinCentred,CODE_C4BCAA,code,"flags 5 (16 x 16, per character widths)",src/bankC4_B000.asm
+$C4BDAE,PrintTitle,CODE_C4BDAE,code,"PrintTextPage prints page titles with it; $D5 = $2400, then $2800 for the bar",src/bankC4_B000.asm
+$C4BDCA,PrintTitleStr,CODE_C4BDCA,code,"as PrintTitle",src/bankC4_B000.asm
+$C4BDE6,PrintTitleBar,CODE_C4BDE6,code,"builds the string in a work buffer, then DrawText, QueueTextTiles, MapTextTiles",src/bankC4_B000.asm

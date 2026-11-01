@@ -1374,7 +1374,7 @@ PrintTextPage:						; prints the text page whose descriptor is at A in bank $C3:
 	lda.l $C30006,x
 	tay
 	plx
-	jsl.l CODE_C4BDAE
+	jsl.l PrintTitle
 .1:									; pull X
 	plx
 .2:									; if $C30008,x = 0 go to .11, if $C30008,x is not $FFFF go to .3, ...
@@ -1397,28 +1397,28 @@ PrintTextPage:						; prints the text page whose descriptor is at A in bank $C3:
 	bpl .6
 	bit.w #$2000
 	beq .4
-	jsl.l CODE_C4BC0E
+	jsl.l PrintBoldRight
 	bra .9
-.4:									; if $4000 bits clear go to .5, call CODE_C4BBE5, go to .9
+.4:									; if $4000 bits clear go to .5, call PrintBoldCentred, go to .9
 	bit.w #$4000
 	beq .5
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	bra .9
-.5:									; call CODE_C4BBFC, go to .9
-	jsl.l CODE_C4BBFC
+.5:									; call PrintBoldLeft, go to .9
+	jsl.l PrintBoldLeft
 	bra .9
-.6:									; if $4000 bits clear go to .7, call CODE_C4BCA4, go to .9
+.6:									; if $4000 bits clear go to .7, call PrintItalicCentred, go to .9
 	bit.w #$4000
 	beq .7
-	jsl.l CODE_C4BCA4
+	jsl.l PrintItalicCentred
 	bra .9
-.7:									; if a $2000 bit set go to .8, call CODE_C4BC26, go to .9
+.7:									; if a $2000 bit set go to .8, call PrintItalicLeft, go to .9
 	bit.w #$2000
 	bne .8
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	bra .9
-.8:									; call CODE_C4BCBC
-	jsl.l CODE_C4BCBC
+.8:									; call PrintItalicRight
+	jsl.l PrintItalicRight
 .9:									; pull X
 	plx
 .10:								; X + 1, X + 1, X + 1, X + 1, ...
@@ -1430,39 +1430,42 @@ PrintTextPage:						; prints the text page whose descriptor is at A in bank $C3:
 .11:								; call CODE_C4C2AA, go to RestoreWorkBuf
 	jsl.l CODE_C4C2AA
 	jmp.w RestoreWorkBuf
-CODE_C4BBE5:						; from PrintTextPage and other segments
+PrintBoldCentred:					; prints the packed text X at row Y in BoldFontGlyphs, centred between the
+									; margins
 	jsl.l CODE_C4BCC2
 	bra CODE_C4BBF5
 CODE_C4BBEB:						; no caller found (not traced)
 	jsl.l CODE_C4BCC2
 	bra CODE_C4BBF5
-CODE_C4BBF1:						; called from other segments
+PrintBoldCentredStr:				; PrintBoldCentred for the string X in RAM (CopyString)
 	jsl.l CODE_C4BCC8
-CODE_C4BBF5:						; from CODE_C4BBE5, CODE_C4BBEB, CODE_C4BBFC, CODE_C4BC02, ...
-	jsl.l CODE_C4C20C
-	jmp.w CODE_C4C270
-CODE_C4BBFC:						; from PrintTextPage and other segments
+CODE_C4BBF5:						; from PrintBoldCentred, CODE_C4BBEB, PrintBoldLeft, CODE_C4BC02, ...
+	jsl.l QueueTextTiles
+	jmp.w MapTextTiles
+PrintBoldLeft:						; prints the packed text X at row Y in BoldFontGlyphs from the left margin
 	jsl.l CODE_C4BCE4
 	bra CODE_C4BBF5
 CODE_C4BC02:						; no caller found (not traced)
 	jsl.l CODE_C4BCF0
 	bra CODE_C4BBF5
-CODE_C4BC08:						; called from other segments
+PrintBoldLeftStr:					; PrintBoldLeft for the string X in RAM
 	jsl.l CODE_C4BCEA
 	bra CODE_C4BBF5
-CODE_C4BC0E:						; from PrintTextPage and other segments
+PrintBoldRight:						; prints the packed text X at row Y in BoldFontGlyphs, ending at the right
+									; margin
 	jsl.l CODE_C4BD04
 	bra CODE_C4BBF5
 CODE_C4BC14:						; no caller found (not traced)
 	jsl.l CODE_C4BD10
 	bra CODE_C4BC44
-CODE_C4BC1A:						; called from other segments
+PrintBoldRightStr:					; PrintBoldRight for the string X in RAM
 	jsl.l CODE_C4BD0A
 	bra CODE_C4BBF5
-CODE_C4BC20:						; called from other segments
+PrintItalicRightStr:				; PrintItalicRight for the string X in RAM
 	jsl.l CODE_C4BD8A
 	bra CODE_C4BBF5
-CODE_C4BC26:						; from CODE_C4BDAE, PrintTextPage and other segments
+PrintItalicLeft:					; prints the packed text X at row Y in ItalicFontGlyphs from the left
+									; margin
 	jsl.l CODE_C4BD2B
 	bra CODE_C4BBF5
 CODE_C4BC2C:						; called from other segments
@@ -1471,17 +1474,17 @@ CODE_C4BC2C:						; called from other segments
 CODE_C4BC32:						; from CODE_C4BC46
 	lda.w #$4003
 	sta.b $0E
-	lda.w #$1FF9
+	lda.w #ItalicFontGlyphs&$FFFF
 	sta.b $0C
 	phy
 	lda.b $CF
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
-CODE_C4BC44:						; from CODE_C4BC14, CODE_C4BC54, CODE_C4BC98, CODE_C4BC9E, ...
+CODE_C4BC44:						; from CODE_C4BC14, CODE_C4BC54, CODE_C4BC98, PrintItalicLeftStr, ...
 	bra CODE_C4BBF5
 CODE_C4BC46:						; called from other segments
 	sta.b p0
-	jsl.l CODE_C4BC70
+	jsl.l CopyString
 	bra CODE_C4BC32
 CODE_C4BC4E:						; no caller found (not traced)
 	sta.b p0
@@ -1489,18 +1492,19 @@ CODE_C4BC4E:						; no caller found (not traced)
 CODE_C4BC54:						; from CODE_C4BC68
 	lda.w #$4000
 	sta.b $0E
-	lda.w #$1A39
+	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
 	phy
 	lda.b $CF
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
 	bra CODE_C4BC44
 CODE_C4BC68:						; called from other segments
 	sta.b p0
-	jsl.l CODE_C4BC70
+	jsl.l CopyString
 	bra CODE_C4BC54
-CODE_C4BC70:						; from CODE_C4BC46, CODE_C4BC68, CODE_C4BCC8, CODE_C4BCEA, ...
+CopyString:							; copies the zero ended string at X (bank $7E) into a new work buffer;
+									; returns X = the copy
 	phy
 	phx
 	ldy.w #$0001
@@ -1529,173 +1533,178 @@ CODE_C4BC70:						; from CODE_C4BC46, CODE_C4BC68, CODE_C4BCC8, CODE_C4BCEA, ...
 CODE_C4BC98:						; no caller found (not traced)
 	jsl.l CODE_C4BD37
 	bra CODE_C4BC44
-CODE_C4BC9E:						; from CODE_C4BDCA and other segments
+PrintItalicLeftStr:					; PrintItalicLeft for the string X in RAM
 	jsl.l CODE_C4BD31
 	bra CODE_C4BC44
-CODE_C4BCA4:						; from PrintTextPage and other segments
+PrintItalicCentred:					; prints the packed text X at row Y in ItalicFontGlyphs, centred between
+									; the margins
 	jsl.l CODE_C4BD67
 	bra CODE_C4BC44
-CODE_C4BCAA:						; called from other segments
+PrintThinCentred:					; prints the packed text X at row Y in ThinFontGlyphs, centred between the
+									; margins
 	jsl.l CODE_C4BD4E
 	bra CODE_C4BC44
-CODE_C4BCB0:						; called from other segments
+PrintItalicCentredStr:				; PrintItalicCentred for the string X in RAM
 	jsl.l CODE_C4BD6B
 	bra CODE_C4BC44
 CODE_C4BCB6:						; no caller found (not traced)
 	jsl.l CODE_C4BD71
 	bra CODE_C4BC44
-CODE_C4BCBC:						; from PrintTextPage and other segments
+PrintItalicRight:					; prints the packed text X at row Y in ItalicFontGlyphs, ending at the
+									; right margin
 	jsl.l CODE_C4BD90
 	bra CODE_C4BC44
-CODE_C4BCC2:						; from CODE_C4BBE5, CODE_C4BBEB and other segments
+CODE_C4BCC2:						; from PrintBoldCentred, CODE_C4BBEB and other segments
 	jsl.l UnpackText
 	bra CODE_C4BCD2
-CODE_C4BCC8:						; from CODE_C4BBF1 and other segments
-	jsl.l CODE_C4BC70
+CODE_C4BCC8:						; from PrintBoldCentredStr and other segments
+	jsl.l CopyString
 	bra CODE_C4BCD2
 CODE_C4BCCE:						; no caller found (not traced)
 	jsl.l CODE_C4C386
 CODE_C4BCD2:						; from CODE_C4BCC2, CODE_C4BCC8
 	stz.b $0E
-	lda.w #$1A39
+	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
 	phy
-	jsl.l CODE_C4C46B
-	jsl.l CODE_C4BE34
+	jsl.l CentreText
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BCE4:						; from CODE_C4BBFC and other segments
+CODE_C4BCE4:						; from PrintBoldLeft and other segments
 	jsl.l UnpackText
 	bra CODE_C4BCF4
-CODE_C4BCEA:						; from CODE_C4BC08 and other segments
-	jsl.l CODE_C4BC70
+CODE_C4BCEA:						; from PrintBoldLeftStr and other segments
+	jsl.l CopyString
 	bra CODE_C4BCF4
 CODE_C4BCF0:						; no caller found (not traced)
 	jsl.l CODE_C4C386
 CODE_C4BCF4:						; from CODE_C4BCE4, CODE_C4BCEA
 	stz.b $0E
-	lda.w #$1A39
+	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
 	phy
 	lda.b $CF
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD04:						; from CODE_C4BC0E and other segments
+CODE_C4BD04:						; from PrintBoldRight and other segments
 	jsl.l UnpackText
 	bra CODE_C4BD14
-CODE_C4BD0A:						; from CODE_C4BC1A and other segments
-	jsl.l CODE_C4BC70
+CODE_C4BD0A:						; from PrintBoldRightStr and other segments
+	jsl.l CopyString
 	bra CODE_C4BD14
 CODE_C4BD10:						; no caller found (not traced)
 	jsl.l CODE_C4C386
 CODE_C4BD14:						; from CODE_C4BD04, CODE_C4BD0A
 	stz.b $0E
-	lda.w #$1A39
+	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
 	phy
-	jsl.l CODE_C4C31D
+	jsl.l TextWidth
 	sec
 	lda.b $D1
 	sbc.b $0A
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD2B:						; from CODE_C4BC26 and other segments
+CODE_C4BD2B:						; from PrintItalicLeft and other segments
 	jsl.l UnpackText
 	bra CODE_C4BD3B
-CODE_C4BD31:						; from CODE_C4BC9E and other segments
-	jsl.l CODE_C4BC70
+CODE_C4BD31:						; from PrintItalicLeftStr and other segments
+	jsl.l CopyString
 	bra CODE_C4BD3B
 CODE_C4BD37:						; no caller found (not traced)
 	jsl.l CODE_C4C386
 CODE_C4BD3B:						; from CODE_C4BD2B, CODE_C4BD31
 	lda.w #$0003
 	sta.b $0E
-	lda.w #$1FF9
+	lda.w #ItalicFontGlyphs&$FFFF
 	sta.b $0C
 	phy
 	lda.b $CF
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD4E:						; from CODE_C4BCAA and other segments
+CODE_C4BD4E:						; from PrintThinCentred and other segments
 	jsl.l UnpackText
 	lda.w #$0005
 	sta.b $0E
-	lda.w #$3239
+	lda.w #ThinFontGlyphs&$FFFF
 	sta.b $0C
 	phy
-	jsl.l CODE_C4C46B
-	jsl.l CODE_C4BE34
+	jsl.l CentreText
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD67:						; from CODE_C4BCA4 and other segments
+CODE_C4BD67:						; from PrintItalicCentred and other segments
 	jsl.l UnpackText
-CODE_C4BD6B:						; from CODE_C4BCB0 and other segments
-	jsl.l CODE_C4BC70
+CODE_C4BD6B:						; from PrintItalicCentredStr and other segments
+	jsl.l CopyString
 	bra CODE_C4BD75
 CODE_C4BD71:						; no caller found (not traced)
 	jsl.l CODE_C4C386
 CODE_C4BD75:						; from CODE_C4BD6B
 	lda.w #$0003
 	sta.b $0E
-	lda.w #$1FF9
+	lda.w #ItalicFontGlyphs&$FFFF
 	sta.b $0C
 	phy
-	jsl.l CODE_C4C46B
-	jsl.l CODE_C4BE34
+	jsl.l CentreText
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BD8A:						; from CODE_C4BC20 and other segments
-	jsl.l CODE_C4BC70
+CODE_C4BD8A:						; from PrintItalicRightStr and other segments
+	jsl.l CopyString
 	bra CODE_C4BD94
-CODE_C4BD90:						; from CODE_C4BCBC and other segments
+CODE_C4BD90:						; from PrintItalicRight and other segments
 	jsl.l UnpackText
 CODE_C4BD94:						; from CODE_C4BD8A
 	lda.w #$0003
 	sta.b $0E
-	lda.w #$1FF9
+	lda.w #ItalicFontGlyphs&$FFFF
 	sta.b $0C
 	phy
-	jsl.l CODE_C4C31D
+	jsl.l TextWidth
 	sec
 	lda.b $D1
 	sbc.b $0A
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
 	rtl
-CODE_C4BDAE:						; from PrintTextPage and other segments
+PrintTitle:							; prints the packed text X at row Y as a title: PrintItalicLeft with the
+									; map bits $2400, then PrintTitleBar under it (map bits $2800)
 	pei ($D5)
 	lda.w #$2400
 	sta.b $D5
 	phy
-	jsl.l CODE_C4BC26
+	jsl.l PrintItalicLeft
 	ply
 	iny
 	iny
 	ldx.w #$2800
 	stx.b $D5
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	pla
 	sta.b $D5
 	rtl
-CODE_C4BDCA:						; called from other segments
+PrintTitleStr:						; PrintTitle for the string X in RAM
 	pei ($D5)
 	lda.w #$2400
 	sta.b $D5
 	phy
-	jsl.l CODE_C4BC9E
+	jsl.l PrintItalicLeftStr
 	ply
 	iny
 	iny
 	ldx.w #$2800
 	stx.b $D5
-	jsl.l CODE_C4BDE6
+	jsl.l PrintTitleBar
 	pla
 	sta.b $D5
 	rtl
-CODE_C4BDE6:						; from CODE_C4BDAE, CODE_C4BDCA and other segments
+PrintTitleBar:						; prints a bar at row Y as wide as A says: its left end, middle pieces,
+									; its right end (BoldFontGlyphs characters $5B, $5C, $5D)
 	phy
 	dec a
 	dec a
@@ -1727,19 +1736,20 @@ CODE_C4BDE6:						; from CODE_C4BDAE, CODE_C4BDCA and other segments
 	jsr.w CODE_C4BE2E
 	rep #$20
 	stz.b $0E
-	lda.w #$1A39
+	lda.w #BoldFontGlyphs&$FFFF
 	sta.b $0C
 	lda.b $12
 	plx
-	jsl.l CODE_C4BE34
+	jsl.l DrawText
 	ply
-	jsl.l CODE_C4C20C
-	jmp.w CODE_C4C270
-CODE_C4BE2E:						; from CODE_C4BDE6
+	jsl.l QueueTextTiles
+	jmp.w MapTextTiles
+CODE_C4BE2E:						; from PrintTitleBar
 	sta.l $7E0000,x
 	inx
 	rts
-CODE_C4BE34:						; from CODE_C4BC32, CODE_C4BC54, CODE_C4BCD2, CODE_C4BCF4, ...
+DrawText:							; draws the text at X (zero ended) from pixel column A into new work
+									; buffer tiles, in the font of $0C (bank $C0) with the flags of $0E
 	sta.b $12
 	sta.b $0A
 	cmp.w $18DA

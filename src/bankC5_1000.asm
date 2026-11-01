@@ -1027,7 +1027,7 @@ CODE_C51911:						; from CODE_C51825
 	jsr.w CODE_C55F22
 	ldx.w #$04F5
 	jsr.w CODE_C56262
-	jsl.l CODE_C4C47E
+	jsl.l CopyString2
 	txa
 	ldx.w #$007E
 	ldy.b a3

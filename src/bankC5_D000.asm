@@ -298,7 +298,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0009
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.w #$0000
 .loop:								; loop: push A, A + 1, call CODE_C55EC7, $04F5,x = $003D, ...
 	pha
@@ -313,7 +313,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	adc.w #$0006
 	tay
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b $01,s
 	jsr.w CODE_C5D2B4
 	cpx.w #$0000
@@ -325,7 +325,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	adc.w #$0006
 	tay
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 .3:									; pull A, A + 1, if A is not $0008 go to .loop, call CODE_C4C2AA, ...
 	pla
 	inc a
@@ -581,7 +581,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.w #$0020
 	sta.b $CF
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 .15:								; A = $D3, A + $0380, Y = $0380, call ClearRAM7E, ...
 	lda.b $D3
 	clc
@@ -592,10 +592,10 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	sta.b $CF
 	ldx.w #$4F40
 	ldy.w #$0019
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	ldx.w #$4F4A
 	ldy.w #$001A
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	jsl.l CODE_C4C2AA
 	ldx.b a0
 	lda.w #$0003
@@ -1130,21 +1130,21 @@ CODE_C5D85D:						; called from other segments
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0006
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	ldx.b d1
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0007
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	ldx.b $81
 	lda.l BCDTable,x
 	and.w #$00FF
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0008
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.b d0
 	clc
 	adc.b d1
@@ -1155,7 +1155,7 @@ CODE_C5D85D:						; called from other segments
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0009
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	rts
 CODE_C5D8E7:						; called from other segments
 	sta.b d4

@@ -81,7 +81,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	sta.b $D5
 	ldx.w #$50A9
 	ldy.w #$0012
-	jsl.l CODE_C4BCA4
+	jsl.l PrintItalicCentred
 	lda.w #$2000
 	sta.b $D5
 	lda.b a0
@@ -99,7 +99,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	plx
 	jsl.l CODE_C56005
 	ldy.w #$0015
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	ldx.w #$50C4
 	jsl.l UnpackText
 	phx
@@ -121,10 +121,10 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	plx
 	jsl.l CODE_C56005
 	ldy.w #$0016
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	ldx.w #$50D6
 	ldy.w #$0017
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	stz.w BG2HScroll
@@ -169,7 +169,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b $D1
 	ldy.w #$0001
 	ldx.w #$4C9F
-	jsl.l CODE_C4BDAE
+	jsl.l PrintTitle
 	lda.w #(DATA8_CF05D4+$5)&$FFFF
 	ldx.w #(DATA8_CF05D4+$5)>>16
 	jsl.l CODE_CF0134
@@ -199,7 +199,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000E
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	lda.w #$00A0
 	sta.b $CF
 	lda.w #$00E8
@@ -210,7 +210,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000E
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsl.l CODE_C4C2AA
 	stz.b $22
 	stz.b $24
@@ -607,7 +607,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55EC3
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	jsl.l CODE_C4CEDB
 	pla
 	asl a
@@ -620,7 +620,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	jsl.l CODE_C4CEDB
 	lda.w #$00B0
 	sta.b $CF
@@ -643,7 +643,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55EC3
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	jsl.l CODE_C4CEDB
 	pla
 	asl a
@@ -656,7 +656,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	jsl.l CODE_C4CEDB
 	lda.w #$0010
 	sta.b $CF
@@ -668,7 +668,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.l DATA8_C35E51,x
 	tax
 	ldy.w #$0007
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
@@ -789,12 +789,12 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55EC3
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	ldx.w #$2EE1
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	jsl.l CODE_C4CEDB
 	lda.w #$0018
 	sta.b $CF
@@ -814,12 +814,12 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55EC3
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	ldx.w #$331F
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.w #$000C
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	jsl.l CODE_C4CEDB
 	lda.w #$0010
 	sta.b $CF
@@ -827,7 +827,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $D1
 	ldx.w #$49B8
 	ldy.w #$0007
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
@@ -881,7 +881,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $D1
 	ldx.w #$4ECC
 	ldy.w #$0008
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsl.l CODE_C4CEDB
 	lda.w #$0018
 	sta.b $CF
@@ -900,7 +900,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55EC3
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	jsl.l CODE_C4CEDB
 	lda.w #$00B0
 	sta.b $CF
@@ -919,7 +919,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l CODE_C55EC3
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BBF1
+	jsl.l PrintBoldCentredStr
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	rts
@@ -1376,7 +1376,7 @@ CODE_C4EBC8:						; from ScoutingReport
 	sta.b $CF
 	ldy.w $2DC7
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	clc
 	adc.b $95
 	dec a

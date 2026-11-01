@@ -29,10 +29,10 @@ CODE_C5AFCC:						; called from other segments
 	lsr a
 	bcc .1
 	ldx.w #$55AD
-.1:									; $CF = $0018, call CODE_C4BBFC, tmp0 = $027E
+.1:									; $CF = $0018, call PrintBoldLeft, tmp0 = $027E
 	ldy.w #$0018
 	sty.b $CF
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	lda.w #$027E
 	sta.b tmp0
 .loop:								; loop: A = tmp0, A - 1, tmp0 = A, call CODE_C5D7CD, ...
@@ -213,7 +213,7 @@ CODE_C5B1AF:						; called from other segments
 	ldy.w #$0007
 	lda.w #$00F0
 	sta.b $D1
-	jsl.l CODE_C4BC0E
+	jsl.l PrintBoldRight
 	lda.w #$0010
 	sta.b $CF
 	lda.b d1
@@ -222,7 +222,7 @@ CODE_C5B1AF:						; called from other segments
 	lda.l DATA8_C04CB7,x
 	tax
 	ldy.w #$0013
-	jsl.l CODE_C4BCA4
+	jsl.l PrintItalicCentred
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.w #$000B
@@ -296,7 +296,7 @@ CODE_C5B22D:						; called from other segments
 	tax
 	lda.l DATA8_C3585C,x
 	tax
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	pla
 	xba
 	and.w #$00FF
@@ -309,7 +309,7 @@ CODE_C5B22D:						; called from other segments
 	pla
 	adc.w #$0003
 	tay
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsr.w CODE_C5B38F
 	sec
 	jsr.w CODE_C5B33C
@@ -327,7 +327,7 @@ CODE_C5B22D:						; called from other segments
 	tax
 	lda.l DATA8_C3585C,x
 	tax
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	clc
 	pei ($8B)
 	lda.b d3
@@ -351,7 +351,7 @@ CODE_C5B22D:						; called from other segments
 	pla
 	adc.w #$0003
 	tay
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 .1:									; call CODE_C4CEDB, $3652 = $0017, X = a4, A = $22,x, ...
 	jsl.l CODE_C4CEDB
 	lda.w #$0017
@@ -785,7 +785,7 @@ CODE_C5B631:						; from CODE_C5AFCC
 	ldy.w #$0007
 	lda.w #$00F6
 	sta.b $D1
-	jsl.l CODE_C4BC0E
+	jsl.l PrintBoldRight
 	rts
 DATA8_C5B66A:						; not traced: a table read by CODE_C5B631
 	db $6A,$4B,$6F,$4B,$75,$4B
@@ -826,7 +826,7 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0022
 	sta.b $CF
 	lda.b a3
@@ -937,9 +937,9 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	tax
 	lda.w #$000C
 	jsr.w CODE_C55F98
-.13:								; Y = $6D, call CODE_C4BC08, pull X, push X, ...
+.13:								; Y = $6D, call PrintBoldLeftStr, pull X, push X, ...
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	plx
 	phx
 	lda.w #$0094
@@ -948,7 +948,7 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	jsr.w CODE_C5A321
 	ldy.b $6D
 	ldx.w #$04F7
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	plx
 	phx
 	lda.w $000E,x
@@ -969,12 +969,12 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	lda.b $0A
 	beq .15
 	inx
-.15:								; call UnpackText, $CF = $00A8, Y = $6D, call CODE_C4BC08, ...
+.15:								; call UnpackText, $CF = $00A8, Y = $6D, call PrintBoldLeftStr, ...
 	jsl.l UnpackText
 	lda.w #$00A8
 	sta.b $CF
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$00F0
 	sta.b $D1
 	lda.b d1
@@ -985,7 +985,7 @@ CODE_C5B6A1:						; a callback: CODE_C5AFCC passes it to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	plx
 	rts
 CODE_C5B7F1:						; from SeasonTeamStats and other segments
@@ -1034,7 +1034,7 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	jsr.w CODE_C55ECA
 	ldx.w #$04F5
 	ldy.w #$0009
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0010,y
@@ -1058,7 +1058,7 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	jsr.w CODE_C55ECA
 	ldx.w #$04F5
 	ldy.w #$000B
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0012,y
@@ -1082,7 +1082,7 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	jsr.w CODE_C55ECA
 	ldx.w #$04F5
 	ldy.w #$000D
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0014,y
@@ -1090,7 +1090,7 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$000F
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0016,y
@@ -1098,7 +1098,7 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.w #$0011
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $001A,y
@@ -1122,7 +1122,7 @@ CODE_C5B7F1:						; from SeasonTeamStats and other segments
 	jsr.w CODE_C55ECA
 	ldx.w #$04F5
 	ldy.w #$0013
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	phy
 	lda.w $0030,y
@@ -1147,7 +1147,7 @@ CODE_C5B95A:						; called from other segments
 	jsr.w CODE_C55ECA
 	ldx.w #$04F5
 	ldy.w #$0015
-	jsl.l CODE_C4BC20
+	jsl.l PrintItalicRightStr
 	ply
 	jsl.l CODE_C4C2AA
 	rts
@@ -1461,7 +1461,7 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	plx
 	lda.w $2E03,x
 	pha
@@ -1471,7 +1471,7 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C
 	sta.b $CF
 	ldx.w #$04F7
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0093
 	sta.b $CF
 	lda.b $01,s
@@ -1527,7 +1527,7 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C
 	lda.w #$000C
 	jsl.l CODE_C55F8A
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	plx
 	lda.w $2E03,x
 	pha
@@ -1537,7 +1537,7 @@ CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to CODE_C
 	sta.b $CF
 	ldx.w #$04F7
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0093
 	sta.b $CF
 	lda.b $01,s
@@ -1563,7 +1563,7 @@ CODE_C5BCCC:						; from CODE_C5BBDD
 	jsr.w CODE_C55EC7
 	ldx.w #$04F5
 	ldy.b $6D
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	rts
 CODE_C5BCD9:						; from SeasonPlayerStats and other segments
 	lda.w #$00DE
@@ -1597,7 +1597,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0006
-	jsl.l CODE_C4BCAA
+	jsl.l PrintThinCentred
 	jsl.l CODE_C4CEDB
 	rts
 CODE_C5BD30:						; from CODE_C5BBDD and other segments
@@ -1804,7 +1804,7 @@ CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	jsr.w CODE_C55EC7
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	lda.w #$0028
 	sta.b $CF
 	lda.b a3
@@ -1820,7 +1820,7 @@ CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	lda.l DATA8_C3585C,x
 	tax
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 	pla
 	cmp.w #$000D
 	bne .1
@@ -1830,11 +1830,11 @@ CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	cmp.w #$000E
 	bne .3
 	ldx.w #$46A6
-.2:									; $CF = $006E, Y = $6D, call CODE_C4BBFC
+.2:									; $CF = $006E, Y = $6D, call PrintBoldLeft
 	lda.w #$006E
 	sta.b $CF
 	ldy.b $6D
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 .3:									; pull Y, $D1 = $00E8, A = d0, A * 2, ...
 	ply
 	lda.w #$00E8
@@ -1845,7 +1845,7 @@ CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	jsr (DATA8_C5BEDD,x)
 	ldy.b $6D
 	ldx.w #$04F5
-	jsl.l CODE_C4BC1A
+	jsl.l PrintBoldRightStr
 	rts
 DATA8_C5BEDD:						; jump table: the routine for each index
 	dw CODE_C5BEED,CODE_C5BF1D,CODE_C5BF26,CODE_C5BF50

@@ -654,7 +654,7 @@ CODE_C40444:						; from CODE_C40000
 	stz.b $CF
 	lda.w #$0100
 	sta.b $D1
-	jsl.l CODE_C4BBE5
+	jsl.l PrintBoldCentred
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.l $30604D
@@ -675,10 +675,10 @@ CODE_C40444:						; from CODE_C40000
 	lda.b $0A
 	beq .1
 	inx
-.1:									; call UnpackText, Y = tmp0, call CODE_C4BC08, tmp0 - 1, ...
+.1:									; call UnpackText, Y = tmp0, call PrintBoldLeftStr, tmp0 - 1, ...
 	jsl.l UnpackText
 	ldy.b tmp0
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	dec.b tmp0
 	bpl .loop4
 	lda.w #$0080
@@ -691,7 +691,7 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l CODE_C55EC3
 	ldy.b tmp0
 	ldx.w #$04F5
-	jsl.l CODE_C4BC08
+	jsl.l PrintBoldLeftStr
 	inc.b tmp0
 	lda.b tmp1
 	inc a
@@ -699,7 +699,7 @@ CODE_C40444:						; from CODE_C40000
 	bcc .loop5
 	ldy.b tmp0
 	ldx.w #$4781
-	jsl.l CODE_C4BBFC
+	jsl.l PrintBoldLeft
 .2:									; X = $001C
 	ldx.w #$001C
 .loop6:								; loop: if $2C46,x >= 0 go to .3, Y = $2C64,x, push X, ...
