@@ -7281,3 +7281,28 @@ $CF0402,WaitSoundQueueEmpty,CODE_CF0402,code,Used before queuing the volume fade
 $CF0418,StartSoundVolume,CODE_CF0418,code,Command 3 takes sample in port 0 and left/right volume in ports 1/2.,src/bankCF_0000.asm
 $CF0485,PlayTeamSongNow,CODE_CF0485,code,Enters the shared PlayTeamSong queue path directly.,src/bankCF_0000.asm
 $CF0663,TeamSongSoundList,DATA8_CF0663,code,LoadTeamSongs passes this FF-ended list to LoadSounds.,src/bankCF_0000.asm
+$C01668,.playSound,.l075F,code,CPU StartSound supplies A; low IDs go through tcall 10 and high IDs index the sequence pointer table.,src/bankC0_1000.asm
+$C0164D,.playSamplePitch,.l0744,code,Allocates a sample voice then writes ports 1/2 directly to DSP pitch.,src/bankC0_1000.asm
+$C01633,.playSampleVolume,.l072A,code,CPU StartSoundVolume passes tmp0 as the stereo volume; tcall 2 scales each side.,src/bankC0_1000.asm
+$C01696,.playSamplePacked,.l078D,code,Low/high nibbles of X become left/right volume times 8; signed Y times 16 is added to default pitch.,src/bankC0_1000.asm
+$C01745,.fadeVoicesOut,.l083C,code,Saves DSP voice volumes to FFE0/FFE8 and decrements with zero clamp in repeated sweeps.,src/bankC0_1000.asm
+$C01782,.fadeVoicesIn,.l0879,code,Increments each DSP voice volume and clamps to saved left/right values.,src/bankC0_1000.asm
+$C01818,.setMasterVolume,.l090F,code,CPU SoundVolumeUp and SoundVolumeDown send stereo master-volume steps.,src/bankC0_1000.asm
+$C01741,.stopSequences,.l0838,code,Clears playback flag then tcall 15 resets count/list/free contexts and keys off voices.,src/bankC0_1000.asm
+$C017D3,.setSequenceVolume,.l08CA,code,Writes default context volume; sequence allocation copies it to context offset B7.,src/bankC0_1000.asm
+$C0172B,.setTickPeriod,.l0822,code,Sets timer 0 divider directly and its cached reset value.,src/bankC0_1000.asm
+$C016F5,.disableSamples,.l07EC,code,Sets bit 5 checked by commands 1-4 on sample paths; falls through stopSamples.,src/bankC0_1000.asm
+$C01709,.enableSamples,.l0800,code,Clears bit 5 tested by the sample start commands.,src/bankC0_1000.asm
+$C016F7,.stopSamples,.l07EE,code,Tests signed channel slot per voice; negative slots identify sample voices.,src/bankC0_1000.asm
+$C017D0,.setSampleVolumeScale,.l08C7,code,Writes the multiplier read by tcall 2; scale divisor is 127.,src/bankC0_1000.asm
+$C017ED,.setSampleVolume,.l08E4,code,Writes FD02/FD03 at slot A times four; does not use the sample ID remap.,src/bankC0_1000.asm
+$C0180B,.setSamplePitch,.l0902,code,Writes FD00/FD01 at slot A times four; does not use the sample ID remap.,src/bankC0_1000.asm
+$C017D6,.setPlayingSampleVolume,.l08CD,code,Finds raw sample slot A in voice records; live volumes are bitwise ANDed with the sample scale.,src/bankC0_1000.asm
+$C017FA,.setPlayingSamplePitch,.l08F1,code,Finds raw sample slot A in voice records; writes DSP pitch and falls through default update.,src/bankC0_1000.asm
+$C017AF,.stopSample,.l08A6,code,tcall 11 matches raw sample slot; queue fallback compares A with queued argument 0 without remapping.,src/bankC0_1000.asm
+$C0170C,.resetSound,.l0803,code,Also called during init; restores volume 127 and timer period A0 then keys off all voices.,src/bankC0_1000.asm
+$C01823,.stopAndReceiveData,.l091A,code,CPU UploadSoundData sends command 19 hex; stops sequences and voices before entering receiveData.,src/bankC0_1000.asm
+$C0182E,.receiveData,.l0925,code,Nonnegative port 3 counters carry three bytes; 81-83 finish with one to three bytes; returns 7E.,src/bankC0_1000.asm
+$C01724,.keyOffAll,.l081B,code,Descending voice loop invokes key-off helper for each voice.,src/bankC0_1000.asm
+$C01925,.reportVoiceAges,.l0A1C,code,"Age counters saturate at FF; reports max(15-age,0) nibbles in two handshaken pairs.",src/bankC0_1000.asm
+$C01632,.commandNoOp,.l0729,code,Handler consists only of RET.,src/bankC0_1000.asm

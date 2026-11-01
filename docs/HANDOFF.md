@@ -222,6 +222,8 @@
 - WonCheckTiles / WonCheckPalette: named from the rendered tiles; the screen is not traced.
 - Fonts: named from their rendered glyphs; the screens that draw with them are not traced. The meaning of flag $4000 is not
   traced.
-- SoundDriver: the 32 command and 4 event handlers and the 16 tcall routines keep auto labels; naming them needs the CPU side
-  (bank $CF) traced. .l0481 has no static reference (a patched call may reach it). Sound RAM buffers ($F000-$FE03, $FF00)
-  stay numbers.
+- SoundDriver: CPU uploads and queue sends, sample/sequence starts, volume/pitch controls and data reception are
+  named from the CPU/SPC trace. Commands 5/30 (.l0540) snapshot DSP registers then enter command 31 (.l054C), which
+  executes a host-port handshake; its full host-side contract is not traced. Commands 10-12 (.l056B, .l0830,
+  .l0827) manipulate sequence playback flags; 11 also resets the sequence list, so pause/resume names are deferred.
+  The tcall routines and events still need their names recorded. Sound RAM buffers stay numbers.
