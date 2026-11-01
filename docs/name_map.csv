@@ -1481,7 +1481,6 @@ $C377BB,DATA8_C377BB,,new,"not traced: a table read by CODE_C376CE (in bankC3_70
 $C377BD,DATA8_C377BD,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm
 $C3803D,DATA8_C3803D,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
 $C3804B,DATA8_C3804B,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
-$C38075,DATA8_C38075,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
 $C3847C,DATA8_C3847C,,new,"not traced: a table read by CODE_C38455 (in bankC3_8000)",src/bankC3_8000.asm
 $C3849C,DATA8_C3849C,,new,"not traced: a table read by CODE_C38455 (in bankC3_8000)",src/bankC3_8000.asm
 $C384BC,DATA8_C384BC,,new,"not traced: a table read by CODE_C38415 (in bankC3_8000)",src/bankC3_8000.asm
@@ -2709,3 +2708,12 @@ $C51680,Intermission_tick,CODE_C51680,94S+code,"the intermission ticker timer; t
 $C50ED8,UpdateScores,CODE_C50ED8,94S+code,"updates the other games; the same code as 94S UpdateScores from its first instruction (whole-body match 0.850)",src/bankC5_0000.asm
 $C516AA,NewTicker2_next,CODE_C516AA,94S+code,"steps the ticker to the next game; Intermission_tick calls it where 94S calls NewTicker2_next; the same code (match 0.80)",src/bankC5_1000.asm
 $C50A14,clockcont_0,CODE_C50A14,94S+code,"period over: end of period scene, then the period or game over message; clockcont jumps to it where 94S jumps to clockcont_0; the same opening (whole-body match 0.75)",src/bankC5_0000.asm
+$C38075,IRQ_StatsScroll1,DATA8_C38075,94S+code,"IRQ hook: the first BG1 scroll split, then IRQ_StatsScroll2 at irqline2; was a db run (reached only through SetupScrollIRQ's pointer); the same code as 94S IRQ_StatsScroll1",src/bankC3_8000.asm
+$C38098,IRQ_StatsScroll2,,94S+code,"IRQ hook: the second BG1 scroll split, then IRQ_StatsScroll3 at irqline3; the same code as 94S IRQ_StatsScroll2",src/bankC3_8000.asm
+$C380B8,IRQ_StatsScroll3,,94S+code,"IRQ hook: the last BG1 scroll split, then IRQ_StatsScroll1 again; the same code as 94S IRQ_StatsScroll3",src/bankC3_8000.asm
+$04C9,irqline1,,94S+code,"RAM: the line of the first BG1 scroll split (SetupScrollIRQ A); 94S irqline1",src/ram95s.asm
+$04CB,irqline2,,94S+code,"RAM: the line of the second split (SetupScrollIRQ X); 94S irqline2",src/ram95s.asm
+$04CD,irqline3,,94S+code,"RAM: the line of the third split (SetupScrollIRQ Y); 94S irqline3",src/ram95s.asm
+$04CF,irqvscroll1,,94S+code,"RAM: BG1 vertical scroll from the first split; 94S irqvscroll1",src/ram95s.asm
+$04D1,irqvscroll2,,94S+code,"RAM: BG1 vertical scroll from the second split; 94S irqvscroll2",src/ram95s.asm
+$04D3,irqvscroll3,,94S+code,"RAM: BG1 vertical scroll from the third split; 94S irqvscroll3",src/ram95s.asm

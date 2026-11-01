@@ -64,27 +64,56 @@ CODE_C38043:						; called from other segments
 	rtl
 DATA8_C3804B:						; not traced: data between routines
 	db $6B,$6B
-SetupScrollIRQ:						; no caller found (not traced)
-	sta.w $04C9
-	stx.w $04CB
-	sty.w $04CD
+SetupScrollIRQ:						; no caller found (not traced): the three BG1 scroll splits at the
+									; lines A, X and Y; the scroll values start at $FFFF
+	sta.w irqline1
+	stx.w irqline2
+	sty.w irqline3
 	lda.w #$FFFF
-	sta.w $04CF
-	sta.w $04D1
-	sta.w $04D3
+	sta.w irqvscroll1
+	sta.w irqvscroll2
+	sta.w irqvscroll3
 	lda.w #$00C4
-	sta.w $04BA
-	lda.w #$8075
-	ldx.w #$00C3
-	ldy.w $04C9
+	sta.w IRQHTime
+	lda.w #IRQ_StatsScroll1&$FFFF
+	ldx.w #IRQ_StatsScroll1>>16
+	ldy.w irqline1
 	jml.l SetIRQ
-DATA8_C38075:						; not traced: data between routines
-	db $E2,$20,$AD,$CF,$04,$8F,$0E,$21,$00,$AD,$D0,$04,$8F,$0E,$21,$00
-	db $C2,$20,$A9,$98,$80,$8D,$AD,$04,$AD,$CB,$04,$8F,$09,$42,$00,$A9
-	db $FF,$FF,$6B,$E2,$20,$AD,$D1,$04,$8F,$0E,$21,$00,$AD,$D2,$04,$8F
-	db $0E,$21,$00,$C2,$20,$A9,$B8,$80,$8D,$AD,$04,$AD,$CD,$04,$8F,$09
-	db $42,$00,$6B,$E2,$20,$AD,$D3,$04,$8F,$0E,$21,$00,$AD,$D4,$04,$8F
-	db $0E,$21,$00,$C2,$20,$A9,$75,$80,$8D,$AD,$04,$6B
+IRQ_StatsScroll1:					; IRQ hook: the first BG1 scroll split, then IRQ_StatsScroll2
+	sep #$20
+	lda.w irqvscroll1
+	sta.l BG1VOFS
+	lda.w irqvscroll1+1
+	sta.l BG1VOFS
+	rep #$20
+	lda.w #IRQ_StatsScroll2&$FFFF
+	sta.w IRQHook
+	lda.w irqline2
+	sta.l VTIMEL
+	lda.w #$FFFF
+	rtl
+IRQ_StatsScroll2:					; IRQ hook: the second BG1 scroll split, then IRQ_StatsScroll3
+	sep #$20
+	lda.w irqvscroll2
+	sta.l BG1VOFS
+	lda.w irqvscroll2+1
+	sta.l BG1VOFS
+	rep #$20
+	lda.w #IRQ_StatsScroll3&$FFFF
+	sta.w IRQHook
+	lda.w irqline3
+	sta.l VTIMEL
+	rtl
+IRQ_StatsScroll3:					; IRQ hook: the last BG1 scroll split, then IRQ_StatsScroll1 again
+	sep #$20
+	lda.w irqvscroll3
+	sta.l BG1VOFS
+	lda.w irqvscroll3+1
+	sta.l BG1VOFS
+	rep #$20
+	lda.w #IRQ_StatsScroll1&$FFFF
+	sta.w IRQHook
+	rtl
 CODE_C380D1:						; called from other segments
 	lda.w $1864
 	cmp.w #$0001
