@@ -145,7 +145,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	jsl.l WaitTransfers
 	lda.w #$F254
 	sta.b d3
@@ -950,7 +950,7 @@ TaskFrameEnd:						; the last task of the list: the sprites to OAM (when task fl
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 .1:									; TransfersReady + 1, d3 = $F254, return
 	inc.w TransfersReady
 	wai

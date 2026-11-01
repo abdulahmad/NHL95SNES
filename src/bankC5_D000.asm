@@ -191,7 +191,7 @@ NameEntryScreen:					; the Name Entry screen of a pad: the 8 user names (up / do
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -463,7 +463,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D

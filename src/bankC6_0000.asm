@@ -1,7 +1,7 @@
 ; Frame transfer sources: low words, then bank bytes paired with a transfer-layout index.
-; CODE_C5F368 indexes both tables by the frame number. Null-bank entries retain their literal words.
+; QueueFrameTiles indexes both tables by the frame number. Null-bank entries retain their literal words.
 org $C60000
-DATA8_C60000:						; frame source low words; read by CODE_C5F368
+DATA8_C60000:						; frame source low words; read by QueueFrameTiles
 	dw $2968
 	dw $2968
 	dw DATA8_C62968&$FFFF
@@ -1062,7 +1062,7 @@ DATA8_C60000:						; frame source low words; read by CODE_C5F368
 	dw DATA8_CCE7E5&$FFFF
 	dw DATA8_CCEA45&$FFFF
 	dw DATA8_CCECA5&$FFFF
-DATA8_C60848:						; source bank and transfer-layout index; read by CODE_C5F368
+DATA8_C60848:						; source bank and transfer-layout index; read by QueueFrameTiles
 	dw $0000
 	dw $0000
 	dw (DATA8_C62968>>16)|$5E00

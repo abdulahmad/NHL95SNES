@@ -430,7 +430,7 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	jsr.w CODE_C5945E
 	jsr.w CODE_C59483
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.l $7E23BA
 	bne .1
 	lda.b $7D
@@ -715,7 +715,7 @@ CODE_C59651:						; from CODE_C59651, StartSeason, CODE_C5963A
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.b $99
 	asl a
 	tax

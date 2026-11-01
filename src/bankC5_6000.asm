@@ -372,7 +372,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -452,7 +452,7 @@ ShowPeriodStats:					; pause menu Period Stats: DrawPeriodStats; B switches betw
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -650,7 +650,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -1215,7 +1215,7 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -1541,7 +1541,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -1745,7 +1745,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D

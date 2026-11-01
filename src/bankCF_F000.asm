@@ -218,7 +218,7 @@ CODE_CFF240:						; from CODE_CFF231 and other segments
 CODE_CFF279:						; from CODE_CFF240 and other segments
 	jmp ($00A5)
 DATA8_CFF27C:						; per layout (the high byte of a DATA8_C60848 word) a size word:
-									; CODE_C5F368 queues two transfers of twice its low byte, then one
+									; QueueFrameTiles queues two transfers of twice its low byte, then one
 									; of its high byte (zero parts skipped)
 	dw $0000,$8080,$8080,$6080,$6080,$6080,$6080,$8080
 	dw $8080,$8080,$8080,$6080,$6080,$8080,$8080,$8080

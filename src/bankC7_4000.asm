@@ -1,4 +1,4 @@
-; Raw planar frame tiles sent directly to VRAM by CODE_C5F368.
+; Raw planar frame tiles sent directly to VRAM by QueueFrameTiles.
 ; Frame poses are not traced; DATA8_ labels identify the transfer sources.
 org $C7423E
 DATA8_C7423E:						; raw frame tiles for transfer index $0B3; pose not traced

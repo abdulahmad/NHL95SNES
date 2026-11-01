@@ -909,7 +909,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D

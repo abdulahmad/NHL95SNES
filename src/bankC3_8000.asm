@@ -362,7 +362,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2018
 	stx.b tmp1
 	sta.w $0882
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .2:									; if $0864 = $0884 go to .3, tmp2 = $2108, tmp1 = $201C, $0884 = A, ...
 	lda.w $0864
 	cmp.w $0884
@@ -372,7 +372,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$201C
 	stx.b tmp1
 	sta.w $0884
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .3:									; if $0866 = $0886 go to .4, tmp2 = $2120, tmp1 = $2020, $0886 = A, ...
 	lda.w $0866
 	cmp.w $0886
@@ -382,7 +382,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2020
 	stx.b tmp1
 	sta.w $0886
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .4:									; if $0868 = $0888 go to .5, tmp2 = $2128, tmp1 = $2024, $0888 = A, ...
 	lda.w $0868
 	cmp.w $0888
@@ -392,7 +392,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2024
 	stx.b tmp1
 	sta.w $0888
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .5:									; if $086A = $088A go to .6, tmp2 = $2140, tmp1 = $2028, $088A = A, ...
 	lda.w $086A
 	cmp.w $088A
@@ -402,7 +402,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2028
 	stx.b tmp1
 	sta.w $088A
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .6:									; if $086C = $088C go to .7, tmp2 = $2148, tmp1 = $202C, $088C = A, ...
 	lda.w $086C
 	cmp.w $088C
@@ -412,7 +412,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$202C
 	stx.b tmp1
 	sta.w $088C
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .7:									; go to .14
 	jmp.w .14
 .8:									; if frame = $0876 go to .9, tmp2 = $20A0, tmp1 = $2000, $0876 = A, ...
@@ -424,7 +424,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2000
 	stx.b tmp1
 	sta.w $0876
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .9:									; if $0858 = $0878 go to .10, tmp2 = $20A8, tmp1 = $2004, $0878 = A, ...
 	lda.w $0858
 	cmp.w $0878
@@ -434,7 +434,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2004
 	stx.b tmp1
 	sta.w $0878
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .10:								; if $085A = $087A go to .11, tmp2 = $20C0, tmp1 = $2008, $087A = A, ...
 	lda.w $085A
 	cmp.w $087A
@@ -444,7 +444,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2008
 	stx.b tmp1
 	sta.w $087A
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .11:								; if $085C = $087C go to .12, tmp2 = $20C8, tmp1 = $200C, $087C = A, ...
 	lda.w $085C
 	cmp.w $087C
@@ -454,7 +454,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$200C
 	stx.b tmp1
 	sta.w $087C
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .12:								; if $085E = $087E go to .13, tmp2 = $20E0, tmp1 = $2010, $087E = A, ...
 	lda.w $085E
 	cmp.w $087E
@@ -464,7 +464,7 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2010
 	stx.b tmp1
 	sta.w $087E
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .13:								; if $0860 = $0880 go to .14, tmp2 = $20E8, tmp1 = $2014, $0880 = A, ...
 	lda.w $0860
 	cmp.w $0880
@@ -474,15 +474,15 @@ CODE_C382B8:						; called from other segments
 	ldx.w #$2014
 	stx.b tmp1
 	sta.w $0880
-	jsl.l CODE_C5F368
-.14:								; if $0872 = $0892 go to .15, tmp1 = $2034, $0892 = A, call CODE_C5F368
+	jsl.l QueueFrameTiles
+.14:								; if $0872 = $0892 go to .15, tmp1 = $2034, $0892 = A, ...
 	lda.w $0872
 	cmp.w $0892
 	beq .15
 	ldx.w #$2034
 	stx.b tmp1
 	sta.w $0892
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 .15:								; QueueBusy - 1, $1C = A, A = $28, Y = $2A, ...
 	dec.b QueueBusy
 	tsc

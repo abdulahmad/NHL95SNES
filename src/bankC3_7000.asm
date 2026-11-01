@@ -216,7 +216,7 @@ CODE_C37171:						; from CODE_C3716D and other segments
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	inc.b $26
 	jml.l WaitTransfers
 CODE_C3718D:						; called from other segments
@@ -1719,10 +1719,10 @@ CODE_C37E57:						; from CODE_C374CF and other segments
 	ldx.w #$2035
 	stx.b tmp1
 	sta.w $0894
-	jsl.l CODE_C5F368
-.1:									; call CODE_C382B8, call CODE_C5F3DB, TransfersReady + 1, ...
+	jsl.l QueueFrameTiles
+.1:									; call CODE_C382B8, call PackOAMHigh, TransfersReady + 1, ...
 	jsl.l CODE_C382B8
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	inc.w TransfersReady
 	jsl.l CODE_C38CF5
 	jsl.l CODE_C528D5

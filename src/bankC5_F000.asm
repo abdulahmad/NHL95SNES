@@ -425,7 +425,9 @@ BuildSpriteOAM:						; build the OAM entries of all sprite objects (frames, Spri
 	jmp.w .loop
 .41:								; go to .2
 	jmp.w .2
-CODE_C5F368:						; called from other segments
+QueueFrameTiles:					; queues the tiles of player frame A for VRAM: its ROM address from
+									; DATA8_C60000 / DATA8_C60848, the sizes from DATA8_CFF27C, to the VRAM
+									; slots in tmp2 / tmp1
 	sta.b tmp0
 	dec.b QueueBusy
 	lda.b $00
@@ -495,7 +497,8 @@ CODE_C5F368:						; called from other segments
 	stx.b $00
 	stz.b QueueBusy
 	rtl
-CODE_C5F3DB:						; called from other segments
+PackOAMHigh:						; packs the 128 size / X bit bytes at $1E00 (BuildSpriteOAM) into the 32
+									; byte OAM high table
 	lda.w #$1E00
 	tcd
 	sep #$20

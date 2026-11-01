@@ -58,7 +58,7 @@ CODE_C40000:						; called from other segments
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	jmp.w .1
 CODE_C40085:						; from CODE_C40000
 	lda.b a1

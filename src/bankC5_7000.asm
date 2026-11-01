@@ -578,7 +578,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -828,7 +828,7 @@ CODE_C57578:						; from EditLinesScreen
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w $058D
@@ -1225,7 +1225,7 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop2
 	lda.w $058D
@@ -1480,7 +1480,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (CODE_C57B8A d
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop2
 	lda.w $058D
@@ -1744,7 +1744,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop3
 	lda.w $058D

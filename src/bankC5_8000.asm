@@ -1695,7 +1695,7 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.b $99
 	bne .loop
 	lda.w repeatdelayframes

@@ -763,7 +763,7 @@ CODE_C4A65D:						; called from other segments
 	ldx.w #$2035
 	stx.b tmp1
 	sta.w $0894
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	plx
 	lda.w $0874
 .1:									; if A is not $01B3 go to .2, $0832 = $0830, A = pucky, A + 1, ...

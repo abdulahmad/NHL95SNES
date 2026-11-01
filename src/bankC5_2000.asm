@@ -97,19 +97,19 @@ CODE_C52037:						; called from other segments
 	lda.w #$2160
 	sta.b tmp2
 	lda.w #$01BE
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2168
 	sta.b tmp2
 	lda.w #$01BF
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2588
 	sta.b tmp2
 	lda.w #$006F
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2035
 	sta.b tmp1
 	lda.w #$01B3
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -297,7 +297,7 @@ CODE_C52295:						; called from other segments
 	jsl.l CODE_C382B8
 	jsl.l CODE_C522BF
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	inc.w TransfersReady
 	jsl.l CODE_C38CF5
 	jsl.l CODE_C528D5

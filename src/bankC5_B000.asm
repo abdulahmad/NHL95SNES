@@ -1437,7 +1437,7 @@ CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	jsl.l WaitTransfers
 	rts
 CODE_C5BBDD:						; a callback: CODE_C5A71A, SeasonPlayerStats pass it to StartScrollList

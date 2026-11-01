@@ -237,7 +237,7 @@ CODE_C550E2:						; from ExitToPauseMenu
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$11
@@ -808,104 +808,104 @@ CODE_C55513:						; called from other segments
 	ldx.w #$2000
 	stx.b tmp1
 	lda.w $0876
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$20A8
 	stx.b tmp2
 	ldx.w #$2004
 	stx.b tmp1
 	lda.w $0878
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$20C0
 	stx.b tmp2
 	ldx.w #$2008
 	stx.b tmp1
 	lda.w $087A
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$20C8
 	stx.b tmp2
 	ldx.w #$200C
 	stx.b tmp1
 	lda.w $087C
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$20E0
 	stx.b tmp2
 	ldx.w #$2010
 	stx.b tmp1
 	lda.w $087E
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$20E8
 	stx.b tmp2
 	ldx.w #$2014
 	stx.b tmp1
 	lda.w $0880
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$2100
 	stx.b tmp2
 	ldx.w #$2018
 	stx.b tmp1
 	lda.w $0882
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$2108
 	stx.b tmp2
 	ldx.w #$201C
 	stx.b tmp1
 	lda.w $0884
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$2120
 	stx.b tmp2
 	ldx.w #$2020
 	stx.b tmp1
 	lda.w $0886
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$2128
 	stx.b tmp2
 	ldx.w #$2024
 	stx.b tmp1
 	lda.w $0888
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$2140
 	stx.b tmp2
 	ldx.w #$2028
 	stx.b tmp1
 	lda.w $088A
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	ldx.w #$2148
 	stx.b tmp2
 	ldx.w #$202C
 	stx.b tmp1
 	lda.w $088C
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	jsl.l WaitTransfers
 	ldx.w #$2180
 	stx.b tmp2
 	ldx.w #$2034
 	stx.b tmp1
 	sta.w $0892
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2030
 	sta.b tmp1
 	lda.w #$2160
 	sta.b tmp2
 	lda.w #$01BE
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2168
 	sta.b tmp2
 	lda.w #$01BF
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2588
 	sta.b tmp2
 	lda.w #$006F
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2035
 	sta.b tmp1
 	lda.w #$01B3
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	lda.w #$2454
 	sta.b tmp1
 	lda.w #$25E0
 	sta.b tmp2
 	lda.w #$0072
-	jsl.l CODE_C5F368
+	jsl.l QueueFrameTiles
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1837,7 +1837,7 @@ CODE_C55E57:						; called from other segments
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	pla
 	asl a
 	tax

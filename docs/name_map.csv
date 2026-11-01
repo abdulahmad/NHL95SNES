@@ -6947,9 +6947,9 @@ $C5F343,.38,CODE_C5F343,new,"branch target only used in BuildSpriteOAM",src/bank
 $C5F34B,.39,CODE_C5F34B,new,"branch target only used in BuildSpriteOAM",src/bankC5_F000.asm
 $C5F35C,.40,CODE_C5F35C,new,"branch target only used in BuildSpriteOAM",src/bankC5_F000.asm
 $C5F365,.41,CODE_C5F365,new,"branch target only used in BuildSpriteOAM",src/bankC5_F000.asm
-$C5F397,.1,CODE_C5F397,new,"branch target only used in CODE_C5F368",src/bankC5_F000.asm
-$C5F3BA,.2,CODE_C5F3BA,new,"branch target only used in CODE_C5F368",src/bankC5_F000.asm
-$C5F3D2,.3,CODE_C5F3D2,new,"branch target only used in CODE_C5F368",src/bankC5_F000.asm
+$C5F397,.1,CODE_C5F397,new,"branch target only used in QueueFrameTiles",src/bankC5_F000.asm
+$C5F3BA,.2,CODE_C5F3BA,new,"branch target only used in QueueFrameTiles",src/bankC5_F000.asm
+$C5F3D2,.3,CODE_C5F3D2,new,"branch target only used in QueueFrameTiles",src/bankC5_F000.asm
 $CF0032,.loop,CODE_CF0032,new,"branch target only used in CODE_CF001A",src/bankCF_0000.asm
 $CF0071,.loop,CODE_CF0071,new,"branch target only used in CODE_CF0069",src/bankCF_0000.asm
 $CF007A,.1,CODE_CF007A,new,"branch target only used in CODE_CF0069",src/bankCF_0000.asm
@@ -7232,3 +7232,5 @@ $C55ABC,StartScrollList,CODE_C55ABC,code,"the routine in $75 (called through it)
 $C55BE8,ScrollListArrows,CODE_C55BE8,code,"the arrow objects in $77 / $79 ($22 bit 0)",src/bankC5_5000.asm
 $C55C58,ScrollListDown,CODE_C55C58,code,"the stats screens call it on $0400",src/bankC5_5000.asm
 $C55CE6,ScrollListUp,CODE_C55CE6,code,"the stats screens call it on $0800",src/bankC5_5000.asm
+$C5F368,QueueFrameTiles,CODE_C5F368,code,"records on the VRAM stack at $00: two transfers of twice the layout's low byte (VRAM $6000 + tmp2 * 16 and $100 on), then one of its high byte ($A0) to tmp1's slot; the frame code of bank $C3 calls it when an object's frame changes",src/bankC5_F000.asm
+$C5F3DB,PackOAMHigh,CODE_C5F3DB,code,"runs with the direct page at $1E00; four 2-bit entries a byte, stored from $1DAF down",src/bankC5_F000.asm

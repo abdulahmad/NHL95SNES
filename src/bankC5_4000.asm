@@ -1837,7 +1837,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .3
 	jsr.w CODE_C54F05

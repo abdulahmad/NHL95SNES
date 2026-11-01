@@ -140,7 +140,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .loop2
 	lda.w $058D
@@ -315,7 +315,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w #$1E00
 	sta.b $2A
 	jsl.l BuildSpriteOAM
-	jsl.l CODE_C5F3DB
+	jsl.l PackOAMHigh
 	lda.w $2DA1
 	bmi .6
 	dec a
