@@ -2296,3 +2296,5 @@ $CD25E0,PhotoPalettesWSH,DATA8_CD25E0,code,"Washington: 16 colours for each of i
 $CD26A0,PlayerPhotosWSH,DATA8_CD26A0,code,"Washington: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_2000.asm
 $CD3879,PhotoPalettesWPG,DATA8_CD3879,code,"Winnipeg: 16 colours for each of its 6 player photos; entry 25 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_3000.asm
 $CD3939,PlayerPhotosWPG,DATA8_CD3939,code,"Winnipeg: 6 player photos, packed format 2 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_3000.asm
+$CD4A6D,PhotoPalettesANH,DATA8_CD4A6D,code,"Anaheim: 16 colours for each of its 6 player photos; entry 0 of PhotoPaletteTable (read 1-based), as PhotoPalettesTB in bank $C0",src/bankCD_4000.asm
+$CD4B2D,PlayerPhotosANH,DATA8_CD4B2D,code,"Anaheim: 6 player photos, packed format 4 ($1B00 bytes), 48 x 48 linear 4bpp each; its stream ends where the next item starts",src/bankCD_4000.asm
