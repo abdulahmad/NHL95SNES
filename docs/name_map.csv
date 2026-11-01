@@ -3504,20 +3504,20 @@ $C43C7F,.38,CODE_C43C7F,new,"branch target only used in puckfaceoff2",src/bankC4
 $C43CB4,.loop5,CODE_C43CB4,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
 $C43D3A,.39,CODE_C43D3A,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
 $C43D64,.40,CODE_C43D64,new,"branch target only used in puckfaceoff2",src/bankC4_3000.asm
-$C43D7D,.1,CODE_C43D7D,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43D80,.2,CODE_C43D80,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43D8B,.3,CODE_C43D8B,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43DA8,.4,CODE_C43DA8,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43E01,.5,CODE_C43E01,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43E20,.6,CODE_C43E20,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43E2B,.7,CODE_C43E2B,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43E60,.8,CODE_C43E60,new,"branch target only used in CODE_C43D6C",src/bankC4_3000.asm
-$C43ED4,.1,CODE_C43ED4,new,"branch target only used in CODE_C43EC6",src/bankC4_3000.asm
-$C43EE3,.2,CODE_C43EE3,new,"branch target only used in CODE_C43EC6",src/bankC4_3000.asm
-$C43EF3,.3,CODE_C43EF3,new,"branch target only used in CODE_C43EC6",src/bankC4_3000.asm
-$C43F00,.4,CODE_C43F00,new,"branch target only used in CODE_C43EC6",src/bankC4_3000.asm
-$C43F29,.1,CODE_C43F29,new,"branch target only used in CODE_C43F0D",src/bankC4_3000.asm
-$C43F55,.2,CODE_C43F55,new,"branch target only used in CODE_C43F0D",src/bankC4_3000.asm
+$C43D7D,.1,CODE_C43D7D,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43D80,.2,CODE_C43D80,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43D8B,.3,CODE_C43D8B,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43DA8,.4,CODE_C43DA8,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43E01,.5,CODE_C43E01,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43E20,.6,CODE_C43E20,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43E2B,.7,CODE_C43E2B,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43E60,.8,CODE_C43E60,new,"branch target only used in FinishFaceoffSetup",src/bankC4_3000.asm
+$C43ED4,.1,CODE_C43ED4,new,"branch target only used in TickFaceoffCountdown",src/bankC4_3000.asm
+$C43EE3,.2,CODE_C43EE3,new,"branch target only used in TickFaceoffCountdown",src/bankC4_3000.asm
+$C43EF3,.3,CODE_C43EF3,new,"branch target only used in TickFaceoffCountdown",src/bankC4_3000.asm
+$C43F00,.4,CODE_C43F00,new,"branch target only used in TickFaceoffCountdown",src/bankC4_3000.asm
+$C43F29,.1,CODE_C43F29,new,"branch target only used in DrawPenaltyShotMatchup",src/bankC4_3000.asm
+$C43F55,.2,CODE_C43F55,new,"branch target only used in DrawPenaltyShotMatchup",src/bankC4_3000.asm
 $C4401D,.1,CODE_C4401D,new,"branch target only used in checkcoll",src/bankC4_4000.asm
 $C4402C,.2,CODE_C4402C,new,"branch target only used in checkcoll",src/bankC4_4000.asm
 $C44034,.3,CODE_C44034,new,"branch target only used in checkcoll",src/bankC4_4000.asm
@@ -4330,8 +4330,8 @@ $C4AC7D,.28,CODE_C4AC7D,new,"branch target only used in Goal",src/bankC4_A000.as
 $C4ACA2,.29,CODE_C4ACA2,new,"branch target only used in Goal",src/bankC4_A000.asm
 $C4ACB6,.30,CODE_C4ACB6,new,"branch target only used in Goal",src/bankC4_A000.asm
 $C4ACC4,.31,CODE_C4ACC4,new,"branch target only used in Goal",src/bankC4_A000.asm
-$C4AD10,.loop,CODE_C4AD10,new,"branch target only used in CODE_C4AD04",src/bankC4_A000.asm
-$C4AD1E,.1,CODE_C4AD1E,new,"branch target only used in CODE_C4AD04",src/bankC4_A000.asm
+$C4AD10,.loop,CODE_C4AD10,new,"branch target only used in AssignTeamSkaters",src/bankC4_A000.asm
+$C4AD1E,.1,CODE_C4AD1E,new,"branch target only used in AssignTeamSkaters",src/bankC4_A000.asm
 $C4AD35,.rtl,CODE_C4AD35,new,"branch target only used in puckstick",src/bankC4_A000.asm
 $C4AD36,.1,CODE_C4AD36,new,"branch target only used in puckstick",src/bankC4_A000.asm
 $C4AD47,.2,CODE_C4AD47,new,"branch target only used in puckstick",src/bankC4_A000.asm
@@ -7933,3 +7933,13 @@ $C4A580,.1,CODE_C4A580,new,"branch target only used in LaunchDumpIn",src/bankC4_
 $C4A58F,.2,CODE_C4A58F,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm
 $C4A591,.3,CODE_C4A591,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm
 $C4A599,.4,CODE_C4A599,new,"branch target only used in LaunchDumpIn",src/bankC4_A000.asm
+$C43D6C,FinishFaceoffSetup,CODE_C43D6C,code,"from the code; the steps 94S puckfaceoff2 ends its set-up with (the drop time, fofdata2 / fofdata frames, fodir1 / fodir2 $FFFF), as a routine here; DrawPenaltyShotMatchup goes to it",src/bankC4_3000.asm
+$C43EC6,TickFaceoffCountdown,CODE_C43EC6,code,"from the code; 94S puckfaceoff2 .18 (a local label there) with the play mode 1 step added",src/bankC4_3000.asm
+$C43F0D,DrawPenaltyShotMatchup,CODE_C43F0D,code,"from the code: Framer, BA_Skater_Offset and tmgoalie names through CentreNameX, PushTime 30",src/bankC4_3000.asm
+$C43FAD,CentreNameX,CODE_C43FAD,code,"from the code: the length byte negated plus $14, halved",src/bankC4_3000.asm
+$C471E2,ResetCelebrationTimer,CODE_C471E2,code,"from the code: randoma8 $78 into temp1,x; assscore calls it",src/bankC4_7000.asm
+$C471ED,CelebrationSkate,CODE_C471ED,code,"from the code: jmp skateto, the target of assscore's branch",src/bankC4_7000.asm
+$C4AD04,AssignTeamSkaters,CODE_C4AD04,code,"from the code; Goal calls it",src/bankC4_A000.asm
+$C4AD25,GoalReturn,CODE_C4AD25,code,"the rtl after AssignTeamSkaters, the target of Goal's branch",src/bankC4_A000.asm
+$C4AF74,OffsidesReturn,CODE_C4AF74,code,"the rtl reached from ChkOffsides, ChkOffsides_other and ClearOffsidesIfAllPlayers",src/bankC4_A000.asm
+$C4AF75,OffsidesNextPlayer,CODE_C4AF75,code,"from the code",src/bankC4_A000.asm

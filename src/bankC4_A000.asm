@@ -1274,9 +1274,9 @@ Goal:								; called from other segments
 .3:									; if BA_Team = 0 go to .6
 	lda.w BA_Team
 	beq .6
-.4:									; call EndPenaltyShot, go to CODE_C4AD25
+.4:									; call EndPenaltyShot, go to GoalReturn
 	jsl.l EndPenaltyShot
-	jmp.w CODE_C4AD25
+	jmp.w GoalReturn
 .5:									; if BA_Team = 0 go to .4
 	lda.w BA_Team
 	beq .4
@@ -1512,7 +1512,7 @@ Goal:								; called from other segments
 	ldx.b a3
 	lda.w #$0008
 	sta.b d0
-	jsl.l CODE_C4AD04
+	jsl.l AssignTeamSkaters
 	lda.b a2
 	bne .29
 	lda.w tmscore+2
@@ -1560,7 +1560,9 @@ Goal:								; called from other segments
 	ldx.w #$001C
 	stx.b a3
 	rtl
-CODE_C4AD04:						; from Goal and other segments
+AssignTeamSkaters:					; inserts assignment d0 (assinsert) for each skater of team a2 on the ice:
+									; the six slots from tmsort, goalie (position 0) and empty slots skipped,
+									; pfnc cleared
 	phx
 	ldy.b a2
 	lda.w tmsort,y
@@ -1579,7 +1581,7 @@ CODE_C4AD04:						; from Goal and other segments
 	dec.b d3
 	bpl .loop
 	plx
-CODE_C4AD25:						; from Goal
+GoalReturn:							; the return of Goal and AssignTeamSkaters
 	rtl
 puckstick:							; from puckbody and other segments
 	ldy.b a2
@@ -1801,19 +1803,19 @@ ChkOffsides:						; the offsides check: ClearOffsidesIfAllPlayers for both sides
 	lda.b d0
 	sec
 	sbc.w OldYpos+$1C
-	bpl CODE_C4AF74
+	bpl OffsidesReturn
 	bra ChkOffsides_blue
-.2:									; A = d0, A - OldYpos+$1C, if the result < 0 go to CODE_C4AF74
+.2:									; A = d0, A - OldYpos+$1C, if the result < 0 go to OffsidesReturn
 	lda.b d0
 	sec
 	sbc.w OldYpos+$1C
-	bmi CODE_C4AF74
+	bmi OffsidesReturn
 ChkOffsides_blue:					; from ChkOffsides
 	jsl.l StartBreakaway
 	lda.w gmode
 	bit.w #$0020
 	bne .1
-	jmp.w CODE_C4AF74
+	jmp.w OffsidesReturn
 .1:									; d0 = $0062, A = gmode, if $0002 bits clear go to .2, A = a2, ...
 	lda.w #$0062
 	sta.b d0
@@ -1829,36 +1831,37 @@ ChkOffsides_blue:					; from ChkOffsides
 	bpl .3
 	lda.w lastplayer
 	asl a
-.3:									; if A - $000C >= 0 go to .4, if a2 = 0 go to .5, go to CODE_C4AF74
+.3:									; if A - $000C >= 0 go to .4, if a2 = 0 go to .5, go to OffsidesReturn
 	cmp.w #$000C
 	bpl .4
 	lda.b a2
 	beq .5
-	bra CODE_C4AF74
-.4:									; if a2 = 0 go to CODE_C4AF74
+	bra OffsidesReturn
+.4:									; if a2 = 0 go to OffsidesReturn
 	lda.b a2
-	beq CODE_C4AF74
+	beq OffsidesReturn
 .5:									; d2 = $0005, Y = a2, a0 = tmsort,y
 	lda.w #$0005
 	sta.b d2
 	ldy.b a2
 	lda.w tmsort,y
 	sta.b a0
-ChkOffsides_loop:					; from CODE_C4AF75
+ChkOffsides_loop:					; from OffsidesNextPlayer
 	ldy.b a0
 	lda.w position,y
-	bmi CODE_C4AF75
+	bmi OffsidesNextPlayer
 	lda.b d0
 	sec
 	sbc.w Ypos,y
-	bpl CODE_C4AF75
+	bpl OffsidesNextPlayer
 	ldy.b a2
 	lda.w tmflags,y
 	ora.w #$0010
 	sta.w tmflags,y
-CODE_C4AF74:						; from ClearOffsidesIfAllPlayers, ChkOffsides, ChkOffsides_other, ...
+OffsidesReturn:						; the return of the offside checks
 	rtl
-CODE_C4AF75:						; from ChkOffsides_loop
+OffsidesNextPlayer:					; the next player of ChkOffsides: a0 + 2, d2 - 1, back to the loop while
+									; d2 is not negative
 	inc.b a0
 	inc.b a0
 	dec.b d2
@@ -1876,19 +1879,19 @@ ChkOffsides_other:					; from ChkOffsides
 	lda.b d0
 	sec
 	sbc.w OldYpos+$1C
-	bpl CODE_C4AF74
+	bpl OffsidesReturn
 	bra .2
-.1:									; A = d0, A - OldYpos+$1C, if the result < 0 go to CODE_C4AF74
+.1:									; A = d0, A - OldYpos+$1C, if the result < 0 go to OffsidesReturn
 	lda.b d0
 	sec
 	sbc.w OldYpos+$1C
-	bmi CODE_C4AF74
+	bmi OffsidesReturn
 .2:									; call StartBreakaway, A = gmode, if a $0020 bit set go to .3, ...
 	jsl.l StartBreakaway
 	lda.w gmode
 	bit.w #$0020
 	bne .3
-	jmp.w CODE_C4AF74
+	jmp.w OffsidesReturn
 .3:									; A = d0, A - $000A, d0 = A, A = gmode, ...
 	lda.b d0
 	sec
@@ -1906,15 +1909,15 @@ ChkOffsides_other:					; from ChkOffsides
 	bpl .5
 	lda.w lastplayer
 	asl a
-.5:									; if A - $000C >= 0 go to .6, if a2 = 0 go to .7, go to CODE_C4AF74
+.5:									; if A - $000C >= 0 go to .6, if a2 = 0 go to .7, go to OffsidesReturn
 	cmp.w #$000C
 	bpl .6
 	lda.b a2
 	beq .7
-	bra CODE_C4AF74
-.6:									; if a2 = 0 go to CODE_C4AF74
+	bra OffsidesReturn
+.6:									; if a2 = 0 go to OffsidesReturn
 	lda.b a2
-	beq CODE_C4AF74
+	beq OffsidesReturn
 .7:									; d2 = $0005, Y = a2, a0 = tmsort,y
 	lda.w #$0005
 	sta.b d2

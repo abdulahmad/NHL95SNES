@@ -864,7 +864,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w pflags,x
 	bit.w #$0002
 	bne .1
-	jmp.w CODE_C43EC6
+	jmp.w TickFaceoffCountdown
 .1:									; A and $FFFD, pflags,x = A
 	and.w #$FFFD
 	sta.w pflags,x
@@ -1351,7 +1351,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	jsl.l SeatPenaltyBox
 	lda.w penshot
 	beq .37
-	jmp.w CODE_C43F0D
+	jmp.w DrawPenaltyShotMatchup
 .37:								; if OptPlayMode is not $0001 go to .38, go to CODE_C43FC1
 	lda.w OptPlayMode
 	cmp.w #$0001
@@ -1455,7 +1455,9 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 .40:								; call CODE_C5EE6C, call CODE_C53A29
 	jsl.l CODE_C5EE6C
 	jsl.l CODE_C53A29
-CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
+FinishFaceoffSetup:					; end of the face off set-up: the line box (line changes on, no penalty
+									; shot), the drop time in temp1, the centres' and the ref's frames
+									; (fofdata2, fofdata), fodir1 / fodir2 cleared, the registers restored
 	ply
 	plx
 	ldx.b a3
@@ -1622,7 +1624,9 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	sta.b d0
 	ldx.b a3
 	rtl
-CODE_C43EC6:						; from puckfaceoff2
+TickFaceoffCountdown:				; counts the face off time (temp1) down by d7: updatefaceoff while it
+									; runs, else Endfaceoff, then play mode 1's path, SetupPenaltyShot or the
+									; normal drop
 	lda.b d7
 	sta.b tmp0
 	cmp.w temp1,x
@@ -1652,7 +1656,8 @@ CODE_C43EC6:						; from puckfaceoff2
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jml.l Endfaceoff
-CODE_C43F0D:						; from puckfaceoff2
+DrawPenaltyShotMatchup:				; draws the penalty shot box: the shooter's and the other team's goalie's
+									; names centred, the text and the 30 second time, then FinishFaceoffSetup
 	jsl.l WaitTransfers
 	ldx.w #$0014
 	ldy.w #$0008
@@ -1662,10 +1667,10 @@ CODE_C43F0D:						; from puckfaceoff2
 	ldy.w BA_Team
 	beq .1
 	ldx.w #$3207
-.1:									; A = BA_Skater_Offset, call CODE_C533EF, call CODE_C43FAD, A + $58A6, ...
+.1:									; A = BA_Skater_Offset, call CODE_C533EF, call CentreNameX, A + $58A6, ...
 	lda.w BA_Skater_Offset
 	jsl.l CODE_C533EF
-	jsr.w CODE_C43FAD
+	jsr.w CentreNameX
 	adc.w #$58A6
 	tay
 	lda.b r0
@@ -1684,7 +1689,7 @@ CODE_C43F0D:						; from puckfaceoff2
 	tay
 	lda.w tmgoalie,y
 	jsl.l CODE_C533EF
-	jsr.w CODE_C43FAD
+	jsr.w CentreNameX
 	adc.w #$5926
 	tay
 	lda.b r0
@@ -1708,8 +1713,9 @@ CODE_C43F0D:						; from puckfaceoff2
 	lda.b a1
 	ldy.w #$5B23
 	jsl.l QueueVRAMDMALen
-	jmp.w CODE_C43D6C
-CODE_C43FAD:						; from CODE_C43F0D
+	jmp.w FinishFaceoffSetup
+CentreNameX:						; r0 = the string pointer, A = (20 - its length) / 2 with carry clear: the
+									; column that centres it in the 20-wide box
 	sta.b r0
 	stx.b $2E
 	lda.b [r0]
@@ -1723,4 +1729,4 @@ CODE_C43FAD:						; from CODE_C43F0D
 	rts
 CODE_C43FC1:						; from puckfaceoff2
 	jsl.l CODE_C53A29
-	jmp.w CODE_C43D6C
+	jmp.w FinishFaceoffSetup

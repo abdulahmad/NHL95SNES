@@ -160,7 +160,7 @@ assscore:							; assignment (asstab entry 8): celebrate a goal
 	beq .5
 	and.w #$FFFD
 	sta.w pflags,x
-	jsl.l CODE_C471E2
+	jsl.l ResetCelebrationTimer
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
@@ -186,7 +186,7 @@ assscore:							; assignment (asstab entry 8): celebrate a goal
 	sec
 	sbc.b d7
 	sta.w temp1,x
-	bpl CODE_C471ED
+	bpl CelebrationSkate
 	lda.w #$2824
 	sta.b d1
 	sta.w pfalock,x
@@ -198,12 +198,12 @@ assscore:							; assignment (asstab entry 8): celebrate a goal
 	sta.w shotplayer
 .6:									; call SetSPA
 	jsl.l SetSPA
-CODE_C471E2:						; from assscore and other segments
+ResetCelebrationTimer:				; temp1 of player X = a random 0-119 (the goal celebration's wait)
 	lda.w #$0078
 	jsl.l randoma8
 	sta.w temp1,x
 	rtl
-CODE_C471ED:						; from assscore
+CelebrationSkate:					; assscore's skate to its celebration target (skateto)
 	jmp.w skateto
 PenaltyManager:						; update penalty clocks, new penalties, referee progress and announcements
 	jsl.l updatepentime

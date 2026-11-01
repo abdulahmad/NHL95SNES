@@ -6,7 +6,7 @@ ClearOffsidesIfAllPlayers:			; called from other segments
 	lda.w tmflags,y
 	bit.w #$0010
 	bne .1
-	jmp.w CODE_C4AF74
+	jmp.w OffsidesReturn
 .1:									; a0 = tmsort,y, d1 = $0005
 	lda.w tmsort,y
 	sta.b a0
@@ -31,7 +31,7 @@ ClearOffsidesIfAllPlayers:			; called from other segments
 	sec
 	sbc.w #$005C
 	bmi .4
-	jmp.w CODE_C4AF74
+	jmp.w OffsidesReturn
 .4:									; d1 - 1, if the result >= 0 go to .2, Y = a2, A = tmflags,y, ...
 	dec.b d1
 	bpl .2
