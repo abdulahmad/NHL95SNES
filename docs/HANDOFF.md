@@ -14,16 +14,17 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   Bank $C6: frame source and placement tables, raw frame tiles and VezinaPic. Banks $C7-$CB: raw frame tiles, each followed
-  by an award picture (SelkePic, ConnSmythePic, JenningsPic, ArtRossPic, NorrisPic). The remaining segments in banks $CC-$CF
-  are incbin.
-- Next: segment bankCC_F000, org $CCFE36 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CB are all source (the code banks $C4
+  by an award picture (SelkePic, ConnSmythePic, JenningsPic, ArtRossPic, NorrisPic). Bank $CC: raw frame tiles, then the
+  rink map set (IceRinkMap, IceRinkTiles; its stream and IceRinkPalette run on into bank $CD). The remaining segments in
+  banks $CD-$CF are incbin.
+- Next: segment bankCD_0000, org $CD0000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CC are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
   $C3: the team database (TeamList, PlayerList, the player and team records as labels and ROM cuts, since the names are
   licensed), data tables and text, PhotoPaletteTable, game code ($C36B83-$C38EFD), then samples 03, 04, 05, 28, 07, 08, 24, 25,
   30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Remaining: banks
-  $CC-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
+  $CD-$CF (photos in $CD / $CE, code and the sample list in $CF). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -35,11 +36,11 @@
   a frame index; it queues raw ROM transfers to VRAM, without an unpacker. A layout word at $CFF27C gives two equal
   transfers of twice its low byte, followed by a transfer of its high byte (zero parts skipped). There are 759 nonzero-bank
   pointers in banks $C6-$CC, with 95 in $C6 ($C62968-$C6FDE7), 105 in $C7 ($C7053E-$C7FE7D), 116 in $C8 ($C80559-$C8FE38),
-  108 in $C9 ($C9076B-$C9FFEA), 117 in $CA ($CA09D9-$CAFDF8) and 112 in $CB ($CB08B5-$CBFDD4). Within each bank their
-  transfer extents exactly meet the next pointer. Entries with bank zero are retained literally (including 0 and 1).
-  CODE_C382B8 updates changed frame indices; CODE_C521EB and the bankC5_5000 setup also queue fixed frame indices. Three
-  more word tables start at $C61090, $C618D8 and $C62120, each 1060 words, read by the bank $CF frame code. The code uses
-  the first and second on its normal path, the second and third on its mirrored path.
+  108 in $C9 ($C9076B-$C9FFEA), 117 in $CA ($CA09D9-$CAFDF8), 112 in $CB ($CB08B5-$CBFDD4) and 106 in $CC ($CC05E5-$CCEEA4).
+  Within each bank their transfer extents exactly meet the next pointer. Entries with bank zero are retained literally
+  (including 0 and 1). CODE_C382B8 updates changed frame indices; CODE_C521EB and the bankC5_5000 setup also queue fixed
+  frame indices. Three more word tables start at $C61090, $C618D8 and $C62120, each 1060 words, read by the bank $CF frame
+  code. The code uses the first and second on its normal path, the second and third on its mirrored path.
 
 - Code runs in banks $C0-$CF (reset `jml $C580C6`, NMI `jml $C08B45`), mostly with DB = $80. The engine is not the 94S engine: the
   unpacker, the transfer queues and the sound driver are different code, so 94S names need a purpose match, not a code match.
@@ -92,7 +93,8 @@
   BANK J writes a raw-frame segment (and the picture in the last one), awards.py holds the names.
 - Rink: IceRinkMap ($CCEEA5) is a three-chunk map set like the award pictures, but 32 x 170 tiles (the two rink halves,
   85 rows each), 520 tiles and 4 palettes, to $CD25DF. CODE_C52037 loads it (CODE_C58812); CODE_C55524 finds its tiles chunk.
-  It is split at the tiles chunk: IceRinkMap ends bankCC_E000, IceRinkTiles / IceRinkPalette go in bankCC_F000.
+  It is split at the tiles chunk: IceRinkMap ends bankCC_E000, bankCC_F000 is IceRinkTiles (header and stream start);
+  the stream runs on through bankCD_0000 / bankCD_1000 to IceRinkPalette ($CD2559), labelled in the incbin file of bankCD_2000.
 
 ## Setup notes
 
@@ -107,7 +109,7 @@
 
 ## Unsure
 
-- Banks $C6-$CB: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
+- Banks $C6-$CC: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
   parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The bank $CF
   readers are still incbin; their operands must use the new table labels when that code is converted (including
   DATA8_C60848+1).

@@ -1,4 +1,9 @@
-; Segment bankCC_F000: not yet disassembled.
+; The tiles chunk of the rink map set (IceRinkMap ends bankCC_E000). Its LZSS stream runs on through
+; bankCD_0000 and bankCD_1000 to IceRinkPalette in bankCD_2000.
 org $CCFE36
-IceRinkTiles:						; the tiles chunk of IceRinkMap (this segment is not yet disassembled)
-	incbin "../Extracted/segments/bankCC_F000.bin":$E36..$1000
+IceRinkTiles:						; its tiles (520), LZSS; the stream continues in the next bank
+	dw IceRinkPalette-IceRinkTiles-2	; tiles chunk length
+	dw $0208						; tile count
+	db $80,$04,$04,$00				; packed tiles; bits per pixel twice, then zero
+	dw $4100						; unpacked tile size
+	incbin "../Extracted/segments/bankCC_F000.bin":$E40..$1000

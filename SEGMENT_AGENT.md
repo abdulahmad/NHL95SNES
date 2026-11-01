@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCC_F000 (org $CCFE36): banks $C0-$CB are all source. <- CURRENT
+bankCD_0000 (org $CD0000): banks $C0-$CC are all source. <- CURRENT
 
 ## Sources
 
@@ -552,6 +552,9 @@ bankCC_F000 (org $CCFE36): banks $C0-$CB are all source. <- CURRENT
   of the rink map set (rendered: both rink halves, 32 x 170 tiles; name as 94S IceRinkMap). CODE_C52037 and CODE_C55524
   load it with immediates, which are label expressions now. The set is split at its tiles chunk: bankCC_F000 starts at
   IceRinkTiles ($CCFE36), labelled in its incbin file so the map chunk length can use it.
+- 2026-10-31: bankCC_F000 matched: IceRinkTiles, the tiles chunk of the rink map set (520 tiles, LZSS): its header and the start
+  of its stream, which runs on through bankCD_0000 and bankCD_1000 to IceRinkPalette ($CD2559, labelled in the incbin file of
+  bankCD_2000). Bank $CC is all source.
 
 ## ROM map
 
@@ -766,8 +769,8 @@ The first row that is still incbin is the current segment.
 | bankCC_C000 | matched 4224 bytes | $CCC1E5 | $CCD264 | raw frame tiles (poses not traced); org moved to $CCC1E5, end moved +$265 |
 | bankCC_D000 | matched 3968 bytes | $CCD265 | $CCE1E4 | raw frame tiles (poses not traced); org moved to $CCD265, end moved +$1E5 |
 | bankCC_E000 | matched 7249 bytes | $CCE1E5 | $CCFE35 | raw frame tiles (poses not traced), then IceRinkMap (the rink map chunk); org moved to $CCE1E5, end moved +$E36 |
-| bankCC_F000 | incbin | $CCFE36 | $CCFFFF | <- CURRENT |
-| bankCD_0000 | incbin | $CD0000 | $CD0FFF | |
+| bankCC_F000 | matched 458 bytes | $CCFE36 | $CCFFFF | IceRinkTiles: the rink tiles chunk header and the start of its LZSS stream (continues in bank $CD); org moved to $CCFE36 |
+| bankCD_0000 | incbin | $CD0000 | $CD0FFF | <- CURRENT |
 | bankCD_1000 | incbin | $CD1000 | $CD1FFF | |
 | bankCD_2000 | incbin | $CD2000 | $CD2FFF | |
 | bankCD_3000 | incbin | $CD3000 | $CD3FFF | |
