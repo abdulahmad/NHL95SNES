@@ -143,7 +143,14 @@
   pause menu: tabs Info / Stats / Options / quit prompt (DATA8_C5501C ...). A routine takes a 95G or 94S name only after
   reading it against that routine (source genesis+purpose / 94S+purpose; code for names made from the code);
   ../work/purpose.py MAP renames, writes the label's comment and follows the local label rows. Named so far: the Stanley
-  Cup screen and the season awards, the pause menu screens, the scouting report, the trade screens.
+  Cup screen and the season awards, the pause menu screens, the scouting report, the trade screens, the League Menu and
+  its screens, free agents, record holders, change goalie, the controller setup. ../work/pages.py lists the text pages
+  CODE_C4BB5A prints (a descriptor: margins, title, lines) with the routine that passes each: the screens' titles.
+- The front end is a state machine: a screen's entry draws its page, sets the state $99 and returns; CODE_C59651 runs
+  the handler of the state from DATA8_C5967A each frame. The setup screen's start runs DATA8_C58DD0 by play mode
+  ($1864: Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player). Not named yet: the Make Player and
+  user name entry screens (CODE_C59643, CODE_C5A09B, CODE_C59768, CODE_C5D1EF), the pause screen CODE_C54E6D (94S
+  splits it into Pausemode / Pausemode_menu), the season warning CODE_C59588.
 
 ## Setup notes
 
