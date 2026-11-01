@@ -673,9 +673,9 @@ DATA8_CF04E3:						; the sounds (CODE_CF0313 reads entry A): a long pointer to t
 	dd DATA8_CF4351					; sound 32
 	dd DATA8_CF4402					; sound 33
 	dd $CFC262						; sound 34
-	dd $CF5717|$80000000			; sound 35
+	dd DATA8_CF5717|$80000000		; sound 35
 	dd DATA8_CF46CE|$80000000		; sound 36
-	dd $CF590B|$81000000			; sound 37
+	dd DATA8_CF590B|$81000000		; sound 37
 	dd $CF6A1A|$82000000			; sound 38
 	dd $CF8145|$83000000			; sound 39
 DATA8_CF0583:						; four lists in this bank (CODE_CF0313): records of a sample number

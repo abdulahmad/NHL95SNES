@@ -1,3 +1,11 @@
-; Segment bankCF_5000: not yet disassembled.
+; Segment bankCF_5000: sound data: sound 35 (DATA8_CF5717), sound 37 (DATA8_CF590B).
 org $CF5717
-	incbin "../Extracted/segments/bankCF_5000.bin":$717..$1000
+DATA8_CF5717:						; sound 35 of DATA8_CF04E3: a length word, then its data; CODE_CF0313
+									; sends the samples it lists from +3 (a count, then the sample numbers)
+	dw $01F2						; length of the data that follows
+	incbin "../Extracted/segments/bankCF_5000.bin":$719..$90B
+DATA8_CF590B:						; sound 37 of DATA8_CF04E3: a length word, then its data; CODE_CF0313
+									; sends the samples it lists from +3 (a count, then the sample numbers)
+	dw $110D						; length of the data that follows
+	incbin "../Extracted/segments/bankCF_5000.bin":$90D..$1000
+	incbin "../Extracted/segments/bankCF_6000.bin":$0..$A1A
