@@ -166,6 +166,10 @@
   unclear helper). A 94S match below the 0.85 propagation threshold can still hold: read it side by side (FallDown,
   checkpuckcoll_ccx, SetScore were found that way; a size difference keeps the score low). Still unnamed: much of
   bank $C4's game code (the assignment and collision helpers, the screens in bankC4_C000 / D000 / E000 / F000).
+  Bank $C5: the front end's screen states 0-13 have named handlers (DATA8_C5967A); each scrolling list's row
+  routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. Still unnamed in
+  bank $C5: much of the game side (bankC5_0000 / 1000 / 2000 / 3000 / 4000), the Edit Lines player list
+  (CODE_C57578), the bankC5_D000 roster / trade list helpers, the bankC5_E000 sprite helpers.
 - Parallel work: the repo is the T3 project "NHL95SNES"; a Codex thread on its own worktree branch (codex/<topic>)
   works beside the main checkout and is merged by cherry-pick (name_map.csv conflicts: keep both sides,
   ../work/resolve_namemap.py). Brief it with the rules and the tools that are safe to run (side.py only reads).
