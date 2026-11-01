@@ -876,7 +876,7 @@ CODE_C4D818:						; called from other segments
 	jsl.l CODE_C4CEDB
 	ldy.w #$2864
 	ldx.w #$5245
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$3076
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
@@ -1216,7 +1216,7 @@ CODE_C4DB91:						; from CODE_C4DAD8
 	jsl.l CODE_C4CEDB
 	ldy.w #$2864
 	ldx.w #$5245
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$3076
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
@@ -1268,7 +1268,7 @@ CODE_C4DBCC:						; from CODE_C4D915
 	jsl.l CODE_C4CEDB
 	ldy.w #$2864
 	ldx.w #$5245
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	rts
 CODE_C4DC45:						; from CODE_C4D818, CODE_C4D915
 	lda.w #$0030

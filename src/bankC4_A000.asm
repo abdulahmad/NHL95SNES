@@ -356,7 +356,7 @@ CODE_C4A2A3:						; from CODE_C4A266
 	ldy.b $63
 	sta.w $0856,y
 	lda.b $63
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	ldy.b $63
 	pla
 	sta.w $0856,y
@@ -398,7 +398,7 @@ CODE_C4A2A3:						; from CODE_C4A266
 	adc.b $83
 	sta.b $8B
 	ldy.b $87
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	sta.b $8F
 	asl a
 	tax
@@ -446,7 +446,7 @@ CODE_C4A33F:						; from CODE_C4A2A3
 	adc.b $83
 	sta.b $8B
 	ldy.b $87
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	sta.b $8F
 	pla
 CODE_C4A373:						; from CODE_C4A2A3
@@ -670,7 +670,7 @@ CODE_C4A52A:						; from CODE_C4A523 and other segments
 	sbc.w $08B2
 	sta.b $83
 	ldy.b $7F
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	sta.b $87
 	asl a
 	asl a
@@ -802,7 +802,7 @@ CODE_C4A6C3:						; from CODE_C4A6B1
 	jsl.l CODE_C4843B
 	lda.w $09BC
 	ldy.w $09DC
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	and.w #$7F00
 	sta.b $9F
 	xba
@@ -830,7 +830,7 @@ CODE_C4A6E9:						; from CODE_C4A6C3
 	sta.b $83
 	bne CODE_C4A711
 	tya
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 CODE_C4A711:						; from CODE_C4A6E9
 	lda.w $09A0,x
 	sta.b $87
@@ -1046,7 +1046,7 @@ CODE_C4A8BC:						; from CODE_C4A91F
 	sta.b $83
 	bne CODE_C4A8E7
 	lda.b $6B
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 CODE_C4A8E7:						; from CODE_C4A8BC
 	lda.b $83
 	and.w #$00FF
@@ -1350,7 +1350,7 @@ CODE_C4AB26:						; from CODE_C4AB18
 	ldy.b $6B
 	beq CODE_C4AB55
 	lda.w #$0004
-	jsl.l $C382B6
+	jsl.l CODE_C382B6
 	lda.l $7E24CA
 	sec
 	sbc.w #$0300
@@ -1362,7 +1362,7 @@ CODE_C4AB4F:						; from CODE_C4AB26
 CODE_C4AB55:						; from CODE_C4AB26
 	inc a
 	inc a
-	jsl.l $C382B6
+	jsl.l CODE_C382B6
 	lda.l $7E24CA
 	clc
 	adc.w #$01F4

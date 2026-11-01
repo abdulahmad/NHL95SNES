@@ -139,7 +139,7 @@ CODE_C49408:						; from CODE_C493E1
 	sta.b $6B
 	jsl.l CODE_C4843B
 	lda.b $6B
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	ldy.b $6B
 	lda.b $7F
 	clc
@@ -416,14 +416,14 @@ CODE_C49638:						; from CODE_C49620
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	lda.b $83
 	and.w #$00FF
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $9F
 	ldx.b $B7
 	cmp.w #$2711
@@ -553,7 +553,7 @@ CODE_C4975F:						; from CODE_C49743
 	sbc.w $08B2
 	sta.b $83
 	ldy.b $7F
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	sta.b $87
 	lda.w #$0012
 	sta.b $8B
@@ -854,7 +854,7 @@ CODE_C499CC:						; from CODE_C499AE
 	lda.b $7F
 	pha
 	ldy.b $83
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	cmp.w #$0000
 	bne CODE_C49A05
 	inc a
@@ -1431,7 +1431,7 @@ CODE_C49EF0:						; from CODE_C49E91
 	bit.w $0674
 	bmi CODE_C49EED
 	txa
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	lda.w $0814,x
 	clc
 	adc.b $7F
@@ -1443,7 +1443,7 @@ CODE_C49EF0:						; from CODE_C49E91
 	adc.b $83
 	sec
 	sbc.w $08B2
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	cmp.w $0674
 	sta.w $0674
 	bcs CODE_C49F2C
@@ -1456,7 +1456,7 @@ CODE_C49F2C:						; from CODE_C49EF0
 	lda.w $0896,x
 	sec
 	sbc.w $08B2
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	cmp.w #$001C
 	bcs CODE_C49FAF
 	lda.w #$FFFF

@@ -576,7 +576,7 @@ CODE_C5649F:						; called from other segments
 	stz.b $7D
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	stz.w $058D
 CODE_C564C4:						; from CODE_C565CB
 	lda.w #$00D0
@@ -1707,7 +1707,7 @@ CODE_C56E6A:						; called from other segments
 	stz.b $79
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 CODE_C56E94:						; from CODE_C56F50
 	jsr.w CODE_C56F5C
 	lda.w #$00D0

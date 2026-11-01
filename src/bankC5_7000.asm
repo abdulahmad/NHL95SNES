@@ -520,7 +520,7 @@ CODE_C57361:						; called from other segments
 	jsl.l CODE_C53ABC
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	lda.w #$00D0
 	sta.b $18
 	lda.w #$0028
@@ -1181,7 +1181,7 @@ CODE_C578B0:						; called from other segments
 	jsl.l CODE_C53ABC
 	ldy.w #$2801
 	ldx.w #$5135
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	lda.w #$00D0
 	sta.b $18
 	lda.w #$0028

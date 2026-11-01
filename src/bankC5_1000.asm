@@ -1155,12 +1155,12 @@ CODE_C51A61:						; called from other segments
 CODE_C51A7A:						; from CODE_C51A61
 	lda.w #$0010
 	sta.b $7F
-	jsl.l $C38824
-	jsl.l $C38824
-	jsl.l $C38824
-	jsl.l $C38824
-	jsl.l $C38824
-	jsl.l $C38824
+	jsl.l CODE_C38824
+	jsl.l CODE_C38824
+	jsl.l CODE_C38824
+	jsl.l CODE_C38824
+	jsl.l CODE_C38824
+	jsl.l CODE_C38824
 	ldx.b $8F
 	lda.w $14F5,x
 	beq CODE_C51ABE

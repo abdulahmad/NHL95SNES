@@ -346,7 +346,7 @@ CODE_C5032F:						; from CODE_C50308
 CODE_C5033A:						; from CODE_C5032F
 	jmp.w CODE_C5021B
 CODE_C5033D:						; from CODE_C50308 and other segments
-	jsl.l $C382B7
+	jsl.l CODE_C382B7
 	jsl.l CODE_C50364
 	jsl.l CODE_C50393
 	jsl.l CODE_C529D7
@@ -946,7 +946,7 @@ CODE_C50810:						; from CODE_C50803
 	cpx.w $05A0
 	bne CODE_C5081F
 	stz.b $8F
-	jsl.l $C38043
+	jsl.l CODE_C38043
 CODE_C5081F:						; from CODE_C50810
 	cpx.w #$0018
 	bcs CODE_C50851
@@ -1219,7 +1219,7 @@ CODE_C50A6C:						; from CODE_C50AC3
 	sbc.w #$0096
 	sta.w $07B0
 CODE_C50AA8:						; from CODE_C50A6C
-	jsl.l $C380D1
+	jsl.l CODE_C380D1
 	lda.w #$0004
 	sta.b $7F
 	jsl.l CODE_C478C3

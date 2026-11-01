@@ -260,7 +260,7 @@ CODE_C5D1EF:						; from CODE_C5D156
 	ldy.w #$2C01
 CODE_C5D21A:						; from CODE_C5D1EF
 	ldx.w #$5115
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldx.b $9B
 	ldy.b $9D
 	lda.b $6B

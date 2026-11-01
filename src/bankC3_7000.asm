@@ -605,7 +605,7 @@ CODE_C374AB:						; from CODE_C3749B
 	lda.w #$000A
 	sta.w fadestep
 	jsl.l ScreenOn
-	jsl.l $C384FC
+	jsl.l CODE_C384FC
 	lda.w #$0001
 	sta.b $9B
 	lda.w #$0002
@@ -750,7 +750,7 @@ CODE_C375E1:						; from CODE_C37560
 CODE_C375EB:						; from CODE_C37553, CODE_C375DA
 	lda.b $9B
 	sta.w $05A2
-	jsl.l $C384FC
+	jsl.l CODE_C384FC
 	lda.w #$1D8F
 	sta.b $28
 	lda.w #$1E00
@@ -820,14 +820,14 @@ CODE_C37684:						; from CODE_C3764F
 	lsr a
 	and.w #$01FE
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	sta.b $7F
 	lda.b $8B
 	lsr a
 	and.w #$03FC
 	lsr a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	adc.b $7F
 	cmp.b $91
 	bcs CODE_C376AA
@@ -1721,10 +1721,10 @@ CODE_C37E57:						; from CODE_C375EB and other segments
 	sta.w $0894
 	jsl.l CODE_C5F368
 CODE_C37E7F:						; from CODE_C37E57
-	jsl.l $C382B8
+	jsl.l CODE_C382B8
 	jsl.l CODE_C5F3DB
 	inc.w TransfersReady
-	jsl.l $C38CF5
+	jsl.l CODE_C38CF5
 	jsl.l CODE_C528D5
 	ldx.b $6F
 	rtl
@@ -1843,7 +1843,7 @@ CODE_C37F47:						; from CODE_C37F47, CODE_C37F64
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3884A,x
+	lda.l DATA8_C3884A,x
 	cmp.b $7F
 	bcc CODE_C37F64
 	pla

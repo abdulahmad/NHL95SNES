@@ -16,7 +16,7 @@ CODE_C47040:						; from CODE_C4702E
 	pei ($83)
 	pei ($7F)
 	txa
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	lda.b $7F
 	eor.w #$FFFF
 	inc a
@@ -99,14 +99,14 @@ CODE_C470F0:						; from CODE_C470BC
 	lsr a
 	and.w #$01FE
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	sta.b $7F
 	lda.b $83
 	and.w #$07F8
 	lsr a
 	lsr a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	ldx.b $6F
 	adc.b $7F
 	cmp.w #$000E
@@ -123,7 +123,7 @@ CODE_C47122:						; called from other segments
 	lda.b $6B
 	inc a
 	inc a
-	jsl.l $C382B6
+	jsl.l CODE_C382B6
 CODE_C47132:						; from CODE_C47122
 	ldy.w $14F9,x
 	bmi CODE_C47140
@@ -209,7 +209,7 @@ CODE_C471F0:						; called from other segments
 	jsl.l CODE_C47FB5
 	jsl.l CODE_C4724D
 	jsl.l CODE_C4740D
-	jml.l $C38C4A
+	jml.l CODE_C38C4A
 CODE_C47200:						; from CODE_C47FD4 and other segments
 	stz.b $83
 	lda.w $08B2
@@ -358,7 +358,7 @@ CODE_C4730F:						; from CODE_C4726E, CODE_C472AD
 	bne CODE_C4730B
 	lda.w #$0030
 	sta.b $7F
-	jsl.l $C38C6D
+	jsl.l CODE_C38C6D
 	jmp.w CODE_C4725A
 CODE_C47323:						; from CODE_C472B5 and other segments
 	lda.w #$FFFF
@@ -468,7 +468,7 @@ CODE_C473F4:						; from CODE_C473E9
 	tsb.w $10F1
 	lda.w #$000A
 	sta.b $7F
-	jml.l $C38C6D
+	jml.l CODE_C38C6D
 CODE_C4740D:						; from CODE_C471F0 and other segments
 	lda.w $10F1
 	bit.w #$0004
@@ -538,13 +538,13 @@ CODE_C47431:						; from CODE_C47431
 	lda.w #$FF00
 	tsb.w $1147
 	stz.w $1145
-	jsl.l $C38C4A
+	jsl.l CODE_C38C4A
 	lda.w #$0032
 	sta.w $1145
 	stz.b $7F
 	stz.w $009F
 	phx
-	jsl.l $C38CFC
+	jsl.l CODE_C38CFC
 	plx
 	stz.w fadestep
 	rtl
@@ -814,7 +814,7 @@ CODE_C4769A:						; from CODE_C4768A
 	pla
 	sta.b $7F
 	ldx.b $6F
-	jsl.l $C38C6D
+	jsl.l CODE_C38C6D
 	jsl.l CODE_C513F4
 	bra CODE_C4770C
 CODE_C476E1:						; from CODE_C4753F
@@ -826,7 +826,7 @@ CODE_C476E5:						; from CODE_C47560
 	beq CODE_C476F2
 	jmp.w CODE_C474EC
 CODE_C476F2:						; from CODE_C476E5
-	jsl.l $C38C6D
+	jsl.l CODE_C38C6D
 	bra CODE_C4770C
 CODE_C476F8:						; from CODE_C474F1
 	lda.w #$0004
@@ -1388,7 +1388,7 @@ CODE_C47B64:						; from CODE_C47B53
 	sta.w $1000,x
 	lda.w #$18EC
 	jsl.l CODE_C457B5
-	jml.l $C384FC
+	jml.l CODE_C384FC
 CODE_C47B8F:						; from CODE_C47B3F
 	lda.w #$0004
 	sta.w $0C40,x
@@ -1598,7 +1598,7 @@ CODE_C47D39:						; from CODE_C47D2E
 	ora.w #$1000
 	sta.w $0D60,x
 	stz.b $8F
-	jsl.l $C38043
+	jsl.l CODE_C38043
 	stz.w $0B00,x
 	lda.w #$0008
 	sta.w $0B80,x

@@ -1262,7 +1262,7 @@ CODE_C43BB7:						; from CODE_C43A24, CODE_C43A32
 	pha
 	jmp.w CODE_C439FF
 CODE_C43BC5:						; from CODE_C43BB7
-	jsl.l $C384FC
+	jsl.l CODE_C384FC
 	pla
 	sta.b $6F
 	pla

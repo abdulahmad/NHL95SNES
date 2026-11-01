@@ -2,7 +2,26 @@
 ;	on its own for checking against the ROM (tools/verify_segment.sh bankC3_8000). The org is in the segment
 ;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+CODE_C37F6D = $C37F6D
+CODE_C43734 = $C43734
+CODE_C481D5 = $C481D5
+CODE_C4C3AE = $C4C3AE
+CODE_C4C558 = $C4C558
+CODE_C51825 = $C51825
+CODE_C55F8A = $C55F8A
+CODE_C56100 = $C56100
+CODE_C5625E = $C5625E
+CODE_C58C36 = $C58C36
+CODE_C5F368 = $C5F368
+DATA8_C34499 = $C34499
+DATA8_C3449A = $C3449A
+DATA8_C3449B = $C3449B
+DATA8_C58942 = $C58942
+QueueVRAMDMALen = $C58A15
+SetIRQ = $C08D16
 
 incsrc "../bankC3_8000.asm"

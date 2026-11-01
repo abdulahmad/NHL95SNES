@@ -782,7 +782,7 @@ CODE_C53647:						; from CODE_C5363E
 	sta.w $0000,y
 	rtl
 CODE_C53651:						; called from other segments
-	jsl.l $C38799
+	jsl.l CODE_C38799
 	lda.w $1864
 	cmp.w #$0001
 	beq CODE_C53683

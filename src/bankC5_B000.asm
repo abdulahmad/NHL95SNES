@@ -110,7 +110,7 @@ CODE_C5B07C:						; called from other segments
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$50A8
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	stz.w $17C9
 	stz.b $9B
 	jsr.w CODE_C5B7F1
@@ -149,7 +149,7 @@ CODE_C5B0EA:						; called from other segments
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$50A8
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	lda.w #$0002
 	sta.w $1864
 	stz.w $17C9

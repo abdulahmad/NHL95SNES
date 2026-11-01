@@ -549,7 +549,7 @@ CODE_C48401:						; from CODE_C483BF, CODE_C48423
 	lda.w $1145
 	bpl CODE_C483EE
 	phx
-	jsl.l $C38CFC
+	jsl.l CODE_C38CFC
 	plx
 	bra CODE_C483EE
 CODE_C4841C:						; from CODE_C483A3
@@ -1250,7 +1250,7 @@ CODE_C489DD:						; from CODE_C489C8
 	lda.b $7F
 	pha
 	txa
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	lda.b $7F
 	eor.w #$FFFF
 	inc a
@@ -1868,7 +1868,7 @@ CODE_C48F22:						; from CODE_C48EDD, CODE_C48EFD
 CODE_C48F2A:						; from CODE_C48E47
 	lda.b $7F
 	ldy.b $83
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	sta.b $7F
 	cmp.w #$001E
 	bcs CODE_C48F41

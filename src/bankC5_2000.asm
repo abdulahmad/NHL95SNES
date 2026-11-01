@@ -247,7 +247,7 @@ CODE_C52227:						; called from other segments
 	dec a
 	dec a
 	sta.w $0812
-	jsl.l $C3856E
+	jsl.l CODE_C3856E
 	lda.w $10F1
 	bit.w #$0002
 	beq CODE_C5225E
@@ -294,12 +294,12 @@ CODE_C52295:						; called from other segments
 	jsl.l AnimateSprites
 	jsl.l CODE_C526E8
 	jsl.l CODE_C526FB
-	jsl.l $C382B8
+	jsl.l CODE_C382B8
 	jsl.l CODE_C522BF
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
 	inc.w TransfersReady
-	jsl.l $C38CF5
+	jsl.l CODE_C38CF5
 	jsl.l CODE_C528D5
 	ldx.b $6F
 	rtl
@@ -1370,7 +1370,7 @@ CODE_C52AF2:						; from CODE_C52AEC
 CODE_C52AF7:						; from CODE_C52AC0, CODE_C52AD9
 	rtl
 CODE_C52AF8:						; called from other segments
-	jsl.l $C38043
+	jsl.l CODE_C38043
 	dec.b $8F
 	dec.b $8F
 	lda.b $8B

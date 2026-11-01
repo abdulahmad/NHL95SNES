@@ -1481,3 +1481,21 @@ $C360D4,DATA8_C360D4,,new,"not traced: a table read by CODE_C5B22D, CODE_C5AE8D,
 $C36D2A,DATA8_C36D2A,,new,"not traced: a table read by CODE_C36CBF (in bankC3_6000)",src/bankC3_6000.asm
 $C377BB,DATA8_C377BB,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm
 $C377BD,DATA8_C377BD,,new,"not traced: a table read by CODE_C376CE (in bankC3_7000)",src/bankC3_7000.asm
+$C3803D,DATA8_C3803D,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
+$C3804B,DATA8_C3804B,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
+$C38075,DATA8_C38075,,new,"not traced: data between routines (in bankC3_8000)",src/bankC3_8000.asm
+$C3847C,DATA8_C3847C,,new,"not traced: a table read by CODE_C38455 (in bankC3_8000)",src/bankC3_8000.asm
+$C3849C,DATA8_C3849C,,new,"not traced: a table read by CODE_C38455 (in bankC3_8000)",src/bankC3_8000.asm
+$C384BC,DATA8_C384BC,,new,"not traced: a table read by CODE_C38415 (in bankC3_8000)",src/bankC3_8000.asm
+$C384DC,DATA8_C384DC,,new,"not traced: a table read by CODE_C38415 (in bankC3_8000)",src/bankC3_8000.asm
+$C38658,DATA8_C38658,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C3865A,DATA8_C3865A,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C3865E,DATA8_C3865E,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C38660,DATA8_C38660,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C38662,DATA8_C38662,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C38664,DATA8_C38664,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C38666,DATA8_C38666,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C38668,DATA8_C38668,,new,"not traced: a table read by CODE_C38585 (in bankC3_8000)",src/bankC3_8000.asm
+$C3884A,DATA8_C3884A,,new,"not traced: a table read by CODE_C44BF1, CODE_C44C5D, CODE_C44DC7 (in bankC3_8000)",src/bankC3_8000.asm
+$C38A4A,DATA8_C38A4A,,new,"not traced: a table read by CODE_C37684, CODE_C45BD2, CODE_C45E1C, ... (in bankC3_8000)",src/bankC3_8000.asm
+$C38D43,DATA8_C38D43,,new,"not traced: a table read by CODE_C38D0E (in bankC3_8000)",src/bankC3_8000.asm

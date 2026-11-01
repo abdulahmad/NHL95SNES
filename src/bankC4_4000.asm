@@ -22,7 +22,7 @@ CODE_C43FC8:						; called from other segments
 	cpx.w #$0018
 	bcs CODE_C4401D
 	txa
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	lda.w $0814,x
 	clc
 	adc.b $7F
@@ -433,7 +433,7 @@ CODE_C44325:						; from CODE_C4431B
 	jsl.l CODE_C49572
 	lda.w $09BC
 	ldy.w $09DC
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	and.w #$7F00
 	sta.b $9F
 	xba
@@ -912,7 +912,7 @@ CODE_C44710:						; from CODE_C446C7
 	pei ($87)
 	lda.b $30
 	ldy.b $32
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	inc a
 	sta.b $87
 	lda.b $7F
@@ -1131,7 +1131,7 @@ CODE_C448BB:						; from CODE_C4482A, CODE_C44878 and other segments
 	sbc.w $0896,x
 	sta.b $8B
 	ldy.b $87
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	cmp.w #$0010
 	bmi CODE_C448EB
 	jmp.w CODE_C44AF5
@@ -1484,7 +1484,7 @@ CODE_C44B84:						; from CODE_C44B64
 	cmp.w #$0100
 	bpl CODE_C44B7E
 	tya
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	ldy.b $6B
 	lda.b $7F
 	clc
@@ -1514,14 +1514,14 @@ CODE_C44BF1:						; from CODE_C44BD7
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3884A,x
+	lda.l DATA8_C3884A,x
 	sta.b $83
 	lda.b $7F
 	and.w #$00FF
 	asl a
 	tax
 	lda.b $83
-	adc.l $C3884A,x
+	adc.l DATA8_C3884A,x
 	sta.b $7F
 	ldx.b $B7
 	lda.w #$00C4
@@ -1570,9 +1570,9 @@ CODE_C44C5D:						; from CODE_C44C46
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3884A,x
+	lda.l DATA8_C3884A,x
 	ldx.b $83
-	adc.l $C3884A,x
+	adc.l DATA8_C3884A,x
 	sta.b $7F
 	ldx.b $6F
 	cmp.w #$0091
@@ -1636,7 +1636,7 @@ DATA8_C44CDD:						; not traced: a table read by CODE_C44D4D, CODE_C44D62
 	db $1B,$00,$1B,$00,$1C,$00,$1D,$00,$1D,$00,$1E,$00,$1F,$00,$1F,$00
 CODE_C44D3D:						; from CODE_C44B81
 	tya
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	lda.b $7F
 	bit.w #$8000
 	beq CODE_C44D4D
@@ -1660,7 +1660,7 @@ CODE_C44D62:						; from CODE_C44D4D
 	sta.b $8B
 	ldx.b $B7
 	lda.b $6B
-	jsl.l $C37FE2
+	jsl.l CODE_C37FE2
 	ldy.b $6B
 	lda.b $7F
 	clc
@@ -1710,20 +1710,20 @@ CODE_C44DC7:						; from CODE_C44DB3
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3884A,x
+	lda.l DATA8_C3884A,x
 	sta.b $7F
 	lda.b $83
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3884A,x
+	lda.l DATA8_C3884A,x
 	adc.b $7F
 	sta.b $7F
 	lda.b $87
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3884A,x
+	lda.l DATA8_C3884A,x
 	ldx.b $B7
 	sta.b $83
 	lda.w $0CFC
@@ -1841,7 +1841,7 @@ CODE_C44EE1:						; from CODE_C45141, CODE_C449FE and other segments
 	sbc.w $09C0,y
 	tay
 	pla
-	jsl.l $C38778
+	jsl.l CODE_C38778
 	xba
 	and.w #$00F0
 	sta.b $9F

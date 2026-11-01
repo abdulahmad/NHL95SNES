@@ -180,7 +180,7 @@ CODE_C5503C:						; called from other segments
 	stx.b $02
 	stz.b QueueBusy
 	jsl.l CODE_C4CEDB
-	jsl.l $C387FF
+	jsl.l CODE_C387FF
 	lda.w #$2D60
 	jsl.l CODE_C4C558
 	sta.w $18EE
@@ -1303,10 +1303,10 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	inc.b $38,x
 	ldy.w #$2801
 	ldx.w #$5194
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$2C01
 	ldx.w #$5184
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	lda.w #$0020
 	sta.b $CF
 	lda.w #$0068

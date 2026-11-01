@@ -274,10 +274,10 @@ CODE_C4E196:						; from CODE_C4E188
 	sta.b $36,x
 	ldy.w #$2801
 	ldx.w #$51D4
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$2C01
 	ldx.w #$51C3
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	jsl.l CODE_C5A4B5
 	jsl.l CODE_C5A4DE
 	jsl.l CODE_C4CEDB

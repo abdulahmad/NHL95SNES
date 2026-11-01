@@ -130,10 +130,10 @@ CODE_C5C0BE:						; called from other segments
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5194
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$2C01
 	ldx.w #$5184
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	lda.w $17C9
 	jsl.l CreateSprite
 	stx.b $9B
@@ -273,7 +273,7 @@ CODE_C5C1F6:						; from CODE_C5C109
 CODE_C5C214:						; called from other segments
 	ldy.w #$2C01
 	ldx.w #$5115
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldx.b $9B
 	jsl.l CODE_C5E596
 	stz.b $9B
@@ -1044,7 +1044,7 @@ CODE_C5C826:						; from CODE_C5C722
 	jsl.l CODE_C4CEDB
 	ldy.w #$2C01
 	ldx.w #$5115
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldx.b $9B
 	jsl.l CODE_C5E596
 	ldx.b $73
@@ -1404,10 +1404,10 @@ CODE_C5CB36:						; from CODE_C5CA6C
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5084
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$2C01
 	ldx.w #$51A4
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$0005
 	lda.w $17C9
 	jsr.w CODE_C5A4A5
@@ -1662,10 +1662,10 @@ CODE_C5CDA1:						; from CODE_C5CD90
 	jsl.l CODE_C4CEDB
 	ldy.w #$2801
 	ldx.w #$5084
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$2C01
 	ldx.w #$5094
-	jsl.l $C387D8
+	jsl.l CODE_C387D8
 	ldy.w #$0005
 	lda.w $17C9
 	jsr.w CODE_C5A4A5

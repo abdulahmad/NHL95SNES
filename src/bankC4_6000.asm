@@ -22,7 +22,7 @@ CODE_C45FCA:						; from CODE_C45FAC
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $09C1,x
@@ -30,7 +30,7 @@ CODE_C45FCA:						; from CODE_C45FAC
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -122,7 +122,7 @@ CODE_C46098:						; from CODE_C46075
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $0C00,x
@@ -141,7 +141,7 @@ CODE_C460BB:						; from CODE_C46098
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -240,7 +240,7 @@ CODE_C46186:						; from CODE_C4615F
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $0C00,x
@@ -261,7 +261,7 @@ CODE_C461AB:						; from CODE_C46186
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -356,7 +356,7 @@ CODE_C4626C:						; from CODE_C4624F
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $09A1,x
@@ -364,7 +364,7 @@ CODE_C4626C:						; from CODE_C4624F
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($83)
@@ -456,7 +456,7 @@ CODE_C46338:						; from CODE_C46317
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $09A1,x
@@ -464,7 +464,7 @@ CODE_C46338:						; from CODE_C46317
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($83)
@@ -556,7 +556,7 @@ CODE_C46406:						; from CODE_C463E3
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $0C00,x
@@ -576,7 +576,7 @@ CODE_C4642A:						; from CODE_C46406
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -675,7 +675,7 @@ CODE_C464F5:						; from CODE_C464CE
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $0C00,x
@@ -697,7 +697,7 @@ CODE_C4651D:						; from CODE_C464F5
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -792,7 +792,7 @@ CODE_C465DE:						; from CODE_C465C1
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $09C1,x
@@ -800,7 +800,7 @@ CODE_C465DE:						; from CODE_C465C1
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -892,7 +892,7 @@ CODE_C466AA:						; from CODE_C46689
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $09C1,x
@@ -900,7 +900,7 @@ CODE_C466AA:						; from CODE_C46689
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -991,7 +991,7 @@ CODE_C46777:						; from CODE_C46755
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $0C00,x
@@ -1011,7 +1011,7 @@ CODE_C4679B:						; from CODE_C46777
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -1109,7 +1109,7 @@ CODE_C46863:						; from CODE_C4683F
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	tay
 	ldx.b $B7
 	lda.w $0C00,x
@@ -1131,7 +1131,7 @@ CODE_C4688B:						; from CODE_C46863
 	asl a
 	tax
 	tya
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	ldx.b $B7
 	pei ($7F)
@@ -1360,7 +1360,7 @@ CODE_C46A78:						; from CODE_C46A53
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C38A4A,x
+	lda.l DATA8_C38A4A,x
 	sta.b $8F
 	ldx.b $6F
 	lda.w $09C1,x
@@ -1368,7 +1368,7 @@ CODE_C46A78:						; from CODE_C46A53
 	asl a
 	tax
 	lda.b $8F
-	adc.l $C38A4A,x
+	adc.l DATA8_C38A4A,x
 	sta.b $8B
 	lda.w #$0300
 	sec
