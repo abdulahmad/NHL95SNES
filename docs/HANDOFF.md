@@ -162,8 +162,13 @@
   Sound calls: QueueSoundCmd, StartSound, LoadSounds (the driver is not 94S's). Gameloop, PlayShootout, StartPer,
   StartGame_go, ReadPads match 94S; weak RAM votes are taken only where a side by side was read (../work/side.py
   ADDR NAME; bank $C0 code is read from the source). ../work/resum2.py refreshes the generated summaries after RAM names.
-  SpriteAnimCommands is now traced; still unnamed: the rest of bank $C4's game code (no 94S match left
-  above 0.70 in match94.txt but the four rejected ones).
+  SpriteAnimCommands is now traced. Bank $C3's game code is named (3 CODE_ labels left: bare rtl entries and an
+  unclear helper). A 94S match below the 0.85 propagation threshold can still hold: read it side by side (FallDown,
+  checkpuckcoll_ccx, SetScore were found that way; a size difference keeps the score low). Still unnamed: much of
+  bank $C4's game code (the assignment and collision helpers, the screens in bankC4_C000 / D000 / E000 / F000).
+- Parallel work: the repo is the T3 project "NHL95SNES"; a Codex thread on its own worktree branch (codex/<topic>)
+  works beside the main checkout and is merged by cherry-pick (name_map.csv conflicts: keep both sides,
+  ../work/resolve_namemap.py). Brief it with the rules and the tools that are safe to run (side.py only reads).
 
 ## Setup notes
 
