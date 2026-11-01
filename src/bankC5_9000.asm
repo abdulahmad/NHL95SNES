@@ -407,15 +407,16 @@ CODE_C5939D:						; called from other segments
 	lda.w $1908
 	inc a
 	sta.b $81
-	bra CODE_C593B8
+	bra SetContTeams
 CODE_C593B1:						; called from other segments
 	lda.w #$0005
 	sta.b d0
 	sta.b $81
-CODE_C593B8:						; from CODE_C5939D
+SetContTeams:						; the controller setup: each pad's icon is moved to a team; on start /
+									; select its place sets cont1team (0 none, 1, 2)
 	stz.b d1
 	stz.b $85
-	jsr.w CODE_C5951B
+	jsr.w ControllerSetupScreen
 .loop:								; loop: call CODE_C36CBF, call CODE_C4CEDB, $26 + 1, ...
 	jsl.l CODE_C36CBF
 	jsl.l CODE_C4CEDB
@@ -478,7 +479,7 @@ CODE_C593B8:						; from CODE_C5939D
 	stz.b $20
 	stz.b $1E
 	jml.l CODE_C4C530
-CODE_C5945E:						; from CODE_C593B8
+CODE_C5945E:						; from SetContTeams
 	ldy.w #$0004
 .loop:								; loop: push Y, A = mp5padsig,y, A and $00FF, A - 1, ...
 	phy
@@ -501,7 +502,7 @@ CODE_C5945E:						; from CODE_C593B8
 	dey
 	bpl .loop
 	rts
-CODE_C59483:						; from CODE_C593B8
+CODE_C59483:						; from SetContTeams
 	stz.b $7D
 	lda.w PadRaw1
 	cmp.w $0565
@@ -583,7 +584,8 @@ CODE_C594C6:						; from CODE_C59483, CODE_C59483, ...
 	bcs .4
 .rts:								; return
 	rts
-CODE_C5951B:						; from CODE_C593B8
+ControllerSetupScreen:				; builds the controller setup screen: a sprite for each pad and the
+									; Controller Setup page
 	ldx.b a0
 	jsl.l CODE_C5E596
 	ldx.b a4

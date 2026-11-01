@@ -512,7 +512,7 @@ CODE_C57329:						; called from other segments
 	sta.b d7
 	sta.b $A2
 	pla
-	jmp.w $4EF1
+	jmp.w CODE_C54E6D_resume
 EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / right changes
 									; the line); start returns
 	jsl.l FadeOutWait
@@ -1173,7 +1173,8 @@ CODE_C5788C:						; from DATA8_C57810
 	lda.w $0005,x
 	sta.w $0004,x
 	bra .1
-CODE_C578B0:						; called from other segments
+PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, left / right
+									; the stat); B puts the chosen one in tmgoalie (setpersonel) and returns
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
@@ -1276,7 +1277,7 @@ CODE_C578B0:						; called from other segments
 	jsl.l setpersonel
 .8:									; go to CODE_C55A09
 	jmp.w CODE_C55A09
-CODE_C57997:						; from CODE_C578B0
+CODE_C57997:						; from PauseGoalie
 	lda.w #$0300
 	clc
 	adc.b $D3
@@ -1583,7 +1584,9 @@ CODE_C57B8A:						; a callback: pushed (pea), then passed to CODE_C55ABC
 	ldx.w #$4F67
 	jsl.l CODE_C4BBFC
 	rts
-CODE_C57C34:						; called from other segments
+RecordHoldersScreen:				; pause menu Records: the user records (win percentages worked out and the
+									; rows sorted), a page of win / loss records, goals or saves; the pad
+									; changes the page, start returns
 	jsl.l FadeOutWait
 	jsl.l CODE_C4CEDB
 	jsr.w CODE_C55951
@@ -1644,10 +1647,10 @@ CODE_C57C34:						; called from other segments
 	bne .3
 	lda.w #$0064
 	bra .4
-.3:									; A + d3, r1 = A, call $C091AE, A = r0
+.3:									; A + d3, r1 = A, call Div32U_hi0entry, A = r0
 	adc.b d3
 	sta.b r1
-	jsl.l $C091AE
+	jsl.l Div32U_hi0entry
 	lda.b r0
 .4:									; X = a4, $365E,x = A, A = X, A + $0020, ...
 	ldx.b a4
@@ -1772,8 +1775,8 @@ CODE_C57C34:						; called from other segments
 	lda.w #$0004
 	bra .13
 DATA8_C57DCD:						; jump table: the routine for each index
-	dw CODE_C57E57,CODE_C57F05,CODE_C57FD8
-CODE_C57DD3:						; from CODE_C57C34
+	dw PrintWinRecords,PrintGoalRecords,PrintSaveRecords
+CODE_C57DD3:						; from RecordHoldersScreen
 	ldy.w #$0000
 .loop:								; loop: if $3E4E,y < 0 go to .2, if A >= $365E,x go to .1, Y + 1, ...
 	ldx.w $3E4E,y
@@ -1798,7 +1801,7 @@ CODE_C57DD3:						; from CODE_C57C34
 	sta.w $3E4E,y
 	tax
 	rts
-CODE_C57DFF:						; from CODE_C57C34
+CODE_C57DFF:						; from RecordHoldersScreen
 	ldy.w #$0000
 .loop:								; loop: if $3E5E,y < 0 go to .2, if A >= $3650,x go to .1, Y + 1, ...
 	ldx.w $3E5E,y
@@ -1823,7 +1826,7 @@ CODE_C57DFF:						; from CODE_C57C34
 	sta.w $3E5E,y
 	tax
 	rts
-CODE_C57E2B:						; from CODE_C57C34
+CODE_C57E2B:						; from RecordHoldersScreen
 	ldy.w #$0000
 .loop:								; loop: if $3E6E,y < 0 go to .2, if A >= $3654,x go to .1, Y + 1, ...
 	ldx.w $3E6E,y
@@ -1848,7 +1851,7 @@ CODE_C57E2B:						; from CODE_C57C34
 	sta.w $3E6E,y
 	tax
 	rts
-CODE_C57E57:						; from DATA8_C57DCD
+PrintWinRecords:					; Record Holders page 0: name, win %, wins, losses, ties of each user
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0060
@@ -1883,7 +1886,7 @@ CODE_C57E57:						; from DATA8_C57DCD
 	cmp.b a1
 	bne .loop
 	rts
-CODE_C57EAA:						; from CODE_C57E57
+CODE_C57EAA:						; from PrintWinRecords
 	ldx.w #$0010
 	stx.b $CF
 	ldx.w #$0060
@@ -1923,7 +1926,7 @@ CODE_C57EFA:						; from CODE_C57EAA
 	sta.b $CF
 	ldx.b a3
 	rts
-CODE_C57F05:						; from DATA8_C57DCD
+PrintGoalRecords:					; Record Holders page 1: the users' goal records (name, Goals)
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0060
@@ -1948,7 +1951,7 @@ CODE_C57F05:						; from DATA8_C57DCD
 CODE_C57F36:						; from CODE_C57F39
 	dec.b $6D
 	rts
-CODE_C57F39:						; from CODE_C57F05
+CODE_C57F39:						; from PrintGoalRecords
 	asl a
 	tax
 	lda.w $3E5E,x
@@ -2025,7 +2028,7 @@ CODE_C57FC7:						; from CODE_C57F39
 .1:									; A 16-bit, return
 	rep #$20
 	rts
-CODE_C57FD8:						; from DATA8_C57DCD
+PrintSaveRecords:					; Record Holders page 2: the users' save records (name, Saves)
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0060

@@ -71,5 +71,7 @@ DivX8U = $C0927A
 FadeOutWait = $C58A99
 Mul16x8U = $C08F5E
 Mul8U = $C08ED9
+Div32U_hi0entry = $C091AE
+CODE_C54E6D_resume = $C54EF1
 
 incsrc "../bankC5_7000.asm"

@@ -1843,6 +1843,8 @@ CODE_C54E6D:						; called from other segments
 	lda.w $058D
 	bit.w #$3000
 	beq .3
+.resume:							; start / select leave the pause screen: back to the game (CODE_C55513);
+									; CODE_C57329 comes here after the replay
 	lda.w $18EE
 	sta.w $18E0
 	sta.b $08

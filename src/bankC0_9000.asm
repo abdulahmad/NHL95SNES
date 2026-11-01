@@ -246,6 +246,8 @@ Div32U:								; r2 (4 bytes) / r1 into r0, unsigned; $7FFF if it does not fit
 	dex
 	bne .loop
 	rtl
+.hi0entry:							; an entry for r2 with its top byte 0: A 8-bit, then .hi0
+									; (RecordHoldersScreen calls it)
 	sep #$20
 .hi0:								; top byte 0
 	lda.b r1+1
