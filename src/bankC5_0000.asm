@@ -18,7 +18,7 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	lda.w #$005C
 	sta.w jmlvector
 	jsl.l forceblack
-	jsl.l CODE_C36F3D
+	jsl.l Multi5Init
 	jsl.l InitSoundSystem
 	jsl.l IntroSequence
 	jsl.l DeveloperCredits
@@ -26,10 +26,10 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	jsl.l TitleScreen
 	jsl.l forceblack
 	jsl.l CODE_C36C2C
-	jsl.l CODE_C370AC
-	jsl.l CODE_C36B83
+	jsl.l GetMenuPadButtons
+	jsl.l LoadSavedGameOptions
 CODE_C5004E:						; called from other segments
-	jsl.l CODE_C370AC
+	jsl.l GetMenuPadButtons
 	jsl.l FadeOutWait
 Restart:							; starts over at the setup screen: the stack reset, StartMenuMusic,
 									; jmlvector, GameSetUp, then the shootout or the scouting report and the

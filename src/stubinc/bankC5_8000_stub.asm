@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C36B83 = $C36B83
+LoadSavedGameOptions = $C36B83		; load and clamp the saved game options
 ReadMenuPads = $C36C2D
 SendTextMap = $C4C2AA
 UnpackText = $C4C3BA

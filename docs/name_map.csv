@@ -7397,3 +7397,12 @@ $C44EE1,CollisionSfx,CODE_C44EE1,94S+purpose,"same job as 94S CollisionSfx (the 
 $C448BB,CollidePlayers,CODE_C448BB,code,"checkplcoll calls it twice where 94S checkplcoll calls its local .t3 (collide X with Y) twice; the same helpers in the same order (ApproxLength, Mul16x8S, CollisionSfx, checkint, checkcheck, Div32S)",src/bankC4_4000.asm
 $0A00,impact,,94S+code,"RAM: FallDown subtracts impact,y where 94S FallDown does (side by side); the collision code adds to it as 94S describes impact (1 vote)",src/ram95s.asm
 $0D00,nopuckb,,94S+code,"RAM: FallDown tests and sets nopuckb,y ($3C) where 94S FallDown does (side by side; 2 votes)",src/ram95s.asm
+$C36B83,LoadSavedGameOptions,CODE_C36B83,code,"reads saved teams and options from SRAM; clamps teams to 27 and option ranges before storing game settings",src/bankC3_6000.asm
+$C36C49,ReadActiveMenuPad,CODE_C36C49,code,"tests each pad enable word and held-button mask; stores its word offset in pausepad and updates the menu word and repeat timer",src/bankC3_6000.asm
+$C36F3D,Multi5Init,CODE_C36F3D,94S+purpose,"94S snes/Multi5Init: same connect check and status-bit initialization; 95 adds a data-bank switch and direct-page pad stores",src/bankC3_6000.asm
+$C37065,ReadPauseMenuPad,CODE_C37065,code,"calls ReadPausePad then stores d3 in the menu word and resets repeatdelayframes when the held state changes",src/bankC3_7000.asm
+$C37091,ReadJoy2,CODE_C37091,code,"loads pad two held buttons and the second words of padchange, padnew and paddir; no caller found",src/bankC3_7000.asm
+$C370A5,ReadPausePad,CODE_C370A5,94S+code,"instruction comparison with 94S snes/ReadPausePad: load pausepad, halve its word offset and jump to ReadjoyA",src/bankC3_7000.asm
+$C370AC,GetMenuPadButtons,CODE_C370AC,code,"copies the held-button word populated by ReadMenuPads and ReadPauseMenuPad; unlike 94S ReadAnyPad this is not a changed-button mask",src/bankC3_7000.asm
+$C37149,WaitPausePadRelease,CODE_C37149,code,"preserves A and X while polling PadRaw1 indexed by pausepad until zero; no caller found",src/bankC3_7000.asm
+$C37155,WaitPadsRelease,CODE_C37155,94S+purpose,"94S snes/WaitPadsRelease: same five-pad scan and low-nibble exclusion; 95 uses direct-page indexed pad reads",src/bankC3_7000.asm

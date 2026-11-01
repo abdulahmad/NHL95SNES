@@ -188,7 +188,7 @@ DATA8_C360D4:						; not traced: a table read by CODE_C5B22D, CODE_C5AE8D, CODE_
 	db $06,$02,$0E,$0C,$10,$19,$18,$12,$08,$04,$16,$14,$05,$06,$01,$0F
 	db $0D,$15,$0B,$06,$07,$13,$03,$0A,$17,$00,$0A,$09,$01,$18,$02,$10
 	db $0E,$0F,$0C,$12,$15,$0D,$08,$16,$04,$19,$14,$06,$05,$07,$0A
-CODE_C36B83:						; called from other segments
+LoadSavedGameOptions:				; load and clamp the saved game options
 	lda.l $306041
 	cmp.w #$001C
 	bcc .1
@@ -271,7 +271,7 @@ ReadMenuPads:						; the buttons of all 5 pads ORed into the menu pad word; repe
 	sta.w padlast
 .rtl:								; return
 	rtl
-CODE_C36C49:						; called from other segments
+ReadActiveMenuPad:					; select the first enabled pad with held buttons for the menu
 	stz.w pausepad
 	bit.w $1525
 	bmi .1
@@ -630,7 +630,7 @@ Multi5Bios:							; called from other segments
 .19:								; return
 	plp
 	rtl
-CODE_C36F3D:						; called from other segments
+Multi5Init:							; detect the multitap and initialize its pads and status
 	pea.w $7E80
 	plb
 	jsl.l Multi5ConnectCheck
@@ -664,7 +664,7 @@ CODE_C36F3D:						; called from other segments
 .4:									; return
 	plb
 	rtl
-Multi5ConnectCheck:					; from CODE_C36F3D, Multi5Bios and other segments
+Multi5ConnectCheck:					; from Multi5Init, Multi5Bios and other segments
 	php
 	sep #$30
 	stz.w mp5connect

@@ -180,10 +180,10 @@ NameEntryScreen:					; the Name Entry screen of a pad: the 8 user names (up / do
 	jsl.l FadeOutWait
 	jsr.w DrawNameLog
 	stz.w fadestep
-.loop:								; loop: TransfersReady + 1, call CODE_C37065, $26 + 1, ...
+.loop:								; loop: TransfersReady + 1, call ReadPauseMenuPad, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C37065
+	jsl.l ReadPauseMenuPad
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -452,10 +452,10 @@ CODE_C5D33A:						; from CODE_C5D303
 EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid): pad to a
 									; letter, B to select, Y to go back, start when done, X cancels
 	jsr.w DrawNameGrid
-.loop:								; loop: TransfersReady + 1, call CODE_C37065, $26 + 1, ...
+.loop:								; loop: TransfersReady + 1, call ReadPauseMenuPad, $26 + 1, ...
 	inc.w TransfersReady
 	wai
-	jsl.l CODE_C37065
+	jsl.l ReadPauseMenuPad
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F

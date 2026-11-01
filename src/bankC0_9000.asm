@@ -619,10 +619,10 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	lda.w #$0005
 	ldx.w #$0050
 	jsl.l ScreenOn
-.loop:								; loop: call WaitFrame, call ReadPads, call CODE_C370A5, ...
+.loop:								; loop: call WaitFrame, call ReadPads, call ReadPausePad, ...
 	jsl.l WaitFrame
 	jsl.l ReadPads
-	jsl.l CODE_C370A5
+	jsl.l ReadPausePad
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
 	bit.w #$0800
@@ -951,10 +951,10 @@ CODE_C096C0:						; called from ShootoutWonBy
 .7:									; $1888 = A, call CODE_C09855
 	sta.w $1888
 	jsl.l CODE_C09855
-.loop:								; loop: call WaitFrame, call ReadPads, call CODE_C370A5, ...
+.loop:								; loop: call WaitFrame, call ReadPads, call ReadPausePad, ...
 	jsl.l WaitFrame
 	jsl.l ReadPads
-	jsl.l CODE_C370A5
+	jsl.l ReadPausePad
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
 	bit.w #$1000

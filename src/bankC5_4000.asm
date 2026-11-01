@@ -1824,11 +1824,11 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	ora.w $14F7
 	bne .4
 	stz.w $1525
-	jsl.l CODE_C36C49
+	jsl.l ReadActiveMenuPad
 	dec.w $1525
 	bra .5
-.4:									; call CODE_C36C49
-	jsl.l CODE_C36C49
+.4:									; call ReadActiveMenuPad
+	jsl.l ReadActiveMenuPad
 .5:									; $26 + 1, call AnimateSprites, $28 = $1D8F, $2A = $1E00, ...
 	inc.b $26
 	jsl.l AnimateSprites

@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C370A5 = $C370A5
+ReadPausePad = $C370A5				; read the controller that owns the pause menu
 ProcessInputWithRepeat = $C370B2
 ReadPads = $C36CBF
 UnpackText = $C4C3BA

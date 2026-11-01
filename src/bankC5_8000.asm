@@ -1675,7 +1675,7 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	jsr.w setoptions
 	lda.w $23BA
 	beq .1
-	jsl.l CODE_C36B83
+	jsl.l LoadSavedGameOptions
 .1:									; fadestep = 0, $23BA = 0, $23BC = 0
 	stz.w fadestep
 	stz.w $23BA

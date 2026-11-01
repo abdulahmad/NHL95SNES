@@ -39,7 +39,7 @@ GetNewPresses:						; the changed buttons (padchange) and the new presses (padne
 	lda.b $C9
 	sta.w $056D
 	rts
-ReadjoyA:							; from CODE_C370A5 and other segments
+ReadjoyA:							; from ReadPausePad and other segments
 	phx
 	asl a
 	tax
@@ -53,8 +53,8 @@ ReadjoyA:							; from CODE_C370A5 and other segments
 	sta.b d0
 	plx
 	rtl
-CODE_C37065:						; called from other segments
-	jsl.l CODE_C370A5
+ReadPauseMenuPad:					; read the pause pad into the menu word and update the repeat timer
+	jsl.l ReadPausePad
 	lda.b d3
 	sta.w $058D
 	inc.w repeatdelayframes
@@ -74,7 +74,7 @@ ReadJoy1:							; called from other segments
 	lda.w paddir
 	sta.b d0
 	rtl
-CODE_C37091:						; no caller found (not traced)
+ReadJoy2:							; read pad two into d0 through d3
 	lda.b PadRaw2
 	sta.b d3
 	lda.w $057B
@@ -84,11 +84,11 @@ CODE_C37091:						; no caller found (not traced)
 	lda.w $0571
 	sta.b d0
 	rtl
-CODE_C370A5:						; from CODE_C37065, CODE_C37609 and other segments
+ReadPausePad:						; read the controller that owns the pause menu
 	lda.w pausepad
 	lsr a
 	jmp.w ReadjoyA
-CODE_C370AC:						; called from other segments
+GetMenuPadButtons:					; copy the menu button word to d1
 	lda.w $058D
 	sta.b d1
 	rtl
@@ -180,7 +180,7 @@ RemapTiles:							; no caller found (not traced)
 	dec.b d0
 	bne RemapTiles
 	rtl
-CODE_C37149:						; no caller found (not traced)
+WaitPausePadRelease:				; wait for the pause controller to release all buttons
 	phx
 	pha
 	ldx.w pausepad
@@ -190,7 +190,7 @@ CODE_C37149:						; no caller found (not traced)
 	pla
 	plx
 	rtl
-CODE_C37155:						; no caller found (not traced)
+WaitPadsRelease:					; wait until every standard pad has released its buttons
 	phx
 	pha
 .loop:								; loop: X = $0008
@@ -764,9 +764,9 @@ CODE_C37609:						; from CODE_C377DB
 	ldx.b d7
 	bne .1
 	inx
-.1:									; call ReadPads, call CODE_C370A5, d7 = $0001, if minus go to .2, ...
+.1:									; call ReadPads, call ReadPausePad, d7 = $0001, if minus go to .2, ...
 	jsl.l ReadPads
-	jsl.l CODE_C370A5
+	jsl.l ReadPausePad
 	lda.w #$0001
 	sta.b d7
 	bit.w $0774
@@ -851,8 +851,8 @@ CODE_C37609:						; from CODE_C377DB
 	lda.w #$0020
 	trb.w sflags
 	jmp.w CODE_C374CF
-.6:									; call CODE_C370A5, $0774 = $FFFE, A = $0020, d0 * 2, ...
-	jsl.l CODE_C370A5
+.6:									; call ReadPausePad, $0774 = $FFFE, A = $0020, d0 * 2, ...
+	jsl.l ReadPausePad
 	lda.w #$FFFE
 	sta.w $0774
 	lda.w #$0020
