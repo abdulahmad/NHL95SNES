@@ -26,7 +26,7 @@ CODE_C56F5C:						; called from other segments
 CODE_C56F91:						; from CODE_C56F5C
 	asl a
 	tax
-	lda.l $C35E37,x
+	lda.l DATA8_C35E37,x
 	tax
 CODE_C56F98:						; from CODE_C56F5C
 	jsl.l CODE_C4C3BA
@@ -42,10 +42,10 @@ CODE_C56F98:						; from CODE_C56F5C
 	tax
 	lda.b $79
 	bne CODE_C56FBD
-	lda.l $C35E87,x
+	lda.l DATA8_C35E87,x
 	bra CODE_C56FC1
 CODE_C56FBD:						; from CODE_C56F98
-	lda.l $C35E67,x
+	lda.l DATA8_C35E67,x
 CODE_C56FC1:						; from CODE_C56F98
 	tax
 	jsl.l CODE_C4C3BA
@@ -131,7 +131,7 @@ CODE_C5705E:						; from CODE_C570E5
 	lda.b $6F
 	asl a
 	tax
-	lda.l $C35E47,x
+	lda.l DATA8_C35E47,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBE5
@@ -237,7 +237,7 @@ CODE_C57131:						; from CODE_C5711B
 CODE_C5713B:						; from CODE_C570FE, CODE_C57111
 	asl a
 	tax
-	lda.l $C35E9F,x
+	lda.l DATA8_C35E9F,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBE5
@@ -569,7 +569,7 @@ CODE_C573DD:						; from CODE_C573E0, CODE_C57411, CODE_C5741D, CODE_C5744A, ...
 CODE_C573E0:						; from CODE_C573E0
 	lda.w TransfersReady
 	bne CODE_C573E0
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -673,7 +673,7 @@ CODE_C574B8:						; from CODE_C574A4
 	inc a
 	asl a
 	tax
-	lda.l $C35E37,x
+	lda.l DATA8_C35E37,x
 	tax
 CODE_C574C2:						; from CODE_C574A4
 	ldy.w #$0008
@@ -717,7 +717,7 @@ CODE_C57509:						; from CODE_C574E3
 	lda.b $6F
 	asl a
 	tax
-	lda.l $C35E47,x
+	lda.l DATA8_C35E47,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBE5
@@ -818,7 +818,7 @@ CODE_C575D7:						; from CODE_C575DA, CODE_C57631, CODE_C57636, CODE_C57644, ...
 CODE_C575DA:						; from CODE_C575DA
 	lda.w TransfersReady
 	bne CODE_C575DA
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -1073,7 +1073,7 @@ CODE_C577C3:						; from CODE_C575C4, CODE_C57653
 	lda.b $7D
 	asl a
 	tax
-	lda.l $C35E67,x
+	lda.l DATA8_C35E67,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BC0E
@@ -1215,7 +1215,7 @@ CODE_C5790F:						; from CODE_C57912, CODE_C5794E, CODE_C5795E, CODE_C5796C, ...
 CODE_C57912:						; from CODE_C57912
 	lda.w TransfersReady
 	bne CODE_C57912
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1300,7 +1300,7 @@ CODE_C57997:						; from CODE_C57905
 	lda.b $7D
 	asl a
 	tax
-	lda.l $C35E87,x
+	lda.l DATA8_C35E87,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BC0E
@@ -1398,7 +1398,7 @@ CODE_C57A7D:						; called from other segments
 	tay
 	asl a
 	tax
-	lda.l $C35F60,x
+	lda.l DATA8_C35F60,x
 	bne CODE_C57AD2
 	lda.w #$000D
 	ldx.w #$5F52
@@ -1468,7 +1468,7 @@ CODE_C57B21:						; from CODE_C57B06
 CODE_C57B36:						; from CODE_C57B36, CODE_C57B7F, CODE_C57B7D
 	inc.w TransfersReady
 	wai
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites
@@ -1536,7 +1536,7 @@ CODE_C57BC3:						; from CODE_C57BB9
 	lda.l $7F8EFA,x
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBFC
@@ -1553,7 +1553,7 @@ CODE_C57BEA:						; from CODE_C57BB9
 	lda.l $7F8EFC,x
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBFC
@@ -1573,7 +1573,7 @@ CODE_C57BEA:						; from CODE_C57BB9
 	bmi CODE_C57C2C
 	asl a
 	tax
-	lda.l $C35E25,x
+	lda.l DATA8_C35E25,x
 	tax
 	jsl.l CODE_C4BBFC
 	rts
@@ -1730,7 +1730,7 @@ CODE_C57D65:						; from CODE_C57D27
 CODE_C57D70:						; from CODE_C57D70, CODE_C57DA3, CODE_C57DBD
 	inc.w TransfersReady
 	wai
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsr.w CODE_C55BE8
 	jsl.l AnimateSprites

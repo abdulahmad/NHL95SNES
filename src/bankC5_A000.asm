@@ -517,7 +517,7 @@ CODE_C5A48C:						; from CODE_C5A3C1
 CODE_C5A48F:						; from CODE_C5A4A5
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	jsl.l CODE_C4BCAA
 	jsl.l CODE_C4C2AA
@@ -611,7 +611,7 @@ CODE_C5A51C:						; from CODE_C5A633, CODE_C5A5EB, CODE_C5A7C5, CODE_C5AB1C, ...
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C35F60,x
+	lda.l DATA8_C35F60,x
 	bne CODE_C5A556
 	jsl.l CODE_C40D96
 	inc.w $1864
@@ -1023,7 +1023,7 @@ CODE_C5A8B0:						; from CODE_C5A831
 	lda.b $7F
 	asl a
 	tax
-	lda.l $C35F62,x
+	lda.l DATA8_C35F62,x
 	beq CODE_C5A85C
 	inc.b $7F
 	jsr.w CODE_C5B22D
@@ -1289,7 +1289,7 @@ CODE_C5AA94:						; from CODE_C5A8EE, CODE_C5A93B
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	phy
 	jsl.l CODE_C4BCAA
@@ -1297,7 +1297,7 @@ CODE_C5AA94:						; from CODE_C5A8EE, CODE_C5A93B
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	pla
 	adc.w #$0003
@@ -1677,7 +1677,7 @@ CODE_C5AE56:						; from CODE_C5AE48
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $C35F60,x
+	lda.l DATA8_C35F60,x
 	bne CODE_C5AE8D
 	jsl.l CODE_C40D96
 	inc.w $1864
@@ -1686,7 +1686,7 @@ CODE_C5AE8D:						; from CODE_C5AE56
 	lda.b $7F
 	asl a
 	tax
-	lda.l $C360D4,x
+	lda.l DATA8_C360D4,x
 	tax
 	lda.l $C30000,x
 	and.w #$00FF

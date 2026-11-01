@@ -65,8 +65,8 @@ CODE_C4B05E:						; passed as a long pointer (lda # of its bank and address) to 
 	rep #$20
 	rtl
 CODE_C4B09F:						; called from other segments
-	jsl.l $C36D3A
-	jsl.l $C36C2D
+	jsl.l CODE_C36D3A
+	jsl.l CODE_C36C2D
 	ldx.w #$00C0
 	lda.w #$7F7B
 	jsl.l $CF0134
@@ -949,7 +949,7 @@ CODE_C4B81E:						; from CODE_C4B805
 	sta.b $8B
 	rtl
 CODE_C4B828:						; passed as a long pointer (lda # of its bank and address) to CODE_C4B6EB
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	lda.w $058F
 	bne CODE_C4B843
 	lda.w $058D
@@ -1851,7 +1851,7 @@ CODE_C4BF1A:						; from CODE_C4BF01
 	phx
 	phy
 	sep #$20
-	lda.l TeamPalettes,x
+	lda.l $C00000,x
 	sta.b $17
 	lda.l $C00010,x
 	sta.b $16

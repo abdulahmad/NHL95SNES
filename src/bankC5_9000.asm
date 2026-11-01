@@ -417,7 +417,7 @@ CODE_C593B8:						; from CODE_C5939D
 	stz.b $85
 	jsr.w CODE_C5951B
 CODE_C593BF:						; from CODE_C593BF
-	jsl.l $C36CBF
+	jsl.l CODE_C36CBF
 	jsl.l CODE_C4CEDB
 	inc.b $26
 	jsl.l AnimateSprites
@@ -701,7 +701,7 @@ CODE_C59643:						; from CODE_C596D3
 	stz.w fadestep
 CODE_C59651:						; from CODE_C59651, CODE_C59595, CODE_C5963A
 	jsl.l CODE_C4CEDB
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F

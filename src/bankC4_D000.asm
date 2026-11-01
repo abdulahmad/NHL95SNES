@@ -754,7 +754,7 @@ CODE_C4D657:						; called from other segments
 	stz.b $63
 CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
 	jsl.l $C3716D
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	lda.w $058D
 	and.w #$FFF0
 	tsb.b $63
@@ -897,7 +897,7 @@ CODE_C4D818:						; called from other segments
 CODE_C4D8CE:						; from CODE_C4D8CE, CODE_C4D915, CODE_C4D93B, CODE_C4D936
 	inc.w TransfersReady
 	wai
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1101,7 +1101,7 @@ CODE_C4DAAD:						; from CODE_C4D818, CODE_C4D936
 	sta.b $CF
 	lda.w #$0070
 	sta.b $D1
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0012
 	jsl.l CODE_C4BCAA
@@ -1229,7 +1229,7 @@ CODE_C4DBCC:						; from CODE_C4D915
 	sta.b $CF
 	lda.w #$0070
 	sta.b $D1
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0012
 	jsl.l CODE_C4BCAA

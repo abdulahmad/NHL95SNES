@@ -288,7 +288,7 @@ CODE_C5D22F:						; from CODE_C5D21A
 	lda.b $6B
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0009
 	jsl.l CODE_C4BCAA

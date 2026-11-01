@@ -617,7 +617,7 @@ CODE_C0948C:						; from CODE_C0947B
 	jsl.l ScreenOn
 CODE_C094BC:						; from CODE_C094E2
 	jsl.l WaitFrame
-	jsl.l $C36CBF
+	jsl.l CODE_C36CBF
 	jsl.l $C370A5
 	jsl.l $C370B2
 	lda.b $83
@@ -949,7 +949,7 @@ CODE_C0979B:						; from CODE_C0978B
 	jsl.l CODE_C09855
 CODE_C097A2:						; from CODE_C097DD, CODE_C097EF, CODE_C097FF, CODE_C0980F, ...
 	jsl.l WaitFrame
-	jsl.l $C36CBF
+	jsl.l CODE_C36CBF
 	jsl.l $C370A5
 	jsl.l $C370B2
 	lda.b $83

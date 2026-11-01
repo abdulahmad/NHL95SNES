@@ -1314,7 +1314,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	lda.w $17CB
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000C
 	jsl.l CODE_C4BCAA
@@ -1325,7 +1325,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	lda.w $17C9
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000C
 	jsl.l CODE_C4BCAA
@@ -1831,7 +1831,7 @@ CODE_C55E65:						; from CODE_C55E57
 	pla
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0009
 	jsl.l CODE_C4BCAA

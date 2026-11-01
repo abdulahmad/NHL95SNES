@@ -175,6 +175,11 @@ then its code from about $C36000. Banks $C0-$C2, $C4 and $C5 are all source. <- 
 - 2026-10-31: bankC4_6000 matched (game code, CODE_ names), with two 13-entry jump tables whose unused entries are $0000; such
   entries now stay $0000 (DATA8_C570E8 in bankC5_7000 had one written as Opening; fixed). End moved to $C4702D, bankC4_7000 org
   to $C4702E.
+- 2026-10-31: bankC3_6000 matched: the end of the data run of bank $C3, then its code. The callee analysis now follows php / plp
+  (a callee that restores the flags returns with the widths of its caller); rechecking all written segments changed nothing. An
+  indexed long read from the first byte of a bank ($C30000,x and the like) is a bank base, not the label there: those stay
+  numbers (TeamList, TeamPalettes and CODE_C40000 had been put on such reads; reverted). End moved to $C36FF1, bankC3_7000 org
+  to $C36FF2.
 - 2026-10-31: bankC4_E000 matched (game code, CODE_ names; no gaps). End moved to $C4F01D, bankC4_F000 org to $C4F01E.
 - 2026-10-31: bankC4_F000 matched: game code, Sample02, then zeros to the end (padbyte / pad). Bank $C4 is all source. Next:
   bank $C3 (bankC3_0000, org $C30000), in ROM order and the next code bank: it starts with the team database, whose records hold
@@ -357,8 +362,8 @@ The first row that is still incbin is the current segment.
 | bankC3_3000 | matched 4132 bytes | $C33008 | $C3402B | the last player records (106), then team records AllStarsEast ... Washington (labels by city, as 94S, and ROM cuts: the names are licensed); out of ROM order inside the bank; org moved to $C33008, end moved +$2C |
 | bankC3_4000 | matched 4052 bytes | $C3402C | $C34FFF | the last team records Pittsburgh ... Washington (labels by city, ROM cuts), a team record not in TeamList (DATA8_C34427), then data tables and text (db, DATA8_ labels where code reads them); out of ROM order inside the bank; org moved to $C3402C |
 | bankC3_5000 | matched 4096 bytes | $C35000 | $C35FFF | data tables and text (db, DATA8_ labels where code reads them), PhotoPaletteTable (dd per team, 94S name) |
-| bankC3_6000 | incbin <- CURRENT | $C36000 | $C36FFF | |
-| bankC3_7000 | incbin | $C37000 | $C37FFF | |
+| bankC3_6000 | matched 4082 bytes | $C36000 | $C36FF1 | data tables (db, DATA8_ labels where code reads them) to $C36B82, then game code with CODE_ names and their callers; out of ROM order, end moved -$E |
+| bankC3_7000 | incbin <- CURRENT | $C36FF2 | $C37FFF | org moved to $C36FF2 |
 | bankC3_8000 | incbin | $C38000 | $C38FFF | |
 | bankC3_9000 | incbin | $C39000 | $C39FFF | |
 | bankC3_A000 | incbin | $C3A000 | $C3AFFF | |

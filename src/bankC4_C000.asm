@@ -188,7 +188,7 @@ CODE_C4C08D:						; called from other segments
 	adc.b $A5
 	tay
 	sep #$20
-	lda.l TeamPalettes,x
+	lda.l $C00000,x
 	ora.l $C00001,x
 	asl a
 	bcc CODE_C4C0C2

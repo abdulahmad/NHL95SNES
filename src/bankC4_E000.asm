@@ -130,7 +130,7 @@ CODE_C4E020:						; from CODE_C4E020
 CODE_C4E0FE:						; from CODE_C4E0FE
 	inc.w TransfersReady
 	wai
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -192,7 +192,7 @@ CODE_C4E196:						; from CODE_C4E188
 	lda.w $17CB
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000E
 	jsl.l CODE_C4BCAA
@@ -203,7 +203,7 @@ CODE_C4E196:						; from CODE_C4E188
 	lda.w $17C9
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$000E
 	jsl.l CODE_C4BCAA
@@ -303,7 +303,7 @@ CODE_C4E2D9:						; from CODE_C4E32B, CODE_C4E35A, CODE_C4E36B, CODE_C4E384
 CODE_C4E2DC:						; from CODE_C4E2DC
 	lda.w TransfersReady
 	bne CODE_C4E2DC
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -659,7 +659,7 @@ CODE_C4E537:						; from CODE_C4E4CE
 	lda.w $2DA5
 	asl a
 	tax
-	lda.l $C35E51,x
+	lda.l DATA8_C35E51,x
 	tax
 	ldy.w #$0007
 	jsl.l CODE_C4BBE5

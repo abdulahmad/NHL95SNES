@@ -864,7 +864,7 @@ CODE_C517DB:						; from CODE_C517CA
 CODE_C517F1:						; from CODE_C517F1
 	cmp.b $5D
 	beq CODE_C517F1
-	jsl.l $C36CBF
+	jsl.l CODE_C36CBF
 	pla
 	dec a
 	pha

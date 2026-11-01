@@ -351,7 +351,7 @@ CODE_C4A2A3:						; from CODE_C4A266
 	tax
 	lda.l DATA8_C41E48,x
 	tax
-	lda.l CODE_C40000,x
+	lda.l $C40000,x
 	ldx.b $6F
 	ldy.b $63
 	sta.w $0856,y

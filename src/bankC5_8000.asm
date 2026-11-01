@@ -1671,7 +1671,7 @@ CODE_C58D32:						; called from other segments
 	jsr.w CODE_C590DA
 	lda.w $23BA
 	beq CODE_C58D3E
-	jsl.l $C36B83
+	jsl.l CODE_C36B83
 CODE_C58D3E:						; from CODE_C58D32
 	stz.w fadestep
 	stz.w $23BA
@@ -1681,7 +1681,7 @@ CODE_C58D47:						; from CODE_C58D4A, CODE_C58DC1
 CODE_C58D4A:						; from CODE_C58D4A
 	lda.w TransfersReady
 	bne CODE_C58D4A
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	ldx.b $99
 	jsr (DATA8_C58DF0,x)

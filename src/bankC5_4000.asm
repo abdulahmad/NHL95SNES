@@ -1822,11 +1822,11 @@ CODE_C54EAC:						; from CODE_C54EAC
 	ora.w $14F7
 	bne CODE_C54EC5
 	stz.w $1525
-	jsl.l $C36C49
+	jsl.l CODE_C36C49
 	dec.w $1525
 	bra CODE_C54EC9
 CODE_C54EC5:						; from CODE_C54EAC
-	jsl.l $C36C49
+	jsl.l CODE_C36C49
 CODE_C54EC9:						; from CODE_C54EAC
 	inc.b $26
 	jsl.l AnimateSprites

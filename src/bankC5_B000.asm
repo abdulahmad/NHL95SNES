@@ -235,7 +235,7 @@ CODE_C5B20E:						; from CODE_C5B22D and other segments
 	bra CODE_C5B228
 CODE_C5B216:						; from CODE_C5B228
 	txy
-	lda.l $C360D4,x
+	lda.l DATA8_C360D4,x
 	tax
 	lda.l $C30000,x
 	and.w #$00FF
@@ -273,7 +273,7 @@ CODE_C5B22D:						; called from other segments
 	lda.b $7F
 	asl a
 	tax
-	lda.l $C360D4,x
+	lda.l DATA8_C360D4,x
 	sta.b $83
 	stz.b $85
 	tax
@@ -290,7 +290,7 @@ CODE_C5B22D:						; called from other segments
 	jsr.w CODE_C5B369
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	jsl.l CODE_C4BCAA
 	pla
@@ -300,7 +300,7 @@ CODE_C5B22D:						; called from other segments
 	jsr.w CODE_C5B369
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	pla
 	adc.w #$0003
@@ -321,7 +321,7 @@ CODE_C5B22D:						; called from other segments
 	jsr.w CODE_C5B369
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	jsl.l CODE_C4BCAA
 	clc
@@ -342,7 +342,7 @@ CODE_C5B22D:						; called from other segments
 	jsr.w CODE_C5B369
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	pla
 	adc.w #$0003
@@ -630,7 +630,7 @@ CODE_C5B53D:						; from CODE_C5B4C2
 CODE_C5B54E:						; from CODE_C5B53D
 	asl a
 	tax
-	lda.l $C30038,x
+	lda.l PlayerList,x
 	cmp.w #$4000
 	rts
 CODE_C5B558:						; from CODE_C5B02B
@@ -927,7 +927,7 @@ CODE_C5B76D:						; from CODE_C5B6A1
 	phx
 	asl a
 	tax
-	lda.l $C30038,x
+	lda.l PlayerList,x
 	adc.w #$0008
 	and.w #$3FFF
 	tax
@@ -1590,7 +1590,7 @@ CODE_C5BCE3:						; from CODE_C5B7F1
 	lda.w $17C9
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.w #$0006
 	jsl.l CODE_C4BCAA
@@ -1813,7 +1813,7 @@ CODE_C5BE72:						; a callback: CODE_C5B1AF passes it to CODE_C55ABC
 	pha
 	asl a
 	tax
-	lda.l $C3585C,x
+	lda.l DATA8_C3585C,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBFC

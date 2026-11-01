@@ -49,6 +49,8 @@
   CODE_C45950 (a routine; otherwise data read through [$63]); lda #low with ldx #bank (either order) then jsl / jmp / bra
   to SetNMIHook, SetFrameHook or the task starters CODE_C4B743 / CODE_C4B763; and lda #routine, sta $0002,x (a task's next
   routine, same bank). The pipeline writes these immediates as labels (label>>16 for the bank).
+- An indexed long read from the first byte of a bank (lda.l $C30000,x, $C00000,x, $C40000,x) uses the bank as a base for
+  an offset (a record, glyph or list pointer), so it stays a number even where a label sits at that address.
 - Transfer queues are separate stacks: $00 VRAM, $04 CGRAM (the $C4CC5x loop writes CGADD and DMAs to CGDATA). A record is
   pushed as size, destination, bank, source while $06 is decremented (busy).
 - Sound: $CF001A sends SoundRAMClear ($C00F05), then the sound driver upload blocks at $C00F49 (SMSG 3.07w Jason Andersen / John

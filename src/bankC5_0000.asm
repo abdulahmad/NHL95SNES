@@ -18,16 +18,16 @@ CODE_C5000A:						; from CODE_C5000A
 	lda.w #$005C
 	sta.w $1850
 	jsl.l forceblack
-	jsl.l $C36F3D
+	jsl.l CODE_C36F3D
 	jsl.l $CF0000
 	jsl.l CODE_C4B09F
 	jsl.l CODE_C4B97E
 	jsl.l CODE_C4D657
 	jsl.l CODE_C4D193
 	jsl.l forceblack
-	jsl.l $C36C2C
+	jsl.l CODE_C36C2C
 	jsl.l $C370AC
-	jsl.l $C36B83
+	jsl.l CODE_C36B83
 CODE_C5004E:						; called from other segments
 	jsl.l $C370AC
 	jsl.l FadeOutWait
@@ -41,7 +41,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50B7C, CODE_C50E86 and other segment
 	sta.w $1850
 	lda.w #$C08B
 	sta.w $1852
-	jsl.l $C36C2C
+	jsl.l CODE_C36C2C
 	jsl.l CODE_C58D32
 	lda.w #$007E
 	sta.b $71
@@ -266,7 +266,7 @@ CODE_C50269:						; from CODE_C50233
 	sta.w $07A8
 	stx.w $07F6
 	stx.w $07C6
-	jsl.l $C36CBF
+	jsl.l CODE_C36CBF
 	lda.w $10F5
 	bit.w #$0001
 	bne CODE_C502EB

@@ -5,7 +5,7 @@ CODE_C40000:						; called from other segments
 	jsr.w CODE_C40444
 CODE_C40003:						; from CODE_C40066
 	jsl.l CODE_C4CEDB
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	inc.b $26
 	lda.w $058F
 	beq CODE_C4001D
@@ -863,7 +863,7 @@ CODE_C406EA:						; from CODE_C406AB
 	stz.w $058D
 CODE_C4073F:						; from CODE_C4073F
 	jsl.l $C3716D
-	jsl.l $C36C2D
+	jsl.l CODE_C36C2D
 	lda.w $058F
 	bne CODE_C4073F
 	lda.w $058D

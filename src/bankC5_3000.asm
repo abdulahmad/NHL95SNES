@@ -66,7 +66,7 @@ CODE_C530EB:						; from CODE_C531EA, CODE_C531F8
 	sta.w $003A,y
 	asl a
 	tax
-	lda.l $C30038,x
+	lda.l PlayerList,x
 	and.w #$3FFF
 	sta.w $0008,y
 	iny
@@ -244,7 +244,7 @@ CODE_C53227:						; from CODE_C53261
 CODE_C53241:						; from CODE_C53227
 	asl a
 	tax
-	lda.l $C30038,x
+	lda.l PlayerList,x
 	bit.w #$C000
 	bne CODE_C53261
 	pea.w $0000
@@ -280,7 +280,7 @@ CODE_C5326D:						; from CODE_C5329F
 CODE_C53284:						; from CODE_C5326D
 	asl a
 	tax
-	lda.l $C30038,x
+	lda.l PlayerList,x
 	bpl CODE_C5329F
 CODE_C5328C:						; from CODE_C5326D
 	ldx.b $A1
