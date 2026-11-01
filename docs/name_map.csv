@@ -1504,3 +1504,5 @@ $C3965A,Sample04,,new,"sound sample 4 of the sample list: header, then BRR block
 $C3AC29,Sample05,,new,"sound sample 5 of the sample list: header, then BRR blocks",src/bankC3_A000.asm
 $C3B574,Sample28,,new,"sound sample 28 of the sample list: header, then BRR blocks",src/bankC3_B000.asm
 $C3B94C,Sample07,,new,"sound sample 7 of the sample list: header, then BRR blocks",src/bankC3_B000.asm
+$C3C70E,Sample08,,new,"sound sample 8 of the sample list: header, then BRR blocks",src/bankC3_C000.asm
+$C3CDBF,Sample24,,new,"sound sample 24 of the sample list: header, then BRR blocks",src/bankC3_C000.asm
