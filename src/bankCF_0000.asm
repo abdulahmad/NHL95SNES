@@ -668,13 +668,13 @@ DATA8_CF04E3:						; the sounds (CODE_CF0313 reads entry A): a long pointer to t
 	dd DATA8_CF3AB7					; sound 27
 	dd DATA8_CF3D9D					; sound 28
 	dd DATA8_CF3F79					; sound 29
-	dd $CF410C						; sound 30
-	dd $CF41BE						; sound 31
-	dd $CF4351						; sound 32
-	dd $CF4402						; sound 33
+	dd DATA8_CF410C					; sound 30
+	dd DATA8_CF41BE					; sound 31
+	dd DATA8_CF4351					; sound 32
+	dd DATA8_CF4402					; sound 33
 	dd $CFC262						; sound 34
 	dd $CF5717|$80000000			; sound 35
-	dd $CF46CE|$80000000			; sound 36
+	dd DATA8_CF46CE|$80000000		; sound 36
 	dd $CF590B|$81000000			; sound 37
 	dd $CF6A1A|$82000000			; sound 38
 	dd $CF8145|$83000000			; sound 39

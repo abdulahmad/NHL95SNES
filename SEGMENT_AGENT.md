@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCF_4000 (org $CF410C): banks $C0-$CE are all source. <- CURRENT
+bankCF_5000 (org $CF5717): banks $C0-$CE are all source. <- CURRENT
 
 ## Sources
 
@@ -660,6 +660,9 @@ bankCF_4000 (org $CF410C): banks $C0-$CE are all source. <- CURRENT
 - 2026-10-31: bankCF_3000 matched: sound data: sound 23 (DATA8_CF319B), sound 24 (DATA8_CF33DD), ..., sound 29 (DATA8_CF3F79).
   Sounds are a length word and their data (CODE_CF0313 sends the samples each lists from +3); samples a 12-byte header and BRR
   blocks to the end flag. The sound table and SampleList in bankCF_0000 use the new labels.
+- 2026-10-31: bankCF_4000 matched: sound data: sound 30 (DATA8_CF410C), sound 31 (DATA8_CF41BE), ..., sound 36 (DATA8_CF46CE).
+  Sounds are a length word and their data (CODE_CF0313 sends the samples each lists from +3); samples a 12-byte header and BRR
+  blocks to the end flag. The sound table and SampleList in bankCF_0000 use the new labels.
 
 ## ROM map
 
@@ -911,8 +914,8 @@ The first row that is still incbin is the current segment.
 | bankCF_1000 | matched 4234 bytes | $CF1099 | $CF2122 | sound data: sound 5 (DATA8_CF1099), sound 6 (DATA8_CF1284), ..., sound 13 (DATA8_CF1EFB); org moved to $CF1099, end moved +$123 |
 | bankCF_2000 | matched 4216 bytes | $CF2123 | $CF319A | sound data: sound 14 (DATA8_CF2123), sound 15 (DATA8_CF2222), ..., sound 22 (DATA8_CF2F75); org moved to $CF2123, end moved +$19B |
 | bankCF_3000 | matched 3953 bytes | $CF319B | $CF410B | sound data: sound 23 (DATA8_CF319B), sound 24 (DATA8_CF33DD), ..., sound 29 (DATA8_CF3F79); org moved to $CF319B, end moved +$10C |
-| bankCF_4000 | incbin | $CF410C | $CF4FFF | <- CURRENT |
-| bankCF_5000 | incbin | $CF5000 | $CF5FFF | |
+| bankCF_4000 | matched 5643 bytes | $CF410C | $CF5716 | sound data: sound 30 (DATA8_CF410C), sound 31 (DATA8_CF41BE), ..., sound 36 (DATA8_CF46CE); org moved to $CF410C, end moved +$717 |
+| bankCF_5000 | incbin | $CF5717 | $CF5FFF | <- CURRENT |
 | bankCF_6000 | incbin | $CF6000 | $CF6FFF | |
 | bankCF_7000 | incbin | $CF7000 | $CF7FFF | |
 | bankCF_8000 | incbin | $CF8000 | $CF8FFF | |
