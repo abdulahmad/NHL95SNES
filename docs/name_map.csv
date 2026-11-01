@@ -1502,3 +1502,5 @@ $C38D43,DATA8_C38D43,,new,"not traced: a table read by CODE_C38D0E (in bankC3_80
 $C38EFE,Sample03,,new,"sound sample 3 of the sample list: header, then BRR blocks",src/bankC3_9000.asm
 $C3965A,Sample04,,new,"sound sample 4 of the sample list: header, then BRR blocks",src/bankC3_9000.asm
 $C3AC29,Sample05,,new,"sound sample 5 of the sample list: header, then BRR blocks",src/bankC3_A000.asm
+$C3B574,Sample28,,new,"sound sample 28 of the sample list: header, then BRR blocks",src/bankC3_B000.asm
+$C3B94C,Sample07,,new,"sound sample 7 of the sample list: header, then BRR blocks",src/bankC3_B000.asm

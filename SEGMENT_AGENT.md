@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_B000 (org $C3B574), after bankC3_A000. <- CURRENT
+bankC3_C000 (org $C3C70E), after bankC3_B000. <- CURRENT
 
 ## Sources
 
@@ -309,6 +309,7 @@ bankC3_B000 (org $C3B574), after bankC3_A000. <- CURRENT
 - 2026-10-31: bankC3_9000 matched: sound samples 3 and 4 (labels and ROM cuts). The rest of bank $C3 is samples back to back
   (03, 04, 05, 28, 07, 08, 24, 25, 30, 29) to $C3FE0F, then zeros; each segment starts at a sample.
 - 2026-10-31: bankC3_A000 matched: Sample05 (labels and ROM cuts).
+- 2026-10-31: bankC3_B000 matched: Sample28, Sample07 (labels and ROM cuts).
 
 ## ROM map
 
@@ -375,8 +376,8 @@ The first row that is still incbin is the current segment.
 | bankC3_8000 | matched 3868 bytes | $C37FE2 | $C38EFD | the rest of the game code with CODE_ names and their callers, data tables read with long addresses (a squares table, ...); out of ROM order, org moved to $C37FE2, end moved -$102 |
 | bankC3_9000 | matched 7467 bytes | $C38EFE | $C3AC28 | Sample03, Sample04 (labels and ROM cuts); org moved to the sample start; org moved to $C38EFE, end moved +$C29 |
 | bankC3_A000 | matched 2379 bytes | $C3AC29 | $C3B573 | Sample05 (labels and ROM cuts); org moved to $C3AC29, end moved +$574 |
-| bankC3_B000 | incbin <- CURRENT | $C3B574 | $C3BFFF | |
-| bankC3_C000 | incbin | $C3C000 | $C3CFFF | |
+| bankC3_B000 | matched 4506 bytes | $C3B574 | $C3C70D | Sample28, Sample07 (labels and ROM cuts); org moved to $C3B574, end moved +$70E |
+| bankC3_C000 | incbin <- CURRENT | $C3C70E | $C3CFFF | |
 | bankC3_D000 | incbin | $C3D000 | $C3DFFF | |
 | bankC3_E000 | incbin | $C3E000 | $C3EFFF | |
 | bankC3_F000 | incbin | $C3F000 | $C3FFFF | |
