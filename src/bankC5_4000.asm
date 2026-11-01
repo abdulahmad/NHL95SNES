@@ -145,7 +145,7 @@ SetLCmode2:							; draws the line change box of team a2: the frame, then a row 
 	rtl
 DATA8_C5410E:						; not traced: a table read by SetLCmode2
 	db $D9,$A0,$C2,$A0,$C1,$A0
-CODE_C54114:						; from SetLCmode2, CODE_C54B60
+CODE_C54114:						; from SetLCmode2, lcfound_close
 	lda.w gmode
 	ldx.b a2
 	beq CODE_C54130
@@ -730,13 +730,13 @@ lineinput:							; called from other segments
 	sta.w tmflags,y
 	lda.w #$FFFF
 	sta.w lcpad,y
-	jmp.w CODE_C54B60
+	jmp.w lcfound_close
 .4:									; call lcfound, if minus go to .rtl2, if gmclock is not 0 go to .rtl2, ...
 	jsl.l lcfound
 	bmi .rtl2
 	lda.w gmclock
 	bne .rtl2
-	jmp.w CODE_C54B60
+	jmp.w lcfound_close
 .rtl2:								; return
 	rtl
 assbench:							; asstab entry 12: an assignment routine
@@ -1403,7 +1403,9 @@ CODE_C54B2B:						; from RestoreBenchEnergy and other segments
 	bpl .loop
 CODE_C54B5F:						; from RestoreBenchEnergy
 	rtl
-CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
+lcfound_close:						; closes team a2's line change box: its six rows overwritten from
+									; DATA8_C58942 through the transfer queue, then the score box (when the
+									; box was over it) and the clock redrawn
 	jsr.w CODE_C54114
 	pha
 	tay
@@ -1419,8 +1421,8 @@ CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
 	pea.w $0000
 	phy
 	pea.w $1808
-	pea.w $00C5
-	pea.w $8942
+	pea.w DATA8_C58942>>16
+	pea.w DATA8_C58942&$FFFF
 	tya
 	clc
 	adc.w #$0020
@@ -1441,7 +1443,8 @@ CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
 	jsl.l showclockdma
 	jsl.l WaitTransfers
 	jml.l CODE_C5111A
-CODE_C54BAF:						; called from other segments
+CloseLCBoxes:						; closes each team's open line change box (tmflags bit 3, only when
+									; OptLine is on) through lcfound_close, then $18AA + 1
 	lda.w OptLine
 	beq .rtl
 	pei ($6B)
@@ -1451,7 +1454,7 @@ CODE_C54BAF:						; called from other segments
 	and.w #$FFF7
 	sta.w tmflags
 	stz.b a2
-	jsl.l CODE_C54B60
+	jsl.l lcfound_close
 .1:									; A = $1301, if $0008 bits clear go to .2, A and $FFF7, $1301 = A, ...
 	lda.w $1301
 	bit.w #$0008
@@ -1460,7 +1463,7 @@ CODE_C54BAF:						; called from other segments
 	sta.w $1301
 	lda.w #$0002
 	sta.b a2
-	jsl.l CODE_C54B60
+	jsl.l lcfound_close
 .2:									; pull A, a2 = A, $18AA + 1
 	pla
 	sta.b a2

@@ -1145,7 +1145,7 @@ PenGoalStuff:						; called from other segments
 	pei ($89)
 	pei ($63)
 	pei ($65)
-	jsl.l CODE_C54BAF
+	jsl.l CloseLCBoxes
 	lda.w gsp
 	cmp.w #$0003
 	beq .4

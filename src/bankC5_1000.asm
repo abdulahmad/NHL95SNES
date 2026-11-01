@@ -909,7 +909,7 @@ CODE_C51825:						; called from other segments
 	lda.w #$FFFF
 	sta.w lcpad
 	sta.w $184E
-	jsl.l CODE_C54BAF
+	jsl.l CloseLCBoxes
 	lda.w $2038
 	sec
 	sbc.w #$0006

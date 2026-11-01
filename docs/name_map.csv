@@ -5751,11 +5751,11 @@ $C54B15,.1,CODE_C54B15,new,"branch target only used in reenergizeteam",src/bankC
 $C54B30,.loop,CODE_C54B30,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
 $C54B37,.1,CODE_C54B37,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
 $C54B59,.2,CODE_C54B59,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
-$C54B74,.loop,CODE_C54B74,new,"branch target only used in CODE_C54B60",src/bankC5_4000.asm
-$C54BA3,.1,CODE_C54BA3,new,"branch target only used in CODE_C54B60",src/bankC5_4000.asm
-$C54BCA,.1,CODE_C54BCA,new,"branch target only used in CODE_C54BAF",src/bankC5_4000.asm
-$C54BE1,.2,CODE_C54BE1,new,"branch target only used in CODE_C54BAF",src/bankC5_4000.asm
-$C54BE7,.rtl,CODE_C54BE7,new,"branch target only used in CODE_C54BAF",src/bankC5_4000.asm
+$C54B74,.loop,CODE_C54B74,new,"branch target only used in lcfound_close",src/bankC5_4000.asm
+$C54BA3,.1,CODE_C54BA3,new,"branch target only used in lcfound_close",src/bankC5_4000.asm
+$C54BCA,.1,CODE_C54BCA,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
+$C54BE1,.2,CODE_C54BE1,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
+$C54BE7,.rtl,CODE_C54BE7,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
 $C54C13,.1,CODE_C54C13,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
 $C54C23,.loop,CODE_C54C23,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
 $C54C38,.2,CODE_C54C38,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
@@ -7545,3 +7545,5 @@ $C54155,getlchoice,CODE_C54155,94S+code,"94S getlchoice's index: choice + 3 * tm
 $C5404A,SetLCmode,CODE_C5404A,94S+code,"94S SetLCmode's code instruction for instruction (OptLine, loadTeamStruct, tmflags bit 3, sflags bits 2-3 cleared, jmp SetLCmode2); called from doinput as in 94S",src/bankC5_4000.asm
 $C54070,SetLCmode2,CODE_C54070,94S+purpose,"SetLCmode jumps to it where 94S SetLCmode jumps to SetLCmode2; also called from lineinput and the face off code as in 94S; the box is drawn differently (Framer, text queued to VRAM) but row by row for choices 2 down to 0 with getlchoice, tmflags bit 3 and tmlcchoice as in 94S",src/bankC5_4000.asm
 $C42D10,burst,CODE_C42D10,94S+code,"94S burst's steps side by side: pfalock test, getpde, OptLine, $CC energy taken by setpde, $1000 when OptLine is 2, the speed scaled, Xvel / Yvel from the facing direction table, pfalock, jml SetSPAFromA; called from doinput as in 94S",src/bankC4_2000.asm
+$C54B60,lcfound_close,CODE_C54B60,94S+purpose,"94S lcfound_close's job (setlccords, eraser, the scoreboard redrawn) done with queued transfers; lineinput jumps to it and CloseLCBoxes calls it for each open box, as 94S lcfound and ShowGoalBox do",src/bankC5_4000.asm
+$C54BAF,CloseLCBoxes,CODE_C54BAF,code,"the step of 94S ShowGoalBox that closes both boxes, as a routine; called from puckfaceoff2, PenGoalStuff and others",src/bankC5_4000.asm

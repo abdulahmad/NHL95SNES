@@ -296,7 +296,7 @@ CODE_C481D5:						; called from other segments
 	phx
 	ldx.w sfhormode
 	beq .3
-	jsl.l CODE_C54BAF
+	jsl.l CloseLCBoxes
 	ldx.w #$0012
 	ldy.w #$0003
 	lda.w #$584A

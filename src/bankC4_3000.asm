@@ -973,7 +973,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w #$0008
 	tsb.w tmflags
 	tsb.w $1301
-	jsl.l CODE_C54BAF
+	jsl.l CloseLCBoxes
 	lda.w #$0008
 	trb.w tmflags
 	trb.w $1301
