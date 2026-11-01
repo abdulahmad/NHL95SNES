@@ -177,7 +177,7 @@ DATA8_C42030:						; not traced: more of the data from bankC4_1000 (pointer tabl
 	db $20,$04,$0A,$00,$21,$04,$0A,$00,$22,$04,$0A,$00,$23,$04,$5A,$00
 	db $23,$04,$EC,$FF,$1F,$04,$0A,$00,$1B,$04,$0A,$00,$1C,$04,$0A,$00
 	db $1D,$04,$5A,$00,$1E,$04,$EC,$FF
-CODE_C42B18:						; from CODE_C42DC6, assnearest and other segments
+GlideBack:							; starts animation $1F6C on player X (SetSPAFromA) unless pfalock is set
 	lda.w pfalock,x
 	bne .rtl
 	lda.w #$1F6C
@@ -207,8 +207,8 @@ assnearest:							; called from other segments
 	jmp.w assinsert
 .rtl:								; return
 	rtl
-.2:									; go to CODE_C48A71
-	jml.l CODE_C48A71
+.2:									; go to assgoalie
+	jml.l assgoalie
 .3:									; A = temp1,x, A - d7, temp1,x = A, if minus go to .4, ...
 	lda.w temp1,x
 	sec
@@ -316,8 +316,8 @@ assnearest:							; called from other segments
 	sta.b a0
 	jsl.l skateto
 	jmp.w check4check
-.13:								; call CODE_C42B18, go to donothing
-	jsl.l CODE_C42B18
+.13:								; call GlideBack, go to donothing
+	jsl.l GlideBack
 	jmp.w donothing
 .14:								; call skatetopuck, go to check4check
 	jsl.l skatetopuck
@@ -500,7 +500,8 @@ chkpk2:								; from CODE_C42D98, assnearest and other segments
 	lda.w sflags
 	and.w #$4000
 	rtl
-CODE_C42DB8:						; called from other segments
+asspuckc:							; assignment (asstab entry 17): the puck carrier; others and pad players
+									; leave through assexit
 	cpx.w puckc
 	bne .1
 	lda.w playerpad,x
@@ -510,9 +511,9 @@ CODE_C42DB8:						; called from other segments
 DATA8_C42DC5:						; an rtl no traced code reaches
 	db $6B
 CODE_C42DC6:						; from CODE_C42DCD
-	jsl.l CODE_C42B18
+	jsl.l GlideBack
 	jmp.w donothing
-CODE_C42DCD:						; from CODE_C42DB8
+CODE_C42DCD:						; from asspuckc
 	lda.w gmclock
 	bne CODE_C42DC6
 	lda.w pflags,x
@@ -555,8 +556,8 @@ CODE_C42DCD:						; from CODE_C42DB8
 	sta.b d0
 	jsl.l assreplace
 	bra .rtl
-.4:									; call CODE_C5492E, call chk4shot, if asscur,x is not $0011 go to .5, ...
-	jsl.l CODE_C5492E
+.4:									; call chk4lc, call chk4shot, if asscur,x is not $0011 go to .5, ...
+	jsl.l chk4lc
 	jsl.l chk4shot
 	lda.w asscur,x
 	cmp.w #$0011

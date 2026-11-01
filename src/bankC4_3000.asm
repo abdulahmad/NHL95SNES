@@ -719,7 +719,7 @@ donothing:							; from CODE_C43350, assdefd, asswingd, ...
 	jml.l doplayeracc
 .rtl:								; return
 	rtl
-assexit:							; from CODE_C4375B, assfaceoffpl and other segments
+assexit:							; from assfaceoff, assfaceoffpl and other segments
 	lda.w assnum,x
 	inc a
 	and.w #$0007
@@ -761,7 +761,8 @@ assreplace:							; from assdefd, assdefo, asswingd, ...
 	rep #$30
 	sta.w asscur,x
 	rtl
-CODE_C4375B:						; called from other segments
+assfaceoff:							; assignment (asstab entry 22): players not in the face off wait until
+									; sflags bit 8 clears, then clear $18AA and leave through assexit
 	lda.w pfalock,x
 	bne .rtl
 	lda.w sflags

@@ -116,7 +116,7 @@ skatetopuck:						; called from other segments
 	jmp.w CODE_C45606
 .7:									; go to .5
 	bra .5
-CODE_C47122:						; called from other segments
+assscore:							; assignment (asstab entry 8): celebrate a goal
 	lda.w gmode
 	bit.w #$0040
 	beq .1
@@ -198,12 +198,12 @@ CODE_C47122:						; called from other segments
 	sta.w $07EA
 .6:									; call SetSPA
 	jsl.l SetSPA
-CODE_C471E2:						; from CODE_C47122 and other segments
+CODE_C471E2:						; from assscore and other segments
 	lda.w #$0078
 	jsl.l randoma8
 	sta.w temp1,x
 	rtl
-CODE_C471ED:						; from CODE_C47122
+CODE_C471ED:						; from assscore
 	jmp.w skateto
 CODE_C471F0:						; called from other segments
 	jsl.l updatepentime
@@ -1358,7 +1358,7 @@ CODE_C47ACD:						; from checkint and other segments
 	lda.w #$0026
 	sta.b d0
 	jmp.w AddPenalty
-CODE_C47B3F:						; called from other segments
+assepen:							; assignment (asstab entry 11): leave the penalty box
 	lda.w attribute,x
 	and.w #$F7FF
 	sta.w attribute,x

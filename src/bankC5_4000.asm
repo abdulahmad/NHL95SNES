@@ -221,7 +221,7 @@ DATA8_C54194:						; not traced: a table read by getlchoice
 	db $01,$02,$00,$01,$02,$03,$04,$FF,$03,$04,$FF,$03,$04,$FF,$03,$04
 	db $FF,$04,$03,$FF,$03,$04,$FF,$03,$04,$FF,$05,$06,$FF,$05,$06,$FF
 	db $05,$06,$FF,$05,$06,$FF,$05,$06,$FF,$05,$06,$FF,$06,$05,$FF
-setpersonel:						; from CODE_C5492E, lcfound and other segments
+setpersonel:						; from chk4lc, lcfound and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -961,7 +961,7 @@ asseben:							; asstab entry 10: an assignment routine
 	sta.w attribute,x
 .3:									; go to assexit
 	jml.l assexit
-CompLine:							; from CODE_C5492E and other segments
+CompLine:							; from chk4lc and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1117,7 +1117,8 @@ CODE_C548C1:						; from CODE_C54828
 DATA8_C5491C:						; not traced: data between routines
 	db $00,$00,$01,$00,$02,$00,$00,$00,$02,$00,$01,$00,$00,$00,$01,$00
 	db $00,$00
-CODE_C5492E:						; called from other segments
+chk4lc:								; the computer calls a line change on the fly (puck in its own end, one
+									; frame in 4, line tired by AvgCline), then CompShoot
 	lda.w OptLine
 	cmp.w #$0002
 	beq .rtl
@@ -1167,7 +1168,7 @@ CODE_C5492E:						; called from other segments
 	beq .rtl
 	jsl.l CompLine
 	jsl.l setpersonel
-	jsl.l CODE_C5111A
+	jsl.l printscores1
 	jml.l CompShoot
 .rtl:								; return
 	rtl
@@ -1275,7 +1276,7 @@ makepde:							; called from other segments
 	ldx.b a3
 	clc
 	rtl
-AvgCline:							; from CODE_C5492E and other segments
+AvgCline:							; from chk4lc and other segments
 	pei ($83)
 	pei ($85)
 	pei ($87)
@@ -1439,10 +1440,10 @@ lcfound_close:						; closes team a2's line change box: its six rows overwritten
 	cmp.w #$5AB5
 	bcc .1
 	jsl.l CODE_C539D7
-.1:									; call showclockdma, call WaitTransfers, go to CODE_C5111A
+.1:									; call showclockdma, call WaitTransfers, go to printscores1
 	jsl.l showclockdma
 	jsl.l WaitTransfers
-	jml.l CODE_C5111A
+	jml.l printscores1
 CloseLCBoxes:						; closes each team's open line change box (tmflags bit 3, only when
 									; OptLine is on) through lcfound_close, then $18AA + 1
 	lda.w OptLine

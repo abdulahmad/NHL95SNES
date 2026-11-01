@@ -17,7 +17,8 @@ DATA8_C5110A:						; not traced: a table read by GetPeriodTime
 	db $2C,$01,$58,$02,$B0,$04,$1E,$00
 DATA8_C51112:						; not traced: a table read by GetPeriodTime
 	db $00,$05,$00,$10,$00,$20,$30,$00
-CODE_C5111A:						; from CODE_C51DEA and other segments
+printscores1:						; X = a3; chk4lc, SetFaceoffComputerLine and lcfound_close call it after a
+									; line change
 	ldx.b a3
 	rtl
 CODE_C5111D:						; no caller found (not traced)
@@ -1439,7 +1440,7 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	lda.w pflags,x
 	bit.w #$0002
 	bne .2
-	jmp.w CODE_C51E81
+	jmp.w WaitForFaceoffLineChanges
 .2:									; A and $FFFD, pflags,x = A, if gameclock is not 0 go to .3, ...
 	and.w #$FFFD
 	sta.w pflags,x
@@ -1471,12 +1472,12 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	sta.w temp2,x
 	lda.w OptLine
 	bne .7
-	jmp.w CODE_C51E81
-.7:									; A = penshot, if the result = 0 go to .8, go to CODE_C51E81
+	jmp.w WaitForFaceoffLineChanges
+.7:									; A = penshot, if the result = 0 go to .8, go to WaitForFaceoffLineChanges
 	lda.w penshot
 	ora.w penshotlive
 	beq .8
-	jmp.w CODE_C51E81
+	jmp.w WaitForFaceoffLineChanges
 .8:									; lcpad = $FFFF, $184E = A, $18E2 = 0, $18E4 = 0, ...
 	lda.w #$FFFF
 	sta.w lcpad
@@ -1502,76 +1503,81 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	bne .10
 	lda.w teampads
 	beq .10
-	jsl.l CODE_C51F60
+	jsl.l HomePadPlayer
 	lsr a
 	sta.b d0
-	jsl.l CODE_C51DF6
+	jsl.l HomeFaceoffLineChange
 .10:								; if $234C is not 0 go to .11, if $14F7 = 0 go to .11, ...
 	lda.w $234C
 	bne .11
 	lda.w $14F7
 	beq .11
-	jsl.l CODE_C51F6E
+	jsl.l AwayPadPlayer
 	lsr a
 	sta.b d0
-	jsl.l CODE_C51E0C
+	jsl.l AwayFaceoffLineChange
 .11:								; $234C = 0, a1 = 0, a2 = $0002, d0 = A, ...
 	stz.w $234C
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
 	sta.b d0
-	jsl.l CODE_C51DB8
-	jmp.w CODE_C51E81
-CODE_C51DB8:						; from CODE_C51E81, puckfaceoff and other segments
+	jsl.l SetFaceoffComputerLine
+	jmp.w WaitForFaceoffLineChanges
+SetFaceoffComputerLine:				; line changes on and team d0 not on a pad: CompLine, setpersonel,
+									; printscores1
 	lda.w OptLine
 	bne .1
-	jmp.w CODE_C51E80
-.1:									; if d0 is not cont1team go to .2, go to CODE_C51E80
+	jmp.w rtsfaceoff
+.1:									; if d0 is not cont1team go to .2, go to rtsfaceoff
 	lda.b d0
 	cmp.w cont1team
 	bne .2
-	jmp.w CODE_C51E80
-.2:									; if A is not cont2team go to .3, go to CODE_C51E80
+	jmp.w rtsfaceoff
+.2:									; if A is not cont2team go to .3, go to rtsfaceoff
 	cmp.w cont2team
 	bne .3
-	jmp.w CODE_C51E80
-.3:									; if A is not cont3team go to .4, go to CODE_C51E80
+	jmp.w rtsfaceoff
+.3:									; if A is not cont3team go to .4, go to rtsfaceoff
 	cmp.w cont3team
 	bne .4
-	jmp.w CODE_C51E80
-.4:									; if A is not cont4team go to .5, go to CODE_C51E80
+	jmp.w rtsfaceoff
+.4:									; if A is not cont4team go to .5, go to rtsfaceoff
 	cmp.w cont4team
 	bne .5
-	jmp.w CODE_C51E80
-.5:									; if A is not cont5team go to CODE_C51DEA, go to CODE_C51E80
+	jmp.w rtsfaceoff
+.5:									; if A is not cont5team go to CODE_C51DEA, go to rtsfaceoff
 	cmp.w cont5team
 	bne CODE_C51DEA
-	jmp.w CODE_C51E80
-CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DB8
+	jmp.w rtsfaceoff
+CODE_C51DEA:						; from HomeFaceoffLineChange, AwayFaceoffLineChange, ...
 	jsl.l CompLine
 	jsl.l setpersonel
-	jml.l CODE_C5111A
-CODE_C51DF6:						; from puckfaceoff and other segments
+	jml.l printscores1
+HomeFaceoffLineChange:				; home's face off line change: with automatic line changes (OptLine 2) the
+									; computer picks home's line, else player d0 opens the box
+									; (StartFaceoffLineChange)
 	lda.w OptLine
 	cmp.w #$0002
-	bne CODE_C51E1F
+	bne StartFaceoffLineChange
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
 	lda.w #$0001
 	sta.b d0
 	bra CODE_C51DEA
-CODE_C51E0C:						; from puckfaceoff and other segments
+AwayFaceoffLineChange:				; the away team's face off line change, as HomeFaceoffLineChange
 	lda.w OptLine
 	cmp.w #$0002
-	bne CODE_C51E1F
+	bne StartFaceoffLineChange
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
 	sta.b d0
 	bra CODE_C51DEA
-CODE_C51E1F:						; from CODE_C51DF6, CODE_C51E0C
+StartFaceoffLineChange:				; player d0 opens its team's line change box; when the box is open its
+									; timer starts in temp1 (home, $258) or temp2 (away, $168) of the puck,
+									; the player's object number in temp3 / temp4
 	ldy.b a3
 	sty.b a2
 	lda.b d0
@@ -1620,37 +1626,40 @@ CODE_C51E1F:						; from CODE_C51DF6, CODE_C51E0C
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-CODE_C51E80:						; from CODE_C51DB8, CODE_C51E81, CODE_C51EB8, CODE_C51DB8, ...
+rtsfaceoff:							; the shared return of the face off routines
 	rtl
-CODE_C51E81:						; no caller found (not traced)
+WaitForFaceoffLineChanges:			; runs both line change timers; when both are done, the computer lines,
+									; then assignment $1C (puckfaceoff2)
 	stz.w penshotlive
 	stz.b d0
-	jsl.l CODE_C51EB8
+	jsl.l UpdateFaceoffLineChangeTimer
 	lda.w #$0020
 	sta.b d0
-	jsl.l CODE_C51EB8
+	jsl.l UpdateFaceoffLineChangeTimer
 	ldx.b a3
 	lda.w temp1,x
-	bpl CODE_C51E80
+	bpl rtsfaceoff
 	lda.w temp2,x
-	bpl CODE_C51E80
+	bpl rtsfaceoff
 	stz.b a2
 	lda.w #$0001
 	sta.b d0
 	inc a
 	sta.b a1
-	jsl.l CODE_C51DB8
+	jsl.l SetFaceoffComputerLine
 	lda.w #$001C
 	sta.b d0
 	ldx.b a3
 	jml.l assreplace
-CODE_C51EB8:						; from CODE_C51E81 and other segments
+UpdateFaceoffLineChangeTimer:		; line change timer d0 (0 home, $20 away) of the puck: closes the box when
+									; the player closed it, else counts down by d7 and takes row 0 (lcfound)
+									; when it runs out
 	lda.b a3
 	clc
 	adc.b d0
 	tay
 	lda.w temp1,y
-	bmi CODE_C51E80
+	bmi rtsfaceoff
 	lda.w temp3,y
 	asl a
 	sta.b d1
@@ -1697,7 +1706,7 @@ CODE_C51EB8:						; from CODE_C51E81 and other segments
 	sbc.b d7
 	sta.w temp1,y
 	bmi .4
-	jmp.w CODE_C51E80
+	jmp.w rtsfaceoff
 .4:									; X = a3, push X, a3 = d1, push Y, ...
 	ldx.b a3
 	phx
@@ -1721,7 +1730,7 @@ CODE_C51EB8:						; from CODE_C51E81 and other segments
 	plx
 	stx.b a3
 	rtl
-CODE_C51F48:						; from CODE_C51F60, CODE_C51F6E and other segments
+FirstTeamPad:						; A = the first pad (0-8 by 2) whose padside is team a2, or $FFFF
 	ldy.w #$0000
 .loop:								; loop: if padside,y = a2 go to .1, Y + 1, Y + 1, ...
 	lda.w padside,y
@@ -1737,17 +1746,17 @@ CODE_C51F48:						; from CODE_C51F60, CODE_C51F6E and other segments
 	tya
 .rtl:								; return
 	rtl
-CODE_C51F60:						; from puckfaceoff and other segments
+HomePadPlayer:						; A = the player of home's first pad (c1playernum)
 	lda.w #$0000
 	sta.b a2
-	jsl.l CODE_C51F48
+	jsl.l FirstTeamPad
 	tay
 	lda.w c1playernum,y
 	rtl
-CODE_C51F6E:						; from puckfaceoff and other segments
+AwayPadPlayer:						; A = the player of the away team's first pad (c1playernum)
 	lda.w #$0002
 	sta.b a2
-	jsl.l CODE_C51F48
+	jsl.l FirstTeamPad
 	tay
 	lda.w c1playernum,y
 	rtl

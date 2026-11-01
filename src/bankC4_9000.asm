@@ -107,7 +107,8 @@ CODE_C4939D:						; from GoaliePuckVector
 	cmp.w #$010E
 	bpl .2
 	rts
-CODE_C493CA:						; called from other segments
+pucknorm:							; assignment (asstab entry 24): the puck most of the time; a new
+									; assignment clears its timers, then pucknorm_move
 	lda.w #$0002
 	trb.w $0D7C
 	beq pucknorm_move
@@ -116,7 +117,7 @@ CODE_C493CA:						; called from other segments
 	lda.w #$0078
 	sta.w $0B9C
 	stz.w $234E
-pucknorm_move:						; from CODE_C493CA and other segments
+pucknorm_move:						; from pucknorm and other segments
 	lda.w puckcross+2
 	sec
 	sbc.b d7
@@ -670,7 +671,7 @@ CompShoot:							; from chk4shot and other segments
 	lda.w #$0013
 	sta.b d0
 	jmp.w assreplace
-SetShotMode:						; from CODE_C498A1 and other segments
+SetShotMode:						; from assshoot and other segments
 	lda.w #$0008
 	sta.w passdir
 	lda.w #$0008
@@ -701,7 +702,7 @@ SetShotMode:						; from CODE_C498A1 and other segments
 .2:									; d1 = Y, go to SetSPA
 	sty.b d1
 	jml.l SetSPA
-CODE_C498A1:						; called from other segments
+assshoot:							; assignment (asstab entry 19): computer shooting, wind up then shoot
 	lda.w pflags,x
 	bit.w #$0002
 	beq .1
@@ -724,7 +725,7 @@ CODE_C498A1:						; called from other segments
 	bpl CODE_C498D3
 	lda.w #$0080
 	tsb.b d2
-CODE_C498D3:						; from CODE_C498A1 and other segments
+CODE_C498D3:						; from assshoot and other segments
 	cpx.w puckc
 	bne .2
 	lda.w SPA,x
@@ -1007,7 +1008,8 @@ DATA8_C49B35:						; not traced: data between routines
 	db $00,$00,$0C,$00,$0F,$00,$0C,$00,$0F,$00,$06,$00,$0F,$00,$00,$00
 	db $00,$00,$00,$00,$F1,$FF,$00,$00,$F1,$FF,$06,$00,$F1,$FF,$0C,$00
 	db $00,$00,$06,$00
-CODE_C49B59:						; called from other segments
+assbreakaway:						; assignment (asstab entry 16): the puck carrier on a breakaway; others
+									; and pad players leave through assexit
 	cpx.w puckc
 	bne .1
 	lda.w playerpad,x
@@ -1017,11 +1019,11 @@ CODE_C49B59:						; called from other segments
 DATA8_C49B66:						; an rtl no traced code reaches
 	db $6B
 CODE_C49B67:						; from CODE_C49B74
-	jsl.l CODE_C42B18
+	jsl.l GlideBack
 	lda.w #$003C
 	sta.w nopuck,x
 	jmp.w donothing
-CODE_C49B74:						; from CODE_C49B59
+CODE_C49B74:						; from assbreakaway
 	lda.w gmclock
 	bne CODE_C49B67
 	lda.w Ypos,x

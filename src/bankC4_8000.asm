@@ -1322,7 +1322,7 @@ AdvanceStringPtr:					; no caller found (not traced)
 	dec.b d0
 	bpl .loop
 	rtl
-CODE_C48A71:						; called from other segments
+assgoalie:							; assignment (asstab entry 7): the goalie
 	lda.w #$0006
 	ora.w goalieflags,x
 	sta.w goalieflags,x
@@ -1415,7 +1415,7 @@ CODE_C48A71:						; called from other segments
 	jml.l skateto
 DATA8_C48B47:						; an rtl no traced code reaches
 	db $6B
-CODE_C48B48:						; from CODE_C48A71
+CODE_C48B48:						; from assgoalie
 	lda.w gmclock
 	bne .1
 	cpx.w puckc
@@ -1425,7 +1425,7 @@ CODE_C48B48:						; from CODE_C48A71
 	lda.w goalieflags,x
 	ora.w #$0001
 	sta.w goalieflags,x
-CODE_C48B5E:						; from CODE_C48A71, CODE_C48B8E
+CODE_C48B5E:						; from assgoalie, CODE_C48B8E
 	jmp.w CODE_C48BAA
 CODE_C48B61:						; from CODE_C48B8E
 	lda.w #rtss>>16

@@ -750,7 +750,9 @@ DATA8_C4A62D:						; not traced: a table read by CODE_C4A52A
 DATA8_C4A645:						; not traced: a table read by CODE_C4A52A
 	db $97,$FF,$8D,$FF,$8D,$FF,$4C,$FF,$29,$FF,$4C,$FF,$69,$00,$73,$00
 	db $73,$00,$B4,$00,$D7,$00,$B4,$00
-CODE_C4A65D:						; called from other segments
+puckshadow:							; assignment (asstab entry 25): the puck shadow (object 15): under the
+									; puck when the puck frame is $01B3, else at a fixed spot flipped by the
+									; puck's end
 	lda.w $0874
 	cmp.w $0894
 	beq .1

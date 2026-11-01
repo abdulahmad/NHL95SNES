@@ -3360,7 +3360,7 @@ $C40EA8,.3,CODE_C40EA8,new,"branch target only used in CODE_C40E8D",src/bankC4_0
 $C40EB1,.4,CODE_C40EB1,new,"branch target only used in CODE_C40E8D",src/bankC4_0000.asm
 $C40EBA,.5,CODE_C40EBA,new,"branch target only used in CODE_C40E8D",src/bankC4_0000.asm
 $C40EC3,.6,CODE_C40EC3,new,"branch target only used in CODE_C40E8D",src/bankC4_0000.asm
-$C42B24,.rtl,CODE_C42B24,new,"branch target only used in CODE_C42B18",src/bankC4_2000.asm
+$C42B24,.rtl,CODE_C42B24,new,"branch target only used in GlideBack",src/bankC4_2000.asm
 $C42B42,.1,CODE_C42B42,new,"branch target only used in assnearest",src/bankC4_2000.asm
 $C42B59,.rtl,CODE_C42B59,new,"branch target only used in assnearest",src/bankC4_2000.asm
 $C42B5A,.2,CODE_C42B5A,new,"branch target only used in assnearest",src/bankC4_2000.asm
@@ -3387,7 +3387,7 @@ $C42CFF,.20,CODE_C42CFF,new,"branch target only used in assnearest",src/bankC4_2
 $C42D16,.1,CODE_C42D16,new,"branch target only used in burst",src/bankC4_2000.asm
 $C42D38,.2,CODE_C42D38,new,"branch target only used in burst",src/bankC4_2000.asm
 $C42DB1,.1,CODE_C42DB1,new,"branch target only used in chkpk2",src/bankC4_2000.asm
-$C42DC2,.1,CODE_C42DC2,new,"branch target only used in CODE_C42DB8",src/bankC4_2000.asm
+$C42DC2,.1,CODE_C42DC2,new,"branch target only used in asspuckc",src/bankC4_2000.asm
 $C42DF5,.1,CODE_C42DF5,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
 $C42E08,.2,CODE_C42E08,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
 $C42E23,.3,CODE_C42E23,new,"branch target only used in CODE_C42DCD",src/bankC4_2000.asm
@@ -3483,8 +3483,8 @@ $C4369F,.11,CODE_C4369F,new,"branch target only used in asswingo",src/bankC4_300
 $C436B4,.12,CODE_C436B4,new,"branch target only used in asswingo",src/bankC4_3000.asm
 $C436CE,.13,CODE_C436CE,new,"branch target only used in asswingo",src/bankC4_3000.asm
 $C4370B,.rtl,CODE_C4370B,new,"branch target only used in donothing",src/bankC4_3000.asm
-$C43768,.rtl,CODE_C43768,new,"branch target only used in CODE_C4375B",src/bankC4_3000.asm
-$C43769,.1,CODE_C43769,new,"branch target only used in CODE_C4375B",src/bankC4_3000.asm
+$C43768,.rtl,CODE_C43768,new,"branch target only used in assfaceoff",src/bankC4_3000.asm
+$C43769,.1,CODE_C43769,new,"branch target only used in assfaceoff",src/bankC4_3000.asm
 $C43777,.1,CODE_C43777,new,"branch target only used in assfaceoffpl",src/bankC4_3000.asm
 $C43790,.2,CODE_C43790,new,"branch target only used in assfaceoffpl",src/bankC4_3000.asm
 $C437A4,.3,CODE_C437A4,new,"branch target only used in assfaceoffpl",src/bankC4_3000.asm
@@ -4018,12 +4018,12 @@ $C470BC,.4,CODE_C470BC,new,"branch target only used in skatetopuck",src/bankC4_7
 $C470E7,.5,CODE_C470E7,new,"branch target only used in skatetopuck",src/bankC4_7000.asm
 $C470F0,.6,CODE_C470F0,new,"branch target only used in skatetopuck",src/bankC4_7000.asm
 $C47120,.7,CODE_C47120,new,"branch target only used in skatetopuck",src/bankC4_7000.asm
-$C47132,.1,CODE_C47132,new,"branch target only used in CODE_C47122",src/bankC4_7000.asm
-$C47140,.2,CODE_C47140,new,"branch target only used in CODE_C47122",src/bankC4_7000.asm
-$C47177,.3,CODE_C47177,new,"branch target only used in CODE_C47122",src/bankC4_7000.asm
-$C471A2,.4,CODE_C471A2,new,"branch target only used in CODE_C47122",src/bankC4_7000.asm
-$C471A7,.5,CODE_C471A7,new,"branch target only used in CODE_C47122",src/bankC4_7000.asm
-$C471DE,.6,CODE_C471DE,new,"branch target only used in CODE_C47122",src/bankC4_7000.asm
+$C47132,.1,CODE_C47132,new,"branch target only used in assscore",src/bankC4_7000.asm
+$C47140,.2,CODE_C47140,new,"branch target only used in assscore",src/bankC4_7000.asm
+$C47177,.3,CODE_C47177,new,"branch target only used in assscore",src/bankC4_7000.asm
+$C471A2,.4,CODE_C471A2,new,"branch target only used in assscore",src/bankC4_7000.asm
+$C471A7,.5,CODE_C471A7,new,"branch target only used in assscore",src/bankC4_7000.asm
+$C471DE,.6,CODE_C471DE,new,"branch target only used in assscore",src/bankC4_7000.asm
 $C47218,.1,CODE_C47218,new,"branch target only used in chkatop",src/bankC4_7000.asm
 $C47227,.2,CODE_C47227,new,"branch target only used in chkatop",src/bankC4_7000.asm
 $C47230,.rtl,CODE_C47230,new,"branch target only used in chkatop",src/bankC4_7000.asm
@@ -4115,13 +4115,13 @@ $C47A89,.loop,CODE_C47A89,new,"branch target only used in CODE_C47A7C",src/bankC
 $C47A93,.1,CODE_C47A93,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
 $C47AB2,.2,CODE_C47AB2,new,"branch target only used in CODE_C47A7C",src/bankC4_7000.asm
 $C47AE9,.1,CODE_C47AE9,new,"branch target only used in CODE_C47ACD",src/bankC4_7000.asm
-$C47B53,.1,CODE_C47B53,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
-$C47B64,.2,CODE_C47B64,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
-$C47B8F,.3,CODE_C47B8F,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
-$C47BBE,.4,CODE_C47BBE,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
-$C47BCB,.loop,CODE_C47BCB,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
-$C47BD5,.5,CODE_C47BD5,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
-$C47BF4,.6,CODE_C47BF4,new,"branch target only used in CODE_C47B3F",src/bankC4_7000.asm
+$C47B53,.1,CODE_C47B53,new,"branch target only used in assepen",src/bankC4_7000.asm
+$C47B64,.2,CODE_C47B64,new,"branch target only used in assepen",src/bankC4_7000.asm
+$C47B8F,.3,CODE_C47B8F,new,"branch target only used in assepen",src/bankC4_7000.asm
+$C47BBE,.4,CODE_C47BBE,new,"branch target only used in assepen",src/bankC4_7000.asm
+$C47BCB,.loop,CODE_C47BCB,new,"branch target only used in assepen",src/bankC4_7000.asm
+$C47BD5,.5,CODE_C47BD5,new,"branch target only used in assepen",src/bankC4_7000.asm
+$C47BF4,.6,CODE_C47BF4,new,"branch target only used in assepen",src/bankC4_7000.asm
 $C47C05,.1,CODE_C47C05,new,"branch target only used in GetLowestPen",src/bankC4_7000.asm
 $C47C07,.loop,CODE_C47C07,new,"branch target only used in GetLowestPen",src/bankC4_7000.asm
 $C47C1F,.2,CODE_C47C1F,new,"branch target only used in GetLowestPen",src/bankC4_7000.asm
@@ -4278,15 +4278,15 @@ $C48A38,.6,CODE_C48A38,new,"branch target only used in CODE_C489A5",src/bankC4_8
 $C48A5A,.loop,CODE_C48A5A,new,"branch target only used in CODE_C48A41",src/bankC4_8000.asm
 $C48A65,.loop,CODE_C48A65,new,"branch target only used in AdvanceStringPtr",src/bankC4_8000.asm
 $C48A6C,.1,CODE_C48A6C,new,"branch target only used in AdvanceStringPtr",src/bankC4_8000.asm
-$C48A93,.1,CODE_C48A93,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48AA8,.2,CODE_C48AA8,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48AC1,.3,CODE_C48AC1,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48AD1,.4,CODE_C48AD1,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48AF5,.5,CODE_C48AF5,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48B13,.6,CODE_C48B13,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48B1D,.7,CODE_C48B1D,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48B32,.8,CODE_C48B32,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
-$C48B43,.9,CODE_C48B43,new,"branch target only used in CODE_C48A71",src/bankC4_8000.asm
+$C48A93,.1,CODE_C48A93,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48AA8,.2,CODE_C48AA8,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48AC1,.3,CODE_C48AC1,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48AD1,.4,CODE_C48AD1,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48AF5,.5,CODE_C48AF5,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48B13,.6,CODE_C48B13,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48B1D,.7,CODE_C48B1D,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48B32,.8,CODE_C48B32,new,"branch target only used in assgoalie",src/bankC4_8000.asm
+$C48B43,.9,CODE_C48B43,new,"branch target only used in assgoalie",src/bankC4_8000.asm
 $C48B55,.1,CODE_C48B55,new,"branch target only used in CODE_C48B48",src/bankC4_8000.asm
 $C48B76,.1,CODE_C48B76,new,"branch target only used in CODE_C48B61",src/bankC4_8000.asm
 $C48B87,.2,CODE_C48B87,new,"branch target only used in CODE_C48B61",src/bankC4_8000.asm
@@ -4447,8 +4447,8 @@ $C49835,.1,CODE_C49835,new,"branch target only used in CompShoot",src/bankC4_900
 $C49846,.2,CODE_C49846,new,"branch target only used in CompShoot",src/bankC4_9000.asm
 $C49875,.1,CODE_C49875,new,"branch target only used in SetShotMode",src/bankC4_9000.asm
 $C4989B,.2,CODE_C4989B,new,"branch target only used in SetShotMode",src/bankC4_9000.asm
-$C498B1,.1,CODE_C498B1,new,"branch target only used in CODE_C498A1",src/bankC4_9000.asm
-$C498BC,.2,CODE_C498BC,new,"branch target only used in CODE_C498A1",src/bankC4_9000.asm
+$C498B1,.1,CODE_C498B1,new,"branch target only used in assshoot",src/bankC4_9000.asm
+$C498BC,.2,CODE_C498BC,new,"branch target only used in assshoot",src/bankC4_9000.asm
 $C498FA,.1,CODE_C498FA,new,"branch target only used in CODE_C498D3",src/bankC4_9000.asm
 $C49929,.2,CODE_C49929,new,"branch target only used in CODE_C498D3",src/bankC4_9000.asm
 $C4992F,.rtl,CODE_C4992F,new,"branch target only used in CODE_C498D3",src/bankC4_9000.asm
@@ -4470,7 +4470,7 @@ $C49AFE,.15,CODE_C49AFE,new,"branch target only used in doshot",src/bankC4_9000.
 $C49B10,.16,CODE_C49B10,new,"branch target only used in doshot",src/bankC4_9000.asm
 $C49B26,.17,CODE_C49B26,new,"branch target only used in doshot",src/bankC4_9000.asm
 $C49B34,.rtl,CODE_C49B34,new,"branch target only used in doshot",src/bankC4_9000.asm
-$C49B63,.1,CODE_C49B63,new,"branch target only used in CODE_C49B59",src/bankC4_9000.asm
+$C49B63,.1,CODE_C49B63,new,"branch target only used in assbreakaway",src/bankC4_9000.asm
 $C49B8B,.1,CODE_C49B8B,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
 $C49BB4,.2,CODE_C49BB4,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
 $C49BC9,.3,CODE_C49BC9,new,"branch target only used in CODE_C49B74",src/bankC4_9000.asm
@@ -4568,11 +4568,11 @@ $C4A580,.1,CODE_C4A580,new,"branch target only used in CODE_C4A52A",src/bankC4_A
 $C4A58F,.2,CODE_C4A58F,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
 $C4A591,.3,CODE_C4A591,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
 $C4A599,.4,CODE_C4A599,new,"branch target only used in CODE_C4A52A",src/bankC4_A000.asm
-$C4A666,.loop,CODE_C4A666,new,"branch target only used in CODE_C4A65D",src/bankC4_A000.asm
-$C4A680,.1,CODE_C4A680,new,"branch target only used in CODE_C4A65D",src/bankC4_A000.asm
-$C4A693,.2,CODE_C4A693,new,"branch target only used in CODE_C4A65D",src/bankC4_A000.asm
-$C4A6AD,.3,CODE_C4A6AD,new,"branch target only used in CODE_C4A65D",src/bankC4_A000.asm
-$C4A6B0,.rtl,CODE_C4A6B0,new,"branch target only used in CODE_C4A65D",src/bankC4_A000.asm
+$C4A666,.loop,CODE_C4A666,new,"branch target only used in puckshadow",src/bankC4_A000.asm
+$C4A680,.1,CODE_C4A680,new,"branch target only used in puckshadow",src/bankC4_A000.asm
+$C4A693,.2,CODE_C4A693,new,"branch target only used in puckshadow",src/bankC4_A000.asm
+$C4A6AD,.3,CODE_C4A6AD,new,"branch target only used in puckshadow",src/bankC4_A000.asm
+$C4A6B0,.rtl,CODE_C4A6B0,new,"branch target only used in puckshadow",src/bankC4_A000.asm
 $C4A6C3,.1,CODE_C4A6C3,new,"branch target only used in puckbody",src/bankC4_A000.asm
 $C4A6E6,.2,CODE_C4A6E6,new,"branch target only used in puckbody",src/bankC4_A000.asm
 $C4A6E9,.3,CODE_C4A6E9,new,"branch target only used in puckbody",src/bankC4_A000.asm
@@ -5340,24 +5340,24 @@ $C51D42,.8,CODE_C51D42,new,"branch target only used in puckfaceoff",src/bankC5_1
 $C51D7B,.9,CODE_C51D7B,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
 $C51D90,.10,CODE_C51D90,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
 $C51DA5,.11,CODE_C51DA5,new,"branch target only used in puckfaceoff",src/bankC5_1000.asm
-$C51DC0,.1,CODE_C51DC0,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
-$C51DCA,.2,CODE_C51DCA,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
-$C51DD2,.3,CODE_C51DD2,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
-$C51DDA,.4,CODE_C51DDA,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
-$C51DE2,.5,CODE_C51DE2,new,"branch target only used in CODE_C51DB8",src/bankC5_1000.asm
-$C51E37,.1,CODE_C51E37,new,"branch target only used in CODE_C51E1F",src/bankC5_1000.asm
-$C51E52,.2,CODE_C51E52,new,"branch target only used in CODE_C51E1F",src/bankC5_1000.asm
-$C51E6D,.3,CODE_C51E6D,new,"branch target only used in CODE_C51E1F",src/bankC5_1000.asm
-$C51E78,.4,CODE_C51E78,new,"branch target only used in CODE_C51E1F",src/bankC5_1000.asm
-$C51ED8,.1,CODE_C51ED8,new,"branch target only used in CODE_C51EB8",src/bankC5_1000.asm
-$C51EEF,.2,CODE_C51EEF,new,"branch target only used in CODE_C51EB8",src/bankC5_1000.asm
-$C51F08,.3,CODE_C51F08,new,"branch target only used in CODE_C51EB8",src/bankC5_1000.asm
-$C51F1C,.4,CODE_C51F1C,new,"branch target only used in CODE_C51EB8",src/bankC5_1000.asm
-$C51F2F,.5,CODE_C51F2F,new,"branch target only used in CODE_C51EB8",src/bankC5_1000.asm
-$C51F44,.6,CODE_C51F44,new,"branch target only used in CODE_C51EB8",src/bankC5_1000.asm
-$C51F4B,.loop,CODE_C51F4B,new,"branch target only used in CODE_C51F48",src/bankC5_1000.asm
-$C51F5E,.1,CODE_C51F5E,new,"branch target only used in CODE_C51F48",src/bankC5_1000.asm
-$C51F5F,.rtl,CODE_C51F5F,new,"branch target only used in CODE_C51F48",src/bankC5_1000.asm
+$C51DC0,.1,CODE_C51DC0,new,"branch target only used in SetFaceoffComputerLine",src/bankC5_1000.asm
+$C51DCA,.2,CODE_C51DCA,new,"branch target only used in SetFaceoffComputerLine",src/bankC5_1000.asm
+$C51DD2,.3,CODE_C51DD2,new,"branch target only used in SetFaceoffComputerLine",src/bankC5_1000.asm
+$C51DDA,.4,CODE_C51DDA,new,"branch target only used in SetFaceoffComputerLine",src/bankC5_1000.asm
+$C51DE2,.5,CODE_C51DE2,new,"branch target only used in SetFaceoffComputerLine",src/bankC5_1000.asm
+$C51E37,.1,CODE_C51E37,new,"branch target only used in StartFaceoffLineChange",src/bankC5_1000.asm
+$C51E52,.2,CODE_C51E52,new,"branch target only used in StartFaceoffLineChange",src/bankC5_1000.asm
+$C51E6D,.3,CODE_C51E6D,new,"branch target only used in StartFaceoffLineChange",src/bankC5_1000.asm
+$C51E78,.4,CODE_C51E78,new,"branch target only used in StartFaceoffLineChange",src/bankC5_1000.asm
+$C51ED8,.1,CODE_C51ED8,new,"branch target only used in UpdateFaceoffLineChangeTimer",src/bankC5_1000.asm
+$C51EEF,.2,CODE_C51EEF,new,"branch target only used in UpdateFaceoffLineChangeTimer",src/bankC5_1000.asm
+$C51F08,.3,CODE_C51F08,new,"branch target only used in UpdateFaceoffLineChangeTimer",src/bankC5_1000.asm
+$C51F1C,.4,CODE_C51F1C,new,"branch target only used in UpdateFaceoffLineChangeTimer",src/bankC5_1000.asm
+$C51F2F,.5,CODE_C51F2F,new,"branch target only used in UpdateFaceoffLineChangeTimer",src/bankC5_1000.asm
+$C51F44,.6,CODE_C51F44,new,"branch target only used in UpdateFaceoffLineChangeTimer",src/bankC5_1000.asm
+$C51F4B,.loop,CODE_C51F4B,new,"branch target only used in FirstTeamPad",src/bankC5_1000.asm
+$C51F5E,.1,CODE_C51F5E,new,"branch target only used in FirstTeamPad",src/bankC5_1000.asm
+$C51F5F,.rtl,CODE_C51F5F,new,"branch target only used in FirstTeamPad",src/bankC5_1000.asm
 $C51F93,.loop,CODE_C51F93,new,"branch target only used in limitfo",src/bankC5_1000.asm
 $C51FE6,.1,CODE_C51FE6,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
 $C51FF3,.2,CODE_C51FF3,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
@@ -5731,10 +5731,10 @@ $C5483F,.2,CODE_C5483F,new,"branch target only used in CODE_C54828",src/bankC5_4
 $C54878,.3,CODE_C54878,new,"branch target only used in CODE_C54828",src/bankC5_4000.asm
 $C548FC,.loop,CODE_C548FC,new,"branch target only used in CODE_C548C1",src/bankC5_4000.asm
 $C5490E,.1,CODE_C5490E,new,"branch target only used in CODE_C548C1",src/bankC5_4000.asm
-$C54948,.1,CODE_C54948,new,"branch target only used in CODE_C5492E",src/bankC5_4000.asm
-$C54966,.2,CODE_C54966,new,"branch target only used in CODE_C5492E",src/bankC5_4000.asm
-$C54982,.3,CODE_C54982,new,"branch target only used in CODE_C5492E",src/bankC5_4000.asm
-$C549A7,.rtl,CODE_C549A7,new,"branch target only used in CODE_C5492E",src/bankC5_4000.asm
+$C54948,.1,CODE_C54948,new,"branch target only used in chk4lc",src/bankC5_4000.asm
+$C54966,.2,CODE_C54966,new,"branch target only used in chk4lc",src/bankC5_4000.asm
+$C54982,.3,CODE_C54982,new,"branch target only used in chk4lc",src/bankC5_4000.asm
+$C549A7,.rtl,CODE_C549A7,new,"branch target only used in chk4lc",src/bankC5_4000.asm
 $C549BA,.1,CODE_C549BA,new,"branch target only used in check4bench",src/bankC5_4000.asm
 $C549EA,.rtl,CODE_C549EA,new,"branch target only used in check4bench",src/bankC5_4000.asm
 $C549EB,.2,CODE_C549EB,new,"branch target only used in check4bench",src/bankC5_4000.asm
@@ -7549,3 +7549,25 @@ $C54B60,lcfound_close,CODE_C54B60,94S+purpose,"94S lcfound_close's job (setlccor
 $C54BAF,CloseLCBoxes,CODE_C54BAF,code,"the step of 94S ShowGoalBox that closes both boxes, as a routine; called from puckfaceoff2, PenGoalStuff and others",src/bankC5_4000.asm
 $17C1,goaliemode1,,94S+code,"RAM: 3 of 3 aligned votes (SetupPenaltyShot, doinput, PauseGoalieMode); StartGame_go stores it with goaliemode2 as 94S StartGame does",src/ram95s.asm
 $17C3,goaliemode2,,94S+code,"RAM: StartGame_go stores it right after goaliemode1 as 94S StartGame stores goaliemode2",src/ram95s.asm
+$C42DB8,asspuckc,CODE_C42DB8,94S+code,"94S asspuckc side by side: the puckc / playerpad exit, gmclock to GlideBack, the pfna setup, the aioff timer with checkob and the breakaway test, chk4lc, chk4shot, chk4pass, then skateto to an asspuckc_postab spot; entry 17 of asstab as in 94S",src/bankC4_2000.asm
+$C42B18,GlideBack,CODE_C42B18,94S+code,"the same instructions as 94S GlideBack (pfalock, SPAglideback through SetSPAFromA); called where 94S asspuckc and assbreakaway call it",src/bankC4_2000.asm
+$C48A71,assgoalie,CODE_C48A71,94S+code,"94S assgoalie side by side from its first instruction (goalieflags 6, the Xpos / Ypos crease limits); entry 7 of asstab as in 94S",src/bankC4_8000.asm
+$C47122,assscore,CODE_C47122,94S+code,"94S assscore side by side (gmode $40 to StartBenchCheer, a pad with buttons held left alone, Xvel / Yvel times $C0); entry 8 of asstab as in 94S",src/bankC4_7000.asm
+$C47B3F,assepen,CODE_C47B3F,94S+code,"94S assepen side by side after one extra step (a bit of $08E0 cleared): pfna, one man off PBnum, Xvel / Yvel cleared; entry 11 of asstab as in 94S",src/bankC4_7000.asm
+$C49B59,assbreakaway,CODE_C49B59,94S+code,"94S assbreakaway side by side (puckc / playerpad exit, gmclock to GlideBack with nopuck $3C, Ypos by pfgoal, pfna); entry 16 of asstab as in 94S",src/bankC4_9000.asm
+$C498A1,assshoot,CODE_C498A1,94S+code,"94S assshoot side by side (pfna to SetShotMode, sflags bit 3 else assexit, temp1 / temp2b timers); entry 19 of asstab as in 94S",src/bankC4_9000.asm
+$C4375B,assfaceoff,CODE_C4375B,94S+code,"94S assfaceoff side by side (pfalock, sflags $0100, assexit) with $18AA cleared first; entry 22 of asstab as in 94S",src/bankC4_3000.asm
+$C493CA,pucknorm,CODE_C493CA,94S+code,"94S pucknorm side by side (pfna of the puck slot, temp1 / temp2 cleared, temp2b $78, pspuckback cleared, then pucknorm_move); entry 24 of asstab as in 94S",src/bankC4_9000.asm
+$C4A65D,puckshadow,CODE_C4A65D,94S+code,"94S puckshadow's job side by side (frame test, puckx / pucky + 1, else the fixed spot and attribute $8000 when pucky is negative); 95 also queues the shadow's tiles when its frame changes and has no horizontal rink case; entry 25 of asstab as in 94S",src/bankC4_A000.asm
+$C5492E,chk4lc,CODE_C5492E,94S+code,"the same code as 94S chk4lc side by side (OptLine 2, pucky by pfgoal, seed, tmflags bit 3, AvgCline $C01, PenShotActive, CompLine, setpersonel, printscores1, CompShoot); called from asspuckc as in 94S",src/bankC5_4000.asm
+$C5111A,printscores1,CODE_C5111A,94S+purpose,"94S calls printscores1 at the same three steps (chk4lc, puckfaceoff's computer line, lcfound_close); the 95 scoreboard is drawn by other code, so only the X reload is left",src/bankC5_1000.asm
+$C51DB8,SetFaceoffComputerLine,CODE_C51DB8,genesis+purpose,"95 Genesis SetFaceoffComputerLine (94S puckfaceoff .1): the OptLine test, the cont1team-cont5team tests, CompLine, setpersonel, printscores1",src/bankC5_1000.asm
+$C51E1F,StartFaceoffLineChange,CODE_C51E1F,genesis+purpose,"95 Genesis StartFaceoffLineChange (94S puckfaceoff .7): SetLCmode, tmflags bit 3, the two timers",src/bankC5_1000.asm
+$C51E80,rtsfaceoff,CODE_C51E80,genesis+purpose,"95 Genesis rtsfaceoff (94S puckfaceoff .8)",src/bankC5_1000.asm
+$C51E81,WaitForFaceoffLineChanges,CODE_C51E81,genesis+purpose,"95 Genesis WaitForFaceoffLineChanges (94S puckfaceoff .9): two UpdateFaceoffLineChangeTimer calls, the temp1 / temp2 tests, SetFaceoffComputerLine, assreplace",src/bankC5_1000.asm
+$C51EB8,UpdateFaceoffLineChangeTimer,CODE_C51EB8,genesis+purpose,"95 Genesis UpdateFaceoffLineChangeTimer (94S puckfaceoff .t1xxxxxxx); 95 SNES closes a closed box once per team ($18E2)",src/bankC5_1000.asm
+$C51DF6,HomeFaceoffLineChange,CODE_C51DF6,code,"94S puckfaceoff .5 (a local label there); 95 Genesis calls StartFaceoffLineChange directly",src/bankC5_1000.asm
+$C51E0C,AwayFaceoffLineChange,CODE_C51E0C,code,"94S puckfaceoff .6 (a local label there)",src/bankC5_1000.asm
+$C51F48,FirstTeamPad,CODE_C51F48,code,"94S puckfaceoff .10 (a local label there)",src/bankC5_1000.asm
+$C51F60,HomePadPlayer,CODE_C51F60,code,"94S puckfaceoff .11 (a local label there)",src/bankC5_1000.asm
+$C51F6E,AwayPadPlayer,CODE_C51F6E,code,"94S puckfaceoff .12 (a local label there)",src/bankC5_1000.asm
