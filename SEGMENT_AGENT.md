@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCC_D000 (org $CCD265): banks $C0-$CB are all source. <- CURRENT
+bankCC_E000 (org $CCE1E5): banks $C0-$CB are all source. <- CURRENT
 
 ## Sources
 
@@ -545,6 +545,8 @@ bankCC_D000 (org $CCD265): banks $C0-$CB are all source. <- CURRENT
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankCC_C000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankCC_D000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -757,8 +759,8 @@ The first row that is still incbin is the current segment.
 | bankCC_A000 | matched 4096 bytes | $CCA125 | $CCB124 | raw frame tiles (poses not traced); org moved to $CCA125, end moved +$125 |
 | bankCC_B000 | matched 4288 bytes | $CCB125 | $CCC1E4 | raw frame tiles (poses not traced); org moved to $CCB125, end moved +$1E5 |
 | bankCC_C000 | matched 4224 bytes | $CCC1E5 | $CCD264 | raw frame tiles (poses not traced); org moved to $CCC1E5, end moved +$265 |
-| bankCC_D000 | incbin | $CCD265 | $CCDFFF | <- CURRENT |
-| bankCC_E000 | incbin | $CCE000 | $CCEFFF | |
+| bankCC_D000 | matched 3968 bytes | $CCD265 | $CCE1E4 | raw frame tiles (poses not traced); org moved to $CCD265, end moved +$1E5 |
+| bankCC_E000 | incbin | $CCE1E5 | $CCEFFF | <- CURRENT |
 | bankCC_F000 | incbin | $CCF000 | $CCFFFF | |
 | bankCD_0000 | incbin | $CD0000 | $CD0FFF | |
 | bankCD_1000 | incbin | $CD1000 | $CD1FFF | |

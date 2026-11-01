@@ -750,5 +750,12 @@ DATA8_CCC905 = $CCC905				; frame source in another segment
 DATA8_CCCB65 = $CCCB65				; frame source in another segment
 DATA8_CCCDE5 = $CCCDE5				; frame source in another segment
 DATA8_CCCFE5 = $CCCFE5				; frame source in another segment
+DATA8_CCD265 = $CCD265				; frame source in another segment
+DATA8_CCD465 = $CCD465				; frame source in another segment
+DATA8_CCD6C5 = $CCD6C5				; frame source in another segment
+DATA8_CCD8C5 = $CCD8C5				; frame source in another segment
+DATA8_CCDB25 = $CCDB25				; frame source in another segment
+DATA8_CCDD85 = $CCDD85				; frame source in another segment
+DATA8_CCDFE5 = $CCDFE5				; frame source in another segment
 
 incsrc "../bankC6_0000.asm"
