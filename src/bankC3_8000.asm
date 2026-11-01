@@ -491,7 +491,7 @@ CODE_C38415:						; from CODE_C3846C
 	lda.w $0876,x
 	bmi CODE_C3846C
 	beq CODE_C3846C
-	jml.l $CFEE25
+	jml.l CODE_CFEE25
 CODE_C38455:						; from CODE_C38415
 	lda.l DATA8_C3847C,x
 	sta.b $A1
@@ -500,7 +500,7 @@ CODE_C38455:						; from CODE_C38415
 	lda.w $0876,x
 	bmi CODE_C3846C
 	beq CODE_C3846C
-	jml.l $CFEE6C
+	jml.l CODE_CFEE6C
 CODE_C3846C:						; from CODE_C38415, CODE_C38455 and other segments
 	ldx.b $1A
 	dex

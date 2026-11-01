@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCF_E000 (org $CFEE1D): banks $C0-$CE are all source. <- CURRENT
+bankCF_F000 (org $CFF0CB): banks $C0-$CE are all source. <- CURRENT
 
 ## Sources
 
@@ -690,6 +690,11 @@ bankCF_E000 (org $CFEE1D): banks $C0-$CE are all source. <- CURRENT
 - 2026-10-31: bankCF_D000 matched: sound data: Sample06. Sounds are a length word and their data (CODE_CF0313 sends the samples
   each lists from +3); samples a 12-byte header and BRR blocks to the end flag. The sound table and SampleList in bankCF_0000
   use the new labels.
+- 2026-10-31: bankCF_E000 matched: two jml stubs with no caller (CODE_CFEE1D, CODE_CFEE21), then the frame code CODE_CFEE25
+  (mirrored path) and CODE_CFEE6C (normal path): they add the placement words of DATA8_C61090 / DATA8_C618D8 / DATA8_C62120,
+  take the layout from DATA8_C60848+1 and dispatch on its record (DATA8_CFF3A2 / DATA8_CFF3A0, then the handler table
+  DATA8_CFEEAE; the top layouts jump through the pointer table itself). Whole-bank seeds with the wrong M/X or inside data were
+  dropped; $CF0000-$CF0006,x stay numbers (bank bases of the records).
 
 ## ROM map
 
@@ -951,5 +956,5 @@ The first row that is still incbin is the current segment.
 | bankCF_B000 | matched 4706 bytes | $CFB000 | $CFC261 | sound data: the rest of Sample31; end moved +$262 |
 | bankCF_C000 | matched 4154 bytes | $CFC262 | $CFD29B | sound data: sound 34 (DATA8_CFC262), Sample23; org moved to $CFC262, end moved +$29C |
 | bankCF_D000 | matched 7041 bytes | $CFD29C | $CFEE1C | sound data: Sample06; org moved to $CFD29C, end moved +$E1D |
-| bankCF_E000 | incbin | $CFEE1D | $CFEFFF | <- CURRENT |
-| bankCF_F000 | incbin | $CFF000 | $CFFFFF | |
+| bankCF_E000 | matched 686 bytes | $CFEE1D | $CFF0CA | the frame code: CODE_CFEE25 / CODE_CFEE6C (placement tables, layouts), handlers, jump tables; org moved to $CFEE1D, end moved +$CB |
+| bankCF_F000 | incbin | $CFF0CB | $CFFFFF | <- CURRENT |

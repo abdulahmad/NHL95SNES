@@ -2404,3 +2404,5 @@ $CFAAAD,Sample31,,new,"sound sample 31 of SampleList: header, then BRR blocks",s
 $CFC262,DATA8_CFC262,,new,"sound 34 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_C000.asm
 $CFC561,Sample23,,new,"sound sample 23 of SampleList: header, then BRR blocks",src/bankCF_C000.asm
 $CFD29C,Sample06,,new,"sound sample 6 of SampleList: header, then BRR blocks",src/bankCF_D000.asm
+$CFEEAE,DATA8_CFEEAE,,new,"jump table: the routine for each index",src/bankCF_E000.asm
+$CFF0AA,DATA8_CFF0AA,,new,"jump table: the routine for each index",src/bankCF_E000.asm

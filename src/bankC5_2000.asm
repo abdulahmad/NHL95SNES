@@ -1026,7 +1026,7 @@ CODE_C52852:						; from CODE_C527A9
 	sta.b $A5
 	ldy.b $2A
 	lda.w #$0072
-	jml.l $CFEE6C
+	jml.l CODE_CFEE6C
 CODE_C5287A:						; called from other segments
 	sty.b $2A
 	ldy.b $10
