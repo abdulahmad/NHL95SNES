@@ -6633,18 +6633,18 @@ $C5C9AC,.7,CODE_C5C9AC,new,"branch target only used in CODE_C5C926",src/bankC5_C
 $C5CA2A,.1,CODE_C5CA2A,new,"branch target only used in CODE_C5CA27",src/bankC5_C000.asm
 $C5CA32,.2,CODE_C5CA32,new,"branch target only used in CODE_C5CA27",src/bankC5_C000.asm
 $C5CA59,.3,CODE_C5CA59,new,"branch target only used in CODE_C5CA27",src/bankC5_C000.asm
-$C5CA7A,.1,CODE_C5CA7A,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CA97,.2,CODE_C5CA97,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CA9A,.3,CODE_C5CA9A,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CAC2,.4,CODE_C5CAC2,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CACA,.5,CODE_C5CACA,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CAD8,.6,CODE_C5CAD8,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CADD,.7,CODE_C5CADD,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CAF6,.8,CODE_C5CAF6,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CAFC,.9,CODE_C5CAFC,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CB0B,.10,CODE_C5CB0B,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CB1B,.11,CODE_C5CB1B,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
-$C5CB33,.12,CODE_C5CB33,new,"branch target only used in CODE_C5CA6C",src/bankC5_C000.asm
+$C5CA7A,.1,CODE_C5CA7A,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CA97,.2,CODE_C5CA97,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CA9A,.3,CODE_C5CA9A,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CAC2,.4,CODE_C5CAC2,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CACA,.5,CODE_C5CACA,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CAD8,.6,CODE_C5CAD8,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CADD,.7,CODE_C5CADD,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CAF6,.8,CODE_C5CAF6,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CAFC,.9,CODE_C5CAFC,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CB0B,.10,CODE_C5CB0B,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CB1B,.11,CODE_C5CB1B,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
+$C5CB33,.12,CODE_C5CB33,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
 $C5CC0E,.loop,CODE_C5CC0E,new,"branch target only used in CODE_C5CB36",src/bankC5_C000.asm
 $C5CC19,.loop2,CODE_C5CC19,new,"branch target only used in CODE_C5CB36",src/bankC5_C000.asm
 $C5CC6F,.1,CODE_C5CC6F,new,"branch target only used in CODE_C5CC4D",src/bankC5_C000.asm
@@ -6652,33 +6652,33 @@ $C5CC7C,.2,CODE_C5CC7C,new,"branch target only used in CODE_C5CC4D",src/bankC5_C
 $C5CC8D,.3,CODE_C5CC8D,new,"branch target only used in CODE_C5CC4D",src/bankC5_C000.asm
 $C5CCB6,.4,CODE_C5CCB6,new,"branch target only used in CODE_C5CC4D",src/bankC5_C000.asm
 $C5CCC2,.5,CODE_C5CCC2,new,"branch target only used in CODE_C5CC4D",src/bankC5_C000.asm
-$C5CD47,.loop,CODE_C5CD47,new,"branch target only used in CODE_C5CD41",src/bankC5_C000.asm
-$C5CD7C,.1,CODE_C5CD7C,new,"branch target only used in CODE_C5CD41",src/bankC5_C000.asm
-$C5CD7F,.2,CODE_C5CD7F,new,"branch target only used in CODE_C5CD41",src/bankC5_C000.asm
-$C5CD8E,.3,CODE_C5CD8E,new,"branch target only used in CODE_C5CD41",src/bankC5_C000.asm
-$C5CDA1,.1,CODE_C5CDA1,new,"branch target only used in CODE_C5CD90",src/bankC5_C000.asm
-$C5CE5C,.2,CODE_C5CE5C,new,"branch target only used in CODE_C5CD90",src/bankC5_C000.asm
-$C5CE78,.3,CODE_C5CE78,new,"branch target only used in CODE_C5CD90",src/bankC5_C000.asm
-$C5CE7B,.4,CODE_C5CE7B,new,"branch target only used in CODE_C5CD90",src/bankC5_C000.asm
-$C5CE96,.5,CODE_C5CE96,new,"branch target only used in CODE_C5CD90",src/bankC5_C000.asm
-$C5CEAA,.loop,CODE_C5CEAA,new,"branch target only used in CODE_C5CEA0",src/bankC5_C000.asm
-$C5CEB2,.1,CODE_C5CEB2,new,"branch target only used in CODE_C5CEA0",src/bankC5_C000.asm
-$C5CEC6,.2,CODE_C5CEC6,new,"branch target only used in CODE_C5CEA0",src/bankC5_C000.asm
-$C5CECD,.loop2,CODE_C5CECD,new,"branch target only used in CODE_C5CEA0",src/bankC5_C000.asm
-$C5CEFD,.3,CODE_C5CEFD,new,"branch target only used in CODE_C5CEA0",src/bankC5_C000.asm
-$C5CF5C,.1,CODE_C5CF5C,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5CF67,.2,CODE_C5CF67,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5CF6B,.3,CODE_C5CF6B,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5CF7C,.4,CODE_C5CF7C,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5CFFE,.5,CODE_C5CFFE,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5D003,.6,CODE_C5D003,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5D006,.7,CODE_C5D006,new,"branch target only used in CODE_C5CF11",src/bankC5_C000.asm
-$C5D018,.1,CODE_C5D018,new,"branch target only used in CODE_C5D00D",src/bankC5_D000.asm
-$C5D039,.2,CODE_C5D039,new,"branch target only used in CODE_C5D00D",src/bankC5_D000.asm
-$C5D03D,.3,CODE_C5D03D,new,"branch target only used in CODE_C5D00D",src/bankC5_D000.asm
-$C5D045,.4,CODE_C5D045,new,"branch target only used in CODE_C5D00D",src/bankC5_D000.asm
-$C5D070,.5,CODE_C5D070,new,"branch target only used in CODE_C5D00D",src/bankC5_D000.asm
-$C5D08B,.rts,CODE_C5D08B,new,"branch target only used in CODE_C5D00D",src/bankC5_D000.asm
+$C5CD47,.loop,CODE_C5CD47,new,"branch target only used in GMDecisionScreen",src/bankC5_C000.asm
+$C5CD7C,.1,CODE_C5CD7C,new,"branch target only used in GMDecisionScreen",src/bankC5_C000.asm
+$C5CD7F,.2,CODE_C5CD7F,new,"branch target only used in GMDecisionScreen",src/bankC5_C000.asm
+$C5CD8E,.3,CODE_C5CD8E,new,"branch target only used in GMDecisionScreen",src/bankC5_C000.asm
+$C5CDA1,.1,CODE_C5CDA1,new,"branch target only used in DrawGMDecision",src/bankC5_C000.asm
+$C5CE5C,.2,CODE_C5CE5C,new,"branch target only used in DrawGMDecision",src/bankC5_C000.asm
+$C5CE78,.3,CODE_C5CE78,new,"branch target only used in DrawGMDecision",src/bankC5_C000.asm
+$C5CE7B,.4,CODE_C5CE7B,new,"branch target only used in DrawGMDecision",src/bankC5_C000.asm
+$C5CE96,.5,CODE_C5CE96,new,"branch target only used in DrawGMDecision",src/bankC5_C000.asm
+$C5CEAA,.loop,CODE_C5CEAA,new,"branch target only used in PrintTradedPlayers",src/bankC5_C000.asm
+$C5CEB2,.1,CODE_C5CEB2,new,"branch target only used in PrintTradedPlayers",src/bankC5_C000.asm
+$C5CEC6,.2,CODE_C5CEC6,new,"branch target only used in PrintTradedPlayers",src/bankC5_C000.asm
+$C5CECD,.loop2,CODE_C5CECD,new,"branch target only used in PrintTradedPlayers",src/bankC5_C000.asm
+$C5CEFD,.3,CODE_C5CEFD,new,"branch target only used in PrintTradedPlayers",src/bankC5_C000.asm
+$C5CF5C,.1,CODE_C5CF5C,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5CF67,.2,CODE_C5CF67,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5CF6B,.3,CODE_C5CF6B,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5CF7C,.4,CODE_C5CF7C,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5CFFE,.5,CODE_C5CFFE,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5D003,.6,CODE_C5D003,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5D006,.7,CODE_C5D006,new,"branch target only used in CheckTrade",src/bankC5_C000.asm
+$C5D018,.1,CODE_C5D018,new,"branch target only used in TradeValue",src/bankC5_D000.asm
+$C5D039,.2,CODE_C5D039,new,"branch target only used in TradeValue",src/bankC5_D000.asm
+$C5D03D,.3,CODE_C5D03D,new,"branch target only used in TradeValue",src/bankC5_D000.asm
+$C5D045,.4,CODE_C5D045,new,"branch target only used in TradeValue",src/bankC5_D000.asm
+$C5D070,.5,CODE_C5D070,new,"branch target only used in TradeValue",src/bankC5_D000.asm
+$C5D08B,.rts,CODE_C5D08B,new,"branch target only used in TradeValue",src/bankC5_D000.asm
 $C5D0B8,.1,CODE_C5D0B8,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
 $C5D0DF,.2,CODE_C5D0DF,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
 $C5D0EF,.3,CODE_C5D0EF,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
@@ -7105,3 +7105,10 @@ $C4E39E,NextMatchup,CODE_C4E39E,code,"adds 1 to the matchup number ($2DA5), wrap
 $C4E3B0,PrevMatchup,CODE_C4E3B0,code,"subtracts 1 from the matchup number ($2DA5), wrapping to 6, and draws it; ScoutingReport on Y",src/bankC4_E000.asm
 $C4E9D8,BuildScoutingText,CODE_C4E9D8,code,"appends packed strings ($C34DB9, $C34DC8, $C34DED, $C34DFA ...) and the teams' names with AppendScoutText to the buffer at $364E; ScoutingReport scrolls it",src/bankC4_E000.asm
 $C4EB68,AppendScoutText,CODE_C4EB68,code,"CODE_C4C3BA unpacks the packed string at $C3:X, then the bytes are copied to $364E + $81 up to the zero, $81 moved on; BuildScoutingText calls it for each piece",src/bankC4_E000.asm
+$C5CA6C,TradePlayers,CODE_C5CA6C,genesis+purpose,"same job as 95G TradePlayers (the two rosters with position and rating, choose players, start checks the trade); CODE_C5CB36 draws it, the marks are bit 0 of the lists at $364E / $36B2",src/bankC5_C000.asm
+$C5CD41,GMDecisionScreen,CODE_C5CD41,genesis+purpose,"same job as 95G GMDecisionScreen (the GM's verdict on the trade; start executes it, a button goes back to TradePlayers)",src/bankC5_C000.asm
+$C5CD90,DrawGMDecision,CODE_C5CD90,code,"leaves through CODE_C58D32 when neither side chose anyone; the texts $C34D53 Accepted, $C34D5A Rejected, $C34B7F Illegal:, $C34D61 Advantage:",src/bankC5_C000.asm
+$C5CEA0,PrintTradedPlayers,CODE_C5CEA0,genesis+purpose,"same job as 95G PrintTradedPlayers (the players of a trade list); 95 SNES prints up to 8, then Etc. ($C34D4A); No Selections is $C34D3F",src/bankC5_C000.asm
+$C5CF11,CheckTrade,CODE_C5CF11,genesis+code,"the roster rules of 95G CheckTrade: after the trade each team has 2-3 goalies, 9-15 forwards, 6-15 defencemen and at most 25 players; the values come from TradeValue for each side",src/bankC5_C000.asm
+$C5D00D,TradeValue,CODE_C5D00D,genesis+purpose,"same job as 95G TradeValue (the value of the chosen players from their ratings), with the counts of 95G CountChosen; CheckTrade calls it for both sides",src/bankC5_D000.asm
+$C5D08C,ExecuteTrade,CODE_C5D08C,genesis+purpose,"same job as 95G ExecuteTrade; writes the team nibble of each chosen player in the save RAM table at $306A56 (the home list to $17CB, the away list to $17C9); GMDecisionScreen calls it",src/bankC5_D000.asm

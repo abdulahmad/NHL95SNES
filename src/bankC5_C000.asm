@@ -1282,7 +1282,8 @@ CODE_C5CA27:						; from CODE_C5C722
 	ora.w #$001A
 	sta.l $306A56,x
 	bra .1
-CODE_C5CA6C:						; from CODE_C5CD41 and other segments
+TradePlayers:						; the Trade Players screen: both rosters (Y switches the team, up / down
+									; move, B marks a player); start goes on to GMDecisionScreen, X leaves
 	jsl.l CODE_C406DD
 	jsl.l FadeOutWait
 	jsr.w CODE_C5CB36
@@ -1318,7 +1319,7 @@ CODE_C5CA6C:						; from CODE_C5CD41 and other segments
 	lda.w $058D
 	bit.w #$1000
 	beq .4
-	jmp.w CODE_C5CD41
+	jmp.w GMDecisionScreen
 .4:									; if $0040 bits clear go to .5, go to CODE_C58D32
 	bit.w #$0040
 	beq .5
@@ -1378,7 +1379,7 @@ CODE_C5CA6C:						; from CODE_C5CD41 and other segments
 	jsl.l CODE_C4C2AA
 .12:								; go to .1
 	jmp.w .1
-CODE_C5CB36:						; from CODE_C5CA6C
+CODE_C5CB36:						; from TradePlayers
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -1594,8 +1595,9 @@ CODE_C5CC4D:						; a callback: CODE_C5CB36 passes it to CODE_C5D8E7
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C5CD41:						; from CODE_C5CA6C
-	jsr.w CODE_C5CD90
+GMDecisionScreen:					; the trade decision: DrawGMDecision, then start does an accepted trade
+									; (CheckTrade, ExecuteTrade) and leaves, X goes back to TradePlayers
+	jsr.w DrawGMDecision
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
 	inc.w TransfersReady
@@ -1614,22 +1616,24 @@ CODE_C5CD41:						; from CODE_C5CA6C
 	lda.w $058D
 	bit.w #$1000
 	beq .2
-	jsr.w CODE_C5CF11
+	jsr.w CheckTrade
 	bcs .1
-	jsr.w CODE_C5D08C
+	jsr.w ExecuteTrade
 .1:									; go to CODE_C58D32
 	jmp.w CODE_C58D32
-.2:									; if $0040 bits clear go to .3, X = a0, $05,x = $0008, go to CODE_C5CA6C
+.2:									; if $0040 bits clear go to .3, X = a0, $05,x = $0008, go to TradePlayers
 	bit.w #$0040
 	beq .3
 	ldx.b a0
 	lda.w #$0008
 	sta.b $05,x
-	jmp.w CODE_C5CA6C
+	jmp.w TradePlayers
 .3:									; go to .loop
 	bra .loop
-CODE_C5CD90:						; from CODE_C5CD41
-	jsr.w CODE_C5CF11
+DrawGMDecision:						; draws the trade decision: both teams, their chosen players
+									; (PrintTradedPlayers), then Accepted, or Rejected with Illegal or
+									; Advantage and the team (CheckTrade)
+	jsr.w CheckTrade
 	phx
 	php
 	lda.b $77
@@ -1687,7 +1691,7 @@ CODE_C5CD90:						; from CODE_C5CD41
 	ldy.w #$0008
 	ldx.b $7B
 	lda.w #$364E
-	jsr.w CODE_C5CEA0
+	jsr.w PrintTradedPlayers
 	lda.w #$0090
 	sta.b $CF
 	lda.w #$3207
@@ -1695,7 +1699,7 @@ CODE_C5CD90:						; from CODE_C5CD41
 	ldy.w #$0008
 	ldx.b $7D
 	lda.w #$36B2
-	jsr.w CODE_C5CEA0
+	jsr.w PrintTradedPlayers
 	lda.w #$0010
 	sta.b $CF
 	ldy.w #$0012
@@ -1738,7 +1742,8 @@ CODE_C5CD90:						; from CODE_C5CD41
 	sta.b $D5
 	jsl.l CODE_C4C2AA
 	rts
-CODE_C5CEA0:						; from CODE_C5CD90
+PrintTradedPlayers:					; prints the chosen players of a trade list (bit 0 of each entry): No
+									; Selections when none, Etc. after 8
 	sty.b $6D
 	stx.b tmp0
 	sta.b tmp1
@@ -1801,7 +1806,9 @@ CODE_C5CEA0:						; from CODE_C5CD90
 	ldy.b $6D
 	jsl.l CODE_C4BBFC
 	rts
-CODE_C5CF11:						; from CODE_C5CD41, CODE_C5CD90
+CheckTrade:							; checks the trade: carry clear when it can go; else carry set, X = the
+									; team and r3 = the Illegal text (a roster rule broken) or the same team
+									; (the trade values differ by 5 or more)
 	lda.w #$0077
 	sta.b tmp1
 	stz.b $77
@@ -1811,7 +1818,7 @@ CODE_C5CF11:						; from CODE_C5CD41, CODE_C5CD90
 	sta.b d2
 	lda.w #$2DC9
 	sta.b a4
-	jsr.w CODE_C5D00D
+	jsr.w TradeValue
 	lda.b d0
 	sta.b d5
 	lda.b $81
@@ -1827,7 +1834,7 @@ CODE_C5CF11:						; from CODE_C5CD41, CODE_C5CD90
 	sta.b d2
 	lda.w #$3207
 	sta.b a4
-	jsr.w CODE_C5D00D
+	jsr.w TradeValue
 	ldx.w $17CB
 	lda.b $77
 	sec

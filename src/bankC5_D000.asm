@@ -1,7 +1,9 @@
 ; Segment bankC5_D000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5D00D
-CODE_C5D00D:						; called from other segments
+TradeValue:							; one side of a trade: the value of its chosen players (from their
+									; ratings, CODE_C5C6B7) into (tmp1), and how many goalies (d0), forwards
+									; and defencemen (d1) it gives
 	stz.b d0
 	stz.b $81
 	stz.b d1
@@ -69,7 +71,8 @@ CODE_C5D00D:						; called from other segments
 	sta.b (tmp1)
 .rts:								; return
 	rts
-CODE_C5D08C:						; called from other segments
+ExecuteTrade:						; does the trade: each chosen player's team in the player team table goes
+									; to the other team
 	lda.b $7B
 	sta.b tmp0
 	ldx.w #$2DC9
@@ -81,7 +84,7 @@ CODE_C5D08C:						; called from other segments
 	ldx.w #$3207
 	ldy.w #$36B2
 	lda.w $17C9
-CODE_C5D0A9:						; from CODE_C5D08C
+CODE_C5D0A9:						; from ExecuteTrade
 	stx.b tmp2
 	sty.b tmp1
 	sta.b $A5
