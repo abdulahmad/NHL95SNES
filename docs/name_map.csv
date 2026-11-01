@@ -3234,16 +3234,16 @@ $C38D0E,.1,CODE_C38D0E,new,"branch target only used in CODE_C38CFC",src/bankC3_8
 $C38D24,.2,CODE_C38D24,new,"branch target only used in CODE_C38CFC",src/bankC3_8000.asm
 $C38D2D,.3,CODE_C38D2D,new,"branch target only used in CODE_C38CFC",src/bankC3_8000.asm
 $C38D96,.loop,CODE_C38D96,new,"branch target only used in CODE_C38D6D",src/bankC3_8000.asm
-$C40003,.1,CODE_C40003,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C4001D,.2,CODE_C4001D,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C4002C,.3,CODE_C4002C,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C40036,.4,CODE_C40036,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C40040,.5,CODE_C40040,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C4004A,.6,CODE_C4004A,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C40054,.7,CODE_C40054,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C4005E,.8,CODE_C4005E,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C40066,.9,CODE_C40066,new,"branch target only used in CODE_C40000",src/bankC4_0000.asm
-$C400F2,.rts,CODE_C400F2,new,"branch target only used in CODE_C400AC",src/bankC4_0000.asm
+$C40003,.1,CODE_C40003,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C4001D,.2,CODE_C4001D,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C4002C,.3,CODE_C4002C,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C40036,.4,CODE_C40036,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C40040,.5,CODE_C40040,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C4004A,.6,CODE_C4004A,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C40054,.7,CODE_C40054,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C4005E,.8,CODE_C4005E,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C40066,.9,CODE_C40066,new,"branch target only used in PlayoffBracketScreen",src/bankC4_0000.asm
+$C400F2,.rts,CODE_C400F2,new,"branch target only used in BracketMarkSeries",src/bankC4_0000.asm
 $C401FF,.loop,CODE_C401FF,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
 $C4024E,.1,CODE_C4024E,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
 $C40254,.2,CODE_C40254,new,"branch target only used in CODE_C401E5",src/bankC4_0000.asm
@@ -3260,24 +3260,24 @@ $C40377,.1,CODE_C40377,new,"branch target only used in CODE_C40322",src/bankC4_0
 $C4037C,.2,CODE_C4037C,new,"branch target only used in CODE_C40322",src/bankC4_0000.asm
 $C403A1,.3,CODE_C403A1,new,"branch target only used in CODE_C40322",src/bankC4_0000.asm
 $C403A6,.4,CODE_C403A6,new,"branch target only used in CODE_C40322",src/bankC4_0000.asm
-$C403D7,.1,CODE_C403D7,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C403E8,.2,CODE_C403E8,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C403F5,.3,CODE_C403F5,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C403FA,.4,CODE_C403FA,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C40402,.5,CODE_C40402,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C4041C,.loop,CODE_C4041C,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C40429,.6,CODE_C40429,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C40430,.loop2,CODE_C40430,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C4043E,.7,CODE_C4043E,new,"branch target only used in CODE_C403C2",src/bankC4_0000.asm
-$C404A2,.loop,CODE_C404A2,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C4050D,.loop2,CODE_C4050D,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C40547,.loop3,CODE_C40547,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C405AE,.loop4,CODE_C405AE,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C405C7,.1,CODE_C405C7,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C405E2,.loop5,CODE_C405E2,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C40604,.2,CODE_C40604,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C40607,.loop6,CODE_C40607,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
-$C4061C,.3,CODE_C4061C,new,"branch target only used in CODE_C40444",src/bankC4_0000.asm
+$C403D7,.1,CODE_C403D7,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C403E8,.2,CODE_C403E8,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C403F5,.3,CODE_C403F5,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C403FA,.4,CODE_C403FA,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C40402,.5,CODE_C40402,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C4041C,.loop,CODE_C4041C,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C40429,.6,CODE_C40429,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C40430,.loop2,CODE_C40430,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C4043E,.7,CODE_C4043E,new,"branch target only used in ScrollBracketToCursor",src/bankC4_0000.asm
+$C404A2,.loop,CODE_C404A2,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C4050D,.loop2,CODE_C4050D,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C40547,.loop3,CODE_C40547,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C405AE,.loop4,CODE_C405AE,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C405C7,.1,CODE_C405C7,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C405E2,.loop5,CODE_C405E2,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C40604,.2,CODE_C40604,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C40607,.loop6,CODE_C40607,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
+$C4061C,.3,CODE_C4061C,new,"branch target only used in SetupPlayoffBracket",src/bankC4_0000.asm
 $C4062F,.loop,CODE_C4062F,new,"branch target only used in CODE_C4062A",src/bankC4_0000.asm
 $C40633,.loop2,CODE_C40633,new,"branch target only used in CODE_C4062A",src/bankC4_0000.asm
 $C4066B,.1,CODE_C4066B,new,"branch target only used in CODE_C4064B",src/bankC4_0000.asm
@@ -3314,7 +3314,7 @@ $C40938,.8,CODE_C40938,new,"branch target only used in CODE_C408B3",src/bankC4_0
 $C40940,.9,CODE_C40940,new,"branch target only used in CODE_C408B3",src/bankC4_0000.asm
 $C40947,.10,CODE_C40947,new,"branch target only used in CODE_C408B3",src/bankC4_0000.asm
 $C40954,.rts,CODE_C40954,new,"branch target only used in CODE_C408B3",src/bankC4_0000.asm
-$C40988,.loop,CODE_C40988,new,"branch target only used in CODE_C40985",src/bankC4_0000.asm
+$C40988,.loop,CODE_C40988,new,"branch target only used in ToggleTeamBarRow",src/bankC4_0000.asm
 $C4099C,.loop,CODE_C4099C,new,"branch target only used in CODE_C40999",src/bankC4_0000.asm
 $C409B4,.1,CODE_C409B4,new,"branch target only used in CODE_C40999",src/bankC4_0000.asm
 $C409BD,.loop2,CODE_C409BD,new,"branch target only used in CODE_C40999",src/bankC4_0000.asm
@@ -7947,3 +7947,16 @@ $C5376A,AssignPadIfFree,CODE_C5376A,94S+code,"the same instructions as 94S Assig
 $12B3,tmfowon,,94S+code,"RAM: 94S puckglue side by side (inc tmfowon,y for the team winning a face off); between tmscore and tmline at tmline's offset from 94S",src/ram95s.asm
 $12DB,tmpasscomp,,94S+code,"RAM: 94S puckglue side by side (inc tmpasscomp,y when the pass receiver gets the puck); tmnearpl and tmflags on both sides have 94S's offset",src/ram95s.asm
 $24CA,Crowdlevel,,94S+code,"RAM: 94S puckglue side by side (Crowdlevel + $C8 and crowdhold 20 after a face off win); updatecrowdf reads and lowers it as in 94S; a long address as in 94S, so the two absolute operands read Crowdlevel&$FFFF",src/ram95s.asm
+$C40000,PlayoffBracketScreen,CODE_C40000,code,"from the code: SetupPlayoffBracket, then ReadMenuPads each frame and the handlers by pad bit (right, left, up, down, $C0F0, $3000), the sprites redrawn",src/bankC4_0000.asm
+$C40444,SetupPlayoffBracket,CODE_C40444,code,"from the code: PlayoffBracketMap and TeamNameBarsMap through MapSetToUnpackbuf, the printing, ToggleTeamBarHighlight for the marked series",src/bankC4_0000.asm
+$C40085,BracketCursorRight,CODE_C40085,code,"from the code: a1 + 1 below 7, $3D52 / $3D5A + 1",src/bankC4_0000.asm
+$C4009A,BracketCursorLeft,CODE_C4009A,code,"from the code: a1 - 1, $3D52 / $3D5A - 1",src/bankC4_0000.asm
+$C400F3,BracketCursorUp,CODE_C400F3,code,"from the code: the jump table by a1 to BracketRowUp once or twice, none in the middle columns",src/bankC4_0000.asm
+$C40122,BracketCursorDown,CODE_C40122,code,"from the code: the jump table by a1 to BracketRowDown once or twice, none in the middle columns",src/bankC4_0000.asm
+$C4010C,BracketRowUp,CODE_C4010C,code,"from the code",src/bankC4_0000.asm
+$C4013E,BracketRowDown,CODE_C4013E,code,"from the code",src/bankC4_0000.asm
+$C400AC,BracketMarkSeries,CODE_C400AC,code,"from the code: DATA8_C41166 by $3D52, the $307865 wins test, eor $FFFF, ToggleTeamBarHighlight for both teams; the bracket's form of GamesToday's Mark Game",src/bankC4_0000.asm
+$C40153,ExitPlayoffBracket,CODE_C40153,code,"from the code: FadeOutWait, the HDMA and window registers cleared, GradientBarTiles queued, then SeasonOptions",src/bankC4_0000.asm
+$C4097B,ToggleTeamBarHighlight,CODE_C4097B,code,"from the code: ToggleTeamBarRow at X and X + $B0",src/bankC4_0000.asm
+$C40985,ToggleTeamBarRow,CODE_C40985,code,"from the code: eor #$0400 over 12 words",src/bankC4_0000.asm
+$C403C2,ScrollBracketToCursor,CODE_C403C2,code,"from the code: the difference from DATA8_C40FF8 by a1, the step, CODE_C4064B",src/bankC4_0000.asm

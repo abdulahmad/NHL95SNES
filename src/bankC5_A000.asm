@@ -1526,7 +1526,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
-	jml.l CODE_C40000
+	jml.l PlayoffBracketScreen
 .1:									; A = WonCheckTiles&$FFFF, X = WonCheckTiles>>16, ...
 	lda.w #WonCheckTiles&$FFFF
 	ldx.w #WonCheckTiles>>16

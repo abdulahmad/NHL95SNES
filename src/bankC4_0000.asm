@@ -1,8 +1,10 @@
 ; Segment bankC4_0000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C40000
-CODE_C40000:						; called from other segments
-	jsr.w CODE_C40444
+PlayoffBracketScreen:				; the playoff bracket screen (GamesToday in play mode 3): the pad moves
+									; the cursor over the series, the face buttons and L / R mark one, start
+									; or select goes back to the League Menu
+	jsr.w SetupPlayoffBracket
 .1:									; call WaitTransfers, call ReadMenuPads, $26 + 1, ...
 	jsl.l WaitTransfers
 	jsl.l ReadMenuPads
@@ -13,44 +15,44 @@ CODE_C40000:						; called from other segments
 	bcc .9
 	lda.w #$0007
 	sta.w repeatdelayframes
-.2:									; a2 = padchangeany, if $0100 bits clear go to .3, call CODE_C40085, ...
+.2:									; a2 = padchangeany, if $0100 bits clear go to .3, ...
 	lda.w padchangeany
 	sta.b a2
 	bit.w #$0100
 	beq .3
-	jsr.w CODE_C40085
+	jsr.w BracketCursorRight
 	lda.b a2
-.3:									; if $0200 bits clear go to .4, call CODE_C4009A, A = a2
+.3:									; if $0200 bits clear go to .4, call BracketCursorLeft, A = a2
 	bit.w #$0200
 	beq .4
-	jsr.w CODE_C4009A
+	jsr.w BracketCursorLeft
 	lda.b a2
-.4:									; if $0800 bits clear go to .5, call CODE_C400F3, A = a2
+.4:									; if $0800 bits clear go to .5, call BracketCursorUp, A = a2
 	bit.w #$0800
 	beq .5
-	jsr.w CODE_C400F3
+	jsr.w BracketCursorUp
 	lda.b a2
-.5:									; if $0400 bits clear go to .6, call CODE_C40122, A = a2
+.5:									; if $0400 bits clear go to .6, call BracketCursorDown, A = a2
 	bit.w #$0400
 	beq .6
-	jsr.w CODE_C40122
+	jsr.w BracketCursorDown
 	lda.b a2
 .6:									; if $0F00 bits clear go to .7, call CODE_C40322, A = a2
 	bit.w #$0F00
 	beq .7
 	jsr.w CODE_C40322
 	lda.b a2
-.7:									; if $C0F0 bits clear go to .8, call CODE_C400AC, A = a2
+.7:									; if $C0F0 bits clear go to .8, call BracketMarkSeries, A = a2
 	bit.w #$C0F0
 	beq .8
-	jsr.w CODE_C400AC
+	jsr.w BracketMarkSeries
 	lda.b a2
-.8:									; if $3000 bits clear go to .9, go to CODE_C40153
+.8:									; if $3000 bits clear go to .9, go to ExitPlayoffBracket
 	bit.w #$3000
 	beq .9
-	jmp.w CODE_C40153
-.9:									; call CODE_C403C2, call CODE_C4077C, call AnimateSprites, ...
-	jsr.w CODE_C403C2
+	jmp.w ExitPlayoffBracket
+.9:									; call ScrollBracketToCursor, call CODE_C4077C, call AnimateSprites, ...
+	jsr.w ScrollBracketToCursor
 	jsr.w CODE_C4077C
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -60,7 +62,7 @@ CODE_C40000:						; called from other segments
 	jsl.l BuildSpriteOAM
 	jsl.l PackOAMHigh
 	jmp.w .1
-CODE_C40085:						; from CODE_C40000
+BracketCursorRight:					; moves the bracket cursor one column right (a1, at most 6)
 	lda.b a1
 	inc a
 	cmp.w #$0007
@@ -70,9 +72,9 @@ CODE_C40085:						; from CODE_C40000
 	inc a
 	sta.w $3D52
 	sta.w $3D5A
-CODE_C40099:						; from CODE_C40085, CODE_C4009A
+CODE_C40099:						; from BracketCursorRight, BracketCursorLeft
 	rts
-CODE_C4009A:						; from CODE_C40000
+BracketCursorLeft:					; moves the bracket cursor one column left (a1, not below 0)
 	lda.b a1
 	beq CODE_C40099
 	dec a
@@ -82,7 +84,9 @@ CODE_C4009A:						; from CODE_C40000
 	sta.w $3D52
 	sta.w $3D5A
 	rts
-CODE_C400AC:						; from CODE_C40000
+BracketMarkSeries:					; toggles the mark of the series under the bracket cursor ($2C46) when
+									; both teams are known and it is not decided, and highlights its teams'
+									; bars
 	lda.w $3D52
 	asl a
 	tax
@@ -109,14 +113,15 @@ CODE_C400AC:						; from CODE_C40000
 	sta.w $2C46,x
 	ldy.w $2C64,x
 	phx
-	jsr.w CODE_C4097B
+	jsr.w ToggleTeamBarHighlight
 	plx
 	ldy.w $2C82,x
-	jsr.w CODE_C4097B
+	jsr.w ToggleTeamBarHighlight
 	jmp.w CODE_C4062A
 .rts:								; return
 	rts
-CODE_C400F3:						; from CODE_C40000, CODE_C4011C
+BracketCursorUp:					; moves the bracket cursor up a row ($69) by its column's step
+									; (DATA8_C400FE)
 	lda.b $69
 	beq CODE_C40121
 	lda.b a1
@@ -124,9 +129,9 @@ CODE_C400F3:						; from CODE_C40000, CODE_C4011C
 	tax
 	jmp (DATA8_C400FE,x)
 DATA8_C400FE:						; jump table: the routine for each index
-	dw CODE_C4010C,CODE_C4011C,CODE_C40152,CODE_C40152
-	dw CODE_C40152,CODE_C4011C,CODE_C4010C
-CODE_C4010C:						; from CODE_C4011C, DATA8_C400FE
+	dw BracketRowUp,CODE_C4011C,CODE_C40152,CODE_C40152
+	dw CODE_C40152,CODE_C4011C,BracketRowUp
+BracketRowUp:						; the bracket cursor one row up: $3D52 / $3D5A - 7, $69 - 1
 	sec
 	lda.w $3D52
 	sbc.w #$0007
@@ -135,11 +140,12 @@ CODE_C4010C:						; from CODE_C4011C, DATA8_C400FE
 	dec.b $69
 	rts
 CODE_C4011C:						; from DATA8_C400FE
-	jsr.w CODE_C4010C
-	bra CODE_C400F3
-CODE_C40121:						; from CODE_C400F3, CODE_C40122
+	jsr.w BracketRowUp
+	bra BracketCursorUp
+CODE_C40121:						; from BracketCursorUp, BracketCursorDown
 	rts
-CODE_C40122:						; from CODE_C40000, CODE_C4014D
+BracketCursorDown:					; moves the bracket cursor down a row ($69, below 3) by its column's step
+									; (DATA8_C40130)
 	lda.b $69
 	cmp.w #$0003
 	bcs CODE_C40121
@@ -148,9 +154,9 @@ CODE_C40122:						; from CODE_C40000, CODE_C4014D
 	tax
 	jmp (DATA8_C40130,x)
 DATA8_C40130:						; jump table: the routine for each index
-	dw CODE_C4013E,CODE_C4014D,CODE_C40152,CODE_C40152
-	dw CODE_C40152,CODE_C4014D,CODE_C4013E
-CODE_C4013E:						; from CODE_C4014D, DATA8_C40130
+	dw BracketRowDown,CODE_C4014D,CODE_C40152,CODE_C40152
+	dw CODE_C40152,CODE_C4014D,BracketRowDown
+BracketRowDown:						; the bracket cursor one row down: $3D52 / $3D5A + 7, $69 + 1
 	inc.b $69
 	lda.w $3D52
 	adc.w #$0007
@@ -158,11 +164,12 @@ CODE_C4013E:						; from CODE_C4014D, DATA8_C40130
 	sta.w $3D5A
 	rts
 CODE_C4014D:						; from DATA8_C40130
-	jsr.w CODE_C4013E
-	bra CODE_C40122
+	jsr.w BracketRowDown
+	bra BracketCursorDown
 CODE_C40152:						; from DATA8_C400FE, DATA8_C40130
 	rts
-CODE_C40153:						; from CODE_C40000
+ExitPlayoffBracket:					; leaves the playoff bracket for the League Menu (SeasonOptions): the
+									; screen reset for it
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	jsl.l WaitTransfers
@@ -357,7 +364,7 @@ CODE_C40305:						; from CODE_C40296
 	sta.l $307874,x
 	rep #$21
 	rts
-CODE_C40322:						; from CODE_C40000, CODE_C40444
+CODE_C40322:						; from PlayoffBracketScreen, SetupPlayoffBracket
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -441,7 +448,9 @@ CODE_C40322:						; from CODE_C40000, CODE_C40444
 	stx.b $00
 	stz.b QueueBusy
 	rts
-CODE_C403C2:						; from CODE_C40000
+ScrollBracketToCursor:				; moves the bracket's scroll position ($65) toward the cursor column's
+									; (DATA8_C40FF8): one step when near, a larger one when far, the map
+									; columns queued
 	lda.b a1
 	asl a
 	tax
@@ -517,7 +526,8 @@ CODE_C403C2:						; from CODE_C40000
 	lda.b $65
 	sta.w BG2HScroll
 	rts
-CODE_C40444:						; from CODE_C40000
+SetupPlayoffBracket:				; sets up the playoff bracket screen: the bracket and the team name bar
+									; map sets, the titles and the teams' bars, the bracket drawn
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	lda.w #DarkBlueColoursHook&$FFFF
@@ -707,11 +717,11 @@ CODE_C40444:						; from CODE_C40000
 	bpl .3
 	ldy.w $2C64,x
 	phx
-	jsr.w CODE_C4097B
+	jsr.w ToggleTeamBarHighlight
 	plx
 	ldy.w $2C82,x
 	phx
-	jsr.w CODE_C4097B
+	jsr.w ToggleTeamBarHighlight
 	plx
 .3:									; X - 1, X - 1, if the result >= 0 go to .loop6, call CODE_C4062A, ...
 	dex
@@ -721,7 +731,7 @@ CODE_C40444:						; from CODE_C40000
 	jsr.w CODE_C4062A
 	stz.w fadestep
 	jmp.w CODE_C40322
-CODE_C4062A:						; from CODE_C40444, CODE_C400AC
+CODE_C4062A:						; from SetupPlayoffBracket, BracketMarkSeries
 	pei ($63)
 	ldx.w #$0003
 .loop:								; loop: push X, Y = $0008
@@ -742,7 +752,7 @@ CODE_C4062A:						; from CODE_C40444, CODE_C400AC
 	pla
 	sta.b a0
 	rts
-CODE_C4064B:						; from CODE_C4062A, CODE_C403C2
+CODE_C4064B:						; from CODE_C4062A, ScrollBracketToCursor
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -895,7 +905,7 @@ GetShifter:							; called from other segments
 	bpl .loop
 	dec.b d1
 	rtl
-CODE_C4077C:						; from CODE_C40000
+CODE_C4077C:						; from PlayoffBracketScreen
 	lda.b $26
 	lsr a
 	lda.w #$A000
@@ -1152,14 +1162,15 @@ CODE_C40955:						; from CODE_C40999
 	mvn $7F,$7E
 	plb
 	rts
-CODE_C4097B:						; from CODE_C40444, CODE_C400AC
+ToggleTeamBarHighlight:				; toggles the highlight of a team's name bar in the bracket map buffer:
+									; palette bit $0400 of its two rows of 12 tiles
 	clc
 	tyx
-	jsr.w CODE_C40985
+	jsr.w ToggleTeamBarRow
 	txa
 	adc.w #$00B0
 	tax
-CODE_C40985:						; from CODE_C4097B
+ToggleTeamBarRow:					; toggles palette bit $0400 of 12 tiles at X in the map buffer at $7F9C7A
 	ldy.w #$000B
 .loop:								; loop: A = $7F9C7A,x, A xor $0400, $7F9C7A,x = A, X + 1, ...
 	lda.l $7F9C7A,x
@@ -1210,7 +1221,7 @@ CODE_C40999:						; from CODE_C409E3
 	dex
 	bpl .loop
 	rts
-CODE_C409E3:						; from CODE_C401E5, CODE_C40444
+CODE_C409E3:						; from CODE_C401E5, SetupPlayoffBracket
 	jsl.l WaitTransfers
 	lda.w #$364E
 	ldy.w #$1000
@@ -1889,5 +1900,5 @@ DATA8_C40F95:						; not traced: a table read by CODE_C408B3, CODE_C408B3
 	db $28,$05,$27,$05,$27,$06,$26,$07,$25,$08,$24,$09,$23,$0B,$21,$0C
 	db $20,$0F,$1D,$12,$1A,$F0,$4E,$36,$F0,$0E,$38,$00,$F0,$CE,$39,$F0
 	db $8E,$3B,$00
-DATA8_C40FF8:						; not traced: a table read by CODE_C403C2
+DATA8_C40FF8:						; not traced: a table read by ScrollBracketToCursor
 	db $00,$00,$28,$00,$9E,$00,$11,$01,$82,$01,$FA,$01,$20,$02
