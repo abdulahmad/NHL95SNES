@@ -106,7 +106,8 @@ CODE_C5A083:						; from CODE_C59F79
 	rts
 DATA8_C5A08B:						; not traced: a table read by CODE_C5A07A
 	db $00,$00,$01,$01,$02,$02,$03,$03,$03,$03,$04,$04,$04,$05,$05,$06
-CODE_C5A09B:						; called from other segments
+DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the letter grid and
+									; its keys; the screen state goes to 0 (NameEntry)
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -242,7 +243,7 @@ DATA8_C5A1D7:						; not traced: a table read by CODE_C5A17B, CODE_C5A1A5
 	db $36,$03,$C6,$03,$CC,$03,$D2,$03,$D8,$03,$DE,$03,$E4,$03,$EA,$03
 	db $F0,$03,$F6,$03,$86,$04,$8C,$04,$92,$04,$98,$04,$9E,$04,$A4,$04
 	db $AA,$04,$B0,$04,$B6,$04
-CODE_C5A20D:						; from CODE_C5A09B and other segments
+CODE_C5A20D:						; from DrawNameEntry and other segments
 	jsr.w CODE_C5A1A5
 	ldy.b a0
 	lda.b d6

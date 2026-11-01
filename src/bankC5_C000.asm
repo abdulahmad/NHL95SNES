@@ -147,7 +147,7 @@ CODE_C5C0BE:						; called from other segments
 	jmp.w CODE_C5A3C1
 SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, B marks one);
 									; start hires them (CODE_C5C58A), X leaves
-	jsl.l CODE_C406DD
+	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C1F6
 	stz.w fadestep
@@ -907,7 +907,7 @@ CODE_C5C6B7:						; from CODE_C5C6A2, CODE_C5CC4D, CODE_C5C34C, CODE_C5C926, ...
 	rts
 ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B marks a
 									; player); start releases them (CODE_C5CA27), X leaves
-	jsl.l CODE_C406DD
+	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
 	jsr.w CODE_C5C826
 	stz.w fadestep
@@ -1286,7 +1286,7 @@ CODE_C5CA27:						; from ReleasePlayers
 	bra .1
 TradePlayers:						; the Trade Players screen: both rosters (Y switches the team, up / down
 									; move, B marks a player); start goes on to GMDecisionScreen, X leaves
-	jsl.l CODE_C406DD
+	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
 	jsr.w CODE_C5CB36
 	stz.w fadestep

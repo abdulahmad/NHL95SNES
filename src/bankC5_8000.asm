@@ -1742,7 +1742,7 @@ DATA8_C58DD0:						; the routine of each play mode, run on start in the setup sc
 									; Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player,
 									; then an eighth
 	dw CODE_C593B1,CODE_C5939D,CODE_C59588,TradePlayers
-	dw SignFreeAgents,ReleasePlayers,CODE_C59643,CODE_C5ABA1
+	dw SignFreeAgents,ReleasePlayers,CreatePlayer,CODE_C5ABA1
 CODE_C58DE0:						; from CODE_C58D32
 	lda.w #$0001
 	sta.l $7E23BA

@@ -3283,11 +3283,11 @@ $C40633,.loop2,CODE_C40633,new,"branch target only used in CODE_C4062A",src/bank
 $C4066B,.1,CODE_C4066B,new,"branch target only used in CODE_C4064B",src/bankC4_0000.asm
 $C40671,.2,CODE_C40671,new,"branch target only used in CODE_C4064B",src/bankC4_0000.asm
 $C40695,.loop,CODE_C40695,new,"branch target only used in CODE_C4064B",src/bankC4_0000.asm
-$C406AB,.loop,CODE_C406AB,new,"branch target only used in CODE_C406A8",src/bankC4_0000.asm
-$C406C3,.rtl,CODE_C406C3,new,"branch target only used in CODE_C406A8",src/bankC4_0000.asm
+$C406AB,.loop,CODE_C406AB,new,"branch target only used in CheckCreateSlots",src/bankC4_0000.asm
+$C406C3,.rtl,CODE_C406C3,new,"branch target only used in CheckCreateSlots",src/bankC4_0000.asm
 $C406D3,.loop,CODE_C406D3,new,"branch target only used in CODE_C406C4",src/bankC4_0000.asm
-$C406E7,.1,CODE_C406E7,new,"branch target only used in CODE_C406DD",src/bankC4_0000.asm
-$C4073F,.loop,CODE_C4073F,new,"branch target only used in CODE_C406EA",src/bankC4_0000.asm
+$C406E7,.1,CODE_C406E7,new,"branch target only used in CheckTradesFrozen",src/bankC4_0000.asm
+$C4073F,.loop,CODE_C4073F,new,"branch target only used in ShowAlert",src/bankC4_0000.asm
 $C4076D,.loop,CODE_C4076D,new,"branch target only used in GetShifter",src/bankC4_0000.asm
 $C40787,.1,CODE_C40787,new,"branch target only used in CODE_C4077C",src/bankC4_0000.asm
 $C407A4,.2,CODE_C407A4,new,"branch target only used in CODE_C4077C",src/bankC4_0000.asm
@@ -6265,26 +6265,26 @@ $C59515,.8,CODE_C59515,new,"branch target only used in CODE_C594C6",src/bankC5_9
 $C5951A,.rts,CODE_C5951A,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
 $C59544,.loop,CODE_C59544,new,"branch target only used in ControllerSetupScreen",src/bankC5_9000.asm
 $C59595,.1,CODE_C59595,new,"branch target only used in CODE_C59588",src/bankC5_9000.asm
-$C5969C,.1,CODE_C5969C,new,"branch target only used in CODE_C59696",src/bankC5_9000.asm
+$C5969C,.1,CODE_C5969C,new,"branch target only used in AskNameOk",src/bankC5_9000.asm
 $C596DB,.1,CODE_C596DB,new,"branch target only used in CODE_C596D3",src/bankC5_9000.asm
-$C59778,.1,CODE_C59778,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597A1,.2,CODE_C597A1,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597A9,.rts,CODE_C597A9,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597AA,.3,CODE_C597AA,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597C0,.4,CODE_C597C0,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597CE,.5,CODE_C597CE,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597D0,.6,CODE_C597D0,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597D3,.7,CODE_C597D3,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597DF,.8,CODE_C597DF,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597EE,.9,CODE_C597EE,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C597FE,.10,CODE_C597FE,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C59803,.11,CODE_C59803,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C5980A,.12,CODE_C5980A,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C5981A,.13,CODE_C5981A,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C59824,.14,CODE_C59824,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C59837,.15,CODE_C59837,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C5983C,.16,CODE_C5983C,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
-$C5988C,.17,CODE_C5988C,new,"branch target only used in CODE_C59768",src/bankC5_9000.asm
+$C59778,.1,CODE_C59778,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597A1,.2,CODE_C597A1,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597A9,.rts,CODE_C597A9,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597AA,.3,CODE_C597AA,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597C0,.4,CODE_C597C0,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597CE,.5,CODE_C597CE,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597D0,.6,CODE_C597D0,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597D3,.7,CODE_C597D3,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597DF,.8,CODE_C597DF,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597EE,.9,CODE_C597EE,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C597FE,.10,CODE_C597FE,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C59803,.11,CODE_C59803,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C5980A,.12,CODE_C5980A,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C5981A,.13,CODE_C5981A,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C59824,.14,CODE_C59824,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C59837,.15,CODE_C59837,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C5983C,.16,CODE_C5983C,new,"branch target only used in NameEntry",src/bankC5_9000.asm
+$C5988C,.17,CODE_C5988C,new,"branch target only used in NameEntry",src/bankC5_9000.asm
 $C598F7,.1,CODE_C598F7,new,"branch target only used in CODE_C598EB",src/bankC5_9000.asm
 $C59944,.1,CODE_C59944,new,"branch target only used in CODE_C59938",src/bankC5_9000.asm
 $C5995B,.2,CODE_C5995B,new,"branch target only used in CODE_C59938",src/bankC5_9000.asm
@@ -6324,7 +6324,7 @@ $C59C1F,.10,CODE_C59C1F,new,"branch target only used in CODE_C59B36",src/bankC5_
 $C59CC1,.11,CODE_C59CC1,new,"branch target only used in CODE_C59B36",src/bankC5_9000.asm
 $C59D77,.1,CODE_C59D77,new,"branch target only used in CODE_C59D51",src/bankC5_9000.asm
 $C59DA5,.loop,CODE_C59DA5,new,"branch target only used in CODE_C59D96",src/bankC5_9000.asm
-$C59DBB,.1,CODE_C59DBB,new,"branch target only used in CODE_C59DAF",src/bankC5_9000.asm
+$C59DBB,.1,CODE_C59DBB,new,"branch target only used in EditPlayerInfo",src/bankC5_9000.asm
 $C59DCE,.1,CODE_C59DCE,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
 $C59DE8,.2,CODE_C59DE8,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
 $C59DF7,.3,CODE_C59DF7,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
@@ -7130,3 +7130,12 @@ $C5951B,ControllerSetupScreen,CODE_C5951B,genesis+purpose,"same job as 95G Contr
 $C593B8,SetContTeams,CODE_C593B8,genesis+purpose,"same job as 95G SetContTeams (pick the team of each pad, cont1team ...); the play modes Exhibition (CODE_C593B1) and Practice (CODE_C5939D, with the practice player counts) enter it",src/bankC5_9000.asm
 $C091AE,.hi0entry,,code,"Div32U: the sep #$20 after the first loop's rtl (not reached in 94S); RecordHoldersScreen calls it for the win percentage (r2 below $1000000)",src/bankC0_9000.asm
 $C54EF1,.resume,,code,"CODE_C54E6D (the pause screen): where start / select leave it for the game (CODE_C55513); CODE_C57329 (Inst Replay) jumps here after the replay",src/bankC5_4000.asm
+$C59643,CreatePlayer,CODE_C59643,genesis+purpose,"same job as 95G CreatePlayer (the create player screen entry); DATA8_C58DD0 entry 6 (Make Player); AskNameOk's No starts it again",src/bankC5_9000.asm
+$C5A09B,DrawNameEntry,CODE_C5A09B,code,"the page at $C35714 (Create Player) and the grid rows $C3490D / $C34914 / $C3491B; sets $99 = 0",src/bankC5_A000.asm
+$C59768,NameEntry,CODE_C59768,genesis+purpose,"same job as 95G NameEntry (the create player name entry on a letter grid); DATA8_C5967A entries 0 and 1; the question page at $C356DC, then state 2 (AskNameOk)",src/bankC5_9000.asm
+$C59696,AskNameOk,CODE_C59696,code,"DATA8_C5967A entry 2; start goes to CODE_C596D3, which on Yes prints the name and the page at $C35746",src/bankC5_9000.asm
+$C59DAF,EditPlayerInfo,CODE_C59DAF,code,"DATA8_C5967A entry 3; CODE_C59DBE reads the pad, the tables DATA8_C59EF2 / DATA8_C59EFA change each line; start prints the page at $C3576C (goalie) or $C357AE (skater) and sets state 4",src/bankC5_9000.asm
+$C59930,ModifyRatings,CODE_C59930,genesis+purpose,"same job as 95G ModifyRatings (change the created player's ratings); DATA8_C5967A entry 4; CODE_C59998 (skater) / CODE_C59ADD (goalie) read the pad; CODE_C59B36 writes the player's entry in the save RAM table at $306A56",src/bankC5_9000.asm
+$C406A8,CheckCreateSlots,CODE_C406A8,genesis+purpose,"same job as 95G CheckCreateSlots (are 20 created players made); 20 slots of $9C from offset 3 (CODE_C406C4 reads the save RAM bits at $307162); the Alert page at $C35471; CreatePlayer calls it",src/bankC4_0000.asm
+$C406DD,CheckTradesFrozen,CODE_C406DD,code,"reads the save RAM byte at $3075B4; the Alert page at $C354B1; SignFreeAgents, ReleasePlayers and TradePlayers call it first",src/bankC4_0000.asm
+$C406EA,ShowAlert,CODE_C406EA,code,"the pages at $C35471 / $C354B1 (title Alert) pushed by CheckCreateSlots / CheckTradesFrozen",src/bankC4_0000.asm

@@ -696,10 +696,11 @@ CODE_C5963A:						; from CODE_C59588
 	jsl.l FadeOutWait
 	jsr.w SeasonOptions
 	bra CODE_C59651
-CODE_C59643:						; from CODE_C596D3
+CreatePlayer:						; play mode Make Player: CheckCreateSlots, the Create Player page
+									; (DrawNameEntry), then the front end's screen states (NameEntry first)
 	jsl.l FadeOutWait
-	jsl.l CODE_C406A8
-	jsr.w CODE_C5A09B
+	jsl.l CheckCreateSlots
+	jsr.w DrawNameEntry
 	stz.w fadestep
 CODE_C59651:						; from CODE_C59651, CODE_C59588, CODE_C5963A
 	jsl.l CODE_C4CEDB
@@ -719,11 +720,13 @@ CODE_C59651:						; from CODE_C59651, CODE_C59588, CODE_C5963A
 	bra CODE_C59651
 DATA8_C5967A:						; the front end screen handlers, one per screen state (CODE_C59651 runs
 									; the one of the current state each frame)
-	dw CODE_C59768,CODE_C59768,CODE_C59696,CODE_C59DAF
-	dw CODE_C59930,CODE_C59767,CODE_C5AC07,CODE_C5A816
+	dw NameEntry,NameEntry,AskNameOk,EditPlayerInfo
+	dw ModifyRatings,CODE_C59767,CODE_C5AC07,CODE_C5A816
 	dw CODE_C5A5B0,CODE_C5A623,CODE_C5A66E,CODE_C5A773
 	dw CODE_C5AB16,CODE_C5AB27
-CODE_C59696:						; from DATA8_C5967A
+AskNameOk:							; Is the player name ok: up / down Yes / No; start: No starts over
+									; (CreatePlayer), Yes draws the position, weight, number and hand page
+									; (screen state 3)
 	lda.w repeatdelayframes
 	beq .1
 	rts
@@ -736,7 +739,7 @@ CODE_C59696:						; from DATA8_C5967A
 	bit.w #$1000
 	bne CODE_C596D3
 	rts
-CODE_C596AF:						; from CODE_C59696, CODE_C59768
+CODE_C596AF:						; from AskNameOk, NameEntry
 	stz.b d6
 	lda.w #$0012
 	jsr.w CODE_C5909D
@@ -744,7 +747,7 @@ CODE_C596AF:						; from CODE_C59696, CODE_C59768
 	jsr.w CODE_C590BB
 CODE_C596BD:						; from CODE_C596C0
 	jmp.w CODE_C5A164
-CODE_C596C0:						; from CODE_C59696
+CODE_C596C0:						; from AskNameOk
 	lda.w #$0001
 	sta.b d6
 	lda.w #$000F
@@ -752,11 +755,11 @@ CODE_C596C0:						; from CODE_C59696
 	lda.w #$0012
 	jsr.w CODE_C590BB
 	bra CODE_C596BD
-CODE_C596D3:						; from CODE_C59696
+CODE_C596D3:						; from AskNameOk
 	lda.b d6
 	beq .1
 	pla
-	jmp.w CODE_C59643
+	jmp.w CreatePlayer
 .1:									; call FadeOutWait, $99 + 1, A = $4672, A and $00FF, ...
 	jsl.l FadeOutWait
 	inc.b $99
@@ -807,9 +810,11 @@ CODE_C596D3:						; from CODE_C59696
 	jsr.w CODE_C5909D
 	lda.w #$0011
 	jmp.w CODE_C5909D
-CODE_C59767:						; from DATA8_C5967A, CODE_C59768
+CODE_C59767:						; from DATA8_C5967A, NameEntry
 	rts
-CODE_C59768:						; from DATA8_C5967A
+NameEntry:							; Create Player name entry, screen states 0 and 1 (first and last name):
+									; pad to a letter, B to select, Y to go back, start when done, X cancels;
+									; after the last name it asks Is the player name ok
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -970,7 +975,7 @@ CODE_C59768:						; from DATA8_C5967A
 	jsl.l CODE_C4BB5A
 	inc.b $99
 	jmp.w CODE_C596AF
-CODE_C598C9:						; from CODE_C59768
+CODE_C598C9:						; from NameEntry
 	lda.b $71
 	xba
 	lsr a
@@ -988,7 +993,7 @@ CODE_C598C9:						; from CODE_C59768
 	jsl.l CODE_C58B11
 	jsl.l CODE_C4C2AA
 	rts
-CODE_C598EB:						; from CODE_C59768
+CODE_C598EB:						; from NameEntry
 	sep #$30
 	ldy.b a3
 	lda.b #$3E
@@ -1003,11 +1008,13 @@ DATA8_C598FA:						; not reached by the traced code (data or unused code)
 	db $51,$52,$53,$54,$55,$56,$57,$58,$59,$5A,$3D,$61,$62,$63,$64,$65
 	db $66,$67,$68,$69,$6A,$6B,$6C,$6D,$6E,$6F,$70,$71,$72,$73,$74,$75
 	db $76,$77,$78,$79,$7A,$3D
-CODE_C59930:						; from DATA8_C5967A
+ModifyRatings:						; Create Player screen state 4: the goalie or skater ratings (up / down
+									; pick, left / right change); start stores the player in save RAM
+									; (CODE_C59B36), X cancels
 	jsr.w CODE_C59938
 	jsl.l CODE_C4C2AA
 	rts
-CODE_C59938:						; from CODE_C59930
+CODE_C59938:						; from ModifyRatings
 	lda.b d0
 	beq .1
 	jsr.w CODE_C59998
@@ -1510,7 +1517,7 @@ CODE_C59D39:						; from CODE_C59998, CODE_C59ADD, CODE_C59B36
 	pla
 CODE_C59D3A:						; from CODE_C59DBE
 	pla
-CODE_C59D3B:						; from CODE_C59768
+CODE_C59D3B:						; from NameEntry
 	pla
 	jmp.w CODE_C58D32
 CODE_C59D3F:						; from CODE_C59B36
@@ -1577,7 +1584,9 @@ CODE_C59D96:						; from CODE_C59B36
 	rol a
 	and.w #$001F
 	rts
-CODE_C59DAF:						; from DATA8_C5967A
+EditPlayerInfo:						; Create Player screen state 3: position, weight, number, hand (up / down
+									; pick, left / right change); start goes on to the ratings page
+									; (ModifyRatings), X cancels
 	jsr.w CODE_C59DBE
 	lda.b $26
 	lsr a
@@ -1585,7 +1594,7 @@ CODE_C59DAF:						; from DATA8_C5967A
 	jsl.l CODE_C4C2AA
 .1:									; go to CODE_C59F62
 	jmp.w CODE_C59F62
-CODE_C59DBE:						; from CODE_C59DAF
+CODE_C59DBE:						; from EditPlayerInfo
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -1790,7 +1799,7 @@ CODE_C59F51:						; from DATA8_C59EF2, DATA8_C59EFA
 .1:									; $85 = 0, go to CODE_C5A2EC
 	stz.b $85
 	jmp.w CODE_C5A2EC
-CODE_C59F62:						; from CODE_C59DAF
+CODE_C59F62:						; from EditPlayerInfo
 	ldx.b a0
 	lda.w #$0073
 	sta.b $05,x

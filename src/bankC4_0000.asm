@@ -792,7 +792,8 @@ CODE_C4064B:						; from CODE_C4062A, CODE_C403C2
 	dec.b tmp0
 	bpl .loop
 	rts
-CODE_C406A8:						; called from other segments
+CheckCreateSlots:					; returns when one of the 20 created player slots is free; else the Alert
+									; You have reached the maximum number of Created Players (ShowAlert)
 	ldy.w #$0003
 .loop:								; loop: call CODE_C406C4, if A = $0000 go to .rtl, A = Y, A + $009C, ...
 	jsr.w CODE_C406C4
@@ -805,10 +806,10 @@ CODE_C406A8:						; called from other segments
 	cpy.w #$0C30
 	bcc .loop
 	pea.w $5471
-	bra CODE_C406EA
+	bra ShowAlert
 .rtl:								; return
 	rtl
-CODE_C406C4:						; from CODE_C406A8
+CODE_C406C4:						; from CheckCreateSlots
 	tya
 	lsr a
 	lsr a
@@ -825,14 +826,17 @@ CODE_C406C4:						; from CODE_C406A8
 	rol a
 	and.w #$001F
 	rts
-CODE_C406DD:						; called from other segments
+CheckTradesFrozen:					; returns when trading is open; when its save RAM flag is set: the Alert
+									; All player trading has been frozen until the new season begins
+									; (ShowAlert)
 	lda.l $3075B4
 	and.w #$00FF
 	bne .1
 	rtl
 .1:									; continue
 	pea.w $54B1
-CODE_C406EA:						; from CODE_C406A8
+ShowAlert:							; prints the Alert page on the stack, waits for start / select, then goes
+									; back to the setup screen (CODE_C58D32)
 	jsl.l FadeOutWait
 	lda.w #$8000
 	sta.w DMAEnShadow
