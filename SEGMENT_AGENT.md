@@ -30,8 +30,8 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_6000 (org $C36000): bank $C3's team database, records first (bankC3_1000-4000), then bankC3_0000 (TeamList, PlayerList),
-then its code from about $C36000. Banks $C0-$C2, $C4 and $C5 are all source. <- CURRENT
+bankC3_7000 (org $C36FF2): bank $C3's code (to about $C38EFD), then its samples and data. Banks $C0-$C2, $C4 and $C5
+are all source, and bank $C3 to $C36FF1. <- CURRENT
 
 ## Sources
 
