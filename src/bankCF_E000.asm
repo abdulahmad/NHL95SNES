@@ -20,7 +20,7 @@ CODE_CFEE25:						; called from other segments
 	dec a
 	eor.w #$0001
 	cmp.w #$008E
-	bcs CODE_CFEE5C
+	bcs .1
 	asl a
 	tax
 	lda.l DATA8_CFF3A2,x
@@ -30,14 +30,14 @@ CODE_CFEE25:						; called from other segments
 	and.w #$00FF
 	tax
 	jmp (DATA8_CFEEAE,x)
-CODE_CFEE5C:						; from CODE_CFEE25
+.1:									; if A >= $0090 go to .2, A xor $0001, A * 2, X = A, ...
 	cmp.w #$0090
-	bcs CODE_CFEE69
+	bcs .2
 	eor.w #$0001
 	asl a
 	tax
 	jmp (DATA8_CFF3A2,x)
-CODE_CFEE69:						; from CODE_CFEE5C
+.2:									; jump through $00A5
 	jmp ($00A5)
 CODE_CFEE6C:						; called from other segments
 	asl a
@@ -51,9 +51,9 @@ CODE_CFEE6C:						; called from other segments
 	sta.b $0C
 	lda.l DATA8_C60848+1,x
 	and.w #$00FF
-	beq CODE_CFEEAB
+	beq .2
 	cmp.w #$008F
-	bcs CODE_CFEEA1
+	bcs .1
 	asl a
 	tax
 	lda.l DATA8_CFF3A0,x
@@ -63,13 +63,13 @@ CODE_CFEE6C:						; called from other segments
 	and.w #$00FF
 	tax
 	jmp (DATA8_CFEEAE,x)
-CODE_CFEEA1:						; from CODE_CFEE6C
+.1:									; if A >= $0092 go to .2, A * 2, X = A, jump through DATA8_CFF3A0,x
 	cmp.w #$0092
-	bcs CODE_CFEEAB
+	bcs .2
 	asl a
 	tax
 	jmp (DATA8_CFF3A0,x)
-CODE_CFEEAB:						; from CODE_CFEE6C, CODE_CFEEA1
+.2:									; jump through $00A5
 	jmp ($00A5)
 DATA8_CFEEAE:						; jump table: the routine for each index
 	dw CODE_CFEEB8,CODE_CFEECF,CODE_CFEEFE,CODE_CFEF41
@@ -166,34 +166,34 @@ CODE_CFEF41:						; from DATA8_CFEEAE
 	clc
 	lda.b $ED
 	adc.b $0A
-	bpl CODE_CFEFAD
+	bpl .1
 	cmp.w #$FFF1
-	bcc CODE_CFEFC2
+	bcc .2
 	inx
 	and.w #$00FF
-CODE_CFEFAD:						; from CODE_CFEF41
+.1:									; if A >= $0100 go to .2, tmp0 = A, A = $F5, A + $0C, ...
 	cmp.w #$0100
-	bcs CODE_CFEFC2
+	bcs .2
 	sta.b tmp0
 	lda.b $F5
 	adc.b $0C
-	bpl CODE_CFEFC5
+	bpl .3
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_CFEFCA
-CODE_CFEFC2:						; from CODE_CFEF41, CODE_CFEFAD, CODE_CFEFC5
+	bcs .4
+.2:									; pull A, go to CODE_CFEFD1
 	pla
 	bra CODE_CFEFD1
-CODE_CFEFC5:						; from CODE_CFEFAD
+.3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
-	bcs CODE_CFEFC2
-CODE_CFEFCA:						; from CODE_CFEFAD
+	bcs .2
+.4:									; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_CFEFD1:						; from CODE_CFEEFE, CODE_CFEFC2
+CODE_CFEFD1:						; from CODE_CFEEFE, CODE_CFEF41
 	lda.b tmp2
 	pha
 	dec a
@@ -203,34 +203,34 @@ CODE_CFEFD1:						; from CODE_CFEEFE, CODE_CFEFC2
 	clc
 	lda.b $EB
 	adc.b $0A
-	bpl CODE_CFEFEB
+	bpl .1
 	cmp.w #$FFF1
-	bcc CODE_CFF000
+	bcc .2
 	inx
 	and.w #$00FF
-CODE_CFEFEB:						; from CODE_CFEFD1
+.1:									; if A >= $0100 go to .2, tmp0 = A, A = $F3, A + $0C, ...
 	cmp.w #$0100
-	bcs CODE_CFF000
+	bcs .2
 	sta.b tmp0
 	lda.b $F3
 	adc.b $0C
-	bpl CODE_CFF003
+	bpl .3
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_CFF008
-CODE_CFF000:						; from CODE_CFEFD1, CODE_CFEFEB, CODE_CFF003
+	bcs .4
+.2:									; pull A, go to CODE_CFF00F
 	pla
 	bra CODE_CFF00F
-CODE_CFF003:						; from CODE_CFEFEB
+.3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
-	bcs CODE_CFF000
-CODE_CFF008:						; from CODE_CFEFEB
+	bcs .2
+.4:									; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF00F:						; from CODE_CFEECF, CODE_CFF000 and other segments
+CODE_CFF00F:						; from CODE_CFEECF, CODE_CFEFD1 and other segments
 	lda.b tmp2
 	pha
 	dec a
@@ -240,79 +240,79 @@ CODE_CFF00F:						; from CODE_CFEECF, CODE_CFF000 and other segments
 	clc
 	lda.b $E9
 	adc.b $0A
-	bpl CODE_CFF029
+	bpl .1
 	cmp.w #$FFF1
-	bcc CODE_CFF03E
+	bcc .2
 	inx
 	and.w #$00FF
-CODE_CFF029:						; from CODE_CFF00F
+.1:									; if A >= $0100 go to .2, tmp0 = A, A = $F1, A + $0C, ...
 	cmp.w #$0100
-	bcs CODE_CFF03E
+	bcs .2
 	sta.b tmp0
 	lda.b $F1
 	adc.b $0C
-	bpl CODE_CFF041
+	bpl .3
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_CFF046
-CODE_CFF03E:						; from CODE_CFF00F, CODE_CFF029, CODE_CFF041
+	bcs .4
+.2:									; pull A, go to CODE_CFF04D
 	pla
 	bra CODE_CFF04D
-CODE_CFF041:						; from CODE_CFF029
+.3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
-	bcs CODE_CFF03E
-CODE_CFF046:						; from CODE_CFF029
+	bcs .2
+.4:									; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF04D:						; from CODE_CFF03E, CODE_CFEEB8
+CODE_CFF04D:						; from CODE_CFF00F, CODE_CFEEB8
 	pei ($A3)
 	ldx.w #$0002
 	clc
 	lda.b $E7
 	adc.b $0A
-	bpl CODE_CFF062
+	bpl .1
 	cmp.w #$FFF1
-	bcc CODE_CFF077
+	bcc .2
 	inx
 	and.w #$00FF
-CODE_CFF062:						; from CODE_CFF04D
+.1:									; if A >= $0100 go to .2, tmp0 = A, A = $EF, A + $0C, ...
 	cmp.w #$0100
-	bcs CODE_CFF077
+	bcs .2
 	sta.b tmp0
 	lda.b $EF
 	adc.b $0C
-	bpl CODE_CFF07A
+	bpl .3
 	cmp.w #$FFF1
 	and.w #$00FF
-	bcs CODE_CFF07F
-CODE_CFF077:						; from CODE_CFF04D, CODE_CFF062, CODE_CFF07A
+	bcs .4
+.2:									; pull A, go to CODE_CFF086
 	pla
 	bra CODE_CFF086
-CODE_CFF07A:						; from CODE_CFF062
+.3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
-	bcs CODE_CFF077
-CODE_CFF07F:						; from CODE_CFF062
+	bcs .2
+.4:									; A or tmp0, push A, $00,y = X, Y + 1
 	xba
 	ora.b tmp0
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF086:						; from CODE_CFF077, DATA8_CFEEAE
+CODE_CFF086:						; from CODE_CFF04D, DATA8_CFEEAE
 	ldx.b $E5
 	lda.l $CF0000,x
 	and.w #$000F
 	cmp.w #$0008
-	bcc CODE_CFF097
+	bcc .1
 	inx
-	bra CODE_CFF09D
-CODE_CFF097:						; from CODE_CFF086
+	bra .2
+.1:									; A + $0003, A + $E5, X = A
 	adc.w #$0003
 	adc.b $E5
 	tax
-CODE_CFF09D:						; from CODE_CFF086
+.2:									; $E5 = X, A = $CF0000,x, A and $00FF, X = A, ...
 	stx.b $E5
 	lda.l $CF0000,x
 	and.w #$00FF

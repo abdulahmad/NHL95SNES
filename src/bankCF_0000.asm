@@ -20,9 +20,9 @@ CODE_CF001A:						; from CODE_CF0000 and other segments
 	jsl.l SPCUpload
 	sep #$20
 	lda.b #$7F
-CODE_CF0032:						; from CODE_CF0032
+.loop:								; loop: if A is not $002143 go to .loop, $002140 = A, A 16-bit, ...
 	cmp.l $002143
-	bne CODE_CF0032
+	bne .loop
 	sta.l $002140
 	rep #$20
 	lda.w #$FFFF
@@ -49,23 +49,23 @@ CODE_CF0069:						; from CODE_CF0098
 	jsr.w CODE_CF00BD
 	xba
 	lda.b #$00
-	bra CODE_CF007A
-CODE_CF0071:						; from CODE_CF007A
+	bra .1
+.loop:								; loop: call CODE_CF00BD, call CODE_CF00B7, A + 1
 	xba
 	jsr.w CODE_CF00BD
 	xba
 	jsr.w CODE_CF00B7
 	inc a
-CODE_CF007A:						; from CODE_CF0069
+.1:									; A 16-bit, $2140 = A, A 8-bit, X - 1, ...
 	rep #$20
 	sta.w $2140
 	sep #$20
 	dex
-	bne CODE_CF0071
+	bne .loop
 	jsr.w CODE_CF00B7
-CODE_CF0087:						; from CODE_CF0087
+.loop2:								; loop: A + $03, if the result = 0 go to .loop2
 	adc.b #$03
-	beq CODE_CF0087
+	beq .loop2
 CODE_CF008B:						; from SPCUpload
 	pha
 	rep #$20
@@ -89,36 +89,36 @@ CODE_CF0098:						; called from other segments
 	rep #$20
 	plb
 	rtl
-CODE_CF00B7:						; from SPCUpload, CODE_CF0098, CODE_CF00B7, CODE_CF007A, ...
+CODE_CF00B7:						; from SPCUpload, CODE_CF0098, CODE_CF00B7, CODE_CF0069, ...
 	cmp.w $2140
 	bne CODE_CF00B7
 	rts
-CODE_CF00BD:						; from CODE_CF0069, CODE_CF0071
+CODE_CF00BD:						; from CODE_CF0069
 	lda.b [r0]
 	ldy.b r0
 	iny
-	bne CODE_CF00C9
+	bne .1
 	inc.b $2E
 	ldy.w #$8000
-CODE_CF00C9:						; from CODE_CF00BD
+.1:									; r0 = Y, return
 	sty.b r0
 	rts
 CODE_CF00CC:						; from CODE_CF008B
 	lda.b [r0]
 	ldy.b r0
 	iny
-	bne CODE_CF00D8
+	bne .1
 	inc.b $2E
 	ldy.w #$8000
-CODE_CF00D8:						; from CODE_CF00CC
+.1:									; Y + 1, if the result is not 0 go to .2, $2E + 1, Y = $8000
 	iny
-	bne CODE_CF00E0
+	bne .2
 	inc.b $2E
 	ldy.w #$8000
-CODE_CF00E0:						; from CODE_CF00D8
+.2:									; r0 = Y, return
 	sty.b r0
 	rts
-CODE_CF00E3:						; from CODE_CF03B2, CODE_CF03EE, CODE_CF040B, ...
+CODE_CF00E3:						; from CODE_CF039E, CODE_CF03D0, CODE_CF040B, ...
 	phy
 	ldy.w $1EA1
 	sta.w $4AC0,y
@@ -137,9 +137,9 @@ CODE_CF00FE:						; called from other segments
 	ldx.w $1EA3
 CODE_CF0101:						; called from other segments
 	cpx.w $1EA1
-	bne CODE_CF0107
+	bne .1
 	rtl
-CODE_CF0107:						; from CODE_CF0101
+.1:									; A = X, A + $0004, A and $00FF, $1EA3 = A, ...
 	txa
 	clc
 	adc.w #$0004
@@ -162,7 +162,7 @@ CODE_CF0107:						; from CODE_CF0101
 	pla
 	rep #$20
 	rtl
-CODE_CF0134:						; from CODE_CF0134, CODE_CF0427, CODE_CF04C0 and other segments
+CODE_CF0134:						; from CODE_CF0134, CODE_CF0427, CODE_CF04B6 and other segments
 	ldy.w $1EA3
 	cpy.w $1EA1
 	bne CODE_CF0134
@@ -174,35 +174,35 @@ CODE_CF0134:						; from CODE_CF0134, CODE_CF0427, CODE_CF04C0 and other segment
 	sta.b tmp0
 	ldx.w #$00FE
 	lda.w #$FFFF
-CODE_CF014D:						; from CODE_CF014D
+.loop:								; loop: $4BC8,x = A, $4CCA,x = A, $48BA,x = 0, X - 1, ...
 	sta.w $4BC8,x
 	sta.w $4CCA,x
 	stz.w $48BA,x
 	dex
 	dex
-	bpl CODE_CF014D
+	bpl .loop
 	lda.w #$0001
 	sta.w $49BA
 	plx
 	pla
-CODE_CF0162:						; from CODE_CF045C and other segments
+CODE_CF0162:						; from CODE_CF0427 and other segments
 	sta.b r2
 	stx.b $36
-CODE_CF0166:						; from CODE_CF0166, CODE_CF0178
+.loop:								; loop: A = [r2], A and $00FF, if a $0080 bit set go to .1, r2 + 1, ...
 	lda.b [r2]
 	and.w #$00FF
 	bit.w #$0080
-	bne CODE_CF0178
+	bne .1
 	inc.b r2
 	jsl.l CODE_CF01E0
-	bra CODE_CF0166
-CODE_CF0178:						; from CODE_CF0166
+	bra .loop
+.1:									; if A = $00FF go to .2, r2 + 1, call CODE_CF0313, go to .loop
 	cmp.w #$00FF
-	beq CODE_CF0185
+	beq .2
 	inc.b r2
 	jsl.l CODE_CF0313
-	bra CODE_CF0166
-CODE_CF0185:						; from CODE_CF0178
+	bra .loop
+.2:									; A = tmp0
 	lda.b tmp0
 	clc
 CODE_CF0188:						; called from other segments
@@ -235,12 +235,12 @@ CODE_CF0188:						; called from other segments
 	ldx.w #$007E
 	ldy.w #$FD00
 	jmp.w CODE_CF02A5
-CODE_CF01E0:						; from CODE_CF0166, CODE_CF0345 and other segments
+CODE_CF01E0:						; from CODE_CF0162, CODE_CF0313 and other segments
 	and.w #$00FF
 	tax
 	lda.w $48BA,x
 	and.w #$00FF
-	bne CODE_CF0211
+	bne .1
 	lda.w $49BA
 	inc.w $49BA
 	sep #$20
@@ -258,12 +258,12 @@ CODE_CF01E0:						; from CODE_CF0166, CODE_CF0345 and other segments
 	lda.l SampleList+2,x
 	sta.w $49BE,y
 	tyx
-	bra CODE_CF0214
-CODE_CF0211:						; from CODE_CF01E0
+	bra .2
+.1:									; A * 2, A * 2, X = A
 	asl a
 	asl a
 	tax
-CODE_CF0214:						; from CODE_CF01E0
+.2:									; r1 = $49BC,x, $32 = $49BE,x, $4DD2,x = [r1], Y = $0002, ...
 	lda.w $49BC,x
 	sta.b r1
 	lda.w $49BE,x
@@ -287,25 +287,25 @@ CODE_CF0239:						; called from other segments
 	asl a
 	tax
 	ldy.w #$0000
-CODE_CF0244:						; from CODE_CF025F
+.1:									; A = $4BC8,y, if A is not r1 go to .2, A = $4BCA,y, ...
 	lda.w $4BC8,y
 	cmp.b r1
-	bne CODE_CF025F
+	bne .2
 	lda.w $4BCA,y
 	cmp.b $32
-	bne CODE_CF025F
+	bne .2
 	lda.w $4ED2,y
 	sta.w $4ED2,x
 	lda.w $4ED4,y
 	sta.w $4ED4,x
 	rtl
-CODE_CF025F:						; from CODE_CF0244
+.2:									; Y + 1, Y + 1, Y + 1, Y + 1, ...
 	iny
 	iny
 	iny
 	iny
 	cpy.w #$0100
-	bne CODE_CF0244
+	bne .1
 	lda.b r1
 	sta.w $4BC8,x
 	lda.b $32
@@ -313,9 +313,9 @@ CODE_CF025F:						; from CODE_CF0244
 	clc
 	ldy.w #$0008
 	lda.b [r1],y
-	beq CODE_CF027C
+	beq .3
 	adc.b tmp0
-CODE_CF027C:						; from CODE_CF025F
+.3:									; $4ED4,x = A, $4ED2,x = tmp0, A = r1, A + $000A, ...
 	sta.w $4ED4,x
 	lda.b tmp0
 	sta.w $4ED2,x
@@ -327,14 +327,14 @@ CODE_CF028B:						; from CODE_CF0313 and other segments
 	tay
 	clc
 	adc.b [r1]
-	bcs CODE_CF0298
+	bcs .1
 	cmp.w #$F47F
-	bcc CODE_CF029F
-CODE_CF0298:						; from CODE_CF028B
+	bcc .2
+.1:									; $4DCE + 1, A = $0C00, Y = A
 	inc.w $4DCE
 	lda.w #$0C00
 	tay
-CODE_CF029F:						; from CODE_CF028B
+.2:									; tmp0 = A, A = r1, X = $32
 	sta.b tmp0
 	lda.b r1
 	ldx.b $32
@@ -352,10 +352,10 @@ CODE_CF02A5:						; from CODE_CF0188 and other segments
 	lda.b #$19
 	sta.l $002143
 	lda.b #$00
-CODE_CF02C1:						; from CODE_CF02C1
+.loop:								; loop: if A is not $002143 go to .loop
 	cmp.l $002143
-	bne CODE_CF02C1
-CODE_CF02C7:						; from CODE_CF02F2
+	bne .loop
+.loop2:								; loop: $002140 = [r0],y, Y + 1, $002141 = [r0],y, Y + 1, ...
 	lda.b [r0],y
 	sta.l $002140
 	iny
@@ -367,38 +367,38 @@ CODE_CF02C7:						; from CODE_CF02F2
 	iny
 	lda.b tmp1
 	inc a
-	bpl CODE_CF02E3
+	bpl .1
 	and.b #$7F
-CODE_CF02E3:						; from CODE_CF02C7
+.1:									; tmp1 = A, X - 1, if the result = 0 go to .4, X - 1, ...
 	sta.b tmp1
 	dex
-	beq CODE_CF0302
+	beq .4
 	dex
-	beq CODE_CF02FE
+	beq .3
 	dex
-	beq CODE_CF02FA
+	beq .2
 	sta.l $002143
-CODE_CF02F2:						; from CODE_CF02F2
+.loop3:								; loop: if A is not $002143 go to .loop3, go to .loop2
 	cmp.l $002143
-	bne CODE_CF02F2
-	bra CODE_CF02C7
-CODE_CF02FA:						; from CODE_CF02E3
+	bne .loop3
+	bra .loop2
+.2:									; A = $83, go to .5
 	lda.b #$83
-	bra CODE_CF0304
-CODE_CF02FE:						; from CODE_CF02E3
+	bra .5
+.3:									; A = $82, go to .5
 	lda.b #$82
-	bra CODE_CF0304
-CODE_CF0302:						; from CODE_CF02E3
+	bra .5
+.4:									; A = $81
 	lda.b #$81
-CODE_CF0304:						; from CODE_CF02FE, CODE_CF02FA
+.5:									; $002143 = A, A = $7E
 	sta.l $002143
 	lda.b #$7E
-CODE_CF030A:						; from CODE_CF030A
+.loop4:								; loop: if A is not $002143 go to .loop4, A 16-bit, return
 	cmp.l $002143
-	bne CODE_CF030A
+	bne .loop4
 	rep #$20
 	rtl
-CODE_CF0313:						; from CODE_CF0178 and other segments
+CODE_CF0313:						; from CODE_CF0162 and other segments
 	and.w #$007F
 	pei ($34)
 	pei ($36)
@@ -422,7 +422,7 @@ CODE_CF0313:						; from CODE_CF0178 and other segments
 	and.w #$007F
 	tax
 	iny
-CODE_CF0345:						; from CODE_CF0345
+.loop:								; loop: A = [r2],y, A and $00FF, push X, push Y, ...
 	lda.b [r2],y
 	and.w #$00FF
 	phx
@@ -432,20 +432,20 @@ CODE_CF0345:						; from CODE_CF0345
 	plx
 	iny
 	dex
-	bne CODE_CF0345
+	bne .loop
 	lda.b r2
-	bmi CODE_CF0387
+	bmi .1
 	xba
 	and.w #$007F
 	asl a
 	tax
 	lda.l DATA8_CF0583,x
 	tax
-CODE_CF0365:						; from CODE_CF0365
+.loop2:								; loop: A = $CF0000,x, A and $00FF, if A >= $0021 go to .1, Y = A, ...
 	lda.l $CF0000,x
 	and.w #$00FF
 	cmp.w #$0021
-	bcs CODE_CF0387
+	bcs .1
 	tay
 	lda.w $48BA,y
 	and.w #$00FF
@@ -457,8 +457,8 @@ CODE_CF0365:						; from CODE_CF0365
 	inx
 	inx
 	inx
-	bra CODE_CF0365
-CODE_CF0387:						; from CODE_CF0345, CODE_CF0365
+	bra .loop2
+.1:									; pull A, $36 = A, pull A, r2 = A, ...
 	pla
 	sta.b $36
 	pla
@@ -466,16 +466,16 @@ CODE_CF0387:						; from CODE_CF0345, CODE_CF0365
 	rtl
 CODE_CF038E:						; called from other segments
 	lda.w $1EA5
-	bne CODE_CF039D
+	bne .rtl
 	lda.w #$0002
 	sta.w $1EA5
 	jml.l CODE_CF040B
-CODE_CF039D:						; from CODE_CF038E
+.rtl:								; return
 	rtl
-CODE_CF039E:						; from CODE_CF04C0 and other segments
+CODE_CF039E:						; from CODE_CF04B6 and other segments
 	jsr.w CODE_CF0402
 	lda.w $059C
-	beq CODE_CF03CF
+	beq .rtl
 	xba
 	sta.b tmp0
 	lsr a
@@ -484,7 +484,7 @@ CODE_CF039E:						; from CODE_CF04C0 and other segments
 	lsr a
 	sta.b tmp2
 	ldx.w #$000F
-CODE_CF03B2:						; from CODE_CF03B2
+.loop:								; loop: A = tmp0, A - tmp2, tmp0 = A, A and $FF00, ...
 	sec
 	lda.b tmp0
 	sbc.b tmp2
@@ -497,41 +497,41 @@ CODE_CF03B2:						; from CODE_CF03B2
 	lda.w #$0008
 	jsl.l CODE_CF00E3
 	dex
-	bpl CODE_CF03B2
+	bpl .loop
 	stz.w $059C
-CODE_CF03CF:						; from CODE_CF039E
+.rtl:								; return
 	rtl
-CODE_CF03D0:						; from CODE_CF04C0 and other segments
+CODE_CF03D0:						; from CODE_CF04B6 and other segments
 	jsr.w CODE_CF0402
 	lda.w $059C
 	cmp.w #$007F
-	beq CODE_CF0401
+	beq .rtl
 	stz.b tmp0
 	ldx.w #$000F
-CODE_CF03E0:						; from CODE_CF03EE
+.loop:								; loop: A = tmp0, A + $0808, if A < $7F80 go to .1, A = $7F7F
 	lda.b tmp0
 	clc
 	adc.w #$0808
 	cmp.w #$7F80
-	bcc CODE_CF03EE
+	bcc .1
 	lda.w #$7F7F
-CODE_CF03EE:						; from CODE_CF03E0
+.1:									; tmp0 = A, Y = A, A = $0008, call CODE_CF00E3, ...
 	sta.b tmp0
 	tay
 	lda.w #$0008
 	jsl.l CODE_CF00E3
 	dex
-	bpl CODE_CF03E0
+	bpl .loop
 	lda.w #$007F
 	sta.w $059C
-CODE_CF0401:						; from CODE_CF03D0
+.rtl:								; return
 	rtl
 CODE_CF0402:						; from CODE_CF039E, CODE_CF03D0, CODE_CF0402
 	ldy.w $1EA3
 	cpy.w $1EA1
 	bne CODE_CF0402
 	rts
-CODE_CF040B:						; from CODE_CF038E, CODE_CF04A8, CODE_CF04C0 and other segments
+CODE_CF040B:						; from CODE_CF038E, CODE_CF04A8, CODE_CF04B6 and other segments
 	phx
 	phy
 	tax
@@ -562,23 +562,23 @@ CODE_CF0427:						; called from other segments
 	lda.w #$50D4
 	sta.b r0
 	ldy.w #$0005
-CODE_CF0442:						; from CODE_CF045C
+.loop:								; loop: A = TeamSongs,x, A and $00FF, if A is not $00FF go to .1, ...
 	lda.l TeamSongs,x
 	and.w #$00FF
 	cmp.w #$00FF
-	bne CODE_CF045C
+	bne .1
 	phx
 	lda.w #$0007
 	jsl.l CODE_C58CCD
 	tax
 	lda.l DefaultSongs,x
 	plx
-CODE_CF045C:						; from CODE_CF0442
+.1:									; (r0) = A, r0 + 1, X + 1, Y - 1, ...
 	sta.b (r0)
 	inc.b r0
 	inx
 	dey
-	bpl CODE_CF0442
+	bpl .loop
 	lda.w #$FFFF
 	sta.b (r0)
 	lda.w #$50D4
@@ -600,13 +600,13 @@ CODE_CF048A:						; called from other segments
 	phx
 	sta.b tmp0
 	ldx.w #$03E8
-CODE_CF0490:						; from CODE_CF0490
+.loop:								; loop: X - 1, if the result < 0 go to CODE_CF04B4, A = $002143, ...
 	dex
 	bmi CODE_CF04B4
 	lda.l $002143
 	and.w #$00FF
 	cmp.w #$007E
-	bne CODE_CF0490
+	bne .loop
 	lda.l $002142
 	and.w #$0038
 	bne CODE_CF04B4
@@ -615,15 +615,15 @@ CODE_CF04A8:						; from CODE_CF0485
 	lda.w $50D4,x
 	and.w #$00FF
 	jsl.l CODE_CF040B
-CODE_CF04B4:						; from CODE_CF0490
+CODE_CF04B4:						; from CODE_CF048A
 	plx
 	rtl
 CODE_CF04B6:						; called from other segments
 	lda.w $1EA7
-	bne CODE_CF04C0
+	bne .1
 	lda.w $1EA9
-	beq CODE_CF04DC
-CODE_CF04C0:						; from CODE_CF04B6
+	beq .2
+.1:									; $1EA7 = 0, call CODE_CF039E, X = DATA8_CF05D4>>16, ...
 	stz.w $1EA7
 	jsl.l CODE_CF039E
 	ldx.w #DATA8_CF05D4>>16
@@ -632,7 +632,7 @@ CODE_CF04C0:						; from CODE_CF04B6
 	lda.w #$00A4
 	jsl.l CODE_CF040B
 	jsl.l CODE_CF03D0
-CODE_CF04DC:						; from CODE_CF04B6
+.2:									; $1EA9 = $0001, return
 	lda.w #$0001
 	sta.w $1EA9
 	rtl
