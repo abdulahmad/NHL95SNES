@@ -184,7 +184,7 @@ CODE_C5503C:						; called from other segments
 	stx.b $02
 	stz.b QueueBusy
 	jsl.l WaitTransfers
-	jsl.l CODE_C387FF
+	jsl.l BackupPauseBuffers
 	lda.w #$2D60
 	jsl.l AllocWorkBuf
 	sta.w $18EE

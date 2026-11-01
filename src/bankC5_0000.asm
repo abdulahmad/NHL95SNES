@@ -162,7 +162,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	jsl.l reenergizeteam
 	jsl.l CODE_C52227
 	jsl.l CODE_C53535
-	jsl.l CODE_C3718D
+	jsl.l InitCrowdExcite
 	lda.w #$FFFF
 	sta.w pausepad
 	lda.w cont1team
@@ -367,7 +367,7 @@ CODE_C5033D:						; from Gameloop and other segments
 	jml.l CODE_C52295
 periodicevents:						; from CODE_C5033D and other segments
 	jsl.l CODE_C471F0
-	jsl.l CODE_C371AB
+	jsl.l updatecrowdf
 	jsl.l clockcont
 	lda.w lldisp
 	sec
@@ -1224,8 +1224,8 @@ clockcont_0:						; called from other segments
 	sec
 	sbc.w #$0096
 	sta.w cheervc
-.4:									; call CODE_C380D1, d0 = $0004, call AddPenalty2, ...
-	jsl.l CODE_C380D1
+.4:									; call ShowScoringLeaders, d0 = $0004, call AddPenalty2, ...
+	jsl.l ShowScoringLeaders
 	lda.w #$0004
 	sta.b d0
 	jsl.l AddPenalty2

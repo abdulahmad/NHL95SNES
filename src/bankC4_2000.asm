@@ -322,8 +322,8 @@ assnearest:							; called from other segments
 .14:								; call skatetopuck, go to check4check
 	jsl.l skatetopuck
 	jmp.w check4check
-.15:								; call CODE_C37EBF, if d0 >= $0002 go to .16, temp3,x = $00F0
-	jsl.l CODE_C37EBF
+.15:								; call randomd0, if d0 >= $0002 go to .16, temp3,x = $00F0
+	jsl.l randomd0
 	lda.b d0
 	cmp.w #$0002
 	bcs .16

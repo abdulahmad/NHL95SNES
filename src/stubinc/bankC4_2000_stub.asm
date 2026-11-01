@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C37EBF = $C37EBF
+randomd0 = $C37EBF					; replace d0 with a random number below its current value
 randomd0s = $C37EC8
 vtoa = $C37F6D
 chk4pass = $C49FBD

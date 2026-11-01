@@ -275,12 +275,12 @@ CODE_C512B1:						; from SetScore and other segments
 	sta.b d1
 	inc.b a1
 	inc.b a1
-.1:									; d0 - 1, if the result >= 0 go to .loop, d0 = d1, call CODE_C37EBF
+.1:									; d0 - 1, if the result >= 0 go to .loop, d0 = d1, call randomd0
 	dec.b d0
 	bpl .loop
 	lda.b d1
 	sta.b d0
-	jsl.l CODE_C37EBF
+	jsl.l randomd0
 .loop2:								; loop: a1 - 1, a1 - 1, A = d0, A - [a1], ...
 	dec.b a1
 	dec.b a1
@@ -1158,15 +1158,16 @@ CODE_C51A61:						; called from other segments
 	ldx.w #$000C
 	lda.w #$0000
 	sta.b d4
-.1:									; d0 = $0010, call CODE_C38824, call CODE_C38824, call CODE_C38824, ...
+.1:									; d0 = $0010, call FillPlayerAssignments, call FillPlayerAssignments, call
+									; FillPlayerAssignments, ...
 	lda.w #$0010
 	sta.b d0
-	jsl.l CODE_C38824
-	jsl.l CODE_C38824
-	jsl.l CODE_C38824
-	jsl.l CODE_C38824
-	jsl.l CODE_C38824
-	jsl.l CODE_C38824
+	jsl.l FillPlayerAssignments
+	jsl.l FillPlayerAssignments
+	jsl.l FillPlayerAssignments
+	jsl.l FillPlayerAssignments
+	jsl.l FillPlayerAssignments
+	jsl.l FillPlayerAssignments
 	ldx.b d4
 	lda.w teampads,x
 	beq .4

@@ -644,7 +644,7 @@ CODE_C453E6:						; from checkcheck and other segments
 	beq .6
 	bmi .6
 	sta.b d0
-	jsl.l CODE_C37EBF
+	jsl.l randomd0
 	lda.b d0
 	sec
 	sbc.w checking,x

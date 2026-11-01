@@ -114,7 +114,7 @@ IRQ_StatsScroll3:					; IRQ hook: the last BG1 scroll split, then IRQ_StatsScrol
 	lda.w #IRQ_StatsScroll1&$FFFF
 	sta.w IRQHook
 	rtl
-CODE_C380D1:						; called from other segments
+ShowScoringLeaders:					; display the three leading scorers with their team and player names
 	lda.w $1864
 	cmp.w #$0001
 	bne .1
@@ -134,7 +134,7 @@ CODE_C380D1:						; called from other segments
 	sta.w $2CE3
 	sta.w $2CE5
 	sta.w $2CE7
-	jsr.w CODE_C381D5
+	jsr.w FindScoringLeaders
 	ldy.w gsp
 	lda.w #$584C
 	cpy.w #$0003
@@ -164,17 +164,17 @@ CODE_C380D1:						; called from other segments
 	ldy.w gameclock
 	beq .4
 	lda.w #$59ED
-.4:									; a0 = A, if $2CE3 < 0 go to .5, call CODE_C3817D, ...
+.4:									; a0 = A, if $2CE3 < 0 go to .5, call PrintScoringLeader, ...
 	sta.b a0
 	ldx.w $2CE3
 	bmi .5
-	jsr.w CODE_C3817D
+	jsr.w PrintScoringLeader
 	ldx.w $2CE5
 	bmi .5
-	jsr.w CODE_C3817D
+	jsr.w PrintScoringLeader
 	ldx.w $2CE7
 	bmi .5
-	jsr.w CODE_C3817D
+	jsr.w PrintScoringLeader
 .5:									; pull A, a2 = A, pull A, $6D = A, ...
 	pla
 	sta.b a2
@@ -195,7 +195,7 @@ CODE_C380D1:						; called from other segments
 	ply
 	plx
 	rtl
-CODE_C3817D:						; from CODE_C380D1
+PrintScoringLeader:					; queue the team and player name of one scoring leader
 	stx.b $65
 	lda.w #$0000
 	cpx.w #$001A
@@ -239,25 +239,25 @@ CODE_C3817D:						; from CODE_C380D1
 	adc.w #$0020
 	sta.b a0
 	rts
-CODE_C381D5:						; from CODE_C380D1
+FindScoringLeaders:					; scan both team roster ranges for the leading scorers
 	ldx.w $2DC9
-.loop:								; loop: X - 1, A = X, call CODE_C381F4, if X >= $2DCB go to .loop, ...
+.loop:								; loop: X - 1, A = X, call InsertScoringLeader, ...
 	dex
 	txa
-	jsr.w CODE_C381F4
+	jsr.w InsertScoringLeader
 	cpx.w $2DCB
 	bcs .loop
 	ldx.w $3207
-.loop2:								; loop: X - 1, A = X, A + $001A, call CODE_C381F4, ...
+.loop2:								; loop: X - 1, A = X, A + $001A, call InsertScoringLeader, ...
 	dex
 	txa
 	clc
 	adc.w #$001A
-	jsr.w CODE_C381F4
+	jsr.w InsertScoringLeader
 	cpx.w $3209
 	bcs .loop2
 	rts
-CODE_C381F4:						; from CODE_C381D5
+InsertScoringLeader:				; insert a player into the top three by points then goals
 	tay
 	lda.w $1413,y
 	and.w #$00FF
@@ -810,13 +810,13 @@ MapTileBlock:						; writes 2 rows of 9 tile entries, numbered on from Y, to the
 	sta.l VMAIN
 	txa
 	sta.l VMADDL
-	jsl.l CODE_C387F2
+	jsl.l WriteNineMapTiles
 	tay
 	txa
 	clc
 	adc.w #$0020
 	sta.l VMADDL
-CODE_C387F2:						; from MapTileBlock and other segments
+WriteNineMapTiles:					; write nine consecutive tile entries starting at Y to VMDATAL
 	tya
 	ldy.w #$0008
 .loop:								; loop: VMDATAL = A, A + 1, Y - 1, if the result >= 0 go to .loop, ...
@@ -825,7 +825,7 @@ CODE_C387F2:						; from MapTileBlock and other segments
 	dey
 	bpl .loop
 	rtl
-CODE_C387FF:						; called from other segments
+BackupPauseBuffers:					; allocate and copy the buffers saved for the pause screen
 	lda.w #$01FE
 	jsl.l AllocWorkBuf
 	sta.w $3648
@@ -839,7 +839,7 @@ CODE_C387FF:						; called from other segments
 	ldx.w #$46A8
 	mvn $7E,$7E
 	rtl
-CODE_C38824:						; called from other segments
+FillPlayerAssignments:				; fill the player assignment ring with d0 and advance X
 	stx.w puckc
 	jsl.l CODE_C43734
 	jsl.l CODE_C43734
@@ -1029,8 +1029,7 @@ PushRef:							; draw a referee frame or clear the referee window
 	lda.w $234A
 	beq .3
 	jsl.l ClearRefereeMessage
-.3:									; TransfersReady + 1, X = $001C, Y = $5842, call CopyRefereeFrameToVRAM,
-									; ...
+.3:									; TransfersReady + 1, X = $001C, Y = $5842, ...
 	inc.w TransfersReady
 	ldx.w #$001C
 	ldy.w #$5842

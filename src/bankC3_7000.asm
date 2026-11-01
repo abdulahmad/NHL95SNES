@@ -220,7 +220,7 @@ UpdateMenuSprites:					; animate menu sprites, build their OAM and wait for tran
 	jsl.l PackOAMHigh
 	inc.b $26
 	jml.l WaitTransfers
-CODE_C3718D:						; called from other segments
+InitCrowdExcite:					; initialize crowd excitement at a period start except overtime
 	lda.w gsp
 	cmp.w #$0003
 	beq .rtl
@@ -238,7 +238,7 @@ CODE_C3718D:						; called from other segments
 	sta.w CwdExciteLvl
 .rtl:								; return
 	rtl
-CODE_C371AB:						; called from other segments
+updatecrowdf:						; decay the crowd hold and sound level
 	lda.w $1EA5
 	beq .rtl
 	lda.b crowdhold
@@ -1729,11 +1729,11 @@ RenderReplayFrame:					; build the replay frame sprites and queue display update
 	jsl.l CODE_C528D5
 	ldx.b a3
 	rtl
-randomd0A:							; from CODE_C37EBF, randomd0s, randomd0sd0 and other segments
+randomd0A:							; from randomd0, randomd0s, randomd0sd0 and other segments
 	phx
 	pha
 	cmp.w #$0100
-	bcc CODE_C37EAC
+	bcc randoma8_go
 	jsl.l RandomWord
 	plx
 	jsl.l Mul16U
@@ -1744,7 +1744,7 @@ randomd0A:							; from CODE_C37EBF, randomd0s, randomd0sd0 and other segments
 randoma8:							; called from other segments
 	phx
 	pha
-CODE_C37EAC:						; from randomd0A
+randoma8_go:						; scale a random byte by the limit already on the stack
 	jsl.l RandomWord
 	and.w #$00FF
 	plx
@@ -1754,7 +1754,7 @@ CODE_C37EAC:						; from randomd0A
 	clc
 	plx
 	rtl
-CODE_C37EBF:						; called from other segments
+randomd0:							; replace d0 with a random number below its current value
 	lda.b d0
 	jsl.l randomd0A
 	sta.b d0

@@ -276,8 +276,8 @@ checkagr:							; called from other segments
 	cmp.w #$0029
 	bpl .2
 	lsr.b d0
-.2:									; go to CODE_C37EBF
-	jml.l CODE_C37EBF
+.2:									; go to randomd0
+	jml.l randomd0
 CODE_C481D5:						; called from other segments
 	lda.w $234A
 	beq .1

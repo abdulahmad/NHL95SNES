@@ -8,10 +8,10 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 SoundVolumeUp = $CF03D0
 StartSound = $CF040B
-CODE_C38824 = $C38824
+FillPlayerAssignments = $C38824		; fill the player assignment ring with d0 and advance X
 ReadjoyA = $C3704D
 randoma8 = $C37EAA
-CODE_C37EBF = $C37EBF
+randomd0 = $C37EBF					; replace d0 with a random number below its current value
 ReadPads = $C36CBF
 CopyString2 = $C4C47E
 AllocWorkBuf2 = $C4C561
