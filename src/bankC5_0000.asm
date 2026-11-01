@@ -208,8 +208,8 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	stz.w $079E
 	stz.b Vcount
 	stz.b $5F
-	stz.w $07F6
-	stz.w $07C6
+	stz.w lastframevc
+	stz.w OldVcount
 	lda.w shootoutmode
 	beq Gameloop
 	rtl
@@ -221,12 +221,12 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	lda.w #$E000
 	bcs .1
 	lda.w #$F000
-.1:									; $D7 = A, A = Vcount, X = A, A - $07C6, ...
+.1:									; $D7 = A, A = Vcount, X = A, A - OldVcount, ...
 	sta.b $D7
 	lda.b Vcount
 	tax
 	sec
-	sbc.w $07C6
+	sbc.w OldVcount
 	bne .2
 	inc a
 	inx
@@ -243,7 +243,7 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	sta.b r1
 	jsl.l Div32U
 	lda.b r0
-	sta.w $0563
+	sta.w gamefps
 	lda.w gsp
 	cmp.w #$0002
 	bne .3
@@ -262,14 +262,14 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	asl a
 	asl a
 	asl a
-	sta.w $07A6
+	sta.w velstep
 	asl a
 	sta.w gravstep
 	asl a
 	adc.w gravstep
 	sta.w gravstep
-	stx.w $07F6
-	stx.w $07C6
+	stx.w lastframevc
+	stx.w OldVcount
 	jsl.l ReadPads
 	lda.w sflags
 	bit.w #$0001
@@ -787,7 +787,7 @@ CODE_C50393:						; from CODE_C5033D and other segments
 	sbc.w gravstep
 	sta.w puckvz
 	tax
-	lda.w $07A6
+	lda.w velstep
 	jsl.l Mul16x8XS
 	ldx.b curobj
 	lda.b r2
@@ -1589,9 +1589,9 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.w $2CF5
 	bne .1
 	jsl.l CODE_C52264
-.1:									; Vcount = 0, $07C6 = 0, call WaitTransfers, $2372 = 0, ...
+.1:									; Vcount = 0, OldVcount = 0, call WaitTransfers, $2372 = 0, ...
 	stz.b Vcount
-	stz.w $07C6
+	stz.w OldVcount
 	jsl.l WaitTransfers
 	stz.w $2372
 	stz.w $1857
@@ -1612,8 +1612,8 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.w recsfx
 	sta.w recsfx2
 	lda.b Vcount
-	sta.w $07F6
-	sta.w $07C6
+	sta.w lastframevc
+	sta.w OldVcount
 	rtl
 demoread:							; from Gameloop and other segments
 	lda.w $1864

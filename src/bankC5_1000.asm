@@ -520,23 +520,23 @@ Intermission:						; the intermission between periods: the teams set up
 	bpl .loop
 	lda.b Vcount
 	ldy.b $5F
-	sta.w $0810
-	sty.w $0812
+	sta.w vcountmark
+	sty.w vcountmark+2
 	lda.w #$0001
 	trb.w sflags
 	lda.w gsp
 	cmp.w #$0004
 	beq .1
 	bra .1
-.1:									; $07AA = $0708, $07F0 = $0001, A = Vcount, A - $0150, ...
+.1:									; pausetimer = $0708, demoflag = $0001, A = Vcount, A - $0150, ...
 	lda.w #$0708
-	sta.w $07AA
+	sta.w pausetimer
 	lda.w #$0001
-	sta.w $07F0
+	sta.w demoflag
 	lda.b Vcount
 	sec
 	sbc.w #$0150
-	sta.w $07F4
+	sta.w tickervc
 	jsl.l Intermission_ticker
 	lda.w TickerNum
 	sta.w $24C8
@@ -563,9 +563,9 @@ Intermission:						; the intermission between periods: the teams set up
 	ora.w cont5team
 	bne .3
 	stz.w pausepad
-.3:									; $153F = $0001, if $23BA = 0 go to .4, go to .5
+.3:									; InIntermission = $0001, if $23BA = 0 go to .4, go to .5
 	lda.w #$0001
-	sta.w $153F
+	sta.w InIntermission
 	lda.w $23BA
 	beq .4
 	jmp.w .5
@@ -665,12 +665,12 @@ Intermission:						; the intermission between periods: the teams set up
 	jsl.l CODE_C558CC
 	jsl.l CODE_C5589E
 	jsl.l SoundVolumeUp
-.5:									; Vcount = 0, $07C6 = 0, $2372 = 0, $153F = 0, ...
+.5:									; Vcount = 0, OldVcount = 0, $2372 = 0, InIntermission = 0, ...
 	stz.b Vcount
-	stz.w $07C6
+	stz.w OldVcount
 	stz.w $2372
-	stz.w $153F
-	stz.w $07F0
+	stz.w InIntermission
+	stz.w demoflag
 CODE_C51667:						; from Intermission_ticker
 	rtl
 Intermission_ticker:				; the intermission's ticker (Intermission calls it where 94S calls
@@ -687,11 +687,11 @@ Intermission_ticker:				; the intermission's ticker (Intermission calls it where
 .2:									; go to CODE_C51752
 	jmp.w CODE_C51752
 Intermission_tick:					; no caller found (not traced)
-	lda.w $07F0
+	lda.w demoflag
 	beq CODE_C516A6
 	lda.b Vcount
 	sec
-	sbc.w $07F4
+	sbc.w tickervc
 	cmp.w #$0150
 	bcc CODE_C516A6
 	jsl.l NewTicker2_next
@@ -817,7 +817,7 @@ CODE_C51752:						; from Intermission_ticker, NewTicker2_next, CODE_C51749, CODE
 	lda.w #$0005
 	sta.b d1
 	lda.b Vcount
-	sta.w $07F4
+	sta.w tickervc
 	inc.w $07D4
 	lda.w $07D6
 	sec

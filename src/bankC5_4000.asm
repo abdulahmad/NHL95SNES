@@ -1799,7 +1799,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	stz.w $18F8
 	lda.w $17D1
 	bne .1
-	lda.w $153F
+	lda.w InIntermission
 	beq .2
 .1:									; A = (DATA8_CF05D4+$3)&$FFFF, X = (DATA8_CF05D4+$3)>>16, ...
 	lda.w #(DATA8_CF05D4+$3)&$FFFF

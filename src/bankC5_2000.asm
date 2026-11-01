@@ -246,7 +246,7 @@ CODE_C52227:						; called from other segments
 	lda.b $5F
 	dec a
 	dec a
-	sta.w $0812
+	sta.w vcountmark+2
 	jsl.l CODE_C3856E
 	lda.w gmode
 	bit.w #$0002

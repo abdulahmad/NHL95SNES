@@ -7255,3 +7255,12 @@ $188C,homeshooters,,94S+code,"RAM: 94S homeshooters: InitShooters copies 8 bytes
 $1894,awayshooters,,94S+code,"RAM: 94S awayshooters: InitShooters copies 8 bytes here for a2 = 2",src/ram95s.asm
 $18A0,shootoutround,,94S+code,"RAM: 94S shootoutround: PlayShootout sets 1, adds 1 each round, loops while below 6 (as 94S)",src/ram95s.asm
 $18A4,shootoutdecider,,94S+code,"RAM: 94S shootoutdecider: PlayShootout clears it each round and sets 1 from round 5 after the first shot (as 94S); ShootoutTurn tests it",src/ram95s.asm
+$0563,gamefps,,94S+code,"RAM: the operand where 94S Gameloop has gamefps, in the side by side of Gameloop",src/ram95s.asm
+$07A6,velstep,,94S+code,"RAM: the operand where 94S Gameloop has velstep, in the side by side of Gameloop",src/ram95s.asm
+$07AA,pausetimer,,94S+code,"RAM: the operand where 94S Intermission has pausetimer, in the side by side of Intermission",src/ram95s.asm
+$07C6,OldVcount,,94S+code,"RAM: the operand where 94S Gameloop has OldVcount, in the side by side of Gameloop (OldVcount: 2 of 3 votes, the third a misalignment)",src/ram95s.asm
+$07F0,demoflag,,94S+code,"RAM: the operand where 94S Intermission has demoflag, in the side by side of Intermission",src/ram95s.asm
+$07F4,tickervc,,94S+code,"RAM: the operand where 94S Intermission has tickervc, in the side by side of Intermission",src/ram95s.asm
+$07F6,lastframevc,,94S+code,"RAM: the operand where 94S Gameloop has lastframevc, in the side by side of Gameloop",src/ram95s.asm
+$0810,vcountmark,,94S+code,"RAM: the operand where 94S Intermission has vcountmark, in the side by side of Intermission",src/ram95s.asm
+$153F,InIntermission,,94S+code,"RAM: the operand where 94S Intermission has InIntermission, in the side by side of Intermission",src/ram95s.asm
