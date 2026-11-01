@@ -2374,3 +2374,12 @@ $CF19C0,DATA8_CF19C0,,new,"sound 10 of DATA8_CF04E3: a length word, then its dat
 $CF1BBF,DATA8_CF1BBF,,new,"sound 11 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_1000.asm
 $CF1D38,DATA8_CF1D38,,new,"sound 12 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_1000.asm
 $CF1EFB,DATA8_CF1EFB,,new,"sound 13 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_1000.asm
+$CF2123,DATA8_CF2123,,new,"sound 14 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2222,DATA8_CF2222,,new,"sound 15 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2443,DATA8_CF2443,,new,"sound 16 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF25BA,DATA8_CF25BA,,new,"sound 17 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2744,DATA8_CF2744,,new,"sound 18 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2844,DATA8_CF2844,,new,"sound 19 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2A6A,DATA8_CF2A6A,,new,"sound 20 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2CF5,DATA8_CF2CF5,,new,"sound 21 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm
+$CF2F75,DATA8_CF2F75,,new,"sound 22 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_2000.asm

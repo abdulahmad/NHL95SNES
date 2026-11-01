@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCF_2000 (org $CF2123): banks $C0-$CE are all source. <- CURRENT
+bankCF_3000 (org $CF319B): banks $C0-$CE are all source. <- CURRENT
 
 ## Sources
 
@@ -654,6 +654,9 @@ bankCF_2000 (org $CF2123): banks $C0-$CE are all source. <- CURRENT
 - 2026-10-31: bankCF_1000 matched: sound data: sound 5 (DATA8_CF1099), sound 6 (DATA8_CF1284), ..., sound 13 (DATA8_CF1EFB).
   Sounds are a length word and their data (CODE_CF0313 sends the samples each lists from +3); samples a 12-byte header and BRR
   blocks to the end flag. The sound table and SampleList in bankCF_0000 use the new labels.
+- 2026-10-31: bankCF_2000 matched: sound data: sound 14 (DATA8_CF2123), sound 15 (DATA8_CF2222), ..., sound 22 (DATA8_CF2F75).
+  Sounds are a length word and their data (CODE_CF0313 sends the samples each lists from +3); samples a 12-byte header and BRR
+  blocks to the end flag. The sound table and SampleList in bankCF_0000 use the new labels.
 
 ## ROM map
 
@@ -903,8 +906,8 @@ The first row that is still incbin is the current segment.
 | bankCE_F000 | matched 3925 bytes | $CEF0AB | $CEFFFF | PresidentsPic (the Presidents Trophy picture), then StanleyCupMap / Tiles / Palette (the Stanley Cup), then zeros to the end of the bank; org moved to $CEF0AB |
 | bankCF_0000 | matched 4249 bytes | $CF0000 | $CF1098 | the sound code (CODE_ names; SPCUpload), the sound table DATA8_CF04E3, small lists, SampleList, sounds 0-4; end moved +$99 |
 | bankCF_1000 | matched 4234 bytes | $CF1099 | $CF2122 | sound data: sound 5 (DATA8_CF1099), sound 6 (DATA8_CF1284), ..., sound 13 (DATA8_CF1EFB); org moved to $CF1099, end moved +$123 |
-| bankCF_2000 | incbin | $CF2123 | $CF2FFF | <- CURRENT |
-| bankCF_3000 | incbin | $CF3000 | $CF3FFF | |
+| bankCF_2000 | matched 4216 bytes | $CF2123 | $CF319A | sound data: sound 14 (DATA8_CF2123), sound 15 (DATA8_CF2222), ..., sound 22 (DATA8_CF2F75); org moved to $CF2123, end moved +$19B |
+| bankCF_3000 | incbin | $CF319B | $CF3FFF | <- CURRENT |
 | bankCF_4000 | incbin | $CF4000 | $CF4FFF | |
 | bankCF_5000 | incbin | $CF5000 | $CF5FFF | |
 | bankCF_6000 | incbin | $CF6000 | $CF6FFF | |
