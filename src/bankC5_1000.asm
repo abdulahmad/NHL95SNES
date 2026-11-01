@@ -508,7 +508,7 @@ CODE_C514F3:						; from pplpen
 	sta.b $7F
 	rtl
 CODE_C51523:						; called from other segments
-	jsl.l CODE_C54DDF
+	jsl.l SetupTeamForIntermission
 	lda.w #$0000
 	ldy.w #$001E
 CODE_C5152D:						; from CODE_C5152D
@@ -1451,7 +1451,7 @@ CODE_C51D16:						; from CODE_C51D02
 	beq CODE_C51D22
 	jml.l Stop4Pen
 CODE_C51D22:						; from CODE_C51D16
-	jsl.l CODE_C48840
+	jsl.l ReturnGoalies
 	lda.w #$FFFF
 	sta.w $0AE0,x
 	sta.w $0B00,x

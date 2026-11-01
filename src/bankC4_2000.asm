@@ -184,7 +184,7 @@ CODE_C42B18:						; from CODE_C42DC6, CODE_C42C47 and other segments
 	jsl.l SetSPAFromA
 CODE_C42B24:						; from CODE_C42B18
 	rtl
-CODE_C42B25:						; called from other segments
+assnearest:							; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
 	beq CODE_C42B42
@@ -195,7 +195,7 @@ CODE_C42B25:						; called from other segments
 	lda.w #$0008
 	sta.w $0B80,x
 	stz.w $0AE0,x
-CODE_C42B42:						; from CODE_C42B25
+CODE_C42B42:						; from assnearest
 	lda.w $0A20,x
 	beq CODE_C42B5A
 	cpx.w $05A0

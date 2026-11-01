@@ -1586,12 +1586,12 @@ CODE_C47D1F:						; from CODE_C47CB6, CODE_C47D0B
 	lda.w #$FFFF
 	sta.w $07A2
 	rtl
-CODE_C47D2E:						; called from other segments
+asspenalty:							; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
 	bne CODE_C47D39
 	jmp.w CODE_C47D81
-CODE_C47D39:						; from CODE_C47D2E
+CODE_C47D39:						; from asspenalty
 	jsl.l CODE_C47E65
 	lda.w $0D60,x
 	and.w #$FFF9
@@ -1616,7 +1616,7 @@ CODE_C47D39:						; from CODE_C47D2E
 	stz.w $0C00,x
 	lda.w #$0384
 	sta.w $0B60,x
-CODE_C47D81:						; from CODE_C47D2E
+CODE_C47D81:						; from asspenalty
 	lda.w $0B60,x
 	sec
 	sbc.w $05A2

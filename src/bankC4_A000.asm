@@ -521,7 +521,7 @@ CODE_C4A373:						; from CODE_C4A2A3
 	jsl.l findpc
 CODE_C4A41B:						; from CODE_C4A373
 	rtl
-DumpInTarget:						; from CODE_C4A4B3 and other segments
+DumpInTarget:						; from assdumpin and other segments
 	stx.w $066A
 	lda.w $0A20,x
 	beq CODE_C4A493
@@ -589,7 +589,7 @@ CODE_C4A4AB:						; called from other segments
 	lda.w #$0014
 	sta.b $7F
 	jmp.w assreplace
-CODE_C4A4B3:						; called from other segments
+assdumpin:							; called from other segments
 	cpx.w $05A0
 	bne CODE_C4A4E3
 	lda.w $0D60,x
@@ -607,11 +607,11 @@ CODE_C4A4B3:						; called from other segments
 	cmp.w #$0008
 	beq CODE_C4A4E0
 	rtl
-CODE_C4A4E0:						; from CODE_C4A4B3
+CODE_C4A4E0:						; from assdumpin
 	jmp.w CompShoot
-CODE_C4A4E3:						; from CODE_C4A4B3
+CODE_C4A4E3:						; from assdumpin
 	jmp.w assexit
-CODE_C4A4E6:						; from CODE_C4A4B3
+CODE_C4A4E6:						; from assdumpin
 	ldy.w #$0000
 	lda.w $07C8
 	cmp.w $0C40,x

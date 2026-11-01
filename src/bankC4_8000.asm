@@ -1019,7 +1019,7 @@ CODE_C487C4:						; from CODE_C4875A
 	rtl
 CODE_C487E7:						; from CODE_C487C4
 	jml.l CODE_C45ABE
-CODE_C487EB:						; called from other segments
+ChkGoalies:							; called from other segments
 	lda.w $10F3
 	bne rtss
 	stz.b $6B
@@ -1029,7 +1029,7 @@ CODE_C487EB:						; called from other segments
 	stz.b $67
 	lda.w #$0002
 	sta.b $6B
-CODE_C48802:						; from CODE_C487EB and other segments
+CODE_C48802:						; from ChkGoalies and other segments
 	ldy.b $6B
 	lda.w $12CB,y
 	bmi rtss
@@ -1056,7 +1056,7 @@ CODE_C48832:						; from CODE_C48802
 	jsl.l setpersonel
 rtss:								; an rtl: asstab entry 0 (no assignment), as 94S rtss
 	rtl
-CODE_C48840:						; called from other segments
+ReturnGoalies:						; called from other segments
 	stz.b $6B
 	lda.w #$0002
 	sta.b $67
@@ -1064,7 +1064,7 @@ CODE_C48840:						; called from other segments
 	stz.b $67
 	lda.w #$0002
 	sta.b $6B
-CODE_C48852:						; from CODE_C48840 and other segments
+CODE_C48852:						; from ReturnGoalies and other segments
 	ldy.b $6B
 	lda.w $12CB,y
 	bpl CODE_C48871

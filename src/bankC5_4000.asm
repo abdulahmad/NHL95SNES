@@ -1720,7 +1720,7 @@ lcfound:							; from CODE_C545B8 and other segments
 	lda.w #$0000
 CODE_C54DDE:						; from lcfound
 	rtl
-CODE_C54DDF:						; called from other segments
+SetupTeamForIntermission:			; called from other segments
 	jsl.l ResetBench
 	lda.w #$0001
 	sta.w $234C
@@ -1731,7 +1731,7 @@ CODE_C54DDF:						; called from other segments
 	stz.b $6F
 	lda.w #$0002
 	sta.b $6B
-CODE_C54DFB:						; from CODE_C54DDF and other segments
+CODE_C54DFB:						; from SetupTeamForIntermission and other segments
 	jsl.l CODE_C54AEF
 	ldx.b $6F
 	ldy.b $6B

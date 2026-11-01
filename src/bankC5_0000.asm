@@ -371,7 +371,7 @@ periodicevents:						; from CODE_C5033D and other segments
 	clc
 	adc.w #$0018
 	sta.w $07BC
-	jsl.l CODE_C487EB
+	jsl.l ChkGoalies
 	jsl.l RestoreBenchEnergy
 	jsl.l CODE_C48241
 	jsl.l updatepwrplay

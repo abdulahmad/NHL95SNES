@@ -1312,7 +1312,7 @@ CODE_C49DEB:						; from CODE_C49DC7
 	tsb.w $10F5
 CODE_C49DFA:						; from CODE_C49DE6
 	rtl
-CODE_C49DFB:						; called from other segments
+asspassrec:							; called from other segments
 	lda.w $0D60,x
 	bit.w #$0002
 	beq CODE_C49E15
@@ -1322,7 +1322,7 @@ CODE_C49DFB:						; called from other segments
 	stz.w $0B00,x
 	lda.w #$0008
 	sta.w $0B80,x
-CODE_C49E15:						; from CODE_C49DFB
+CODE_C49E15:						; from asspassrec
 	dec.w $0676,x
 	bmi CODE_C49E78
 	lda.w $05A0

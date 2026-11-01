@@ -42,7 +42,7 @@ CODE_C4401D:						; from CODE_C43FC8
 	sta.b $8B
 	lda.w $0A20,x
 	bmi CODE_C4402C
-	jsl.l CODE_C44817
+	jsl.l checkplcoll
 CODE_C4402C:						; from CODE_C43FC8, CODE_C4401D
 	lda.w $07A2
 	beq CODE_C44034
@@ -1034,15 +1034,15 @@ CODE_C447EF:						; from CODE_C447D2
 	lda.w #$0008
 	sta.b $7F
 	jmp.w AddPenalty2
-CODE_C44817:						; from CODE_C4401D and other segments
+checkplcoll:						; from CODE_C4401D and other segments
 	lda.w $0D60,x
 	bit.w #$8000
 	bne CODE_C44824
 	cpx.w #$0018
 	bcc CODE_C44825
-CODE_C44824:						; from CODE_C44817
+CODE_C44824:						; from checkplcoll
 	rtl
-CODE_C44825:						; from CODE_C44817
+CODE_C44825:						; from checkplcoll
 	lda.w $10C0,x
 	sta.b $83
 CODE_C4482A:						; from CODE_C4486D

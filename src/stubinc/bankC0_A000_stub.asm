@@ -6,19 +6,19 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C4A4B3 = $C4A4B3
+assdumpin = $C4A4B3
 CODE_C4A65D = $C4A65D
 CODE_C493CA = $C493CA
 pucknothing = $C49595
 CODE_C498A1 = $C498A1
 CODE_C49B59 = $C49B59
-CODE_C49DFB = $C49DFB
+asspassrec = $C49DFB
 CODE_C488BB = $C488BB
 CODE_C48A71 = $C48A71
 rtss = $C4883F
 CODE_C47122 = $C47122
 CODE_C47B3F = $C47B3F
-CODE_C47D2E = $C47D2E
+asspenalty = $C47D2E
 assdopen = $C47F4C
 CODE_C45A47 = $C45A47
 CODE_C4313E = $C4313E
@@ -28,7 +28,7 @@ CODE_C43590 = $C43590
 CODE_C4375B = $C4375B
 CODE_C4376F = $C4376F
 CODE_C43826 = $C43826
-CODE_C42B25 = $C42B25
+assnearest = $C42B25
 CODE_C42DB8 = $C42DB8
 CODE_C42F62 = $C42F62
 CODE_C43099 = $C43099
