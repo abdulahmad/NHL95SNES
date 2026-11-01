@@ -1697,7 +1697,7 @@ CODE_C50EC2:						; from CODE_C50E9B
 CODE_C50ED7:						; from CODE_C50E9B, CODE_C50EC2
 	rts
 UpdateScores:						; no caller found (not traced)
-	jsl.l CODE_C4075F
+	jsl.l GetShifter
 	lda.b d1
 	sta.w TickerNum
 	asl a

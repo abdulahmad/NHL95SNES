@@ -677,7 +677,7 @@ CODE_C51668:						; from CODE_C5154E and other segments
 	ora.w $24C6
 	bne CODE_C5167D
 CODE_C51672:						; from CODE_C51668
-	jsl.l CODE_C4075F
+	jsl.l GetShifter
 	lda.b d1
 	sta.w TickerNum
 	bmi CODE_C51667
@@ -707,7 +707,7 @@ NewTicker2_next:					; from Intermission_tick and other segments
 	ora.w $24C6
 	bne CODE_C516BF
 CODE_C516B4:						; from NewTicker2_next
-	jsl.l CODE_C4075F
+	jsl.l GetShifter
 	lda.b d1
 	sta.w TickerNum
 	bmi CODE_C516A6
@@ -822,7 +822,7 @@ CODE_C5177C:						; from CODE_C51766
 	sta.w $07D6
 	lda.w $07D4
 	pha
-	jsl.l CODE_C4075F
+	jsl.l GetShifter
 	lda.w #$2400
 	sta.w $07D2
 	lda.b $01,s

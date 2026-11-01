@@ -874,7 +874,7 @@ CODE_C4073F:						; from CODE_C4073F
 	pla
 	pla
 	jml.l CODE_C58D32
-CODE_C4075F:						; called from other segments
+GetShifter:							; called from other segments
 	lda.w #$FFF0
 	sta.b d2
 	lda.w #$0010

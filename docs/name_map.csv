@@ -2856,3 +2856,4 @@ $18AE,breakaway,,94S+code,"RAM: Breakaway in progress (CheckBreakaway result IsB
 $18B0,BA_Sktr_SCnum,,94S+code,"RAM: Penalty shot / shootout shooter object (SCnum*2, $FFFF none): Bcheck sets (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $18B4,BA_Team,,94S+code,"RAM: Shooting team of the penalty shot / shootout turn (0 home, 2 visitors): (the operand of 3 of 3 aligned instructions in the routines matched to 94S)",src/ram95s.asm
 $18BE,penshot,,94S+code,"RAM: Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot (the operand of 8 of 8 aligned instructions in the routines matched to 94S)",src/ram95s.asm
+$C4075F,GetShifter,CODE_C4075F,94S+code,"games of the round less one and its first win bit; called where 94S NewTicker2_next, UpdateScores calls GetShifter; the same code (instruction match 0.933, start checked)",src/bankC4_0000.asm
