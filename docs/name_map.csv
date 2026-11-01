@@ -1948,3 +1948,6 @@ $C9FD8B,DATA8_C9FD8B,,new,"raw frame tiles for transfer index $240; pose not tra
 $C9FFEB,JenningsPicMap,DATA8_C9FFEB,render+genesis+code,"the picture of award 3 (William M. Jennings Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 3, whose AwardNames text reads William M. Jennings Trophy. 95G JenningsPic",src/bankC9_F000.asm
 $CA00D6,JenningsPicTiles,DATA8_CA00D6,render+genesis+code,"its tiles (95, 4bpp, LZSS)",src/bankC9_F000.asm
 $CA09B2,JenningsPicPalette,DATA8_CA09B2,render+genesis+code,"its colours (16)",src/bankC9_F000.asm
+$CA09D9,DATA8_CA09D9,,new,"raw frame tiles for transfer index $241; pose not traced",src/bankCA_0000.asm
+$CA0C39,DATA8_CA0C39,,new,"raw frame tiles for transfer index $242; pose not traced",src/bankCA_0000.asm
+$CA0E99,DATA8_CA0E99,,new,"raw frame tiles for transfer index $243; pose not traced",src/bankCA_0000.asm
