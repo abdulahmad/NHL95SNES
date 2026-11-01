@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC9_0000 (org $C9076B): banks $C0-$C8 are all source. <- CURRENT
+bankC9_1000 (org $C910CB): banks $C0-$C8 are all source. <- CURRENT
 
 ## Sources
 
@@ -418,6 +418,8 @@ bankC9_0000 (org $C9076B): banks $C0-$C8 are all source. <- CURRENT
 - 2026-10-31: bankC8_F000 matched: raw frame tiles; ConnSmythePic, an award picture (ends in next bank). Transfer extents come
   from CODE_C5F368 and its size lookup; pointer entries use labels as targets become source. ConnSmythePic is AwardPictures entry 2; its map
   and tile LZSS ends match the chunk lengths and it runs to $C9076A. Bank $C8 is all source.
+- 2026-10-31: bankC9_0000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source.
 
 ## ROM map
 
@@ -569,8 +571,8 @@ The first row that is still incbin is the current segment.
 | bankC8_D000 | matched 4000 bytes | $C8D199 | $C8E138 | raw frame tiles (poses not traced); org moved to $C8D199, end moved +$139 |
 | bankC8_E000 | matched 4224 bytes | $C8E139 | $C8F1B8 | raw frame tiles (poses not traced); org moved to $C8E139, end moved +$1B9 |
 | bankC8_F000 | matched 5554 bytes | $C8F1B9 | $C9076A | raw frame tiles; ConnSmythePic, an award picture (ends in next bank); org moved to $C8F1B9, end moved +$76B |
-| bankC9_0000 | incbin | $C9076B | $C90FFF | <- CURRENT |
-| bankC9_1000 | incbin | $C91000 | $C91FFF | |
+| bankC9_0000 | matched 2400 bytes | $C9076B | $C910CA | raw frame tiles (poses not traced); org moved to $C9076B, end moved +$CB |
+| bankC9_1000 | incbin | $C910CB | $C91FFF | <- CURRENT |
 | bankC9_2000 | incbin | $C92000 | $C92FFF | |
 | bankC9_3000 | incbin | $C93000 | $C93FFF | |
 | bankC9_4000 | incbin | $C94000 | $C94FFF | |

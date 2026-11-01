@@ -1837,3 +1837,7 @@ $C8FBB9,DATA8_C8FBB9,,new,"raw frame tiles for transfer index $1D4; pose not tra
 $C8FE39,ConnSmythePicMap,DATA8_C8FE39,render+genesis+code,"the picture of award 2 (Conn Smythe Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 2, whose AwardNames text reads Conn Smythe Trophy. 95G ConnSmythePic",src/bankC8_F000.asm
 $C8FEFE,ConnSmythePicTiles,DATA8_C8FEFE,render+genesis+code,"its tiles (76, 4bpp, LZSS)",src/bankC8_F000.asm
 $C90744,ConnSmythePicPalette,DATA8_C90744,render+genesis+code,"its colours (16)",src/bankC8_F000.asm
+$C9076B,DATA8_C9076B,,new,"raw frame tiles for transfer index $1D5; pose not traced",src/bankC9_0000.asm
+$C9096B,DATA8_C9096B,,new,"raw frame tiles for transfer index $1D6; pose not traced",src/bankC9_0000.asm
+$C90BCB,DATA8_C90BCB,,new,"raw frame tiles for transfer index $1D7; pose not traced",src/bankC9_0000.asm
+$C90E4B,DATA8_C90E4B,,new,"raw frame tiles for transfer index $1D8; pose not traced",src/bankC9_0000.asm
