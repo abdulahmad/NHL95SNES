@@ -253,7 +253,7 @@ PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 
 									; then the photos (as 94S PhotoPaletteTable); read 1-based (-4 + team x 4)
 	dd PhotoPalettesANH,PhotoPalettesBOS,PhotoPalettesBUF,PhotoPalettesCGY
 	dd PhotoPalettesCHI,PhotoPalettesDAL,PhotoPalettesDET,PhotoPalettesEDM
-	dd $CDDF5E,$CE09DA,$CE1CC7,$CE31C2
+	dd PhotoPalettesFLA,$CE09DA,$CE1CC7,$CE31C2
 	dd $CE4585,$CE57BF,$CE6D00,$CE8087
 	dd $CE93D3,$CEA782,$CEB8A0,$CECBDA
 	dd $CEDDCB,PhotoPalettesTB,PhotoPalettesTOR,PhotoPalettesVAN
