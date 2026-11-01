@@ -1718,3 +1718,8 @@ $C7FC5E,DATA8_C7FC5E,,new,"raw frame tiles for transfer index $100; pose not tra
 $C7FE7E,SelkePicMap,DATA8_C7FE7E,render+genesis+code,"the picture of award 1 (Frank J. Selke Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 1, whose AwardNames text reads Frank J. Selke Trophy. 95G SelkePic",src/bankC7_F000.asm
 $C7FF65,SelkePicTiles,DATA8_C7FF65,render+genesis+code,"its tiles (47, 4bpp, LZSS)",src/bankC7_F000.asm
 $C80532,SelkePicPalette,DATA8_C80532,render+genesis+code,"its colours (16)",src/bankC7_F000.asm
+$C80559,DATA8_C80559,,new,"raw frame tiles for transfer index $101; pose not traced",src/bankC8_0000.asm
+$C807D9,DATA8_C807D9,,new,"raw frame tiles for transfer index $102; pose not traced",src/bankC8_0000.asm
+$C80A59,DATA8_C80A59,,new,"raw frame tiles for transfer index $103; pose not traced",src/bankC8_0000.asm
+$C80CD9,DATA8_C80CD9,,new,"raw frame tiles for transfer index $104; pose not traced",src/bankC8_0000.asm
+$C80F59,DATA8_C80F59,,new,"raw frame tiles for transfer index $105; pose not traced",src/bankC8_0000.asm

@@ -1,3 +1,3 @@
 ; Segment bankC8_1000: not yet disassembled.
-org $C81000
-	incbin "../Extracted/segments/bankC8_1000.bin"
+org $C811B9
+	incbin "../Extracted/segments/bankC8_1000.bin":$1B9..$1000
