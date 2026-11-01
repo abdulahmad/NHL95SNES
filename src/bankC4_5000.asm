@@ -1213,7 +1213,7 @@ skateto:							; called from other segments
 	sta.b $81
 	lda.b d1
 	sta.b $85
-	jsl.l CODE_C46BF6
+	jsl.l avdgoal
 	lda.w Xvel,x
 	xba
 	and.w #$00FF

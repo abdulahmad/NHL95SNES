@@ -9,10 +9,10 @@ skatetopuck:						; called from other segments
 	sta.w temp2,x
 	bmi .1
 	jmp.w .5
-.1:									; A + $0005, temp2,x = A, call CODE_C46BF6, A = X, ...
+.1:									; A + $0005, temp2,x = A, call avdgoal, A = X, ...
 	adc.w #$0005
 	sta.w temp2,x
-	jsl.l CODE_C46BF6
+	jsl.l avdgoal
 	pei ($83)
 	pei ($7F)
 	txa

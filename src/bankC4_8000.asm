@@ -1241,11 +1241,11 @@ CODE_C489A5:						; from assgoalietopuck and other segments
 	bit.w #$0080
 	beq .3
 	ora.w #$FF00
-.3:									; A + pucky, d1 = A, call CODE_C46BF6, A = d0, ...
+.3:									; A + pucky, d1 = A, call avdgoal, A = d0, ...
 	clc
 	adc.w pucky
 	sta.b d1
-	jsl.l CODE_C46BF6
+	jsl.l avdgoal
 	pei ($83)
 	lda.b d0
 	pha

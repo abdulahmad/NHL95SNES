@@ -3919,43 +3919,6 @@ $C46BA8,.5,CODE_C46BA8,new,"branch target only used in noturn0",src/bankC4_6000.
 $C46BCD,.6,CODE_C46BCD,new,"branch target only used in noturn0",src/bankC4_6000.asm
 $C46BDA,.7,CODE_C46BDA,new,"branch target only used in noturn0",src/bankC4_6000.asm
 $C46BF3,.1,CODE_C46BF3,new,"branch target only used in revplayeracc",src/bankC4_6000.asm
-$C46C12,.1,CODE_C46C12,new,"branch target only used in CODE_C46BF6",src/bankC4_6000.asm
-$C46C57,.2,CODE_C46C57,new,"branch target only used in CODE_C46BF6",src/bankC4_6000.asm
-$C46C7B,.3,CODE_C46C7B,new,"branch target only used in CODE_C46BF6",src/bankC4_6000.asm
-$C46C87,.4,CODE_C46C87,new,"branch target only used in CODE_C46BF6",src/bankC4_6000.asm
-$C46C93,.5,CODE_C46C93,new,"branch target only used in CODE_C46BF6",src/bankC4_6000.asm
-$C46CAB,.1,CODE_C46CAB,new,"branch target only used in CODE_C46C99",src/bankC4_6000.asm
-$C46CC5,.rts,CODE_C46CC5,new,"branch target only used in CODE_C46C99",src/bankC4_6000.asm
-$C46CC6,.2,CODE_C46CC6,new,"branch target only used in CODE_C46C99",src/bankC4_6000.asm
-$C46CCF,.rts2,CODE_C46CCF,new,"branch target only used in CODE_C46C99",src/bankC4_6000.asm
-$C46CD0,.3,CODE_C46CD0,new,"branch target only used in CODE_C46C99",src/bankC4_6000.asm
-$C46D0D,.1,CODE_C46D0D,new,"branch target only used in CODE_C46CF5",src/bankC4_6000.asm
-$C46D45,.1,CODE_C46D45,new,"branch target only used in CODE_C46D36",src/bankC4_6000.asm
-$C46DE3,.rts,CODE_C46DE3,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46DE4,.1,CODE_C46DE4,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46DEF,.2,CODE_C46DEF,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46DFD,.3,CODE_C46DFD,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46E06,.4,CODE_C46E06,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46E13,.5,CODE_C46E13,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46E28,.6,CODE_C46E28,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46E39,.7,CODE_C46E39,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46E3C,.8,CODE_C46E3C,new,"branch target only used in CODE_C46DCA",src/bankC4_6000.asm
-$C46E7C,.1,CODE_C46E7C,new,"branch target only used in CODE_C46E4B",src/bankC4_6000.asm
-$C46EA0,.2,CODE_C46EA0,new,"branch target only used in CODE_C46E4B",src/bankC4_6000.asm
-$C46EAC,.3,CODE_C46EAC,new,"branch target only used in CODE_C46E4B",src/bankC4_6000.asm
-$C46EB8,.4,CODE_C46EB8,new,"branch target only used in CODE_C46E4B",src/bankC4_6000.asm
-$C46ED0,.1,CODE_C46ED0,new,"branch target only used in CODE_C46EBE",src/bankC4_6000.asm
-$C46ED9,.rts,CODE_C46ED9,new,"branch target only used in CODE_C46EBE",src/bankC4_6000.asm
-$C46F2A,.1,CODE_C46F2A,new,"branch target only used in CODE_C46F1B",src/bankC4_6000.asm
-$C46FC6,.rts,CODE_C46FC6,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C46FC7,.1,CODE_C46FC7,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C46FD2,.2,CODE_C46FD2,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C46FE0,.3,CODE_C46FE0,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C46FE9,.4,CODE_C46FE9,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C46FF6,.5,CODE_C46FF6,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C4700B,.6,CODE_C4700B,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C4701C,.7,CODE_C4701C,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
-$C4701F,.8,CODE_C4701F,new,"branch target only used in CODE_C46FAD",src/bankC4_6000.asm
 $C47040,.1,CODE_C47040,new,"branch target only used in skatetopuck",src/bankC4_7000.asm
 $C47068,.2,CODE_C47068,new,"branch target only used in skatetopuck",src/bankC4_7000.asm
 $C47086,.3,CODE_C47086,new,"branch target only used in skatetopuck",src/bankC4_7000.asm
@@ -7781,3 +7744,84 @@ $C45CE5,ScaleSkatingSpeed12,CODE_C45CE5,code,"legspd-indexed DATA8_C45C7D entry 
 $C45CED,ScaleSkatingSpeed13,CODE_C45CED,code,"legspd-indexed DATA8_C45C7D entry 13; shifts and adds implement multiplication by 13 for the bounded energy-derived speed input",src/bankC4_5000.asm
 $C45CF9,ScaleSkatingSpeed14,CODE_C45CF9,code,"legspd-indexed DATA8_C45C7D entry 14; shifts and adds implement multiplication by 14 for the bounded energy-derived speed input",src/bankC4_5000.asm
 $C45D05,ScaleSkatingSpeed15,CODE_C45D05,code,"legspd-indexed DATA8_C45C7D entry 15; shifts and adds implement multiplication by 15 for the bounded energy-derived speed input",src/bankC4_5000.asm
+$C46BF6,avdgoal,CODE_C46BF6,94S+purpose,"94S avdgoal: start and target region codes, mirrored goal boxes, separate goalie box and dispatch to detour target handlers; 95 omits DB saves and changes rink dimensions",src/bankC4_6000.asm
+$C46C12,.1,CODE_C46C12,new,"branch target only used in avdgoal",src/bankC4_6000.asm
+$C46C57,.2,CODE_C46C57,new,"branch target only used in avdgoal",src/bankC4_6000.asm
+$C46C7B,.3,CODE_C46C7B,new,"branch target only used in avdgoal",src/bankC4_6000.asm
+$C46C87,.4,CODE_C46C87,new,"branch target only used in avdgoal",src/bankC4_6000.asm
+$C46C93,.5,CODE_C46C93,new,"branch target only used in avdgoal",src/bankC4_6000.asm
+$C46C99,AvoidGoalInsideTarget,CODE_C46C99,code,"target region zero path compares start and target to goal line, then tests goalie X position",src/bankC4_6000.asm
+$C46CAB,.1,CODE_C46CAB,new,"branch target only used in AvoidGoalInsideTarget",src/bankC4_6000.asm
+$C46CC5,.rts,CODE_C46CC5,new,"branch target only used in AvoidGoalInsideTarget",src/bankC4_6000.asm
+$C46CC6,.2,CODE_C46CC6,new,"branch target only used in AvoidGoalInsideTarget",src/bankC4_6000.asm
+$C46CCF,.rts2,CODE_C46CCF,new,"branch target only used in AvoidGoalInsideTarget",src/bankC4_6000.asm
+$C46CD0,.3,CODE_C46CD0,new,"branch target only used in AvoidGoalInsideTarget",src/bankC4_6000.asm
+$C46CD6,AvoidGoalLeftEdge,CODE_C46CD6,code,"stores -54 to d0 and returns on left-side detours",src/bankC4_6000.asm
+$C46CDC,AvoidGoalInsideStart,CODE_C46CDC,code,"region code zero dispatcher splits start Y at the mirrored goal line",src/bankC4_6000.asm
+$C46CE3,AvoidGoalFromBehind,CODE_C46CE3,code,"start X outside +/-54 selects a side; otherwise sets r3 Y then clamps target X",src/bankC4_6000.asm
+$C46CF5,AvoidGoalFromFront,CODE_C46CF5,code,"target Y behind goal sets goal-line Y and chooses a side of goalie X; otherwise checks crossing goalie",src/bankC4_6000.asm
+$C46D0D,.1,CODE_C46D0D,new,"branch target only used in AvoidGoalFromFront",src/bankC4_6000.asm
+$C46D11,AvoidGoalCrossGoalie,CODE_C46D11,code,"compares start and target X relative to Xpos,y and chooses left or right detour when crossing",src/bankC4_6000.asm
+$C46D2B,AvoidGoalHighY,CODE_C46D2B,code,"start region bit 2 sets high-Y boundary and clamps X unless target has low-Y bit 8",src/bankC4_6000.asm
+$C46D36,AvoidGoalClampTargetX,CODE_C46D36,code,"target p1 inside +/-54 is moved to the same-side edge",src/bankC4_6000.asm
+$C46D45,.1,CODE_C46D45,new,"branch target only used in AvoidGoalClampTargetX",src/bankC4_6000.asm
+$C46D4F,AvoidGoalReturn,CODE_C46D4F,code,"shared rts for skater goal avoidance handlers",src/bankC4_6000.asm
+$C46D50,AvoidGoalPopReturn,CODE_C46D50,code,"non-crossing path of AvoidGoalCrossGoalie discards its saved difference then rts",src/bankC4_6000.asm
+$C46D52,AvoidGoalRightHighY,CODE_C46D52,code,"region bits 2 and 4 choose right edge except target region 16 chooses high Y",src/bankC4_6000.asm
+$C46D59,AvoidGoalSetHighY,CODE_C46D59,code,"copies the second saved box Y boundary into d1",src/bankC4_6000.asm
+$C46D5E,AvoidGoalRightEdge,CODE_C46D5E,code,"stores 54 to d0 and returns",src/bankC4_6000.asm
+$C46D64,AvoidGoalRightSide,CODE_C46D64,code,"region 4 sets right edge and high Y if target has neither Y-side bit",src/bankC4_6000.asm
+$C46D71,AvoidGoalRightLowY,CODE_C46D71,code,"region 12 chooses right edge except target region 16 chooses low Y",src/bankC4_6000.asm
+$C46D78,AvoidGoalSetLowY,CODE_C46D78,code,"copies r3 into d1",src/bankC4_6000.asm
+$C46D7D,AvoidGoalLowY,CODE_C46D7D,code,"region 8 sets r3 Y and clamps X when target has high-Y bit 2",src/bankC4_6000.asm
+$C46D89,AvoidGoalLeftLowY,CODE_C46D89,code,"region 24 chooses low Y for target region 4 and left edge otherwise",src/bankC4_6000.asm
+$C46D90,AvoidGoalLeftCrossing,CODE_C46D90,code,"left detour shared by goalie crossing and left-low-Y start; stores -54 to d0",src/bankC4_6000.asm
+$C46D96,AvoidGoalLeftSide,CODE_C46D96,code,"region 16 sets left edge and high Y if target has neither Y-side bit",src/bankC4_6000.asm
+$C46DA3,AvoidGoalLeftHighY,CODE_C46DA3,code,"region 18 chooses high Y for target region 4 and left edge otherwise",src/bankC4_6000.asm
+$C46DCA,ClassifySkaterGoalPath,CODE_C46DCA,code,"classifies start and target against Y bounds and X +/-44, with bits 2 high Y, 8 low Y, 4 right, 16 left; tmp2 marks overlap",src/bankC4_6000.asm
+$C46DE3,.rts,CODE_C46DE3,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46DE4,.1,CODE_C46DE4,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46DEF,.2,CODE_C46DEF,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46DFD,.3,CODE_C46DFD,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46E06,.4,CODE_C46E06,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46E13,.5,CODE_C46E13,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46E28,.6,CODE_C46E28,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46E39,.7,CODE_C46E39,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46E3C,.8,CODE_C46E3C,new,"branch target only used in ClassifySkaterGoalPath",src/bankC4_6000.asm
+$C46E4B,AvoidGoalForGoalie,CODE_C46E4B,code,"position-zero branch uses narrower goal boxes and a separate region dispatch, mirroring the top box",src/bankC4_6000.asm
+$C46E7C,.1,CODE_C46E7C,new,"branch target only used in AvoidGoalForGoalie",src/bankC4_6000.asm
+$C46EA0,.2,CODE_C46EA0,new,"branch target only used in AvoidGoalForGoalie",src/bankC4_6000.asm
+$C46EAC,.3,CODE_C46EAC,new,"branch target only used in AvoidGoalForGoalie",src/bankC4_6000.asm
+$C46EB8,.4,CODE_C46EB8,new,"branch target only used in AvoidGoalForGoalie",src/bankC4_6000.asm
+$C46EBE,GoalieAvoidInsideTarget,CODE_C46EBE,code,"target region zero compares start and target Y to goal line before choosing near or far boundary",src/bankC4_6000.asm
+$C46ED0,.1,CODE_C46ED0,new,"branch target only used in GoalieAvoidInsideTarget",src/bankC4_6000.asm
+$C46ED9,.rts,CODE_C46ED9,new,"branch target only used in GoalieAvoidInsideTarget",src/bankC4_6000.asm
+$C46EE4,GoalieAvoidLeftEdge,CODE_C46EE4,code,"stores -38 to d0 and returns",src/bankC4_6000.asm
+$C46EEA,GoalieAvoidInsideStart,CODE_C46EEA,code,"start region zero splits at the mirrored goal line",src/bankC4_6000.asm
+$C46EF1,GoalieAvoidFromBehind,CODE_C46EF1,code,"start X outside +/-38 selects side; otherwise sets r3 Y and clamps target X",src/bankC4_6000.asm
+$C46F03,GoalieAvoidFromFront,CODE_C46F03,code,"target high-Y bit returns unchanged; otherwise uses the second Y boundary and clamps X",src/bankC4_6000.asm
+$C46F0A,GoalieAvoidFarBoundary,CODE_C46F0A,code,"sets second saved Y boundary then clamps target X",src/bankC4_6000.asm
+$C46F10,GoalieAvoidHighY,CODE_C46F10,code,"region 2 sets high Y and clamps X unless target has bit 8",src/bankC4_6000.asm
+$C46F1B,GoalieAvoidClampTargetX,CODE_C46F1B,code,"moves interior target p1 to its same-side edge at +/-38",src/bankC4_6000.asm
+$C46F2A,.1,CODE_C46F2A,new,"branch target only used in GoalieAvoidClampTargetX",src/bankC4_6000.asm
+$C46F34,GoalieAvoidReturn,CODE_C46F34,code,"shared rts for goalie avoidance handlers",src/bankC4_6000.asm
+$C46F35,GoalieAvoidRightHighY,CODE_C46F35,code,"region 6 sets right edge unless target region 16 selects high Y",src/bankC4_6000.asm
+$C46F3C,GoalieAvoidSetHighY,CODE_C46F3C,code,"copies second saved box Y boundary into d1",src/bankC4_6000.asm
+$C46F41,GoalieAvoidRightEdge,CODE_C46F41,code,"stores 38 to d0 and returns",src/bankC4_6000.asm
+$C46F47,GoalieAvoidRightSide,CODE_C46F47,code,"region 4 sets right X and high Y when target has no Y-side bits",src/bankC4_6000.asm
+$C46F54,GoalieAvoidRightLowY,CODE_C46F54,code,"region 12 sets right edge unless target region 16 selects low Y",src/bankC4_6000.asm
+$C46F5B,GoalieAvoidSetLowY,CODE_C46F5B,code,"copies r3 into d1",src/bankC4_6000.asm
+$C46F60,GoalieAvoidLowY,CODE_C46F60,code,"region 8 sets low Y then clamps X if target has high-Y bit 2",src/bankC4_6000.asm
+$C46F6C,GoalieAvoidLeftLowY,CODE_C46F6C,code,"region 24 selects low Y for target region 4 and left X otherwise",src/bankC4_6000.asm
+$C46F79,GoalieAvoidLeftSide,CODE_C46F79,code,"region 16 sets left X and high Y when target has no Y-side bits",src/bankC4_6000.asm
+$C46F86,GoalieAvoidLeftHighY,CODE_C46F86,code,"region 18 selects high Y for target region 4 and left X otherwise",src/bankC4_6000.asm
+$C46FAD,ClassifyGoalieGoalPath,CODE_C46FAD,code,"same region bit tests as ClassifySkaterGoalPath with X boundaries +/-36",src/bankC4_6000.asm
+$C46FC6,.rts,CODE_C46FC6,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C46FC7,.1,CODE_C46FC7,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C46FD2,.2,CODE_C46FD2,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C46FE0,.3,CODE_C46FE0,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C46FE9,.4,CODE_C46FE9,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C46FF6,.5,CODE_C46FF6,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C4700B,.6,CODE_C4700B,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C4701C,.7,CODE_C4701C,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm
+$C4701F,.8,CODE_C4701F,new,"branch target only used in ClassifyGoalieGoalPath",src/bankC4_6000.asm

@@ -1527,7 +1527,7 @@ revplayeracc:						; from doplayeracc, noturn0
 	sta.b d2
 .1:									; go to playeracc
 	jmp.w playeracc
-CODE_C46BF6:						; from CODE_C47040 and other segments
+avdgoal:							; adjust the skating target so the path avoids a goal
 	stz.b tmp2
 	lda.w Xpos,x
 	sta.b p0
@@ -1539,11 +1539,11 @@ CODE_C46BF6:						; from CODE_C47040 and other segments
 	sta.b $3E
 	lda.w position,x
 	bne .1
-	jmp.w CODE_C46E4B
-.1:									; X = $00EB, Y = $0122, call CODE_C46DCA, X = $00EA, ...
+	jmp.w AvoidGoalForGoalie
+.1:									; X = $00EB, Y = $0122, call ClassifySkaterGoalPath, X = $00EA, ...
 	ldx.w #$00EB
 	ldy.w #$0122
-	jsr.w CODE_C46DCA
+	jsr.w ClassifySkaterGoalPath
 	ldx.w #$00EA
 	ldy.w #$0123
 	stx.b r3
@@ -1556,7 +1556,7 @@ CODE_C46BF6:						; from CODE_C47040 and other segments
 	bne .2
 	ldx.w #$FEDE
 	ldy.w #$FF15
-	jsr.w CODE_C46DCA
+	jsr.w ClassifySkaterGoalPath
 	ldx.w #$FEDD
 	ldy.w #$FF16
 	stx.b r3
@@ -1600,11 +1600,11 @@ CODE_C46BF6:						; from CODE_C47040 and other segments
 	jsr (DATA8_C46DB0,x)
 	ldx.b curobj
 	rtl
-.5:									; call CODE_C46C99, X = curobj, return
-	jsr.w CODE_C46C99
+.5:									; call AvoidGoalInsideTarget, X = curobj, return
+	jsr.w AvoidGoalInsideTarget
 	ldx.b curobj
 	rtl
-CODE_C46C99:						; from CODE_C46BF6
+AvoidGoalInsideTarget:				; adjust an inside-box target for crossing the goal line or goalie
 	ldx.b curobj
 	lda.b $3A
 	cmp.w #$FEF2
@@ -1612,7 +1612,7 @@ CODE_C46C99:						; from CODE_C46BF6
 	lda.b $3E
 	cmp.w #$FEF2
 	bmi .rts
-	bra CODE_C46CE3
+	bra AvoidGoalFromBehind
 .1:									; if $3E - $FEF2 < 0 go to .3, if $44 < 0 go to .rts, ...
 	lda.b $3E
 	cmp.w #$FEF2
@@ -1635,43 +1635,43 @@ CODE_C46C99:						; from CODE_C46BF6
 	sta.b d1
 .rts2:								; return
 	rts
-.3:									; d1 = $42, go to CODE_C46D11
+.3:									; d1 = $42, go to AvoidGoalCrossGoalie
 	lda.b $42
 	sta.b d1
-	bra CODE_C46D11
-CODE_C46CD6:						; from CODE_C46CE3, CODE_C46CF5
+	bra AvoidGoalCrossGoalie
+AvoidGoalLeftEdge:					; set the skating target to the left edge of the goal avoidance box
 	lda.w #$FFCA
 	sta.b d0
 	rts
-CODE_C46CDC:						; from DATA8_C46DB0
+AvoidGoalInsideStart:				; choose a detour from inside the skater goal avoidance box
 	lda.b $3A
 	cmp.w #$FEF2
-	bpl CODE_C46CF5
-CODE_C46CE3:						; from CODE_C46C99
+	bpl AvoidGoalFromFront
+AvoidGoalFromBehind:				; route a skater from behind the goal around an edge
 	lda.b p0
 	cmp.w #$FFCB
-	bmi CODE_C46CD6
+	bmi AvoidGoalLeftEdge
 	cmp.w #$0036
-	bpl CODE_C46D5E
+	bpl AvoidGoalRightEdge
 	lda.b r3
 	sta.b d1
-	bra CODE_C46D36
-CODE_C46CF5:						; from CODE_C46CDC
+	bra AvoidGoalClampTargetX
+AvoidGoalFromFront:					; route a skater from in front of the goal around the goalie
 	lda.b $3E
 	cmp.w #$FEF2
 	bpl .1
 	lda.b $46
 	sta.b d1
 	ldy.b $44
-	bmi CODE_C46D36
+	bmi AvoidGoalClampTargetX
 	lda.b p0
 	cmp.w Xpos,y
-	bmi CODE_C46CD6
-	bra CODE_C46D5E
-.1:									; if $44 < 0 go to CODE_C46D4F
+	bmi AvoidGoalLeftEdge
+	bra AvoidGoalRightEdge
+.1:									; if $44 < 0 go to AvoidGoalReturn
 	ldy.b $44
-	bmi CODE_C46D4F
-CODE_C46D11:						; from CODE_C46C99
+	bmi AvoidGoalReturn
+AvoidGoalCrossGoalie:				; test whether the skating path crosses the goalie horizontally
 	lda.b p1
 	sec
 	sbc.w Xpos,y
@@ -1680,98 +1680,98 @@ CODE_C46D11:						; from CODE_C46C99
 	sec
 	sbc.b p1
 	eor.b $01,s
-	bpl CODE_C46D50
+	bpl AvoidGoalPopReturn
 	pla
 	lda.b p0
 	cmp.w Xpos,y
-	bpl CODE_C46D5E
-	bra CODE_C46D90
-CODE_C46D2B:						; from DATA8_C46DB0
+	bpl AvoidGoalRightEdge
+	bra AvoidGoalLeftCrossing
+AvoidGoalHighY:						; route from the high-Y side of the mirrored skater box
 	lda.b $42
 	sta.b d1
 	lda.b tmp1
 	and.w #$0008
-	bne CODE_C46D4F
-CODE_C46D36:						; from CODE_C46CE3, CODE_C46D7D, CODE_C46CF5
+	bne AvoidGoalReturn
+AvoidGoalClampTargetX:				; move an interior target X to the nearest side of the avoidance box
 	lda.b p1
 	bpl .1
 	cmp.w #$FFCB
-	bmi CODE_C46D4F
+	bmi AvoidGoalReturn
 	lda.w #$FFCA
 	sta.b d0
 	rts
-.1:									; if A - $0036 >= 0 go to CODE_C46D4F, d0 = $0036
+.1:									; if A - $0036 >= 0 go to AvoidGoalReturn, d0 = $0036
 	cmp.w #$0036
-	bpl CODE_C46D4F
+	bpl AvoidGoalReturn
 	lda.w #$0036
 	sta.b d0
-CODE_C46D4F:						; from CODE_C46D2B, CODE_C46D36, CODE_C46CF5
+AvoidGoalReturn:					; return from a skater goal avoidance handler
 	rts
-CODE_C46D50:						; from CODE_C46D11
+AvoidGoalPopReturn:					; discard the saved goalie difference and return
 	pla
 	rts
-CODE_C46D52:						; from DATA8_C46DB0
+AvoidGoalRightHighY:				; route from the right high-Y corner of the mirrored skater box
 	lda.b tmp1
 	cmp.w #$0010
-	bne CODE_C46D5E
-CODE_C46D59:						; from CODE_C46D64, CODE_C46D96, CODE_C46DA3
+	bne AvoidGoalRightEdge
+AvoidGoalSetHighY:					; set the target to the high-Y side of the mirrored skater box
 	lda.b $42
 	sta.b d1
 	rts
-CODE_C46D5E:						; from CODE_C46CE3, CODE_C46D52, CODE_C46D71, CODE_C46CF5, ...
+AvoidGoalRightEdge:					; set the skating target to the right edge of the goal avoidance box
 	lda.w #$0036
 	sta.b d0
 	rts
-CODE_C46D64:						; from DATA8_C46DB0
+AvoidGoalRightSide:					; route from the right side of the mirrored skater box
 	lda.w #$0036
 	sta.b d0
 	lda.b tmp1
 	and.w #$000A
-	beq CODE_C46D59
+	beq AvoidGoalSetHighY
 	rts
-CODE_C46D71:						; from DATA8_C46DB0
+AvoidGoalRightLowY:					; route from the right low-Y corner of the mirrored skater box
 	lda.b tmp1
 	cmp.w #$0010
-	bne CODE_C46D5E
-CODE_C46D78:						; from CODE_C46D89
+	bne AvoidGoalRightEdge
+AvoidGoalSetLowY:					; set the target to the low-Y side of the mirrored skater box
 	lda.b r3
 	sta.b d1
 	rts
-CODE_C46D7D:						; from DATA8_C46DB0
+AvoidGoalLowY:						; route from the low-Y side of the mirrored skater box
 	lda.b r3
 	sta.b d1
 	lda.b tmp1
 	and.w #$0002
-	bne CODE_C46D36
+	bne AvoidGoalClampTargetX
 	rts
-CODE_C46D89:						; from DATA8_C46DB0
+AvoidGoalLeftLowY:					; route from the left low-Y corner of the mirrored skater box
 	lda.b tmp1
 	cmp.w #$0004
-	beq CODE_C46D78
-CODE_C46D90:						; from CODE_C46D11
+	beq AvoidGoalSetLowY
+AvoidGoalLeftCrossing:				; set the left-edge detour after a goalie crossing test
 	lda.w #$FFCA
 	sta.b d0
 	rts
-CODE_C46D96:						; from DATA8_C46DB0
+AvoidGoalLeftSide:					; route from the left side of the mirrored skater box
 	lda.w #$FFCA
 	sta.b d0
 	lda.b tmp1
 	and.w #$000A
-	beq CODE_C46D59
+	beq AvoidGoalSetHighY
 	rts
-CODE_C46DA3:						; from DATA8_C46DB0
+AvoidGoalLeftHighY:					; route from the left high-Y corner of the mirrored skater box
 	lda.b tmp1
 	cmp.w #$0004
-	beq CODE_C46D59
+	beq AvoidGoalSetHighY
 	lda.w #$FFCA
 	sta.b d0
 	rts
 DATA8_C46DB0:						; jump table: the routine for each index
-	dw CODE_C46CDC,CODE_C46D2B,CODE_C46D64,CODE_C46D52
-	dw CODE_C46D7D,$0000,CODE_C46D71,$0000
-	dw CODE_C46D96,CODE_C46DA3,$0000,$0000
-	dw CODE_C46D89
-CODE_C46DCA:						; from CODE_C46BF6
+	dw AvoidGoalInsideStart,AvoidGoalHighY,AvoidGoalRightSide,AvoidGoalRightHighY
+	dw AvoidGoalLowY,$0000,AvoidGoalRightLowY,$0000
+	dw AvoidGoalLeftSide,AvoidGoalLeftHighY,$0000,$0000
+	dw AvoidGoalLeftLowY
+ClassifySkaterGoalPath:				; classify the start and target around the skater goal avoidance box
 	stx.b r3
 	sty.b $42
 	stz.b tmp0
@@ -1840,10 +1840,10 @@ CODE_C46DCA:						; from CODE_C46BF6
 	sta.b tmp1
 	inc.b tmp2
 	rts
-CODE_C46E4B:						; from CODE_C46BF6
+AvoidGoalForGoalie:					; adjust a goalie skating target to avoid the net
 	ldx.w #$0108
 	ldy.w #$0122
-	jsr.w CODE_C46FAD
+	jsr.w ClassifyGoalieGoalPath
 	ldx.w #$0107
 	ldy.w #$0123
 	stx.b r3
@@ -1852,7 +1852,7 @@ CODE_C46E4B:						; from CODE_C46BF6
 	bne .1
 	ldx.w #$FEDE
 	ldy.w #$FEF8
-	jsr.w CODE_C46FAD
+	jsr.w ClassifyGoalieGoalPath
 	ldx.w #$FEDD
 	ldy.w #$FEF9
 	stx.b r3
@@ -1892,11 +1892,11 @@ CODE_C46E4B:						; from CODE_C46BF6
 	jsr (DATA8_C46F93,x)
 	ldx.b curobj
 	rtl
-.4:									; call CODE_C46EBE, X = curobj, return
-	jsr.w CODE_C46EBE
+.4:									; call GoalieAvoidInsideTarget, X = curobj, return
+	jsr.w GoalieAvoidInsideTarget
 	ldx.b curobj
 	rtl
-CODE_C46EBE:						; from CODE_C46E4B
+GoalieAvoidInsideTarget:			; route a goalie whose target is inside the avoidance box
 	ldx.b curobj
 	lda.b $3A
 	cmp.w #$FEF2
@@ -1904,127 +1904,127 @@ CODE_C46EBE:						; from CODE_C46E4B
 	lda.b $3E
 	cmp.w #$FEF2
 	bmi .rts
-	bra CODE_C46EF1
-.1:									; if $3E - $FEF2 >= 0 go to .rts, go to CODE_C46F0A
+	bra GoalieAvoidFromBehind
+.1:									; if $3E - $FEF2 >= 0 go to .rts, go to GoalieAvoidFarBoundary
 	lda.b $3E
 	cmp.w #$FEF2
 	bpl .rts
-	bra CODE_C46F0A
+	bra GoalieAvoidFarBoundary
 .rts:								; return
 	rts
 CODE_C46EDA:						; no caller found (not traced)
 	cmp.w Xpos,y
-	bpl CODE_C46F34
+	bpl GoalieAvoidReturn
 	lda.b $42
 	sta.b d1
 	rts
-CODE_C46EE4:						; from CODE_C46EF1
+GoalieAvoidLeftEdge:				; set the goalie target to the left avoidance edge
 	lda.w #$FFDA
 	sta.b d0
 	rts
-CODE_C46EEA:						; from DATA8_C46F93
+GoalieAvoidInsideStart:				; choose a detour from inside the goalie avoidance box
 	lda.b $3A
 	cmp.w #$FEF2
-	bpl CODE_C46F03
-CODE_C46EF1:						; from CODE_C46EBE
+	bpl GoalieAvoidFromFront
+GoalieAvoidFromBehind:				; route a goalie from behind the net around an edge
 	lda.b p0
 	cmp.w #$FFDB
-	bmi CODE_C46EE4
+	bmi GoalieAvoidLeftEdge
 	cmp.w #$0026
-	bpl CODE_C46F41
+	bpl GoalieAvoidRightEdge
 	lda.b r3
 	sta.b d1
-	bra CODE_C46F1B
-CODE_C46F03:						; from CODE_C46EEA
+	bra GoalieAvoidClampTargetX
+GoalieAvoidFromFront:				; route a goalie from in front of the net
 	lda.b tmp1
 	bit.w #$0002
-	bne CODE_C46F34
-CODE_C46F0A:						; from CODE_C46EBE
+	bne GoalieAvoidReturn
+GoalieAvoidFarBoundary:				; route the goalie along the far box boundary
 	lda.b $42
 	sta.b d1
-	bra CODE_C46F1B
-CODE_C46F10:						; from DATA8_C46F93
+	bra GoalieAvoidClampTargetX
+GoalieAvoidHighY:					; route from the high-Y side of the mirrored goalie box
 	lda.b $42
 	sta.b d1
 	lda.b tmp1
 	and.w #$0008
-	bne CODE_C46F34
-CODE_C46F1B:						; from CODE_C46EF1, CODE_C46F60, CODE_C46F0A
+	bne GoalieAvoidReturn
+GoalieAvoidClampTargetX:			; move an interior goalie target X to the nearest box edge
 	lda.b p1
 	bpl .1
 	cmp.w #$FFDB
-	bmi CODE_C46F34
+	bmi GoalieAvoidReturn
 	lda.w #$FFDA
 	sta.b d0
 	rts
-.1:									; if A - $0026 >= 0 go to CODE_C46F34, d0 = $0026
+.1:									; if A - $0026 >= 0 go to GoalieAvoidReturn, d0 = $0026
 	cmp.w #$0026
-	bpl CODE_C46F34
+	bpl GoalieAvoidReturn
 	lda.w #$0026
 	sta.b d0
-CODE_C46F34:						; from CODE_C46EDA, CODE_C46F10, CODE_C46F1B, CODE_C46F03, ...
+GoalieAvoidReturn:					; return from a goalie goal avoidance handler
 	rts
-CODE_C46F35:						; from DATA8_C46F93
+GoalieAvoidRightHighY:				; route from the right high-Y corner of the mirrored goalie box
 	lda.b tmp1
 	cmp.w #$0010
-	bne CODE_C46F41
-CODE_C46F3C:						; from CODE_C46F47, CODE_C46F79, CODE_C46F86
+	bne GoalieAvoidRightEdge
+GoalieAvoidSetHighY:				; set the target to the high-Y side of the mirrored goalie box
 	lda.b $42
 	sta.b d1
 	rts
-CODE_C46F41:						; from CODE_C46EF1, CODE_C46F35, CODE_C46F54
+GoalieAvoidRightEdge:				; set the goalie target to the right avoidance edge
 	lda.w #$0026
 	sta.b d0
 	rts
-CODE_C46F47:						; from DATA8_C46F93
+GoalieAvoidRightSide:				; route from the right side of the mirrored goalie box
 	lda.w #$0026
 	sta.b d0
 	lda.b tmp1
 	and.w #$000A
-	beq CODE_C46F3C
+	beq GoalieAvoidSetHighY
 	rts
-CODE_C46F54:						; from DATA8_C46F93
+GoalieAvoidRightLowY:				; route from the right low-Y corner of the mirrored goalie box
 	lda.b tmp1
 	cmp.w #$0010
-	bne CODE_C46F41
-CODE_C46F5B:						; from CODE_C46F6C
+	bne GoalieAvoidRightEdge
+GoalieAvoidSetLowY:					; set the target to the low-Y side of the mirrored goalie box
 	lda.b r3
 	sta.b d1
 	rts
-CODE_C46F60:						; from DATA8_C46F93
+GoalieAvoidLowY:					; route from the low-Y side of the mirrored goalie box
 	lda.b r3
 	sta.b d1
 	lda.b tmp1
 	and.w #$0002
-	bne CODE_C46F1B
+	bne GoalieAvoidClampTargetX
 	rts
-CODE_C46F6C:						; from DATA8_C46F93
+GoalieAvoidLeftLowY:				; route from the left low-Y corner of the mirrored goalie box
 	lda.b tmp1
 	cmp.w #$0004
-	beq CODE_C46F5B
+	beq GoalieAvoidSetLowY
 	lda.w #$FFDA
 	sta.b d0
 	rts
-CODE_C46F79:						; from DATA8_C46F93
+GoalieAvoidLeftSide:				; route from the left side of the mirrored goalie box
 	lda.w #$FFDA
 	sta.b d0
 	lda.b tmp1
 	and.w #$000A
-	beq CODE_C46F3C
+	beq GoalieAvoidSetHighY
 	rts
-CODE_C46F86:						; from DATA8_C46F93
+GoalieAvoidLeftHighY:				; route from the left high-Y corner of the mirrored goalie box
 	lda.b tmp1
 	cmp.w #$0004
-	beq CODE_C46F3C
+	beq GoalieAvoidSetHighY
 	lda.w #$FFDA
 	sta.b d0
 	rts
 DATA8_C46F93:						; jump table: the routine for each index
-	dw CODE_C46EEA,CODE_C46F10,CODE_C46F47,CODE_C46F35
-	dw CODE_C46F60,$0000,CODE_C46F54,$0000
-	dw CODE_C46F79,CODE_C46F86,$0000,$0000
-	dw CODE_C46F6C
-CODE_C46FAD:						; from CODE_C46E4B
+	dw GoalieAvoidInsideStart,GoalieAvoidHighY,GoalieAvoidRightSide,GoalieAvoidRightHighY
+	dw GoalieAvoidLowY,$0000,GoalieAvoidRightLowY,$0000
+	dw GoalieAvoidLeftSide,GoalieAvoidLeftHighY,$0000,$0000
+	dw GoalieAvoidLeftLowY
+ClassifyGoalieGoalPath:				; classify the start and target around the goalie avoidance box
 	stx.b r3
 	sty.b $42
 	stz.b tmp0
