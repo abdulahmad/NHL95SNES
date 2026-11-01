@@ -147,7 +147,9 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	bit.w #$1000
 	beq .loop2
 	rtl
-CODE_C4E12C:						; called from other segments
+ScoutingReport:						; the pregame scouting report: both teams' names and logos, the matchups
+									; (ShowMatchups; the next every 300 frames, A next, Y previous) and the
+									; commentary (BuildScoutingText) scrolling, X restarts it; start leaves
 	jsl.l CODE_C4C530
 	jsl.l CODE_C5E50E
 	lda.w $1864
@@ -285,9 +287,9 @@ CODE_C4E12C:						; called from other segments
 	jsl.l CODE_C4CEDB
 	lda.w #$0006
 	sta.w $2DA5
-	jsr.w CODE_C4E41B
+	jsr.w ShowMatchups
 	jsr.w CODE_C4E885
-	jsr.w CODE_C4E9D8
+	jsr.w BuildScoutingText
 	lda.w #$8000
 	sta.w DMAEnShadow
 	lda.w #$03E8
@@ -318,7 +320,7 @@ CODE_C4E12C:						; called from other segments
 	bmi .6
 	dec a
 	bne .6
-	jsr.w CODE_C4E39E
+	jsr.w NextMatchup
 	lda.w $2DA3
 	sec
 	sbc.w #$0005
@@ -355,19 +357,19 @@ CODE_C4E12C:						; called from other segments
 	inc.w $2DA3
 	lda.w #$0800
 	trb.w $0565
-.9:									; if $0080 bits clear go to .10, A = $8000, call CODE_C4E39E, go to .loop
+.9:									; if $0080 bits clear go to .10, A = $8000, call NextMatchup, go to .loop
 	bit.w #$0080
 	beq .10
 	lda.w #$8000
 	tsb.w $2DA1
-	jsr.w CODE_C4E39E
+	jsr.w NextMatchup
 	jmp.w .loop
-.10:								; if $4000 bits clear go to .11, A = $8000, call CODE_C4E3B0, go to .loop
+.10:								; if $4000 bits clear go to .11, A = $8000, call PrevMatchup, go to .loop
 	bit.w #$4000
 	beq .11
 	lda.w #$8000
 	tsb.w $2DA1
-	jsr.w CODE_C4E3B0
+	jsr.w PrevMatchup
 	jmp.w .loop
 .11:								; if $0040 bits clear go to .12, call CODE_C4E3BF
 	bit.w #$0040
@@ -375,36 +377,37 @@ CODE_C4E12C:						; called from other segments
 	jsr.w CODE_C4E3BF
 .12:								; go to .loop
 	jmp.w .loop
-CODE_C4E387:						; from CODE_C4E12C, CODE_C4EBC8
+CODE_C4E387:						; from ScoutingReport, CODE_C4EBC8
 	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	jsl.l CODE_C4CEDB
 	jsl.l ClearNMIHook
 	jml.l CODE_C5E50E
-CODE_C4E39E:						; from CODE_C4E12C
+NextMatchup:						; the next matchup of the scouting report (after 6, 0), then ShowMatchups
 	lda.w $2DA5
 	inc a
 	cmp.w #$0007
 	bcc .1
 	lda.w #$0000
-.1:									; $2DA5 = A, go to CODE_C4E41B
+.1:									; $2DA5 = A, go to ShowMatchups
 	sta.w $2DA5
-	jmp.w CODE_C4E41B
-CODE_C4E3B0:						; from CODE_C4E12C
+	jmp.w ShowMatchups
+PrevMatchup:						; the previous matchup of the scouting report (before 0, 6), then
+									; ShowMatchups
 	lda.w $2DA5
 	bne .1
 	lda.w #$0007
-.1:									; A - 1, $2DA5 = A, go to CODE_C4E41B
+.1:									; A - 1, $2DA5 = A, go to ShowMatchups
 	dec a
 	sta.w $2DA5
-	jmp.w CODE_C4E41B
-CODE_C4E3BF:						; from CODE_C4E12C
+	jmp.w ShowMatchups
+CODE_C4E3BF:						; from ScoutingReport
 	ldx.b $77
 	jsl.l CODE_C5E596
 	ldx.b $79
 	jsl.l CODE_C5E596
-CODE_C4E3CB:						; from CODE_C4E12C
+CODE_C4E3CB:						; from ScoutingReport
 	lda.b $7B
 	sta.b $7D
 	lda.w #$0012
@@ -436,7 +439,8 @@ CODE_C4E3CB:						; from CODE_C4E12C
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4E41B:						; from CODE_C4E12C, CODE_C4E39E, CODE_C4E3B0
+ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, or the
+									; goalies and Overall)
 	lda.b $D3
 	clc
 	adc.w #$0140
@@ -919,7 +923,7 @@ CODE_C4E41B:						; from CODE_C4E12C, CODE_C4E39E, CODE_C4E3B0
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	rts
-CODE_C4E885:						; from CODE_C4E12C
+CODE_C4E885:						; from ScoutingReport
 	stz.b a2
 	ldy.w #$2DA9
 	ldx.w #$2DC9
@@ -1080,11 +1084,13 @@ CODE_C4E8CD:						; from CODE_C4E885
 	jmp.w .1
 .rts:								; return
 	rts
-CODE_C4E9D8:						; from CODE_C4E12C
+BuildScoutingText:					; writes the scouting report's commentary into the text buffer: welcome to
+									; a sold out ..., tonight's national hockey league game features the ...,
+									; the hot and cold players
 	jsl.l CODE_C4C541
 	stz.b $81
 	ldx.w #$4DB9
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	lda.w $17C9
 	asl a
 	tax
@@ -1097,20 +1103,20 @@ CODE_C4E9D8:						; from CODE_C4E12C
 	jsl.l CODE_C560A8
 	stx.b d0
 	jsl.l CODE_C560A8
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	ldx.w #$4DC8
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	plx
 	lda.w $17C9
 	beq .1
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 .1:									; $364E,y = $0020, Y + 1, $81 = Y, X = d0, ...
 	lda.w #$0020
 	sta.w $364E,y
 	iny
 	sty.b $81
 	ldx.b d0
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	lda.w #$6120
 	sta.w $364E,y
 	lda.w #$646E
@@ -1138,14 +1144,14 @@ CODE_C4E9D8:						; from CODE_C4E12C
 	lda.w $17CB
 	bne .2
 	ldx.w #$4720
-.2:									; call CODE_C4EB68, $364E,y = $0020, Y + 1, $81 = Y, ...
-	jsr.w CODE_C4EB68
+.2:									; call AppendScoutText, $364E,y = $0020, Y + 1, $81 = Y, ...
+	jsr.w AppendScoutText
 	lda.w #$0020
 	sta.w $364E,y
 	iny
 	sty.b $81
 	ldx.b d0
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	lda.w #$203D
 	sta.w $364E,y
 	lda.w #$0039
@@ -1163,9 +1169,9 @@ CODE_C4E9D8:						; from CODE_C4E12C
 	tax
 	lda.l $C30002,x
 	tax
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	ldx.w #$4DED
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	lda.w $2DA7
 	bpl .3
 	lda.w #$7865
@@ -1182,10 +1188,10 @@ CODE_C4E9D8:						; from CODE_C4E12C
 	clc
 	adc.w #$000A
 	tay
-.3:									; $81 = Y, X = $4DFA, call CODE_C4EB68
+.3:									; $81 = Y, X = $4DFA, call AppendScoutText
 	sty.b $81
 	ldx.w #$4DFA
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 .4:									; d0 = $2DC9, A = $17C9, X = $2DA9, call CODE_C4EB81, ...
 	lda.w #$2DC9
 	sta.b d0
@@ -1199,9 +1205,9 @@ CODE_C4E9D8:						; from CODE_C4E12C
 	beq .5
 	ldx.w #$2DB7
 	jsr.w CODE_C4EB81
-.5:									; X = $4E27, call CODE_C4EB68, $364E,y = $0000, Y + 1, ...
+.5:									; X = $4E27, call AppendScoutText, $364E,y = $0000, Y + 1, ...
 	ldx.w #$4E27
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	lda.w #$0000
 	sta.w $364E,y
 	iny
@@ -1260,7 +1266,8 @@ CODE_C4EB5C:						; from CODE_C4EB23
 	adc.w #$0118
 	tax
 	bra CODE_C4EB6C
-CODE_C4EB68:						; from CODE_C4E9D8, CODE_C4E9D8, ...
+AppendScoutText:					; unpacks text X (CODE_C4C3BA) and appends it to the scouting report's
+									; text buffer
 	jsl.l CODE_C4C3BA
 CODE_C4EB6C:						; from CODE_C4EB5C
 	ldy.b $81
@@ -1276,7 +1283,7 @@ CODE_C4EB6C:						; from CODE_C4EB5C
 	rep #$20
 	sty.b $81
 	rts
-CODE_C4EB81:						; from CODE_C4E9D8
+CODE_C4EB81:						; from BuildScoutingText
 	phx
 	pha
 	lda.w #$6F46
@@ -1295,7 +1302,7 @@ CODE_C4EB81:						; from CODE_C4E9D8
 	tax
 	lda.l $C30002,x
 	tax
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	lda.w #$2040
 	sta.w $364E,y
 	iny
@@ -1304,14 +1311,14 @@ CODE_C4EB81:						; from CODE_C4E9D8
 	lda.b $01,s
 	jsr.w CODE_C4EB23
 	ldx.w #$4E06
-	jsr.w CODE_C4EB68
+	jsr.w AppendScoutText
 	pla
 	clc
 	adc.w #$0006
 	jsr.w CODE_C4EB23
 	ldx.w #$4E17
-	jmp.w CODE_C4EB68
-CODE_C4EBC8:						; from CODE_C4E12C
+	jmp.w AppendScoutText
+CODE_C4EBC8:						; from ScoutingReport
 	ldx.b $7D
 	lda.w $2DC5
 	cmp.w #$0021
@@ -1411,7 +1418,7 @@ CODE_C4EC58:						; from CODE_C4EBC8
 	plx
 .rts:								; return
 	rts
-CODE_C4EC88:						; from CODE_C4E41B, CODE_C4E41B, ...
+CODE_C4EC88:						; from ShowMatchups, ShowMatchups, ...
 	sty.b d2
 	stx.b $36
 	sta.b r2
@@ -1683,7 +1690,7 @@ CODE_C4EC88:						; from CODE_C4E41B, CODE_C4E41B, ...
 .5:									; pull A, return
 	pla
 	rts
-CODE_C4EE9D:						; from CODE_C4E12C and other segments
+CODE_C4EE9D:						; from ScoutingReport and other segments
 	lda.w #$0080
 	sta.l VMAIN
 	lda.w #$0004
@@ -1709,7 +1716,7 @@ CODE_C4EEC0:						; from CODE_C4EE9D
 	dey
 	bpl .loop
 	rts
-CODE_C4EECD:						; from CODE_C4E41B
+CODE_C4EECD:						; from ShowMatchups
 	stz.w $04F5
 	stz.w $364E
 	dec.b QueueBusy
@@ -1737,7 +1744,7 @@ CODE_C4EECD:						; from CODE_C4E41B
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4EF07:						; from CODE_C4E41B
+CODE_C4EF07:						; from ShowMatchups
 	stz.w $04F5
 	stz.w $364E
 	dec.b QueueBusy
@@ -1765,7 +1772,7 @@ CODE_C4EF07:						; from CODE_C4E41B
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4EF41:						; from CODE_C4E12C
+CODE_C4EF41:						; from ScoutingReport
 	cmp.w #$001A
 	beq .1
 	lda.w #$CBDA

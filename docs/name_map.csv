@@ -4976,34 +4976,34 @@ $C4DFA3,.loop,CODE_C4DFA3,new,"branch target only used in CODE_C4DF82",src/bankC
 $C4DFCD,.loop,CODE_C4DFCD,new,"branch target only used in CODE_C4DFAC",src/bankC4_D000.asm
 $C4E020,.loop,CODE_C4E020,new,"branch target only used in StanleyCupScreen",src/bankC4_E000.asm
 $C4E0FE,.loop2,CODE_C4E0FE,new,"branch target only used in StanleyCupScreen",src/bankC4_E000.asm
-$C4E140,.1,CODE_C4E140,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E188,.2,CODE_C4E188,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E196,.3,CODE_C4E196,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E2D9,.loop,CODE_C4E2D9,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E2DC,.loop2,CODE_C4E2DC,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E313,.4,CODE_C4E313,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E316,.5,CODE_C4E316,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E31C,.6,CODE_C4E31C,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E32B,.7,CODE_C4E32B,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E34C,.8,CODE_C4E34C,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E35A,.9,CODE_C4E35A,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E36B,.10,CODE_C4E36B,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E37C,.11,CODE_C4E37C,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E384,.12,CODE_C4E384,new,"branch target only used in CODE_C4E12C",src/bankC4_E000.asm
-$C4E3AA,.1,CODE_C4E3AA,new,"branch target only used in CODE_C4E39E",src/bankC4_E000.asm
-$C4E3B8,.1,CODE_C4E3B8,new,"branch target only used in CODE_C4E3B0",src/bankC4_E000.asm
-$C4E465,.1,CODE_C4E465,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E468,.2,CODE_C4E468,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E4CB,.3,CODE_C4E4CB,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E4CE,.4,CODE_C4E4CE,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E534,.5,CODE_C4E534,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E537,.6,CODE_C4E537,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E624,.7,CODE_C4E624,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E67C,.8,CODE_C4E67C,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E67F,.9,CODE_C4E67F,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E6D7,.10,CODE_C4E6D7,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E6DA,.11,CODE_C4E6DA,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
-$C4E79A,.12,CODE_C4E79A,new,"branch target only used in CODE_C4E41B",src/bankC4_E000.asm
+$C4E140,.1,CODE_C4E140,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E188,.2,CODE_C4E188,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E196,.3,CODE_C4E196,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E2D9,.loop,CODE_C4E2D9,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E2DC,.loop2,CODE_C4E2DC,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E313,.4,CODE_C4E313,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E316,.5,CODE_C4E316,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E31C,.6,CODE_C4E31C,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E32B,.7,CODE_C4E32B,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E34C,.8,CODE_C4E34C,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E35A,.9,CODE_C4E35A,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E36B,.10,CODE_C4E36B,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E37C,.11,CODE_C4E37C,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E384,.12,CODE_C4E384,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
+$C4E3AA,.1,CODE_C4E3AA,new,"branch target only used in NextMatchup",src/bankC4_E000.asm
+$C4E3B8,.1,CODE_C4E3B8,new,"branch target only used in PrevMatchup",src/bankC4_E000.asm
+$C4E465,.1,CODE_C4E465,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E468,.2,CODE_C4E468,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E4CB,.3,CODE_C4E4CB,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E4CE,.4,CODE_C4E4CE,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E534,.5,CODE_C4E534,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E537,.6,CODE_C4E537,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E624,.7,CODE_C4E624,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E67C,.8,CODE_C4E67C,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E67F,.9,CODE_C4E67F,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E6D7,.10,CODE_C4E6D7,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E6DA,.11,CODE_C4E6DA,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
+$C4E79A,.12,CODE_C4E79A,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
 $C4E8B1,.1,CODE_C4E8B1,new,"branch target only used in CODE_C4E885",src/bankC4_E000.asm
 $C4E8C8,.2,CODE_C4E8C8,new,"branch target only used in CODE_C4E885",src/bankC4_E000.asm
 $C4E8C9,.3,CODE_C4E8C9,new,"branch target only used in CODE_C4E885",src/bankC4_E000.asm
@@ -5018,12 +5018,12 @@ $C4E98F,.8,CODE_C4E98F,new,"branch target only used in CODE_C4E8CD",src/bankC4_E
 $C4E9AE,.9,CODE_C4E9AE,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
 $C4E9C4,.10,CODE_C4E9C4,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
 $C4E9D7,.rts,CODE_C4E9D7,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4EA14,.1,CODE_C4EA14,new,"branch target only used in CODE_C4E9D8",src/bankC4_E000.asm
-$C4EA5E,.2,CODE_C4EA5E,new,"branch target only used in CODE_C4E9D8",src/bankC4_E000.asm
-$C4EAC6,.3,CODE_C4EAC6,new,"branch target only used in CODE_C4E9D8",src/bankC4_E000.asm
-$C4EACE,.4,CODE_C4EACE,new,"branch target only used in CODE_C4E9D8",src/bankC4_E000.asm
-$C4EAEF,.5,CODE_C4EAEF,new,"branch target only used in CODE_C4E9D8",src/bankC4_E000.asm
-$C4EB14,.loop,CODE_C4EB14,new,"branch target only used in CODE_C4E9D8",src/bankC4_E000.asm
+$C4EA14,.1,CODE_C4EA14,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
+$C4EA5E,.2,CODE_C4EA5E,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
+$C4EAC6,.3,CODE_C4EAC6,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
+$C4EACE,.4,CODE_C4EACE,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
+$C4EAEF,.5,CODE_C4EAEF,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
+$C4EB14,.loop,CODE_C4EB14,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
 $C4EB70,.loop,CODE_C4EB70,new,"branch target only used in CODE_C4EB6C",src/bankC4_E000.asm
 $C4EB7C,.1,CODE_C4EB7C,new,"branch target only used in CODE_C4EB6C",src/bankC4_E000.asm
 $C4EBD2,.loop,CODE_C4EBD2,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
@@ -7099,3 +7099,9 @@ $C56E55,PauseGoalieMode,CODE_C56E55,94S+purpose,"same job as 94S PauseGoalieMode
 $C56B90,PauseTimeout,CODE_C56B90,94S+purpose,"same job as 94S PauseTimeout (a timeout of the pausing team: count down, reenergizeteam, the message); the fifth item of the options tab (DATA8_C5502C); with none left it goes to CODE_C56B80",src/bankC5_6000.asm
 $C53ABC,GetPadTeam,CODE_C53ABC,94S+purpose,"same job as 94S GetPadTeam (a2 = 0 or 2 from the pause pad and cont1team); the pause menu items call it first",src/bankC5_3000.asm
 $C54AEF,reenergizeteam,CODE_C54AEF,94S+code,"the same loop as 94S reenergizeteam (tmpde = $1000; the tmpdst check $FFFD then $FFFC never passes, in 94S too); counts with X where 94S counts with d0; PauseTimeout calls it",src/bankC5_4000.asm
+$C4E12C,ScoutingReport,CODE_C4E12C,94S+purpose,"same job as 94S ScoutingReport (both teams, the matchups and the scrolling commentary until start; Y previous, A next, X restarts the report) and 95G ScoutingReport; prints Scouting Report ($C34C9F)",src/bankC4_E000.asm
+$C4E41B,ShowMatchups,CODE_C4E41B,94S+purpose,"same job as 94S ShowMatchups (the matchups box: matchup curitem, both players or teams); 95 keeps the matchup number in $2DA5 and prints Goalie and Overall from the packed text",src/bankC4_E000.asm
+$C4E39E,NextMatchup,CODE_C4E39E,code,"adds 1 to the matchup number ($2DA5), wrapping at 7, and draws it; ScoutingReport on its timer and on A",src/bankC4_E000.asm
+$C4E3B0,PrevMatchup,CODE_C4E3B0,code,"subtracts 1 from the matchup number ($2DA5), wrapping to 6, and draws it; ScoutingReport on Y",src/bankC4_E000.asm
+$C4E9D8,BuildScoutingText,CODE_C4E9D8,code,"appends packed strings ($C34DB9, $C34DC8, $C34DED, $C34DFA ...) and the teams' names with AppendScoutText to the buffer at $364E; ScoutingReport scrolls it",src/bankC4_E000.asm
+$C4EB68,AppendScoutText,CODE_C4EB68,code,"CODE_C4C3BA unpacks the packed string at $C3:X, then the bytes are copied to $364E + $81 up to the zero, $81 moved on; BuildScoutingText calls it for each piece",src/bankC4_E000.asm

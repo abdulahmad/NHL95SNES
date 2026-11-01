@@ -51,10 +51,10 @@ CODE_C50056:						; from CODE_C50056, CODE_C50ADD, demoread and other segments
 	bne .1
 	jsl.l CODE_C092B3
 	bra CODE_C50056
-.1:									; call Create_HotCold_Table, call CODE_C52CC1, call CODE_C4E12C, ...
+.1:									; call Create_HotCold_Table, call CODE_C52CC1, call ScoutingReport, ...
 	jsl.l Create_HotCold_Table
 	jsr.w CODE_C52CC1
-	jsl.l CODE_C4E12C
+	jsl.l ScoutingReport
 	jsr.w CODE_C53984
 CODE_C5009B:						; called from other segments
 	jsl.l FadeOutWait
