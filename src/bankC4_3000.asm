@@ -1453,7 +1453,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	ply
 	plx
 	ldx.b a3
-	lda.w $186E
+	lda.w OptLine
 	beq .1
 	lda.w penshot
 	ora.w $18C0

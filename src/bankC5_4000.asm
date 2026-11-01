@@ -46,7 +46,7 @@ CODE_C53FE5:						; called from other segments
 	bpl .1
 	rtl
 CODE_C5404A:						; called from other segments
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0001
 	bne .rtl
 	jsl.l loadTeamStruct
@@ -1016,8 +1016,8 @@ CODE_C54828:						; from CompLine
 	ldy.b a2
 	beq .1
 	jmp.w CODE_C548C1
-.1:									; if $186E is not $0002 go to .2, if c1playernum,y < 0 go to .2, ...
-	lda.w $186E
+.1:									; if OptLine is not $0002 go to .2, if c1playernum,y < 0 go to .2, ...
+	lda.w OptLine
 	cmp.w #$0002
 	bne .2
 	lda.w c1playernum,y
@@ -1113,7 +1113,7 @@ DATA8_C5491C:						; not traced: data between routines
 	db $00,$00,$01,$00,$02,$00,$00,$00,$02,$00,$01,$00,$00,$00,$01,$00
 	db $00,$00
 CODE_C5492E:						; called from other segments
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	beq .rtl
 	lda.w pucky
@@ -1158,7 +1158,7 @@ CODE_C5492E:						; called from other segments
 	bcs .rtl
 	lda.w PenShotActive
 	bne .rtl
-	lda.w $186E
+	lda.w OptLine
 	beq .rtl
 	jsl.l CompLine
 	jsl.l setpersonel
@@ -1363,7 +1363,7 @@ reenergizeteam:						; gives every player of team a2 full energy ($1000); the be
 	bpl .loop
 	rtl
 RestoreBenchEnergy:					; called from other segments
-	lda.w $186E
+	lda.w OptLine
 	beq CODE_C54B5F
 	stz.b a2
 	jsl.l CODE_C54B2B
@@ -1437,7 +1437,7 @@ CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
 	jsl.l WaitTransfers
 	jml.l CODE_C5111A
 CODE_C54BAF:						; called from other segments
-	lda.w $186E
+	lda.w OptLine
 	beq .rtl
 	pei ($6B)
 	lda.w tmflags
@@ -1737,7 +1737,7 @@ CODE_C54DFB:						; from SetupTeamForIntermission and other segments
 	ldx.b a3
 	ldy.b a2
 	stz.w tmline,x
-	lda.w $186E
+	lda.w OptLine
 	beq .rtl
 	lda.w tmap,x
 	sec

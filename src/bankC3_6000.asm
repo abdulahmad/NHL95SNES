@@ -216,15 +216,15 @@ CODE_C36B83:						; called from other segments
 	cmp.w #$0003
 	bcc .4
 	lda.w #$0002
-.4:									; $186E = A, A = $30604B, A and $00FF, if A < $0003 go to .5, ...
-	sta.w $186E
+.4:									; OptLine = A, A = $30604B, A and $00FF, if A < $0003 go to .5, ...
+	sta.w OptLine
 	lda.l $30604B
 	and.w #$00FF
 	cmp.w #$0003
 	bcc .5
 	lda.w #$0002
-.5:									; $186C = A, A = $30604A, A and $0001, $1870 = A, ...
-	sta.w $186C
+.5:									; OptPen = A, A = $30604A, A and $0001, $1870 = A, ...
+	sta.w OptPen
 	lda.l $30604A
 	and.w #$0001
 	sta.w $1870

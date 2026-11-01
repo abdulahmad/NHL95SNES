@@ -79,7 +79,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	inc.w $2378
 	stz.w gmode
 	stz.w gsp
-	lda.w $186C
+	lda.w OptPen
 	cmp.w #$0001
 	bne .1
 	lda.w #$0020

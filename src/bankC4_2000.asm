@@ -419,16 +419,16 @@ CODE_C42D10:						; called from other segments
 	lda.w pfalock,x
 	beq .1
 	rtl
-.1:									; call getpde, if $186E = 0 go to .2, A = d0, A - $00CC, ...
+.1:									; call getpde, if OptLine = 0 go to .2, A = d0, A - $00CC, ...
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	beq .2
 	lda.b d0
 	sec
 	sbc.w #$00CC
 	sta.b d0
 	jsl.l setpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .2
 	lda.w #$1000

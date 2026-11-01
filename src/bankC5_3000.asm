@@ -340,7 +340,7 @@ CODE_C532C5:						; called from other segments
 	dey
 	bne .loop
 	ply
-	lda.w $186E
+	lda.w OptLine
 	bne .2
 	stz.w $18AA
 	ldx.b a1
@@ -670,7 +670,7 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	lda.w $12CD
 	pha
 	ldx.w #$01AE
-.loop:								; loop: $125F,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
+.loop:								; loop: tmPwrGoals,x = 0, X - 1, X - 1, ...
 	stz.w tmPwrGoals,x
 	dex
 	dex
@@ -1148,7 +1148,7 @@ PadTakeRightDefense:				; with defense control on for the pad's team: pad d4 tak
 	cpx.w #$000C
 	bcc .1
 	ldy.w #$0002
-.1:									; if $17C5,y is not 0 go to .2, return
+.1:									; if defcontrol,y is not 0 go to .2, return
 	lda.w defcontrol,y
 	bne .2
 	rtl
@@ -1164,7 +1164,7 @@ PadTakeLeftDefense:					; with defense control on for the pad's team: pad d4 tak
 	cpx.w #$000C
 	bcc .1
 	ldy.w #$0002
-.1:									; if $17C5,y is not 0 go to .2, return
+.1:									; if defcontrol,y is not 0 go to .2, return
 	lda.w defcontrol,y
 	bne .2
 	rtl

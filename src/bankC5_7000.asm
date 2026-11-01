@@ -248,10 +248,10 @@ CODE_C57149:						; from DATA8_C570E8
 	ldx.b a2
 	beq .1
 	adc.w #$0034
-.1:									; Y = A, A = tmpde,y, if $186E is not $0002 go to .2, A = $1000
+.1:									; Y = A, A = tmpde,y, if OptLine is not $0002 go to .2, A = $1000
 	tay
 	lda.w tmpde,y
-	ldx.w $186E
+	ldx.w OptLine
 	cpx.w #$0002
 	bne .2
 	lda.w #$1000
@@ -534,7 +534,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	stz.b $69
 	stz.b $79
 	ldx.w #$0000
-	lda.w $186E
+	lda.w OptLine
 	beq .1
 	ldx.w #$0006
 .1:									; $7B = X
@@ -665,7 +665,7 @@ CODE_C574A4:						; from EditLinesScreen
 	sta.b $CF
 	lda.w #$00A8
 	sta.b $D1
-	lda.w $186E
+	lda.w OptLine
 	bne .1
 	ldx.w #$4C74
 	bra .2

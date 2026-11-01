@@ -395,12 +395,12 @@ PlayShootout:						; the shootout: shootoutmode set, two options saved, the shoo
 									; shot a team (ShootoutTurn) until a team leads after 5
 	lda.w #$0001
 	sta.w shootoutmode
-	lda.w $186E
+	lda.w OptLine
 	pha
-	stz.w $186E
-	lda.w $186C
+	stz.w OptLine
+	lda.w OptPen
 	pha
-	stz.w $186C
+	stz.w OptPen
 	jsl.l Create_HotCold_Table
 	jsl.l CODE_C52CA3
 	jsl.l CODE_C53980
@@ -439,9 +439,9 @@ PlayShootout:						; the shootout: shootoutmode set, two options saved, the shoo
 	beq .loop
 	stz.w shootoutmode
 	pla
-	sta.w $186C
+	sta.w OptPen
 	pla
-	sta.w $186E
+	sta.w OptLine
 	rtl
 ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	stz.w $189E

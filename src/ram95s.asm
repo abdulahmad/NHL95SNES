@@ -213,6 +213,8 @@ cont5team			=	$17BD		; Pad 5 (multitap) team word, the last of the five the loop
 defcontrol			=	$17C5		; defense control on / off per team (word, by team 0 / 2)
 lcpad				=	$184C		; Per team (y = 0/2) the pad (d4) that opened the line change box, ...
 jmlvector			=	$1850		; RAM jml routine: $5C (jml) at +0, the target at +1..+3 (RunTasks)
+OptPen				=	$186C		; penalties option (0 off): StartGame_go sets gmode bit $20 when it is 1
+OptLine				=	$186E		; line changes option (0 off); PlayShootout and practice clear it
 homeshooters		=	$188C		; the home team's 8 shootout shooters (InitShooters)
 awayshooters		=	$1894		; the visitors' 8 shootout shooters (InitShooters)
 shootoutmode		=	$189C		; Nonzero during the shootout: PlayShootout sets 1 and clears it at the

@@ -1461,7 +1461,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	lda.w #$FFFF
 	sta.w temp1,x
 	sta.w temp2,x
-	lda.w $186E
+	lda.w OptLine
 	bne .7
 	jmp.w CODE_C51E81
 .7:									; A = penshot, if the result = 0 go to .8, go to CODE_C51E81
@@ -1516,7 +1516,7 @@ CODE_C51CC1:						; asstab entry 27: an assignment routine
 	jsl.l CODE_C51DB8
 	jmp.w CODE_C51E81
 CODE_C51DB8:						; from CODE_C51E81, CODE_C51CC1 and other segments
-	lda.w $186E
+	lda.w OptLine
 	bne .1
 	jmp.w CODE_C51E80
 .1:									; if d0 is not cont1team go to .2, go to CODE_C51E80
@@ -1545,7 +1545,7 @@ CODE_C51DEA:						; from CODE_C51DF6, CODE_C51E0C, CODE_C51DB8
 	jsl.l setpersonel
 	jml.l CODE_C5111A
 CODE_C51DF6:						; from CODE_C51CC1 and other segments
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne CODE_C51E1F
 	stz.b a2
@@ -1555,7 +1555,7 @@ CODE_C51DF6:						; from CODE_C51CC1 and other segments
 	sta.b d0
 	bra CODE_C51DEA
 CODE_C51E0C:						; from CODE_C51CC1 and other segments
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne CODE_C51E1F
 	stz.b a1

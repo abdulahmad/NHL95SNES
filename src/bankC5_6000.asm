@@ -343,7 +343,7 @@ ShowGameStats:						; pause menu Game Stats: the team stat rows as a scrolling l
 	lda.w #$531F
 	jsr.w SetupStatsPage
 	ldx.w #$5D5F
-	lda.w $186C
+	lda.w OptPen
 	bne .1
 	ldx.w #$5DD7
 .1:									; A = $C30000,x, A and $00FF, a1 = A, X + 1, ...

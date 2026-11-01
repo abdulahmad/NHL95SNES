@@ -7249,7 +7249,7 @@ $189C,shootoutmode,,94S+code,"RAM: Nonzero during the shootout: PlayShootout set
 $C092B3,PlayShootout,CODE_C092B3,94S+code,"the 94S PlayShootout structure: shootoutmode 1, InitShooters with a2 = 0 / 2, StartGame_go, StartPer, the round counter from 1, the decider flag from round 5, rounds while below 6 or tied, shootoutmode 0; 95 saves the two option words $186E / $186C, adds Create_HotCold_Table, CODE_C52CA3, CODE_C53980 and no Pausemode",src/bankC0_9000.asm
 $C09336,ShootoutTurn,CODE_C09336,code,"PlayShootout calls it for each team each round where 94S calls its .t1",src/bankC0_9000.asm
 $C09681,InitShooters,CODE_C09681,94S+code,"the same loop as 94S InitShooters (8 bytes to the home list $188C or the away list $1894); 95 reads them from the team data at $7E2E35 / $7E3273",src/bankC0_9000.asm
-$C5009B,StartGame_go,CODE_C5009B,94S+code,"94S StartGame_go's steps: FadeOut, two RAM ranges cleared, gamesstarted + 1, gmode 0, sflags $20 when the penalties option is 1, then the teams (restoreteams)",src/bankC5_0000.asm
+$C5009B,StartGame_go,CODE_C5009B,94S+code,"94S StartGame_go's steps: FadeOut, two RAM ranges cleared, gamesstarted + 1, gmode 0, gmode bit $20 when the penalties option (OptPen) is 1, then the teams (restoreteams)",src/bankC5_0000.asm
 $C5016D,StartPer,CODE_C5016D,94S+code,"the same start as 94S StartPer, side by side: the shootoutmode test, the stack at $1FFF, reenergizeteam for a2 = 0 and 2",src/bankC5_0000.asm
 $188C,homeshooters,,94S+code,"RAM: 94S homeshooters: InitShooters copies 8 bytes here for a2 = 0 (the same loop as 94S), ShootoutTurn reads them",src/ram95s.asm
 $1894,awayshooters,,94S+code,"RAM: 94S awayshooters: InitShooters copies 8 bytes here for a2 = 2",src/ram95s.asm
@@ -7340,3 +7340,5 @@ $C50056,Restart,CODE_C50056,94S+purpose,"same job as 94S Restart (start over at 
 $CF04B6,StartMenuMusic,CODE_CF04B6,code,"Restart calls it where 94S Restart starts its menu song; flags $1EA7 (request, cleared) and $1EA9 (set after the first call)",src/bankCF_0000.asm
 $125F,tmPwrGoals,,94S+code,"RAM: clearTeamStats clears from here where 94S clearTeamStats clears from tmPwrGoals (side by side)",src/ram95s.asm
 $17C5,defcontrol,,94S+code,"RAM: PadTakeLeftDefense / PadTakeRightDefense test it by team where 94S tests defcontrol,y (the same code)",src/ram95s.asm
+$186C,OptPen,,94S+code,"RAM: StartGame_go sets gmode bit $20 when it is 1 where 94S tests OptPen; ShowGameStats picks the row list without the power play rows when it is 0; practice clears it; AddPenalty2 only when set",src/ram95s.asm
+$186E,OptLine,,94S+code,"RAM: PlayShootout saves and clears it where 94S PlayShootout saves and clears OptLine; practice clears it; the line change code tests it",src/ram95s.asm

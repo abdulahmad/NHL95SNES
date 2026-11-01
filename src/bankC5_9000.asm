@@ -400,8 +400,8 @@ CODE_C59308:						; from CODE_C592A9
 DATA8_C5939C:						; not reached by the traced code (data or unused code)
 	db $F0
 CODE_C5939D:						; called from other segments
-	stz.w $186E
-	stz.w $186C
+	stz.w OptLine
+	stz.w OptPen
 	lda.w $1906
 	inc a
 	sta.b d0

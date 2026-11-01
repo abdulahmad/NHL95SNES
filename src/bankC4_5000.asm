@@ -331,8 +331,8 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	lda.w position,x
 	bne .32
 	jmp.w AddPenalty2
-.32:								; if $186C is not 0 go to .33, go to AddPenalty2
-	lda.w $186C
+.32:								; if OptPen is not 0 go to .33, go to AddPenalty2
+	lda.w OptPen
 	bne .33
 	jmp.w AddPenalty2
 .33:								; d0 = $0014, call AddPenalty2, go to Stop4Pen
@@ -698,7 +698,7 @@ check4check:						; called from other segments
 	sec
 	sbc.w checking,x
 	sta.b d0
-	lda.w $186C
+	lda.w OptPen
 	beq .1
 	asl.b d0
 .1:									; A = d0, call randomd0A, if A < $0004 go to .2, A = d0, ...
@@ -1417,7 +1417,7 @@ CODE_C45AED:						; from DATA8_C45ACD
 	ldx.b curobj
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -1460,8 +1460,8 @@ CODE_C45AED:						; from DATA8_C45ACD
 	pla
 	bcc .5
 	sta.w Yvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -1516,7 +1516,7 @@ CODE_C45BB4:						; from DATA8_C45ADD
 	ldx.b curobj
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -1559,8 +1559,8 @@ CODE_C45BB4:						; from DATA8_C45ADD
 	pla
 	bcc .5
 	sta.w Yvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -1730,7 +1730,7 @@ CODE_C45D0F:						; from DATA8_C45ACD
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -1777,8 +1777,8 @@ CODE_C45D0F:						; from DATA8_C45ACD
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -1849,7 +1849,7 @@ CODE_C45DF8:						; from DATA8_C45ADD
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -1896,8 +1896,8 @@ CODE_C45DF8:						; from DATA8_C45ADD
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -1950,7 +1950,7 @@ CODE_C45EE5:						; from DATA8_C45ACD
 	ldx.b curobj
 	pei ($7F)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -1993,8 +1993,8 @@ CODE_C45EE5:						; from DATA8_C45ACD
 	pla
 	bcc .5
 	sta.w Xvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F

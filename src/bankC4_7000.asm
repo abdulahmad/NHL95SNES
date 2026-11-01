@@ -1032,7 +1032,7 @@ AddPenalty:							; from CODE_C47ACD, CODE_C47C8C and other segments
 	lda.b d0
 	cmp.w #$000C
 	beq AddPenalty2
-	lda.w $186C
+	lda.w OptPen
 	beq .rtl
 	lda.w gmode
 	bit.w #$0020
@@ -1521,7 +1521,7 @@ CODE_C47C8C:						; called from other segments
 	bne .rtl
 	lda.w position,x
 	beq .rtl
-	lda.w $186C
+	lda.w OptPen
 	bne .1
 	lda.w playerpad,y
 	bmi .1

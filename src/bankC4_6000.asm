@@ -35,7 +35,7 @@ CODE_C45FAC:						; called from other segments
 	ldx.b curobj
 	pei ($7F)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -78,8 +78,8 @@ CODE_C45FAC:						; called from other segments
 	pla
 	bcc .5
 	sta.w Xvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -147,7 +147,7 @@ CODE_C46075:						; called from other segments
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -194,8 +194,8 @@ CODE_C46075:						; called from other segments
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -267,7 +267,7 @@ CODE_C4615F:						; called from other segments
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -314,8 +314,8 @@ CODE_C4615F:						; called from other segments
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -369,7 +369,7 @@ CODE_C4624F:						; called from other segments
 	ldx.b curobj
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -412,8 +412,8 @@ CODE_C4624F:						; called from other segments
 	pla
 	bcc .5
 	sta.w Yvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -469,7 +469,7 @@ CODE_C46317:						; called from other segments
 	ldx.b curobj
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -512,8 +512,8 @@ CODE_C46317:						; called from other segments
 	pla
 	bcc .5
 	sta.w Yvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -582,7 +582,7 @@ CODE_C463E3:						; called from other segments
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -629,8 +629,8 @@ CODE_C463E3:						; called from other segments
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -703,7 +703,7 @@ CODE_C464CE:						; called from other segments
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -750,8 +750,8 @@ CODE_C464CE:						; called from other segments
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -805,7 +805,7 @@ CODE_C465C1:						; called from other segments
 	ldx.b curobj
 	pei ($7F)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -848,8 +848,8 @@ CODE_C465C1:						; called from other segments
 	pla
 	bcc .5
 	sta.w Xvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -905,7 +905,7 @@ CODE_C46689:						; called from other segments
 	ldx.b curobj
 	pei ($7F)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .3
 	lda.w #$1000
@@ -948,8 +948,8 @@ CODE_C46689:						; called from other segments
 	pla
 	bcc .5
 	sta.w Xvel,x
-.5:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.5:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -1017,7 +1017,7 @@ CODE_C46755:						; called from other segments
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -1064,8 +1064,8 @@ CODE_C46755:						; called from other segments
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
@@ -1137,7 +1137,7 @@ CODE_C4683F:						; called from other segments
 	pei ($7F)
 	pei ($83)
 	jsl.l getpde
-	lda.w $186E
+	lda.w OptLine
 	cmp.w #$0002
 	bne .5
 	lda.w #$1000
@@ -1184,8 +1184,8 @@ CODE_C4683F:						; called from other segments
 	pla
 	bcc .8
 	sta.w Xvel,x
-.8:									; if $186E = 0 go to .rtl, A = seed, ...
-	lda.w $186E
+.8:									; if OptLine = 0 go to .rtl, A = seed, ...
+	lda.w OptLine
 	beq .rtl
 	lda.w seed
 	and.w #$003F
