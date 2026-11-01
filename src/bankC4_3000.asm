@@ -1492,7 +1492,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	tax
 	lda.l DATA8_C09B3F,x
 	sta.w $0001,y
-	lda.l $C09B40,x
+	lda.l DATA8_C09B3F+1,x
 	sta.w $0002,y
 	lda.w #$A0A0
 	sta.w $0004,y
@@ -1504,7 +1504,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	tax
 	lda.l DATA8_C09B3F,x
 	sta.w $0008,y
-	lda.l $C09B40,x
+	lda.l DATA8_C09B3F+1,x
 	sta.w $0009,y
 	pla
 	clc

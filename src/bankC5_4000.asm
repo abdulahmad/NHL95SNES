@@ -120,7 +120,7 @@ CODE_C54070:						; from CODE_C5404A, lineinput and other segments
 	tax
 	lda.l DATA8_C09B3F,x
 	sta.w $0003,y
-	lda.l $C09B40,x
+	lda.l DATA8_C09B3F+1,x
 	sta.w $0004,y
 	tya
 	ldx.w #$007E

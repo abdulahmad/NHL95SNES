@@ -56,7 +56,7 @@ PlayerAccDir2x2:					; playeracc toward direction 2 (right), the step taken twic
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -168,7 +168,7 @@ PlayerAccDir3:						; playeracc toward direction 3 (down-right), one step (Playe
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -289,7 +289,7 @@ PlayerAccDir3x2:					; playeracc toward direction 3 (down-right), the step taken
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -391,7 +391,7 @@ PlayerAccDir4:						; playeracc toward direction 4 (down), one step (PlayerAccOn
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -492,7 +492,7 @@ PlayerAccDir4x2:					; playeracc toward direction 4 (down), the step taken twice
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -605,7 +605,7 @@ PlayerAccDir5:						; playeracc toward direction 5 (down-left), one step (Player
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -727,7 +727,7 @@ PlayerAccDir5x2:					; playeracc toward direction 5 (down-left), the step taken 
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -829,7 +829,7 @@ PlayerAccDir6:						; playeracc toward direction 6 (left), one step (PlayerAccOn
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -930,7 +930,7 @@ PlayerAccDir6x2:					; playeracc toward direction 6 (left), the step taken twice
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -1042,7 +1042,7 @@ PlayerAccDir7:						; playeracc toward direction 7 (up-left), one step (PlayerAc
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
@@ -1163,7 +1163,7 @@ PlayerAccDir7x2:					; playeracc toward direction 7 (up-left), the step taken tw
 	tax
 	lda.l DATA8_C09BC4,x
 	sta.b d2
-	lda.l $C09BC6,x
+	lda.l DATA8_C09BC4+2,x
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x

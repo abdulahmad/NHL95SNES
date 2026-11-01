@@ -108,7 +108,7 @@ CODE_C56FF5:						; from CODE_C5704D
 	txy
 	lda.l DATA8_C09B94,x
 	sta.b d4
-	lda.l $C09B96,x
+	lda.l DATA8_C09B94+2,x
 	tax
 	pea.w CODE_C5704D-1
 	jmp (DATA8_C570E8,x)
@@ -176,7 +176,7 @@ CODE_C5705E:						; from CODE_C570CC
 	txy
 	lda.l DATA8_C09B54,x
 	sta.b d4
-	lda.l $C09B56,x
+	lda.l DATA8_C09B54+2,x
 	tax
 	pea.w CODE_C570CC-1
 	jmp (DATA8_C570E8,x)
@@ -1007,7 +1007,7 @@ CODE_C576FD:						; a callback: CODE_C57578 passes it to StartScrollList
 	txy
 	lda.l DATA8_C09B54,x
 	sta.b d4
-	lda.l $C09B56,x
+	lda.l DATA8_C09B54+2,x
 	tax
 	pea.w CODE_C57773-1
 	jmp (DATA8_C570E8,x)
@@ -1357,7 +1357,7 @@ CODE_C579F4:						; from CODE_C57A4D
 	txy
 	lda.l DATA8_C09B94,x
 	sta.b d4
-	lda.l $C09B96,x
+	lda.l DATA8_C09B94+2,x
 	tax
 	pea.w CODE_C57A4D-1
 	jmp (DATA8_C570E8,x)
