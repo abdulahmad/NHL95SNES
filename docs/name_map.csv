@@ -5358,7 +5358,7 @@ $C51F44,.6,CODE_C51F44,new,"branch target only used in CODE_C51EB8",src/bankC5_1
 $C51F4B,.loop,CODE_C51F4B,new,"branch target only used in CODE_C51F48",src/bankC5_1000.asm
 $C51F5E,.1,CODE_C51F5E,new,"branch target only used in CODE_C51F48",src/bankC5_1000.asm
 $C51F5F,.rtl,CODE_C51F5F,new,"branch target only used in CODE_C51F48",src/bankC5_1000.asm
-$C51F93,.loop,CODE_C51F93,new,"branch target only used in CODE_C51F7C",src/bankC5_1000.asm
+$C51F93,.loop,CODE_C51F93,new,"branch target only used in limitfo",src/bankC5_1000.asm
 $C51FE6,.1,CODE_C51FE6,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
 $C51FF3,.2,CODE_C51FF3,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
 $C52002,.3,CODE_C52002,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
@@ -5654,9 +5654,9 @@ $C540C3,.1,CODE_C540C3,new,"branch target only used in CODE_C54070",src/bankC5_4
 $C540FF,.2,CODE_C540FF,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
 $C54107,.3,CODE_C54107,new,"branch target only used in CODE_C54070",src/bankC5_4000.asm
 $C54150,.1,CODE_C54150,new,"branch target only used in CODE_C54140",src/bankC5_4000.asm
-$C5416E,.1,CODE_C5416E,new,"branch target only used in CODE_C54155",src/bankC5_4000.asm
-$C54171,.2,CODE_C54171,new,"branch target only used in CODE_C54155",src/bankC5_4000.asm
-$C54193,.rts,CODE_C54193,new,"branch target only used in CODE_C54155",src/bankC5_4000.asm
+$C5416E,.1,CODE_C5416E,new,"branch target only used in getlchoice",src/bankC5_4000.asm
+$C54171,.2,CODE_C54171,new,"branch target only used in getlchoice",src/bankC5_4000.asm
+$C54193,.rts,CODE_C54193,new,"branch target only used in getlchoice",src/bankC5_4000.asm
 $C5420B,.loop,CODE_C5420B,new,"branch target only used in setpersonel",src/bankC5_4000.asm
 $C5422F,.1,CODE_C5422F,new,"branch target only used in setpersonel",src/bankC5_4000.asm
 $C54248,.loop2,CODE_C54248,new,"branch target only used in setpersonel",src/bankC5_4000.asm
@@ -7538,3 +7538,7 @@ $C516C2,PushTime,CODE_C516C2,94S+code,"94S PushTime's steps (divide by 10, 6, 10
 $C51397,showclockdma,CODE_C51397,genesis+purpose,"95 Genesis showclockdma's job: the clock chars built in a RAM buffer and queued for DMA when the clock changes (GameClockTick, the scoreboard); here from the BCD clock",src/bankC5_1000.asm
 $C50E9B,GameClockTick,CODE_C50E9B,code,"the clock tick that 94S Gameloop and 95 Genesis VBlank run inline (the jiffy $0AAA, the crowd excitement drop of 3 a second); Gameloop calls it once or twice for the frames elapsed",src/bankC5_0000.asm
 $C51A4E,CentrePuck,CODE_C51A4E,code,"the first steps of 94S SetupPenaltyShot ('puck at centre ice') as a routine; called from SetupPenaltyShot and CODE_C51A13",src/bankC5_1000.asm
+$2034,fox,,94S+code,"RAM: Stop4Pen stores d0 there before limitfo and puckfaceoff2 copies it to puckx where 94S uses fox (side by side)",src/ram95s.asm
+$2036,foy,,94S+code,"RAM: Stop4Pen stores d1 there before limitfo and puckfaceoff2 copies it to pucky where 94S uses foy (side by side)",src/ram95s.asm
+$C51F7C,limitfo,CODE_C51F7C,94S+code,"94S limitfo's steps side by side: d0 / d1 / a0 / a1 saved, a0 = PenBuf, the loop over its entries to the zero word calling the per-penalty part (CODE_C51FBA here, the local .t2 in 94S); Stop4Pen calls it after fox / foy where 94S does",src/bankC5_1000.asm
+$C54155,getlchoice,CODE_C54155,94S+code,"94S getlchoice's index: choice + 3 * tmline, plus $15 when the tmap counts of the teams differ and $15 more when the other team has more, then the table byte; 95 passes the choice in A rather than d0; called from lcfound as in 94S",src/bankC5_4000.asm

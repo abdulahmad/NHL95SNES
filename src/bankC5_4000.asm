@@ -91,9 +91,9 @@ CODE_C54070:						; from CODE_C5404A, lineinput and other segments
 	adc.b d0
 	sta.b d0
 	lda.w #$0002
-.loop:								; loop: $81 = A, call CODE_C54155, X = A, if the result < 0 go to .3, ...
+.loop:								; loop: $81 = A, call getlchoice, X = A, if the result < 0 go to .3, ...
 	sta.b $81
-	jsr.w CODE_C54155
+	jsr.w getlchoice
 	tax
 	bmi .3
 	ldy.b a2
@@ -169,7 +169,7 @@ CODE_C54135:						; from CODE_C54114
 CODE_C54140:						; from CODE_C54122, CODE_C54135
 	phy
 	lda.w #$0002
-	jsr.w CODE_C54155
+	jsr.w getlchoice
 	ldy.w #$0005
 	cmp.w #$FFFF
 	bne .1
@@ -178,7 +178,8 @@ CODE_C54140:						; from CODE_C54122, CODE_C54135
 	ldx.w #$000B
 	pla
 	rts
-CODE_C54155:						; from CODE_C54070, lcfound, CODE_C54140
+getlchoice:							; A = the line for line choice A of team a2 by the man advantage
+									; (DATA8_C54194, sign extended; -1 none); X and Y kept
 	phx
 	pha
 	lda.b a2
@@ -213,7 +214,7 @@ CODE_C54155:						; from CODE_C54070, lcfound, CODE_C54140
 	ora.w #$FF00
 .rts:								; return
 	rts
-DATA8_C54194:						; not traced: a table read by CODE_C54155
+DATA8_C54194:						; not traced: a table read by getlchoice
 	db $00,$01,$02,$01,$02,$00,$02,$00,$01,$00,$01,$02,$00,$01,$02,$00
 	db $01,$02,$00,$01,$02,$03,$04,$FF,$03,$04,$FF,$03,$04,$FF,$03,$04
 	db $FF,$04,$03,$FF,$03,$04,$FF,$03,$04,$FF,$05,$06,$FF,$05,$06,$FF
@@ -1704,7 +1705,7 @@ lcfound:							; from lineinput and other segments
 	ldy.b a2
 	lda.b d2
 	sta.w $1307,y
-	jsr.w CODE_C54155
+	jsr.w getlchoice
 	bmi .rtl
 	sta.b d0
 	lda.w pflags,x

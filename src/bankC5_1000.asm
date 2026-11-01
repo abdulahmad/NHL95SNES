@@ -1113,9 +1113,9 @@ CODE_C51999:						; called from other segments
 	rtl
 CODE_C51A13:						; called from other segments
 	jsr.w CentrePuck
-	lda.w $2034
+	lda.w fox
 	sta.w puckx
-	lda.w $2036
+	lda.w foy
 	sta.w pucky
 	stz.b d4
 	jsr.w CODE_C51A30
@@ -1751,7 +1751,8 @@ CODE_C51F6E:						; from puckfaceoff and other segments
 	tay
 	lda.w c1playernum,y
 	rtl
-CODE_C51F7C:						; called from other segments
+limitfo:							; keeps the face off spot away from the blue line for every called
+									; penalty: CODE_C51FBA for each PenBuf entry
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1787,7 +1788,7 @@ CODE_C51F7C:						; called from other segments
 	pla
 	sta.b d0
 	rtl
-CODE_C51FBA:						; from CODE_C51F7C and other segments
+CODE_C51FBA:						; from limitfo and other segments
 	and.w #$00FF
 	cmp.w #$0034
 	beq .rtl
@@ -1802,26 +1803,26 @@ CODE_C51FBA:						; from CODE_C51F7C and other segments
 	bne .1
 	lda.w #$FFA4
 	sta.b d1
-	cmp.w $2036
+	cmp.w foy
 	bmi .rtl
 	lda.w #$FFBB
-	sta.w $2036
+	sta.w foy
 	bra .2
-.1:									; if d1 - $2036 >= 0 go to .rtl, $2036 = $0045
+.1:									; if d1 - foy >= 0 go to .rtl, foy = $0045
 	lda.b d1
-	cmp.w $2036
+	cmp.w foy
 	bpl .rtl
 	lda.w #$0045
-	sta.w $2036
-.2:									; d0 = $0050, if $2034 >= 0 go to .3, d0 = $FFB0
+	sta.w foy
+.2:									; d0 = $0050, if fox >= 0 go to .3, d0 = $FFB0
 	lda.w #$0050
 	sta.b d0
-	lda.w $2034
+	lda.w fox
 	bpl .3
 	lda.w #$FFB0
 	sta.b d0
-.3:									; $2034 = d0
+.3:									; fox = d0
 	lda.b d0
-	sta.w $2034
+	sta.w fox
 .rtl:								; return
 	rtl

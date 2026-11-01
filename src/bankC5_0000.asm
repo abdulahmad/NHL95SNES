@@ -178,9 +178,9 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	ldy.w #$5800
 	jsl.l ClearVRAM
 	jsl.l startpause
-.3:									; $2034 = 0, $2036 = 0, a3 = $001C, d0 = $001B, ...
-	stz.w $2034
-	stz.w $2036
+.3:									; fox = 0, foy = 0, a3 = $001C, d0 = $001B, ...
+	stz.w fox
+	stz.w foy
 	ldx.w #$001C
 	stx.b a3
 	lda.w #$001B

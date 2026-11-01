@@ -260,6 +260,8 @@ penshot				=	$18BE		; Penalty shot pending / under way: StartPenaltyShot sets 1,
 penshotlive			=	$18C0		; 1 from SetupPenaltyShot while the shot is live; StartGame_go clears it
 pstimer				=	$18C2		; shot time limit: SetupPenaltyShot sets 900, Gameloop counts it down
 BlockMove			=	$18FA		; RAM routine phb, mvn, plb, rtl; the mvn banks at +2 (ClearRAM7E)
+fox					=	$2034		; face off spot x: Stop4Pen sets it, puckfaceoff2 puts it in puckx
+foy					=	$2036		; face off spot y: Stop4Pen sets it, puckfaceoff2 puts it in pucky
 sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set
 
 ; work RAM, long addresses

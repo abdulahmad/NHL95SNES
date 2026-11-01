@@ -873,12 +873,12 @@ StartPenaltyShot:					; called from other segments
 	plx
 	stz.w penshot
 	inc.w penshot
-	lda.w $2034
+	lda.w fox
 	sta.w $18BA
-	lda.w $2036
+	lda.w foy
 	sta.w $18BC
-	stz.w $2034
-	stz.w $2036
+	stz.w fox
+	stz.w foy
 .rtl:								; return
 	rtl
 EndPenaltyShot:						; called from other segments
@@ -1074,7 +1074,7 @@ CODE_C48852:						; from ReturnGoalies and other segments
 	sta.w tmgoalie,y
 	lda.w teampads,y
 	bne .rtl
-	lda.w $2036
+	lda.w foy
 	sta.b d1
 	jmp.w CPgoalie
 .rtl:								; return

@@ -979,9 +979,9 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	trb.w $1301
 	stz.b Vpos
 	stz.b Hpos
-	lda.w $2034
+	lda.w fox
 	sta.w puckx
-	lda.w $2036
+	lda.w foy
 	sta.w pucky
 	stz.w puckvx
 	stz.w puckvy
@@ -1176,16 +1176,16 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sec
 	sbc.b d1
 	sta.b d1
-.22:								; if position,x = 0 go to .27, if d4 - $0009 >= 0 go to .26, ...
+.22:								; if position,x = 0 go to .27, if d4 - $0009 >= 0 go to .26, A = fox, ...
 	lda.w position,x
 	beq .27
 	lda.b d4
 	cmp.w #$0009
 	bpl .26
-	lda.w $2034
+	lda.w fox
 	eor.b d0
 	bpl .24
-	lda.w $2036
+	lda.w foy
 	lsr a
 	lsr a
 	lsr a
@@ -1198,8 +1198,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	clc
 	adc.b d1
 	sta.b d1
-.24:								; A = $2034, A / 2, A / 2, if $2000 bits clear go to .25, ...
-	lda.w $2034
+.24:								; A = fox, A / 2, A / 2, if $2000 bits clear go to .25, ...
+	lda.w fox
 	lsr a
 	lsr a
 	bit.w #$2000
@@ -1211,14 +1211,14 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sec
 	sbc.b d3
 	sta.b d0
-.26:								; A = d0, A + $2034, d0 = A, A = d1, ...
+.26:								; A = d0, A + fox, d0 = A, A = d1, ...
 	lda.b d0
 	clc
-	adc.w $2034
+	adc.w fox
 	sta.b d0
 	lda.b d1
 	clc
-	adc.w $2036
+	adc.w foy
 	sta.b d1
 .27:								; Xpos,x = d0, A - puckx, A xor $FFFF, A + 1, ...
 	lda.b d0
@@ -1327,7 +1327,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	jsl.l CODE_C58944
 	inc.w TransfersReady
 	ldy.w #$0036
-	lda.w $2034
+	lda.w fox
 	bpl .36
 	ldy.w #$00BE
 .36:								; d0 = Y, A = Y, $201C = A, A - $002E, ...
@@ -1462,9 +1462,9 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	beq .2
 .1:									; go to .5
 	jmp.w .5
-.2:									; A = $59A1, if $2034 >= 0 go to .3, A = $59B2
+.2:									; A = $59A1, if fox >= 0 go to .3, A = $59B2
 	lda.w #$59A1
-	ldx.w $2034
+	ldx.w fox
 	bpl .3
 	lda.w #$59B2
 .3:									; push A, X = $000C, Y = $0002, call Framer, ...

@@ -443,12 +443,12 @@ Stop4Pen:							; from checkfornewpen and other segments
 	bpl .6
 	lda.w #$FFB0
 	sta.b d0
-.6:									; $2034 = d0, $2036 = d1, call CODE_C51F7C
+.6:									; fox = d0, foy = d1, call limitfo
 	lda.b d0
-	sta.w $2034
+	sta.w fox
 	lda.b d1
-	sta.w $2036
-	jsl.l CODE_C51F7C
+	sta.w foy
+	jsl.l limitfo
 .7:									; A = Vcount, A - $07EC, if A < $003C go to .8
 	lda.b Vcount
 	sec
