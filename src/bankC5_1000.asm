@@ -304,7 +304,8 @@ CODE_C512B1:						; from SetScore and other segments
 	pla
 	sta.b $85
 	rtl
-CODE_C51397:						; called from other segments
+showclockdma:						; puts the game clock (clockbcd as M:SS, no leading zero) in the
+									; scoreboard text and queues it to VRAM
 	lda.w #$A0A0
 	sta.l $7E2CD0
 	sta.l $7E2CD5
@@ -313,7 +314,7 @@ CODE_C51397:						; called from other segments
 	sep #$21
 	lda.b #$BA
 	sta.l $7E2CD2
-	lda.w $1152
+	lda.w clockbcd+1
 	tay
 	and.b #$F0
 	beq .1
@@ -329,7 +330,7 @@ CODE_C51397:						; called from other segments
 	and.b #$0F
 	adc.b #$AF
 	sta.l $7E2CD1
-	lda.w $1151
+	lda.w clockbcd
 	tay
 	lsr a
 	lsr a
@@ -719,7 +720,8 @@ NewTicker2_next:					; from Intermission_tick and other segments
 	bmi CODE_C516A6
 .2:									; go to NewTicker2
 	jmp.w NewTicker2
-CODE_C516C2:						; called from other segments
+PushTime:							; a1 = the time d0 (seconds) as a minutes:seconds string (in a work
+									; buffer, length byte first)
 	lda.w #$0020
 	jsl.l AllocWorkBuf2
 	clc
@@ -1110,7 +1112,7 @@ CODE_C51999:						; called from other segments
 	stz.b $48
 	rtl
 CODE_C51A13:						; called from other segments
-	jsr.w CODE_C51A4E
+	jsr.w CentrePuck
 	lda.w $2034
 	sta.w puckx
 	lda.w $2036
@@ -1133,14 +1135,15 @@ CODE_C51A30:						; from CODE_C51A13
 	dey
 	bpl .loop
 	bra .rts
-.2:									; if c1playernum,y >= 0 go to .1, d4 = Y, call CODE_C538FE
+.2:									; if c1playernum,y >= 0 go to .1, d4 = Y, call PadTakeGoalie
 	lda.w c1playernum,y
 	bpl .1
 	sty.b d4
-	jsl.l CODE_C538FE
+	jsl.l PadTakeGoalie
 .rts:								; return
 	rts
-CODE_C51A4E:						; from CODE_C51A13, CODE_C51A61
+CentrePuck:							; the puck at centre ice and still: puckx, pucky, puckz and the three
+									; speeds 0
 	stz.w puckx
 	stz.w pucky
 	stz.w puckz
@@ -1148,8 +1151,10 @@ CODE_C51A4E:						; from CODE_C51A13, CODE_C51A61
 	stz.w puckvy
 	stz.w puckvz
 	rts
-CODE_C51A61:						; called from other segments
-	jsr.w CODE_C51A4E
+SetupPenaltyShot:					; penalty shot set up: the puck at centre ice, every player reassigned,
+									; the defending goalie to his pad, the shooter gets the puck, pstimer 900,
+									; ClearPenaltyBuffer
+	jsr.w CentrePuck
 	phx
 	ldx.w #$0000
 	lda.w #$0002
@@ -1186,9 +1191,9 @@ CODE_C51A61:						; called from other segments
 	cpy.w #$000A
 	bcc .loop
 	bra .4
-.3:									; d4 = Y, call CODE_C538FE
+.3:									; d4 = Y, call PadTakeGoalie
 	sty.b d4
-	jsl.l CODE_C538FE
+	jsl.l PadTakeGoalie
 .4:									; pull X, Y = BA_Team, tmtouch1,y = $FFFF, tmtouch2,y = A, ...
 	plx
 	ldy.w BA_Team
@@ -1201,21 +1206,21 @@ CODE_C51A61:						; called from other segments
 	adc.w #$0014
 	bmi .5
 	sta.w CwdExciteLvl
-.5:									; puckc = BA_Sktr_SCnum, Y = A, if $18B6 < 0 go to .6, playerpad,y = A
+.5:									; puckc = BA_Sktr_SCnum, Y = A, if pspad < 0 go to .6, playerpad,y = A
 	lda.w BA_Sktr_SCnum
 	sta.w puckc
 	tay
-	lda.w $18B6
+	lda.w pspad
 	bmi .6
 	sta.w playerpad,y
-.6:									; PenShotActive = 0, PenShotActive + 1, $18C0 = $0001, $18C2 = $0384, ...
+.6:									; PenShotActive = 0, PenShotActive + 1, penshotlive = $0001, ...
 	stz.w PenShotActive
 	inc.w PenShotActive
 	lda.w #$0001
-	sta.w $18C0
+	sta.w penshotlive
 	lda.w #$0384
-	sta.w $18C2
-	jml.l CODE_C4818C
+	sta.w pstimer
+	jml.l ClearPenaltyBuffer
 CODE_C51AFF:						; called from other segments
 	lda.w #$000D
 	jsl.l StartSound
@@ -1469,7 +1474,7 @@ puckfaceoff:						; assignment (asstab entry 27): the puck at the start of play;
 	jmp.w CODE_C51E81
 .7:									; A = penshot, if the result = 0 go to .8, go to CODE_C51E81
 	lda.w penshot
-	ora.w $18C0
+	ora.w penshotlive
 	beq .8
 	jmp.w CODE_C51E81
 .8:									; lcpad = $FFFF, $184E = A, $18E2 = 0, $18E4 = 0, ...
@@ -1618,7 +1623,7 @@ CODE_C51E1F:						; from CODE_C51DF6, CODE_C51E0C
 CODE_C51E80:						; from CODE_C51DB8, CODE_C51E81, CODE_C51EB8, CODE_C51DB8, ...
 	rtl
 CODE_C51E81:						; no caller found (not traced)
-	stz.w $18C0
+	stz.w penshotlive
 	stz.b d0
 	jsl.l CODE_C51EB8
 	lda.w #$0020
@@ -1756,7 +1761,7 @@ CODE_C51F7C:						; called from other segments
 	pei ($67)
 	pei ($69)
 	stz.b $65
-	lda.w #$10F9
+	lda.w #PenBuf
 	sta.b a0
 .loop:								; loop: A = [a0], call CODE_C51FBA, a0 + 1, a0 + 1, ...
 	lda.b [a0]

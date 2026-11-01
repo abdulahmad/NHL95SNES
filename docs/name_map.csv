@@ -4178,7 +4178,7 @@ $C480E0,.3,CODE_C480E0,new,"branch target only used in PenShotChk",src/bankC4_80
 $C480E3,.rtl,CODE_C480E3,new,"branch target only used in PenShotChk",src/bankC4_8000.asm
 $C4810B,.loop,CODE_C4810B,new,"branch target only used in CODE_C480E4",src/bankC4_8000.asm
 $C4813C,.1,CODE_C4813C,new,"branch target only used in CODE_C480E4",src/bankC4_8000.asm
-$C48190,.loop,CODE_C48190,new,"branch target only used in CODE_C4818C",src/bankC4_8000.asm
+$C48190,.loop,CODE_C48190,new,"branch target only used in ClearPenaltyBuffer",src/bankC4_8000.asm
 $C481AD,.1,CODE_C481AD,new,"branch target only used in checkagr",src/bankC4_8000.asm
 $C481D1,.2,CODE_C481D1,new,"branch target only used in checkagr",src/bankC4_8000.asm
 $C481DD,.1,CODE_C481DD,new,"branch target only used in CODE_C481D5",src/bankC4_8000.asm
@@ -5211,8 +5211,8 @@ $C50E62,.3,CODE_C50E62,new,"branch target only used in demoread",src/bankC5_0000
 $C50E81,.4,CODE_C50E81,new,"branch target only used in demoread",src/bankC5_0000.asm
 $C50E85,.rtl,CODE_C50E85,new,"branch target only used in demoread",src/bankC5_0000.asm
 $C50E86,.5,CODE_C50E86,new,"branch target only used in demoread",src/bankC5_0000.asm
-$C50EC2,.1,CODE_C50EC2,new,"branch target only used in CODE_C50E9B",src/bankC5_0000.asm
-$C50ED7,.rts,CODE_C50ED7,new,"branch target only used in CODE_C50E9B",src/bankC5_0000.asm
+$C50EC2,.1,CODE_C50EC2,new,"branch target only used in GameClockTick",src/bankC5_0000.asm
+$C50ED7,.rts,CODE_C50ED7,new,"branch target only used in GameClockTick",src/bankC5_0000.asm
 $C50EE4,.loop,CODE_C50EE4,new,"branch target only used in UpdateScores",src/bankC5_0000.asm
 $C50EFF,.1,CODE_C50EFF,new,"branch target only used in UpdateScores",src/bankC5_0000.asm
 $C50F20,.1,CODE_C50F20,new,"branch target only used in CalcAttrib",src/bankC5_0000.asm
@@ -5259,7 +5259,7 @@ $C5126F,.6,CODE_C5126F,new,"branch target only used in SetScore",src/bankC5_1000
 $C5135D,.loop,CODE_C5135D,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
 $C51368,.1,CODE_C51368,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
 $C51374,.loop2,CODE_C51374,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
-$C513C4,.1,CODE_C513C4,new,"branch target only used in CODE_C51397",src/bankC5_1000.asm
+$C513C4,.1,CODE_C513C4,new,"branch target only used in showclockdma",src/bankC5_1000.asm
 $C51485,.1,CODE_C51485,new,"branch target only used in DispPen",src/bankC5_1000.asm
 $C51487,.loop,CODE_C51487,new,"branch target only used in DispPen",src/bankC5_1000.asm
 $C5149F,.2,CODE_C5149F,new,"branch target only used in DispPen",src/bankC5_1000.asm
@@ -5279,7 +5279,7 @@ $C51672,.1,CODE_C51672,new,"branch target only used in Intermission_ticker",src/
 $C5167D,.2,CODE_C5167D,new,"branch target only used in Intermission_ticker",src/bankC5_1000.asm
 $C516B4,.1,CODE_C516B4,new,"branch target only used in NewTicker2_next",src/bankC5_1000.asm
 $C516BF,.2,CODE_C516BF,new,"branch target only used in NewTicker2_next",src/bankC5_1000.asm
-$C5173C,.1,CODE_C5173C,new,"branch target only used in CODE_C516C2",src/bankC5_1000.asm
+$C5173C,.1,CODE_C5173C,new,"branch target only used in PushTime",src/bankC5_1000.asm
 $C51765,.rtl,CODE_C51765,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
 $C51766,.1,CODE_C51766,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
 $C5177C,.2,CODE_C5177C,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
@@ -5305,13 +5305,13 @@ $C51A33,.loop,CODE_C51A33,new,"branch target only used in CODE_C51A30",src/bankC
 $C51A3C,.1,CODE_C51A3C,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
 $C51A42,.2,CODE_C51A42,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
 $C51A4D,.rts,CODE_C51A4D,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
-$C51A7A,.1,CODE_C51A7A,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
-$C51AA6,.loop,CODE_C51AA6,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
-$C51AAF,.2,CODE_C51AAF,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
-$C51AB8,.3,CODE_C51AB8,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
-$C51ABE,.4,CODE_C51ABE,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
-$C51ADA,.5,CODE_C51ADA,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
-$C51AE9,.6,CODE_C51AE9,new,"branch target only used in CODE_C51A61",src/bankC5_1000.asm
+$C51A7A,.1,CODE_C51A7A,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
+$C51AA6,.loop,CODE_C51AA6,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
+$C51AAF,.2,CODE_C51AAF,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
+$C51AB8,.3,CODE_C51AB8,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
+$C51ABE,.4,CODE_C51ABE,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
+$C51ADA,.5,CODE_C51ADA,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
+$C51AE9,.6,CODE_C51AE9,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
 $C51B44,.1,CODE_C51B44,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
 $C51B5F,.2,CODE_C51B5F,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
 $C51B75,.3,CODE_C51B75,new,"branch target only used in CODE_C51AFF",src/bankC5_1000.asm
@@ -7526,3 +7526,15 @@ $0A60,asslist,,94S+code,"RAM: assreplace stores d0 at it + X*4 + assnum,x as 94S
 $C53B51,forcepldata,CODE_C53B51,94S+code,"94S forcepldata's steps side by side: the d / a registers saved, from tmsort,y the objects' newpos into position, Setplass, assinsert of assignment $12 at position 4, tmpdst and setplayer from newpnum, newpos / newpnum $FFFF; puckfaceoff2 calls it where 94S does",src/bankC5_3000.asm
 $C43734,assinsert,CODE_C43734,94S+code,"94S assinsert's code exactly (assnum,x - 1 wrapped at 8), falling into assreplace as in 94S; forcepldata, puckfaceoff2 and the assignment routines call it",src/bankC4_3000.asm
 $C51811,DoHiLights,CODE_C51811,94S+code,"called from Intermission_tick where 94S Intermission calls DoHiLights; the routine is a bare rtl",src/bankC5_1000.asm
+$18C2,pstimer,,94S+code,"RAM: Gameloop subtracts the frames elapsed and calls EndPenaltyShot when it runs out, as 94S Gameloop does with pstimer (side by side); SetupPenaltyShot sets it where 94S does; 2 of 2 aligned votes",src/ram95s.asm
+$18C0,penshotlive,,94S+code,"RAM: SetupPenaltyShot sets 1 and puckfaceoff tests it where 94S does (side by side); 2 of 2 aligned votes",src/ram95s.asm
+$18B6,pspad,,94S+code,"RAM: SetupPenaltyShot copies it to the shooter's playerpad unless negative, as 94S does (side by side); puckfaceoff2 skips that pad; 2 of 2 aligned votes",src/ram95s.asm
+$10F9,PenBuf,,94S+code,"RAM: ClearPenaltyBuffer clears 32 words from it where 94S clears PenBuf",src/ram95s.asm
+$1151,clockbcd,,code,"RAM: ResetClock sets it from GetPeriodTime's tmp0, GameClockTick counts it down in decimal mode, showclockdma draws it; the 95 SNES clock digits (94S has none)",src/ram95s.asm
+$C51A61,SetupPenaltyShot,CODE_C51A61,94S+code,"94S SetupPenaltyShot's steps side by side: CentrePuck, FillPlayerAssignments for the six players, PadTakeGoalie, tmtouch1-3 $FFFF, CwdExciteLvl + $14, puckc = BA_Sktr_SCnum, playerpad from pspad, PenShotActive / penshotlive 1, pstimer $384 (94S $3E8), then a jump to ClearPenaltyBuffer",src/bankC5_1000.asm
+$C4818C,ClearPenaltyBuffer,CODE_C4818C,94S+code,"94S ClearPenaltyBuffer's job (32 words of PenBuf to 0) with an stz loop; SetupPenaltyShot jumps to it where 94S calls it",src/bankC4_8000.asm
+$C538FE,PadTakeGoalie,CODE_C538FE,94S+code,"94S PadTakeGoalie's code exactly (lda #0, bra PadTakePosition); SetupPenaltyShot calls it where 94S does",src/bankC5_3000.asm
+$C516C2,PushTime,CODE_C516C2,94S+code,"94S PushTime's steps (divide by 10, 6, 10, the colon, no leading zero) with the 95 font offset $B0 and a work buffer from AllocWorkBuf2 for the string",src/bankC5_1000.asm
+$C51397,showclockdma,CODE_C51397,genesis+purpose,"95 Genesis showclockdma's job: the clock chars built in a RAM buffer and queued for DMA when the clock changes (GameClockTick, the scoreboard); here from the BCD clock",src/bankC5_1000.asm
+$C50E9B,GameClockTick,CODE_C50E9B,code,"the clock tick that 94S Gameloop and 95 Genesis VBlank run inline (the jiffy $0AAA, the crowd excitement drop of 3 a second); Gameloop calls it once or twice for the frames elapsed",src/bankC5_0000.asm
+$C51A4E,CentrePuck,CODE_C51A4E,code,"the first steps of 94S SetupPenaltyShot ('puck at centre ice') as a routine; called from SetupPenaltyShot and CODE_C51A13",src/bankC5_1000.asm

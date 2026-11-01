@@ -256,8 +256,8 @@ checkfornewpen:						; from CODE_C471F0 and other segments
 	lda.w sfhormode
 	beq .1
 	jmp.w .rtl
-.1:									; a0 = $10F9
-	lda.w #$10F9
+.1:									; a0 = PenBuf
+	lda.w #PenBuf
 	sta.b a0
 .loop:								; loop: A = (a0), a0 + 1, a0 + 1, A and $00FF, ...
 	lda.b (a0)
@@ -486,7 +486,7 @@ chkprogress:						; from CODE_C471F0 and other segments
 	bpl .rtl
 	lda.w #$0008
 	trb.w gmode
-	lda.w #$10F9
+	lda.w #PenBuf
 	sta.b a0
 .loop:								; loop: A = (a0), a0 + 1, a0 + 1, A and $00FF, ...
 	lda.b (a0)
@@ -568,8 +568,8 @@ chkprogress:						; from CODE_C471F0 and other segments
 	pei ($6D)
 	pei ($6F)
 	pei ($71)
-.6:									; a0 = $10F9
-	lda.w #$10F9
+.6:									; a0 = PenBuf
+	lda.w #PenBuf
 	sta.b a0
 .loop2:								; loop: A = (a0), a0 + 1, a0 + 1, A and $00FF, ...
 	lda.b (a0)
@@ -973,8 +973,8 @@ updatepwrplay:						; called from other segments
 	lda.w #$0001
 .6:									; call StartSound
 	jsl.l StartSound
-.7:									; call CODE_C516C2, A = a1, X = $007E, Y = $5AE5, ...
-	jsl.l CODE_C516C2
+.7:									; call PushTime, A = a1, X = $007E, Y = $5AE5, ...
+	jsl.l PushTime
 	lda.b a1
 	ldx.w #$007E
 	ldy.w #$5AE5
@@ -1075,8 +1075,8 @@ AddPenalty2:						; from AddPenalty and other segments
 	lda.w #$0000
 .3:									; $7E24CA = A
 	sta.l $7E24CA
-.4:									; a1 = $10F9, d1 = $001F
-	lda.w #$10F9
+.4:									; a1 = PenBuf, d1 = $001F
+	lda.w #PenBuf
 	sta.b a1
 	lda.w #$001F
 	sta.b d1
@@ -1149,7 +1149,7 @@ PenGoalStuff:						; called from other segments
 	lda.w gsp
 	cmp.w #$0003
 	beq .4
-	lda.w #$10F9
+	lda.w #PenBuf
 	sta.b a0
 .loop:								; loop: A = (a0), a0 + 1, a0 + 1, A and $00FF, ...
 	lda.b (a0)
@@ -1198,8 +1198,8 @@ PenGoalStuff:						; called from other segments
 	inc.b a0
 	inc.b a0
 	bra .loop
-.4:									; call CODE_C4818C
-	jsl.l CODE_C4818C
+.4:									; call ClearPenaltyBuffer
+	jsl.l ClearPenaltyBuffer
 .5:									; Y = a2, A = tmap,y, Y = a1, A - tmap,y, ...
 	ldy.b a2
 	lda.w tmap,y
@@ -1563,7 +1563,7 @@ CODE_C47C8C:						; called from other segments
 	ldy.b a2
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
-	sta.w $18B6
+	sta.w pspad
 	lda.w #$0024
 	sta.b d0
 	jsl.l AddPenalty

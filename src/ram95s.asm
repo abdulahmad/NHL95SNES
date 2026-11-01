@@ -192,12 +192,14 @@ gmode				=	$10F1		; game mode flags (gm* masks)
 gmclock				=	$10F3		; nonzero: game clock is stopped
 sflags				=	$10F5		; sflags (low byte) and sflags2 (high byte) as one word (sf*/sf2* masks)
 sflags3				=	$10F7		; sflags3 (sf3* masks)
+PenBuf				=	$10F9		; penalty buffer: 32 words, cleared by ClearPenaltyBuffer
 PenCntDwn			=	$113B		; penalty/fight count down (negative = fight over)
 Penaltytimer		=	$113D		; frames to the next penalty clock second (updatepentime)
 PBnum				=	$113F		; players in the penalty boxes: home*16 + visitors
 RefCnt				=	$1145		; ref graphics control (negative = idle)
 gsp					=	$114B		; game period
 gameclock			=	$114D		; game clock seconds; gameclock+2 = jiffies
+clockbcd			=	$1151		; the game clock as BCD: seconds (low byte) and minutes (high byte)
 TempPlOffset		=	$1153		; pnum of the penalized player, high bit set for the visitors
 IsBreakaway			=	$1155		; 1 while the puck carrier has a breakaway (CheckBreakaway)
 PenShotActive		=	$1157		; 1 during a penalty shot (SetupPenaltyShot .. puckfaceoff2)
@@ -253,7 +255,10 @@ breakaway			=	$18AE		; Breakaway in progress (CheckBreakaway result IsBreakaway)
 BA_Sktr_SCnum		=	$18B0		; Penalty shot / shootout shooter object (SCnum*2, $FFFF none): ...
 BA_Skater_Offset	=	$18B2		; penalty shot shooter's roster index (StartPenaltyShot, ShootoutTurn)
 BA_Team				=	$18B4		; Shooting team of the penalty shot / shootout turn (0 home, 2 visitors):
+pspad				=	$18B6		; pad index controlling the penalty shooter, negative none
 penshot				=	$18BE		; Penalty shot pending / under way: StartPenaltyShot sets 1, ...
+penshotlive			=	$18C0		; 1 from SetupPenaltyShot while the shot is live; StartGame_go clears it
+pstimer				=	$18C2		; shot time limit: SetupPenaltyShot sets 900, Gameloop counts it down
 BlockMove			=	$18FA		; RAM routine phb, mvn, plb, rtl; the mvn banks at +2 (ClearRAM7E)
 sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set
 

@@ -1272,11 +1272,11 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w penshot
 	beq .35
 	ldx.w #$0008
-.loop2:								; loop: if padside,x is not BA_Team go to .32, if X = $18B6 go to .32, ...
+.loop2:								; loop: if padside,x is not BA_Team go to .32, if X = pspad go to .32, ...
 	lda.w padside,x
 	cmp.w BA_Team
 	bne .32
-	cpx.w $18B6
+	cpx.w pspad
 	beq .32
 	ora.w #$8000
 	sta.w padside,x
@@ -1458,7 +1458,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	lda.w OptLine
 	beq .1
 	lda.w penshot
-	ora.w $18C0
+	ora.w penshotlive
 	beq .2
 .1:									; go to .5
 	jmp.w .5
@@ -1638,11 +1638,11 @@ CODE_C43EC6:						; from puckfaceoff2
 	bne .3
 	jsl.l CODE_C51AFF
 	jml.l CODE_C51A13
-.3:									; if penshot = 0 go to .4, call CODE_C51AFF, go to CODE_C51A61
+.3:									; if penshot = 0 go to .4, call CODE_C51AFF, go to SetupPenaltyShot
 	lda.w penshot
 	beq .4
 	jsl.l CODE_C51AFF
-	jml.l CODE_C51A61
+	jml.l SetupPenaltyShot
 .4:									; PenShotActive = 0, BA_Sktr_SCnum = $FFFF, go to CODE_C51AFF
 	stz.w PenShotActive
 	lda.w #$FFFF
@@ -1699,7 +1699,7 @@ CODE_C43F0D:						; from puckfaceoff2
 	jsl.l QueueVRAMDMALen
 	lda.w #$001E
 	sta.b d0
-	jsl.l CODE_C516C2
+	jsl.l PushTime
 	ldx.w #$007E
 	lda.b a1
 	ldy.w #$5B23

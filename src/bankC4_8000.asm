@@ -238,11 +238,11 @@ CODE_C480E4:						; from CODE_C48073 and other segments
 	sta.b d0
 	ldx.b a3
 	rtl
-CODE_C4818C:						; called from other segments
+ClearPenaltyBuffer:					; clears the 32 words of PenBuf
 	phx
 	ldx.w #$003E
-.loop:								; loop: $10F9,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
-	stz.w $10F9,x
+.loop:								; loop: PenBuf,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
+	stz.w PenBuf,x
 	dex
 	dex
 	bpl .loop

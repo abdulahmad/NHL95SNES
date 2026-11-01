@@ -447,7 +447,7 @@ ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	stz.w $189E
 	stz.w shootoutturnover
 	pei ($6B)
-	jsl.l CODE_C4818C
+	jsl.l ClearPenaltyBuffer
 	stz.w gmode
 	lda.b a2
 	beq .1
@@ -473,10 +473,10 @@ ShootoutTurn:						; a shootout turn: a shot of team a2 against team a1
 	cpy.w #$000A
 	bcc .loop
 	lda.w #$FFFF
-	sta.w $18B6
+	sta.w pspad
 	bra .4
-.3:									; $18B6 = Y
-	sty.w $18B6
+.3:									; pspad = Y
+	sty.w pspad
 .4:									; call StartPenaltyShot, if a2 = 0 go to .6, A = shootoutround
 	jsl.l StartPenaltyShot
 	lda.b a2

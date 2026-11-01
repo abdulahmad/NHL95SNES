@@ -694,7 +694,7 @@ CODE_C5547C:						; from CODE_C550E2
 	ldy.w #$00C3
 	jsr.w CODE_C554CA
 	ldy.w #$008B
-	lda.w $1152
+	lda.w clockbcd+1
 	lsr a
 	lsr a
 	lsr a
@@ -702,13 +702,13 @@ CODE_C5547C:						; from CODE_C550E2
 	jsr.w CODE_C554DD
 	iny
 	iny
-	lda.w $1152
+	lda.w clockbcd+1
 	jsr.w CODE_C554DD
 	iny
 	iny
 	iny
 	iny
-	lda.w $1151
+	lda.w clockbcd
 	lsr a
 	lsr a
 	lsr a
@@ -716,7 +716,7 @@ CODE_C5547C:						; from CODE_C550E2
 	jsr.w CODE_C554DD
 	iny
 	iny
-	lda.w $1151
+	lda.w clockbcd
 	jmp.w CODE_C554DD
 CODE_C554CA:						; from CODE_C5547C
 	lda.w $055B

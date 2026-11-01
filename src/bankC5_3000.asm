@@ -646,18 +646,18 @@ ResetClock:							; sets the period length: gameclock, PerTimeTotal and gmclock 
 	lda.w #$0019
 	sta.b d0
 	lda.w #$0025
-	sta.w $1151
+	sta.w clockbcd
 	bra .2
-.1:									; $1151 = tmp0, if gsp is not $0003 go to .2, ...
+.1:									; clockbcd = tmp0, if gsp is not $0003 go to .2, ...
 	lda.b tmp0
-	sta.w $1151
+	sta.w clockbcd
 	lda.w gsp
 	cmp.w #$0003
 	bne .2
 	lda.w $1864
 	bne .2
 	lda.w #$0500
-	sta.w $1151
+	sta.w clockbcd
 	lda.w #$012C
 	sta.b d0
 .2:									; gameclock = d0, PerTimeTotal = A, gmclock = A, return
@@ -1142,7 +1142,7 @@ PassPadToTeammate:					; called from other segments
 	jsl.l PadTakePosition
 	plx
 	rtl
-CODE_C538FE:						; called from other segments
+PadTakeGoalie:						; the pad in d4 takes the goalie: A = 0, PadTakePosition
 	lda.w #$0000
 	bra PadTakePosition
 PadTakeRightDefense:				; with defense control on for the pad's team: pad d4 takes the right
@@ -1176,7 +1176,7 @@ PadTakeLeftDefense:					; with defense control on for the pad's team: pad d4 tak
 	ldy.w pfgoal,x
 	bne PadTakePosition
 	lda.w #$0002
-PadTakePosition:					; from CODE_C538FE, PassPadToTeammate, PadTakeRightDefense, ...
+PadTakePosition:					; from PadTakeGoalie, PassPadToTeammate, PadTakeRightDefense, ...
 	sta.b d1
 	phx
 	ldy.b d4
@@ -1272,7 +1272,7 @@ CODE_C539D7:						; called from other segments
 	ldy.w #$5B3C
 	jmp.w QueueVRAMDMALen
 CODE_C53A29:						; called from other segments
-	jsl.l CODE_C51397
+	jsl.l showclockdma
 	lda.w gsp
 	asl a
 	asl a

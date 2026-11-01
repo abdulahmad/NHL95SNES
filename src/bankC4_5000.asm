@@ -686,7 +686,7 @@ CODE_C453E6:						; from checkcheck and other segments
 	ldy.b a2
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
-	sta.w $18B6
+	sta.w pspad
 	lda.w #$0024
 	sta.b d0
 	jsl.l AddPenalty
@@ -961,7 +961,7 @@ holdcheck:							; from CODE_C453E3
 	ldy.b a2
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
-	sta.w $18B6
+	sta.w pspad
 	lda.w #$0024
 	sta.b d0
 	jsl.l AddPenalty

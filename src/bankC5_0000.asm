@@ -106,7 +106,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	sta.w $1305
 	sta.l $7E234C
 	stz.w penshot
-	stz.w $18C0
+	stz.w penshotlive
 	stz.w lastperiod
 	stz.w teampads
 	stz.w $14F7
@@ -282,16 +282,16 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	bne .6
 	lda.w PenShotActive
 	beq .6
-	lda.w $18C2
+	lda.w pstimer
 	ldx.b d7
 	dex
 	beq .4
 	sec
 	sbc.b d7
-.4:									; A - d7, $18C2 = A, if plus go to .5, call EndPenaltyShot, ...
+.4:									; A - d7, pstimer = A, if plus go to .5, call EndPenaltyShot, ...
 	sec
 	sbc.b d7
-	sta.w $18C2
+	sta.w pstimer
 	bpl .5
 	jsl.l EndPenaltyShot
 	bra .8
@@ -302,19 +302,19 @@ Gameloop:							; the game loop: frame counts and the speed, a random team song,
 	jsl.l Div16x8U
 	lda.b r0
 	sta.b d0
-	jsl.l CODE_C516C2
+	jsl.l PushTime
 	ldx.w #$007E
 	lda.b a1
 	ldy.w #$5B23
 	jsl.l QueueVRAMDMALen
 	bra .8
-.6:									; X = d7, X - 1, if the result = 0 go to .7, call CODE_C50E9B
+.6:									; X = d7, X - 1, if the result = 0 go to .7, call GameClockTick
 	ldx.b d7
 	dex
 	beq .7
-	jsr.w CODE_C50E9B
-.7:									; call CODE_C50E9B
-	jsr.w CODE_C50E9B
+	jsr.w GameClockTick
+.7:									; call GameClockTick
+	jsr.w GameClockTick
 .8:									; if cheercnt = 0 go to .9, A = Vcount, A - cheervc, ...
 	lda.w cheercnt
 	beq .9
@@ -1205,8 +1205,8 @@ clockcont_0:						; called from other segments
 	stx.b a3
 	dec.b d2
 	bpl .loop
-.3:									; call CODE_C4818C, A = $7E24CA, A + $03E8, $7E24CA = A, ...
-	jsl.l CODE_C4818C
+.3:									; call ClearPenaltyBuffer, A = $7E24CA, A + $03E8, $7E24CA = A, ...
+	jsl.l ClearPenaltyBuffer
 	lda.l $7E24CA
 	clc
 	adc.w #$03E8
@@ -1680,27 +1680,28 @@ FadeOut:							; starts a fade out: fadestep = $FFFF
 	lda.w #$FFFF
 	sta.w fadestep
 	rtl
-CODE_C50E9B:						; from Gameloop
+GameClockTick:						; one frame of the game clock: gameclock+2 - $0AAA; on a borrow gameclock
+									; - 1, clockbcd - 1 second, showclockdma, CwdExciteLvl - 3
 	lda.w gameclock
 	beq .rts
-	lda.w $114F
+	lda.w gameclock+2
 	sec
 	sbc.w #$0AAA
-	sta.w $114F
+	sta.w gameclock+2
 	bcs .rts
 	dec.w gameclock
 	sep #$29
-	lda.w $1151
+	lda.w clockbcd
 	sbc.b #$01
 	bcs .1
-	lda.w $1152
+	lda.w clockbcd+1
 	sbc.b #$00
-	sta.w $1152
+	sta.w clockbcd+1
 	lda.b #$59
-.1:									; $1151 = A, call CODE_C51397, A = CwdExciteLvl, A + $FFFD, ...
-	sta.w $1151
+.1:									; clockbcd = A, call showclockdma, A = CwdExciteLvl, A + $FFFD, ...
+	sta.w clockbcd
 	rep #$28
-	jsl.l CODE_C51397
+	jsl.l showclockdma
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$FFFD

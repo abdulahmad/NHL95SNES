@@ -1434,8 +1434,8 @@ CODE_C54B60:						; from CODE_C54BAF, lineinput, ...
 	cmp.w #$5AB5
 	bcc .1
 	jsl.l CODE_C539D7
-.1:									; call CODE_C51397, call WaitTransfers, go to CODE_C5111A
-	jsl.l CODE_C51397
+.1:									; call showclockdma, call WaitTransfers, go to CODE_C5111A
+	jsl.l showclockdma
 	jsl.l WaitTransfers
 	jml.l CODE_C5111A
 CODE_C54BAF:						; called from other segments
