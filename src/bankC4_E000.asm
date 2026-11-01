@@ -151,7 +151,7 @@ CODE_C4E12C:						; called from other segments
 	lda.w $1864
 	cmp.w #$0001
 	bne CODE_C4E140
-	jsr.w $F2AE
+	jsr.w CODE_C4F2AE
 	rtl
 CODE_C4E140:						; from CODE_C4E12C
 	lda.w #$0002
@@ -184,7 +184,7 @@ CODE_C4E188:						; from CODE_C4E140
 	ldy.w #$3207
 	jsr.w CODE_C4EF41
 CODE_C4E196:						; from CODE_C4E188
-	jsr.w $F2AE
+	jsr.w CODE_C4F2AE
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$0060
@@ -1830,7 +1830,7 @@ CODE_C4EFD8:						; called from other segments
 	pei ($14)
 	pei ($2C)
 	pei ($2E)
-	jsr.w $F01E
+	jsr.w CODE_C4F01E
 	pla
 	sta.w $002E
 	pla

@@ -30,8 +30,8 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC4_F000 (org $C4F01E), code banks first (approved by the project lead, 2026-10-31); the ROM-order queue goes on at
-bankC3_0000 (org $C30000) afterwards. <- CURRENT
+bankC3_0000 (org $C30000): banks $C4 and $C5 (code) and $C0-$C2 are all source; bank $C3 is next both in ROM order and as
+a code bank (code from about $C36000). <- CURRENT
 
 ## Sources
 
@@ -176,6 +176,9 @@ bankC3_0000 (org $C30000) afterwards. <- CURRENT
   entries now stay $0000 (DATA8_C570E8 in bankC5_7000 had one written as Opening; fixed). End moved to $C4702D, bankC4_7000 org
   to $C4702E.
 - 2026-10-31: bankC4_E000 matched (game code, CODE_ names; no gaps). End moved to $C4F01D, bankC4_F000 org to $C4F01E.
+- 2026-10-31: bankC4_F000 matched: game code, Sample02, then zeros to the end (padbyte / pad). Bank $C4 is all source. Next:
+  bank $C3 (bankC3_0000, org $C30000), in ROM order and the next code bank: it starts with the team database, whose records hold
+  licensed player names and should stay ROM cuts (HANDOFF).
 - 2026-10-31: bankC4_D000 matched (game code, CODE_ names), with task routines and a jump table. For a seed of unknown state the
   descent keeps 16-bit A and index unless that decode fails sooner than another state succeeds (a short false jml had made 8-bit
   look right); rechecking all written segments changed nothing. End moved to $C4DFD5, bankC4_E000 org to $C4DFD6.
@@ -334,7 +337,7 @@ The first row that is still incbin is the current segment.
 | bankC2_D000 | matched 1506 bytes | $C2DF3B | $C2E51C | Sample09 (incbin); org moved to $C2DF3B, end moved +$51D |
 | bankC2_E000 | matched 3981 bytes | $C2E51D | $C2F4A9 | Sample10 (incbin); org moved to $C2E51D, end moved +$4AA |
 | bankC2_F000 | matched 2902 bytes | $C2F4AA | $C2FFFF | Sample11, Sample12 (incbin), the zero fill (padbyte / pad); org moved to $C2F4AA |
-| bankC3_0000 | incbin | $C30000 | $C30FFF | |
+| bankC3_0000 | incbin <- CURRENT | $C30000 | $C30FFF | |
 | bankC3_1000 | incbin | $C31000 | $C31FFF | |
 | bankC3_2000 | incbin | $C32000 | $C32FFF | |
 | bankC3_3000 | incbin | $C33000 | $C33FFF | |
@@ -365,7 +368,7 @@ The first row that is still incbin is the current segment.
 | bankC4_C000 | matched 4270 bytes | $C4BF47 | $C4CFF4 | game code with CODE_ names and their callers, an rts-dispatch table DATA8_C4C07D (dw label-1), text code in 8-bit mode, a character table; out of ROM order, org moved to $C4BF47, end moved -$B |
 | bankC4_D000 | matched 4065 bytes | $C4CFF5 | $C4DFD5 | game code with CODE_ names and their callers, task routines, the jump table DATA8_C4DC51, data tables; out of ROM order, org moved to $C4CFF5, end moved -$2A |
 | bankC4_E000 | matched 4168 bytes | $C4DFD6 | $C4F01D | game code with CODE_ names and their callers; out of ROM order, org moved to $C4DFD6, end moved +$1E |
-| bankC4_F000 | incbin <- CURRENT | $C4F01E | $C4FFFF | org moved to $C4F01E |
+| bankC4_F000 | matched 4066 bytes | $C4F01E | $C4FFFF | game code with CODE_ names, Sample02 (incbin), the zero fill (padbyte / pad); out of ROM order, org moved to $C4F01E |
 | bankC5_0000 | matched 4342 bytes | $C50000 | $C510F5 | Opening (the cold start Reset_Fast jumps to, 94S name), game code with CODE_ names and their callers, tables read with long addresses (DATA8_ with their readers); five small routines with no caller found are decoded and say so; out of ROM order, end moved +$F6 |
 | bankC5_1000 | matched 3858 bytes | $C510F6 | $C52007 | game code with CODE_ names and their callers, asstab entry 27 (CODE_C51CC1), tables read with long addresses (DATA8_ with their readers); seven small routines with no caller found are decoded and say so; out of ROM order, org moved to $C510F6, end moved +$8 |
 | bankC5_2000 | matched 4229 bytes | $C52008 | $C5308C | game code with CODE_ names and their callers, three continuations stored in a pointer that CODE_C52898 jumps back through, records between code (DATA8_), tables read with long addresses; out of ROM order, org moved to $C52008, end moved +$8D |

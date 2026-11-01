@@ -14,16 +14,15 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC4_0000, org $C40000 (bank $C5 is all source; bank $C4 is the next code bank, as bank $C3 starts with the
-  team database): code banks ($C3-$C5) first, approved by the project lead; then bankC3_0000 (org $C30000) in ROM order (see
-  `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all source: the sprite data, TeamNicknameTiles, and the map sets of the pause
-  screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2 is all source: the end of the team name bars'
-  set, the title screen's sets (TitlePlayers, TitleGoalie, TitleLogo), CenterIceTiles and CenterIcePalettes, the Visual Concepts
-  and High Score Productions credits, the ref windows (94S RefsMap), Sample09-12 and a zero fill. Bank $C3 starts with the team
-  database (not written yet; the player names are licensed, and 94S and 95 Genesis keep them out of the source, so the records
-  should stay ROM cuts): $C30000 a word per team to its record, $C30038 a word per player (687) to its record, with flags in
-  bits 14-15 (they group like goalies, forwards, defence: not traced), the player records from $C30596, the team records from
-  $C337BC. Onboarding: McMarkis.
+- Next: segment bankC3_0000, org $C30000 (banks $C0, $C1, $C2, $C4 and $C5 are all source): code banks ($C3-$C5) first, approved
+  by the project lead; then bankC3_0000 (org $C30000) in ROM order (see `SEGMENT_AGENT.md`, `PROMPT.md`). Bank $C1 is all
+  source: the sprite data, TeamNicknameTiles, and the map sets of the pause screen, faceoff box, pad buttons, playoff bracket
+  and team name bars. Bank $C2 is all source: the end of the team name bars' set, the title screen's sets (TitlePlayers,
+  TitleGoalie, TitleLogo), CenterIceTiles and CenterIcePalettes, the Visual Concepts and High Score Productions credits, the ref
+  windows (94S RefsMap), Sample09-12 and a zero fill. Bank $C3 starts with the team database (not written yet; the player names
+  are licensed, and 94S and 95 Genesis keep them out of the source, so the records should stay ROM cuts): $C30000 a word per
+  team to its record, $C30038 a word per player (687) to its record, with flags in bits 14-15 (they group like goalies,
+  forwards, defence: not traced), the player records from $C30596, the team records from $C337BC. Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,

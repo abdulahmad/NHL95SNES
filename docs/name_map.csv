@@ -741,3 +741,4 @@ $C4DA7D,DATA8_C4DA7D,,new,"not traced: a table read by CODE_C4D963 (in bankC4_D0
 $C4DA7F,DATA8_C4DA7F,,new,"not traced: a table read by CODE_C4D963 (in bankC4_D000)",src/bankC4_D000.asm
 $C4DA9D,DATA8_C4DA9D,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
 $C4DC51,DATA8_C4DC51,,new,"jump table: the routine for each index (in bankC4_D000)",src/bankC4_D000.asm
+$C4F2FC,Sample02,,new,"sound sample 2 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C4FA57; zeros follow to the end of the bank",src/bankC4_F000.asm
