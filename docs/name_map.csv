@@ -1829,3 +1829,11 @@ $C8E8B9,DATA8_C8E8B9,,new,"raw frame tiles for transfer index $1CC; pose not tra
 $C8EB39,DATA8_C8EB39,,new,"raw frame tiles for transfer index $1CD; pose not traced",src/bankC8_E000.asm
 $C8ED59,DATA8_C8ED59,,new,"raw frame tiles for transfer index $1CE; pose not traced",src/bankC8_E000.asm
 $C8EF59,DATA8_C8EF59,,new,"raw frame tiles for transfer index $1CF; pose not traced",src/bankC8_E000.asm
+$C8F1B9,DATA8_C8F1B9,,new,"raw frame tiles for transfer index $1D0; pose not traced",src/bankC8_F000.asm
+$C8F439,DATA8_C8F439,,new,"raw frame tiles for transfer index $1D1; pose not traced",src/bankC8_F000.asm
+$C8F6B9,DATA8_C8F6B9,,new,"raw frame tiles for transfer index $1D2; pose not traced",src/bankC8_F000.asm
+$C8F939,DATA8_C8F939,,new,"raw frame tiles for transfer index $1D3; pose not traced",src/bankC8_F000.asm
+$C8FBB9,DATA8_C8FBB9,,new,"raw frame tiles for transfer index $1D4; pose not traced",src/bankC8_F000.asm
+$C8FE39,ConnSmythePicMap,DATA8_C8FE39,render+genesis+code,"the picture of award 2 (Conn Smythe Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 2, whose AwardNames text reads Conn Smythe Trophy. 95G ConnSmythePic",src/bankC8_F000.asm
+$C8FEFE,ConnSmythePicTiles,DATA8_C8FEFE,render+genesis+code,"its tiles (76, 4bpp, LZSS)",src/bankC8_F000.asm
+$C90744,ConnSmythePicPalette,DATA8_C90744,render+genesis+code,"its colours (16)",src/bankC8_F000.asm

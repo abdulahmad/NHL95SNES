@@ -8,6 +8,7 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 VezinaPicMap = $C6FDE8				; award 0 picture
 SelkePicMap = $C7FE7E				; award 1 picture
+ConnSmythePicMap = $C8FE39			; award 2 picture
 CODE_C387D8 = $C387D8
 CODE_C3716D = $C3716D
 DATA8_C3585C = $C3585C

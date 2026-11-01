@@ -1079,7 +1079,7 @@ CODE_C4DA25:						; from CODE_C4DA25
 AwardPictures:						; the picture (map set) of each award, a long pointer; read by CODE_C4D99C
 	dw VezinaPicMap&$FFFF,VezinaPicMap>>16	; 0: Vezina Trophy
 	dw SelkePicMap&$FFFF,SelkePicMap>>16	; 1: Frank J. Selke Trophy
-	dw $FE39,$00C8					; 2: Conn Smythe Trophy (ConnSmythePicMap, not yet source)
+	dw ConnSmythePicMap&$FFFF,ConnSmythePicMap>>16	; 2: Conn Smythe Trophy
 	dw $FFEB,$00C9					; 3: William M. Jennings Trophy (JenningsPicMap, not yet source)
 	dw $F32B,$00CD					; 4: Hart Memorial Trophy (HartPicMap, not yet source)
 	dw $FDF9,$00CA					; 5: Art Ross Trophy (ArtRossPicMap, not yet source)
