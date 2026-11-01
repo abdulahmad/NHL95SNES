@@ -30,8 +30,8 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_0000 (org $C30000): banks $C4 and $C5 (code) and $C0-$C2 are all source; bank $C3 is next both in ROM order and as
-a code bank (code from about $C36000). <- CURRENT
+bankC3_2000 (org $C32001): bank $C3's team database, records first (bankC3_1000-4000), then bankC3_0000 (TeamList, PlayerList),
+then its code from about $C36000. Banks $C0-$C2, $C4 and $C5 are all source. <- CURRENT
 
 ## Sources
 
@@ -282,6 +282,9 @@ a code bank (code from about $C36000). <- CURRENT
 - 2026-10-31: bankC2_E000 matched: Sample10 (it ends where Sample11 starts). Next org $C2F4AA.
 - 2026-10-31: bankC2_F000 matched: Sample11, Sample12, then zeros to the end (padbyte / pad). Bank $C2 is all source.
   Next org $C30000.
+- 2026-10-31: bankC3_1000 matched: player records of the team database, each a label (Player### by its PlayerList index) and a
+  ROM cut, since the records hold licensed names. Bank $C3 is done records first (bankC3_1000-4000) and the tables last
+  (bankC3_0000: TeamList, PlayerList), so every commit builds.
 
 ## ROM map
 
@@ -337,9 +340,9 @@ The first row that is still incbin is the current segment.
 | bankC2_D000 | matched 1506 bytes | $C2DF3B | $C2E51C | Sample09 (incbin); org moved to $C2DF3B, end moved +$51D |
 | bankC2_E000 | matched 3981 bytes | $C2E51D | $C2F4A9 | Sample10 (incbin); org moved to $C2E51D, end moved +$4AA |
 | bankC2_F000 | matched 2902 bytes | $C2F4AA | $C2FFFF | Sample11, Sample12 (incbin), the zero fill (padbyte / pad); org moved to $C2F4AA |
-| bankC3_0000 | incbin <- CURRENT | $C30000 | $C30FFF | |
-| bankC3_1000 | incbin | $C31000 | $C31FFF | |
-| bankC3_2000 | incbin | $C32000 | $C32FFF | |
+| bankC3_0000 | incbin | $C30000 | $C31006 | |
+| bankC3_1000 | matched 4090 bytes | $C31007 | $C32000 | player records (218: Player101 ... Player318, by PlayerList index), labels and ROM cuts (the names are licensed); out of ROM order inside the bank: PlayerList in bankC3_0000 needs these labels first; org moved to $C31007, end moved +$1 |
+| bankC3_2000 | incbin <- CURRENT | $C32001 | $C32FFF | |
 | bankC3_3000 | incbin | $C33000 | $C33FFF | |
 | bankC3_4000 | incbin | $C34000 | $C34FFF | |
 | bankC3_5000 | incbin | $C35000 | $C35FFF | |
