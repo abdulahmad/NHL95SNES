@@ -734,12 +734,10 @@ $C4C4D7,DATA8_C4C4D7,,new,"not traced: a table read by CODE_C4C349, CODE_C4BE99 
 $C4C502,DATA8_C4C502,,new,"not traced: a table read by CODE_C4BEA6 (in bankC4_C000)",src/bankC4_C000.asm
 $C4D101,DATA8_C4D101,,new,"not traced: data between routines (in bankC4_D000)",src/bankC4_D000.asm
 $C4D10A,DATA8_C4D10A,,new,"not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_C4D5F6 (in bankC4_D000)",src/bankC4_D000.asm
-$C4DA55,DATA8_C4DA55,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
-$C4DA57,DATA8_C4DA57,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA55,AwardPictures,DATA8_C4DA55,genesis+code,"the picture (map set) of each of the 8 awards, a long pointer each; CODE_C4D99C loads entry award ($63) * 4 through CODE_C5881C. 95G AwardPictures (9 awards, another order)",src/bankC4_D000.asm
 $C4DA75,DATA8_C4DA75,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
-$C4DA7D,DATA8_C4DA7D,,new,"not traced: a table read by CODE_C4D963 (in bankC4_D000)",src/bankC4_D000.asm
-$C4DA7F,DATA8_C4DA7F,,new,"not traced: a table read by CODE_C4D963 (in bankC4_D000)",src/bankC4_D000.asm
-$C4DA9D,DATA8_C4DA9D,,new,"not traced: a table read by CODE_C4D99C (in bankC4_D000)",src/bankC4_D000.asm
+$C4DA7D,AwardNames,DATA8_C4DA7D,genesis+code,"per award two offsets of packed text in bank $C3 (5-bit codes, decoded by CODE_C4C3BA): the name, then a second line or 0; CODE_C4D963 prints them. 95G AwardNames",src/bankC4_D000.asm
+$C4DA9D,AwardDescs,DATA8_C4DA9D,genesis+code,"per award the offset of its description (packed text in bank $C3); CODE_C4D99C prints it. 95G AwardDescs",src/bankC4_D000.asm
 $C4DC51,DATA8_C4DC51,,new,"jump table: the routine for each index (in bankC4_D000)",src/bankC4_D000.asm
 $C4F2FC,Sample02,,new,"sound sample 2 of the sample list at $CF05DD: 12-byte header, BRR blocks to $C4FA57; zeros follow to the end of the bank",src/bankC4_F000.asm
 $C31007,Player101,,new,"player 101 of PlayerList: a packed name and the ratings",src/bankC3_1000.asm
@@ -1609,9 +1607,9 @@ $C6F4E8,DATA8_C6F4E8,,new,"raw frame tiles for transfer index $094; pose not tra
 $C6F6E8,DATA8_C6F6E8,,new,"raw frame tiles for transfer index $095; pose not traced",src/bankC6_F000.asm
 $C6F968,DATA8_C6F968,,new,"raw frame tiles for transfer index $096; pose not traced",src/bankC6_F000.asm
 $C6FB68,DATA8_C6FB68,,new,"raw frame tiles for transfer index $097; pose not traced",src/bankC6_F000.asm
-$C6FDE8,DATA8_C6FDE8,,new,"trophy map loaded by CODE_C4D99C; specific award not traced",src/bankC6_F000.asm
-$C6FE87,DATA8_C6FE87,,new,"tiles of the trophy map; LZSS stream continues into the next bank",src/bankC6_F000.asm
-$C70517,DATA8_C70517,,new,"colours of the trophy map",src/bankC6_F000.asm
+$C6FDE8,VezinaPicMap,DATA8_C6FDE8,render+genesis+code,"the picture of award 0 (Vezina Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 0, whose AwardNames text reads Vezina Trophy. 95G VezinaPic",src/bankC6_F000.asm
+$C6FE87,VezinaPicTiles,DATA8_C6FE87,render+genesis+code,"its tiles (59, 4bpp, LZSS)",src/bankC6_F000.asm
+$C70517,VezinaPicPalette,DATA8_C70517,render+genesis+code,"its colours (16)",src/bankC6_F000.asm
 $C7053E,DATA8_C7053E,,new,"raw frame tiles for transfer index $098; pose not traced",src/bankC7_0000.asm
 $C707BE,DATA8_C707BE,,new,"raw frame tiles for transfer index $099; pose not traced",src/bankC7_0000.asm
 $C70A3E,DATA8_C70A3E,,new,"raw frame tiles for transfer index $09A; pose not traced",src/bankC7_0000.asm
@@ -1717,6 +1715,6 @@ $C7F57E,DATA8_C7F57E,,new,"raw frame tiles for transfer index $0FD; pose not tra
 $C7F77E,DATA8_C7F77E,,new,"raw frame tiles for transfer index $0FE; pose not traced",src/bankC7_F000.asm
 $C7F9DE,DATA8_C7F9DE,,new,"raw frame tiles for transfer index $0FF; pose not traced",src/bankC7_F000.asm
 $C7FC5E,DATA8_C7FC5E,,new,"raw frame tiles for transfer index $100; pose not traced",src/bankC7_F000.asm
-$C7FE7E,DATA8_C7FE7E,,new,"trophy map loaded by CODE_C4D99C; specific award not traced",src/bankC7_F000.asm
-$C7FF65,DATA8_C7FF65,,new,"tiles of the trophy map; LZSS stream continues into the next bank",src/bankC7_F000.asm
-$C80532,DATA8_C80532,,new,"colours of the trophy map",src/bankC7_F000.asm
+$C7FE7E,SelkePicMap,DATA8_C7FE7E,render+genesis+code,"the picture of award 1 (Frank J. Selke Trophy): map chunk, 9 x 13 tiles, LZSS; AwardPictures entry 1, whose AwardNames text reads Frank J. Selke Trophy. 95G SelkePic",src/bankC7_F000.asm
+$C7FF65,SelkePicTiles,DATA8_C7FF65,render+genesis+code,"its tiles (47, 4bpp, LZSS)",src/bankC7_F000.asm
+$C80532,SelkePicPalette,DATA8_C80532,render+genesis+code,"its colours (16)",src/bankC7_F000.asm

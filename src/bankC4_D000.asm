@@ -973,12 +973,12 @@ CODE_C4D963:						; from CODE_C4D941
 	asl a
 	tax
 	phx
-	lda.l DATA8_C4DA7D,x
+	lda.l AwardNames,x
 	tax
 	ldy.w #$0012
 	jsl.l CODE_C4BBE5
 	plx
-	lda.l DATA8_C4DA7F,x
+	lda.l AwardNames+2,x
 	beq CODE_C4D99C
 	tax
 	ldy.w #$0013
@@ -988,7 +988,7 @@ CODE_C4D99C:						; from CODE_C4D963
 	lda.w #$0100
 	sta.b $D1
 	plx
-	lda.l DATA8_C4DA9D,x
+	lda.l AwardDescs,x
 	tax
 	ldy.w #$0015
 	jsl.l CODE_C4BBE5
@@ -1001,9 +1001,9 @@ CODE_C4D99C:						; from CODE_C4D963
 	sta.b $30
 	lda.w #$007E
 	sta.b $32
-	lda.l DATA8_C4DA57,x
+	lda.l AwardPictures+2,x
 	tay
-	lda.l DATA8_C4DA55,x
+	lda.l AwardPictures,x
 	tyx
 	jsl.l CODE_C5881C
 	dec.b QueueBusy
@@ -1076,22 +1076,35 @@ CODE_C4DA25:						; from CODE_C4DA25
 	lda.w #$0009
 	sta.w $18DE
 	rts
-DATA8_C4DA55:						; not traced: a table read by CODE_C4D99C
-	dw DATA8_C6FDE8&$FFFF
-DATA8_C4DA57:						; not traced: a table read by CODE_C4D99C
-	dw DATA8_C6FDE8>>16
-	dw DATA8_C7FE7E&$FFFF,DATA8_C7FE7E>>16
-	db $39,$FE,$C8,$00,$EB,$FF,$C9,$00,$2B,$F3,$CD,$00,$F9,$FD,$CA,$00
-	db $D5,$FD,$CB,$00,$AB,$F0,$CE,$00
+AwardPictures:						; the picture (map set) of each award, a long pointer; read by CODE_C4D99C
+	dw VezinaPicMap&$FFFF,VezinaPicMap>>16	; 0: Vezina Trophy
+	dw SelkePicMap&$FFFF,SelkePicMap>>16	; 1: Frank J. Selke Trophy
+	dw $FE39,$00C8					; 2: Conn Smythe Trophy (ConnSmythePicMap, not yet source)
+	dw $FFEB,$00C9					; 3: William M. Jennings Trophy (JenningsPicMap, not yet source)
+	dw $F32B,$00CD					; 4: Hart Memorial Trophy (HartPicMap, not yet source)
+	dw $FDF9,$00CA					; 5: Art Ross Trophy (ArtRossPicMap, not yet source)
+	dw $FDD5,$00CB					; 6: James Norris Memorial Trophy (NorrisPicMap, not yet source)
+	dw $F0AB,$00CE					; 7: Presidents Trophy (PresidentsPicMap, not yet source)
 DATA8_C4DA75:						; not traced: a table read by CODE_C4D99C
 	db $3B,$2F,$4C,$5F,$31,$52,$42,$22
-DATA8_C4DA7D:						; not traced: a table read by CODE_C4D963
-	db $C2,$4F
-DATA8_C4DA7F:						; not traced: a table read by CODE_C4D963
-	db $00,$00,$D9,$4F,$AC,$4F,$F7,$4F,$AC,$4F,$1A,$50,$39,$50,$45,$50
-	db $AC,$4F,$61,$50,$00,$00,$79,$50,$B1,$4F,$8F,$50,$AC,$4F
-DATA8_C4DA9D:						; not traced: a table read by CODE_C4D99C
-	db $CD,$4F,$E5,$4F,$01,$50,$23,$50,$50,$50,$6F,$50,$83,$50,$97,$50
+AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D963
+	dw $4FC2,$0000					; 0: Vezina Trophy
+	dw $4FD9,$4FAC					; 1: Frank J. Selke Trophy
+	dw $4FF7,$4FAC					; 2: Conn Smythe Trophy
+	dw $501A,$5039					; 3: William M. Jennings Trophy
+	dw $5045,$4FAC					; 4: Hart Memorial Trophy
+	dw $5061,$0000					; 5: Art Ross Trophy
+	dw $5079,$4FB1					; 6: James Norris Memorial Trophy
+	dw $508F,$4FAC					; 7: Presidents Trophy
+AwardDescs:							; per award: the description text; read by CODE_C4D99C
+	dw $4FCD						; 0: Vezina Trophy
+	dw $4FE5						; 1: Frank J. Selke Trophy
+	dw $5001						; 2: Conn Smythe Trophy
+	dw $5023						; 3: William M. Jennings Trophy
+	dw $5050						; 4: Hart Memorial Trophy
+	dw $506F						; 5: Art Ross Trophy
+	dw $5083						; 6: James Norris Memorial Trophy
+	dw $5097						; 7: Presidents Trophy
 CODE_C4DAAD:						; from CODE_C4D818, CODE_C4D936
 	pha
 	jsl.l CODE_C5B5EA

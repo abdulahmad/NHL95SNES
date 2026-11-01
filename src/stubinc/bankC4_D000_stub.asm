@@ -6,8 +6,8 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-DATA8_C7FE7E = $C7FE7E				; trophy map set
-DATA8_C6FDE8 = $C6FDE8				; trophy map set
+VezinaPicMap = $C6FDE8				; award 0 picture
+SelkePicMap = $C7FE7E				; award 1 picture
 CODE_C387D8 = $C387D8
 CODE_C3716D = $C3716D
 DATA8_C3585C = $C3585C

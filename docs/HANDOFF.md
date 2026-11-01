@@ -79,12 +79,15 @@
   the names; RAM names go in `src/ram95s.asm`. Hooks: SetNMIHook / SetFrameHook take X:A; the NMI calls NMIHook first, then
   FrameHook, both with M 16, X 8. Code still in incbin segments is called by number (jsl.l $C4C58B ...). Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
 
-- Trophy map set: DATA8_C6FDE8 is its map (9 x 13 tiles), DATA8_C6FE87 its packed tiles (59), and
-  DATA8_C70517 its palette. LZSS sizes and chunk ends verified; the set ends at $C7053E. bankC6_F000 owns
-  the complete set, and bankC7_0000 begins at the next raw frame there. DATA8_C4DA55 uses its label now.
-- Second trophy map set: DATA8_C7FE7E is its map (9 x 13 tiles), DATA8_C7FF65 its packed tiles (47), DATA8_C80532 its
-  palette; the set ends at $C80559, in bankC7_F000. It is the second entry of DATA8_C4DA55. Banks $C8-$CB end the same way
-  (raw frames, then the next DATA8_C4DA55 map set); the frames of bank $CC end at $CCEEA5 with none after them.
+- Award pictures: AwardPictures (bankC4_D000) holds a map set per award, indexed by the award number ($63); CODE_C4D963
+  prints the award's name from AwardNames and CODE_C4D99C its description from AwardDescs (offsets of packed text in bank
+  $C3: 5-bit codes read by CODE_C4C3BA, 0-25 letters, $1A end, $1B space, $1C case toggle, $1D-$1F a 3-bit index into
+  DATA8_C4C420), then loads the picture. The order: 0 Vezina, 1 Selke, 2 Conn Smythe, 3 Jennings, 4 Hart, 5 Art Ross,
+  6 Norris, 7 Presidents. Names as 95G AwardPictures (VezinaPic, ...): <Name>PicMap / Tiles / Palette. Each picture
+  follows the last raw frame of its bank: VezinaPic $C6FDE8-$C7053D, SelkePic $C7FE7E-$C80558, then ConnSmythePic
+  ($C8FE39), JenningsPic ($C9FFEB), ArtRossPic ($CAFDF9), NorrisPic ($CBFDD5); HartPic and PresidentsPic are in banks
+  $CD / $CE. The frames of bank $CC end at $CCEEA5 with no picture after them. ../work/framesseg.py BANK J writes a
+  raw-frame segment (and the picture in the last one), awards.py holds the names.
 
 ## Setup notes
 
@@ -100,10 +103,9 @@
 ## Unsure
 
 - Banks $C6 / $C7: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
-  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The trophy map
-  set after the raw frames is rendered and loaded through DATA8_C4DA55 by CODE_C4D99C; the specific award is not identified,
-  nor is the award of the second trophy (DATA8_C7FE7E). The bank $CF readers are still incbin; their operands must use the
-  new table labels when that code is converted (including DATA8_C60848+1).
+  parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The bank $CF
+  readers are still incbin; their operands must use the new table labels when that code is converted (including
+  DATA8_C60848+1).
 
 - ArrowFontTiles and MeterFontTiles are named from their rendered tiles; the screens that load them (VRAM $4A00 from $C5521E,
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.

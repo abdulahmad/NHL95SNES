@@ -379,8 +379,12 @@ bankC8_0000 (org $C80559): banks $C0-$C7 are all source. <- CURRENT
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankC7_F000 matched: raw frame tiles; trophy map set (ends in next bank). Transfer extents come from CODE_C5F368
   and its size lookup; pointer entries use labels as targets become source. The map set after the last frame is the second
-  entry of DATA8_C4DA55 (rendered: a trophy, award not identified); map and tile LZSS ends match the chunk lengths. Bank $C7
+  entry of DATA8_C4DA55 (rendered: a trophy); map and tile LZSS ends match the chunk lengths. Bank $C7
   is all source.
+- 2026-10-31: award pictures named. CODE_C4D963 / CODE_C4D99C index AwardNames, AwardDescs and AwardPictures with the same
+  award number; the decoded title text (5-bit packed text in bank $C3, CODE_C4C3BA) names each picture: DATA8_C6FDE8 is
+  VezinaPicMap, DATA8_C7FE7E SelkePicMap (95G AwardPictures names), with their Tiles / Palette chunks. The pictures still
+  in incbin banks stay numbers in AwardPictures until their segments are written.
 
 ## ROM map
 
