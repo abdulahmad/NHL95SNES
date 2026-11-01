@@ -135,6 +135,11 @@
   addresses with fewer votes (rammap.txt has them, weak or mixed). A direct page address on a direct indexed operand
   (`lda.b $30,x`, `sta.w $0006,y`) stays a number: X / Y holds a record (a sprite object, a queue entry), so it is a field
   offset, not the variable (no vote came from an indexed form); only PadRaw1 / PadRaw2 take a pad index there.
+  ../work/rammapl.py takes the votes rammap.py cannot see: 94S keeps many variables at long addresses ($7E3xxx, sta.l)
+  where 95 uses absolute ones, so it pairs 94S .l operands with 95 .w ones. ../work/bracket.py checks fewer votes against
+  the layout: 94S and 95 addresses of the names given so far differ by constant offsets over runs (team fields -1251 /
+  -1247, per-object arrays -1315 / -1251 ...); a candidate is named when the named neighbours on both sides have its exact
+  offset and its 95 uses are the routines 94S names for it.
   Code that moves the direct page (lda #$2100 / tcd, also $0100, $0300, $0400, $1E00) reads its .b operands from
   there: no RAM name on them (../work/dpmoved.py); with D = $2100 they are the PPU registers, written NAME&$FF as
   the bank $C0 engine does.
