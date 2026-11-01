@@ -1574,29 +1574,33 @@ doinput:							; called from other segments
 	lda.w #$7FFF
 	sta.w $0674
 	jml.l AssignPadPlayer
-CODE_C52CA3:						; called from other segments
-	jsr.w CODE_C52CC1
+LoadGameRostersLong:				; LoadGameRosters for long calls
+	jsr.w LoadGameRosters
 	rtl
-CODE_C52CA7:						; called from other segments
+LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMode and $1872
+									; cleared around it (long calls)
 	ldx.w $1872
 	phx
 	stz.w $1872
 	ldx.w OptPlayMode
 	phx
 	stz.w OptPlayMode
-	jsr.w CODE_C52CD0
+	jsr.w LoadTeamRoster
 	pla
 	sta.w OptPlayMode
 	pla
 	sta.w $1872
 	rtl
-CODE_C52CC1:						; from CODE_C52CA3 and other segments
+LoadGameRosters:					; LoadTeamRoster for both teams of the game: $17C9 into $2DC9, $17CB into
+									; $3207
 	lda.w $17C9
 	ldy.w #$2DC9
-	jsr.w CODE_C52CD0
+	jsr.w LoadTeamRoster
 	lda.w $17CB
 	ldy.w #$3207
-CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
+LoadTeamRoster:						; builds team A's roster table at Y from its team data (from the season
+									; data in play modes 2 and 3 or with $1872 set): the player and goalie
+									; counts, the player ids, then the line data at +$6C
 	sta.b tmp0
 	sty.b tmp1
 	ldx.w $18E0

@@ -331,7 +331,7 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	pha
 	lda.w #$0002
 	sta.w OptPlayMode
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	pla
 	sta.w OptPlayMode
 	ldx.w #$3207
@@ -1104,7 +1104,7 @@ DrawReleasePage:					; draws the Release Players page and starts its scrolling l
 	pha
 	lda.w #$0002
 	sta.w OptPlayMode
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	pla
 	sta.w OptPlayMode
 	ldx.w #$3207
@@ -1446,7 +1446,7 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	pha
 	lda.w #$0002
 	sta.w OptPlayMode
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	pla
 	sta.w OptPlayMode
 	lda.w $2DCB

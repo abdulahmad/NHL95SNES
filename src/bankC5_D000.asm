@@ -1969,7 +1969,7 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	pea.w $7F7E
 	plb
 	jsl.l RestoreWorkBuf
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	ldy.w #$2DC9
 	jsl.l CODE_C4EFD8
 	ldy.w #$3207

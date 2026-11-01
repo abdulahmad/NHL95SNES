@@ -157,7 +157,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	lda.w #$0002
 	sta.w OptPlayMode
 	stz.w $17C9
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	sec
 	lda.w $2DC9
 	sbc.w $2DCB

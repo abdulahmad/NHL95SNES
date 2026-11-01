@@ -336,20 +336,20 @@ CODE_C4F2AE:						; called from other segments
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3
-.1:									; A = $17C9, Y = $364E, call CODE_C52CA7, Y = $2DC9, ...
+.1:									; A = $17C9, Y = $364E, call LoadDefaultRoster, Y = $2DC9, ...
 	lda.w $17C9
 	ldy.w #$364E
-	jsl.l CODE_C52CA7
+	jsl.l LoadDefaultRoster
 	ldy.w #$2DC9
 	ldx.w #$364E
 	jsr.w CODE_C4F27F
 	bcc .2
 	ldy.w #$2DC9
 	jsr.w CODE_C4F01E
-.2:									; A = $17CB, Y = $364E, call CODE_C52CA7, Y = $3207, ...
+.2:									; A = $17CB, Y = $364E, call LoadDefaultRoster, Y = $3207, ...
 	lda.w $17CB
 	ldy.w #$364E
-	jsl.l CODE_C52CA7
+	jsl.l LoadDefaultRoster
 	ldy.w #$3207
 	ldx.w #$364E
 	jsr.w CODE_C4F27F

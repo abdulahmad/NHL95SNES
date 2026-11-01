@@ -53,9 +53,9 @@ Restart:							; starts over at the setup screen: the stack reset, StartMenuMusi
 	bne .1
 	jsl.l PlayShootout
 	bra Restart
-.1:									; call Create_HotCold_Table, call CODE_C52CC1, call ScoutingReport, ...
+.1:									; call Create_HotCold_Table, call LoadGameRosters, ...
 	jsl.l Create_HotCold_Table
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	jsl.l ScoutingReport
 	jsr.w CODE_C53984
 StartGame_go:						; starts a game: fade out, the game RAM cleared, the games started count +

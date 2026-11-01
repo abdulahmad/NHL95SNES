@@ -1127,7 +1127,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	tax
 	ldy.w #$0012
 	jsl.l PrintThinCentred
-	jsl.l CODE_C52CA3
+	jsl.l LoadGameRostersLong
 	ldy.w #$FFFE
 	pla
 .loop:								; loop: Y + 1, Y + 1, if A is not $2E03,y go to .loop, $65 = Y, ...

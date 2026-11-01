@@ -402,7 +402,7 @@ PlayShootout:						; the shootout: shootoutmode set, two options saved, the shoo
 	pha
 	stz.w OptPen
 	jsl.l Create_HotCold_Table
-	jsl.l CODE_C52CA3
+	jsl.l LoadGameRostersLong
 	jsl.l CODE_C53980
 	stz.b a2
 	jsr.w InitShooters

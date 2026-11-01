@@ -1285,7 +1285,7 @@ AddGamePlayerStats:					; AddPlayerSeasonStats for both teams of game record Y (
 	plb
 	plb
 	jsl.l RestoreWorkBuf
-	jsl.l CODE_C52CA3
+	jsl.l LoadGameRostersLong
 	ply
 	phy
 	ldx.w #$2DC9

@@ -828,7 +828,7 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
 	jsr.w CODE_C5BCD9
-	jsr.w CODE_C52CC1
+	jsr.w LoadGameRosters
 	lda.w $2DCB
 	sta.b a1
 	lda.b d0
