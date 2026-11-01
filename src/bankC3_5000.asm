@@ -251,7 +251,7 @@ DATA8_C35E9F:						; not traced: read by CODE_C5713B
 	db $56,$4C,$5A,$4C,$5F,$4C,$65,$4C,$ED,$49,$E9,$49
 PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 6 palettes,
 									; then the photos (as 94S PhotoPaletteTable); read 1-based (-4 + team x 4)
-	dd PhotoPalettesANH,$CD5E35,$CD6FF6,$CD8229
+	dd PhotoPalettesANH,PhotoPalettesBOS,$CD6FF6,$CD8229
 	dd $CD9411,$CDA5BB,$CDBA13,$CDCC79
 	dd $CDDF5E,$CE09DA,$CE1CC7,$CE31C2
 	dd $CE4585,$CE57BF,$CE6D00,$CE8087

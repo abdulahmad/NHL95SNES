@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCD_5000 (org $CD5E35): banks $C0-$CC are all source. <- CURRENT
+bankCD_6000 (org $CD6FF6): banks $C0-$CC are all source. <- CURRENT
 
 ## Sources
 
@@ -566,6 +566,9 @@ bankCD_5000 (org $CD5E35): banks $C0-$CC are all source. <- CURRENT
 - 2026-10-31: bankCD_4000 matched: the Anaheim player photos (PhotoPalettesANH, PlayerPhotosANH). Photo sets as in bank $C0:
   PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item
   starts.
+- 2026-10-31: bankCD_5000 matched: the Boston player photos (PhotoPalettesBOS, PlayerPhotosBOS). Photo sets as in bank $C0:
+  PhotoPaletteTable points at the palettes; unpack95 unpacks each stream to $1B00 bytes and its end is where the next item
+  starts.
 
 ## ROM map
 
@@ -786,8 +789,8 @@ The first row that is still incbin is the current segment.
 | bankCD_2000 | matched 4761 bytes | $CD25E0 | $CD3878 | the Washington player photos (PhotoPalettesWSH, PlayerPhotosWSH); org moved to $CD25E0, end moved +$879 |
 | bankCD_3000 | matched 4596 bytes | $CD3879 | $CD4A6C | the Winnipeg player photos (PhotoPalettesWPG, PlayerPhotosWPG); org moved to $CD3879, end moved +$A6D |
 | bankCD_4000 | matched 5064 bytes | $CD4A6D | $CD5E34 | the Anaheim player photos (PhotoPalettesANH, PlayerPhotosANH); org moved to $CD4A6D, end moved +$E35 |
-| bankCD_5000 | incbin | $CD5E35 | $CD5FFF | <- CURRENT |
-| bankCD_6000 | incbin | $CD6000 | $CD6FFF | |
+| bankCD_5000 | matched 4545 bytes | $CD5E35 | $CD6FF5 | the Boston player photos (PhotoPalettesBOS, PlayerPhotosBOS); org moved to $CD5E35, end moved +$FF6 |
+| bankCD_6000 | incbin | $CD6FF6 | $CD6FFF | <- CURRENT |
 | bankCD_7000 | incbin | $CD7000 | $CD7FFF | |
 | bankCD_8000 | incbin | $CD8000 | $CD8FFF | |
 | bankCD_9000 | incbin | $CD9000 | $CD9FFF | |
