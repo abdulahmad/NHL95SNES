@@ -727,7 +727,7 @@ SampleList:							; the 33 sound samples: a long pointer each (dd: then a zero);
 	dd Sample28						; sample 28
 	dd Sample29						; sample 29
 	dd Sample30						; sample 30
-	dd $CFAAAD						; sample 31
+	dd Sample31						; sample 31
 	dd Sample32						; sample 32
 DATA8_CF0661:						; not traced (no reader found)
 	db $A6,$FF

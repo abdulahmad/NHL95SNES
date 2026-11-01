@@ -68,6 +68,7 @@ Sample26 = $CF95A4					; sample 26, in another segment
 Sample28 = $C3B574					; sample 28, in another segment
 Sample29 = $C3E82F					; sample 29, in another segment
 Sample30 = $C3DC1D					; sample 30, in another segment
+Sample31 = $CFAAAD					; sample 31, in another segment
 Sample32 = $C0D42B					; sample 32, in another segment
 SoundRAMClear = $C00F05				; the sound RAM clear program (bank $C0)
 SoundDriver = $C00F49				; the sound driver program (bank $C0)
