@@ -3,124 +3,124 @@
 org $C4BF47
 CODE_C4BF47:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4BF54
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0080
 	sta.w $0000,y
-CODE_C4BF54:						; from CODE_C4BF47
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0080, ...
 	asl.b $14
-	bcc CODE_C4BF61
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0080
 	sta.w $0001,y
-CODE_C4BF61:						; from CODE_C4BF54
+.2:									; X - 1, if the result is not 0 go to CODE_C4BF67
 	dex
 	bne CODE_C4BF67
-CODE_C4BF64:						; from CODE_C4BF81, CODE_C4BF9E, CODE_C4BFBB
+CODE_C4BF64:						; from CODE_C4BF67, CODE_C4BF84, CODE_C4BFA1
 	jmp.w CODE_C4C03B
 CODE_C4BF67:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4BF74
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0040
 	sta.w $0000,y
-CODE_C4BF74:						; from CODE_C4BF67
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0040, ...
 	asl.b $14
-	bcc CODE_C4BF81
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0040
 	sta.w $0001,y
-CODE_C4BF81:						; from CODE_C4BF74
+.2:									; X - 1, if the result = 0 go to CODE_C4BF64
 	dex
 	beq CODE_C4BF64
 CODE_C4BF84:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4BF91
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0020
 	sta.w $0000,y
-CODE_C4BF91:						; from CODE_C4BF84
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0020, ...
 	asl.b $14
-	bcc CODE_C4BF9E
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0020
 	sta.w $0001,y
-CODE_C4BF9E:						; from CODE_C4BF91
+.2:									; X - 1, if the result = 0 go to CODE_C4BF64
 	dex
 	beq CODE_C4BF64
 CODE_C4BFA1:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4BFAE
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0010
 	sta.w $0000,y
-CODE_C4BFAE:						; from CODE_C4BFA1
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0010, ...
 	asl.b $14
-	bcc CODE_C4BFBB
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0010
 	sta.w $0001,y
-CODE_C4BFBB:						; from CODE_C4BFAE
+.2:									; X - 1, if the result = 0 go to CODE_C4BF64
 	dex
 	beq CODE_C4BF64
 CODE_C4BFBE:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4BFCB
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0008
 	sta.w $0000,y
-CODE_C4BFCB:						; from CODE_C4BFBE
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0008, ...
 	asl.b $14
-	bcc CODE_C4BFD8
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0008
 	sta.w $0001,y
-CODE_C4BFD8:						; from CODE_C4BFCB
+.2:									; X - 1, if the result = 0 go to CODE_C4C03B
 	dex
 	beq CODE_C4C03B
 CODE_C4BFDB:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4BFE8
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0004
 	sta.w $0000,y
-CODE_C4BFE8:						; from CODE_C4BFDB
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0004, ...
 	asl.b $14
-	bcc CODE_C4BFF5
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0004
 	sta.w $0001,y
-CODE_C4BFF5:						; from CODE_C4BFE8
+.2:									; X - 1, if the result = 0 go to CODE_C4C03B
 	dex
 	beq CODE_C4C03B
 CODE_C4BFF8:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4C005
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0002
 	sta.w $0000,y
-CODE_C4C005:						; from CODE_C4BFF8
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0002, ...
 	asl.b $14
-	bcc CODE_C4C012
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0002
 	sta.w $0001,y
-CODE_C4C012:						; from CODE_C4C005
+.2:									; X - 1, if the result = 0 go to CODE_C4C03B
 	dex
 	beq CODE_C4C03B
 CODE_C4C015:						; from DATA8_C4C07D (pushed as its address - 1, then rts)
 	asl.b $16
-	bcc CODE_C4C022
+	bcc .1
 	lda.w $0000,y
 	ora.w #$0001
 	sta.w $0000,y
-CODE_C4C022:						; from CODE_C4C015
+.1:									; $14 * 2, if carry clear go to .2, A = $0001,y, A or $0001, ...
 	asl.b $14
-	bcc CODE_C4C02F
+	bcc .2
 	lda.w $0001,y
 	ora.w #$0001
 	sta.w $0001,y
-CODE_C4C02F:						; from CODE_C4C022
+.2:									; X - 1, if the result = 0 go to CODE_C4C03B, A = Y, A + $0010, ...
 	dex
 	beq CODE_C4C03B
 	tya
@@ -128,7 +128,7 @@ CODE_C4C02F:						; from CODE_C4C022
 	adc.w #$0010
 	tay
 	jmp.w CODE_C4BF47
-CODE_C4C03B:						; from CODE_C4BF64, CODE_C4BFD8, CODE_C4BFF5, CODE_C4C012, ...
+CODE_C4C03B:						; from CODE_C4BF64, CODE_C4BFBE, CODE_C4BFDB, CODE_C4BFF8, ...
 	ply
 	iny
 	iny
@@ -136,12 +136,12 @@ CODE_C4C03B:						; from CODE_C4BF64, CODE_C4BFD8, CODE_C4BFF5, CODE_C4C012, ...
 	inx
 	inx
 	cpx.b $3A
-	bcs CODE_C4C048
+	bcs .1
 	jmp.w CODE_C4BF1A
-CODE_C4C048:						; from CODE_C4C03B
+.1:									; A = $0E, A / 2, if carry clear go to .2, A = X, ...
 	lda.b $0E
 	lsr a
-	bcc CODE_C4C066
+	bcc .2
 	txa
 	adc.w #$000F
 	tax
@@ -152,9 +152,9 @@ CODE_C4C048:						; from CODE_C4C03B
 	tay
 	lda.w #$8000
 	tsb.b $0E
-	bne CODE_C4C066
+	bne .2
 	jmp.w CODE_C4BF1A
-CODE_C4C066:						; from CODE_C4C048
+.2:									; A = p0
 	lda.b p0
 CODE_C4C068:						; called from other segments
 	clc
@@ -164,9 +164,9 @@ CODE_C4C068:						; called from other segments
 CODE_C4C070:						; called from other segments
 	lda.b $0A
 	cmp.l $0018DC
-	bcc CODE_C4C07C
+	bcc .rtl
 	sta.l $0018DC
-CODE_C4C07C:						; from CODE_C4C070
+.rtl:								; return
 	rtl
 DATA8_C4C07D:						; the 8 routines CODE_C4BF1A runs (address - 1: pushed, then rts)
 	dw CODE_C4BF47-1,CODE_C4BF67-1,CODE_C4BF84-1,CODE_C4BFA1-1
@@ -191,157 +191,157 @@ CODE_C4C08D:						; called from other segments
 	lda.l $C00000,x
 	ora.l $C00001,x
 	asl a
-	bcc CODE_C4C0C2
+	bcc .1
 	lda.w $0000,y
 	ora.w $0001,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C0C2:						; from CODE_C4C08D
+	bne .7
+.1:									; A = $C00002,x, A or $C00003,x, A * 2, if carry clear go to .2, ...
 	lda.l $C00002,x
 	ora.l $C00003,x
 	asl a
-	bcc CODE_C4C0D7
+	bcc .2
 	lda.w $0002,y
 	ora.w $0003,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C0D7:						; from CODE_C4C0C2
+	bne .7
+.2:									; A = $C00004,x, A or $C00005,x, A * 2, if carry clear go to .3, ...
 	lda.l $C00004,x
 	ora.l $C00005,x
 	asl a
-	bcc CODE_C4C0EC
+	bcc .3
 	lda.w $0004,y
 	ora.w $0005,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C0EC:						; from CODE_C4C0D7
+	bne .7
+.3:									; A = $C00006,x, A or $C00007,x, A * 2, if carry clear go to .4, ...
 	lda.l $C00006,x
 	ora.l $C00007,x
 	asl a
-	bcc CODE_C4C101
+	bcc .4
 	lda.w QueueBusy,y
 	ora.w $0007,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C101:						; from CODE_C4C0EC
+	bne .7
+.4:									; A = $C00008,x, A or $C00009,x, A * 2, if carry clear go to .5, ...
 	lda.l $C00008,x
 	ora.l $C00009,x
 	asl a
-	bcc CODE_C4C116
+	bcc .5
 	lda.w $0008,y
 	ora.w $0009,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C116:						; from CODE_C4C101
+	bne .7
+.5:									; A = $C0000A,x, A or $C0000B,x, A * 2, if carry clear go to .6, ...
 	lda.l $C0000A,x
 	ora.l $C0000B,x
 	asl a
-	bcc CODE_C4C12B
+	bcc .6
 	lda.w $000A,y
 	ora.w $000B,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C12B:						; from CODE_C4C116
+	bne .7
+.6:									; A = $C0000C,x, A or $C0000D,x, A * 2, if carry clear go to .8, ...
 	lda.l $C0000C,x
 	ora.l $C0000D,x
 	asl a
-	bcc CODE_C4C143
+	bcc .8
 	lda.w $000C,y
 	ora.w $000D,y
 	bit.b $36
-	beq CODE_C4C143
-CODE_C4C140:						; from CODE_C4C08D, CODE_C4C0C2, CODE_C4C0D7, CODE_C4C0EC, ...
+	beq .8
+.7:									; A 16-bit, return
 	rep #$20
 	rts
-CODE_C4C143:						; from CODE_C4C12B
+.8:									; A = $C0000E,x, A or $C0000F,x, A * 2, if carry clear go to .9, ...
 	lda.l $C0000E,x
 	ora.l $C0000F,x
 	asl a
-	bcc CODE_C4C158
+	bcc .9
 	lda.w $000E,y
 	ora.w $000F,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C158:						; from CODE_C4C143
+	bne .7
+.9:									; A = $0E, A / 2, if carry set go to .10, A 16-bit, ...
 	lda.b $0E
 	lsr a
-	bcs CODE_C4C160
+	bcs .10
 	rep #$20
 	rts
-CODE_C4C160:						; from CODE_C4C158
+.10:								; A = $C00020,x, A or $C00021,x, A * 2, if carry clear go to .11, ...
 	lda.l $C00020,x
 	ora.l $C00021,x
 	asl a
-	bcc CODE_C4C175
+	bcc .11
 	lda.w $0200,y
 	ora.w $0201,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C175:						; from CODE_C4C160
+	bne .7
+.11:								; A = $C00022,x, A or $C00023,x, A * 2, if carry clear go to .12, ...
 	lda.l $C00022,x
 	ora.l $C00023,x
 	asl a
-	bcc CODE_C4C18A
+	bcc .12
 	lda.w $0202,y
 	ora.w $0203,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C18A:						; from CODE_C4C175
+	bne .7
+.12:								; A = $C00024,x, A or $C00025,x, A * 2, if carry clear go to .13, ...
 	lda.l $C00024,x
 	ora.l $C00025,x
 	asl a
-	bcc CODE_C4C19F
+	bcc .13
 	lda.w $0204,y
 	ora.w $0205,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C19F:						; from CODE_C4C18A
+	bne .7
+.13:								; A = $C00026,x, A or $C00027,x, A * 2, if carry clear go to .14, ...
 	lda.l $C00026,x
 	ora.l $C00027,x
 	asl a
-	bcc CODE_C4C1B4
+	bcc .14
 	lda.w $0206,y
 	ora.w $0207,y
 	bit.b $36
-	bne CODE_C4C140
-CODE_C4C1B4:						; from CODE_C4C19F
+	bne .7
+.14:								; A = $C00028,x, A or $C00029,x, A * 2, if carry clear go to .15, ...
 	lda.l $C00028,x
 	ora.l $C00029,x
 	asl a
-	bcc CODE_C4C1C9
+	bcc .15
 	lda.w $0208,y
 	ora.w $0209,y
 	bit.b $36
-	bne CODE_C4C209
-CODE_C4C1C9:						; from CODE_C4C1B4
+	bne .18
+.15:								; A = $C0002A,x, A or $C0002B,x, A * 2, if carry clear go to .16, ...
 	lda.l $C0002A,x
 	ora.l $C0002B,x
 	asl a
-	bcc CODE_C4C1DE
+	bcc .16
 	lda.w $020A,y
 	ora.w $020B,y
 	bit.b $36
-	bne CODE_C4C209
-CODE_C4C1DE:						; from CODE_C4C1C9
+	bne .18
+.16:								; A = $C0002C,x, A or $C0002D,x, A * 2, if carry clear go to .17, ...
 	lda.l $C0002C,x
 	ora.l $C0002D,x
 	asl a
-	bcc CODE_C4C1F3
+	bcc .17
 	lda.w $020C,y
 	ora.w $020D,y
 	bit.b $36
-	bne CODE_C4C209
-CODE_C4C1F3:						; from CODE_C4C1DE
+	bne .18
+.17:								; A = $C0002E,x, A or $C0002F,x, A * 2, if carry clear go to .18, ...
 	lda.l $C0002E,x
 	ora.l $C0002F,x
 	asl a
-	bcc CODE_C4C209
+	bcc .18
 	lda.w $020E,y
 	ora.w $020F,y
 	bit.b $36
-	bne CODE_C4C209
+	bne .18
 	clc
-CODE_C4C209:						; from CODE_C4C1B4, CODE_C4C1C9, CODE_C4C1DE, CODE_C4C1F3
+.18:								; A 16-bit, return
 	rep #$20
 	rts
 CODE_C4C20C:						; called from other segments
@@ -389,7 +389,7 @@ CODE_C4C20C:						; called from other segments
 	tax
 	lda.b $0E
 	lsr a
-	bcc CODE_C4C264
+	bcc .1
 	phx
 	lda.b $07,s
 	adc.w #$00FF
@@ -398,7 +398,7 @@ CODE_C4C20C:						; called from other segments
 	lda.b $07,s
 	adc.w #$0200
 	pha
-CODE_C4C264:						; from CODE_C4C20C
+.1:									; A = $00, $00 = X, QueueBusy = 0, TransfersReady + 1, ...
 	lda.b $00
 	tsx
 	tcs
@@ -425,21 +425,21 @@ CODE_C4C270:						; called from other segments
 	adc.b $14
 	ora.b $D5
 	tay
-CODE_C4C28B:						; from CODE_C4C29E
+.loop:								; loop: Y + 1, A = Y, $7E0000,x = A, A = $0E, ...
 	iny
 	tya
 	sta.l $7E0000,x
 	lda.b $0E
 	lsr a
-	bcc CODE_C4C29E
+	bcc .1
 	tya
 	adc.w #$001F
 	sta.l $7E0040,x
-CODE_C4C29E:						; from CODE_C4C28B
+.1:									; X + 1, X + 1, $A5 - 1, if the result is not 0 go to .loop, ...
 	inx
 	inx
 	dec.b $A5
-	bne CODE_C4C28B
+	bne .loop
 	lda.b $0A
 	sec
 	sbc.b $12
@@ -499,7 +499,7 @@ CODE_C4C2C6:						; no caller found (not traced)
 	sta.b $1C
 	lda.b $00
 	tcs
-CODE_C4C2FF:						; from CODE_C4C2FF
+.loop:								; loop: push X, push Y, A = X, A + $0020, ...
 	pei ($14)
 	phx
 	pea.w $007E
@@ -511,7 +511,7 @@ CODE_C4C2FF:						; from CODE_C4C2FF
 	adc.w #$0040
 	tay
 	dec.b $A5
-	bne CODE_C4C2FF
+	bne .loop
 	tsc
 	sta.b $00
 	lda.b $1C
@@ -522,39 +522,39 @@ CODE_C4C31D:						; from CODE_C4C46B and other segments
 	phx
 	lda.b $0E
 	bit.w #$0004
-	beq CODE_C4C35B
+	beq .6
 	stz.b $0A
 	txy
-CODE_C4C328:						; from CODE_C4C350
+.1:									; A = $0000,y, if the result = 0 go to .5, Y + 1, ...
 	lda.w $0000,y
 	and.w #$00FF
-	beq CODE_C4C357
+	beq .5
 	iny
 	cmp.w #$0020
-	bne CODE_C4C33B
+	bne .2
 	lda.w #$0004
-	bra CODE_C4C350
-CODE_C4C33B:						; from CODE_C4C328
+	bra .4
+.2:									; A - $0030, X = A, if A < $0031 go to .3, A - $0020, ...
 	sec
 	sbc.w #$0030
 	tax
 	cmp.w #$0031
-	bcc CODE_C4C349
+	bcc .3
 	sbc.w #$0020
 	tax
-CODE_C4C349:						; from CODE_C4C33B
+.3:									; A = DATA8_C4C4D7,x, A and $007F
 	lda.l DATA8_C4C4D7,x
 	and.w #$007F
-CODE_C4C350:						; from CODE_C4C328
+.4:									; A + $0A, $0A = A, go to .1
 	clc
 	adc.b $0A
 	sta.b $0A
-	bra CODE_C4C328
-CODE_C4C357:						; from CODE_C4C328
+	bra .1
+.5:									; A = $0A, pull X, return
 	lda.b $0A
 	plx
 	rtl
-CODE_C4C35B:						; from CODE_C4C31D
+.6:									; A = $18DA, push A, A = $18DC, push A, ...
 	lda.w $18DA
 	pha
 	lda.w $18DC
@@ -564,9 +564,9 @@ CODE_C4C35B:						; from CODE_C4C31D
 	ldy.w #$0400
 	lda.b $0E
 	lsr a
-	bcs CODE_C4C375
+	bcs .7
 	ldy.w #$0200
-CODE_C4C375:						; from CODE_C4C35B
+.7:									; A = Y, call CODE_C4C56A, A = $0A, pull A, ...
 	tya
 	jsl.l CODE_C4C56A
 	lda.b $0A
@@ -581,13 +581,13 @@ CODE_C4C386:						; called from other segments
 	phx
 	ldy.w #$0001
 	sep #$20
-CODE_C4C38D:						; from CODE_C4C38D
+.loop:								; loop: if $C30000,x = 0 go to .1, X + 1, Y + 1, go to .loop
 	lda.l $C30000,x
-	beq CODE_C4C397
+	beq .1
 	inx
 	iny
-	bra CODE_C4C38D
-CODE_C4C397:						; from CODE_C4C38D
+	bra .loop
+.1:									; A 16-bit, A = Y, push A, call CODE_C4C558, ...
 	rep #$20
 	tya
 	pha
@@ -619,67 +619,67 @@ CODE_C4C3C4:						; from CODE_C4C3AE
 	lda.w #$0041
 	sta.b $14
 	stz.b $0A
-CODE_C4C3CD:						; from CODE_C4C402, CODE_C4C3FC
+.1:									; call CODE_C4C43D, if A < $1A go to .5, if A = $1B go to .7, ...
 	jsr.w CODE_C4C43D
 	cmp.b #$1A
-	bcc CODE_C4C400
+	bcc .5
 	cmp.b #$1B
-	beq CODE_C4C408
-	bcc CODE_C4C40C
+	beq .7
+	bcc .8
 	cmp.b #$1D
-	beq CODE_C4C416
-	bcc CODE_C4C3F4
+	beq .9
+	bcc .3
 	cmp.b #$1F
-	bcc CODE_C4C3EC
+	bcc .2
 	jsr.w CODE_C4C431
 	clc
 	adc.b #$10
-	bra CODE_C4C419
-CODE_C4C3EC:						; from CODE_C4C3CD
+	bra .10
+.2:									; call CODE_C4C431, A + $08, go to .10
 	jsr.w CODE_C4C431
 	clc
 	adc.b #$08
-	bra CODE_C4C419
-CODE_C4C3F4:						; from CODE_C4C3CD
+	bra .10
+.3:									; A = $41, if A is not $14 go to .4, A = $61
 	lda.b #$41
 	cmp.b $14
-	bne CODE_C4C3FC
+	bne .4
 	lda.b #$61
-CODE_C4C3FC:						; from CODE_C4C3F4
+.4:									; $14 = A, go to .1
 	sta.b $14
-	bra CODE_C4C3CD
-CODE_C4C400:						; from CODE_C4C3CD
+	bra .1
+.5:									; A + $14
 	adc.b $14
-CODE_C4C402:						; from CODE_C4C408, CODE_C4C419
+.6:									; $0000,y = A, Y + 1, go to .1
 	sta.w $0000,y
 	iny
-	bra CODE_C4C3CD
-CODE_C4C408:						; from CODE_C4C3CD
+	bra .1
+.7:									; A = $20, go to .6
 	lda.b #$20
-	bra CODE_C4C402
-CODE_C4C40C:						; from CODE_C4C3CD
+	bra .6
+.8:									; $0000,y = $00, A 16-bit, pull X, pull Y, ...
 	lda.b #$00
 	sta.w $0000,y
 	rep #$20
 	plx
 	ply
 	rtl
-CODE_C4C416:						; from CODE_C4C3CD
+.9:									; call CODE_C4C431
 	jsr.w CODE_C4C431
-CODE_C4C419:						; from CODE_C4C3CD, CODE_C4C3EC
+.10:								; X = A, A = DATA8_C4C420,x, go to .6
 	tax
 	lda.l DATA8_C4C420,x
-	bra CODE_C4C402
-DATA8_C4C420:						; not traced: a table read by CODE_C4C419
+	bra .6
+DATA8_C4C420:						; not traced: a table read by CODE_C4C3C4
 	db $30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$3A,$3B,$3C,$3D,$3E,$3F
 	db $40
-CODE_C4C431:						; from CODE_C4C3CD, CODE_C4C416, CODE_C4C3EC
+CODE_C4C431:						; from CODE_C4C3C4
 	jsr.w CODE_C4C45A
 	and.w #$0007
 	pha
 	lda.w #$0003
 	bra CODE_C4C447
-CODE_C4C43D:						; from CODE_C4C3CD
+CODE_C4C43D:						; from CODE_C4C3C4
 	jsr.w CODE_C4C45A
 	and.w #$001F
 	pha
@@ -688,10 +688,10 @@ CODE_C4C447:						; from CODE_C4C431
 	clc
 	adc.b $0A
 	cmp.w #$0008
-	bcc CODE_C4C454
+	bcc .1
 	inc.b $16
 	sbc.w #$0008
-CODE_C4C454:						; from CODE_C4C447
+.1:									; $0A = A, pull A, A 8-bit, return
 	sta.b $0A
 	pla
 	sep #$20
@@ -701,12 +701,12 @@ CODE_C4C45A:						; from CODE_C4C43D, CODE_C4C431
 	ldx.b $16
 	lda.l $C30000,x
 	ldx.b $0A
-	beq CODE_C4C46A
-CODE_C4C466:						; from CODE_C4C466
+	beq .rts
+.loop:								; loop: A / 2, X - 1, if the result is not 0 go to .loop
 	lsr a
 	dex
-	bne CODE_C4C466
-CODE_C4C46A:						; from CODE_C4C45A
+	bne .loop
+.rts:								; return
 	rts
 CODE_C4C46B:						; called from other segments
 	jsl.l CODE_C4C31D
@@ -725,13 +725,13 @@ CODE_C4C47E:						; called from other segments
 	phx
 	ldy.w #$0001
 	sep #$20
-CODE_C4C485:						; from CODE_C4C485
+.loop:								; loop: if $7E0000,x = 0 go to .1, X + 1, Y + 1, go to .loop
 	lda.l $7E0000,x
-	beq CODE_C4C48F
+	beq .1
 	inx
 	iny
-	bra CODE_C4C485
-CODE_C4C48F:						; from CODE_C4C485
+	bra .loop
+.1:									; A 16-bit, A = Y, push A, call CODE_C4C561, ...
 	rep #$20
 	tya
 	pha
@@ -754,7 +754,7 @@ DATA8_C4C4B6:						; not traced: a table read by CODE_C4BEB1
 	db $0B,$07,$0B,$0B,$0B,$0B,$0B,$09,$0B,$0C,$05,$08,$0C,$06,$0B,$07
 	db $05,$0A,$0B,$0B,$0B,$0B,$0B,$0B,$0C,$07,$0C,$0C,$08,$0D,$0D,$0B
 	db $0B
-DATA8_C4C4D7:						; not traced: a table read by CODE_C4C349, CODE_C4BE99
+DATA8_C4C4D7:						; not traced: a table read by CODE_C4C31D, CODE_C4BE99
 	db $0B,$0B,$0B,$0A,$0C,$09,$0C,$0B,$0A,$0B,$02,$03,$01,$83,$87,$83
 	db $84,$87,$87,$86,$87,$86,$86,$87,$86,$82,$85,$87,$85,$88,$87,$88
 	db $86,$88,$86,$85,$86,$86,$87,$88,$86,$86,$85
@@ -787,21 +787,21 @@ CODE_C4C547:						; called from other segments
 	ply
 	plx
 	rtl
-CODE_C4C558:						; from CODE_C4C3BA, CODE_C4C547, CODE_C4C397 and other segments
+CODE_C4C558:						; from CODE_C4C3BA, CODE_C4C547, CODE_C4C386 and other segments
 	pei ($08)
 	clc
 	adc.b $08
 	sta.b $08
 	pla
 	rtl
-CODE_C4C561:						; from CODE_C4C3AE, CODE_C4C48F and other segments
+CODE_C4C561:						; from CODE_C4C3AE, CODE_C4C47E and other segments
 	pei ($D7)
 	clc
 	adc.b $D7
 	sta.b $D7
 	pla
 	rtl
-CODE_C4C56A:						; from CODE_C4C375 and other segments
+CODE_C4C56A:						; from CODE_C4C31D and other segments
 	sec
 	sbc.b $08
 	eor.w #$FFFF
@@ -834,11 +834,11 @@ CODE_C4C58B:						; called from other segments
 	lda.w #$0300
 	tcd
 	ldy.b #$01
-CODE_C4C5A8:						; from CODE_C4C913
+.1:									; if $FE is not 0 go to .2, go to .34
 	lda.b $FE
-	bne CODE_C4C5AF
-	jmp.w CODE_C4C930
-CODE_C4C5AF:						; from CODE_C4C5A8
+	bne .2
+	jmp.w .34
+.2:									; DAS0L = A, VMADDL = $FC, A1B0 = $FA, A1T0L = $F8, ...
 	sta.w DAS0L
 	lda.b $FC
 	sta.w VMADDL
@@ -848,9 +848,9 @@ CODE_C4C5AF:						; from CODE_C4C5A8
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $F6
-	bne CODE_C4C5CB
-	jmp.w CODE_C4C930
-CODE_C4C5CB:						; from CODE_C4C5AF
+	bne .3
+	jmp.w .34
+.3:									; DAS0L = A, VMADDL = $F4, A1B0 = $F2, A1T0L = $F0, ...
 	sta.w DAS0L
 	lda.b $F4
 	sta.w VMADDL
@@ -860,9 +860,9 @@ CODE_C4C5CB:						; from CODE_C4C5AF
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $EE
-	bne CODE_C4C5E7
-	jmp.w CODE_C4C930
-CODE_C4C5E7:						; from CODE_C4C5CB
+	bne .4
+	jmp.w .34
+.4:									; DAS0L = A, VMADDL = $EC, A1B0 = $EA, A1T0L = $E8, ...
 	sta.w DAS0L
 	lda.b $EC
 	sta.w VMADDL
@@ -872,9 +872,9 @@ CODE_C4C5E7:						; from CODE_C4C5CB
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $E6
-	bne CODE_C4C603
-	jmp.w CODE_C4C930
-CODE_C4C603:						; from CODE_C4C5E7
+	bne .5
+	jmp.w .34
+.5:									; DAS0L = A, VMADDL = $E4, A1B0 = $E2, A1T0L = $E0, ...
 	sta.w DAS0L
 	lda.b $E4
 	sta.w VMADDL
@@ -884,9 +884,9 @@ CODE_C4C603:						; from CODE_C4C5E7
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $DE
-	bne CODE_C4C61F
-	jmp.w CODE_C4C930
-CODE_C4C61F:						; from CODE_C4C603
+	bne .6
+	jmp.w .34
+.6:									; DAS0L = A, VMADDL = $DC, A1B0 = $DA, A1T0L = $D8, ...
 	sta.w DAS0L
 	lda.b $DC
 	sta.w VMADDL
@@ -896,9 +896,9 @@ CODE_C4C61F:						; from CODE_C4C603
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $D6
-	bne CODE_C4C63B
-	jmp.w CODE_C4C930
-CODE_C4C63B:						; from CODE_C4C61F
+	bne .7
+	jmp.w .34
+.7:									; DAS0L = A, VMADDL = $D4, A1B0 = $D2, A1T0L = $D0, ...
 	sta.w DAS0L
 	lda.b $D4
 	sta.w VMADDL
@@ -908,9 +908,9 @@ CODE_C4C63B:						; from CODE_C4C61F
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $CE
-	bne CODE_C4C657
-	jmp.w CODE_C4C930
-CODE_C4C657:						; from CODE_C4C63B
+	bne .8
+	jmp.w .34
+.8:									; DAS0L = A, VMADDL = $CC, A1B0 = $CA, A1T0L = $C8, ...
 	sta.w DAS0L
 	lda.b $CC
 	sta.w VMADDL
@@ -920,9 +920,9 @@ CODE_C4C657:						; from CODE_C4C63B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $C6
-	bne CODE_C4C673
-	jmp.w CODE_C4C930
-CODE_C4C673:						; from CODE_C4C657
+	bne .9
+	jmp.w .34
+.9:									; DAS0L = A, VMADDL = $C4, A1B0 = $C2, A1T0L = $C0, ...
 	sta.w DAS0L
 	lda.b $C4
 	sta.w VMADDL
@@ -932,9 +932,9 @@ CODE_C4C673:						; from CODE_C4C657
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $BE
-	bne CODE_C4C68F
-	jmp.w CODE_C4C930
-CODE_C4C68F:						; from CODE_C4C673
+	bne .10
+	jmp.w .34
+.10:								; DAS0L = A, VMADDL = $BC, A1B0 = $BA, A1T0L = $B8, ...
 	sta.w DAS0L
 	lda.b $BC
 	sta.w VMADDL
@@ -944,9 +944,9 @@ CODE_C4C68F:						; from CODE_C4C673
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $B6
-	bne CODE_C4C6AB
-	jmp.w CODE_C4C930
-CODE_C4C6AB:						; from CODE_C4C68F
+	bne .11
+	jmp.w .34
+.11:								; DAS0L = A, VMADDL = $B4, A1B0 = $B2, A1T0L = $B0, ...
 	sta.w DAS0L
 	lda.b $B4
 	sta.w VMADDL
@@ -956,9 +956,9 @@ CODE_C4C6AB:						; from CODE_C4C68F
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $AE
-	bne CODE_C4C6C7
-	jmp.w CODE_C4C930
-CODE_C4C6C7:						; from CODE_C4C6AB
+	bne .12
+	jmp.w .34
+.12:								; DAS0L = A, VMADDL = $AC, A1B0 = $AA, A1T0L = $A8, ...
 	sta.w DAS0L
 	lda.b $AC
 	sta.w VMADDL
@@ -968,9 +968,9 @@ CODE_C4C6C7:						; from CODE_C4C6AB
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $A6
-	bne CODE_C4C6E3
-	jmp.w CODE_C4C930
-CODE_C4C6E3:						; from CODE_C4C6C7
+	bne .13
+	jmp.w .34
+.13:								; DAS0L = A, VMADDL = $A4, A1B0 = $A2, A1T0L = $A0, ...
 	sta.w DAS0L
 	lda.b $A4
 	sta.w VMADDL
@@ -980,9 +980,9 @@ CODE_C4C6E3:						; from CODE_C4C6C7
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $9E
-	bne CODE_C4C6FF
-	jmp.w CODE_C4C930
-CODE_C4C6FF:						; from CODE_C4C6E3
+	bne .14
+	jmp.w .34
+.14:								; DAS0L = A, VMADDL = $9C, A1B0 = $9A, A1T0L = $98, ...
 	sta.w DAS0L
 	lda.b $9C
 	sta.w VMADDL
@@ -992,9 +992,9 @@ CODE_C4C6FF:						; from CODE_C4C6E3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $96
-	bne CODE_C4C71B
-	jmp.w CODE_C4C930
-CODE_C4C71B:						; from CODE_C4C6FF
+	bne .15
+	jmp.w .34
+.15:								; DAS0L = A, VMADDL = $94, A1B0 = $92, A1T0L = $90, ...
 	sta.w DAS0L
 	lda.b $94
 	sta.w VMADDL
@@ -1004,9 +1004,9 @@ CODE_C4C71B:						; from CODE_C4C6FF
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $8E
-	bne CODE_C4C737
-	jmp.w CODE_C4C930
-CODE_C4C737:						; from CODE_C4C71B
+	bne .16
+	jmp.w .34
+.16:								; DAS0L = A, VMADDL = $8C, A1B0 = $8A, A1T0L = $88, ...
 	sta.w DAS0L
 	lda.b $8C
 	sta.w VMADDL
@@ -1016,9 +1016,9 @@ CODE_C4C737:						; from CODE_C4C71B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $86
-	bne CODE_C4C753
-	jmp.w CODE_C4C930
-CODE_C4C753:						; from CODE_C4C737
+	bne .17
+	jmp.w .34
+.17:								; DAS0L = A, VMADDL = $84, A1B0 = $82, A1T0L = $80, ...
 	sta.w DAS0L
 	lda.b $84
 	sta.w VMADDL
@@ -1028,9 +1028,9 @@ CODE_C4C753:						; from CODE_C4C737
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $7E
-	bne CODE_C4C76F
-	jmp.w CODE_C4C930
-CODE_C4C76F:						; from CODE_C4C753
+	bne .18
+	jmp.w .34
+.18:								; DAS0L = A, VMADDL = $7C, A1B0 = $7A, A1T0L = $78, ...
 	sta.w DAS0L
 	lda.b $7C
 	sta.w VMADDL
@@ -1040,9 +1040,9 @@ CODE_C4C76F:						; from CODE_C4C753
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $76
-	bne CODE_C4C78B
-	jmp.w CODE_C4C930
-CODE_C4C78B:						; from CODE_C4C76F
+	bne .19
+	jmp.w .34
+.19:								; DAS0L = A, VMADDL = $74, A1B0 = $72, A1T0L = $70, ...
 	sta.w DAS0L
 	lda.b $74
 	sta.w VMADDL
@@ -1052,9 +1052,9 @@ CODE_C4C78B:						; from CODE_C4C76F
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $6E
-	bne CODE_C4C7A7
-	jmp.w CODE_C4C930
-CODE_C4C7A7:						; from CODE_C4C78B
+	bne .20
+	jmp.w .34
+.20:								; DAS0L = A, VMADDL = $6C, A1B0 = $6A, A1T0L = $68, ...
 	sta.w DAS0L
 	lda.b $6C
 	sta.w VMADDL
@@ -1064,9 +1064,9 @@ CODE_C4C7A7:						; from CODE_C4C78B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $66
-	bne CODE_C4C7C3
-	jmp.w CODE_C4C930
-CODE_C4C7C3:						; from CODE_C4C7A7
+	bne .21
+	jmp.w .34
+.21:								; DAS0L = A, VMADDL = $64, A1B0 = $62, A1T0L = $60, ...
 	sta.w DAS0L
 	lda.b $64
 	sta.w VMADDL
@@ -1076,9 +1076,9 @@ CODE_C4C7C3:						; from CODE_C4C7A7
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $5E
-	bne CODE_C4C7DF
-	jmp.w CODE_C4C930
-CODE_C4C7DF:						; from CODE_C4C7C3
+	bne .22
+	jmp.w .34
+.22:								; DAS0L = A, VMADDL = $5C, A1B0 = $5A, A1T0L = $58, ...
 	sta.w DAS0L
 	lda.b $5C
 	sta.w VMADDL
@@ -1088,9 +1088,9 @@ CODE_C4C7DF:						; from CODE_C4C7C3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $56
-	bne CODE_C4C7FB
-	jmp.w CODE_C4C930
-CODE_C4C7FB:						; from CODE_C4C7DF
+	bne .23
+	jmp.w .34
+.23:								; DAS0L = A, VMADDL = $54, A1B0 = $52, A1T0L = $50, ...
 	sta.w DAS0L
 	lda.b $54
 	sta.w VMADDL
@@ -1100,9 +1100,9 @@ CODE_C4C7FB:						; from CODE_C4C7DF
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b DMAQueueTail
-	bne CODE_C4C817
-	jmp.w CODE_C4C930
-CODE_C4C817:						; from CODE_C4C7FB
+	bne .24
+	jmp.w .34
+.24:								; DAS0L = A, VMADDL = DMAQueueHead, A1B0 = NMISkip, A1T0L = $48, ...
 	sta.w DAS0L
 	lda.b DMAQueueHead
 	sta.w VMADDL
@@ -1112,9 +1112,9 @@ CODE_C4C817:						; from CODE_C4C7FB
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $46
-	bne CODE_C4C833
-	jmp.w CODE_C4C930
-CODE_C4C833:						; from CODE_C4C817
+	bne .25
+	jmp.w .34
+.25:								; DAS0L = A, VMADDL = $44, A1B0 = $42, A1T0L = r3, ...
 	sta.w DAS0L
 	lda.b $44
 	sta.w VMADDL
@@ -1124,9 +1124,9 @@ CODE_C4C833:						; from CODE_C4C817
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
-	bne CODE_C4C84F
-	jmp.w CODE_C4C930
-CODE_C4C84F:						; from CODE_C4C833
+	bne .26
+	jmp.w .34
+.26:								; DAS0L = A, VMADDL = p1, A1B0 = $3A, A1T0L = p0, ...
 	sta.w DAS0L
 	lda.b p1
 	sta.w VMADDL
@@ -1136,9 +1136,9 @@ CODE_C4C84F:						; from CODE_C4C833
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $36
-	bne CODE_C4C86B
-	jmp.w CODE_C4C930
-CODE_C4C86B:						; from CODE_C4C84F
+	bne .27
+	jmp.w .34
+.27:								; DAS0L = A, VMADDL = r2, A1B0 = $32, A1T0L = r1, ...
 	sta.w DAS0L
 	lda.b r2
 	sta.w VMADDL
@@ -1148,9 +1148,9 @@ CODE_C4C86B:						; from CODE_C4C84F
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $2E
-	bne CODE_C4C887
-	jmp.w CODE_C4C930
-CODE_C4C887:						; from CODE_C4C86B
+	bne .28
+	jmp.w .34
+.28:								; DAS0L = A, VMADDL = r0, A1B0 = $2A, A1T0L = $28, ...
 	sta.w DAS0L
 	lda.b r0
 	sta.w VMADDL
@@ -1160,9 +1160,9 @@ CODE_C4C887:						; from CODE_C4C86B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $26
-	bne CODE_C4C8A3
-	jmp.w CODE_C4C930
-CODE_C4C8A3:						; from CODE_C4C887
+	bne .29
+	jmp.w .34
+.29:								; DAS0L = A, VMADDL = $24, A1B0 = $22, A1T0L = $20, ...
 	sta.w DAS0L
 	lda.b $24
 	sta.w VMADDL
@@ -1172,9 +1172,9 @@ CODE_C4C8A3:						; from CODE_C4C887
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $1E
-	bne CODE_C4C8BF
-	jmp.w CODE_C4C930
-CODE_C4C8BF:						; from CODE_C4C8A3
+	bne .30
+	jmp.w .34
+.30:								; DAS0L = A, VMADDL = $1C, A1B0 = $1A, A1T0L = $18, ...
 	sta.w DAS0L
 	lda.b $1C
 	sta.w VMADDL
@@ -1184,9 +1184,9 @@ CODE_C4C8BF:						; from CODE_C4C8A3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $16
-	bne CODE_C4C8DB
-	jmp.w CODE_C4C930
-CODE_C4C8DB:						; from CODE_C4C8BF
+	bne .31
+	jmp.w .34
+.31:								; DAS0L = A, VMADDL = $14, A1B0 = $12, A1T0L = $10, ...
 	sta.w DAS0L
 	lda.b $14
 	sta.w VMADDL
@@ -1196,9 +1196,9 @@ CODE_C4C8DB:						; from CODE_C4C8BF
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $0E
-	bne CODE_C4C8F7
-	jmp.w CODE_C4C930
-CODE_C4C8F7:						; from CODE_C4C8DB
+	bne .32
+	jmp.w .34
+.32:								; DAS0L = A, VMADDL = $0C, A1B0 = $0A, A1T0L = $08, ...
 	sta.w DAS0L
 	lda.b $0C
 	sta.w VMADDL
@@ -1208,9 +1208,9 @@ CODE_C4C8F7:						; from CODE_C4C8DB
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b QueueBusy
-	bne CODE_C4C913
-	jmp.w CODE_C4C930
-CODE_C4C913:						; from CODE_C4C8F7
+	bne .33
+	jmp.w .34
+.33:								; DAS0L = A, VMADDL = $04, A1B0 = $02, A1T0L = $00, ...
 	sta.w DAS0L
 	lda.b $04
 	sta.w VMADDL
@@ -1222,14 +1222,14 @@ CODE_C4C913:						; from CODE_C4C8F7
 	tdc
 	sbc.w #$0100
 	tcd
-	jmp.w CODE_C4C5A8
-CODE_C4C930:						; from CODE_C4C5A8, CODE_C4C5AF, CODE_C4C5CB, CODE_C4C5E7, ...
+	jmp.w .1
+.34:								; A = $0100, if $FE is not 0 go to .35, go to .56
 	lda.w #$0100
 	tcd
 	lda.b $FE
-	bne CODE_C4C93B
-	jmp.w CODE_C4CC52
-CODE_C4C93B:						; from CODE_C4C930
+	bne .35
+	jmp.w .56
+.35:								; DAS0L = A, VMAIN = $FC, VMADDL = $FA, DMAP0 = $F8, ...
 	sta.w DAS0L
 	ldx.b $FC
 	stx.w VMAIN
@@ -1243,9 +1243,9 @@ CODE_C4C93B:						; from CODE_C4C930
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $F2
-	bne CODE_C4C961
-	jmp.w CODE_C4CC52
-CODE_C4C961:						; from CODE_C4C93B
+	bne .36
+	jmp.w .56
+.36:								; DAS0L = A, VMAIN = $F0, VMADDL = $EE, DMAP0 = $EC, ...
 	sta.w DAS0L
 	ldx.b $F0
 	stx.w VMAIN
@@ -1259,9 +1259,9 @@ CODE_C4C961:						; from CODE_C4C93B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $E6
-	bne CODE_C4C987
-	jmp.w CODE_C4CC52
-CODE_C4C987:						; from CODE_C4C961
+	bne .37
+	jmp.w .56
+.37:								; DAS0L = A, VMAIN = $E4, VMADDL = $E2, DMAP0 = $E0, ...
 	sta.w DAS0L
 	ldx.b $E4
 	stx.w VMAIN
@@ -1275,9 +1275,9 @@ CODE_C4C987:						; from CODE_C4C961
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $DA
-	bne CODE_C4C9AD
-	jmp.w CODE_C4CC52
-CODE_C4C9AD:						; from CODE_C4C987
+	bne .38
+	jmp.w .56
+.38:								; DAS0L = A, VMAIN = $D8, VMADDL = $D6, DMAP0 = $D4, ...
 	sta.w DAS0L
 	ldx.b $D8
 	stx.w VMAIN
@@ -1291,9 +1291,9 @@ CODE_C4C9AD:						; from CODE_C4C987
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $CE
-	bne CODE_C4C9D3
-	jmp.w CODE_C4CC52
-CODE_C4C9D3:						; from CODE_C4C9AD
+	bne .39
+	jmp.w .56
+.39:								; DAS0L = A, VMAIN = $CC, VMADDL = $CA, DMAP0 = $C8, ...
 	sta.w DAS0L
 	ldx.b $CC
 	stx.w VMAIN
@@ -1307,9 +1307,9 @@ CODE_C4C9D3:						; from CODE_C4C9AD
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $C2
-	bne CODE_C4C9F9
-	jmp.w CODE_C4CC52
-CODE_C4C9F9:						; from CODE_C4C9D3
+	bne .40
+	jmp.w .56
+.40:								; DAS0L = A, VMAIN = $C0, VMADDL = $BE, DMAP0 = $BC, ...
 	sta.w DAS0L
 	ldx.b $C0
 	stx.w VMAIN
@@ -1323,9 +1323,9 @@ CODE_C4C9F9:						; from CODE_C4C9D3
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $B6
-	bne CODE_C4CA1F
-	jmp.w CODE_C4CC52
-CODE_C4CA1F:						; from CODE_C4C9F9
+	bne .41
+	jmp.w .56
+.41:								; DAS0L = A, VMAIN = $B4, VMADDL = $B2, DMAP0 = $B0, ...
 	sta.w DAS0L
 	ldx.b $B4
 	stx.w VMAIN
@@ -1339,9 +1339,9 @@ CODE_C4CA1F:						; from CODE_C4C9F9
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $AA
-	bne CODE_C4CA45
-	jmp.w CODE_C4CC52
-CODE_C4CA45:						; from CODE_C4CA1F
+	bne .42
+	jmp.w .56
+.42:								; DAS0L = A, VMAIN = $A8, VMADDL = $A6, DMAP0 = $A4, ...
 	sta.w DAS0L
 	ldx.b $A8
 	stx.w VMAIN
@@ -1355,9 +1355,9 @@ CODE_C4CA45:						; from CODE_C4CA1F
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $9E
-	bne CODE_C4CA6B
-	jmp.w CODE_C4CC52
-CODE_C4CA6B:						; from CODE_C4CA45
+	bne .43
+	jmp.w .56
+.43:								; DAS0L = A, VMAIN = $9C, VMADDL = $9A, DMAP0 = $98, ...
 	sta.w DAS0L
 	ldx.b $9C
 	stx.w VMAIN
@@ -1371,9 +1371,9 @@ CODE_C4CA6B:						; from CODE_C4CA45
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $92
-	bne CODE_C4CA91
-	jmp.w CODE_C4CC52
-CODE_C4CA91:						; from CODE_C4CA6B
+	bne .44
+	jmp.w .56
+.44:								; DAS0L = A, VMAIN = $90, VMADDL = $8E, DMAP0 = $8C, ...
 	sta.w DAS0L
 	ldx.b $90
 	stx.w VMAIN
@@ -1387,9 +1387,9 @@ CODE_C4CA91:						; from CODE_C4CA6B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $86
-	bne CODE_C4CAB7
-	jmp.w CODE_C4CC52
-CODE_C4CAB7:						; from CODE_C4CA91
+	bne .45
+	jmp.w .56
+.45:								; DAS0L = A, VMAIN = $84, VMADDL = $82, DMAP0 = $80, ...
 	sta.w DAS0L
 	ldx.b $84
 	stx.w VMAIN
@@ -1403,9 +1403,9 @@ CODE_C4CAB7:						; from CODE_C4CA91
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $7A
-	bne CODE_C4CADD
-	jmp.w CODE_C4CC52
-CODE_C4CADD:						; from CODE_C4CAB7
+	bne .46
+	jmp.w .56
+.46:								; DAS0L = A, VMAIN = $78, VMADDL = $76, DMAP0 = $74, ...
 	sta.w DAS0L
 	ldx.b $78
 	stx.w VMAIN
@@ -1419,9 +1419,9 @@ CODE_C4CADD:						; from CODE_C4CAB7
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $6E
-	bne CODE_C4CB03
-	jmp.w CODE_C4CC52
-CODE_C4CB03:						; from CODE_C4CADD
+	bne .47
+	jmp.w .56
+.47:								; DAS0L = A, VMAIN = $6C, VMADDL = $6A, DMAP0 = $68, ...
 	sta.w DAS0L
 	ldx.b $6C
 	stx.w VMAIN
@@ -1435,9 +1435,9 @@ CODE_C4CB03:						; from CODE_C4CADD
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $62
-	bne CODE_C4CB29
-	jmp.w CODE_C4CC52
-CODE_C4CB29:						; from CODE_C4CB03
+	bne .48
+	jmp.w .56
+.48:								; DAS0L = A, VMAIN = $60, VMADDL = $5E, DMAP0 = $5C, ...
 	sta.w DAS0L
 	ldx.b $60
 	stx.w VMAIN
@@ -1451,9 +1451,9 @@ CODE_C4CB29:						; from CODE_C4CB03
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $56
-	bne CODE_C4CB4F
-	jmp.w CODE_C4CC52
-CODE_C4CB4F:						; from CODE_C4CB29
+	bne .49
+	jmp.w .56
+.49:								; DAS0L = A, VMAIN = $54, VMADDL = $52, DMAP0 = $50, ...
 	sta.w DAS0L
 	ldx.b $54
 	stx.w VMAIN
@@ -1467,9 +1467,9 @@ CODE_C4CB4F:						; from CODE_C4CB29
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b NMISkip
-	bne CODE_C4CB75
-	jmp.w CODE_C4CC52
-CODE_C4CB75:						; from CODE_C4CB4F
+	bne .50
+	jmp.w .56
+.50:								; DAS0L = A, VMAIN = $48, VMADDL = $46, DMAP0 = $44, ...
 	sta.w DAS0L
 	ldx.b $48
 	stx.w VMAIN
@@ -1483,9 +1483,9 @@ CODE_C4CB75:						; from CODE_C4CB4F
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
-	bne CODE_C4CB9B
-	jmp.w CODE_C4CC52
-CODE_C4CB9B:						; from CODE_C4CB75
+	bne .51
+	jmp.w .56
+.51:								; DAS0L = A, VMAIN = p1, VMADDL = $3A, DMAP0 = p0, ...
 	sta.w DAS0L
 	ldx.b p1
 	stx.w VMAIN
@@ -1499,9 +1499,9 @@ CODE_C4CB9B:						; from CODE_C4CB75
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $32
-	bne CODE_C4CBC1
-	jmp.w CODE_C4CC52
-CODE_C4CBC1:						; from CODE_C4CB9B
+	bne .52
+	jmp.w .56
+.52:								; DAS0L = A, VMAIN = r1, VMADDL = $2E, DMAP0 = r0, ...
 	sta.w DAS0L
 	ldx.b r1
 	stx.w VMAIN
@@ -1515,9 +1515,9 @@ CODE_C4CBC1:						; from CODE_C4CB9B
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $26
-	bne CODE_C4CBE7
-	jmp.w CODE_C4CC52
-CODE_C4CBE7:						; from CODE_C4CBC1
+	bne .53
+	jmp.w .56
+.53:								; DAS0L = A, VMAIN = $24, VMADDL = $22, DMAP0 = $20, ...
 	sta.w DAS0L
 	ldx.b $24
 	stx.w VMAIN
@@ -1531,9 +1531,9 @@ CODE_C4CBE7:						; from CODE_C4CBC1
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $1A
-	bne CODE_C4CC0D
-	jmp.w CODE_C4CC52
-CODE_C4CC0D:						; from CODE_C4CBE7
+	bne .54
+	jmp.w .56
+.54:								; DAS0L = A, VMAIN = $18, VMADDL = $16, DMAP0 = $14, ...
 	sta.w DAS0L
 	ldx.b $18
 	stx.w VMAIN
@@ -1547,9 +1547,9 @@ CODE_C4CC0D:						; from CODE_C4CBE7
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $0E
-	bne CODE_C4CC33
-	jmp.w CODE_C4CC52
-CODE_C4CC33:						; from CODE_C4CC0D
+	bne .55
+	jmp.w .56
+.55:								; DAS0L = A, VMAIN = $0C, VMADDL = $0A, DMAP0 = $08, ...
 	sta.w DAS0L
 	ldx.b $0C
 	stx.w VMAIN
@@ -1562,7 +1562,7 @@ CODE_C4CC33:						; from CODE_C4CC0D
 	lda.b $04
 	sta.w A1T0L
 	sty.w MDMAEN
-CODE_C4CC52:						; from CODE_C4C930, CODE_C4C93B, CODE_C4C961, CODE_C4C987, ...
+.56:								; A = $0400, DMAP0 = $2200, A, X / Y 16-bit, X = $0004, ...
 	lda.w #$0400
 	tcd
 	lda.w #$2200
@@ -1573,9 +1573,9 @@ CODE_C4CC52:						; from CODE_C4C930, CODE_C4C93B, CODE_C4C961, CODE_C4C987, ...
 	stz.w $0000,x
 	sep #$10
 	lda.b $8E
-	bne CODE_C4CC6E
-	jmp.w CODE_C4CE5F
-CODE_C4CC6E:						; from CODE_C4CC52
+	bne .57
+	jmp.w .75
+.57:								; DAS0L = A, CGADD = $8C, A1B0 = $8A, A1T0L = $88, ...
 	sta.w DAS0L
 	ldx.b $8C
 	stx.w CGADD
@@ -1585,9 +1585,9 @@ CODE_C4CC6E:						; from CODE_C4CC52
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $86
-	bne CODE_C4CC8A
-	jmp.w CODE_C4CE5F
-CODE_C4CC8A:						; from CODE_C4CC6E
+	bne .58
+	jmp.w .75
+.58:								; DAS0L = A, CGADD = $84, A1B0 = $82, A1T0L = $80, ...
 	sta.w DAS0L
 	ldx.b $84
 	stx.w CGADD
@@ -1597,9 +1597,9 @@ CODE_C4CC8A:						; from CODE_C4CC6E
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $7E
-	bne CODE_C4CCA6
-	jmp.w CODE_C4CE5F
-CODE_C4CCA6:						; from CODE_C4CC8A
+	bne .59
+	jmp.w .75
+.59:								; DAS0L = A, CGADD = $7C, A1B0 = $7A, A1T0L = $78, ...
 	sta.w DAS0L
 	ldx.b $7C
 	stx.w CGADD
@@ -1609,9 +1609,9 @@ CODE_C4CCA6:						; from CODE_C4CC8A
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $76
-	bne CODE_C4CCC2
-	jmp.w CODE_C4CE5F
-CODE_C4CCC2:						; from CODE_C4CCA6
+	bne .60
+	jmp.w .75
+.60:								; DAS0L = A, CGADD = $74, A1B0 = $72, A1T0L = $70, ...
 	sta.w DAS0L
 	ldx.b $74
 	stx.w CGADD
@@ -1621,9 +1621,9 @@ CODE_C4CCC2:						; from CODE_C4CCA6
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $6E
-	bne CODE_C4CCDE
-	jmp.w CODE_C4CE5F
-CODE_C4CCDE:						; from CODE_C4CCC2
+	bne .61
+	jmp.w .75
+.61:								; DAS0L = A, CGADD = $6C, A1B0 = $6A, A1T0L = $68, ...
 	sta.w DAS0L
 	ldx.b $6C
 	stx.w CGADD
@@ -1633,9 +1633,9 @@ CODE_C4CCDE:						; from CODE_C4CCC2
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $66
-	bne CODE_C4CCFA
-	jmp.w CODE_C4CE5F
-CODE_C4CCFA:						; from CODE_C4CCDE
+	bne .62
+	jmp.w .75
+.62:								; DAS0L = A, CGADD = $64, A1B0 = $62, A1T0L = $60, ...
 	sta.w DAS0L
 	ldx.b $64
 	stx.w CGADD
@@ -1645,9 +1645,9 @@ CODE_C4CCFA:						; from CODE_C4CCDE
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $5E
-	bne CODE_C4CD16
-	jmp.w CODE_C4CE5F
-CODE_C4CD16:						; from CODE_C4CCFA
+	bne .63
+	jmp.w .75
+.63:								; DAS0L = A, CGADD = $5C, A1B0 = $5A, A1T0L = $58, ...
 	sta.w DAS0L
 	ldx.b $5C
 	stx.w CGADD
@@ -1657,9 +1657,9 @@ CODE_C4CD16:						; from CODE_C4CCFA
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $56
-	bne CODE_C4CD32
-	jmp.w CODE_C4CE5F
-CODE_C4CD32:						; from CODE_C4CD16
+	bne .64
+	jmp.w .75
+.64:								; DAS0L = A, CGADD = $54, A1B0 = $52, A1T0L = $50, ...
 	sta.w DAS0L
 	ldx.b $54
 	stx.w CGADD
@@ -1669,9 +1669,9 @@ CODE_C4CD32:						; from CODE_C4CD16
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b DMAQueueTail
-	bne CODE_C4CD4E
-	jmp.w CODE_C4CE5F
-CODE_C4CD4E:						; from CODE_C4CD32
+	bne .65
+	jmp.w .75
+.65:								; DAS0L = A, CGADD = DMAQueueHead, A1B0 = NMISkip, A1T0L = $48, ...
 	sta.w DAS0L
 	ldx.b DMAQueueHead
 	stx.w CGADD
@@ -1681,9 +1681,9 @@ CODE_C4CD4E:						; from CODE_C4CD32
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $46
-	bne CODE_C4CD6A
-	jmp.w CODE_C4CE5F
-CODE_C4CD6A:						; from CODE_C4CD4E
+	bne .66
+	jmp.w .75
+.66:								; DAS0L = A, CGADD = $44, A1B0 = $42, A1T0L = r3, ...
 	sta.w DAS0L
 	ldx.b $44
 	stx.w CGADD
@@ -1693,9 +1693,9 @@ CODE_C4CD6A:						; from CODE_C4CD4E
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $3E
-	bne CODE_C4CD86
-	jmp.w CODE_C4CE5F
-CODE_C4CD86:						; from CODE_C4CD6A
+	bne .67
+	jmp.w .75
+.67:								; DAS0L = A, CGADD = p1, A1B0 = $3A, A1T0L = p0, ...
 	sta.w DAS0L
 	ldx.b p1
 	stx.w CGADD
@@ -1705,9 +1705,9 @@ CODE_C4CD86:						; from CODE_C4CD6A
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $36
-	bne CODE_C4CDA2
-	jmp.w CODE_C4CE5F
-CODE_C4CDA2:						; from CODE_C4CD86
+	bne .68
+	jmp.w .75
+.68:								; DAS0L = A, CGADD = r2, A1B0 = $32, A1T0L = r1, ...
 	sta.w DAS0L
 	ldx.b r2
 	stx.w CGADD
@@ -1717,9 +1717,9 @@ CODE_C4CDA2:						; from CODE_C4CD86
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $2E
-	bne CODE_C4CDBE
-	jmp.w CODE_C4CE5F
-CODE_C4CDBE:						; from CODE_C4CDA2
+	bne .69
+	jmp.w .75
+.69:								; DAS0L = A, CGADD = r0, A1B0 = $2A, A1T0L = $28, ...
 	sta.w DAS0L
 	ldx.b r0
 	stx.w CGADD
@@ -1729,9 +1729,9 @@ CODE_C4CDBE:						; from CODE_C4CDA2
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $26
-	bne CODE_C4CDDA
-	jmp.w CODE_C4CE5F
-CODE_C4CDDA:						; from CODE_C4CDBE
+	bne .70
+	jmp.w .75
+.70:								; DAS0L = A, CGADD = $24, A1B0 = $22, A1T0L = $20, ...
 	sta.w DAS0L
 	ldx.b $24
 	stx.w CGADD
@@ -1741,9 +1741,9 @@ CODE_C4CDDA:						; from CODE_C4CDBE
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $1E
-	bne CODE_C4CDF6
-	jmp.w CODE_C4CE5F
-CODE_C4CDF6:						; from CODE_C4CDDA
+	bne .71
+	jmp.w .75
+.71:								; DAS0L = A, CGADD = $1C, A1B0 = $1A, A1T0L = $18, ...
 	sta.w DAS0L
 	ldx.b $1C
 	stx.w CGADD
@@ -1753,9 +1753,9 @@ CODE_C4CDF6:						; from CODE_C4CDDA
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $16
-	bne CODE_C4CE12
-	jmp.w CODE_C4CE5F
-CODE_C4CE12:						; from CODE_C4CDF6
+	bne .72
+	jmp.w .75
+.72:								; DAS0L = A, CGADD = $14, A1B0 = $12, A1T0L = $10, ...
 	sta.w DAS0L
 	ldx.b $14
 	stx.w CGADD
@@ -1765,9 +1765,9 @@ CODE_C4CE12:						; from CODE_C4CDF6
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b $0E
-	bne CODE_C4CE2E
-	jmp.w CODE_C4CE5F
-CODE_C4CE2E:						; from CODE_C4CE12
+	bne .73
+	jmp.w .75
+.73:								; DAS0L = A, CGADD = $0C, A1B0 = $0A, A1T0L = $08, ...
 	sta.w DAS0L
 	ldx.b $0C
 	stx.w CGADD
@@ -1777,9 +1777,9 @@ CODE_C4CE2E:						; from CODE_C4CE12
 	sta.w A1T0L
 	sty.w MDMAEN
 	lda.b QueueBusy
-	bne CODE_C4CE4A
-	jmp.w CODE_C4CE5F
-CODE_C4CE4A:						; from CODE_C4CE2E
+	bne .74
+	jmp.w .75
+.74:								; DAS0L = A, CGADD = $04, A1B0 = $02, A1T0L = $00, ...
 	sta.w DAS0L
 	ldx.b $04
 	stx.w CGADD
@@ -1788,7 +1788,7 @@ CODE_C4CE4A:						; from CODE_C4CE2E
 	lda.b $00
 	sta.w A1T0L
 	sty.w MDMAEN
-CODE_C4CE5F:						; from CODE_C4CC52, CODE_C4CC6E, CODE_C4CC8A, CODE_C4CCA6, ...
+.75:								; A = $0000, $00 = $03FF, $02 = $01FF, $04 = $048F, ...
 	rep #$31
 	lda.w #$0000
 	tcd
@@ -1802,7 +1802,7 @@ CODE_C4CE5F:						; from CODE_C4CC52, CODE_C4CC6E, CODE_C4CC8A, CODE_C4CCA6, ...
 	sec
 	lda.b $28
 	sbc.w #$1B91
-	bcc CODE_C4CEBC
+	bcc .76
 	adc.w #$0001
 	sta.w DAS0L
 	lda.w #$939C
@@ -1825,7 +1825,7 @@ CODE_C4CE5F:						; from CODE_C4CC52, CODE_C4CC6E, CODE_C4CC8A, CODE_C4CCA6, ...
 	sta.w A1T0L
 	stx.w MDMAEN
 	rtl
-CODE_C4CEBC:						; from CODE_C4CE5F
+.76:								; DAS0L = $0220, A1T0L = $1B90, $4303 = $001B, DMAP0 = $0400, ...
 	lda.w #$0220
 	sta.w DAS0L
 	lda.w #$1B90
@@ -1860,14 +1860,14 @@ CODE_C4CEF5:						; called from other segments
 	plb
 	ldy.w #$6000
 	jsr.w CODE_C4CF64
-	bne CODE_C4CF11
+	bne .1
 	ldy.w #$6A16
 	jsr.w CODE_C4CF64
-	bne CODE_C4CF11
+	bne .1
 	ldy.w #$790D
 	jsr.w CODE_C4CF64
-	beq CODE_C4CF58
-CODE_C4CF11:						; from CODE_C4CEF5
+	beq .2
+.1:									; A = $1FFE, $6000 = 0, X = $6000, Y = X, ...
 	lda.w #$1FFE
 	stz.w $6000
 	ldx.w #$6000
@@ -1889,33 +1889,33 @@ CODE_C4CF11:						; from CODE_C4CEF5
 	sta.l $306043
 	ldx.w #$003A
 	lda.w #$FFFF
-CODE_C4CF50:						; from CODE_C4CF50
+.loop:								; loop: $3070D6,x = A, X - 1, X - 1, if the result >= 0 go to .loop
 	sta.l $3070D6,x
 	dex
 	dex
-	bpl CODE_C4CF50
-CODE_C4CF58:						; from CODE_C4CEF5
+	bpl .loop
+.2:									; return
 	plb
 	rtl
-CODE_C4CF5A:						; from CODE_C4CF11
+CODE_C4CF5A:						; from CODE_C4CEF5
 	ldx.w #$FFC0
 	lda.w #$003F
 	mvn $30,$C0
 	rts
 CODE_C4CF64:						; from CODE_C4CEF5
 	ldx.w #$FFC0
-CODE_C4CF67:						; from CODE_C4CF67
+.loop:								; loop: A = $00,x, if A is not $0000,y go to .rts, Y + 1, Y + 1, ...
 	lda.b $00,x
 	cmp.w $0000,y
-	bne CODE_C4CF74
+	bne .rts
 	iny
 	iny
 	inx
 	inx
-	bne CODE_C4CF67
-CODE_C4CF74:						; from CODE_C4CF67
+	bne .loop
+.rts:								; return
 	rts
-CODE_C4CF75:						; from CODE_C4CF11 and other segments
+CODE_C4CF75:						; from CODE_C4CEF5 and other segments
 	jsr.w CODE_C4D05B
 	jsr.w CODE_C4D0D5
 CODE_C4CF7B:						; from CODE_C4D051 and other segments
@@ -1929,7 +1929,7 @@ CODE_C4CF7B:						; from CODE_C4D051 and other segments
 	jmp.w CODE_C4CFBE
 CODE_C4CF8F:						; from CODE_C4CF7B and other segments
 	lda.w #$0019
-CODE_C4CF92:						; from CODE_C4CFDE
+CODE_C4CF92:						; from CODE_C4CFBE
 	sta.w $17C9
 	asl a
 	tax
@@ -1941,20 +1941,20 @@ CODE_C4CF92:						; from CODE_C4CFDE
 	lda.l $C30000,x
 	xba
 	ldy.w #$0000
-CODE_C4CFAA:						; from CODE_C4CFAA
+.loop:								; loop: Y + 1, A * 2, A * 2, A * 2, ...
 	iny
 	asl a
 	asl a
 	asl a
 	asl a
-	bne CODE_C4CFAA
+	bne .loop
 	plx
 	lda.l $C30000,x
 	and.w #$07FF
 	lsr a
 	sec
 	sbc.w #$001C
-CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFDE
+CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFBE
 	phy
 	pha
 	sta.b tmp0
@@ -1972,12 +1972,12 @@ CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFDE
 	and.w #$0007
 	tay
 	lda.b $0A
-CODE_C4CFD8:						; from CODE_C4CFD8
+.loop:								; loop: Y - 1, if the result < 0 go to .1, A * 2, go to .loop
 	dey
-	bmi CODE_C4CFDE
+	bmi .1
 	asl a
-	bra CODE_C4CFD8
-CODE_C4CFDE:						; from CODE_C4CFD8
+	bra .loop
+.1:									; A or $30628F,x, $30628F,x = A, $0A + 1, pull A, ...
 	ora.l $30628F,x
 	sta.l $30628F,x
 	inc.b $0A

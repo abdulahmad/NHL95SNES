@@ -32,7 +32,7 @@ CODE_C4DFD6:						; called from other segments
 	stx.b $00
 	ldx.w #$506D
 	ldy.b $08
-CODE_C4E020:						; from CODE_C4E020
+.loop:								; loop: push X, push Y, A = Y, A + $0010, ...
 	pea.w $0010
 	phx
 	pea.w $007E
@@ -46,7 +46,7 @@ CODE_C4E020:						; from CODE_C4E020
 	adc.w #$0020
 	tax
 	cmp.w #$522D
-	bne CODE_C4E020
+	bne .loop
 	pea.w $0AE0
 	pea.w $0000
 	pea.w $007E
@@ -127,7 +127,7 @@ CODE_C4E020:						; from CODE_C4E020
 	jsl.l CODE_C4CEDB
 	stz.w BG2HScroll
 	stz.w fadestep
-CODE_C4E0FE:						; from CODE_C4E0FE
+.loop2:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
 	inc.w TransfersReady
 	wai
 	jsl.l CODE_C36C2D
@@ -140,20 +140,20 @@ CODE_C4E0FE:						; from CODE_C4E0FE
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
 	lda.w repeatdelayframes
-	bne CODE_C4E0FE
+	bne .loop2
 	lda.w $058D
 	bit.w #$1000
-	beq CODE_C4E0FE
+	beq .loop2
 	rtl
 CODE_C4E12C:						; called from other segments
 	jsl.l CODE_C4C530
 	jsl.l CODE_C5E50E
 	lda.w $1864
 	cmp.w #$0001
-	bne CODE_C4E140
+	bne .1
 	jsr.w CODE_C4F2AE
 	rtl
-CODE_C4E140:						; from CODE_C4E12C
+.1:									; BG2VScroll = $0002, Y = $5C00, call CODE_C589E4, call CODE_C4BAF6, ...
 	lda.w #$0002
 	sta.w BG2VScroll
 	ldy.w #$5C00
@@ -174,16 +174,16 @@ CODE_C4E140:						; from CODE_C4E12C
 	jsl.l CODE_CF03D0
 	lda.w $17C9
 	cmp.w #$001A
-	bcc CODE_C4E188
+	bcc .2
 	ldy.w #$2DC9
 	jsr.w CODE_C4EF41
-CODE_C4E188:						; from CODE_C4E140
+.2:									; A = $17CB, if A < $001A go to .3, Y = $3207, call CODE_C4EF41
 	lda.w $17CB
 	cmp.w #$001A
-	bcc CODE_C4E196
+	bcc .3
 	ldy.w #$3207
 	jsr.w CODE_C4EF41
-CODE_C4E196:						; from CODE_C4E188
+.3:									; call CODE_C4F2AE, $CF = $0018, $D1 = $0060, A = $17CB, ...
 	jsr.w CODE_C4F2AE
 	lda.w #$0018
 	sta.b $CF
@@ -298,11 +298,11 @@ CODE_C4E196:						; from CODE_C4E188
 	lda.w #$0019
 	sta.w $2DA3
 	jsr.w CODE_C4E3CB
-CODE_C4E2D9:						; from CODE_C4E32B, CODE_C4E35A, CODE_C4E36B, CODE_C4E384
+.loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
-CODE_C4E2DC:						; from CODE_C4E2DC
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call CODE_C36C2D, ...
 	lda.w TransfersReady
-	bne CODE_C4E2DC
+	bne .loop2
 	jsl.l CODE_C36C2D
 	inc.b $26
 	jsl.l AnimateSprites
@@ -313,96 +313,96 @@ CODE_C4E2DC:						; from CODE_C4E2DC
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
 	lda.w $2DA1
-	bmi CODE_C4E31C
+	bmi .6
 	dec a
-	bne CODE_C4E31C
+	bne .6
 	jsr.w CODE_C4E39E
 	lda.w $2DA3
 	sec
 	sbc.w #$0005
-	bmi CODE_C4E313
-	bne CODE_C4E316
-CODE_C4E313:						; from CODE_C4E2DC
+	bmi .4
+	bne .5
+.4:									; A = $0001
 	lda.w #$0001
-CODE_C4E316:						; from CODE_C4E2DC
+.5:									; $2DA3 = A, A = $012C
 	sta.w $2DA3
 	lda.w #$012C
-CODE_C4E31C:						; from CODE_C4E2DC
+.6:									; $2DA1 = A, A = $2DA3, A - 1, if the result is not 0 go to .7, ...
 	sta.w $2DA1
 	lda.w $2DA3
 	dec a
-	bne CODE_C4E32B
+	bne .7
 	jsr.w CODE_C4EBC8
 	lda.w #$0019
-CODE_C4E32B:						; from CODE_C4E31C
+.7:									; $2DA3 = A, if repeatdelayframes is not 0 go to .loop, A = $058D, ...
 	sta.w $2DA3
 	lda.w repeatdelayframes
-	bne CODE_C4E2D9
+	bne .loop
 	lda.w $058D
 	bit.w #$1000
 	bne CODE_C4E387
 	bit.w #$0400
-	beq CODE_C4E34C
+	beq .8
 	lda.w #$0001
 	sta.w $2DA3
 	lda.w #$0400
 	trb.w $0565
-CODE_C4E34C:						; from CODE_C4E32B
+.8:									; if $0800 bits clear go to .9, $2DA3 + 1, A = $0800
 	bit.w #$0800
-	beq CODE_C4E35A
+	beq .9
 	inc.w $2DA3
 	lda.w #$0800
 	trb.w $0565
-CODE_C4E35A:						; from CODE_C4E34C
+.9:									; if $0080 bits clear go to .10, A = $8000, call CODE_C4E39E, go to .loop
 	bit.w #$0080
-	beq CODE_C4E36B
+	beq .10
 	lda.w #$8000
 	tsb.w $2DA1
 	jsr.w CODE_C4E39E
-	jmp.w CODE_C4E2D9
-CODE_C4E36B:						; from CODE_C4E35A
+	jmp.w .loop
+.10:								; if $4000 bits clear go to .11, A = $8000, call CODE_C4E3B0, go to .loop
 	bit.w #$4000
-	beq CODE_C4E37C
+	beq .11
 	lda.w #$8000
 	tsb.w $2DA1
 	jsr.w CODE_C4E3B0
-	jmp.w CODE_C4E2D9
-CODE_C4E37C:						; from CODE_C4E36B
+	jmp.w .loop
+.11:								; if $0040 bits clear go to .12, call CODE_C4E3BF
 	bit.w #$0040
-	beq CODE_C4E384
+	beq .12
 	jsr.w CODE_C4E3BF
-CODE_C4E384:						; from CODE_C4E37C
-	jmp.w CODE_C4E2D9
-CODE_C4E387:						; from CODE_C4E32B, CODE_C4EC4F
+.12:								; go to .loop
+	jmp.w .loop
+CODE_C4E387:						; from CODE_C4E12C, CODE_C4EBC8
 	jsl.l CODE_CF039E
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	jsl.l CODE_C4CEDB
 	jsl.l ClearNMIHook
 	jml.l CODE_C5E50E
-CODE_C4E39E:						; from CODE_C4E2DC, CODE_C4E35A
+CODE_C4E39E:						; from CODE_C4E12C
 	lda.w $2DA5
 	inc a
 	cmp.w #$0007
-	bcc CODE_C4E3AA
+	bcc .1
 	lda.w #$0000
-CODE_C4E3AA:						; from CODE_C4E39E
+.1:									; $2DA5 = A, go to CODE_C4E41B
 	sta.w $2DA5
 	jmp.w CODE_C4E41B
-CODE_C4E3B0:						; from CODE_C4E36B
+CODE_C4E3B0:						; from CODE_C4E12C
 	lda.w $2DA5
-	bne CODE_C4E3B8
+	bne .1
 	lda.w #$0007
-CODE_C4E3B8:						; from CODE_C4E3B0
+.1:									; A - 1, $2DA5 = A, go to CODE_C4E41B
 	dec a
 	sta.w $2DA5
 	jmp.w CODE_C4E41B
-CODE_C4E3BF:						; from CODE_C4E37C
+CODE_C4E3BF:						; from CODE_C4E12C
 	ldx.b $77
 	jsl.l CODE_C5E596
 	ldx.b $79
 	jsl.l CODE_C5E596
-CODE_C4E3CB:						; from CODE_C4E196
+CODE_C4E3CB:						; from CODE_C4E12C
 	lda.b $7B
 	sta.b $7D
 	lda.w #$0012
@@ -434,7 +434,7 @@ CODE_C4E3CB:						; from CODE_C4E196
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4E41B:						; from CODE_C4E196, CODE_C4E3AA, CODE_C4E3B8
+CODE_C4E41B:						; from CODE_C4E12C, CODE_C4E39E, CODE_C4E3B0
 	lda.b $D3
 	clc
 	adc.w #$0140
@@ -461,12 +461,12 @@ CODE_C4E41B:						; from CODE_C4E196, CODE_C4E3AA, CODE_C4E3B8
 	jsl.l CODE_C4C541
 	ldx.w $2DA5
 	cpx.w #$0005
-	bcc CODE_C4E468
-	beq CODE_C4E465
-	jmp.w CODE_C4E79A
-CODE_C4E465:						; from CODE_C4E41B
-	jmp.w CODE_C4E624
-CODE_C4E468:						; from CODE_C4E41B
+	bcc .2
+	beq .1
+	jmp.w .12
+.1:									; go to .7
+	jmp.w .7
+.2:									; A = $2E36,x, A and $00FF, A - 1, A * 2, ...
 	lda.w $2E36,x
 	and.w #$00FF
 	dec a
@@ -478,7 +478,7 @@ CODE_C4E468:						; from CODE_C4E41B
 	sta.b $6D
 	tax
 	cmp.w #$00FF
-	beq CODE_C4E4CB
+	beq .3
 	lda.w $2E75,y
 	sta.b a2
 	clc
@@ -518,10 +518,10 @@ CODE_C4E468:						; from CODE_C4E41B
 	stx.b $04
 	stz.b QueueBusy
 	ply
-	bra CODE_C4E4CE
-CODE_C4E4CB:						; from CODE_C4E468
+	bra .4
+.3:									; call CODE_C4EF07
 	jsr.w CODE_C4EF07
-CODE_C4E4CE:						; from CODE_C4E468
+.4:									; X = $2DA5, A = $3274,x, A and $00FF, A - 1, ...
 	ldx.w $2DA5
 	lda.w $3274,x
 	and.w #$00FF
@@ -534,7 +534,7 @@ CODE_C4E4CE:						; from CODE_C4E468
 	sta.b $6D
 	tax
 	cmp.w #$00FF
-	beq CODE_C4E534
+	beq .5
 	lda.w $32B3,y
 	sta.b a2
 	clc
@@ -574,10 +574,10 @@ CODE_C4E4CE:						; from CODE_C4E468
 	stx.b $04
 	stz.b QueueBusy
 	ply
-	bra CODE_C4E537
-CODE_C4E534:						; from CODE_C4E4CE
+	bra .6
+.5:									; call CODE_C4EECD
 	jsr.w CODE_C4EECD
-CODE_C4E537:						; from CODE_C4E4CE
+.6:									; call CODE_C5BBBC, $CF = $0018, $D1 = $0050, a2 = $0002, ...
 	jsl.l CODE_C5BBBC
 	lda.w #$0018
 	sta.b $CF
@@ -668,14 +668,14 @@ CODE_C4E537:						; from CODE_C4E4CE
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C536
 	rts
-CODE_C4E624:						; from CODE_C4E465
+.7:									; a0 = $2EA7, A and $00FF, $6D = A, X = A, ...
 	lda.w $2EA7
 	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
-	beq CODE_C4E67C
+	beq .8
 	lda.w $2E75
 	sta.b a2
 	clc
@@ -713,17 +713,17 @@ CODE_C4E624:						; from CODE_C4E465
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	bra CODE_C4E67F
-CODE_C4E67C:						; from CODE_C4E624
+	bra .9
+.8:									; call CODE_C4EF07
 	jsr.w CODE_C4EF07
-CODE_C4E67F:						; from CODE_C4E624
+.9:									; a0 = $32E5, A and $00FF, $6D = A, X = A, ...
 	lda.w $32E5
 	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
-	beq CODE_C4E6D7
+	beq .10
 	lda.w $32B3
 	sta.b a2
 	clc
@@ -761,10 +761,10 @@ CODE_C4E67F:						; from CODE_C4E624
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	bra CODE_C4E6DA
-CODE_C4E6D7:						; from CODE_C4E67F
+	bra .11
+.10:								; call CODE_C4EECD
 	jsr.w CODE_C4EECD
-CODE_C4E6DA:						; from CODE_C4E67F
+.11:								; call CODE_C5BBBC, $CF = $00B0, $D1 = $00E8, a2 = 0, ...
 	jsl.l CODE_C5BBBC
 	lda.w #$00B0
 	sta.b $CF
@@ -827,7 +827,7 @@ CODE_C4E6DA:						; from CODE_C4E67F
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C4C536
 	rts
-CODE_C4E79A:						; from CODE_C4E41B
+.12:								; $04F5 = 0, $364E = 0, X = $364E, Y = $3650, ...
 	stz.w $04F5
 	stz.w $364E
 	ldx.w #$364E
@@ -917,7 +917,7 @@ CODE_C4E79A:						; from CODE_C4E41B
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	rts
-CODE_C4E885:						; from CODE_C4E196
+CODE_C4E885:						; from CODE_C4E12C
 	stz.b a2
 	ldy.w #$2DA9
 	ldx.w #$2DC9
@@ -931,23 +931,23 @@ CODE_C4E885:						; from CODE_C4E196
 	lda.w $2DB5
 	sec
 	sbc.w $2DC3
-	bpl CODE_C4E8B1
+	bpl .1
 	ldx.w $17CB
 	eor.w #$FFFF
 	inc a
-CODE_C4E8B1:						; from CODE_C4E885
+.1:									; $2DA7 = X, X = A, A = $8000, if X >= $0008 go to .3, ...
 	stx.w $2DA7
 	tax
 	lda.w #$8000
 	cpx.w #$0008
-	bcs CODE_C4E8C9
+	bcs .3
 	cpx.w #$0004
-	bcs CODE_C4E8C8
+	bcs .2
 	ldx.w #$FFFF
 	stx.w $2DA7
-CODE_C4E8C8:						; from CODE_C4E8B1
+.2:									; A * 2
 	asl a
-CODE_C4E8C9:						; from CODE_C4E8B1
+.3:									; return
 	tsb.w $2DA7
 	rts
 CODE_C4E8CD:						; from CODE_C4E885
@@ -963,7 +963,7 @@ CODE_C4E8CD:						; from CODE_C4E885
 	lda.w $0000,x
 	sta.b a0
 	lda.w #$0000
-CODE_C4E8EE:						; from CODE_C4E9C4
+.1:									; push X, push A, push Y, d4 = $5DF9, ...
 	phx
 	pha
 	phy
@@ -971,11 +971,11 @@ CODE_C4E8EE:						; from CODE_C4E9C4
 	sty.b d4
 	ldy.w #$0000
 	cmp.w $0002,x
-	bcs CODE_C4E906
+	bcs .2
 	ldy.w #$F0C9
 	sty.b d4
 	ldy.w #$0010
-CODE_C4E906:						; from CODE_C4E8EE
+.2:									; $91 = Y, d0 = A, $24DC = 0, call CODE_C571C7, ...
 	sty.b $91
 	sta.b d0
 	stz.w $24DC
@@ -992,32 +992,32 @@ CODE_C4E906:						; from CODE_C4E8EE
 	ply
 	plx
 	bit.w #$8000
-	bne CODE_C4E977
+	bne .6
 	cmp.w $04F9
-	bcs CODE_C4E932
-	jmp.w CODE_C4E9C4
-CODE_C4E932:						; from CODE_C4E906
+	bcs .3
+	jmp.w .10
+.3:									; if A >= $04F7 go to .4, $04F9 = A, A = X, A * 2, ...
 	cmp.w $04F7
-	bcs CODE_C4E942
+	bcs .4
 	sta.w $04F9
 	txa
 	asl a
 	sta.w $0004,y
-	jmp.w CODE_C4E9C4
-CODE_C4E942:						; from CODE_C4E932
+	jmp.w .10
+.4:									; $04F9 = $04F7, $0004,y = $0002,y, A = $65, if A >= $04F5 go to .5, ...
 	lda.w $04F7
 	sta.w $04F9
 	lda.w $0002,y
 	sta.w $0004,y
 	lda.b $65
 	cmp.w $04F5
-	bcs CODE_C4E95F
+	bcs .5
 	sta.w $04F7
 	txa
 	asl a
 	sta.w $0002,y
-	bra CODE_C4E9C4
-CODE_C4E95F:						; from CODE_C4E942
+	bra .10
+.5:									; $04F7 = $04F5, $0002,y = $0000,y, $04F5 = $65, A = X, ...
 	lda.w $04F5
 	sta.w $04F7
 	lda.w $0000,y
@@ -1027,35 +1027,35 @@ CODE_C4E95F:						; from CODE_C4E942
 	txa
 	asl a
 	sta.w $0000,y
-	bra CODE_C4E9C4
-CODE_C4E977:						; from CODE_C4E906
+	bra .10
+.6:									; if A = $04FF go to .7, if carry set go to .10
 	cmp.w $04FF
-	beq CODE_C4E97E
-	bcs CODE_C4E9C4
-CODE_C4E97E:						; from CODE_C4E977
+	beq .7
+	bcs .10
+.7:									; if A < $04FD go to .8, if zero go to .8, $04FF = A, A = X, ...
 	cmp.w $04FD
-	bcc CODE_C4E98F
-	beq CODE_C4E98F
+	bcc .8
+	beq .8
 	sta.w $04FF
 	txa
 	asl a
 	sta.w $000A,y
-	bra CODE_C4E9C4
-CODE_C4E98F:						; from CODE_C4E97E
+	bra .10
+.8:									; $04FF = $04FD, $000A,y = $0008,y, A = $65, if A < $04FB go to .9, ...
 	lda.w $04FD
 	sta.w $04FF
 	lda.w $0008,y
 	sta.w $000A,y
 	lda.b $65
 	cmp.w $04FB
-	bcc CODE_C4E9AE
-	beq CODE_C4E9AE
+	bcc .9
+	beq .9
 	sta.w $04FD
 	txa
 	asl a
 	sta.w $0008,y
-	bra CODE_C4E9C4
-CODE_C4E9AE:						; from CODE_C4E98F
+	bra .10
+.9:									; $04FD = $04FB, $0008,y = QueueBusy,y, $04FB = $65, A = X, ...
 	lda.w $04FB
 	sta.w $04FD
 	lda.w QueueBusy,y
@@ -1065,7 +1065,7 @@ CODE_C4E9AE:						; from CODE_C4E98F
 	txa
 	asl a
 	sta.w QueueBusy,y
-CODE_C4E9C4:						; from CODE_C4E906, CODE_C4E977, CODE_C4E97E, CODE_C4E932, ...
+.10:								; A = $000C,y, A + $65, $000C,y = A, A = X, ...
 	lda.w $000C,y
 	clc
 	adc.b $65
@@ -1074,11 +1074,11 @@ CODE_C4E9C4:						; from CODE_C4E906, CODE_C4E977, CODE_C4E97E, CODE_C4E932, ...
 	plx
 	inc a
 	cmp.b a0
-	beq CODE_C4E9D7
-	jmp.w CODE_C4E8EE
-CODE_C4E9D7:						; from CODE_C4E9C4
+	beq .rts
+	jmp.w .1
+.rts:								; return
 	rts
-CODE_C4E9D8:						; from CODE_C4E196
+CODE_C4E9D8:						; from CODE_C4E12C
 	jsl.l CODE_C4C541
 	stz.b $81
 	ldx.w #$4DB9
@@ -1100,9 +1100,9 @@ CODE_C4E9D8:						; from CODE_C4E196
 	jsr.w CODE_C4EB68
 	plx
 	lda.w $17C9
-	beq CODE_C4EA14
+	beq .1
 	jsr.w CODE_C4EB68
-CODE_C4EA14:						; from CODE_C4E9D8
+.1:									; $364E,y = $0020, Y + 1, $81 = Y, X = d0, ...
 	lda.w #$0020
 	sta.w $364E,y
 	iny
@@ -1134,9 +1134,9 @@ CODE_C4EA14:						; from CODE_C4E9D8
 	stx.b d0
 	plx
 	lda.w $17CB
-	bne CODE_C4EA5E
+	bne .2
 	ldx.w #$4720
-CODE_C4EA5E:						; from CODE_C4EA14
+.2:									; call CODE_C4EB68, $364E,y = $0020, Y + 1, $81 = Y, ...
 	jsr.w CODE_C4EB68
 	lda.w #$0020
 	sta.w $364E,y
@@ -1153,7 +1153,7 @@ CODE_C4EA5E:						; from CODE_C4EA14
 	iny
 	lda.w $2DA7
 	cmp.w #$FFFF
-	beq CODE_C4EACE
+	beq .4
 	sty.b $81
 	asl a
 	tax
@@ -1165,7 +1165,7 @@ CODE_C4EA5E:						; from CODE_C4EA14
 	ldx.w #$4DED
 	jsr.w CODE_C4EB68
 	lda.w $2DA7
-	bpl CODE_C4EAC6
+	bpl .3
 	lda.w #$7865
 	sta.w $364E,y
 	lda.w #$7274
@@ -1180,11 +1180,11 @@ CODE_C4EA5E:						; from CODE_C4EA14
 	clc
 	adc.w #$000A
 	tay
-CODE_C4EAC6:						; from CODE_C4EA5E
+.3:									; $81 = Y, X = $4DFA, call CODE_C4EB68
 	sty.b $81
 	ldx.w #$4DFA
 	jsr.w CODE_C4EB68
-CODE_C4EACE:						; from CODE_C4EA5E
+.4:									; d0 = $2DC9, A = $17C9, X = $2DA9, call CODE_C4EB81, ...
 	lda.w #$2DC9
 	sta.b d0
 	lda.w $17C9
@@ -1194,10 +1194,10 @@ CODE_C4EACE:						; from CODE_C4EA5E
 	sta.b d0
 	lda.w $17CB
 	cmp.w $17C9
-	beq CODE_C4EAEF
+	beq .5
 	ldx.w #$2DB7
 	jsr.w CODE_C4EB81
-CODE_C4EAEF:						; from CODE_C4EACE
+.5:									; X = $4E27, call CODE_C4EB68, $364E,y = $0000, Y + 1, ...
 	ldx.w #$4E27
 	jsr.w CODE_C4EB68
 	lda.w #$0000
@@ -1213,13 +1213,13 @@ CODE_C4EAEF:						; from CODE_C4EACE
 	jsl.l CODE_C4C541
 	ldy.w #$0000
 	sep #$20
-CODE_C4EB14:						; from CODE_C4EB14
+.loop:								; loop: $0000,x = $364E,y, X + 1, Y + 1, if Y is not $81 go to .loop, ...
 	lda.w $364E,y
 	sta.w $0000,x
 	inx
 	iny
 	cpy.b $81
-	bne CODE_C4EB14
+	bne .loop
 	rep #$20
 	rts
 CODE_C4EB23:						; from CODE_C4EB81
@@ -1258,23 +1258,23 @@ CODE_C4EB5C:						; from CODE_C4EB23
 	adc.w #$0118
 	tax
 	bra CODE_C4EB6C
-CODE_C4EB68:						; from CODE_C4E9D8, CODE_C4EA14, CODE_C4EA5E, CODE_C4EAC6, ...
+CODE_C4EB68:						; from CODE_C4E9D8, CODE_C4E9D8, ...
 	jsl.l CODE_C4C3BA
 CODE_C4EB6C:						; from CODE_C4EB5C
 	ldy.b $81
 	sep #$20
-CODE_C4EB70:						; from CODE_C4EB70
+.loop:								; loop: if $0000,x = 0 go to .1, $364E,y = A, X + 1, Y + 1, ...
 	lda.w $0000,x
-	beq CODE_C4EB7C
+	beq .1
 	sta.w $364E,y
 	inx
 	iny
-	bra CODE_C4EB70
-CODE_C4EB7C:						; from CODE_C4EB70
+	bra .loop
+.1:									; A 16-bit, $81 = Y, return
 	rep #$20
 	sty.b $81
 	rts
-CODE_C4EB81:						; from CODE_C4EACE
+CODE_C4EB81:						; from CODE_C4E9D8
 	phx
 	pha
 	lda.w #$6F46
@@ -1309,57 +1309,57 @@ CODE_C4EB81:						; from CODE_C4EACE
 	jsr.w CODE_C4EB23
 	ldx.w #$4E17
 	jmp.w CODE_C4EB68
-CODE_C4EBC8:						; from CODE_C4E31C
+CODE_C4EBC8:						; from CODE_C4E12C
 	ldx.b $7D
 	lda.w $2DC5
 	cmp.w #$0021
-	bcc CODE_C4EBD5
-CODE_C4EBD2:						; from CODE_C4EBD7
+	bcc .1
+.loop:								; loop: call CODE_C4EC58
 	jsr.w CODE_C4EC58
-CODE_C4EBD5:						; from CODE_C4EBC8
+.1:									; A 8-bit
 	sep #$20
-CODE_C4EBD7:						; from CODE_C4EBEA
+.2:									; if $0000,x = 0 go to .4, X + 1, if A is not $39 go to .3, A 16-bit, ...
 	lda.w $0000,x
-	beq CODE_C4EBEE
+	beq .4
 	inx
 	cmp.b #$39
-	bne CODE_C4EBEA
+	bne .3
 	rep #$20
 	inc.b $7D
 	jsr.w CODE_C4EC58
-	bra CODE_C4EBD2
-CODE_C4EBEA:						; from CODE_C4EBD7
+	bra .loop
+.3:									; if A is not $20 go to .2
 	cmp.b #$20
-	bne CODE_C4EBD7
-CODE_C4EBEE:						; from CODE_C4EBD7
+	bne .2
+.4:									; A 16-bit, $81 = X, A = X, A - $7D, ...
 	rep #$20
 	stx.b $81
 	txa
 	sec
 	sbc.b $7D
-	beq CODE_C4EC4F
+	beq .6
 	sta.b d0
 	clc
 	adc.w $2DC5
 	sta.w $2DC5
 	cmp.w #$0022
-	bcc CODE_C4EC12
+	bcc .5
 	jsr.w CODE_C4EC58
 	lda.w $2DC5
 	clc
 	adc.b d0
 	sta.w $2DC5
-CODE_C4EC12:						; from CODE_C4EBEE
+.5:									; X = $7D, Y = $0000, A 8-bit
 	ldx.b $7D
 	ldy.w #$0000
 	sep #$20
-CODE_C4EC19:						; from CODE_C4EC19
+.loop2:								; loop: $04F5,y = $0000,x, X + 1, Y + 1, if Y is not d0 go to .loop2, ...
 	lda.w $0000,x
 	sta.w $04F5,y
 	inx
 	iny
 	cpy.b d0
-	bne CODE_C4EC19
+	bne .loop2
 	lda.b #$00
 	sta.w $04F5,y
 	rep #$20
@@ -1378,14 +1378,14 @@ CODE_C4EC19:						; from CODE_C4EC19
 	stx.b $7D
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
-CODE_C4EC4E:						; from CODE_C4EC4F
+.rts:								; return
 	rts
-CODE_C4EC4F:						; from CODE_C4EBEE
+.6:									; if $23BA = 0 go to .rts, pull A, go to CODE_C4E387
 	lda.w $23BA
-	beq CODE_C4EC4E
+	beq .rts
 	pla
 	jmp.w CODE_C4E387
-CODE_C4EC58:						; from CODE_C4EBD2, CODE_C4EBD7, CODE_C4EBEE
+CODE_C4EC58:						; from CODE_C4EBC8
 	lda.w #$0002
 	sta.w $2DC5
 	lda.w #$0010
@@ -1393,23 +1393,23 @@ CODE_C4EC58:						; from CODE_C4EBD2, CODE_C4EBD7, CODE_C4EBEE
 	lda.w $2DC7
 	inc a
 	cmp.w #$001A
-	bcc CODE_C4EC6E
+	bcc .1
 	inc.b d5
-CODE_C4EC6E:						; from CODE_C4EC58
+.1:									; if A < $001B go to .2, A = $0011
 	cmp.w #$001B
-	bcc CODE_C4EC76
+	bcc .2
 	lda.w #$0011
-CODE_C4EC76:						; from CODE_C4EC6E
+.2:									; $2DC7 = A, if d5 = 0 go to .rts, push X, call CODE_C55C54, ...
 	sta.w $2DC7
 	lda.b d5
-	beq CODE_C4EC87
+	beq .rts
 	phx
 	jsl.l CODE_C55C54
 	jsl.l CODE_C4CEDB
 	plx
-CODE_C4EC87:						; from CODE_C4EC76
+.rts:								; return
 	rts
-CODE_C4EC88:						; from CODE_C4E468, CODE_C4E4CE, CODE_C4E624, ...
+CODE_C4EC88:						; from CODE_C4E41B, CODE_C4E41B, ...
 	sty.b d2
 	stx.b $36
 	sta.b r2
@@ -1436,13 +1436,13 @@ CODE_C4EC88:						; from CODE_C4E468, CODE_C4E4CE, CODE_C4E624, ...
 	sta.b $01,s
 	lda.w #$0480
 	sta.b d0
-CODE_C4ECC1:						; from CODE_C4EE81
+.1:									; Y = $0000, X = $364E
 	ldy.w #$0000
 	ldx.w #$364E
-CODE_C4ECC7:						; from CODE_C4EE73
+.2:									; $85 = $0006
 	lda.w #$0006
 	sta.b $85
-CODE_C4ECCC:						; from CODE_C4ECCC
+.loop:								; loop: $0000,x = 0, $0010,x = 0, A 8-bit, $81 = [r0],y, ...
 	stz.w $0000,x
 	stz.w $0010,x
 	sep #$20
@@ -1656,17 +1656,17 @@ CODE_C4ECCC:						; from CODE_C4ECCC
 	tax
 	iny
 	dec.b $85
-	beq CODE_C4EE73
-	jmp.w CODE_C4ECCC
-CODE_C4EE73:						; from CODE_C4ECCC
+	beq .3
+	jmp.w .loop
+.3:									; A = X, A - $00BE, X = A, if X = $365E go to .4, ...
 	txa
 	sec
 	sbc.w #$00BE
 	tax
 	cpx.w #$365E
-	beq CODE_C4EE81
-	jmp.w CODE_C4ECC7
-CODE_C4EE81:						; from CODE_C4EE73
+	beq .4
+	jmp.w .2
+.4:									; X = $364E, Y = r0, A = $00BF, r0 = Y, ...
 	ldx.w #$364E
 	ldy.b r0
 	lda.w #$00BF
@@ -1676,19 +1676,19 @@ CODE_C4EE81:						; from CODE_C4EE73
 	sec
 	sbc.w #$00C0
 	sta.b d0
-	beq CODE_C4EE9B
-	jmp.w CODE_C4ECC1
-CODE_C4EE9B:						; from CODE_C4EE81
+	beq .5
+	jmp.w .1
+.5:									; pull A, return
 	pla
 	rts
-CODE_C4EE9D:						; from CODE_C4E196 and other segments
+CODE_C4EE9D:						; from CODE_C4E12C and other segments
 	lda.w #$0080
 	sta.l VMAIN
 	lda.w #$0004
 	sta.b d0
 	txa
 	sta.l VMADDL
-CODE_C4EEAE:						; from CODE_C4EEAE
+.loop:								; loop: call CODE_C4EEC0, Y = A, A = X, A + $0020, ...
 	jsr.w CODE_C4EEC0
 	tay
 	txa
@@ -1697,17 +1697,17 @@ CODE_C4EEAE:						; from CODE_C4EEAE
 	tax
 	sta.l VMADDL
 	dec.b d0
-	bpl CODE_C4EEAE
-CODE_C4EEC0:						; from CODE_C4EEAE
+	bpl .loop
+CODE_C4EEC0:						; from CODE_C4EE9D
 	tya
 	ldy.w #$0005
-CODE_C4EEC4:						; from CODE_C4EEC4
+.loop:								; loop: VMDATAL = A, A + 1, Y - 1, if the result >= 0 go to .loop, ...
 	sta.l VMDATAL
 	inc a
 	dey
-	bpl CODE_C4EEC4
+	bpl .loop
 	rts
-CODE_C4EECD:						; from CODE_C4E534, CODE_C4E6D7
+CODE_C4EECD:						; from CODE_C4E41B
 	stz.w $04F5
 	stz.w $364E
 	dec.b QueueBusy
@@ -1735,7 +1735,7 @@ CODE_C4EECD:						; from CODE_C4E534, CODE_C4E6D7
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4EF07:						; from CODE_C4E4CB, CODE_C4E67C
+CODE_C4EF07:						; from CODE_C4E41B
 	stz.w $04F5
 	stz.w $364E
 	dec.b QueueBusy
@@ -1763,9 +1763,9 @@ CODE_C4EF07:						; from CODE_C4E4CB, CODE_C4E67C
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4EF41:						; from CODE_C4E140, CODE_C4E188
+CODE_C4EF41:						; from CODE_C4E12C
 	cmp.w #$001A
-	beq CODE_C4EF8F
+	beq .1
 	lda.w #$CBDA
 	sta.w $00AC,y
 	lda.w #$05CE
@@ -1791,7 +1791,7 @@ CODE_C4EF41:						; from CODE_C4E140, CODE_C4E188
 	lda.w #$04C0
 	sta.w $00F4,y
 	rts
-CODE_C4EF8F:						; from CODE_C4EF41
+.1:									; $00AC,y = $6D00, $00DE,y = $05CE, $00D4,y = $5E35, $0106,y = $01CD, ...
 	lda.w #$6D00
 	sta.w $00AC,y
 	lda.w #$05CE

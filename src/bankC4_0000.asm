@@ -3,53 +3,53 @@
 org $C40000
 CODE_C40000:						; called from other segments
 	jsr.w CODE_C40444
-CODE_C40003:						; from CODE_C40066
+.1:									; call CODE_C4CEDB, call CODE_C36C2D, $26 + 1, ...
 	jsl.l CODE_C4CEDB
 	jsl.l CODE_C36C2D
 	inc.b $26
 	lda.w repeatdelayframes
-	beq CODE_C4001D
+	beq .2
 	cmp.w #$0012
-	bcc CODE_C40066
+	bcc .9
 	lda.w #$0007
 	sta.w repeatdelayframes
-CODE_C4001D:						; from CODE_C40003
+.2:									; a2 = $058D, if $0100 bits clear go to .3, call CODE_C40085, A = a2
 	lda.w $058D
 	sta.b a2
 	bit.w #$0100
-	beq CODE_C4002C
+	beq .3
 	jsr.w CODE_C40085
 	lda.b a2
-CODE_C4002C:						; from CODE_C4001D
+.3:									; if $0200 bits clear go to .4, call CODE_C4009A, A = a2
 	bit.w #$0200
-	beq CODE_C40036
+	beq .4
 	jsr.w CODE_C4009A
 	lda.b a2
-CODE_C40036:						; from CODE_C4002C
+.4:									; if $0800 bits clear go to .5, call CODE_C400F3, A = a2
 	bit.w #$0800
-	beq CODE_C40040
+	beq .5
 	jsr.w CODE_C400F3
 	lda.b a2
-CODE_C40040:						; from CODE_C40036
+.5:									; if $0400 bits clear go to .6, call CODE_C40122, A = a2
 	bit.w #$0400
-	beq CODE_C4004A
+	beq .6
 	jsr.w CODE_C40122
 	lda.b a2
-CODE_C4004A:						; from CODE_C40040
+.6:									; if $0F00 bits clear go to .7, call CODE_C40322, A = a2
 	bit.w #$0F00
-	beq CODE_C40054
+	beq .7
 	jsr.w CODE_C40322
 	lda.b a2
-CODE_C40054:						; from CODE_C4004A
+.7:									; if $C0F0 bits clear go to .8, call CODE_C400AC, A = a2
 	bit.w #$C0F0
-	beq CODE_C4005E
+	beq .8
 	jsr.w CODE_C400AC
 	lda.b a2
-CODE_C4005E:						; from CODE_C40054
+.8:									; if $3000 bits clear go to .9, go to CODE_C40153
 	bit.w #$3000
-	beq CODE_C40066
+	beq .9
 	jmp.w CODE_C40153
-CODE_C40066:						; from CODE_C40003, CODE_C4005E
+.9:									; call CODE_C403C2, call CODE_C4077C, call AnimateSprites, ...
 	jsr.w CODE_C403C2
 	jsr.w CODE_C4077C
 	jsl.l AnimateSprites
@@ -59,8 +59,8 @@ CODE_C40066:						; from CODE_C40003, CODE_C4005E
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
-	jmp.w CODE_C40003
-CODE_C40085:						; from CODE_C4001D
+	jmp.w .1
+CODE_C40085:						; from CODE_C40000
 	lda.b a1
 	inc a
 	cmp.w #$0007
@@ -72,7 +72,7 @@ CODE_C40085:						; from CODE_C4001D
 	sta.w $3D5A
 CODE_C40099:						; from CODE_C40085, CODE_C4009A
 	rts
-CODE_C4009A:						; from CODE_C4002C
+CODE_C4009A:						; from CODE_C40000
 	lda.b a1
 	beq CODE_C40099
 	dec a
@@ -82,7 +82,7 @@ CODE_C4009A:						; from CODE_C4002C
 	sta.w $3D52
 	sta.w $3D5A
 	rts
-CODE_C400AC:						; from CODE_C40054
+CODE_C400AC:						; from CODE_C40000
 	lda.w $3D52
 	asl a
 	tax
@@ -92,15 +92,15 @@ CODE_C400AC:						; from CODE_C40054
 	tax
 	lda.w $3D5E,x
 	ora.w $3D7C,x
-	bmi CODE_C400F2
+	bmi .rts
 	tyx
 	lda.l $307865,x
 	and.w #$00FF
 	cmp.w #$0040
-	bcs CODE_C400F2
+	bcs .rts
 	and.w #$000F
 	cmp.w #$0004
-	bcs CODE_C400F2
+	bcs .rts
 	tya
 	asl a
 	tax
@@ -114,9 +114,9 @@ CODE_C400AC:						; from CODE_C40054
 	ldy.w $2C82,x
 	jsr.w CODE_C4097B
 	jmp.w CODE_C4062A
-CODE_C400F2:						; from CODE_C400AC
+.rts:								; return
 	rts
-CODE_C400F3:						; from CODE_C40036, CODE_C4011C
+CODE_C400F3:						; from CODE_C40000, CODE_C4011C
 	lda.b $69
 	beq CODE_C40121
 	lda.b a1
@@ -139,7 +139,7 @@ CODE_C4011C:						; from DATA8_C400FE
 	bra CODE_C400F3
 CODE_C40121:						; from CODE_C400F3, CODE_C40122
 	rts
-CODE_C40122:						; from CODE_C40040, CODE_C4014D
+CODE_C40122:						; from CODE_C40000, CODE_C4014D
 	lda.b $69
 	cmp.w #$0003
 	bcs CODE_C40121
@@ -162,7 +162,7 @@ CODE_C4014D:						; from DATA8_C40130
 	bra CODE_C40122
 CODE_C40152:						; from DATA8_C400FE, DATA8_C40130
 	rts
-CODE_C40153:						; from CODE_C4005E
+CODE_C40153:						; from CODE_C40000
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
 	jsl.l CODE_C4CEDB
@@ -226,11 +226,11 @@ CODE_C401E5:						; called from other segments
 	ldy.w #$8EF8
 	ldx.w #$001E
 	stz.b tmp0
-CODE_C401FF:						; from CODE_C40254
+.loop:								; loop: $0004,y = $7E3D5E,x, if the result < 0 go to .2, A = X, ...
 	lda.l $7E3D5E,x
 	sta.w $0004,y
 	ora.l $7E3D7C,x
-	bmi CODE_C40254
+	bmi .2
 	txa
 	stx.b tmp1
 	lsr a
@@ -240,10 +240,10 @@ CODE_C401FF:						; from CODE_C40254
 	ldx.b tmp1
 	and.w #$00FF
 	cmp.w #$0040
-	bcs CODE_C40254
+	bcs .2
 	and.w #$000F
 	cmp.w #$0004
-	bcs CODE_C40254
+	bcs .2
 	inc.b tmp0
 	lda.l $7E3D7C,x
 	sta.w $0002,y
@@ -253,23 +253,23 @@ CODE_C401FF:						; from CODE_C40254
 	sta.w $000A,y
 	sta.w $0000,y
 	lda.l $7E2C46,x
-	beq CODE_C4024E
+	beq .1
 	lda.w #$0001
 	sta.w $0000,y
-CODE_C4024E:						; from CODE_C401FF
+.1:									; A = Y, A + $010A, Y = A
 	tya
 	clc
 	adc.w #$010A
 	tay
-CODE_C40254:						; from CODE_C401FF
+.2:									; X - 1, X - 1, if the result >= 0 go to .loop, if tmp0 = 0 go to .3, ...
 	dex
 	dex
-	bpl CODE_C401FF
+	bpl .loop
 	lda.b tmp0
-	beq CODE_C40264
+	beq .3
 	sta.l $7E2C42
 	jml.l CODE_C5AF07
-CODE_C40264:						; from CODE_C40254
+.3:									; A = $0004, call CODE_C40280, push A, A = $0003, ...
 	plb
 	lda.w #$0004
 	jsr.w CODE_C40280
@@ -281,13 +281,13 @@ CODE_C40264:						; from CODE_C40254
 	jsl.l CODE_C4DFD6
 	jsl.l CODE_C4D818
 	jml.l Reset
-CODE_C40280:						; from CODE_C40264
+CODE_C40280:						; from CODE_C401E5
 	sep #$20
 	ldx.w #$0010
-CODE_C40285:						; from CODE_C40285
+.loop:								; loop: X - 1, if A is not $307874,x go to .loop, A = $3075A4,x, ...
 	dex
 	cmp.l $307874,x
-	bne CODE_C40285
+	bne .loop
 	lda.l $3075A4,x
 	rep #$20
 	and.w #$00FF
@@ -298,66 +298,66 @@ CODE_C40296:						; called from other segments
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-CODE_C402A2:						; from CODE_C402EB
+.1:									; X = p0,y, A 8-bit, if $30604D is not 0 go to .2, $307865,x = $33
 	ldx.w p0,y
 	sep #$20
 	lda.l $30604D
-	bne CODE_C402B3
+	bne .2
 	lda.b #$33
 	sta.l $307865,x
-CODE_C402B3:						; from CODE_C402A2
+.2:									; A 16-bit, A = $000A,y, if carry clear go to .3, A = $0001, ...
 	rep #$20
 	lda.w $000A,y
 	cmp.w $0008,y
 	lda.w #$0010
-	bcc CODE_C402C4
+	bcc .3
 	lda.w #$0001
 	clc
-CODE_C402C4:						; from CODE_C402B3
+.3:									; A 8-bit, A + $307865,x, $307865,x = A, if A < $0040 go to .4, ...
 	sep #$20
 	adc.l $307865,x
 	sta.l $307865,x
 	rep #$21
 	cmp.w #$0040
-	bcc CODE_C402DD
+	bcc .4
 	lda.w $0002,y
 	jsr.w CODE_C40305
-	bra CODE_C402EB
-CODE_C402DD:						; from CODE_C402C4
+	bra .5
+.4:									; A and $000F, if A < $0004 go to .5, A = $0004,y, call CODE_C40305
 	and.w #$000F
 	cmp.w #$0004
-	bcc CODE_C402EB
+	bcc .5
 	lda.w $0004,y
 	jsr.w CODE_C40305
-CODE_C402EB:						; from CODE_C402C4, CODE_C402DD
+.5:									; A = Y, A + $010A, Y = A, tmp0 - 1, ...
 	tya
 	adc.w #$010A
 	tay
 	dec.b tmp0
-	bne CODE_C402A2
+	bne .1
 	plb
 	jsr.w CODE_C40CB3
 	lda.l $3075B4
 	inc a
 	sta.l $3075B4
 	jml.l CODE_C5ADDC
-CODE_C40305:						; from CODE_C402C4, CODE_C402DD
+CODE_C40305:						; from CODE_C40296
 	sep #$20
 	ldx.w #$000F
-CODE_C4030A:						; from CODE_C4030A
+.loop:								; loop: if A = $3075A4,x go to .1, X - 1, ...
 	cmp.l $3075A4,x
-	beq CODE_C40316
+	beq .1
 	dex
-	bpl CODE_C4030A
+	bpl .loop
 	rep #$21
 	rts
-CODE_C40316:						; from CODE_C4030A
+.1:									; A = $307874,x, A + 1, $307874,x = A, return
 	lda.l $307874,x
 	inc a
 	sta.l $307874,x
 	rep #$21
 	rts
-CODE_C40322:						; from CODE_C4004A, CODE_C4061C
+CODE_C40322:						; from CODE_C40000, CODE_C40444
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -395,17 +395,17 @@ CODE_C40322:						; from CODE_C4004A, CODE_C4061C
 	pha
 	ldy.w #$000A
 	lda.w $3D5E,x
-	bpl CODE_C40377
+	bpl .1
 	lda.b $D3
 	adc.w #$03E0
 	ldy.w #$0014
-	bra CODE_C4037C
-CODE_C40377:						; from CODE_C40322
+	bra .2
+.1:									; A / 2, A / 2, A + $D3
 	xba
 	lsr a
 	lsr a
 	adc.b $D3
-CODE_C4037C:						; from CODE_C40322
+.2:									; push Y, push A, Y = $000A, if $3D7C,x >= 0 go to .3
 	pea.w $0006
 	pea.w $5F09
 	pea.w $007E
@@ -416,17 +416,17 @@ CODE_C4037C:						; from CODE_C40322
 	pha
 	ldy.w #$000A
 	lda.w $3D7C,x
-	bpl CODE_C403A1
+	bpl .3
 	lda.b $D3
 	adc.w #$03E0
 	ldy.w #$0014
-	bra CODE_C403A6
-CODE_C403A1:						; from CODE_C4037C
+	bra .4
+.3:									; A / 2, A / 2, A + $D3
 	xba
 	lsr a
 	lsr a
 	adc.b $D3
-CODE_C403A6:						; from CODE_C4037C
+.4:									; push Y, push A, A = $00
 	pea.w $0006
 	pea.w $5F29
 	pea.w $007E
@@ -441,79 +441,79 @@ CODE_C403A6:						; from CODE_C4037C
 	stx.b $00
 	stz.b QueueBusy
 	rts
-CODE_C403C2:						; from CODE_C40066
+CODE_C403C2:						; from CODE_C40000
 	lda.b a1
 	asl a
 	tax
 	sec
 	lda.l DATA8_C40FF8,x
 	sbc.b $65
-	beq CODE_C403FA
+	beq .4
 	sta.b tmp0
-	bpl CODE_C403D7
+	bpl .1
 	eor.w #$FFFF
 	inc a
-CODE_C403D7:						; from CODE_C403C2
+.1:									; if A >= $0008 go to .2, A = $0001, if plus go to .3, A = $FFFF, ...
 	cmp.w #$0008
-	bcs CODE_C403E8
+	bcs .2
 	lda.w #$0001
 	bit.b tmp0
-	bpl CODE_C403F5
+	bpl .3
 	lda.w #$FFFF
-	bra CODE_C403F5
-CODE_C403E8:						; from CODE_C403D7
+	bra .3
+.2:									; A = tmp0, A / 2, A / 2, A / 2, ...
 	lda.b tmp0
 	lsr a
 	lsr a
 	lsr a
 	bit.w #$1000
-	beq CODE_C403F5
+	beq .3
 	ora.w #$E000
-CODE_C403F5:						; from CODE_C403D7, CODE_C403E8
+.3:									; A + $65, $65 = A
 	clc
 	adc.b $65
 	sta.b $65
-CODE_C403FA:						; from CODE_C403C2
+.4:									; A = BG2HScroll, if A is not $65 go to .5, return
 	lda.w BG2HScroll
 	cmp.b $65
-	bne CODE_C40402
+	bne .5
 	rts
-CODE_C40402:						; from CODE_C403FA
+.5:									; A and $FFF8, tmp1 = A, A = $65, A and $FFF8, ...
 	and.w #$FFF8
 	sta.b tmp1
 	lda.b $65
 	sec
 	and.w #$FFF8
 	sbc.b tmp1
-	bpl CODE_C40429
+	bpl .6
 	eor.w #$FFFF
 	inc a
 	lsr a
 	lsr a
 	lsr a
-	beq CODE_C4043E
+	beq .7
 	sta.b tmp1
-CODE_C4041C:						; from CODE_C4041C
+.loop:								; loop: a0 - 1, tmp0 = 0, call CODE_C4064B, tmp1 - 1, ...
 	dec.b a0
 	stz.b tmp0
 	jsr.w CODE_C4064B
 	dec.b tmp1
-	bne CODE_C4041C
-	bra CODE_C4043E
-CODE_C40429:						; from CODE_C40402
+	bne .loop
+	bra .7
+.6:									; A / 2, A / 2, A / 2, if the result = 0 go to .7, ...
 	lsr a
 	lsr a
 	lsr a
-	beq CODE_C4043E
+	beq .7
 	sta.b tmp1
-CODE_C40430:						; from CODE_C40430
+.loop2:								; loop: a0 + 1, tmp0 = $0020, call CODE_C4064B, tmp1 - 1, ...
 	inc.b a0
 	lda.w #$0020
 	sta.b tmp0
 	jsr.w CODE_C4064B
 	dec.b tmp1
-	bne CODE_C40430
-CODE_C4043E:						; from CODE_C40402, CODE_C4041C, CODE_C40429
+	bne .loop2
+.7:									; BG2HScroll = $65, return
 	lda.b $65
 	sta.w BG2HScroll
 	rts
@@ -545,13 +545,13 @@ CODE_C40444:						; from CODE_C40000
 	jsl.l CODE_C58812
 	ldx.w #$15DE
 	clc
-CODE_C404A2:						; from CODE_C404A2
+.loop:								; loop: A = $50DC,x, A + $2A30, $7F9C7A,x = A, X - 1, ...
 	lda.w $50DC,x
 	adc.w #$2A30
 	sta.l $7F9C7A,x
 	dex
 	dex
-	bpl CODE_C404A2
+	bpl .loop
 	stz.w BG2HScroll
 	stz.b $65
 	stz.b a1
@@ -590,13 +590,13 @@ CODE_C404A2:						; from CODE_C404A2
 	jsl.l CODE_C4C558
 	jsl.l CODE_C4C541
 	ldx.w #$04DE
-CODE_C4050D:						; from CODE_C4050D
+.loop2:								; loop: A = $50DC,x, A or $3400, $50DC,x = A, X - 1, ...
 	lda.w $50DC,x
 	ora.w #$3400
 	sta.w $50DC,x
 	dex
 	dex
-	bpl CODE_C4050D
+	bpl .loop2
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -617,14 +617,14 @@ CODE_C4050D:						; from CODE_C4050D
 	pea.w $007E
 	pea.w $8F3C
 	ldx.w #$001E
-CODE_C40547:						; from CODE_C40547
+.loop3:								; loop: A = $8F3C,x, A / 2, A and $BDEF, $8F5C,x = A, ...
 	lda.w $8F3C,x
 	lsr a
 	and.w #$BDEF
 	sta.w $8F5C,x
 	dex
 	dex
-	bpl CODE_C40547
+	bpl .loop3
 	lda.b $04
 	tsx
 	tcs
@@ -659,10 +659,10 @@ CODE_C40547:						; from CODE_C40547
 	jsl.l CODE_C4CEDB
 	lda.l $30604D
 	and.w #$00FF
-	beq CODE_C40604
+	beq .2
 	lda.w #$001A
 	sta.b tmp0
-CODE_C405AE:						; from CODE_C405C7
+.loop4:								; loop: A = tmp0, A * 2, X = A, A = $C30000,x, ...
 	lda.b tmp0
 	asl a
 	tax
@@ -673,20 +673,20 @@ CODE_C405AE:						; from CODE_C405C7
 	jsl.l CODE_C4C3BA
 	ldx.b $16
 	lda.b $0A
-	beq CODE_C405C7
+	beq .1
 	inx
-CODE_C405C7:						; from CODE_C405AE
+.1:									; call CODE_C4C3BA, Y = tmp0, call CODE_C4BC08, tmp0 - 1, ...
 	jsl.l CODE_C4C3BA
 	ldy.b tmp0
 	jsl.l CODE_C4BC08
 	dec.b tmp0
-	bpl CODE_C405AE
+	bpl .loop4
 	lda.w #$0080
 	sta.b $CF
 	lda.w #$000A
 	sta.b tmp0
 	lda.w #$0000
-CODE_C405E2:						; from CODE_C405E2
+.loop5:								; loop: tmp1 = A, call CODE_C55EC3, Y = tmp0, X = $04F5, ...
 	sta.b tmp1
 	jsl.l CODE_C55EC3
 	ldy.b tmp0
@@ -696,15 +696,15 @@ CODE_C405E2:						; from CODE_C405E2
 	lda.b tmp1
 	inc a
 	cmp.w #$0005
-	bcc CODE_C405E2
+	bcc .loop5
 	ldy.b tmp0
 	ldx.w #$4781
 	jsl.l CODE_C4BBFC
-CODE_C40604:						; from CODE_C40547
+.2:									; X = $001C
 	ldx.w #$001C
-CODE_C40607:						; from CODE_C4061C
+.loop6:								; loop: if $2C46,x >= 0 go to .3, Y = $2C64,x, push X, ...
 	lda.w $2C46,x
-	bpl CODE_C4061C
+	bpl .3
 	ldy.w $2C64,x
 	phx
 	jsr.w CODE_C4097B
@@ -713,36 +713,36 @@ CODE_C40607:						; from CODE_C4061C
 	phx
 	jsr.w CODE_C4097B
 	plx
-CODE_C4061C:						; from CODE_C40607
+.3:									; X - 1, X - 1, if the result >= 0 go to .loop6, call CODE_C4062A, ...
 	dex
 	dex
-	bpl CODE_C40607
+	bpl .loop6
 	wai
 	jsr.w CODE_C4062A
 	stz.w fadestep
 	jmp.w CODE_C40322
-CODE_C4062A:						; from CODE_C4061C, CODE_C400AC
+CODE_C4062A:						; from CODE_C40444, CODE_C400AC
 	pei ($63)
 	ldx.w #$0003
-CODE_C4062F:						; from CODE_C40633
+.loop:								; loop: push X, Y = $0008
 	phx
 	ldy.w #$0008
-CODE_C40633:						; from CODE_C40633
+.loop2:								; loop: push Y, tmp0 = 0, call CODE_C4064B, a0 + 1, ...
 	phy
 	stz.b tmp0
 	jsr.w CODE_C4064B
 	inc.b a0
 	ply
 	dey
-	bpl CODE_C40633
+	bpl .loop2
 	jsl.l CODE_C4CEDB
 	plx
 	dex
-	bpl CODE_C4062F
+	bpl .loop
 	pla
 	sta.b a0
 	rts
-CODE_C4064B:						; from CODE_C40633, CODE_C4041C, CODE_C40430
+CODE_C4064B:						; from CODE_C4062A, CODE_C403C2
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -754,14 +754,14 @@ CODE_C4064B:						; from CODE_C40633, CODE_C4041C, CODE_C40430
 	clc
 	adc.b tmp0
 	bit.w #$0020
-	beq CODE_C4066B
+	beq .1
 	and.w #$001F
 	ora.w #$5400
-	bra CODE_C40671
-CODE_C4066B:						; from CODE_C4064B
+	bra .2
+.1:									; A and $001F, A or $5000
 	and.w #$001F
 	ora.w #$5000
-CODE_C40671:						; from CODE_C4064B
+.2:									; push A, A = $0038, call CODE_C4C558, push A, ...
 	pha
 	pea.w $1801
 	pea.w $007E
@@ -781,7 +781,7 @@ CODE_C40671:						; from CODE_C4064B
 	tax
 	lda.w #$001B
 	sta.b tmp0
-CODE_C40695:						; from CODE_C40695
+.loop:								; loop: $0000,y = $7F9C7A,x, Y + 1, Y + 1, A = X, ...
 	lda.l $7F9C7A,x
 	sta.w $0000,y
 	iny
@@ -790,25 +790,25 @@ CODE_C40695:						; from CODE_C40695
 	adc.w #$00C8
 	tax
 	dec.b tmp0
-	bpl CODE_C40695
+	bpl .loop
 	rts
 CODE_C406A8:						; called from other segments
 	ldy.w #$0003
-CODE_C406AB:						; from CODE_C406AB
+.loop:								; loop: call CODE_C406C4, if A = $0000 go to .rtl, A = Y, A + $009C, ...
 	jsr.w CODE_C406C4
 	cmp.w #$0000
-	beq CODE_C406C3
+	beq .rtl
 	clc
 	tya
 	adc.w #$009C
 	tay
 	cpy.w #$0C30
-	bcc CODE_C406AB
+	bcc .loop
 	pea.w $5471
 	bra CODE_C406EA
-CODE_C406C3:						; from CODE_C406AB
+.rtl:								; return
 	rtl
-CODE_C406C4:						; from CODE_C406AB
+CODE_C406C4:						; from CODE_C406A8
 	tya
 	lsr a
 	lsr a
@@ -818,21 +818,21 @@ CODE_C406C4:						; from CODE_C406AB
 	and.w #$0007
 	sta.b tmp0
 	lda.l $307162,x
-CODE_C406D3:						; from CODE_C406D3
+.loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $001F, ...
 	lsr a
 	dec.b tmp0
-	bpl CODE_C406D3
+	bpl .loop
 	rol a
 	and.w #$001F
 	rts
 CODE_C406DD:						; called from other segments
 	lda.l $3075B4
 	and.w #$00FF
-	bne CODE_C406E7
+	bne .1
 	rtl
-CODE_C406E7:						; from CODE_C406DD
+.1:									; continue
 	pea.w $54B1
-CODE_C406EA:						; from CODE_C406AB
+CODE_C406EA:						; from CODE_C406A8
 	jsl.l FadeOutWait
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -861,14 +861,14 @@ CODE_C406EA:						; from CODE_C406AB
 	stz.w fadestep
 	stz.w repeatdelayframes
 	stz.w $058D
-CODE_C4073F:						; from CODE_C4073F
+.loop:								; loop: call CODE_C3716D, call CODE_C36C2D, ...
 	jsl.l CODE_C3716D
 	jsl.l CODE_C36C2D
 	lda.w repeatdelayframes
-	bne CODE_C4073F
+	bne .loop
 	lda.w $058D
 	bit.w #$3000
-	beq CODE_C4073F
+	beq .loop
 	jsl.l FadeOutWait
 	phb
 	pla
@@ -881,23 +881,23 @@ GetShifter:							; called from other segments
 	sta.b d1
 	lda.w $24C4
 	tay
-CODE_C4076D:						; from CODE_C4076D
+.loop:								; loop: A = d2, A + d1, d2 = A, d1 / 2, ...
 	lda.b d2
 	clc
 	adc.b d1
 	sta.b d2
 	lsr.b d1
 	dey
-	bpl CODE_C4076D
+	bpl .loop
 	dec.b d1
 	rtl
-CODE_C4077C:						; from CODE_C40066
+CODE_C4077C:						; from CODE_C40000
 	lda.b $26
 	lsr a
 	lda.w #$A000
-	bcc CODE_C40787
+	bcc .1
 	lda.w #$C000
-CODE_C40787:						; from CODE_C4077C
+.1:									; DMAEnShadow = A, $364E = $00FF, $39CE = A, X = $364E, ...
 	sta.w DMAEnShadow
 	lda.w #$00FF
 	sta.w $364E
@@ -905,18 +905,18 @@ CODE_C40787:						; from CODE_C4077C
 	ldx.w #$364E
 	ldy.w #$3650
 	lda.w #$037D
-	bcs CODE_C407A4
+	bcs .2
 	ldx.w #$39CE
 	ldy.w #$39D0
-CODE_C407A4:						; from CODE_C40787
+.2:									; X = $3D54, X + 1, X + 1, if X < $009E go to .3, ...
 	mvn $7E,$7E
 	ldx.w $3D54
 	inx
 	inx
 	cpx.w #$009E
-	bcc CODE_C407B4
+	bcc .3
 	ldx.w #$0000
-CODE_C407B4:						; from CODE_C407A4
+.3:									; $3D54 = X, Y = $3D52, call CODE_C4081B, A = DATA8_C41006,x, ...
 	stx.w $3D54
 	ldy.w $3D52
 	jsr.w CODE_C4081B
@@ -938,9 +938,9 @@ CODE_C407B4:						; from CODE_C407A4
 	inx
 	inx
 	cpx.w #$009E
-	bcc CODE_C407EE
+	bcc .4
 	ldx.w #$0000
-CODE_C407EE:						; from CODE_C407B4
+.4:									; $3D5C = X, Y = $3D5A, call CODE_C4081B, A = DATA8_C4103E,x, ...
 	stx.w $3D5C
 	ldy.w $3D5A
 	jsr.w CODE_C4081B
@@ -958,56 +958,56 @@ CODE_C407EE:						; from CODE_C407B4
 	ldx.w $3D56
 	ldy.w $3D58
 	jmp.w CODE_C408B3
-CODE_C4081B:						; from CODE_C407B4, CODE_C407EE
+CODE_C4081B:						; from CODE_C4077C
 	lda.l DATA8_C40EF4,x
 	tax
 	ora.w #$FF00
 	bit.w #$0080
-	bne CODE_C4082B
+	bne .1
 	and.w #$00FF
-CODE_C4082B:						; from CODE_C4081B
+.1:									; tmp0 = A, A = X, A or $FF00, if a $0080 bit set go to .2, ...
 	sta.b tmp0
 	txa
 	xba
 	ora.w #$FF00
 	bit.w #$0080
-	bne CODE_C4083A
+	bne .2
 	and.w #$00FF
-CODE_C4083A:						; from CODE_C4082B
+.2:									; tmp1 = A, A = Y, A * 2, X = A, ...
 	sta.b tmp1
 	tya
 	asl a
 	tax
 	rts
-CODE_C40840:						; from CODE_C407B4, CODE_C407EE
+CODE_C40840:						; from CODE_C4077C
 	sec
 	lda.b tmp0
 	sbc.w $0000,x
 	sta.b tmp2
-	bpl CODE_C4084E
+	bpl .1
 	eor.w #$FFFF
 	inc a
-CODE_C4084E:						; from CODE_C40840
+.1:									; if A >= $0010 go to .3, if A < $0002 go to .2, A = $0002
 	cmp.w #$0010
-	bcs CODE_C40865
+	bcs .3
 	cmp.w #$0002
-	bcc CODE_C4085B
+	bcc .2
 	lda.w #$0002
-CODE_C4085B:						; from CODE_C4084E
+.2:									; if plus go to .4, A xor $FFFF, A + 1, go to .4
 	bit.b tmp2
-	bpl CODE_C40872
+	bpl .4
 	eor.w #$FFFF
 	inc a
-	bra CODE_C40872
-CODE_C40865:						; from CODE_C4084E
+	bra .4
+.3:									; A = tmp2, A / 2, A / 2, A / 2, ...
 	lda.b tmp2
 	lsr a
 	lsr a
 	lsr a
 	bit.w #$1000
-	beq CODE_C40872
+	beq .4
 	ora.w #$E000
-CODE_C40872:						; from CODE_C4085B, CODE_C40865
+.4:									; A + $0000,x, $0000,x = A, A = tmp1, A - $0002,x, ...
 	clc
 	adc.w $0000,x
 	sta.w $0000,x
@@ -1015,117 +1015,117 @@ CODE_C40872:						; from CODE_C4085B, CODE_C40865
 	lda.b tmp1
 	sbc.w $0002,x
 	sta.b tmp2
-	bpl CODE_C40887
+	bpl .5
 	eor.w #$FFFF
 	inc a
-CODE_C40887:						; from CODE_C40872
+.5:									; if A >= $0010 go to .7, if A < $0002 go to .6, A = $0002
 	cmp.w #$0010
-	bcs CODE_C4089E
+	bcs .7
 	cmp.w #$0002
-	bcc CODE_C40894
+	bcc .6
 	lda.w #$0002
-CODE_C40894:						; from CODE_C40887
+.6:									; if plus go to .8, A xor $FFFF, A + 1, go to .8
 	bit.b tmp2
-	bpl CODE_C408AB
+	bpl .8
 	eor.w #$FFFF
 	inc a
-	bra CODE_C408AB
-CODE_C4089E:						; from CODE_C40887
+	bra .8
+.7:									; A = tmp2, A / 2, A / 2, A / 2, ...
 	lda.b tmp2
 	lsr a
 	lsr a
 	lsr a
 	bit.w #$1000
-	beq CODE_C408AB
+	beq .8
 	ora.w #$E000
-CODE_C408AB:						; from CODE_C40894, CODE_C4089E
+.8:									; A + $0002,x, $0002,x = A, return
 	clc
 	adc.w $0002,x
 	sta.w $0002,x
 	rts
-CODE_C408B3:						; from CODE_C407B4, CODE_C407EE
+CODE_C408B3:						; from CODE_C4077C
 	stx.b tmp0
 	lda.b $26
 	lsr a
 	tya
-	bcs CODE_C408BE
+	bcs .1
 	adc.w #$00E0
-CODE_C408BE:						; from CODE_C408B3
+.1:									; A * 2, A * 2, Y = A, X = $0054
 	asl a
 	asl a
 	tay
 	ldx.w #$0054
-CODE_C408C4:						; from CODE_C40947
+.2:									; A = $364E,y, if zero go to .6, A = DATA8_C40F94,x, A and $00FF, ...
 	lda.w $364E,y
 	cmp.w #$00FF
 	clc
-	beq CODE_C4090B
+	beq .6
 	lda.l DATA8_C40F94,x
 	and.w #$00FF
 	adc.b tmp0
-	bpl CODE_C408DB
+	bpl .3
 	lda.w #$0000
-CODE_C408DB:						; from CODE_C408C4
+.3:									; if A >= $0100 go to .10, A 8-bit, $3650,y = A, A = DATA8_C40F95,x, ...
 	cmp.w #$0100
-	bcs CODE_C40947
+	bcs .10
 	sep #$20
 	sta.w $3650,y
 	rep #$21
 	lda.l DATA8_C40F95,x
 	and.w #$00FF
 	adc.b tmp0
-	bpl CODE_C408FA
+	bpl .4
 	lda.w #$00FF
 	sta.w $3650,y
-	bra CODE_C40947
-CODE_C408FA:						; from CODE_C408DB
+	bra .10
+.4:									; if A < $0100 go to .5, A = $00FF
 	cmp.w #$0100
-	bcc CODE_C40902
+	bcc .5
 	lda.w #$00FF
-CODE_C40902:						; from CODE_C408FA
+.5:									; A 8-bit, $3651,y = A, A 16-bit, go to .10
 	sep #$20
 	sta.w $3651,y
 	rep #$20
-	bra CODE_C40947
-CODE_C4090B:						; from CODE_C408C4
+	bra .10
+.6:									; A = DATA8_C40F94,x, A and $00FF, A + tmp0, ...
 	lda.l DATA8_C40F94,x
 	and.w #$00FF
 	adc.b tmp0
-	bpl CODE_C40919
+	bpl .7
 	lda.w #$0000
-CODE_C40919:						; from CODE_C4090B
+.7:									; if A >= $0100 go to .10, A 8-bit, $364E,y = A, A = DATA8_C40F95,x, ...
 	cmp.w #$0100
-	bcs CODE_C40947
+	bcs .10
 	sep #$20
 	sta.w $364E,y
 	rep #$21
 	lda.l DATA8_C40F95,x
 	and.w #$00FF
 	adc.b tmp0
-	bpl CODE_C40938
+	bpl .8
 	lda.w #$00FF
 	sta.w $364E,y
-	bra CODE_C40947
-CODE_C40938:						; from CODE_C40919
+	bra .10
+.8:									; if A < $0100 go to .9, A = $00FF
 	cmp.w #$0100
-	bcc CODE_C40940
+	bcc .9
 	lda.w #$00FF
-CODE_C40940:						; from CODE_C40938
+.9:									; A 8-bit, $364F,y = A, A 16-bit
 	sep #$20
 	sta.w $364F,y
 	rep #$20
-CODE_C40947:						; from CODE_C408DB, CODE_C40919, CODE_C40902
+.10:								; A = Y, A + $0004, Y = A, X - 1, ...
 	clc
 	tya
 	adc.w #$0004
 	tay
 	dex
 	dex
-	bmi CODE_C40954
-	jmp.w CODE_C408C4
-CODE_C40954:						; from CODE_C40947
+	bmi .rts
+	jmp.w .2
+.rts:								; return
 	rts
-CODE_C40955:						; from CODE_C409BD
+CODE_C40955:						; from CODE_C40999
 	phb
 	sta.b tmp0
 	asl a
@@ -1148,7 +1148,7 @@ CODE_C40955:						; from CODE_C409BD
 	mvn $7F,$7E
 	plb
 	rts
-CODE_C4097B:						; from CODE_C40607, CODE_C400AC
+CODE_C4097B:						; from CODE_C40444, CODE_C400AC
 	clc
 	tyx
 	jsr.w CODE_C40985
@@ -1157,27 +1157,27 @@ CODE_C4097B:						; from CODE_C40607, CODE_C400AC
 	tax
 CODE_C40985:						; from CODE_C4097B
 	ldy.w #$000B
-CODE_C40988:						; from CODE_C40988
+.loop:								; loop: A = $7F9C7A,x, A xor $0400, $7F9C7A,x = A, X + 1, ...
 	lda.l $7F9C7A,x
 	eor.w #$0400
 	sta.l $7F9C7A,x
 	inx
 	inx
 	dey
-	bpl CODE_C40988
+	bpl .loop
 	rts
 CODE_C40999:						; from CODE_C409E3
 	ldx.w #$000F
-CODE_C4099C:						; from CODE_C409BD
+.loop:								; loop: A = $3075A4,x, A and $00FF, tmp2 = A, A = $307874,x, ...
 	lda.l $3075A4,x
 	and.w #$00FF
 	sta.b tmp2
 	lda.l $307874,x
 	and.w #$00FF
 	cmp.w #$0004
-	bcc CODE_C409B4
+	bcc .1
 	lda.w #$0003
-CODE_C409B4:						; from CODE_C4099C
+.1:									; $A5 = A, A = X, tmp1 = X, A * 2, ...
 	sta.b $A5
 	txa
 	stx.b tmp1
@@ -1185,7 +1185,7 @@ CODE_C409B4:						; from CODE_C4099C
 	asl a
 	asl a
 	tax
-CODE_C409BD:						; from CODE_C409BD
+.loop2:								; loop: A = $C4119E,x, A * 2, Y = A, $3D5E,y = tmp2, ...
 	lda.l $C4119E,x
 	asl a
 	tay
@@ -1201,12 +1201,12 @@ CODE_C409BD:						; from CODE_C409BD
 	inx
 	inx
 	dec.b $A5
-	bpl CODE_C409BD
+	bpl .loop2
 	ldx.b tmp1
 	dex
-	bpl CODE_C4099C
+	bpl .loop
 	rts
-CODE_C409E3:						; from CODE_C401E5, CODE_C40547
+CODE_C409E3:						; from CODE_C401E5, CODE_C40444
 	jsl.l CODE_C4CEDB
 	lda.w #$364E
 	ldy.w #$1000
@@ -1221,21 +1221,21 @@ CODE_C409E3:						; from CODE_C401E5, CODE_C40547
 CODE_C40A02:						; called from other segments
 	lda.w $1864
 	cmp.w #$0002
-	beq CODE_C40A10
+	beq .1
 	cmp.w #$0003
-	beq CODE_C40A10
+	beq .1
 	rtl
-CODE_C40A10:						; from CODE_C40A02
+.1:									; tmp0 = $2C42, Y = $8EF8
 	lda.w $2C42
 	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-CODE_C40A1C:						; from CODE_C40A54
+.loop:								; loop: if $0000,y is not 0 go to .3, if QueueBusy,y < 0 go to .3, ...
 	lda.w $0000,y
-	bne CODE_C40A54
+	bne .3
 	lda.w QueueBusy,y
-	bmi CODE_C40A54
+	bmi .3
 	jsr.w CODE_C40A60
 	adc.w $000A,y
 	sta.w $000A,y
@@ -1244,25 +1244,25 @@ CODE_C40A1C:						; from CODE_C40A54
 	sta.w $0008,y
 	jsr.w CODE_C40A60
 	cmp.w #$0014
-	bcs CODE_C40A54
+	bcs .3
 	cmp.w #$000A
 	lda.w QueueBusy,y
 	adc.w #$0000
 	cmp.w #$0002
-	bcc CODE_C40A51
+	bcc .2
 	lda.w #$0002
-CODE_C40A51:						; from CODE_C40A1C
+.2:									; QueueBusy,y = A
 	sta.w QueueBusy,y
-CODE_C40A54:						; from CODE_C40A1C
+.3:									; A = Y, A + $010A, Y = A, tmp0 - 1, ...
 	clc
 	tya
 	adc.w #$010A
 	tay
 	dec.b tmp0
-	bne CODE_C40A1C
+	bne .loop
 	plb
 	rtl
-CODE_C40A60:						; from CODE_C40A1C
+CODE_C40A60:						; from CODE_C40A02
 	lda.w #$0002
 	pea.w $7F7E
 	plb
@@ -1299,13 +1299,13 @@ CODE_C40AA1:						; from CODE_C40A6D
 	sta.b tmp2
 	pea.w $7E7F
 	plb
-CODE_C40AAF:						; from CODE_C40B3C
+.1:									; $A5 = $7E003A,x, $0A = X, $0C = Y, tmp2 - 1, ...
 	lda.l $7E003A,x
 	sta.b $A5
 	stx.b $0A
 	sty.b $0C
 	dec.b tmp2
-	bpl CODE_C40AEF
+	bpl .2
 	jsl.l CODE_C5BD52
 	ldy.b $0C
 	stx.b tmp0
@@ -1327,12 +1327,12 @@ CODE_C40AAF:						; from CODE_C40B3C
 	tax
 	lda.b $A5
 	jsr.w CODE_C40B81
-	bra CODE_C40B3C
-CODE_C40AEF:						; from CODE_C40AAF
+	bra .3
+.2:									; A = $003A,y, A or $00A2,y, if the result = 0 go to .3, A = $A5, ...
 	lda.w $003A,y
 	ora.w $00A2,y
 	and.w #$00FF
-	beq CODE_C40B3C
+	beq .3
 	lda.b $A5
 	jsl.l CODE_C5BDE7
 	inx
@@ -1363,19 +1363,19 @@ CODE_C40AEF:						; from CODE_C40AAF
 	tax
 	lda.b $A5
 	jsr.w CODE_C40C62
-CODE_C40B3C:						; from CODE_C40AAF, CODE_C40AEF
+.3:									; X = $0A, Y = $0C, X + 1, X + 1, ...
 	ldx.b $0A
 	ldy.b $0C
 	inx
 	inx
 	iny
 	dec.b $10
-	beq CODE_C40B4A
-	jmp.w CODE_C40AAF
-CODE_C40B4A:						; from CODE_C40B3C
+	beq .4
+	jmp.w .1
+.4:									; return
 	plb
 	rts
-CODE_C40B4C:						; from CODE_C40AAF
+CODE_C40B4C:						; from CODE_C40AA1
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1394,21 +1394,21 @@ CODE_C40B4C:						; from CODE_C40AAF
 	tay
 	lda.w #$FE00
 	dey
-	bmi CODE_C40B72
-CODE_C40B6B:						; from CODE_C40B6B
+	bmi .1
+.loop:								; loop: tmp0 * 2, Y - 1, if the result >= 0 go to .loop
 	asl.b tmp0
 	sec
 	rol a
 	dey
-	bpl CODE_C40B6B
-CODE_C40B72:						; from CODE_C40B4C
+	bpl .loop
+.1:									; $16 = A, A = $30628F,x, A and $16, A or tmp0, ...
 	sta.b $16
 	lda.l $30628F,x
 	and.b $16
 	ora.b tmp0
 	sta.l $30628F,x
 	rts
-CODE_C40B81:						; from CODE_C40AAF
+CODE_C40B81:						; from CODE_C40AA1
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1427,21 +1427,21 @@ CODE_C40B81:						; from CODE_C40AAF
 	tay
 	lda.w #$FE00
 	dey
-	bmi CODE_C40BA7
-CODE_C40BA0:						; from CODE_C40BA0
+	bmi .1
+.loop:								; loop: tmp0 * 2, Y - 1, if the result >= 0 go to .loop
 	asl.b tmp0
 	sec
 	rol a
 	dey
-	bpl CODE_C40BA0
-CODE_C40BA7:						; from CODE_C40B81
+	bpl .loop
+.1:									; $16 = A, A = $306724,x, A and $16, A or tmp0, ...
 	sta.b $16
 	lda.l $306724,x
 	and.b $16
 	ora.b tmp0
 	sta.l $306724,x
 	rts
-CODE_C40BB6:						; from CODE_C40AEF
+CODE_C40BB6:						; from CODE_C40AA1
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1457,10 +1457,10 @@ CODE_C40BB6:						; from CODE_C40AEF
 	lda.w #$FFF8
 	trb.b tmp0
 	lda.l $30628F,x
-CODE_C40BD1:						; from CODE_C40BD1
+.loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dec.b tmp0
-	bpl CODE_C40BD1
+	bpl .loop
 	rol a
 	and.w #$007F
 	sta.b tmp0
@@ -1478,21 +1478,21 @@ CODE_C40BD1:						; from CODE_C40BD1
 	ldy.b tmp0
 	lda.w #$FF80
 	dey
-	bmi CODE_C40BFC
-CODE_C40BF5:						; from CODE_C40BF5
+	bmi .1
+.loop2:								; loop: $16 * 2, Y - 1, if the result >= 0 go to .loop2
 	asl.b $16
 	sec
 	rol a
 	dey
-	bpl CODE_C40BF5
-CODE_C40BFC:						; from CODE_C40BD1
+	bpl .loop2
+.1:									; tmp0 = A, A = $307080,x, A and tmp0, A or $16, ...
 	sta.b tmp0
 	lda.l $307080,x
 	and.b tmp0
 	ora.b $16
 	sta.l $307080,x
 	rts
-CODE_C40C0B:						; from CODE_C40AEF
+CODE_C40C0B:						; from CODE_C40AA1
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1520,8 +1520,8 @@ CODE_C40C0B:						; from CODE_C40AEF
 	tyx
 	ldy.b tmp0
 	dey
-	bmi CODE_C40C49
-CODE_C40C3C:						; from CODE_C40C3C
+	bmi .1
+.loop:								; loop: $16 * 2, $14 * 2, Y - 1, if the result >= 0 go to .loop
 	asl.b $16
 	asl.b $14
 	sec
@@ -1529,8 +1529,8 @@ CODE_C40C3C:						; from CODE_C40C3C
 	sec
 	rol.b $2E
 	dey
-	bpl CODE_C40C3C
-CODE_C40C49:						; from CODE_C40C0B
+	bpl .loop
+.1:									; A = $30628F,x, A and $2E, A or $16, $30628F,x = A, ...
 	lda.l $30628F,x
 	and.b $2E
 	ora.b $16
@@ -1540,7 +1540,7 @@ CODE_C40C49:						; from CODE_C40C0B
 	ora.b $14
 	sta.l $306724,x
 	rts
-CODE_C40C62:						; from CODE_C40AEF
+CODE_C40C62:						; from CODE_C40AA1
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1556,10 +1556,10 @@ CODE_C40C62:						; from CODE_C40AEF
 	lda.w #$FFF8
 	trb.b tmp0
 	lda.l $30628F,x
-CODE_C40C7C:						; from CODE_C40C7C
+.loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dec.b tmp0
-	bpl CODE_C40C7C
+	bpl .loop
 	rol a
 	and.w #$007F
 	sta.b tmp0
@@ -1567,7 +1567,7 @@ CODE_C40C7C:						; from CODE_C40C7C
 	adc.b tmp0
 	lsr a
 	tax
-	bcc CODE_C40CA3
+	bcc .1
 	tya
 	asl a
 	asl a
@@ -1579,20 +1579,20 @@ CODE_C40C7C:						; from CODE_C40C7C
 	ora.b tmp0
 	sta.l $306FED,x
 	rts
-CODE_C40CA3:						; from CODE_C40C7C
+.1:									; tmp0 = Y, A = $306FED,x, A and $F000, A or tmp0, ...
 	sty.b tmp0
 	lda.l $306FED,x
 	and.w #$F000
 	ora.b tmp0
 	sta.l $306FED,x
 	rts
-CODE_C40CB3:						; from CODE_C402EB
+CODE_C40CB3:						; from CODE_C40296
 	lda.w $2C42
 	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-CODE_C40CBF:						; from CODE_C40CBF
+.loop:								; loop: push Y, A = $0004,y, call CODE_C40CE3, pull Y, ...
 	phy
 	lda.w $0004,y
 	jsr.w CODE_C40CE3
@@ -1612,19 +1612,19 @@ CODE_C40CBF:						; from CODE_C40CBF
 	adc.w #$010A
 	tay
 	dec.b tmp0
-	bne CODE_C40CBF
+	bne .loop
 	plb
 	rts
-CODE_C40CE3:						; from CODE_C40CBF
+CODE_C40CE3:						; from CODE_C40CB3
 	ldx.w #$000F
 	sep #$20
-CODE_C40CE8:						; from CODE_C40CE8
+.loop:								; loop: if A = $3075A4,x go to .1, X - 1, ...
 	cmp.l $3075A4,x
-	beq CODE_C40CF2
+	beq .1
 	dex
-	bpl CODE_C40CE8
+	bpl .loop
 	inx
-CODE_C40CF2:						; from CODE_C40CE8
+.1:									; A 16-bit, A = X, A * 2, X = A, ...
 	rep #$20
 	txa
 	asl a
@@ -1633,7 +1633,7 @@ CODE_C40CF2:						; from CODE_C40CE8
 	sta.b tmp2
 	lda.w #$0018
 	sta.b tmp1
-CODE_C40D02:						; from CODE_C40D3A
+.loop2:								; loop: A = $003A,y, A and $00FF, $A5 = A, A = $006E,y, ...
 	lda.w $003A,y
 	and.w #$00FF
 	sta.b $A5
@@ -1653,16 +1653,16 @@ CODE_C40D02:						; from CODE_C40D3A
 	and.w #$0007
 	sta.b $0E
 	dec.b $0E
-	bmi CODE_C40D3A
-CODE_C40D2D:						; from CODE_C40D2D
+	bmi .2
+.loop3:								; loop: $A5 * 2, $0A * 2, $10 * 2, $0E - 1, ...
 	asl.b $A5
 	asl.b $0A
 	sec
 	rol.b $0C
 	asl.b $10
 	dec.b $0E
-	bpl CODE_C40D2D
-CODE_C40D3A:						; from CODE_C40D02
+	bpl .loop3
+.2:									; A = $3072E8,x, A and $10, A + $A5, $A5 = A, ...
 	lda.l $3072E8,x
 	and.b $10
 	clc
@@ -1687,14 +1687,14 @@ CODE_C40D3A:						; from CODE_C40D02
 	sta.b tmp2
 	iny
 	dec.b tmp1
-	bpl CODE_C40D02
+	bpl .loop2
 	rts
-DATA8_C40D76:						; not traced: a table read by CODE_C40CF2
+DATA8_C40D76:						; not traced: a table read by CODE_C40CE3
 	db $00,$00,$AF,$00,$5E,$01,$0D,$02,$BC,$02,$6B,$03,$1A,$04,$C9,$04
 	db $78,$05,$27,$06,$D6,$06,$85,$07,$34,$08,$E3,$08,$92,$09,$41,$0A
 CODE_C40D96:						; called from other segments
 	lda.l $3075A4
-	bne CODE_C40DFA
+	bne .rtl
 	lda.w #$2C46
 	ldy.w #$0078
 	jsl.l CODE_C58B11
@@ -1706,9 +1706,9 @@ CODE_C40D96:						; called from other segments
 	jsr.w CODE_C40E3A
 	ldx.w #$0004
 	bit.w #$0004
-	bne CODE_C40DC4
+	bne .1
 	ldx.w #$0008
-CODE_C40DC4:						; from CODE_C40D96
+.1:									; tmp0 = X, call CODE_C40E14, call CODE_C40E2D, r0 = $75A4, ...
 	stx.b tmp0
 	jsr.w CODE_C40E14
 	jsr.w CODE_C40E2D
@@ -1723,19 +1723,19 @@ CODE_C40DC4:						; from CODE_C40D96
 	jsr.w CODE_C40E3A
 	ldx.w #$0010
 	bit.w #$0010
-	bne CODE_C40DEF
+	bne .2
 	ldx.w #$0020
-CODE_C40DEF:						; from CODE_C40DC4
+.2:									; tmp0 = X, call CODE_C40E14, call CODE_C40E2D, call CODE_C40DFB
 	stx.b tmp0
 	jsr.w CODE_C40E14
 	jsr.w CODE_C40E2D
 	jsr.w CODE_C40DFB
-CODE_C40DFA:						; from CODE_C40D96
+.rtl:								; return
 	rtl
-CODE_C40DFB:						; from CODE_C40DC4, CODE_C40DEF
+CODE_C40DFB:						; from CODE_C40D96
 	sep #$20
 	ldy.w #$000E
-CODE_C40E00:						; from CODE_C40E00
+.loop:								; loop: X = $364E,y, [r0] = $000C,x, X = r0, X + 1, ...
 	ldx.w $364E,y
 	lda.w $000C,x
 	sta.b [r0]
@@ -1744,59 +1744,59 @@ CODE_C40E00:						; from CODE_C40E00
 	stx.b r0
 	dey
 	dey
-	bpl CODE_C40E00
+	bpl .loop
 	rep #$20
 	rts
-CODE_C40E14:						; from CODE_C40DC4, CODE_C40DEF
+CODE_C40E14:						; from CODE_C40D96
 	ldy.w #$000C
-CODE_C40E17:						; from CODE_C40E17
+.loop:								; loop: X = $364E,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
 	ldx.w $364E,y
 	lda.w $000C,x
 	tax
 	lda.l DATA8_C40EDA,x
 	bit.b tmp0
-	bne CODE_C40E2C
+	bne .rts
 	dey
 	dey
-	bpl CODE_C40E17
+	bpl .loop
 	iny
 	iny
-CODE_C40E2C:						; from CODE_C40E17
+.rts:								; return
 	rts
-CODE_C40E2D:						; from CODE_C40DC4, CODE_C40DEF
+CODE_C40E2D:						; from CODE_C40D96
 	lda.w $365A
 	ldx.w $364E,y
 	sta.w $364E,y
 	stx.w $365A
 	rts
-CODE_C40E3A:						; from CODE_C40D96, CODE_C40DC4
+CODE_C40E3A:						; from CODE_C40D96
 	ldy.w $365C
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
 	rts
-CODE_C40E45:						; from CODE_C40D96, CODE_C40DC4
+CODE_C40E45:						; from CODE_C40D96
 	jsr.w CODE_C40ECA
 	ldy.b $81
-CODE_C40E4A:						; from CODE_C40E58
+.loop:								; loop: X = $000C,y, A = DATA8_C40EDA,x, if tmp0 bits clear go to .1, ...
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
 	bit.b tmp0
-	beq CODE_C40E58
+	beq .1
 	jsr.w CODE_C40E5F
-CODE_C40E58:						; from CODE_C40E4A
+.1:									; A = $0002,y, Y = A, if the result is not 0 go to .loop, return
 	lda.w $0002,y
 	tay
-	bne CODE_C40E4A
+	bne .loop
 	rts
-CODE_C40E5F:						; from CODE_C40E4A
+CODE_C40E5F:						; from CODE_C40E45
 	ldx.w #$000E
-CODE_C40E62:						; from CODE_C40E86
+.1:									; if $364E,x = 0 go to .2, tmp1 = X, X = A, call CODE_C40E8D, ...
 	lda.w $364E,x
-	beq CODE_C40E81
+	beq .2
 	stx.b tmp1
 	tax
 	jsr.w CODE_C40E8D
-	bcs CODE_C40E86
+	bcs .3
 	sty.b tmp2
 	ldy.w #$364E
 	ldx.w #$3650
@@ -1805,47 +1805,47 @@ CODE_C40E62:						; from CODE_C40E86
 	mvn $7E,$7E
 	ldy.b tmp2
 	ldx.b tmp1
-CODE_C40E81:						; from CODE_C40E62
+.2:									; A = Y, $364E,x = A, return
 	tya
 	sta.w $364E,x
 	rts
-CODE_C40E86:						; from CODE_C40E62
+.3:									; X = tmp1, X - 1, X - 1, if the result >= 0 go to .1, ...
 	ldx.b tmp1
 	dex
 	dex
-	bpl CODE_C40E62
+	bpl .1
 	rts
-CODE_C40E8D:						; from CODE_C40E62
+CODE_C40E8D:						; from CODE_C40E5F
 	lda.w $000A,x
 	cmp.w $000A,y
-	beq CODE_C40E96
+	beq .1
 	rts
-CODE_C40E96:						; from CODE_C40E8D
+.1:									; A = $0004,x, if A = $0004,y go to .2, return
 	lda.w $0004,x
 	cmp.w $0004,y
-	beq CODE_C40E9F
+	beq .2
 	rts
-CODE_C40E9F:						; from CODE_C40E96
+.2:									; A = $0008,x, if A = $0008,y go to .3, return
 	lda.w $0008,x
 	cmp.w $0008,y
-	beq CODE_C40EA8
+	beq .3
 	rts
-CODE_C40EA8:						; from CODE_C40E9F
+.3:									; A = $000E,x, if A = $000E,y go to .4, return
 	lda.w $000E,x
 	cmp.w $000E,y
-	beq CODE_C40EB1
+	beq .4
 	rts
-CODE_C40EB1:						; from CODE_C40EA8
+.4:									; A = $002A,y, if A = $002A,x go to .5, return
 	lda.w $002A,y
 	cmp.w $002A,x
-	beq CODE_C40EBA
+	beq .5
 	rts
-CODE_C40EBA:						; from CODE_C40EB1
+.5:									; A = $0018,x, if A = $0018,y go to .6, return
 	lda.w $0018,x
 	cmp.w $0018,y
-	beq CODE_C40EC3
+	beq .6
 	rts
-CODE_C40EC3:						; from CODE_C40EBA
+.6:									; A = $001C,x, return
 	lda.w $001C,x
 	cmp.w $001C,y
 	rts
@@ -1856,7 +1856,7 @@ CODE_C40ECA:						; from CODE_C40E45
 	lda.w #$000D
 	mvn $7E,$7E
 	rts
-DATA8_C40EDA:						; not traced: a table read by CODE_C40E4A, CODE_C40E3A, CODE_C40E17
+DATA8_C40EDA:						; not traced: a table read by CODE_C40E45, CODE_C40E3A, CODE_C40E14
 	db $06,$11,$11,$06,$0A,$0A,$0A,$06,$21,$11,$06,$11,$21,$21,$21,$11
 	db $21,$11,$11,$06,$0A,$21,$0A,$06,$21,$0A
 DATA8_C40EF4:						; not traced: a table read by CODE_C4081B
@@ -1870,9 +1870,9 @@ DATA8_C40EF4:						; not traced: a table read by CODE_C4081B
 	db $F0,$02,$EF,$02,$EE,$02,$ED,$01,$EC,$00,$ED,$FF,$EE,$FE,$EF,$FE
 	db $F0,$FE,$F1,$FD,$F2,$FD,$F3,$FD,$F4,$FD,$F5,$FD,$F6,$FD,$F7,$FD
 	db $F8,$FD,$F9,$FD,$FA,$FD,$FB,$FD,$FC,$FE,$FD,$FE,$FE,$FE,$FF,$FF
-DATA8_C40F94:						; not traced: a table read by CODE_C408C4, CODE_C4090B
+DATA8_C40F94:						; not traced: a table read by CODE_C408B3, CODE_C408B3
 	db $12
-DATA8_C40F95:						; not traced: a table read by CODE_C408DB, CODE_C40919
+DATA8_C40F95:						; not traced: a table read by CODE_C408B3, CODE_C408B3
 	db $1A,$0F,$1D,$0C,$20,$0B,$21,$09,$23,$08,$24,$07,$25,$06,$26,$05
 	db $27,$05,$27,$04,$28,$03,$29,$03,$29,$03,$29,$02,$2A,$02,$2A,$02
 	db $2A,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01

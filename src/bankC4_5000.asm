@@ -1,64 +1,64 @@
 ; Segment bankC4_5000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C44F20
-CODE_C44F20:						; from CODE_C45516 and other segments
+CODE_C44F20:						; from CODE_C453E6 and other segments
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000F
-	bmi CODE_C44F2C
+	bmi .1
 	sta.w CwdExciteLvl
-CODE_C44F2C:						; from CODE_C44F20
+.1:									; Y = a2, if Y >= $0018 go to .rtl, A = SPA,y, ...
 	ldy.b a2
 	cpy.w #$0018
-	bcs CODE_C44F80
+	bcs .rtl
 	lda.w SPA,y
 	cmp.w #$2708
-	beq CODE_C44F80
+	beq .rtl
 	cmp.w #$25D2
-	beq CODE_C44F80
+	beq .rtl
 	cmp.w #$2376
-	beq CODE_C44F80
+	beq .rtl
 	cmp.w #$2448
-	beq CODE_C44F80
+	beq .rtl
 	cmp.w #$2588
-	beq CODE_C44F80
+	beq .rtl
 	lda.w #$25D2
 	sta.b d1
 	lda.w gmclock
-	bne CODE_C44F81
+	bne .2
 	lda.w stickhand,y
 	cmp.w #$000C
-	bcc CODE_C44F81
+	bcc .2
 	lda.w $0D00,y
-	bne CODE_C44F81
+	bne .2
 	lda.w seed
 	and.w #$000F
 	adc.w #$000A
 	sta.b d0
 	sec
 	sbc.w $0A00,y
-	bmi CODE_C44F81
+	bmi .2
 	lda.w #$003C
 	sta.w $0D00,y
-	jmp.w CODE_C45127
-CODE_C44F80:						; from CODE_C44F2C
+	jmp.w .26
+.rtl:								; return
 	rtl
-CODE_C44F81:						; from CODE_C44F2C
+.2:									; if position,x = 0 go to .4, a0 = 0, if pfteam,x = 0 go to .3, a0 = $0002
 	lda.w position,x
-	beq CODE_C44FA0
+	beq .4
 	stz.b a0
 	lda.w pfteam,x
-	beq CODE_C44F92
+	beq .3
 	lda.w #$0002
 	sta.b a0
-CODE_C44F92:						; from CODE_C44F81
+.3:									; if gmclock is not 0 go to .4, Y = a0, A = $12D7,y, A + 1, ...
 	lda.w gmclock
-	bne CODE_C44FA0
+	bne .4
 	ldy.b a0
 	lda.w $12D7,y
 	inc a
 	sta.w $12D7,y
-CODE_C44FA0:						; from CODE_C44F81, CODE_C44F92
+.4:									; Y = a2, nopuck,y = $0078, A = Xpos,x, A - Xpos,y, ...
 	ldy.b a2
 	lda.w #$0078
 	sta.w nopuck,y
@@ -73,83 +73,83 @@ CODE_C44FA0:						; from CODE_C44F81, CODE_C44F92
 	jsl.l vtoa
 	lda.w Xpos,y
 	cmp.w #$007B
-	bpl CODE_C44FE4
+	bpl .9
 	cmp.w #$FF85
-	bmi CODE_C45011
+	bmi .12
 	lda.w Ypos,y
 	cmp.w #$011E
-	bpl CODE_C44FDE
+	bpl .7
 	cmp.w #$FEE2
-	bmi CODE_C44FDB
-CODE_C44FD8:						; from CODE_C44FE4, CODE_C45011
-	jmp.w CODE_C450DB
-CODE_C44FDB:						; from CODE_C44FA0
-	jmp.w CODE_C450AE
-CODE_C44FDE:						; from CODE_C44FA0
-	jmp.w CODE_C45084
-CODE_C44FE1:						; from CODE_C44FE4, CODE_C45011
-	jmp.w CODE_C4528A
-CODE_C44FE4:						; from CODE_C44FA0
+	bmi .6
+.5:									; go to .24
+	jmp.w .24
+.6:									; go to .21
+	jmp.w .21
+.7:									; go to .19
+	jmp.w .19
+.8:									; go to .39
+	jmp.w .39
+.9:									; A = Ypos,y, if plus go to .8, if minus go to .8, A = d0, ...
 	lda.w Ypos,y
 	cmp.w #$00F0
-	bpl CODE_C44FE1
+	bpl .8
 	cmp.w #$FF0A
-	bmi CODE_C44FE1
+	bmi .8
 	lda.b d0
 	cmp.w #$0005
-	bcc CODE_C44FD8
+	bcc .5
 	lda.w #$008F
 	sta.w Xpos,y
 	lda.w #$0000
 	sta.w Xvel,y
-CODE_C45004:						; from CODE_C45347
+.10:								; A = attribute,y, if a $0800 bit set go to .14
 	lda.w attribute,y
 	bit.w #$0800
-	bne CODE_C45047
-CODE_C4500C:						; from CODE_C4503F
+	bne .14
+.11:								; A = $29EA, go to .15
 	lda.w #$29EA
-	bra CODE_C4504A
-CODE_C45011:						; from CODE_C44FA0
+	bra .15
+.12:								; A = Ypos,y, if plus go to .8, if minus go to .8, A = d0, ...
 	lda.w Ypos,y
 	cmp.w #$00F0
-	bpl CODE_C44FE1
+	bpl .8
 	cmp.w #$FF0A
-	bmi CODE_C44FE1
+	bmi .8
 	lda.b d0
 	dec a
 	cmp.w #$0003
-	bcs CODE_C44FD8
+	bcs .5
 	lda.w #$FF71
 	sta.w Xpos,y
 	lda.w #$0000
 	sta.w Xvel,y
 	lda.w Ypos,y
 	cmp.w #$006C
-	bpl CODE_C4503F
+	bpl .13
 	cmp.w #$FF94
-	bpl CODE_C45081
-CODE_C4503F:						; from CODE_C45011, CODE_C45314
+	bpl .18
+.13:								; A = attribute,y, if a $0800 bit set go to .11
 	lda.w attribute,y
 	bit.w #$0800
-	bne CODE_C4500C
-CODE_C45047:						; from CODE_C45004
+	bne .11
+.14:								; A = $2A64
 	lda.w #$2A64
-CODE_C4504A:						; from CODE_C4500C, CODE_C450A9, CODE_C450D2
+.15:								; X = a2, pfalock,x = A, call SetSPAUpdate, A = CwdExciteLvl, ...
 	ldx.b a2
 	sta.w pfalock,x
 	jsl.l SetSPAUpdate
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000A
-	bmi CODE_C4505F
+	bmi .16
 	sta.w CwdExciteLvl
-CODE_C4505F:						; from CODE_C4504A
+.16:								; $06EC = 0, Y = a2, if pfteam,y = 0 go to .17, A = $0002
 	stz.w $06EC
 	ldy.b a2
 	lda.w pfteam,y
-	beq CODE_C4506C
+	beq .17
 	lda.w #$0002
-CODE_C4506C:						; from CODE_C4505F
+.17:								; A + $0006, call CODE_C382B6, $06EE = $0002, X = a3, ...
 	clc
 	adc.w #$0006
 	jsl.l CODE_C382B6
@@ -157,54 +157,54 @@ CODE_C4506C:						; from CODE_C4505F
 	sta.w $06EE
 	ldx.b a3
 	ldy.b a2
-	jmp.w CODE_C45147
-CODE_C45081:						; from CODE_C45011
-	jmp.w CODE_C45259
-CODE_C45084:						; from CODE_C44FDE
+	jmp.w .29
+.18:								; go to .37
+	jmp.w .37
+.19:								; A = Xpos,y, if plus go to .23, if minus go to .23, A = d0, ...
 	lda.w Xpos,y
 	cmp.w #$0050
-	bpl CODE_C450D8
+	bpl .23
 	cmp.w #$FFB0
-	bmi CODE_C450D8
+	bmi .23
 	lda.b d0
 	inc a
 	inc a
 	and.w #$0007
 	cmp.w #$0005
-	bcc CODE_C450DB
+	bcc .24
 	lda.w #$0132
 	sta.w Ypos,y
 	lda.w #$0000
 	sta.w Yvel,y
-CODE_C450A9:						; from CODE_C45399
+.20:								; A = $28F6, go to .15
 	lda.w #$28F6
-	bra CODE_C4504A
-CODE_C450AE:						; from CODE_C44FDB
+	bra .15
+.21:								; A = Xpos,y, if plus go to .23, if minus go to .23, A = d0, ...
 	lda.w Xpos,y
 	cmp.w #$0050
-	bpl CODE_C450D8
+	bpl .23
 	cmp.w #$FFB0
-	bmi CODE_C450D8
+	bmi .23
 	lda.b d0
 	inc a
 	and.w #$0007
 	cmp.w #$0003
-	bcs CODE_C450DB
+	bcs .24
 	lda.w #$FECE
 	sta.w Ypos,y
 	lda.w #$0000
 	sta.w Yvel,y
-CODE_C450D2:						; from CODE_C4536E
+.22:								; A = $2970, go to .15
 	lda.w #$2970
-	jmp.w CODE_C4504A
-CODE_C450D8:						; from CODE_C45084, CODE_C450AE
-	jmp.w CODE_C4528A
-CODE_C450DB:						; from CODE_C44FD8, CODE_C45084, CODE_C450AE, CODE_C452AC, ...
+	jmp.w .15
+.23:								; go to .39
+	jmp.w .39
+.24:								; Y = a3, if pfteam,y = 0 go to .25, A = $0002
 	ldy.b a3
 	lda.w pfteam,y
-	beq CODE_C450E5
+	beq .25
 	lda.w #$0002
-CODE_C450E5:						; from CODE_C450DB
+.25:								; A + 1, A + 1, call CODE_C382B6, $06EE = $0002, ...
 	inc a
 	inc a
 	jsl.l CODE_C382B6
@@ -219,36 +219,36 @@ CODE_C450E5:						; from CODE_C450DB
 	inc a
 	and.w #$0007
 	cmp.w #$0003
-	bcc CODE_C45127
+	bcc .26
 	lda.w #$2376
 	sta.b d1
 	lda.w facedir,y
 	and.w #$0003
-	bne CODE_C45127
+	bne .26
 	lda.w checking,x
 	sec
 	sbc.w #$000A
-	bmi CODE_C45127
+	bmi .26
 	cpx.w #$0018
-	bcs CODE_C45127
+	bcs .26
 	lda.w #$2588
 	sta.b d1
-CODE_C45127:						; from CODE_C44F2C, CODE_C450E5
+.26:								; X = a2, pfalock,x = $0001, call SetSPA, X = a3, ...
 	ldx.b a2
 	lda.w #$0001
 	sta.w pfalock,x
 	jsl.l SetSPA
 	ldx.b a3
 	lda.w position,x
-	bne CODE_C45147
+	bne .29
 	cpx.w #$0018
-	bcs CODE_C45147
-	bra CODE_C45147
-CODE_C45141:						; from CODE_C45147
+	bcs .29
+	bra .29
+.27:								; go to CODE_C44EE1
 	jmp.w CODE_C44EE1
-CODE_C45144:						; from CODE_C45147
-	jmp.w CODE_C45228
-CODE_C45147:						; from CODE_C45127, CODE_C4506C, CODE_C45265
+.28:								; go to .34
+	jmp.w .34
+.29:								; A = $7E24CA, A + $012C, $7E24CA = A, crowdhold = $002D, ...
 	lda.l $7E24CA
 	clc
 	adc.w #$012C
@@ -257,46 +257,46 @@ CODE_C45147:						; from CODE_C45127, CODE_C4506C, CODE_C45265
 	sta.b crowdhold
 	lda.w puckc
 	sta.b d0
-	bmi CODE_C45141
+	bmi .27
 	cpy.b d0
-	bne CODE_C45141
+	bne .27
 	lda.w gmode
 	bit.w #$0010
-	bne CODE_C45144
+	bne .28
 	lda.w $1864
 	cmp.w #$0001
-	beq CODE_C45144
+	beq .28
 	lda.w position,x
-	beq CODE_C45144
+	beq .28
 	lda.w SPA,y
 	cmp.w #$2448
-	bne CODE_C45144
+	bne .28
 	lda.w facedir,y
 	and.w #$0003
-	bne CODE_C45144
+	bne .28
 	lda.w pflags,y
 	bit.w #$4000
-	bne CODE_C45144
+	bne .28
 	lda.w #$0190
 	jsl.l randoma8
 	asl a
 	ldy.b a2
 	sec
 	sbc.w $0A00,y
-	bpl CODE_C45144
+	bpl .28
 	lda.w gmclock
-	bne CODE_C45144
+	bne .28
 	lda.w position,y
-	bmi CODE_C45228
-	beq CODE_C45228
+	bmi .34
+	beq .34
 	lda.w #$FFFF
 	sta.w puckc
 	stz.w $06EC
 	ldy.b a2
 	lda.w pfteam,y
-	beq CODE_C451BF
+	beq .30
 	lda.w #$0002
-CODE_C451BF:						; from CODE_C45147
+.30:								; A + $0006, call CODE_C382B6, X = a2, pfalock,x = $2708, ...
 	clc
 	adc.w #$0006
 	jsl.l CODE_C382B6
@@ -325,36 +325,36 @@ CODE_C451BF:						; from CODE_C45147
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$001E
-	bmi CODE_C4520C
+	bmi .31
 	sta.w CwdExciteLvl
-CODE_C4520C:						; from CODE_C451BF
+.31:								; if position,x is not 0 go to .32, go to AddPenalty2
 	lda.w position,x
-	bne CODE_C45214
+	bne .32
 	jmp.w AddPenalty2
-CODE_C45214:						; from CODE_C4520C
+.32:								; if $186C is not 0 go to .33, go to AddPenalty2
 	lda.w $186C
-	bne CODE_C4521C
+	bne .33
 	jmp.w AddPenalty2
-CODE_C4521C:						; from CODE_C45214
+.33:								; d0 = $0014, call AddPenalty2, go to Stop4Pen
 	lda.w #$0014
 	sta.b d0
 	jsl.l AddPenalty2
 	jmp.w Stop4Pen
-CODE_C45228:						; from CODE_C45147, CODE_C45144
+.34:								; Y = a2, A = SPA,y, if A = $25D2 go to .35, puckc = $FFFF
 	ldy.b a2
 	lda.w SPA,y
 	cmp.w #$25D2
-	beq CODE_C45238
+	beq .35
 	lda.w #$FFFF
 	sta.w puckc
-CODE_C45238:						; from CODE_C45228
+.35:								; Y = a2, if pfteam,y is not 0 go to .36, A = $0004, call CODE_CF040B, ...
 	ldy.b a2
 	lda.w pfteam,y
-	bne CODE_C45247
+	bne .36
 	lda.w #$0004
 	jsl.l CODE_CF040B
 	rtl
-CODE_C45247:						; from CODE_C45238
+.36:								; A = $7E24CA, A + $0258, $7E24CA = A, crowdhold = $002D, ...
 	lda.l $7E24CA
 	clc
 	adc.w #$0258
@@ -362,13 +362,13 @@ CODE_C45247:						; from CODE_C45238
 	lda.w #$002D
 	sta.b crowdhold
 	rtl
-CODE_C45259:						; from CODE_C45081
+.37:								; A = CwdExciteLvl, A + $000A, if the result < 0 go to .38, ...
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000A
-	bmi CODE_C45265
+	bmi .38
 	sta.w CwdExciteLvl
-CODE_C45265:						; from CODE_C45259
+.38:								; X = a2, Xpos,x = $FF65, Xvel,x = 0, A = attribute,x, ...
 	ldx.b a2
 	lda.w #$FF65
 	sta.w Xpos,x
@@ -381,8 +381,8 @@ CODE_C45265:						; from CODE_C45259
 	jsl.l SetSPAFromA
 	ldx.b a3
 	ldy.b a2
-	jmp.w CODE_C45147
-CODE_C4528A:						; from CODE_C44FE1, CODE_C450D8
+	jmp.w .29
+.39:								; d5 = d0, d2 = Xpos,y, d3 = Ypos,y, X = $0048, ...
 	lda.b d0
 	sta.b d5
 	lda.w Xpos,y
@@ -392,13 +392,13 @@ CODE_C4528A:						; from CODE_C44FE1, CODE_C450D8
 	ldx.w #$0048
 	ldy.w #$00EA
 	lda.b d2
-	bpl CODE_C452A5
+	bpl .40
 	ldx.w #$FFB8
-CODE_C452A5:						; from CODE_C4528A
+.40:								; if d3 >= 0 go to .41, Y = $FF16
 	lda.b d3
-	bpl CODE_C452AC
+	bpl .41
 	ldy.w #$FF16
-CODE_C452AC:						; from CODE_C452A5
+.41:								; $81 = X, $85 = Y, A = d2, A - $81, ...
 	stx.b $81
 	sty.b $85
 	lda.b d2
@@ -414,10 +414,10 @@ CODE_C452AC:						; from CODE_C452A5
 	ldy.b a2
 	sta.b d4
 	cmp.w #$0014
-	bcs CODE_C452D2
+	bcs .42
 	ldx.b a3
-	jmp.w CODE_C450DB
-CODE_C452D2:						; from CODE_C452AC
+	jmp.w .24
+.42:								; A = d0, X = A, A = d4, call DivX8S, ...
 	lda.b d0
 	xba
 	tax
@@ -426,15 +426,15 @@ CODE_C452D2:						; from CODE_C452AC
 	lsr a
 	lsr a
 	bit.w #$2000
-	beq CODE_C452E6
+	beq .43
 	ora.w #$C000
-CODE_C452E6:						; from CODE_C452D2
+.43:								; d0 = A, if $8000 bits clear go to .44, A xor $FFFF, A + 1
 	sta.b d0
 	bit.w #$8000
-	beq CODE_C452F1
+	beq .44
 	eor.w #$FFFF
 	inc a
-CODE_C452F1:						; from CODE_C452E6
+.44:								; $89 = A, A = d1, X = A, A = d4, ...
 	sta.b $89
 	lda.b d1
 	xba
@@ -445,23 +445,23 @@ CODE_C452F1:						; from CODE_C452E6
 	lsr a
 	lsr a
 	bit.w #$2000
-	beq CODE_C45309
+	beq .45
 	ora.w #$C000
-CODE_C45309:						; from CODE_C452F1
+.45:								; d1 = A, if $8000 bits clear go to .46, A xor $FFFF, A + 1
 	sta.b d1
 	bit.w #$8000
-	beq CODE_C45314
+	beq .46
 	eor.w #$FFFF
 	inc a
-CODE_C45314:						; from CODE_C45309
+.46:								; if A >= $89 go to .49, if $81 >= 0 go to .48, A = d5, A - 1, ...
 	cmp.b $89
-	bcs CODE_C4536E
+	bcs .49
 	lda.b $81
-	bpl CODE_C45347
+	bpl .48
 	lda.b d5
 	dec a
 	cmp.w #$0003
-	bcs CODE_C45344
+	bcs .47
 	lda.b d0
 	clc
 	adc.w #$0006
@@ -475,13 +475,13 @@ CODE_C45314:						; from CODE_C45309
 	lda.w #$0000
 	sta.w Xvel,y
 	sta.w Yvel,y
-	jmp.w CODE_C4503F
-CODE_C45344:						; from CODE_C45314, CODE_C4536E, CODE_C45347, CODE_C45399
-	jmp.w CODE_C450DB
-CODE_C45347:						; from CODE_C45314
+	jmp.w .13
+.47:								; go to .24
+	jmp.w .24
+.48:								; A = d5, if A < $0005 go to .47, A = d0, A - $0006, ...
 	lda.b d5
 	cmp.w #$0005
-	bcc CODE_C45344
+	bcc .47
 	lda.b d0
 	sec
 	sbc.w #$0006
@@ -495,15 +495,15 @@ CODE_C45347:						; from CODE_C45314
 	lda.w #$0000
 	sta.w Xvel,y
 	sta.w Yvel,y
-	jmp.w CODE_C45004
-CODE_C4536E:						; from CODE_C45314
+	jmp.w .10
+.49:								; if $85 >= 0 go to .50, A = d5, A + 1, A and $0007, ...
 	lda.b $85
-	bpl CODE_C45399
+	bpl .50
 	lda.b d5
 	inc a
 	and.w #$0007
 	cmp.w #$0003
-	bcs CODE_C45344
+	bcs .47
 	lda.b d0
 	clc
 	adc.b $81
@@ -515,14 +515,14 @@ CODE_C4536E:						; from CODE_C45314
 	lda.w #$0000
 	sta.w Xvel,y
 	sta.w Yvel,y
-	jmp.w CODE_C450D2
-CODE_C45399:						; from CODE_C4536E
+	jmp.w .22
+.50:								; A = d5, A + 1, A + 1, A and $0007, ...
 	lda.b d5
 	inc a
 	inc a
 	and.w #$0007
 	cmp.w #$0005
-	bcc CODE_C45344
+	bcc .47
 	lda.b d0
 	clc
 	adc.b $81
@@ -534,7 +534,7 @@ CODE_C45399:						; from CODE_C4536E
 	lda.w #$0000
 	sta.w Xvel,y
 	sta.w Yvel,y
-	jmp.w CODE_C450A9
+	jmp.w .20
 checkcheck:							; called from other segments
 	pei ($8F)
 	pei ($6B)
@@ -552,7 +552,7 @@ checkcheck:							; called from other segments
 	pla
 	sta.b d4
 	ldx.b a3
-CODE_C453E2:						; from CODE_C453FD
+CODE_C453E2:						; from CODE_C453E6
 	rtl
 CODE_C453E3:						; from CODE_C453E6
 	jmp.w holdcheck
@@ -564,18 +564,18 @@ CODE_C453E6:						; from checkcheck and other segments
 	cmp.w #$2684
 	beq CODE_C453E3
 	cmp.w #$2082
-	bne CODE_C453FD
+	bne .1
 	jmp.w CODE_C47C8C
-CODE_C453FD:						; from CODE_C453E6
+.1:									; A = SPA,x, if A is not $21BC go to CODE_C453E2, ...
 	lda.w SPA,x
 	cmp.w #$21BC
 	bne CODE_C453E2
 	lda.w gmclock
-	beq CODE_C45413
+	beq .2
 	lda.w #$0100
 	sta.w $0A00,x
 	sta.w $0A00,y
-CODE_C45413:						; from CODE_C453FD
+.2:									; A = Xpos,y, A - Xpos,x, d0 = A, A = Ypos,y, ...
 	lda.w Xpos,y
 	sec
 	sbc.w Xpos,x
@@ -597,39 +597,39 @@ CODE_C45413:						; from CODE_C453FD
 	sta.b a0
 	sta.w pf2aip,x
 	cpy.w #$0000
-	bne CODE_C45476
+	bne .5
 	lda.w Xpos,x
 	cmp.w #$0050
-	bpl CODE_C4546A
+	bpl .3
 	cmp.w #$FFB0
-	bmi CODE_C4546A
+	bmi .3
 	lda.w Ypos,x
 	cmp.w #$00FE
-	bpl CODE_C4546A
+	bpl .3
 	cmp.w #$FF02
-	bpl CODE_C4546A
+	bpl .3
 	lda.w seed
 	and.w #$00F0
-	beq CODE_C45476
-	bra CODE_C45472
-CODE_C4546A:						; from CODE_C45413
+	beq .5
+	bra .4
+.3:									; A = seed, if the result = 0 go to .5
 	lda.w seed
 	and.w #$0030
-	beq CODE_C45476
-CODE_C45472:						; from CODE_C45413
+	beq .5
+.4:									; Y + 1, Y + 1, d0 = Y
 	iny
 	iny
 	sty.b d0
-CODE_C45476:						; from CODE_C45413, CODE_C4546A
+.5:									; A = [a0],y, call SetSPAFromA, Y = a2, if position,y = 0 go to .rtl, ...
 	lda.b [a0],y
 	jsl.l SetSPAFromA
 	ldy.b a2
 	lda.w position,y
-	beq CODE_C454D3
+	beq .rtl
 	lda.b d4
 	sec
 	sbc.w #$0020
-	bmi CODE_C454D3
+	bmi .rtl
 	lda.w #$0078
 	sta.b d0
 	lda.b d0
@@ -640,48 +640,48 @@ CODE_C45476:						; from CODE_C45413, CODE_C4546A
 	lsr a
 	sec
 	sbc.w $0A00,y
-	beq CODE_C454D4
-	bmi CODE_C454D4
+	beq .6
+	bmi .6
 	sta.b d0
 	jsl.l CODE_C37EBF
 	lda.b d0
 	sec
 	sbc.w checking,x
-	bmi CODE_C454D4
+	bmi .6
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
-	bcs CODE_C454D3
+	bcs .rtl
 	lda.w gmode
 	bit.w #$0010
-	bne CODE_C454D3
+	bne .rtl
 	lda.w $04B1
 	and.w #$0002
 	clc
 	adc.w #$0018
 	sta.b d0
 	jmp.w AddPenalty
-CODE_C454D3:						; from CODE_C45476
+.rtl:								; return
 	rtl
-CODE_C454D4:						; from CODE_C45476
+.6:									; call checkagr, A = d0, if A >= $0001 go to .7, A = gmode, ...
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
-	bcs CODE_C454F7
+	bcs .7
 	lda.w gmode
 	bit.w #$0010
-	bne CODE_C454F7
+	bne .7
 	lda.w $04B1
 	and.w #$0002
 	clc
 	adc.w #$001C
 	sta.b d0
 	jsl.l AddPenalty
-CODE_C454F7:						; from CODE_C454D4
+.7:									; call PenShotChk, if zero go to .8, if BA_Sktr_SCnum >= 0 go to .8, ...
 	jsl.l PenShotChk
-	beq CODE_C45516
+	beq .8
 	lda.w BA_Sktr_SCnum
-	bpl CODE_C45516
+	bpl .8
 	ldy.b a2
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
@@ -689,9 +689,9 @@ CODE_C454F7:						; from CODE_C454D4
 	lda.w #$0024
 	sta.b d0
 	jsl.l AddPenalty
-CODE_C45516:						; from CODE_C454F7
+.8:									; go to CODE_C44F20
 	jmp.w CODE_C44F20
-DATA8_C45519:						; not traced: a table read by CODE_C45413
+DATA8_C45519:						; not traced: a table read by CODE_C453E6
 	db $30,$20,$26,$21,$8A,$21,$8A,$21,$8A,$21,$58,$21,$58,$21,$F4,$20
 check4check:						; called from other segments
 	lda.w #$0014
@@ -699,101 +699,101 @@ check4check:						; called from other segments
 	sbc.w checking,x
 	sta.b d0
 	lda.w $186C
-	beq CODE_C45539
+	beq .1
 	asl.b d0
-CODE_C45539:						; from check4check
+.1:									; A = d0, call randomd0A, if A < $0004 go to .2, A = d0, ...
 	lda.b d0
 	jsl.l randomd0A
 	cmp.w #$0004
-	bcc CODE_C4554F
+	bcc .2
 	lda.b d0
 	jsl.l randomd0A
 	cmp.w #$0004
-	bcs CODE_C45580
-CODE_C4554F:						; from CODE_C45539
+	bcs .rtl
+.2:									; d2 = $0005, Y = $0000, if X >= $000C go to .loop, Y = $000C
 	lda.w #$0005
 	sta.b d2
 	ldy.w #$0000
 	cpx.w #$000C
-	bcs CODE_C4555F
+	bcs .loop
 	ldy.w #$000C
-CODE_C4555F:						; from CODE_C4554F, CODE_C45578
+.loop:								; loop: a0 = Y, if position,y = 0 go to .4, A = SPA,y, ...
 	sty.b a0
 	lda.w position,y
-	beq CODE_C45578
+	beq .4
 	lda.w SPA,y
 	cmp.w #$2280
-	bcc CODE_C45573
+	bcc .3
 	cmp.w #$2345
-	bcc CODE_C45581
-CODE_C45573:						; from CODE_C4555F
+	bcc .5
+.3:									; if pfalock,y = 0 go to .5
 	lda.w pfalock,y
-	beq CODE_C45581
-CODE_C45578:						; from CODE_C4555F, CODE_C45581
+	beq .5
+.4:									; Y = a0, Y + 1, Y + 1, d2 - 1, ...
 	ldy.b a0
 	iny
 	iny
 	dec.b d2
-	bpl CODE_C4555F
-CODE_C45580:						; from CODE_C45539
+	bpl .loop
+.rtl:								; return
 	rtl
-CODE_C45581:						; from CODE_C4555F, CODE_C45573
+.5:									; A = Xpos,y, A - Xpos,x, d0 = A, if minus go to .4, ...
 	lda.w Xpos,y
 	sec
 	sbc.w Xpos,x
 	sta.b d0
 	cmp.w #$FFDE
-	bmi CODE_C45578
+	bmi .4
 	cmp.w #$0022
-	bpl CODE_C45578
+	bpl .4
 	lda.w Ypos,y
 	sec
 	sbc.w Ypos,x
 	sta.b d1
 	cmp.w #$FFDE
-	bmi CODE_C45578
+	bmi .4
 	cmp.w #$0022
-	bpl CODE_C45578
+	bpl .4
 	jsl.l vtoa
 	lda.b d0
 	cmp.w facedir,x
-	bne CODE_C45578
+	bne .4
 	lda.w Xpos,x
 	cmp.w #$004A
-	bpl CODE_C455F7
+	bpl .10
 	cmp.w #$FFB6
-	bmi CODE_C455F7
+	bmi .10
 	lda.w pfgoal,x
-	bne CODE_C455EA
+	bne .9
 	lda.w Ypos,x
 	cmp.w #$005C
-	bmi CODE_C455F7
+	bmi .10
 	cmp.w #$010E
-	bpl CODE_C455F7
-CODE_C455D1:						; from CODE_C455EA
+	bpl .10
+.6:									; A = SPA,y, if A < $2280 go to .7, if A < $2345 go to .11
 	lda.w SPA,y
 	cmp.w #$2280
-	bcc CODE_C455DE
+	bcc .7
 	cmp.w #$2345
-	bcc CODE_C45602
-CODE_C455DE:						; from CODE_C455D1
+	bcc .11
+.7:									; A = $04B1, if the result = 0 go to .11
 	lda.w $04B1
 	and.w #$0007
-	beq CODE_C45602
-CODE_C455E6:						; from CODE_C455F7
+	beq .11
+.8:									; go to Acheck
 	jml.l Acheck
-CODE_C455EA:						; from CODE_C45581
+.9:									; A = Ypos,x, if plus go to .10, if plus go to .6
 	lda.w Ypos,x
 	cmp.w #$FFA4
-	bpl CODE_C455F7
+	bpl .10
 	cmp.w #$FEF2
-	bpl CODE_C455D1
-CODE_C455F7:						; from CODE_C45581, CODE_C455EA
+	bpl .6
+.10:								; A = $04B1, if the result is not 0 go to .11, go to .8
 	lda.w $04B1
 	and.w #$0007
-	bne CODE_C45602
-	jmp.w CODE_C455E6
-CODE_C45602:						; from CODE_C455D1, CODE_C455DE, CODE_C455F7
+	bne .11
+	jmp.w .8
+.11:								; go to CODE_C42D10
 	jml.l CODE_C42D10
 CODE_C45606:						; called from other segments
 	lda.w #$2082
@@ -801,30 +801,30 @@ CODE_C45606:						; called from other segments
 	jml.l SetSPAFromA
 Holdplayer:							; called from other segments
 	lda.w position,x
-	beq CODE_C45622
+	beq .rtl
 	lda.w pfalock,x
-	beq CODE_C45623
+	beq .1
 	lda.w SPA,x
 	cmp.w #$21BC
-	bne CODE_C45623
-CODE_C45622:						; from Holdplayer
+	bne .1
+.rtl:								; return
 	rtl
-CODE_C45623:						; from Holdplayer
+.1:									; d3 = $FFFF, a0 = A, Y = $0000, if X >= $000C go to .2, ...
 	lda.w #$FFFF
 	sta.b d3
 	sta.b a0
 	ldy.w #$0000
 	cpx.w #$000C
-	bcs CODE_C45635
+	bcs .2
 	ldy.w #$000C
-CODE_C45635:						; from CODE_C45623
+.2:									; d2 = $0006
 	lda.w #$0006
 	sta.b d2
-CODE_C4563A:						; from CODE_C45687
+.loop:								; loop: a2 = Y, if position,y = 0 go to .3, if minus go to .3, ...
 	sty.b a2
 	lda.w position,y
-	beq CODE_C45677
-	bmi CODE_C45677
+	beq .3
+	bmi .3
 	lda.w Xpos,y
 	sec
 	sbc.w Xpos,x
@@ -843,32 +843,32 @@ CODE_C4563A:						; from CODE_C45687
 	sbc.w facedir,x
 	and.w #$0007
 	cmp.w #$0005
-	bcc CODE_C45677
+	bcc .3
 	eor.w #$FFFF
 	adc.w #$0008
-CODE_C45677:						; from CODE_C4563A
+.3:									; A * 2, A * 2, A * 2, A * 2, ...
 	asl a
 	asl a
 	asl a
 	asl a
 	adc.b d4
 	cmp.b d3
-	bcs CODE_C45687
+	bcs .4
 	sta.b d3
 	lda.b a2
 	sta.b a0
-CODE_C45687:						; from CODE_C45677
+.4:									; Y = a2, Y + 1, Y + 1, d2 - 1, ...
 	ldy.b a2
 	iny
 	iny
 	dec.b d2
-	bne CODE_C4563A
-Acheck:								; from CODE_C455E6 and other segments
+	bne .loop
+Acheck:								; from check4check and other segments
 	lda.w #$2684
 	sta.b d1
 	sta.w pfalock,x
 	ldy.b a0
-	bmi CODE_C456B1
+	bmi .1
 	lda.w facedir,x
 	sec
 	sbc.w facedir,y
@@ -876,16 +876,16 @@ Acheck:								; from CODE_C455E6 and other segments
 	inc a
 	and.w #$0007
 	cmp.w #$0005
-	bcc CODE_C456B1
+	bcc .1
 	lda.w #$224E
 	sta.b d1
-CODE_C456B1:						; from Acheck
+.1:									; go to SetSPA
 	jml.l SetSPA
 holdcheck:							; from CODE_C453E3
 	lda.w position,x
-	beq CODE_C456F7
+	beq .rtl
 	lda.w pfalock,x
-	bne CODE_C456F7
+	bne .rtl
 	ldy.b a2
 	lda.w Xpos,x
 	sec
@@ -903,16 +903,16 @@ holdcheck:							; from CODE_C453E3
 	inc a
 	and.w #$0007
 	cmp.w #$0003
-	bcs CODE_C456F7
+	bcs .rtl
 	lda.w puckc
 	cmp.b a3
-	bne CODE_C456F8
+	bne .1
 	lda.w #$0008
 	trb.w sflags
-	bra CODE_C456F8
-CODE_C456F7:						; from holdcheck
+	bra .1
+.rtl:								; return
 	rtl
-CODE_C456F8:						; from holdcheck
+.1:									; facedir,y = d0, Y = a2, A = Xvel,x, A + Xvel,y, ...
 	lda.b d0
 	sta.w facedir,y
 	ldy.b a2
@@ -949,14 +949,14 @@ CODE_C456F8:						; from holdcheck
 	sta.w pfalock,x
 	ldy.w SPA,x
 	cpy.w #$224E
-	beq CODE_C4574C
+	beq .2
 	lda.w #$22B2
-CODE_C4574C:						; from CODE_C456F8
+.2:									; call SetSPAFromA, call PenShotChk, if zero go to .3, ...
 	jsl.l SetSPAFromA
 	jsl.l PenShotChk
-	beq CODE_C45771
+	beq .3
 	lda.w BA_Sktr_SCnum
-	bpl CODE_C45771
+	bpl .3
 	ldy.b a2
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
@@ -964,22 +964,22 @@ CODE_C4574C:						; from CODE_C456F8
 	lda.w #$0024
 	sta.b d0
 	jsl.l AddPenalty
-	bra CODE_C45792
-CODE_C45771:						; from CODE_C4574C
+	bra .5
+.3:									; call checkagr, A = d0, if A >= $0001 go to .5, d0 = $0028, ...
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
-	bcs CODE_C45792
+	bcs .5
 	lda.w #$0028
 	sta.b d0
 	lda.w SPA,x
 	cmp.w #$2280
-	beq CODE_C4578E
+	beq .4
 	lda.w #$0020
 	sta.b d0
-CODE_C4578E:						; from CODE_C45771
+.4:									; call AddPenalty
 	jsl.l AddPenalty
-CODE_C45792:						; from CODE_C4574C, CODE_C45771
+.5:									; X = a2, a2 = a3, a3 = X, collflag = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
@@ -987,42 +987,42 @@ CODE_C45792:						; from CODE_C4574C, CODE_C45771
 	lda.w #$FFFF
 	sta.w collflag
 	rtl
-SetSPA:								; from CODE_C456B1, CODE_C45127 and other segments
+SetSPA:								; from Acheck, CODE_C44F20 and other segments
 	lda.b d1
 	cmp.w SPA,x
-	beq CODE_C457B4
+	beq .rtl
 	sta.w SPA,x
 	stz.w SPAnum,x
 	lda.w #$FFFF
 	sta.w SPAcnt,x
-CODE_C457B4:						; from SetSPA
+.rtl:								; return
 	rtl
-SetSPAFromA:						; from CODE_C45606, CODE_C45A65, CODE_C458E0, CODE_C45476, ...
+SetSPAFromA:						; from CODE_C45606, assstanley, dostop, CODE_C453E6, ...
 	cmp.w SPA,x
-	beq CODE_C457C6
+	beq .rtl
 	sta.w SPA,x
 	stz.w SPAnum,x
 	lda.w #$FFFF
 	sta.w SPAcnt,x
-CODE_C457C6:						; from SetSPAFromA
+.rtl:								; return
 	rtl
-SetSPAUpdate:						; from CODE_C4504A, CODE_C45881 and other segments
+SetSPAUpdate:						; from CODE_C44F20, updateanim and other segments
 	cmp.w SPA,x
-	beq CODE_C457DC
+	beq .rtl
 	sta.w SPA,x
 	stz.w SPAnum,x
 	lda.w #$FFFF
 	sta.w SPAcnt,x
 	jsl.l updateanim
-CODE_C457DC:						; from SetSPAUpdate
+.rtl:								; return
 	rtl
 updateanim:							; from SetSPAUpdate and other segments
 	lda.w SPA,x
-	bne CODE_C457E9
+	bne .1
 	stz.w pf2aip,x
 	stz.w pfalock,x
 	rtl
-CODE_C457E9:						; from updateanim
+.1:									; push Y, a0 = A, $65 = $00C4, Y = $0010, ...
 	phy
 	sta.b a0
 	lda.w #$00C4
@@ -1032,17 +1032,17 @@ CODE_C457E9:						; from updateanim
 	sta.b d1
 	lda.w SPA,x
 	cmp.w #$2ADE
-	bcs CODE_C45811
+	bcs .2
 	lda.w attribute,x
 	bit.w #$0800
-	beq CODE_C45811
+	beq .2
 	lda.w #$0000
 	sec
 	sbc.w facedir,x
-	bra CODE_C45814
-CODE_C45811:						; from CODE_C457E9
+	bra .3
+.2:									; A = facedir,x
 	lda.w facedir,x
-CODE_C45814:						; from CODE_C457E9
+.3:									; A and $0007, A * 2, Y = A, a0 = [a0],y, ...
 	and.w #$0007
 	asl a
 	tay
@@ -1053,11 +1053,11 @@ CODE_C45814:						; from CODE_C457E9
 	lda.b [a0],y
 	sta.b d2
 	lda.w SPAcnt,x
-	bmi CODE_C45868
+	bmi .5
 	sec
 	sbc.w timestep
 	sta.w SPAcnt,x
-	bpl CODE_C4587A
+	bpl .7
 	lda.w SPAnum,x
 	clc
 	adc.w #$0004
@@ -1067,38 +1067,38 @@ CODE_C45814:						; from CODE_C457E9
 	iny
 	lda.b [a0],y
 	cmp.w #$0000
-	bpl CODE_C45868
+	bpl .5
 	stz.b d0
 	stz.w SPAnum,x
 	stz.w pf2aip,x
 	stz.w pfalock,x
 	lda.w SPA,x
 	cmp.w #$2B18
-	bcs CODE_C45861
+	bcs .4
 	cmp.w #$2ADE
-	bcs CODE_C45881
-CODE_C45861:						; from CODE_C45814
+	bcs .9
+.4:									; if d1 is not 0 go to .5, SPA,x = 0
 	lda.b d1
-	bne CODE_C45868
+	bne .5
 	stz.w SPA,x
-CODE_C45868:						; from CODE_C45814, CODE_C45861
+.5:									; Y = d0, Y + 1, Y + 1, A = [a0],y, ...
 	ldy.b d0
 	iny
 	iny
 	lda.b [a0],y
 	bit.w #$8000
-	beq CODE_C45877
+	beq .6
 	eor.w #$FFFF
 	inc a
-CODE_C45877:						; from CODE_C45868
+.6:									; SPAcnt,x = A
 	sta.w SPAcnt,x
-CODE_C4587A:						; from CODE_C45814
+.7:									; frame,x = d2
 	lda.b d2
 	sta.w frame,x
-CODE_C4587F:						; from CODE_C45881
+.8:									; pull Y, return
 	ply
 	rtl
-CODE_C45881:						; from CODE_C45814
+.9:									; Xpos,x = $FF65, facedir,x = $0002, pfalock,x = A, A = attribute,x, ...
 	lda.w #$FF65
 	sta.w Xpos,x
 	lda.w #$0002
@@ -1109,42 +1109,42 @@ CODE_C45881:						; from CODE_C45814
 	sta.w attribute,x
 	lda.w #$18EC
 	jsl.l SetSPAUpdate
-	bra CODE_C4587F
+	bra .8
 dostop:								; called from other segments
 	lda.w Xvel,x
 	cmp.w #$DFFF
-	bmi CODE_C458BC
+	bmi .1
 	cmp.w #$2001
-	bpl CODE_C458BC
+	bpl .1
 	lda.w Yvel,x
 	cmp.w #$DFFF
-	bmi CODE_C458BC
+	bmi .1
 	cmp.w #$2001
 	bmi stopna
-CODE_C458BC:						; from dostop
+.1:									; A = $1958, if pfrev,x is not 0 go to .3, if X is not puckc go to .2, ...
 	lda.w #$1958
 	ldy.w pfrev,x
-	bne CODE_C458E0
+	bne .3
 	cpx.w puckc
-	bne CODE_C458DA
+	bne .2
 	lda.w Xvel,x
 	sta.b p0
 	lda.w Yvel,x
 	sta.b $3A
 	lda.w #$000F
 	jsl.l CODE_CF040B
-CODE_C458DA:						; from CODE_C458BC
+.2:									; A = $1AEE, pf2aip,x = 0
 	lda.w #$1AEE
 	stz.w pf2aip,x
-CODE_C458E0:						; from CODE_C458BC
+.3:									; call SetSPAFromA
 	jsl.l SetSPAFromA
 stopna:								; from dostop and other segments
 	lda.w position,x
-	bne CODE_C45908
+	bne .1
 	lda.w playerpad,x
-	bmi CODE_C45908
+	bmi .1
 	cpx.w puckc
-	beq CODE_C45908
+	beq .1
 	lda.w Xvel,x
 	cmp.w #$8000
 	ror a
@@ -1154,57 +1154,57 @@ stopna:								; from dostop and other segments
 	ror a
 	sta.w Yvel,x
 	rtl
-CODE_C45908:						; from stopna
+.1:									; $16 = X, A = $0070, A + legstr,x, X = d7, ...
 	stx.b $16
 	lda.w #$0070
 	clc
 	adc.w legstr,x
 	ldx.b d7
 	dex
-	beq CODE_C45917
+	beq .2
 	asl a
-CODE_C45917:						; from CODE_C45908
+.2:									; X = $16, r2 = A, if Xvel,x >= 0 go to .3, A + r2, ...
 	ldx.b $16
 	sta.b r2
 	lda.w Xvel,x
-	bpl CODE_C4592A
+	bpl .3
 	clc
 	adc.b r2
 	sta.w Xvel,x
-	bmi CODE_C45935
-	bra CODE_C45932
-CODE_C4592A:						; from CODE_C45917
+	bmi .5
+	bra .4
+.3:									; A - r2, Xvel,x = A, if plus go to .5
 	sec
 	sbc.b r2
 	sta.w Xvel,x
-	bpl CODE_C45935
-CODE_C45932:						; from CODE_C45917
+	bpl .5
+.4:									; Xvel,x = 0
 	stz.w Xvel,x
-CODE_C45935:						; from CODE_C45917, CODE_C4592A
+.5:									; if Yvel,x >= 0 go to .6, A + r2, Yvel,x = A, if minus go to .rtl, ...
 	lda.w Yvel,x
-	bpl CODE_C45944
+	bpl .6
 	clc
 	adc.b r2
 	sta.w Yvel,x
-	bmi CODE_C4594F
-	bra CODE_C4594C
-CODE_C45944:						; from CODE_C45935
+	bmi .rtl
+	bra .7
+.6:									; A - r2, Yvel,x = A, if plus go to .rtl
 	sec
 	sbc.b r2
 	sta.w Yvel,x
-	bpl CODE_C4594F
-CODE_C4594C:						; from CODE_C45935
+	bpl .rtl
+.7:									; Yvel,x = 0
 	stz.w Yvel,x
-CODE_C4594F:						; from CODE_C45935, CODE_C45944
+.rtl:								; return
 	rtl
 skateto:							; called from other segments
 	lda.w temp2,x
 	sec
 	sbc.w timestep
 	sta.w temp2,x
-	bmi CODE_C4595F
-	jmp.w CODE_C45A3E
-CODE_C4595F:						; from skateto
+	bmi .1
+	jmp.w .9
+.1:									; A + $000C, temp2,x = A, $81 = d0, $85 = d1, ...
 	adc.w #$000C
 	sta.w temp2,x
 	lda.b d0
@@ -1216,9 +1216,9 @@ CODE_C4595F:						; from skateto
 	xba
 	and.w #$00FF
 	bit.w #$0080
-	beq CODE_C45980
+	beq .2
 	ora.w #$FF00
-CODE_C45980:						; from CODE_C4595F
+.2:									; A xor $FFFF, A + 1, r3 = A, A + d0, ...
 	eor.w #$FFFF
 	inc a
 	sta.b r3
@@ -1231,9 +1231,9 @@ CODE_C45980:						; from CODE_C4595F
 	xba
 	and.w #$00FF
 	bit.w #$0080
-	beq CODE_C4599E
+	beq .3
 	ora.w #$FF00
-CODE_C4599E:						; from CODE_C45980
+.3:									; A xor $FFFF, A + 1, $42 = A, A + d1, ...
 	eor.w #$FFFF
 	inc a
 	sta.b $42
@@ -1243,11 +1243,11 @@ CODE_C4599E:						; from CODE_C45980
 	sbc.w Ypos,x
 	sta.b d1
 	lda.w position,x
-	bne CODE_C459BA
+	bne .4
 	lda.w goalieflags,x
 	bit.w #$0002
-	beq CODE_C45A04
-CODE_C459BA:						; from CODE_C4599E
+	beq .7
+.4:									; Y = Xvel,x, A = Yvel,x, call ApproxLength, push A, ...
 	pei ($7F)
 	pei ($83)
 	ldy.w Xvel,x
@@ -1275,20 +1275,20 @@ CODE_C459BA:						; from CODE_C4599E
 	sta.b d0
 	lda.b r3
 	cmp.w #$1000
-	bcs CODE_C459F8
+	bcs .5
 	cpy.w #$0005
-	bpl CODE_C45A04
-	bra CODE_C459FD
-CODE_C459F8:						; from CODE_C459BA
+	bpl .7
+	bra .6
+.5:									; if plus go to .7
 	cpy.w #$000C
-	bpl CODE_C45A04
-CODE_C459FD:						; from CODE_C459BA
+	bpl .7
+.6:									; d0 = $0009, go to .8
 	lda.w #$0009
 	sta.b d0
-	bra CODE_C45A08
-CODE_C45A04:						; from CODE_C4599E, CODE_C459BA, CODE_C459F8
+	bra .8
+.7:									; call vtoa
 	jsl.l vtoa
-CODE_C45A08:						; from CODE_C459FD
+.8:									; $1851 = a0, $1852 = $64, call $001850, temp2b,x = d0, ...
 	lda.b a0
 	sta.w $1851
 	lda.b $64
@@ -1297,10 +1297,10 @@ CODE_C45A08:						; from CODE_C459FD
 	lda.b d0
 	sta.w temp2b,x
 	cmp.w #$0008
-	bcc CODE_C45A3E
+	bcc .9
 	lda.w Xvel,x
 	ora.w Yvel,x
-	bne CODE_C45A3E
+	bne .9
 	lda.w $0830
 	sec
 	sbc.w Xpos,x
@@ -1310,28 +1310,28 @@ CODE_C45A08:						; from CODE_C459FD
 	sbc.w Ypos,x
 	sta.b d1
 	jsl.l vtoa
-CODE_C45A3E:						; from skateto, CODE_C45A08
+.9:									; d0 = temp2b,x, go to doplayeracc
 	lda.w temp2b,x
 	sta.b d0
 	jml.l doplayeracc
 assstanley:							; called from other segments
 	lda.w pflags,x
 	bit.w #$0002
-	beq CODE_C45A71
+	beq .2
 	and.w #$FFFD
 	sta.w pflags,x
 	lda.w #$005A
 	sta.w temp3,x
 	lda.b $CB
-	bpl CODE_C45A65
+	bpl .1
 	lda.w #$FFA6
 	sta.w temp3,x
-CODE_C45A65:						; from assstanley
+.1:									; temp4,x = $CD, pfalock,x = A, call SetSPAFromA
 	lda.b $CD
 	sta.w temp4,x
 	sta.w pfalock,x
 	jsl.l SetSPAFromA
-CODE_C45A71:						; from assstanley
+.2:									; A = temp3,x, A - Xpos,x, d0 = A, A = temp4,x, ...
 	lda.w temp3,x
 	sec
 	sbc.w Xpos,x
@@ -1343,19 +1343,19 @@ CODE_C45A71:						; from assstanley
 	jsl.l vtoa
 	lda.b d0
 	cmp.w #$0008
-	bpl CODE_C45A9E
+	bpl .rtl
 	lda.b d0
 	sta.b d2
 	sta.w facedir,x
 	lda.w #$0014
 	sta.w pfalock,x
 	jmp.w CODE_C45ABE
-CODE_C45A9E:						; from CODE_C45A71
+.rtl:								; return
 	rtl
 CODE_C45A9F:						; called from other segments
 	lda.w #$FFFF
 	sta.b d2
-CODE_C45AA4:						; from CODE_C45AA4
+.loop:								; loop: d2 + 1, A = a0, A + d2, Y = A, ...
 	inc.b d2
 	lda.b a0
 	clc
@@ -1366,18 +1366,18 @@ CODE_C45AA4:						; from CODE_C45AA4
 	sta.w $13DA,y
 	rep #$30
 	bit.w #$0080
-	beq CODE_C45AA4
+	beq .loop
 	dec.b a0
 	rtl
-CODE_C45ABE:						; from CODE_C45A71 and other segments
+CODE_C45ABE:						; from assstanley and other segments
 	lda.b d2
 	asl a
 	tax
 	lda.b d7
 	dec a
-	beq CODE_C45ACA
+	beq .1
 	jmp (DATA8_C45ADD,x)
-CODE_C45ACA:						; from CODE_C45ABE
+.1:									; jump through DATA8_C45ACD,x
 	jmp (DATA8_C45ACD,x)
 DATA8_C45ACD:						; jump table: the routine for each index
 	dw CODE_C45AED,CODE_C45D0F,CODE_C45EE5,CODE_C46075
@@ -1390,15 +1390,15 @@ CODE_C45AED:						; from DATA8_C45ACD
 	sta.b d1
 	ldx.b curobj
 	lda.w Wallcos,x
-	beq CODE_C45B03
+	beq .1
 	eor.b d1
-	bmi CODE_C45B03
+	bmi .1
 	lda.w Yvel,x
-	bra CODE_C45B09
-CODE_C45B03:						; from CODE_C45AED
+	bra .2
+.1:									; A = Yvel,x, A + $0D80,x
 	lda.w Yvel,x
 	adc.w $0D80,x
-CODE_C45B09:						; from CODE_C45AED
+.2:									; d1 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d1
 	xba
 	and.w #$00FF
@@ -1419,10 +1419,10 @@ CODE_C45B09:						; from CODE_C45AED
 	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
-	bne CODE_C45B3C
+	bne .3
 	lda.w #$1000
 	sta.b d0
-CODE_C45B3C:						; from CODE_C45B09
+.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
 	lda.w $0E20,x
 	asl a
 	tax
@@ -1441,12 +1441,12 @@ CODE_C45B3C:						; from CODE_C45B09
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
-	bne CODE_C45B7D
+	bne .4
 	lda.w playerpad,x
-	bmi CODE_C45B7D
+	bmi .4
 	lda.w goalieflags,x
 	bit.w #$0004
-	bne CODE_C45B7D
+	bne .4
 	lda.b $89
 	lsr a
 	lsr a
@@ -1454,50 +1454,50 @@ CODE_C45B3C:						; from CODE_C45B09
 	inc a
 	adc.b $89
 	sta.b $89
-CODE_C45B7D:						; from CODE_C45B3C
+.4:									; A = $89, pull A, if carry clear go to .5, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
-	bcc CODE_C45B87
+	bcc .5
 	sta.w Yvel,x
-CODE_C45B87:						; from CODE_C45B7D
+.5:									; if $186E = 0 go to .rtl, A = seed, ...
 	lda.w $186E
-	beq CODE_C45BB3
+	beq .rtl
 	lda.w seed
 	and.w #$003F
-	bne CODE_C45BB3
+	bne .rtl
 	jsl.l getpde
 	lda.b d0
 	sec
 	sbc.w #$0021
 	sta.b d0
 	cmp.w #$0C00
-	bmi CODE_C45BAF
+	bmi .6
 	lda.w $0F40,x
 	sta.b d2
 	clc
 	adc.b d0
 	sta.b d0
-CODE_C45BAF:						; from CODE_C45B87
+.6:									; go to setpde
 	jml.l setpde
-CODE_C45BB3:						; from CODE_C45B87
+.rtl:								; return
 	rtl
 CODE_C45BB4:						; from DATA8_C45ADD
 	lda.l DATA8_C4693F,x
 	sta.b d1
 	ldx.b curobj
 	lda.w Wallcos,x
-	beq CODE_C45BCA
+	beq .1
 	eor.b d1
-	bmi CODE_C45BCA
+	bmi .1
 	lda.w Yvel,x
-	bra CODE_C45BD2
-CODE_C45BCA:						; from CODE_C45BB4
+	bra .2
+.1:									; A = $0D80,x, A * 2, A + Yvel,x
 	lda.w $0D80,x
 	asl a
 	clc
 	adc.w Yvel,x
-CODE_C45BD2:						; from CODE_C45BB4
+.2:									; d1 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d1
 	xba
 	and.w #$00FF
@@ -1518,10 +1518,10 @@ CODE_C45BD2:						; from CODE_C45BB4
 	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
-	bne CODE_C45C05
+	bne .3
 	lda.w #$1000
 	sta.b d0
-CODE_C45C05:						; from CODE_C45BD2
+.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
 	lda.w $0E20,x
 	asl a
 	tax
@@ -1540,12 +1540,12 @@ CODE_C45C05:						; from CODE_C45BD2
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
-	bne CODE_C45C46
+	bne .4
 	lda.w playerpad,x
-	bmi CODE_C45C46
+	bmi .4
 	lda.w goalieflags,x
 	bit.w #$0004
-	bne CODE_C45C46
+	bne .4
 	lda.b $89
 	lsr a
 	lsr a
@@ -1553,33 +1553,33 @@ CODE_C45C05:						; from CODE_C45BD2
 	inc a
 	adc.b $89
 	sta.b $89
-CODE_C45C46:						; from CODE_C45C05
+.4:									; A = $89, pull A, if carry clear go to .5, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
-	bcc CODE_C45C50
+	bcc .5
 	sta.w Yvel,x
-CODE_C45C50:						; from CODE_C45C46
+.5:									; if $186E = 0 go to .rtl, A = seed, ...
 	lda.w $186E
-	beq CODE_C45C7C
+	beq .rtl
 	lda.w seed
 	and.w #$003F
-	bne CODE_C45C7C
+	bne .rtl
 	jsl.l getpde
 	lda.b d0
 	sec
 	sbc.w #$0021
 	sta.b d0
 	cmp.w #$0C00
-	bmi CODE_C45C78
+	bmi .6
 	lda.w $0F40,x
 	sta.b d2
 	clc
 	adc.b d0
 	sta.b d0
-CODE_C45C78:						; from CODE_C45C50
+.6:									; go to setpde
 	jml.l setpde
-CODE_C45C7C:						; from CODE_C45C50
+.rtl:								; return
 	rtl
 DATA8_C45C7D:						; jump table: the routine for each index
 	dw CODE_C45C9D,CODE_C45CA0,CODE_C45CA1,CODE_C45CA3
@@ -1691,15 +1691,15 @@ CODE_C45D0F:						; from DATA8_C45ACD
 	sta.b d1
 	ldx.b curobj
 	lda.w Wallcos,x
-	beq CODE_C45D2B
+	beq .1
 	eor.b d1
-	bmi CODE_C45D2B
+	bmi .1
 	lda.w Yvel,x
-	bra CODE_C45D31
-CODE_C45D2B:						; from CODE_C45D0F
+	bra .2
+.1:									; A = Yvel,x, A + $0DA0,x
 	lda.w Yvel,x
 	adc.w $0DA0,x
-CODE_C45D31:						; from CODE_C45D0F
+.2:									; d1 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d1
 	xba
 	and.w #$00FF
@@ -1709,15 +1709,15 @@ CODE_C45D31:						; from CODE_C45D0F
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
-	beq CODE_C45D4E
+	beq .3
 	eor.b d0
-	bpl CODE_C45D4E
+	bpl .3
 	lda.w Xvel,x
-	bra CODE_C45D54
-CODE_C45D4E:						; from CODE_C45D31
+	bra .4
+.3:									; A = Xvel,x, A + $0DA0,x
 	lda.w Xvel,x
 	adc.w $0DA0,x
-CODE_C45D54:						; from CODE_C45D31
+.4:									; d0 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d0
 	xba
 	and.w #$00FF
@@ -1732,10 +1732,10 @@ CODE_C45D54:						; from CODE_C45D31
 	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
-	bne CODE_C45D7A
+	bne .5
 	lda.w #$1000
 	sta.b d0
-CODE_C45D7A:						; from CODE_C45D54
+.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
 	lda.w $0E20,x
 	asl a
 	tax
@@ -1754,12 +1754,12 @@ CODE_C45D7A:						; from CODE_C45D54
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
-	bne CODE_C45DBB
+	bne .6
 	lda.w playerpad,x
-	bmi CODE_C45DBB
+	bmi .6
 	lda.w goalieflags,x
 	bit.w #$0004
-	bne CODE_C45DBB
+	bne .6
 	lda.b $89
 	lsr a
 	lsr a
@@ -1767,37 +1767,37 @@ CODE_C45D7A:						; from CODE_C45D54
 	inc a
 	adc.b $89
 	sta.b $89
-CODE_C45DBB:						; from CODE_C45D7A
+.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
-	bcc CODE_C45DC5
+	bcc .7
 	sta.w Yvel,x
-CODE_C45DC5:						; from CODE_C45DBB
+.7:									; pull A, if carry clear go to .8, Xvel,x = A
 	pla
-	bcc CODE_C45DCB
+	bcc .8
 	sta.w Xvel,x
-CODE_C45DCB:						; from CODE_C45DC5
+.8:									; if $186E = 0 go to .rtl, A = seed, ...
 	lda.w $186E
-	beq CODE_C45DF7
+	beq .rtl
 	lda.w seed
 	and.w #$003F
-	bne CODE_C45DF7
+	bne .rtl
 	jsl.l getpde
 	lda.b d0
 	sec
 	sbc.w #$0021
 	sta.b d0
 	cmp.w #$0C00
-	bmi CODE_C45DF3
+	bmi .9
 	lda.w $0F40,x
 	sta.b d2
 	clc
 	adc.b d0
 	sta.b d0
-CODE_C45DF3:						; from CODE_C45DCB
+.9:									; go to setpde
 	jml.l setpde
-CODE_C45DF7:						; from CODE_C45DCB
+.rtl:								; return
 	rtl
 CODE_C45DF8:						; from DATA8_C45ADD
 	lda.l DATA8_C4692F,x
@@ -1806,17 +1806,17 @@ CODE_C45DF8:						; from DATA8_C45ADD
 	sta.b d1
 	ldx.b curobj
 	lda.w Wallcos,x
-	beq CODE_C45E14
+	beq .1
 	eor.b d1
-	bmi CODE_C45E14
+	bmi .1
 	lda.w Yvel,x
-	bra CODE_C45E1C
-CODE_C45E14:						; from CODE_C45DF8
+	bra .2
+.1:									; A = $0DA0,x, A * 2, A + Yvel,x
 	lda.w $0DA0,x
 	asl a
 	clc
 	adc.w Yvel,x
-CODE_C45E1C:						; from CODE_C45DF8
+.2:									; d1 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d1
 	xba
 	and.w #$00FF
@@ -1826,17 +1826,17 @@ CODE_C45E1C:						; from CODE_C45DF8
 	tay
 	ldx.b curobj
 	lda.w Wallsin,x
-	beq CODE_C45E39
+	beq .3
 	eor.b d0
-	bpl CODE_C45E39
+	bpl .3
 	lda.w Xvel,x
-	bra CODE_C45E41
-CODE_C45E39:						; from CODE_C45E1C
+	bra .4
+.3:									; A = $0DA0,x, A * 2, A + Xvel,x
 	lda.w $0DA0,x
 	asl a
 	clc
 	adc.w Xvel,x
-CODE_C45E41:						; from CODE_C45E1C
+.4:									; d0 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d0
 	xba
 	and.w #$00FF
@@ -1851,10 +1851,10 @@ CODE_C45E41:						; from CODE_C45E1C
 	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
-	bne CODE_C45E67
+	bne .5
 	lda.w #$1000
 	sta.b d0
-CODE_C45E67:						; from CODE_C45E41
+.5:									; A = $0E20,x, A * 2, X = A, A = d0, ...
 	lda.w $0E20,x
 	asl a
 	tax
@@ -1873,12 +1873,12 @@ CODE_C45E67:						; from CODE_C45E41
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
-	bne CODE_C45EA8
+	bne .6
 	lda.w playerpad,x
-	bmi CODE_C45EA8
+	bmi .6
 	lda.w goalieflags,x
 	bit.w #$0004
-	bne CODE_C45EA8
+	bne .6
 	lda.b $89
 	lsr a
 	lsr a
@@ -1886,52 +1886,52 @@ CODE_C45E67:						; from CODE_C45E41
 	inc a
 	adc.b $89
 	sta.b $89
-CODE_C45EA8:						; from CODE_C45E67
+.6:									; A = $89, pull A, if carry clear go to .7, Yvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
-	bcc CODE_C45EB2
+	bcc .7
 	sta.w Yvel,x
-CODE_C45EB2:						; from CODE_C45EA8
+.7:									; pull A, if carry clear go to .8, Xvel,x = A
 	pla
-	bcc CODE_C45EB8
+	bcc .8
 	sta.w Xvel,x
-CODE_C45EB8:						; from CODE_C45EB2
+.8:									; if $186E = 0 go to .rtl, A = seed, ...
 	lda.w $186E
-	beq CODE_C45EE4
+	beq .rtl
 	lda.w seed
 	and.w #$003F
-	bne CODE_C45EE4
+	bne .rtl
 	jsl.l getpde
 	lda.b d0
 	sec
 	sbc.w #$0021
 	sta.b d0
 	cmp.w #$0C00
-	bmi CODE_C45EE0
+	bmi .9
 	lda.w $0F40,x
 	sta.b d2
 	clc
 	adc.b d0
 	sta.b d0
-CODE_C45EE0:						; from CODE_C45EB8
+.9:									; go to setpde
 	jml.l setpde
-CODE_C45EE4:						; from CODE_C45EB8
+.rtl:								; return
 	rtl
 CODE_C45EE5:						; from DATA8_C45ACD
 	lda.l DATA8_C4692F,x
 	sta.b d0
 	ldx.b curobj
 	lda.w Wallsin,x
-	beq CODE_C45EFB
+	beq .1
 	eor.b d0
-	bpl CODE_C45EFB
+	bpl .1
 	lda.w Xvel,x
-	bra CODE_C45F01
-CODE_C45EFB:						; from CODE_C45EE5
+	bra .2
+.1:									; A = Xvel,x, A + $0D80,x
 	lda.w Xvel,x
 	adc.w $0D80,x
-CODE_C45F01:						; from CODE_C45EE5
+.2:									; d0 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d0
 	xba
 	and.w #$00FF
@@ -1952,10 +1952,10 @@ CODE_C45F01:						; from CODE_C45EE5
 	jsl.l getpde
 	lda.w $186E
 	cmp.w #$0002
-	bne CODE_C45F34
+	bne .3
 	lda.w #$1000
 	sta.b d0
-CODE_C45F34:						; from CODE_C45F01
+.3:									; A = $0E20,x, A * 2, X = A, A = d0, ...
 	lda.w $0E20,x
 	asl a
 	tax
@@ -1974,12 +1974,12 @@ CODE_C45F34:						; from CODE_C45F01
 	sta.b $89
 	ldx.b curobj
 	lda.w position,x
-	bne CODE_C45F75
+	bne .4
 	lda.w playerpad,x
-	bmi CODE_C45F75
+	bmi .4
 	lda.w goalieflags,x
 	bit.w #$0004
-	bne CODE_C45F75
+	bne .4
 	lda.b $89
 	lsr a
 	lsr a
@@ -1987,31 +1987,31 @@ CODE_C45F34:						; from CODE_C45F01
 	inc a
 	adc.b $89
 	sta.b $89
-CODE_C45F75:						; from CODE_C45F34
+.4:									; A = $89, pull A, if carry clear go to .5, Xvel,x = A
 	lda.b $89
 	cmp.b d3
 	pla
-	bcc CODE_C45F7F
+	bcc .5
 	sta.w Xvel,x
-CODE_C45F7F:						; from CODE_C45F75
+.5:									; if $186E = 0 go to .rtl, A = seed, ...
 	lda.w $186E
-	beq CODE_C45FAB
+	beq .rtl
 	lda.w seed
 	and.w #$003F
-	bne CODE_C45FAB
+	bne .rtl
 	jsl.l getpde
 	lda.b d0
 	sec
 	sbc.w #$0021
 	sta.b d0
 	cmp.w #$0C00
-	bmi CODE_C45FA7
+	bmi .6
 	lda.w $0F40,x
 	sta.b d2
 	clc
 	adc.b d0
 	sta.b d0
-CODE_C45FA7:						; from CODE_C45F7F
+.6:									; go to setpde
 	jml.l setpde
-CODE_C45FAB:						; from CODE_C45F7F
+.rtl:								; return
 	rtl

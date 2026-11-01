@@ -20,7 +20,7 @@ CODE_C4CFF5:						; called from other segments
 	stz.w $0000,x
 	mvn $30,$30
 	lda.l $001902
-	beq CODE_C4D051
+	beq .1
 	lda.w #$0183
 	ldx.w #$7162
 	ldy.w #$7164
@@ -33,14 +33,14 @@ CODE_C4CFF5:						; called from other segments
 	mvn $30,$30
 	jsr.w CODE_C4D05B
 	jsr.w CODE_C4D0D5
-CODE_C4D051:						; from CODE_C4CFF5
+.1:									; call CODE_C4CF7B, call CODE_C5E474, return
 	jsl.l CODE_C4CF7B
 	jsl.l CODE_C5E474
 	plb
 	rtl
 CODE_C4D05B:						; from CODE_C4CFF5 and other segments
 	ldx.w #$0032
-CODE_C4D05E:						; from CODE_C4D0C1
+.1:									; tmp0 = X, A = $C30000,x, X = A, A = $C30000,x, ...
 	stx.b tmp0
 	lda.l $C30000,x
 	tax
@@ -55,7 +55,7 @@ CODE_C4D05E:						; from CODE_C4D0C1
 	tya
 	and.w #$07FF
 	tax
-CODE_C4D078:						; from CODE_C4D0C1
+.2:									; tmp2 = X, A = X, A - $0038, $A5 = A, ...
 	stx.b tmp2
 	txa
 	sec
@@ -69,7 +69,7 @@ CODE_C4D078:						; from CODE_C4D0C1
 	lda.l $C30000,x
 	and.w #$3FFF
 	tax
-	bcc CODE_C4D0AA
+	bcc .3
 	lda.b tmp0
 	asl a
 	asl a
@@ -81,8 +81,8 @@ CODE_C4D078:						; from CODE_C4D0C1
 	tsb.b $A5
 	lda.w $6A56,y
 	and.w #$000F
-	bra CODE_C4D0C1
-CODE_C4D0AA:						; from CODE_C4D078
+	bra .4
+.3:									; A = tmp0, A / 2, $A5 = A, A = $C2FFFF,x, ...
 	lda.b tmp0
 	lsr a
 	sta.b $A5
@@ -94,37 +94,37 @@ CODE_C4D0AA:						; from CODE_C4D078
 	tsb.b $A5
 	lda.w $6A56,y
 	and.w #$F000
-CODE_C4D0C1:						; from CODE_C4D078
+.4:									; A or $A5, $6A56,y = A, X = tmp2, X + 1, ...
 	ora.b $A5
 	sta.w $6A56,y
 	ldx.b tmp2
 	inx
 	inx
 	dec.b tmp1
-	bne CODE_C4D078
+	bne .2
 	ldx.b tmp0
 	dex
 	dex
-	bpl CODE_C4D05E
+	bpl .1
 	rts
 CODE_C4D0D5:						; from CODE_C4CFF5 and other segments
 	ldy.w #$1CF8
 	lda.w #$0013
 	sta.b tmp0
 	tya
-CODE_C4D0DE:						; from CODE_C4D0F0
+.1:									; A / 2, A / 2, A / 2, X = A, ...
 	lsr a
 	lsr a
 	lsr a
 	tax
 	tya
 	and.w #$0007
-	beq CODE_C4D0ED
+	beq .2
 	lda.w #$01F0
-	bra CODE_C4D0F0
-CODE_C4D0ED:						; from CODE_C4D0DE
+	bra .3
+.2:									; A = $001F
 	lda.w #$001F
-CODE_C4D0F0:						; from CODE_C4D0DE
+.3:									; A or $6A56,x, $6A56,x = A, A = Y, A + $000C, ...
 	ora.w $6A56,x
 	sta.w $6A56,x
 	tya
@@ -132,11 +132,11 @@ CODE_C4D0F0:						; from CODE_C4D0DE
 	adc.w #$000C
 	tay
 	dec.b tmp0
-	bpl CODE_C4D0DE
+	bpl .1
 	rts
 DATA8_C4D101:						; not traced: data between routines
 	db $4A,$01,$78,$22,$38,$22,$01,$33,$00
-DATA8_C4D10A:						; not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_C4D5F6
+DATA8_C4D10A:						; not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_C4D5AC
 	db $03,$E4,$50,$F2,$50,$FE,$50,$03,$08,$51,$11,$51,$1B,$51,$03,$26
 	db $51,$2D,$51,$34,$51,$03,$26,$51,$41,$51,$4A,$51,$03,$26,$51,$55
 	db $51,$62,$51,$03,$26,$51,$6C,$51,$75,$51,$02,$26,$51,$80,$51,$03
@@ -299,11 +299,11 @@ CODE_C4D193:						; called from other segments
 	jsl.l CODE_C4B763
 	inc.w $1EA7
 	stz.w fadestep
-CODE_C4D33F:						; from CODE_C4D33F
+.loop:								; loop: call CODE_C4B7D4, call AnimateSprites, ...
 	jsl.l CODE_C4B7D4
 	jsl.l AnimateSprites
 	lda.w $2D9D
-	beq CODE_C4D33F
+	beq .loop
 	lda.w #$0058
 	sta.l BG1SC
 	lda.w #$0051
@@ -426,25 +426,25 @@ CODE_C4D435:						; a task routine: stored as the next routine of a task
 	sta.b a3
 	clc
 	adc.b [a3]
-	bcc CODE_C4D45E
+	bcc .1
 	inx
 	clc
-CODE_C4D45E:						; from CODE_C4D435
+.1:									; A + $0002, if carry clear go to .2, X + 1
 	adc.w #$0002
-	bcc CODE_C4D465
+	bcc .2
 	inx
 	clc
-CODE_C4D465:						; from CODE_C4D45E
+.2:									; a3 = A, A + [a3], if carry clear go to .3, X + 1, ...
 	sta.b a3
 	adc.b [a3]
-	bcc CODE_C4D46D
+	bcc .3
 	inx
 	clc
-CODE_C4D46D:						; from CODE_C4D465
+.3:									; A + $0009, if carry clear go to .4, X + 1
 	adc.w #$0009
-	bcc CODE_C4D473
+	bcc .4
 	inx
-CODE_C4D473:						; from CODE_C4D46D
+.4:									; $71 = X, a3 = A, X = $007E, A = d4, ...
 	stx.b $71
 	sta.b a3
 	ldx.w #$007E
@@ -507,13 +507,13 @@ CODE_C4D4F5:						; a task routine: stored as the next routine of a task
 	ldx.b $95
 	lda.l DATA8_C4D10A,x
 	and.w #$00FF
-	bne CODE_C4D514
+	bne .1
 	ldx.b d1
 	stz.w $0008,x
 	lda.w #CODE_C4D51D
 	sta.w $0002,x
 	rtl
-CODE_C4D514:						; from CODE_C4D4F5
+.1:									; X = d1, $0002,x = CODE_C4D4A1, return
 	ldx.b d1
 	lda.w #CODE_C4D4A1
 	sta.w $0002,x
@@ -615,7 +615,7 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	lda.w #$2400
 	sta.b $D5
 	inx
-CODE_C4D5F6:						; from CODE_C4D610
+.loop:								; loop: $95 = X, A = DATA8_C4D10A,x, X = A, Y = d6, ...
 	stx.b $95
 	lda.l DATA8_C4D10A,x
 	tax
@@ -624,15 +624,15 @@ CODE_C4D5F6:						; from CODE_C4D610
 	ldx.b $95
 	lda.w #$2000
 	cmp.b $D5
-	beq CODE_C4D610
+	beq .1
 	sta.b $D5
 	inc.b d6
-CODE_C4D610:						; from CODE_C4D5F6
+.1:									; d6 + 1, X + 1, X + 1, $99 - 1, ...
 	inc.b d6
 	inx
 	inx
 	dec.b $99
-	bne CODE_C4D5F6
+	bne .loop
 	stx.b $95
 	dec.b QueueBusy
 	lda.b $00
@@ -654,25 +654,25 @@ CODE_C4D636:						; from CODE_C4D193
 	sta.b tmp0
 	clc
 	adc.b [tmp0]
-	bcc CODE_C4D641
+	bcc .1
 	inx
 	clc
-CODE_C4D641:						; from CODE_C4D636
+.1:									; A + $0002, if carry clear go to .2, X + 1
 	adc.w #$0002
-	bcc CODE_C4D648
+	bcc .2
 	inx
 	clc
-CODE_C4D648:						; from CODE_C4D641
+.2:									; tmp0 = A, A + [tmp0], if carry clear go to .3, X + 1, ...
 	sta.b tmp0
 	adc.b [tmp0]
-	bcc CODE_C4D650
+	bcc .3
 	inx
 	clc
-CODE_C4D650:						; from CODE_C4D648
+.3:									; A + $0009, if carry clear go to .rts, X + 1
 	adc.w #$0009
-	bcc CODE_C4D656
+	bcc .rts
 	inx
-CODE_C4D656:						; from CODE_C4D650
+.rts:								; return
 	rts
 CODE_C4D657:						; called from other segments
 	jsl.l CODE_C4C574
@@ -752,7 +752,7 @@ CODE_C4D657:						; called from other segments
 	stz.w fadestep
 	stz.b $26
 	stz.b a0
-CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
+.loop:								; loop: call CODE_C3716D, call CODE_C36C2D, A = $058D, A and $FFF0, ...
 	jsl.l CODE_C3716D
 	jsl.l CODE_C36C2D
 	lda.w $058D
@@ -760,19 +760,19 @@ CODE_C4D73A:						; from CODE_C4D73A, CODE_C4D75D
 	tsb.b a0
 	lda.b $26
 	cmp.w #$003C
-	bne CODE_C4D75D
+	bne .1
 	lda.w #$05D4
 	ldx.w #$00CF
 	jsl.l CODE_CF0134
-	bra CODE_C4D73A
-CODE_C4D75D:						; from CODE_C4D73A
+	bra .loop
+.1:									; if A < $00C3 go to .loop, if a0 is not 0 go to .2, ...
 	cmp.w #$00C3
-	bcc CODE_C4D73A
+	bcc .loop
 	ldx.b a0
-	bne CODE_C4D76B
+	bne .2
 	cmp.w #$04B0
-	bcc CODE_C4D73A
-CODE_C4D76B:						; from CODE_C4D75D
+	bcc .loop
+.2:									; call FadeOutWait, go to ClearNMIHook
 	jsl.l FadeOutWait
 	jml.l ClearNMIHook
 CODE_C4D773:						; from CODE_C4D818, CODE_C4DFD6
@@ -894,7 +894,7 @@ CODE_C4D818:						; called from other segments
 	jsr.w CODE_C4D941
 	jsr.w CODE_C4DC45
 	jsr.w CODE_C4DAAD
-CODE_C4D8CE:						; from CODE_C4D8CE, CODE_C4D915, CODE_C4D93B, CODE_C4D936
+.loop:								; loop: TransfersReady + 1, call CODE_C36C2D, $26 + 1, ...
 	inc.w TransfersReady
 	wai
 	jsl.l CODE_C36C2D
@@ -907,24 +907,24 @@ CODE_C4D8CE:						; from CODE_C4D8CE, CODE_C4D915, CODE_C4D93B, CODE_C4D936
 	jsl.l BuildSpriteOAM
 	jsl.l CODE_C5F3DB
 	lda.w repeatdelayframes
-	bne CODE_C4D8CE
+	bne .loop
 	lda.w $058D
 	bit.w #$0100
-	beq CODE_C4D908
+	beq .1
 	lda.b a0
 	inc a
 	cmp.w #$0008
-	bcc CODE_C4D915
+	bcc .2
 	lda.w #$0000
-	bra CODE_C4D915
-CODE_C4D908:						; from CODE_C4D8CE
+	bra .2
+.1:									; if $0200 bits clear go to .4, A = a0, A - 1, ...
 	bit.w #$0200
-	beq CODE_C4D93B
+	beq .4
 	lda.b a0
 	dec a
-	bpl CODE_C4D915
+	bpl .2
 	lda.w #$0007
-CODE_C4D915:						; from CODE_C4D8CE, CODE_C4D908
+.2:									; a0 = A, A = $D3, A + $0140, Y = $0480, ...
 	sta.b a0
 	lda.b $D3
 	clc
@@ -935,17 +935,17 @@ CODE_C4D915:						; from CODE_C4D8CE, CODE_C4D908
 	jsr.w CODE_C4DC45
 	ldx.b a0
 	cpx.w #$0007
-	bne CODE_C4D936
+	bne .3
 	jsr.w CODE_C4DBCC
-	bra CODE_C4D8CE
-CODE_C4D936:						; from CODE_C4D915
+	bra .loop
+.3:									; call CODE_C4DAAD, go to .loop
 	jsr.w CODE_C4DAAD
-	bra CODE_C4D8CE
-CODE_C4D93B:						; from CODE_C4D908
+	bra .loop
+.4:									; if $1000 bits clear go to .loop, return
 	bit.w #$1000
-	beq CODE_C4D8CE
+	beq .loop
 	rtl
-CODE_C4D941:						; from CODE_C4D818, CODE_C4D915
+CODE_C4D941:						; from CODE_C4D818
 	lda.w #$0005
 	sta.w $18DE
 	ldy.w #$5000
@@ -953,11 +953,11 @@ CODE_C4D941:						; from CODE_C4D818, CODE_C4D915
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	ldx.b $75
-	bmi CODE_C4D963
+	bmi .1
 	jsl.l CODE_C5E596
 	lda.w #$FFFF
 	sta.b $75
-CODE_C4D963:						; from CODE_C4D941
+.1:									; X = a4, A = $22,x, A and $FFFE, $22,x = A, ...
 	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE
@@ -979,11 +979,11 @@ CODE_C4D963:						; from CODE_C4D941
 	jsl.l CODE_C4BBE5
 	plx
 	lda.l AwardNames+2,x
-	beq CODE_C4D99C
+	beq .2
 	tax
 	ldy.w #$0013
 	jsl.l CODE_C4BBE5
-CODE_C4D99C:						; from CODE_C4D963
+.2:									; $CF = 0, $D1 = $0100, pull X, A = AwardDescs,x, ...
 	stz.b $CF
 	lda.w #$0100
 	sta.b $D1
@@ -1051,7 +1051,7 @@ CODE_C4D99C:						; from CODE_C4D963
 	stx.b $00
 	ldx.w #$50B3
 	ldy.b $08
-CODE_C4DA25:						; from CODE_C4DA25
+.loop:								; loop: push X, push Y, A = Y, A + $0012, ...
 	pea.w $0012
 	phx
 	pea.w $007E
@@ -1065,7 +1065,7 @@ CODE_C4DA25:						; from CODE_C4DA25
 	adc.w #$0020
 	tax
 	cmp.w #$5253
-	bne CODE_C4DA25
+	bne .loop
 	lda.b $00
 	tsx
 	tcs
@@ -1076,7 +1076,7 @@ CODE_C4DA25:						; from CODE_C4DA25
 	lda.w #$0009
 	sta.w $18DE
 	rts
-AwardPictures:						; the picture (map set) of each award, a long pointer; read by CODE_C4D99C
+AwardPictures:						; the picture (map set) of each award, a long pointer; read by CODE_C4D941
 	dw VezinaPicMap&$FFFF,VezinaPicMap>>16	; 0: Vezina Trophy
 	dw SelkePicMap&$FFFF,SelkePicMap>>16	; 1: Frank J. Selke Trophy
 	dw ConnSmythePicMap&$FFFF,ConnSmythePicMap>>16	; 2: Conn Smythe Trophy
@@ -1085,9 +1085,9 @@ AwardPictures:						; the picture (map set) of each award, a long pointer; read 
 	dw ArtRossPicMap&$FFFF,ArtRossPicMap>>16	; 5: Art Ross Trophy
 	dw NorrisPicMap&$FFFF,NorrisPicMap>>16	; 6: James Norris Memorial Trophy
 	dw PresidentsPicMap&$FFFF,PresidentsPicMap>>16	; 7: Presidents Trophy
-DATA8_C4DA75:						; not traced: a table read by CODE_C4D99C
+DATA8_C4DA75:						; not traced: a table read by CODE_C4D941
 	db $3B,$2F,$4C,$5F,$31,$52,$42,$22
-AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D963
+AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D941
 	dw $4FC2,$0000					; 0: Vezina Trophy
 	dw $4FD9,$4FAC					; 1: Frank J. Selke Trophy
 	dw $4FF7,$4FAC					; 2: Conn Smythe Trophy
@@ -1096,7 +1096,7 @@ AwardNames:							; per award: the name text, then a second line or 0; CODE_C4D9
 	dw $5061,$0000					; 5: Art Ross Trophy
 	dw $5079,$4FB1					; 6: James Norris Memorial Trophy
 	dw $508F,$4FAC					; 7: Presidents Trophy
-AwardDescs:							; per award: the description text; read by CODE_C4D99C
+AwardDescs:							; per award: the description text; read by CODE_C4D941
 	dw $4FCD						; 0: Vezina Trophy
 	dw $4FE5						; 1: Frank J. Selke Trophy
 	dw $5001						; 2: Conn Smythe Trophy
@@ -1105,7 +1105,7 @@ AwardDescs:							; per award: the description text; read by CODE_C4D99C
 	dw $506F						; 5: Art Ross Trophy
 	dw $5083						; 6: James Norris Memorial Trophy
 	dw $5097						; 7: Presidents Trophy
-CODE_C4DAAD:						; from CODE_C4D818, CODE_C4D936
+CODE_C4DAAD:						; from CODE_C4D818
 	pha
 	jsl.l CODE_C5B5EA
 	and.w #$00FF
@@ -1123,11 +1123,11 @@ CODE_C4DAAD:						; from CODE_C4D818, CODE_C4D936
 	jsl.l CODE_C52CA3
 	ldy.w #$FFFE
 	pla
-CODE_C4DAD8:						; from CODE_C4DAD8
+.loop:								; loop: Y + 1, Y + 1, if A is not $2E03,y go to .loop, $65 = Y, ...
 	iny
 	iny
 	cmp.w $2E03,y
-	bne CODE_C4DAD8
+	bne .loop
 	sty.b $65
 	lda.w $2EA7,y
 	sta.b a1
@@ -1135,7 +1135,7 @@ CODE_C4DAD8:						; from CODE_C4DAD8
 	sta.b $71
 	tax
 	cmp.w #$00FF
-	beq CODE_C4DB4A
+	beq .1
 	lda.w $2E75,y
 	sta.b a3
 	clc
@@ -1180,8 +1180,8 @@ CODE_C4DAD8:						; from CODE_C4DAD8
 	ora.w #$0001
 	sta.b $22,x
 	jsl.l CODE_C4CEDB
-	bra CODE_C4DB91
-CODE_C4DB4A:						; from CODE_C4DAD8
+	bra .2
+.1:									; X = a4, A = $22,x, A and $FFFE, $22,x = A, ...
 	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE
@@ -1212,7 +1212,7 @@ CODE_C4DB4A:						; from CODE_C4DAD8
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-CODE_C4DB91:						; from CODE_C4DAD8
+.2:									; $CF = $0010, $D1 = $0080, A = $65, A * 2, ...
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0080
@@ -1236,7 +1236,7 @@ CODE_C4DB91:						; from CODE_C4DAD8
 	ldx.w #$5106
 	jsr.w CODE_C4EE9D
 	rts
-CODE_C4DBCC:						; from CODE_C4D915
+CODE_C4DBCC:						; from CODE_C4D818
 	sta.w $17C9
 	asl a
 	tax
@@ -1285,7 +1285,7 @@ CODE_C4DBCC:						; from CODE_C4D915
 	ldx.w #$5245
 	jsl.l CODE_C387D8
 	rts
-CODE_C4DC45:						; from CODE_C4D818, CODE_C4D915
+CODE_C4DC45:						; from CODE_C4D818
 	lda.w #$0030
 	sta.b $69
 	lda.b a0
@@ -1298,14 +1298,14 @@ DATA8_C4DC51:						; jump table: the routine for each index
 CODE_C4DC61:						; from DATA8_C4DC51
 	lda.w #$0000
 	sta.b a2
-CODE_C4DC66:						; from CODE_C4DC91
+.1:									; $6D = A, $17C9 = A, call CODE_C531BC
 	sta.b $6D
 	sta.w $17C9
 	jsl.l CODE_C531BC
-CODE_C4DC6F:						; from CODE_C4DC6F
+.loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .2, $2DCB = A, ...
 	lda.w $2DCB
 	dec a
-	bmi CODE_C4DC91
+	bmi .2
 	sta.w $2DCB
 	asl a
 	tax
@@ -1314,16 +1314,16 @@ CODE_C4DC6F:						; from CODE_C4DC6F
 	jsl.l CODE_C5BDA8
 	lda.b tmp0
 	cmp.b a2
-	bcc CODE_C4DC6F
+	bcc .loop
 	sta.b a2
 	lda.b a3
 	sta.b $71
-	bra CODE_C4DC6F
-CODE_C4DC91:						; from CODE_C4DC6F
+	bra .loop
+.2:									; A = $6D, A + 1, if A is not $001A go to .1, A = $71, ...
 	lda.b $6D
 	inc a
 	cmp.w #$001A
-	bne CODE_C4DC66
+	bne .1
 	lda.b $71
 	rts
 CODE_C4DC9C:						; from DATA8_C4DC51
@@ -1332,11 +1332,11 @@ CODE_C4DC9C:						; from DATA8_C4DC51
 	sta.w $17C9
 	jsl.l CODE_C531BC
 	stz.b a2
-CODE_C4DCAA:						; from CODE_C4DCAA
+.loop:								; loop: A = $2DCD, A - 1, if the result < 0 go to .1, ...
 	lda.w $2DCD
 	dec a
-	bmi CODE_C4DCDF
-	beq CODE_C4DCDF
+	bmi .1
+	beq .1
 	sta.w $2DCD
 	clc
 	adc.w $2DCB
@@ -1353,18 +1353,18 @@ CODE_C4DCAA:						; from CODE_C4DCAA
 	clc
 	adc.b tmp1
 	cmp.b a2
-	bcc CODE_C4DCAA
+	bcc .loop
 	sta.b a2
 	lda.b a3
 	sta.b $71
-	bra CODE_C4DCAA
-CODE_C4DCDF:						; from CODE_C4DCAA
+	bra .loop
+.1:									; A = $71, return
 	lda.b $71
 	rts
 CODE_C4DCE2:						; from DATA8_C4DC51
 	lda.w #$0000
 	sta.b a2
-CODE_C4DCE7:						; from CODE_C4DD36
+.1:									; $6D = A, X = A, A = $3075A4,x, A and $00FF, ...
 	sta.b $6D
 	tax
 	lda.l $3075A4,x
@@ -1375,10 +1375,10 @@ CODE_C4DCE7:						; from CODE_C4DD36
 	clc
 	sbc.w $2DCB
 	sta.w $2DC9
-CODE_C4DD02:						; from CODE_C4DD02
+.loop:								; loop: A = $2DC9, A - 1, if the result < 0 go to .2, $2DC9 = A, ...
 	lda.w $2DC9
 	dec a
-	bmi CODE_C4DD36
+	bmi .2
 	sta.w $2DC9
 	ldx.b $6D
 	sec
@@ -1392,7 +1392,7 @@ CODE_C4DD02:						; from CODE_C4DD02
 	clc
 	adc.b tmp2
 	cmp.b a2
-	bcc CODE_C4DD02
+	bcc .loop
 	sta.b a2
 	lda.w $2DC9
 	sec
@@ -1401,12 +1401,12 @@ CODE_C4DD02:						; from CODE_C4DD02
 	tax
 	lda.w $2E03,x
 	sta.b $71
-	bra CODE_C4DD02
-CODE_C4DD36:						; from CODE_C4DD02
+	bra .loop
+.2:									; A = $6D, A + 1, if A < $0010 go to .1, A = $71, ...
 	lda.b $6D
 	inc a
 	cmp.w #$0010
-	bcc CODE_C4DCE7
+	bcc .1
 	lda.b $71
 	rts
 CODE_C4DD41:						; from DATA8_C4DC51
@@ -1415,10 +1415,10 @@ CODE_C4DD41:						; from DATA8_C4DC51
 	sta.w $17C9
 	jsl.l CODE_C531BC
 	stz.b a2
-CODE_C4DD4F:						; from CODE_C4DD4F
+.loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .1, $2DCB = A, ...
 	lda.w $2DCB
 	dec a
-	bmi CODE_C4DD71
+	bmi .1
 	sta.w $2DCB
 	asl a
 	tax
@@ -1427,40 +1427,40 @@ CODE_C4DD4F:						; from CODE_C4DD4F
 	jsl.l CODE_C5BDE7
 	lda.b tmp0
 	cmp.b a2
-	bcc CODE_C4DD4F
+	bcc .loop
 	sta.b a2
 	lda.b a3
 	sta.b $71
-	bra CODE_C4DD4F
-CODE_C4DD71:						; from CODE_C4DD4F
+	bra .loop
+.1:									; A = $71, return
 	lda.b $71
 	rts
 CODE_C4DD74:						; from DATA8_C4DC51
 	stz.b a2
 	stz.b $32
 	ldx.w #$002E
-CODE_C4DD7B:						; from CODE_C4DD7B
+.loop:								; loop: $364E,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
 	stz.w $364E,x
 	dex
 	dex
-	bpl CODE_C4DD7B
+	bpl .loop
 	lda.w #$0000
-CODE_C4DD85:						; from CODE_C4DDC6
+.1:									; $6D = A, call CODE_C5B97F, X = $364E
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	ldx.w #$364E
-CODE_C4DD8E:						; from CODE_C4DD8E
+.loop2:								; loop: A = $000A,y, if A >= $0000,x go to .2, A = X, A + $0006, ...
 	lda.w $000A,y
 	cmp.w $0000,x
-	bcs CODE_C4DDA3
+	bcs .2
 	txa
 	clc
 	adc.w #$0006
 	tax
 	cmp.w #$367E
-	bne CODE_C4DD8E
-	bra CODE_C4DDC6
-CODE_C4DDA3:						; from CODE_C4DD8E
+	bne .loop2
+	bra .4
+.2:									; push Y, A = X, A xor $FFFF, A + 1, ...
 	phy
 	txa
 	eor.w #$FFFF
@@ -1469,23 +1469,23 @@ CODE_C4DDA3:						; from CODE_C4DD8E
 	ldy.w #$367D
 	ldx.w #$3677
 	adc.w #$3678
-	beq CODE_C4DDB9
+	beq .3
 	dec a
 	mvp $7E,$7E
-CODE_C4DDB9:						; from CODE_C4DDA3
+.3:									; pull Y, X + 1, $0000,x = $000A,y, $0004,x = $6D
 	ply
 	inx
 	lda.w $000A,y
 	sta.w $0000,x
 	lda.b $6D
 	sta.w $0004,x
-CODE_C4DDC6:						; from CODE_C4DD8E
+.4:									; A = $6D, A + 1, if A is not $001A go to .1, X = $0000
 	lda.b $6D
 	inc a
 	cmp.w #$001A
-	bne CODE_C4DD85
+	bne .1
 	ldx.w #$0000
-CODE_C4DDD1:						; from CODE_C4DE56
+.5:									; $6D = X, $17C9 = $3652,x, call CODE_C531BC, tmp2 = 0, ...
 	stx.b $6D
 	lda.w $3652,x
 	sta.w $17C9
@@ -1495,9 +1495,9 @@ CODE_C4DDD1:						; from CODE_C4DE56
 	lda.w $2DCF
 	clc
 	adc.w $2DCD
-CODE_C4DDE8:						; from CODE_C4DDE8
+.loop3:								; loop: A - 1, if the result < 0 go to .loop4, $2DCD = A, A + $2DCB, ...
 	dec a
-	bmi CODE_C4DE25
+	bmi .loop4
 	sta.w $2DCD
 	adc.w $2DCB
 	asl a
@@ -1525,13 +1525,13 @@ CODE_C4DDE8:						; from CODE_C4DDE8
 	inx
 	stx.b tmp2
 	lda.w $2DCD
-	bra CODE_C4DDE8
-CODE_C4DE25:						; from CODE_C4DDE8, CODE_C4DE25
+	bra .loop3
+.loop4:								; loop: X - 1, X - 1, X - 1, X - 1, ...
 	dex
 	dex
 	dex
 	dex
-	bmi CODE_C4DE56
+	bmi .6
 	stx.b tmp2
 	stz.b r2
 	stz.b $36
@@ -1548,20 +1548,20 @@ CODE_C4DE25:						; from CODE_C4DDE8, CODE_C4DE25
 	ldx.b tmp2
 	lda.b r0
 	cmp.b a2
-	bcc CODE_C4DE25
+	bcc .loop4
 	sta.b a2
 	lda.w $367E,x
 	sta.b $71
-	bra CODE_C4DE25
-CODE_C4DE56:						; from CODE_C4DE25
+	bra .loop4
+.6:									; A = $6D, A + $0006, X = A, if A >= $0030 go to .7, ...
 	lda.b $6D
 	clc
 	adc.w #$0006
 	tax
 	cmp.w #$0030
-	bcs CODE_C4DE65
-	jmp.w CODE_C4DDD1
-CODE_C4DE65:						; from CODE_C4DE56
+	bcs .7
+	jmp.w .5
+.7:									; A = $71, return
 	lda.b $71
 	rts
 CODE_C4DE68:						; from DATA8_C4DC51
@@ -1569,24 +1569,24 @@ CODE_C4DE68:						; from DATA8_C4DC51
 	sta.w $17C9
 	inc a
 	sta.b a2
-CODE_C4DE71:						; from CODE_C4DECE
+.loop:								; loop: a3 = A, A * 2, A + a3, A / 2, ...
 	sta.b a3
 	asl a
 	adc.b a3
 	lsr a
 	tax
 	lda.l $306A56,x
-	bcc CODE_C4DE82
+	bcc .1
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-CODE_C4DE82:						; from CODE_C4DE71
+.1:									; A and $001F, if A >= $001A go to .3, if A = $17C9 go to .2, ...
 	and.w #$001F
 	cmp.w #$001A
-	bcs CODE_C4DECE
+	bcs .3
 	cmp.w $17C9
-	beq CODE_C4DEA0
+	beq .2
 	sta.w $17C9
 	pei ($6F)
 	pei ($71)
@@ -1595,18 +1595,18 @@ CODE_C4DE82:						; from CODE_C4DE71
 	sta.b $71
 	pla
 	sta.b a3
-CODE_C4DEA0:						; from CODE_C4DE82
+.2:									; A = $2DCB, A - 1, A * 2, X = A, ...
 	lda.w $2DCB
 	dec a
 	asl a
 	tax
 	lda.b a3
-CODE_C4DEA8:						; from CODE_C4DEA8
+.loop2:								; loop: if A = $2E03,x go to .3, X - 1, X - 1, ...
 	cmp.w $2E03,x
-	beq CODE_C4DECE
+	beq .3
 	dex
 	dex
-	bpl CODE_C4DEA8
+	bpl .loop2
 	jsl.l CODE_C5BD52
 	lda.b tmp0
 	sta.b tmp1
@@ -1616,15 +1616,15 @@ CODE_C4DEA8:						; from CODE_C4DEA8
 	clc
 	adc.b tmp1
 	cmp.b a2
-	bcc CODE_C4DECE
+	bcc .3
 	sta.b a2
 	lda.b a3
 	sta.b $71
-CODE_C4DECE:						; from CODE_C4DE82, CODE_C4DEA8
+.3:									; A = a3, A + 1, if A < $027E go to .loop, A = $71, ...
 	lda.b a3
 	inc a
 	cmp.w #$027E
-	bcc CODE_C4DE71
+	bcc .loop
 	lda.b $71
 	rts
 CODE_C4DED9:						; from DATA8_C4DC51
@@ -1633,10 +1633,10 @@ CODE_C4DED9:						; from DATA8_C4DC51
 	sta.w $17C9
 	jsl.l CODE_C531BC
 	stz.b a2
-CODE_C4DEE7:						; from CODE_C4DEE7
+.loop:								; loop: A = $2DCF, A - 1, if the result = 0 go to .1, $2DCF = A, ...
 	lda.w $2DCF
 	dec a
-	beq CODE_C4DF1D
+	beq .1
 	sta.w $2DCF
 	clc
 	adc.w $2DCB
@@ -1654,12 +1654,12 @@ CODE_C4DEE7:						; from CODE_C4DEE7
 	clc
 	adc.b tmp1
 	cmp.b a2
-	bcc CODE_C4DEE7
+	bcc .loop
 	sta.b a2
 	lda.b a3
 	sta.b $71
-	bra CODE_C4DEE7
-CODE_C4DF1D:						; from CODE_C4DEE7
+	bra .loop
+.1:									; A = $71, return
 	lda.b $71
 	rts
 CODE_C4DF20:						; from DATA8_C4DC51
@@ -1667,29 +1667,29 @@ CODE_C4DF20:						; from DATA8_C4DC51
 	sta.b a3
 	lda.w #$0000
 	sta.b a2
-CODE_C4DF2A:						; from CODE_C4DF50
+.loop:								; loop: $6D = A, call CODE_C5B97F, A = $0004,x, if A < a2 go to .2, ...
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	lda.w $0004,x
 	cmp.b a2
-	bcc CODE_C4DF50
-	bne CODE_C4DF45
+	bcc .2
+	bne .1
 	lda.w QueueBusy,x
 	cmp.b a3
-	bcs CODE_C4DF50
+	bcs .2
 	sta.b a3
 	lda.w $0004,x
-CODE_C4DF45:						; from CODE_C4DF2A
+.1:									; a2 = A, a3 = QueueBusy,x, $71 = $6D
 	sta.b a2
 	lda.w QueueBusy,x
 	sta.b a3
 	lda.b $6D
 	sta.b $71
-CODE_C4DF50:						; from CODE_C4DF2A
+.2:									; A = $6D, A + 1, if A is not $001A go to .loop, A = $71, ...
 	lda.b $6D
 	inc a
 	cmp.w #$001A
-	bne CODE_C4DF2A
+	bne .loop
 	lda.b $71
 	rts
 CODE_C4DF5B:						; from CODE_C4DC9C, CODE_C4DD41, CODE_C4DED9
@@ -1697,23 +1697,23 @@ CODE_C4DF5B:						; from CODE_C4DC9C, CODE_C4DD41, CODE_C4DED9
 	sta.b a2
 	sta.b $71
 	dec.b a2
-CODE_C4DF64:						; from CODE_C4DF77
+.loop:								; loop: $6D = A, call CODE_C5B97F, A = $002A,x, if A >= a2 go to .1, ...
 	sta.b $6D
 	jsl.l CODE_C5B97F
 	lda.w $002A,x
 	cmp.b a2
-	bcs CODE_C4DF77
+	bcs .1
 	sta.b a2
 	lda.b $6D
 	sta.b $71
-CODE_C4DF77:						; from CODE_C4DF64
+.1:									; A = $6D, A + 1, if A is not $001A go to .loop, A = $71, ...
 	lda.b $6D
 	inc a
 	cmp.w #$001A
-	bne CODE_C4DF64
+	bne .loop
 	lda.b $71
 	rts
-CODE_C4DF82:						; from CODE_C4DD02
+CODE_C4DF82:						; from CODE_C4DCE2
 	sta.b tmp0
 	asl a
 	asl a
@@ -1735,14 +1735,14 @@ CODE_C4DF82:						; from CODE_C4DD02
 	and.w #$0007
 	tay
 	lda.l $3072E8,x
-CODE_C4DFA3:						; from CODE_C4DFA3
+.loop:								; loop: A / 2, Y - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dey
-	bpl CODE_C4DFA3
+	bpl .loop
 	rol a
 	and.w #$007F
 	rts
-CODE_C4DFAC:						; from CODE_C4DD02
+CODE_C4DFAC:						; from CODE_C4DCE2
 	sta.b tmp0
 	asl a
 	asl a
@@ -1764,10 +1764,10 @@ CODE_C4DFAC:						; from CODE_C4DD02
 	and.w #$0007
 	tay
 	lda.l $307446,x
-CODE_C4DFCD:						; from CODE_C4DFCD
+.loop:								; loop: A / 2, Y - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dey
-	bpl CODE_C4DFCD
+	bpl .loop
 	rol a
 	and.w #$007F
 	rts
