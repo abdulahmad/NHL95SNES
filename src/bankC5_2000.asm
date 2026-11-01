@@ -31,8 +31,8 @@ CODE_C52037:						; called from other segments
 	lda.b #$13
 	sta.l TM
 	rep #$20
-	lda.w #$EEA5
-	ldx.w #$00CC
+	lda.w #IceRinkMap&$FFFF
+	ldx.w #IceRinkMap>>16
 	jsl.l CODE_C58812
 	ldx.w #$2A7E
 	clc

@@ -1056,12 +1056,12 @@ DATA8_C60000:						; frame source low words; read by CODE_C5F368
 	dw DATA8_CCDB25&$FFFF
 	dw DATA8_CCDD85&$FFFF
 	dw DATA8_CCDFE5&$FFFF
-	dw $E1E5
-	dw $E3E5
-	dw $E5E5
-	dw $E7E5
-	dw $EA45
-	dw $ECA5
+	dw DATA8_CCE1E5&$FFFF
+	dw DATA8_CCE3E5&$FFFF
+	dw DATA8_CCE5E5&$FFFF
+	dw DATA8_CCE7E5&$FFFF
+	dw DATA8_CCEA45&$FFFF
+	dw DATA8_CCECA5&$FFFF
 DATA8_C60848:						; source bank and transfer-layout index; read by CODE_C5F368
 	dw $0000
 	dw $0000
@@ -2117,10 +2117,10 @@ DATA8_C60848:						; source bank and transfer-layout index; read by CODE_C5F368
 	dw (DATA8_CCDB25>>16)|$7200
 	dw (DATA8_CCDD85>>16)|$7200
 	dw (DATA8_CCDFE5>>16)|$7E00
-	dw $7ECC
-	dw $7ECC
-	dw $7ECC
-	dw $71CC
-	dw $6FCC
-	dw $7ECC
+	dw (DATA8_CCE1E5>>16)|$7E00
+	dw (DATA8_CCE3E5>>16)|$7E00
+	dw (DATA8_CCE5E5>>16)|$7E00
+	dw (DATA8_CCE7E5>>16)|$7100
+	dw (DATA8_CCEA45>>16)|$6F00
+	dw (DATA8_CCECA5>>16)|$7E00
 assert DATA8_C60848-DATA8_C60000 == pc()-DATA8_C60848

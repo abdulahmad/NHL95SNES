@@ -4,5 +4,6 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+IceRinkTiles = $CCFE36				; tiles chunk, next segment
 
 incsrc "../bankCC_E000.asm"

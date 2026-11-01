@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCC_E000 (org $CCE1E5): banks $C0-$CB are all source. <- CURRENT
+bankCC_F000 (org $CCFE36): banks $C0-$CB are all source. <- CURRENT
 
 ## Sources
 
@@ -547,6 +547,11 @@ bankCC_E000 (org $CCE1E5): banks $C0-$CB are all source. <- CURRENT
   lookup; pointer entries use labels as targets become source.
 - 2026-10-31: bankCC_D000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
   lookup; pointer entries use labels as targets become source.
+- 2026-10-31: bankCC_E000 matched: raw frame tiles (poses not traced). Transfer extents come from CODE_C5F368 and its size
+  lookup; pointer entries use labels as targets become source. After the last frame of bank $CC: IceRinkMap, the map chunk
+  of the rink map set (rendered: both rink halves, 32 x 170 tiles; name as 94S IceRinkMap). CODE_C52037 and CODE_C55524
+  load it with immediates, which are label expressions now. The set is split at its tiles chunk: bankCC_F000 starts at
+  IceRinkTiles ($CCFE36), labelled in its incbin file so the map chunk length can use it.
 
 ## ROM map
 
@@ -760,8 +765,8 @@ The first row that is still incbin is the current segment.
 | bankCC_B000 | matched 4288 bytes | $CCB125 | $CCC1E4 | raw frame tiles (poses not traced); org moved to $CCB125, end moved +$1E5 |
 | bankCC_C000 | matched 4224 bytes | $CCC1E5 | $CCD264 | raw frame tiles (poses not traced); org moved to $CCC1E5, end moved +$265 |
 | bankCC_D000 | matched 3968 bytes | $CCD265 | $CCE1E4 | raw frame tiles (poses not traced); org moved to $CCD265, end moved +$1E5 |
-| bankCC_E000 | incbin | $CCE1E5 | $CCEFFF | <- CURRENT |
-| bankCC_F000 | incbin | $CCF000 | $CCFFFF | |
+| bankCC_E000 | matched 7249 bytes | $CCE1E5 | $CCFE35 | raw frame tiles (poses not traced), then IceRinkMap (the rink map chunk); org moved to $CCE1E5, end moved +$E36 |
+| bankCC_F000 | incbin | $CCFE36 | $CCFFFF | <- CURRENT |
 | bankCD_0000 | incbin | $CD0000 | $CD0FFF | |
 | bankCD_1000 | incbin | $CD1000 | $CD1FFF | |
 | bankCD_2000 | incbin | $CD2000 | $CD2FFF | |

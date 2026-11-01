@@ -2283,3 +2283,10 @@ $CCD8C5,DATA8_CCD8C5,,new,"raw frame tiles for transfer index $3FB; pose not tra
 $CCDB25,DATA8_CCDB25,,new,"raw frame tiles for transfer index $41B; pose not traced",src/bankCC_D000.asm
 $CCDD85,DATA8_CCDD85,,new,"raw frame tiles for transfer index $41C; pose not traced",src/bankCC_D000.asm
 $CCDFE5,DATA8_CCDFE5,,new,"raw frame tiles for transfer index $41D; pose not traced",src/bankCC_D000.asm
+$CCE1E5,DATA8_CCE1E5,,new,"raw frame tiles for transfer index $41E; pose not traced",src/bankCC_E000.asm
+$CCE3E5,DATA8_CCE3E5,,new,"raw frame tiles for transfer index $41F; pose not traced",src/bankCC_E000.asm
+$CCE5E5,DATA8_CCE5E5,,new,"raw frame tiles for transfer index $420; pose not traced",src/bankCC_E000.asm
+$CCE7E5,DATA8_CCE7E5,,new,"raw frame tiles for transfer index $421; pose not traced",src/bankCC_E000.asm
+$CCEA45,DATA8_CCEA45,,new,"raw frame tiles for transfer index $422; pose not traced",src/bankCC_E000.asm
+$CCECA5,DATA8_CCECA5,,new,"raw frame tiles for transfer index $423; pose not traced",src/bankCC_E000.asm
+$CCEEA5,IceRinkMap,DATA8_CCEEA5,render+94S+code,"the rink map set, map chunk: 32 x 170 words (the two rink halves, 85 rows each), LZSS; CODE_C52037 loads the set through CODE_C58812 and CODE_C55524 reads its tiles chunk; 94S IceRinkMap",src/bankCC_E000.asm

@@ -927,9 +927,9 @@ CODE_C55524:						; from CODE_C55513
 	jsl.l CODE_C4CEDB
 	lda.w #$01E0
 	jsl.l CODE_C4C56A
-	lda.w #$EEA5
+	lda.w #IceRinkMap&$FFFF
 	sta.b $30
-	lda.w #$00CC
+	lda.w #IceRinkMap>>16
 	sta.b $32
 	lda.b [$30]
 	clc

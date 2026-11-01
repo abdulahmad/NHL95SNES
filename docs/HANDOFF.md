@@ -16,7 +16,7 @@
   Bank $C6: frame source and placement tables, raw frame tiles and VezinaPic. Banks $C7-$CB: raw frame tiles, each followed
   by an award picture (SelkePic, ConnSmythePic, JenningsPic, ArtRossPic, NorrisPic). The remaining segments in banks $CC-$CF
   are incbin.
-- Next: segment bankCC_E000, org $CCE1E5 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CB are all source (the code banks $C4
+- Next: segment bankCC_F000, org $CCFE36 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CB are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
@@ -88,8 +88,11 @@
   Norris, 7 Presidents. Names as 95G AwardPictures (VezinaPic, ...): <Name>PicMap / Tiles / Palette. Each picture follows
   the last raw frame of its bank: VezinaPic $C6FDE8-$C7053D, SelkePic $C7FE7E-$C80558, then ConnSmythePic ($C8FE39-$C9076A),
   JenningsPic ($C9FFEB-$CA09D8), ArtRossPic ($CAFDF9-$CB08B4), NorrisPic ($CBFDD5-$CC05E4); HartPic and PresidentsPic are in
-  banks $CD / $CE. The frames of bank $CC end at $CCEEA5 with no picture after them. ../work/framesseg.py BANK J writes a
-  raw-frame segment (and the picture in the last one), awards.py holds the names.
+  banks $CD / $CE. The frames of bank $CC end at $CCEEA5; the rink map set follows (IceRinkMap, below). ../work/framesseg.py
+  BANK J writes a raw-frame segment (and the picture in the last one), awards.py holds the names.
+- Rink: IceRinkMap ($CCEEA5) is a three-chunk map set like the award pictures, but 32 x 170 tiles (the two rink halves,
+  85 rows each), 520 tiles and 4 palettes, to $CD25DF. CODE_C52037 loads it (CODE_C58812); CODE_C55524 finds its tiles chunk.
+  It is split at the tiles chunk: IceRinkMap ends bankCC_E000, IceRinkTiles / IceRinkPalette go in bankCC_F000.
 
 ## Setup notes
 
