@@ -59,7 +59,7 @@ CODE_C4F01E:						; from CODE_C4F2AE and other segments
 	dec a
 	asl a
 	tax
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	sta.b tmp1
 	sta.b $0A
 .loop3:								; loop: call CODE_C4F240, X - 1, X - 1, tmp1 - 1, ...
@@ -147,7 +147,7 @@ CODE_C4F01E:						; from CODE_C4F2AE and other segments
 	stz.b tmp2
 	jsr.w CODE_C4F1B4
 	bcs .loop5
-	sta.w QueueBusy,x
+	sta.w $0006,x
 	jsr.w CODE_C4F1EF
 	rep #$20
 	lda.b $14

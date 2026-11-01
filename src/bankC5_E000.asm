@@ -496,7 +496,7 @@ CODE_C5E336:						; called from other segments
 	lda.w #$0000
 	sta.w $0000,y
 	dec a
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	lda.l $306053,x
 	and.w #$00FF
 	sta.w $000A,y
@@ -801,11 +801,11 @@ CODE_C5E596:						; from CODE_C5EBAE and other segments
 	dey
 	bpl .loop
 	rtl
-.2:									; X = Y, Y = A, call (DATA8_C5E655,x), A = r2,y, ...
+.2:									; X = Y, Y = A, call (DATA8_C5E655,x), A = $0034,y, ...
 	tyx
 	tay
 	jsr (DATA8_C5E655,x)
-	lda.w r2,y
+	lda.w $0034,y
 	and.w #$00FF
 	asl a
 	tax
@@ -925,14 +925,14 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	sta.b $0E,x
 	lda.b $D9
 	sta.b $36,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $1E,x
-	stz.b p0,x
+	stz.b $38,x
 	stz.b $20,x
 	lda.w #$FFFF
 	sta.b $28,x
 	sta.b $2A,x
-	sta.b r0,x
+	sta.b $2C,x
 	sta.b $00,x
 	sta.b $22,x
 	lda.b $10
@@ -959,7 +959,7 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	sta.b $10
 	lda.b $12,x
 	and.w #$00FF
-	sta.w r2,y
+	sta.w $0034,y
 	asl a
 	tax
 	lda.w $46B8,x
@@ -980,8 +980,8 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	plx
 	xba
 	sta.w $46B8,x
-	ora.w r2,y
-	sta.w r2,y
+	ora.w $0034,y
+	sta.w $0034,y
 	sty.b $12
 	tay
 	dec.b QueueBusy
@@ -1021,12 +1021,12 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	stz.b QueueBusy
 	ldy.b $12
 	bra .5
-.4:									; A + 1, $46B8,x = A, A and $FF00, A or r2,y, ...
+.4:									; A + 1, $46B8,x = A, A and $FF00, A or $0034,y, ...
 	inc a
 	sta.w $46B8,x
 	and.w #$FF00
-	ora.w r2,y
-	sta.w r2,y
+	ora.w $0034,y
+	sta.w $0034,y
 .5:									; A = $10, A and $00FF, A + $1E, $001A,y = A, ...
 	lda.b $10
 	and.w #$00FF
@@ -1124,11 +1124,11 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	lda.b $16,x
 	sbc.b $18,x
 	bne .9
-.11:								; A = $02,x, X = A, if the result >= 0 go to .loop, A = r2,y, ...
+.11:								; A = $02,x, X = A, if the result >= 0 go to .loop, A = $0034,y, ...
 	lda.b $02,x
 	tax
 	bpl .loop
-	lda.w r2,y
+	lda.w $0034,y
 	and.w #$00FF
 	asl a
 	tax
@@ -1381,7 +1381,7 @@ AnimateSprites:						; the animation tick: step the script of each sprite object
 CODE_C5E9D5:						; from CODE_C5E9EA
 	ldx.w $1AE2,y
 	lda.b $26
-	eor.b p0,x
+	eor.b $38,x
 	bit.w #$0001
 	bne CODE_C5E9EA
 	lda.b $0E,x
@@ -1400,7 +1400,7 @@ CODE_C5E9EF:						; from CODE_C5E9D5
 	sta.b $0E,x
 	txy
 CODE_C5E9F6:						; from CODE_C5EAFF, CODE_C5EB06, CODE_C5EB15, CODE_C5EB36, ...
-	lda.b r1,x
+	lda.b $30,x
 	clc
 	adc.b $32,x
 	tax
@@ -1415,8 +1415,8 @@ CODE_C5E9F6:						; from CODE_C5EAFF, CODE_C5EB06, CODE_C5EB15, CODE_C5EB36, ...
 	and.w #$007F
 	cmp.b $28,x
 	bne .3
-.2:									; r1,x + 1, go to CODE_C5E9EA
-	inc.b r1,x
+.2:									; $30,x + 1, go to CODE_C5E9EA
+	inc.b $30,x
 	clc
 	bra CODE_C5E9EA
 .3:									; $28,x = A, $2A,x = $FFFF, A = $22,x, if $2000 bits clear go to .2, ...
@@ -1484,10 +1484,10 @@ CODE_C5EA29:						; from CODE_C5EA91
 	adc.b $DB
 	tyx
 	sta.b $14,x
-.5:									; call UploadSpriteFrame, X = $36, r1,x + 1, Y = r2, ...
+.5:									; call UploadSpriteFrame, X = $36, $30,x + 1, Y = r2, ...
 	jsr.w UploadSpriteFrame
 	ldx.b $36
-	inc.b r1,x
+	inc.b $30,x
 	ldy.b r2
 	clc
 	jmp.w CODE_C5E9EA
@@ -1509,7 +1509,7 @@ CODE_C5EAA2:						; no caller found (not traced)
 	jmp.w CODE_C5E9EA
 CODE_C5EAAF:						; from CODE_C5E9F6
 	tyx
-	inc.b r1,x
+	inc.b $30,x
 	and.w #$007F
 	asl a
 	tax
@@ -1525,20 +1525,20 @@ DATA8_C5EABA:						; jump table: the routine for each index
 	dw CODE_C5EC89,CODE_C5EBD6
 CODE_C5EAF6:						; from DATA8_C5EABA, CODE_C5EB33, CODE_C5EC31, CODE_C5EC1A
 	tyx
-	dec.b r1,x
+	dec.b $30,x
 	ldy.b tmp0
 	clc
 	jmp.w CODE_C5E9EA
 CODE_C5EAFF:						; from DATA8_C5EABA
 	tyx
-	stz.w r1,x
+	stz.w $0030,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB06:						; from DATA8_C5EABA
 	ldx.b tmp1
-	lda.w r1,y
+	lda.w $0030,y
 	dec a
 	adc.b $01,x
-	sta.w r1,y
+	sta.w $0030,y
 	tyx
 	jmp.w CODE_C5E9F6
 CODE_C5EB15:						; from DATA8_C5EABA
@@ -1553,7 +1553,7 @@ CODE_C5EB15:						; from DATA8_C5EABA
 	lda.b $00,x
 	tyx
 	sta.b $32,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $0E,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB33:						; from DATA8_C5EABA
@@ -1563,16 +1563,16 @@ CODE_C5EB36:						; from DATA8_C5EABA
 	lda.b $01,x
 	tyx
 	sta.b $0C,x
-	inc.b r1,x
-	inc.b r1,x
+	inc.b $30,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB44:						; from DATA8_C5EABA
 	ldx.b tmp1
 	lda.b $01,x
 	tyx
 	sta.b $0A,x
-	inc.b r1,x
-	inc.b r1,x
+	inc.b $30,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
 CODE_C5EB52:						; from DATA8_C5EABA
 	ldx.b tmp1
@@ -1595,8 +1595,8 @@ CODE_C5EB52:						; from DATA8_C5EABA
 	lda.b $3A
 	sec
 	plx
-	adc.b r1,x
-	sta.b r1,x
+	adc.b $30,x
+	sta.b $30,x
 	stx.b p0
 	pei ($9F)
 CODE_C5EB7F:						; from CODE_C5EB88
@@ -1617,7 +1617,7 @@ CODE_C5EB88:						; no caller found (not traced)
 	sta.b $28,x
 	inx
 	inx
-	lda.w r0,y
+	lda.w $002C,y
 	bmi .1
 	sta.b $28,x
 	inx
@@ -1647,7 +1647,7 @@ CODE_C5EBB8:						; from DATA8_C5EABA
 	tax
 	inc.w $0000,x
 	tyx
-	inc.b r1,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
 CODE_C5EBD6:						; from DATA8_C5EABA
 	phy
@@ -1655,7 +1655,7 @@ CODE_C5EBD6:						; from DATA8_C5EABA
 	lda.b $01,x
 	ply
 	tyx
-	inc.b r1,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
 CODE_C5EBE2:						; from DATA8_C5EABA
 	phy
@@ -1665,7 +1665,7 @@ CODE_C5EBE2:						; from DATA8_C5EABA
 	tax
 	ply
 	tyx
-	inc.b r1,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
 CODE_C5EBF2:						; from DATA8_C5EABA
 	tyx
@@ -1699,7 +1699,7 @@ CODE_C5EC1A:						; from DATA8_C5EABA
 	jsr (CODE_C5ECF1,x)
 	bcs .1
 	tyx
-	inc.b r1,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
 .1:									; go to CODE_C5EAF6
 	jmp.w CODE_C5EAF6
@@ -1714,7 +1714,7 @@ CODE_C5EC34:						; from DATA8_C5EABA
 	lda.b $00,x
 	tyx
 	sta.b $32,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $0E,x
 	lda.b $22,x
 	ora.w #$4000
@@ -1755,13 +1755,13 @@ CODE_C5EC89:						; from DATA8_C5EABA
 	bit.w #$4000
 	beq .1
 	tyx
-	inc.b r1,x
+	inc.b $30,x
 	jmp.w CODE_C5E9F6
-.1:									; X = tmp1, A = $01,x, A and $00FF, r1,y = A, ...
+.1:									; X = tmp1, A = $01,x, A and $00FF, $0030,y = A, ...
 	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
-	sta.w r1,y
+	sta.w $0030,y
 	tyx
 	jmp.w CODE_C5E9F6
 CODE_C5ECA5:						; no caller found (not traced)
@@ -1773,7 +1773,7 @@ CODE_C5ECA5:						; no caller found (not traced)
 	lda.b $00,x
 	plx
 	sta.b $32,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $0E,x
 	lda.b $36,x
 	and.w #$7FFF
@@ -1790,7 +1790,7 @@ CODE_C5ECBD:						; called from other segments
 	lda.b $00,x
 	plx
 	sta.b $32,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $0E,x
 	lda.b $36,x
 	and.w #$7FFF
@@ -1806,7 +1806,7 @@ CODE_C5ECBD:						; called from other segments
 	bne .rtl
 	ora.w #$4000
 	sta.b $22,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $0E,x
 	rtl
 CODE_C5ECF1:						; from CODE_C5EB7F, CODE_C5EC1A
@@ -1999,7 +1999,7 @@ CODE_C5ECF1:						; from CODE_C5EB7F, CODE_C5EC1A
 	rts
 CODE_C5EE3C:						; no caller found (not traced)
 	phx
-	lda.b r2,x
+	lda.b $34,x
 	and.w #$00FF
 	asl a
 	tax
@@ -2024,7 +2024,7 @@ CODE_C5EE3C:						; no caller found (not traced)
 	plx
 	rts
 CODE_C5EE6C:						; called from other segments
-	sta.b r2,x
+	sta.b $34,x
 	txy
 	asl a
 	tax
@@ -2046,8 +2046,8 @@ CODE_C5EE6C:						; called from other segments
 	plx
 	xba
 	sta.w $46B8,x
-	ora.w r2,y
-	sta.w r2,y
+	ora.w $0034,y
+	sta.w $0034,y
 CODE_C5EE9B:						; called from other segments
 	phy
 	tay
@@ -2101,8 +2101,8 @@ CODE_C5EEE6:						; from CODE_C5EE6C
 	sta.w $46B8,x
 	and.w #$FF00
 	tyx
-	ora.b r2,x
-	sta.b r2,x
+	ora.b $34,x
+	sta.b $34,x
 	rtl
 CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object in Y
 	sta.b $10
@@ -2136,15 +2136,15 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	sta.b $0E,x
 	lda.b $D9
 	sta.b $36,x
-	stz.b r1,x
+	stz.b $30,x
 	stz.b $1E,x
-	stz.b p0,x
+	stz.b $38,x
 	stz.b $20,x
-	stz.b r2,x
+	stz.b $34,x
 	lda.w #$FFFF
 	sta.b $28,x
 	sta.b $2A,x
-	sta.b r0,x
+	sta.b $2C,x
 	sta.b $00,x
 	sta.b $22,x
 	lda.b $10
@@ -2170,8 +2170,8 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	lda.b $07,x
 	sta.b $10
 	ldx.b $1C
-	lda.b r2,x
-	sta.w r2,y
+	lda.b $34,x
+	sta.w $0034,y
 	and.w #$00FF
 	asl a
 	tax
@@ -2272,11 +2272,11 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	lda.b $16,x
 	sbc.b $18,x
 	bne .5
-.7:									; A = $02,x, X = A, if the result >= 0 go to .loop, A = r2,y, ...
+.7:									; A = $02,x, X = A, if the result >= 0 go to .loop, A = $0034,y, ...
 	lda.b $02,x
 	tax
 	bpl .loop
-	lda.w r2,y
+	lda.w $0034,y
 	and.w #$00FF
 	asl a
 	tax

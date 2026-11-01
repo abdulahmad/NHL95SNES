@@ -798,7 +798,7 @@ CODE_C57578:						; from CODE_C57361
 	clc
 	adc.w $0004,x
 	sta.b $65
-	lda.w QueueBusy,x
+	lda.w $0006,x
 	sta.b a1
 	bra .2
 .1:									; $65 = $0002,x, a1 = $0004,x

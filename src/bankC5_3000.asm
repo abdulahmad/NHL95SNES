@@ -34,7 +34,7 @@ CODE_C530B3:						; from CODE_C5308D, CODE_C530A0
 	beq .rts
 	cmp.w $006E,y
 	beq .rts
-	cmp.w a3,y
+	cmp.w $006F,y
 	beq .rts
 	cmp.w $0070,y
 	beq .rts
@@ -191,7 +191,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	stz.w $0000,x
 	stz.w $0002,x
 	stz.w $0004,x
-	stz.w QueueBusy,x
+	stz.w $0006,x
 	stz.b tmp2
 	ldx.w #$0000
 	ldy.b tmp1
@@ -302,7 +302,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	sec
 	sbc.w $0002,x
 	sbc.w $0004,x
-	sta.w QueueBusy,x
+	sta.w $0006,x
 	rts
 CODE_C532B5:						; no caller found (not traced)
 	ldx.w #$2DC9
@@ -351,7 +351,7 @@ CODE_C532C5:						; called from other segments
 	lda.w $0070,x
 	sta.w $0004,y
 	lda.w $0072,x
-	sta.w QueueBusy,y
+	sta.w $0006,y
 .2:									; pull Y, pull X, pull A, a1 = A, ...
 	ply
 	plx
@@ -503,13 +503,13 @@ CODE_C533EF:						; from CODE_C533E1 and other segments
 	cmp.b #$3D
 	bne .1
 	lda.b #$2E
-.1:									; A xor $80, $0004,y = A, $0005,y = $AE, QueueBusy,y = $A0
+.1:									; A xor $80, $0004,y = A, $0005,y = $AE, $0006,y = $A0
 	eor.b #$80
 	sta.w $0004,y
 	lda.b #$AE
 	sta.w $0005,y
 	lda.b #$A0
-	sta.w QueueBusy,y
+	sta.w $0006,y
 .loop:								; loop: A = $0119,x, X + 1, if $0119,x is not $20 go to .loop
 	lda.w $0119,x
 	inx
@@ -522,12 +522,12 @@ CODE_C533EF:						; from CODE_C533E1 and other segments
 	cmp.b #$3D
 	bne .2
 	lda.b #$2E
-.2:									; A xor $80, QueueBusy,y = A, if the result is not 0 go to .loop2, ...
+.2:									; A xor $80, $0006,y = A, if the result is not 0 go to .loop2, ...
 	eor.b #$80
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	eor.b #$80
 	bne .loop2
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	rep #$21
 	tya
 	sbc.b $01,s

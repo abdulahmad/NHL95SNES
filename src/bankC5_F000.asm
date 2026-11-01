@@ -113,7 +113,7 @@ BuildSpriteOAM:						; build the OAM entries of all sprite objects (frames, Spri
 	lsr a
 	and.w #$01FF
 	sta.b $A5
-	lda.b r2,x
+	lda.b $34,x
 	and.w #$FF00
 	asl a
 	ora.b $36,x
@@ -269,7 +269,7 @@ BuildSpriteOAM:						; build the OAM entries of all sprite objects (frames, Spri
 	lsr a
 	and.w #$01FF
 	sta.b $A5
-	lda.b r2,x
+	lda.b $34,x
 	and.w #$FF00
 	asl a
 	ora.b $36,x

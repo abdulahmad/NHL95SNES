@@ -111,8 +111,8 @@ CODE_C5C09A:						; a compare routine of the sort (DATA8_C5C0AE), back to the so
 	bcc CODE_C5C054
 	bra CODE_C5C047
 CODE_C5C0A4:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
-	lda.w r1,x
-	cmp.w r1,y
+	lda.w $0030,x
+	cmp.w $0030,y
 	bcc CODE_C5C054
 	bra CODE_C5C047
 DATA8_C5C0AE:						; the compare routines of the sort in CODE_C5C029 (one per sort key)
@@ -142,7 +142,7 @@ CODE_C5C0BE:						; called from other segments
 	lda.w $17CB
 	jsl.l CreateSprite
 	stx.b $9D
-	inc.b p0,x
+	inc.b $38,x
 	jsr.w CODE_C5A46A
 	jmp.w CODE_C5A3C1
 CODE_C5C109:						; called from other segments
@@ -335,7 +335,7 @@ CODE_C5C214:						; called from other segments
 	ldx.w #$3207
 	lda.w $0002,x
 	sta.b d0
-	lda.w QueueBusy,x
+	lda.w $0006,x
 	sta.b d1
 	lda.w $0004,x
 	sta.b $81
@@ -1105,7 +1105,7 @@ CODE_C5C826:						; from CODE_C5C722
 	ldx.w #$3207
 	lda.w $0002,x
 	sta.b d0
-	lda.w QueueBusy,x
+	lda.w $0006,x
 	sta.b d1
 	lda.w $0004,x
 	sta.b $81

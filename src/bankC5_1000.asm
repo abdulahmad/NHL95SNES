@@ -1382,7 +1382,7 @@ CODE_C51C58:						; called from other segments
 	cmp.w #$0001
 	beq .1
 	ldx.w $2020
-	stz.b r1,x
+	stz.b $30,x
 .1:									; X = a3, A = $24FA, go to SetSPAFromA
 	ldx.b a3
 	lda.w #$24FA
@@ -1402,7 +1402,7 @@ CODE_C51C58:						; called from other segments
 	cmp.w #$0001
 	beq .3
 	ldx.w $2022
-	stz.b r1,x
+	stz.b $30,x
 .3:									; X = a3, A = $24FA, go to SetSPAFromA
 	ldx.b a3
 	lda.w #$24FA

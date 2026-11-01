@@ -1586,7 +1586,7 @@ CODE_C5ACAA:						; from DATA8_C5AC73
 	lda.w #$001C
 	jsl.l CreateSprite
 	stx.b $75
-	inc.b p0,x
+	inc.b $38,x
 	lda.w #$0002
 	jsl.l CODE_C5ECBD
 	ldx.b a0
@@ -1703,7 +1703,7 @@ CODE_C5AE48:						; from DATA8_C5AC73, CODE_C5AF07
 	and.w #$00FF
 	sta.w $0004,y
 	lda.w #$0000
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	sta.w $0008,y
 	sta.w $000A,y
 	phx

@@ -219,7 +219,7 @@ CODE_C4C08D:						; called from other segments
 	ora.l $C00007,x
 	asl a
 	bcc .4
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	ora.w $0007,y
 	bit.b $36
 	bne .7

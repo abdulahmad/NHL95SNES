@@ -740,7 +740,7 @@ CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
 	lda.w $0702,x
 	sta.w $0002,y
 	lda.w $0740,x
-	sta.w r3,y
+	sta.w $0040,y
 	lda.w $0742,x
 	sta.w $0042,y
 	lda.w $0780,x
@@ -1168,7 +1168,7 @@ CODE_C558D7:						; from CODE_C55A09 and other segments
 	beq .1
 	phy
 	jsr.w UploadSpriteFrame
-	lda.b r2,x
+	lda.b $34,x
 	jsl.l CODE_C5EE9B
 	ply
 .1:									; Y - 1, Y - 1, if the result >= 0 go to .loop, A = $17CD, ...
@@ -1300,7 +1300,7 @@ CODE_C55A40:						; from CODE_C56293, CODE_C56368
 	sta.b $18
 	lda.w $17C9
 	jsl.l CreateSprite
-	inc.b p0,x
+	inc.b $38,x
 	ldy.w #$2801
 	ldx.w #$5194
 	jsl.l CODE_C387D8

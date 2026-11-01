@@ -17,7 +17,7 @@ CODE_C4DFD6:						; called from other segments
 	sta.b $18
 	lda.b a0
 	jsl.l CreateSprite
-	inc.b p0,x
+	inc.b $38,x
 	lda.b $08
 	sta.b r1
 	lda.w #$007E
@@ -239,7 +239,7 @@ CODE_C4E12C:						; called from other segments
 	lda.w $17CB
 	jsl.l CreateSprite
 	stx.b d7
-	inc.b p0,x
+	inc.b $38,x
 	lda.w #$0025
 	sta.b $1A
 	lda.w #$0020
@@ -259,7 +259,7 @@ CODE_C4E12C:						; called from other segments
 	lda.w $17C9
 	jsl.l CreateSprite
 	stx.b $9D
-	inc.b p0,x
+	inc.b $38,x
 	lda.w #$0025
 	sta.b $1A
 	lda.w #$00B0
@@ -1055,16 +1055,16 @@ CODE_C4E8CD:						; from CODE_C4E885
 	asl a
 	sta.w $0008,y
 	bra .10
-.9:									; $04FD = $04FB, $0008,y = QueueBusy,y, $04FB = $65, A = X, ...
+.9:									; $04FD = $04FB, $0008,y = $0006,y, $04FB = $65, A = X, ...
 	lda.w $04FB
 	sta.w $04FD
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	sta.w $0008,y
 	lda.b $65
 	sta.w $04FB
 	txa
 	asl a
-	sta.w QueueBusy,y
+	sta.w $0006,y
 .10:								; A = $000C,y, A + $65, $000C,y = A, A = X, ...
 	lda.w $000C,y
 	clc

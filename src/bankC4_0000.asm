@@ -235,7 +235,7 @@ CODE_C401E5:						; called from other segments
 	stx.b tmp1
 	lsr a
 	tax
-	sta.w p0,y
+	sta.w $0038,y
 	lda.l $307865,x
 	ldx.b tmp1
 	and.w #$00FF
@@ -248,7 +248,7 @@ CODE_C401E5:						; called from other segments
 	lda.l $7E3D7C,x
 	sta.w $0002,y
 	lda.w #$0000
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	sta.w $0008,y
 	sta.w $000A,y
 	sta.w $0000,y
@@ -298,8 +298,8 @@ CODE_C40296:						; called from other segments
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-.1:									; X = p0,y, A 8-bit, if $30604D is not 0 go to .2, $307865,x = $33
-	ldx.w p0,y
+.1:									; X = $0038,y, A 8-bit, if $30604D is not 0 go to .2, $307865,x = $33
+	ldx.w $0038,y
 	sep #$20
 	lda.l $30604D
 	bne .2
@@ -1231,10 +1231,10 @@ CODE_C40A02:						; called from other segments
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-.loop:								; loop: if $0000,y is not 0 go to .3, if QueueBusy,y < 0 go to .3, ...
+.loop:								; loop: if $0000,y is not 0 go to .3, if $0006,y < 0 go to .3, ...
 	lda.w $0000,y
 	bne .3
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	bmi .3
 	jsr.w CODE_C40A60
 	adc.w $000A,y
@@ -1246,13 +1246,13 @@ CODE_C40A02:						; called from other segments
 	cmp.w #$0014
 	bcs .3
 	cmp.w #$000A
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	adc.w #$0000
 	cmp.w #$0002
 	bcc .2
 	lda.w #$0002
-.2:									; QueueBusy,y = A
-	sta.w QueueBusy,y
+.2:									; $0006,y = A
+	sta.w $0006,y
 .3:									; A = Y, A + $010A, Y = A, tmp0 - 1, ...
 	clc
 	tya

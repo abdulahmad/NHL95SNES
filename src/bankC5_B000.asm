@@ -57,9 +57,9 @@ CODE_C5AFCC:						; called from other segments
 	jsl.l CODE_C4C541
 	lda.b $81
 	ldy.w #$FFFE
-.loop3:								; loop: X = A, A = QueueBusy,x, if the result is not 0 go to .2, ...
+.loop3:								; loop: X = A, A = $0006,x, if the result is not 0 go to .2, Y + 1, ...
 	tax
-	lda.w QueueBusy,x
+	lda.w $0006,x
 	eor.b $85
 	bne .2
 	iny
@@ -578,13 +578,13 @@ CODE_C5B4C2:						; from CODE_C5AFCC, CODE_C5B558
 	sta.w $000C,y
 	cld
 	tyx
-	stz.w QueueBusy,x
+	stz.w $0006,x
 	pla
 	sta.b tmp0
 	rts
-.1:									; QueueBusy,y = $0001, A = $01,s, call CODE_C5BDAC, $0008,y = A, ...
+.1:									; $0006,y = $0001, A = $01,s, call CODE_C5BDAC, $0008,y = A, ...
 	lda.w #$0001
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	lda.b $01,s
 	jsr.w CODE_C5BDAC
 	sta.w $0008,y
@@ -1015,7 +1015,7 @@ CODE_C5B7F1:						; from CODE_C5B07C and other segments
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	phx
 	jsr.w CODE_C5B67A
 	plx
@@ -1121,7 +1121,7 @@ CODE_C5B7F1:						; from CODE_C5B07C and other segments
 	jsl.l CODE_C4BC20
 	ply
 	phy
-	lda.w r1,y
+	lda.w $0030,y
 	jsr.w CODE_C5B67A
 	sta.b r2
 	xba
@@ -1220,31 +1220,31 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	lda.b #$30
 	pha
 	plb
-.loop:								; loop: $32 = $606D,y, A and $03, X = A, r0,x + 1, ...
+.loop:								; loop: $32 = $606D,y, A and $03, X = A, $2C,x + 1, ...
 	lda.w $606D,y
 	sta.b $32
 	and.b #$03
 	tax
-	inc.b r0,x
+	inc.b $2C,x
 	lda.b $32
 	lsr a
 	lsr a
 	sta.b $32
 	and.b #$03
 	tax
-	inc.b r0,x
+	inc.b $2C,x
 	lda.b $32
 	lsr a
 	lsr a
 	sta.b $32
 	and.b #$03
 	tax
-	inc.b r0,x
+	inc.b $2C,x
 	lda.b $32
 	lsr a
 	lsr a
 	tax
-	inc.b r0,x
+	inc.b $2C,x
 	iny
 	dex
 	dec.b r1
@@ -1257,7 +1257,7 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	sta.w $0004,y
 	lda.b $2E
 	and.w #$00FF
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	lda.b $2F
 	and.w #$00FF
 	sta.w $0008,y
@@ -1269,7 +1269,7 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	sec
 	stz.b $2D
 	sbc.b r0
-	sta.w r0,y
+	sta.w $002C,y
 	ldx.w $000E,y
 	lda.w #$0064
 	phy
@@ -1277,7 +1277,7 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	ply
 	phy
 	stz.b $32
-	lda.w r0,y
+	lda.w $002C,y
 	sta.b r1
 	beq .1
 	jsl.l Div32x32U
@@ -1292,7 +1292,7 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	ply
 	phy
 	stz.b $32
-	lda.w r0,y
+	lda.w $002C,y
 	sta.b r1
 	beq .2
 	jsl.l Div32x32U
@@ -1341,7 +1341,7 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	ply
 	phy
 	stz.b $32
-	lda.w r0,y
+	lda.w $002C,y
 	sta.b r1
 	beq .5
 	jsl.l Div32x32U
@@ -1356,14 +1356,14 @@ CODE_C5B983:						; from CODE_C5B7F1, CODE_C5B97F and other segments
 	ply
 	phy
 	stz.b $32
-	lda.w r0,y
+	lda.w $002C,y
 	sta.b r1
 	beq .6
 	jsl.l Div32x32U
 	lda.b r0
-.6:									; pull Y, r1,y = A, X = Y, $0000,x = 0, ...
+.6:									; pull Y, $0030,y = A, X = Y, $0000,x = 0, ...
 	ply
-	sta.w r1,y
+	sta.w $0030,y
 	tyx
 	stz.w $0000,x
 	stz.w $0002,x
@@ -1854,7 +1854,7 @@ CODE_C5BEED:						; from DATA8_C5BEDD
 	lda.w #$003E
 	sta.w $04F5,x
 	inx
-	lda.w QueueBusy,y
+	lda.w $0006,y
 	phx
 	jsr.w CODE_C5B67A
 	plx
@@ -1942,7 +1942,7 @@ CODE_C5BF8C:						; from DATA8_C5BEDD
 	and.w #$000F
 	jmp.w CODE_C55ECA
 CODE_C5BFB6:						; from DATA8_C5BEDD
-	lda.w r1,y
+	lda.w $0030,y
 	jsr.w CODE_C5B67A
 	sta.b r2
 	xba

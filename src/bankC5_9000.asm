@@ -100,7 +100,7 @@ CODE_C59052:						; called from other segments
 	jsl.l CreateSprite
 	stx.b $9D
 	lda.w #$0001
-	sta.b p0,x
+	sta.b $38,x
 	jsr.w CODE_C5A4E2
 .rts:								; return
 	rts
@@ -272,7 +272,7 @@ CODE_C59217:						; from CODE_C590DA
 	lda.w #$001C
 	jsl.l CreateSprite
 	stx.b $75
-	inc.b p0,x
+	inc.b $38,x
 	lda.w #$0002
 	jsl.l CODE_C5ECBD
 	rts
@@ -436,8 +436,8 @@ CODE_C593B8:						; from CODE_C5939D
 	beq .loop
 .1:									; Y = $0008
 	ldy.w #$0008
-.loop2:								; loop: X = a4,y, cont1team,y = $0000, A = $22,x, A / 2, ...
-	ldx.b a4,y
+.loop2:								; loop: X = $73,y, cont1team,y = $0000, A = $22,x, A / 2, ...
+	ldx.b $73,y
 	lda.w #$0000
 	sta.w cont1team,y
 	lda.b $22,x
@@ -490,7 +490,7 @@ CODE_C5945E:						; from CODE_C593B8
 	asl a
 	tay
 	cpx.w #$0001
-	ldx.b a4,y
+	ldx.b $73,y
 	lda.b $22,x
 	ora.w #$0001
 	bcc .1
@@ -604,7 +604,7 @@ CODE_C5951B:						; from CODE_C593B8
 	lda.w #$001D
 	jsl.l CreateSprite
 	ply
-	stx.b a4,y
+	stx.b $73,y
 	lda.b $1A
 	sbc.w #$000F
 	sta.b $1A
@@ -1114,7 +1114,7 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	stz.w $0000,x
 	stz.w $0002,x
 	stz.w $0004,x
-	stz.w QueueBusy,x
+	stz.w $0006,x
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.b d6
@@ -1167,7 +1167,7 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	stz.w $0000,x
 	stz.w $0002,x
 	stz.w $0004,x
-	stz.w QueueBusy,x
+	stz.w $0006,x
 	jsl.l CODE_C4C2AA
 	jsl.l CODE_C4CEDB
 	lda.b d6

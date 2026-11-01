@@ -842,11 +842,11 @@ assfaceoffpl:						; called from other segments
 	ldx.w $2022
 	bcc .7
 	ldx.w $2020
-.7:									; if $1864 = $0001 go to .8, r1,x = 0
+.7:									; if $1864 = $0001 go to .8, $30,x = 0
 	lda.w $1864
 	cmp.w #$0001
 	beq .8
-	stz.b r1,x
+	stz.b $30,x
 .8:									; X = a3, pf2aip,x = $0001, go to SetSPA
 	ldx.b a3
 	lda.w #$0001
@@ -1438,7 +1438,7 @@ CODE_C43826:						; called from other segments
 	lda.b $36,x
 	eor.w #$4000
 	sta.b $36,x
-	inc.b p0,x
+	inc.b $38,x
 	lda.w #$0001
 	jsl.l CODE_C5ECBD
 	lda.w gsp
@@ -1497,7 +1497,7 @@ CODE_C43D6C:						; from CODE_C43F0D, CODE_C43FC1
 	lda.w #$A0A0
 	sta.w $0004,y
 	lda.w #$A0A0
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	lda.b d1
 	asl a
 	adc.b d1

@@ -227,9 +227,9 @@ CODE_C5D1C5:						; from CODE_C5D0F5
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$0008
-.loop:								; loop: push Y, X = a4,y, call CODE_C5E596, pull Y, ...
+.loop:								; loop: push Y, X = $73,y, call CODE_C5E596, pull Y, ...
 	phy
-	ldx.b a4,y
+	ldx.b $73,y
 	jsl.l CODE_C5E596
 	ply
 	dey
@@ -1279,7 +1279,7 @@ CODE_C5D8E7:						; called from other segments
 CODE_C5DA09:						; called from other segments
 	ldy.b a2
 	ldx.b d3
-	lda.w a3,y
+	lda.w $006F,y
 	asl a
 	asl a
 	asl a
@@ -1294,12 +1294,12 @@ CODE_C5DA09:						; called from other segments
 .1:									; A = $22,x, A and $FFFE
 	lda.b $22,x
 	and.w #$FFFE
-.2:									; $22,x = A, X = $8D, A = a3,y, A + a1,y, ...
+.2:									; $22,x = A, X = $8D, A = $006F,y, A + $0067,y, ...
 	sta.b $22,x
 	ldx.b $8D
-	lda.w a3,y
+	lda.w $006F,y
 	clc
-	adc.w a1,y
+	adc.w $0067,y
 	asl a
 	asl a
 	asl a
@@ -1307,7 +1307,7 @@ CODE_C5DA09:						; called from other segments
 	sta.b $08,x
 	lda.w $0077,y
 	clc
-	adc.w a1,y
+	adc.w $0067,y
 	cmp.w $007B,y
 	bcs .3
 	lda.b $22,x
@@ -1408,9 +1408,9 @@ CODE_C5DAEF:						; from CODE_C5DAC2
 	rts
 CODE_C5DAF3:						; called from other segments
 	ldx.b a2
-	lda.b a4,x
+	lda.b $73,x
 	sta.b d2
-	lda.b a1,x
+	lda.b $67,x
 	inc a
 	sta.b tmp1
 	inc a
@@ -1437,9 +1437,9 @@ CODE_C5DAF3:						; called from other segments
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + a3,x, $6D = A, call CODE_C55D73, jump through $008F
+.1:									; A + $6F,x, $6D = A, call CODE_C55D73, jump through $008F
 	clc
-	adc.b a3,x
+	adc.b $6F,x
 	sta.b $6D
 	jsr.w CODE_C55D73
 	pea.w CODE_C5DB30-1
@@ -1504,9 +1504,9 @@ CODE_C5DB38:						; from CODE_C5DAF3, CODE_C5DB30
 	rts
 CODE_C5DB9F:						; called from other segments
 	ldx.b a2
-	lda.b a4,x
+	lda.b $73,x
 	sta.b d2
-	lda.b a1,x
+	lda.b $67,x
 	inc a
 	sta.b tmp1
 	inc a
@@ -1522,7 +1522,7 @@ CODE_C5DB9F:						; called from other segments
 	pha
 	lda.b $77,x
 	clc
-	adc.b a1,x
+	adc.b $67,x
 	cmp.b $7B,x
 	bcs CODE_C5DBE6
 	phx
@@ -1535,9 +1535,9 @@ CODE_C5DB9F:						; called from other segments
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + a3,x, $6D = A, call CODE_C55D73, jump through $008F
+.1:									; A + $6F,x, $6D = A, call CODE_C55D73, jump through $008F
 	clc
-	adc.b a3,x
+	adc.b $6F,x
 	sta.b $6D
 	jsr.w CODE_C55D73
 	pea.w CODE_C5DBE0-1
@@ -1605,7 +1605,7 @@ CODE_C5DBE8:						; from CODE_C5DB9F, CODE_C5DBE0
 	rts
 CODE_C5DC54:						; from CODE_C5DA58, CODE_C5DB38, CODE_C5DBE8, CODE_C5DB38, ...
 	tax
-	lda.b a1,x
+	lda.b $67,x
 	inc a
 	inc a
 	sta.b $A5
@@ -1926,10 +1926,10 @@ CODE_C5DE9B:						; called from other segments
 	lda.w $0000,y
 	beq .3
 	jmp.w .4
-.3:									; X = Y, r2,y = $0008,y, call CODE_C5E123, A = Y, ...
+.3:									; X = Y, $0034,y = $0008,y, call CODE_C5E123, A = Y, ...
 	tyx
 	lda.w $0008,y
-	sta.w r2,y
+	sta.w $0034,y
 	jsr.w CODE_C5E123
 	tya
 	clc

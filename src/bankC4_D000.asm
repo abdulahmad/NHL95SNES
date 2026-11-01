@@ -367,7 +367,7 @@ CODE_C4D3AE:						; a task routine: stored as the next routine of a task
 	sta.w $0002,x
 CODE_C4D3DD:						; a task routine: stored as the next routine of a task
 	ldx.b $91
-	lda.w r2,x
+	lda.w $0034,x
 	and.w #$FF00
 	xba
 	clc
@@ -395,7 +395,7 @@ CODE_C4D3FC:						; a task routine: stored as the next routine of a task
 	sta.w $0002,x
 CODE_C4D414:						; a task routine: stored as the next routine of a task
 	ldx.b $91
-	lda.w r2,x
+	lda.w $0034,x
 	and.w #$FF00
 	xba
 	clc
@@ -541,7 +541,7 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	lda.w #$0020
 	sta.b $7D
 	ldx.b $91
-	ldy.w r2,x
+	ldy.w $0034,x
 	lda.l $008004
 	and.w #$00FF
 	tax
@@ -555,7 +555,7 @@ CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
 	ldy.b d5
 	jsl.l CODE_C4B8D1
 	ldx.b $91
-	lda.w r2,x
+	lda.w $0034,x
 	and.w #$FF00
 	xba
 	clc
@@ -1674,14 +1674,14 @@ CODE_C4DF20:						; from DATA8_C4DC51
 	cmp.b a2
 	bcc .2
 	bne .1
-	lda.w QueueBusy,x
+	lda.w $0006,x
 	cmp.b a3
 	bcs .2
 	sta.b a3
 	lda.w $0004,x
-.1:									; a2 = A, a3 = QueueBusy,x, $71 = $6D
+.1:									; a2 = A, a3 = $0006,x, $71 = $6D
 	sta.b a2
-	lda.w QueueBusy,x
+	lda.w $0006,x
 	sta.b a3
 	lda.b $6D
 	sta.b $71

@@ -128,7 +128,9 @@
   more votes and 90% agreement are in src/ram95s.asm (the main address when a name also lands on its +$1C puck slot);
   ../work/ramapply.py replaces exact operands in code lines ($XX direct page, $XXXX absolute, indexed and indirect). Left as
   numbers: pei (asar does not take pei (label)), jmp / jml / jsr operands, immediates, long operands, the SPC700 files, and
-  addresses with fewer votes (rammap.txt has them, weak or mixed).
+  addresses with fewer votes (rammap.txt has them, weak or mixed). A direct page address on a direct indexed operand
+  (`lda.b $30,x`, `sta.w $0006,y`) stays a number: X / Y holds a record (a sprite object, a queue entry), so it is a field
+  offset, not the variable (no vote came from an indexed form); only PadRaw1 / PadRaw2 take a pad index there.
 - Local labels: ../work/locals.py turns each CODE_ label that only branches / jmps of its own routine use (no other file or
   stub names it) into a 92-style local: .loop / .loop2 for a loop head, .rtl / .rts for a lone return, else .1, .2 ... per
   routine, with a generated summary of the code after it ("if d2 >= $00E2 go to .9, call X, ..."); name_map has a row each.

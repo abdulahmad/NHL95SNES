@@ -1624,7 +1624,7 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	sta.w $0004,y
 	pla
 	and.w #$000F
-	sta.w QueueBusy,y
+	sta.w $0006,y
 	jsr.w CODE_C53167
 	plx
 	lda.l $C30000,x
@@ -1730,9 +1730,9 @@ CODE_C52CD0:						; from CODE_C52CA7, CODE_C52CC1
 	lda.w $006E,y
 	jsr.w CODE_C5308D
 	sta.w $006E,y
-	lda.w a3,y
+	lda.w $006F,y
 	jsr.w CODE_C530A0
-	sta.w a3,y
+	sta.w $006F,y
 	lda.w $0070,y
 	jsr.w CODE_C530A0
 	sta.w $0070,y

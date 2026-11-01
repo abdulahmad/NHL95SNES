@@ -354,7 +354,7 @@ CODE_C4B32D:						; passed as a long pointer (lda # of its bank and address) to 
 DATA8_C4B35D:						; not traced: a table read by CODE_C4B32D
 	db $64,$68,$6C,$70,$74,$78,$7C,$7F,$78,$70,$68,$64,$00
 CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
-	lda.b r2,x
+	lda.b $34,x
 	and.w #$FF00
 	lsr a
 	lsr a
@@ -854,8 +854,8 @@ CODE_C4B763:						; from CODE_C4B10D, CODE_C4B2BD, CODE_C4B738, CODE_C4B743, ...
 	ldx.w #$2D85
 	phy
 	tya
-.loop:								; loop: if A < QueueBusy,x go to .1, Y = X, ...
-	cmp.w QueueBusy,x
+.loop:								; loop: if A < $0006,x go to .1, Y = X, if $0000,y is not 0 go to .loop
+	cmp.w $0006,x
 	bcc .1
 	txy
 	ldx.w $0000,y
@@ -868,7 +868,7 @@ CODE_C4B763:						; from CODE_C4B10D, CODE_C4B2BD, CODE_C4B738, CODE_C4B743, ...
 	stx.w $2D83
 	tax
 	pla
-	sta.w QueueBusy,x
+	sta.w $0006,x
 	stz.w $0008,x
 	stz.w $000A,x
 	pla
