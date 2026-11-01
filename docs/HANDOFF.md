@@ -127,7 +127,9 @@
   name_map rows (source 94S+code; the note gives the 94S purpose). Matches below 0.95 are in ../work/match94.txt for review.
   The pairs also map RAM: 95 $1020,x = 94S pfteam, $10F5 = sflags (chkpk2), $17DB / $1813 = homelines / awaylines.
 - RAM names (94S by code): ../work/rammap.py aligns each routine named after a 94S routine with its 94S source; where the
-  instructions agree and the 94S operand is a RAM name (ram94s.asm, +N allowed), the 95 operand votes for it. Names with 3 or
+  instructions agree and the 94S operand is a RAM name (ram94s.asm, +N allowed: a number or a ram94s.asm name such as
+  puckscnum; an older version read a name offset as +0, which had put OldYpos and puckcross on the puck slot / the
+  frames word, since fixed), the 95 operand votes for it. Names with 3 or
   more votes and 90% agreement are in src/ram95s.asm (the main address when a name also lands on its +$1C puck slot);
   ../work/ramapply.py replaces exact operands in code lines ($XX direct page, $XXXX absolute, indexed and indirect). Left as
   numbers: pei (asar does not take pei (label)), jmp / jml / jsr operands, immediates, long operands, the SPC700 files, and
@@ -169,7 +171,11 @@
   Bank $C5: the front end's screen states 0-13 have named handlers (DATA8_C5967A); each scrolling list's row
   routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. Still unnamed in
   bank $C5: much of the game side (bankC5_0000 / 1000 / 2000 / 3000 / 4000), the Edit Lines player list
-  (CODE_C57578), the bankC5_D000 roster / trade list helpers, the bankC5_E000 sprite helpers.
+  (CODE_C57578), the bankC5_D000 roster / trade list helpers, the bankC5_E000 sprite helpers. The game frame is named
+  as in 94S (DoGameFrame, updateplayers, setvideo, updatescroll, PeriodOver, the face offs, SetupPenaltyShot, the line
+  change box); bare rtl stubs sit where 94S calls StartBenchCheer, UpdateBenchCheer, InitScores and DoHiLights, and
+  SetHor / ClrHor keep only the puck speed halving and the sfhormode count. Hand-checked RAM names go in with
+  ../work/ramhand.py (fixoff.py writes $XXXX as NAME+K; relabel.py and movename.py correct a name already given).
 - Parallel work: the repo is the T3 project "NHL95SNES"; a Codex thread on its own worktree branch (codex/<topic>)
   works beside the main checkout and is merged by cherry-pick (name_map.csv conflicts: keep both sides,
   ../work/resolve_namemap.py). Brief it with the rules and the tools that are safe to run (side.py only reads).
@@ -252,3 +258,10 @@
   reloads and starts sequence $A4 under two flags whose game-level meanings are not established.
   DATA8_CF0661 has no reader found. SampleVolumeOverrideLists writes sample stereo-volume overrides, but LoadSequence indexes
   it from r2 (the sequence pointer), not the flag byte in SoundSequenceTable; the intended selection is unresolved.
+- Scoreboard: CODE_C539D7 draws the score box (team abbreviations, scores) and CODE_C53A29 the period box (showclockdma,
+  the period text, a power play frame); together they do 94S printscores1's job, split differently: not named.
+- CODE_C535EF sits where 94S PlayerShortName calls GetPlayerRecord but reads an offset table, then a word through it;
+  what the result points at in the bank $C3 database is not checked: not named.
+- CODE_C54114 has setlccords's job (the line change box position by team and direction, then getlchoice 2), but bytes
+  inside it ($C54120) decode as data; not named until that decode is checked. CODE_C51FBA is limitfo's per-penalty part
+  (94S's local .t2). $18AA: CloseLCBoxes and the face off code count it up; not named.
