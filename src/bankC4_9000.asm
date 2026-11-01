@@ -173,9 +173,9 @@ pucknorm_move:						; from CODE_C493CA and other segments
 	sta.w puckvx
 	lda.w Yvel,y
 	sta.w puckvy
-.4:									; call PuckIChk, call CODE_C4AED5, if gmclock is not 0 go to .13, ...
+.4:									; call PuckIChk, call ChkOffsides, if gmclock is not 0 go to .13, ...
 	jsl.l PuckIChk
-	jsl.l CODE_C4AED5
+	jsl.l ChkOffsides
 	lda.w gmclock
 	bne .13
 	lda.w puckc

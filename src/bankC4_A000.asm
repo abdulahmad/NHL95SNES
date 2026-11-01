@@ -1776,7 +1776,8 @@ PuckIChk:							; called from other segments
 	lda.w #$0001
 	tsb.w iflags
 	rtl
-CODE_C4AED5:						; called from other segments
+ChkOffsides:						; the offsides check: ClearOffsidesIfAllPlayers for both sides, then the
+									; puck against the blue line (ChkOffsides_other / _blue / _rtl)
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
@@ -1805,7 +1806,7 @@ CODE_C4AED5:						; called from other segments
 	sec
 	sbc.w OldYpos
 	bmi CODE_C4AF74
-ChkOffsides_blue:					; from CODE_C4AED5
+ChkOffsides_blue:					; from ChkOffsides
 	jsl.l StartBreakaway
 	lda.w gmode
 	bit.w #$0020
@@ -1853,7 +1854,7 @@ ChkOffsides_loop:					; from CODE_C4AF75
 	lda.w tmflags,y
 	ora.w #$0010
 	sta.w tmflags,y
-CODE_C4AF74:						; from ClearOffsidesIfAllPlayers, CODE_C4AED5, ChkOffsides_other, ...
+CODE_C4AF74:						; from ClearOffsidesIfAllPlayers, ChkOffsides, ChkOffsides_other, ...
 	rtl
 CODE_C4AF75:						; from ChkOffsides_loop
 	inc.b a0
@@ -1861,7 +1862,7 @@ CODE_C4AF75:						; from ChkOffsides_loop
 	dec.b d2
 	bpl ChkOffsides_loop
 	rtl
-ChkOffsides_other:					; from CODE_C4AED5
+ChkOffsides_other:					; from ChkOffsides
 	lda.w #$0000
 	sec
 	sbc.b d0

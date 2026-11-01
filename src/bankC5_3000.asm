@@ -663,14 +663,15 @@ CODE_C53535:						; called from other segments
 	sta.w $17B3
 	sta.w gmclock
 	rtl
-CODE_C53574:						; called from other segments
+clearTeamStats:						; clears the team stats (keeping both goalies), the penalty box lists
+									; $FFFF, then sets up the two teams' words
 	lda.w tmgoalie
 	pha
 	lda.w $12CD
 	pha
 	ldx.w #$01AE
 .loop:								; loop: $125F,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
-	stz.w $125F,x
+	stz.w tmPwrGoals,x
 	dex
 	dex
 	bpl .loop
@@ -1141,13 +1142,14 @@ PassPadToTeammate:					; called from other segments
 CODE_C538FE:						; called from other segments
 	lda.w #$0000
 	bra PadTakePosition
-CODE_C53903:						; called from other segments
+PadTakeRightDefense:				; with defense control on for the pad's team: pad d4 takes the right
+									; defenseman (by the side the team shoots at), then PadTakePosition
 	ldy.w #$0000
 	cpx.w #$000C
 	bcc .1
 	ldy.w #$0002
 .1:									; if $17C5,y is not 0 go to .2, return
-	lda.w $17C5,y
+	lda.w defcontrol,y
 	bne .2
 	rtl
 .2:									; A = $0002, if pfgoal,x is not 0 go to PadTakePosition, A = $0001, ...
@@ -1156,13 +1158,14 @@ CODE_C53903:						; called from other segments
 	bne PadTakePosition
 	lda.w #$0001
 	bra PadTakePosition
-CODE_C53921:						; called from other segments
+PadTakeLeftDefense:					; with defense control on for the pad's team: pad d4 takes the left
+									; defenseman (by the side the team shoots at), then PadTakePosition
 	ldy.w #$0000
 	cpx.w #$000C
 	bcc .1
 	ldy.w #$0002
 .1:									; if $17C5,y is not 0 go to .2, return
-	lda.w $17C5,y
+	lda.w defcontrol,y
 	bne .2
 	rtl
 .2:									; A = $0001, if pfgoal,x is not 0 go to PadTakePosition, A = $0002
@@ -1170,7 +1173,7 @@ CODE_C53921:						; called from other segments
 	ldy.w pfgoal,x
 	bne PadTakePosition
 	lda.w #$0002
-PadTakePosition:					; from CODE_C538FE, PassPadToTeammate, CODE_C53903, ...
+PadTakePosition:					; from CODE_C538FE, PassPadToTeammate, PadTakeRightDefense, ...
 	sta.b d1
 	phx
 	ldy.b d4

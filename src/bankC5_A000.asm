@@ -1450,11 +1450,11 @@ CODE_C5AC07:						; the League Menu each frame: up / down move, B / start / sele
 	asl a
 	tax
 	jmp (SeasonMenuJumps,x)
-.3:									; call FadeOutWait, $1864 = $0002, go to CODE_C50056
+.3:									; call FadeOutWait, $1864 = $0002, go to Restart
 	jsl.l FadeOutWait
 	lda.w #$0002
 	sta.w $1864
-	jmp.w CODE_C50056
+	jmp.w Restart
 .4:									; call CODE_C5AC7F, d6 - 1, if the result >= 0 go to .5, d6 = $0005
 	jsr.w CODE_C5AC7F
 	dec.b d6

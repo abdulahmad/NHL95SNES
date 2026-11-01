@@ -1454,10 +1454,10 @@ doinput:							; called from other segments
 	jml.l Holdplayer
 .12:								; go to findpc
 	jml.l findpc
-.13:								; go to CODE_C53921
-	jml.l CODE_C53921
-.14:								; go to CODE_C53903
-	jml.l CODE_C53903
+.13:								; go to PadTakeLeftDefense
+	jml.l PadTakeLeftDefense
+.14:								; go to PadTakeRightDefense
+	jml.l PadTakeRightDefense
 .15:								; A = goalieflags,x, if a $0001 bit set go to .16, ...
 	lda.w goalieflags,x
 	bit.w #$0001

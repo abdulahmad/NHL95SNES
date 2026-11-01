@@ -4663,8 +4663,8 @@ $C4AE6A,.10,CODE_C4AE6A,new,"branch target only used in puckstick",src/bankC4_A0
 $C4AEC4,.rtl,CODE_C4AEC4,new,"branch target only used in PuckIChk",src/bankC4_A000.asm
 $C4AEC5,.1,CODE_C4AEC5,new,"branch target only used in PuckIChk",src/bankC4_A000.asm
 $C4AECE,.2,CODE_C4AECE,new,"branch target only used in PuckIChk",src/bankC4_A000.asm
-$C4AEF8,.1,CODE_C4AEF8,new,"branch target only used in CODE_C4AED5",src/bankC4_A000.asm
-$C4AF0A,.2,CODE_C4AF0A,new,"branch target only used in CODE_C4AED5",src/bankC4_A000.asm
+$C4AEF8,.1,CODE_C4AEF8,new,"branch target only used in ChkOffsides",src/bankC4_A000.asm
+$C4AF0A,.2,CODE_C4AF0A,new,"branch target only used in ChkOffsides",src/bankC4_A000.asm
 $C4AF21,.1,CODE_C4AF21,new,"branch target only used in ChkOffsides_blue",src/bankC4_A000.asm
 $C4AF36,.2,CODE_C4AF36,new,"branch target only used in ChkOffsides_blue",src/bankC4_A000.asm
 $C4AF3F,.3,CODE_C4AF3F,new,"branch target only used in ChkOffsides_blue",src/bankC4_A000.asm
@@ -5069,7 +5069,7 @@ $C4F2EE,.3,CODE_C4F2EE,new,"branch target only used in CODE_C4F2AE",src/bankC4_F
 $C4F2F6,.4,CODE_C4F2F6,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
 $C4F2FB,.rts,CODE_C4F2FB,new,"branch target only used in CODE_C4F2AE",src/bankC4_F000.asm
 $C5000A,.loop,CODE_C5000A,new,"branch target only used in Opening",src/bankC5_0000.asm
-$C5008D,.1,CODE_C5008D,new,"branch target only used in CODE_C50056",src/bankC5_0000.asm
+$C5008D,.1,CODE_C5008D,new,"branch target only used in Restart",src/bankC5_0000.asm
 $C500A2,.loop,CODE_C500A2,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
 $C500B1,.loop2,CODE_C500B1,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
 $C500D2,.1,CODE_C500D2,new,"branch target only used in StartGame_go",src/bankC5_0000.asm
@@ -5250,12 +5250,12 @@ $C51191,.loop,CODE_C51191,new,"branch target only used in AlignBigNumber",src/ba
 $C511A1,.1,CODE_C511A1,new,"branch target only used in AlignBigNumber",src/bankC5_1000.asm
 $C511AA,.loop,CODE_C511AA,new,"branch target only used in Mod100",src/bankC5_1000.asm
 $C511B4,.1,CODE_C511B4,new,"branch target only used in Mod100",src/bankC5_1000.asm
-$C511C6,.1,CODE_C511C6,new,"branch target only used in CODE_C511B8",src/bankC5_1000.asm
-$C511F6,.2,CODE_C511F6,new,"branch target only used in CODE_C511B8",src/bankC5_1000.asm
-$C51211,.3,CODE_C51211,new,"branch target only used in CODE_C511B8",src/bankC5_1000.asm
-$C51222,.4,CODE_C51222,new,"branch target only used in CODE_C511B8",src/bankC5_1000.asm
-$C51257,.5,CODE_C51257,new,"branch target only used in CODE_C511B8",src/bankC5_1000.asm
-$C5126F,.6,CODE_C5126F,new,"branch target only used in CODE_C511B8",src/bankC5_1000.asm
+$C511C6,.1,CODE_C511C6,new,"branch target only used in SetScore",src/bankC5_1000.asm
+$C511F6,.2,CODE_C511F6,new,"branch target only used in SetScore",src/bankC5_1000.asm
+$C51211,.3,CODE_C51211,new,"branch target only used in SetScore",src/bankC5_1000.asm
+$C51222,.4,CODE_C51222,new,"branch target only used in SetScore",src/bankC5_1000.asm
+$C51257,.5,CODE_C51257,new,"branch target only used in SetScore",src/bankC5_1000.asm
+$C5126F,.6,CODE_C5126F,new,"branch target only used in SetScore",src/bankC5_1000.asm
 $C5135D,.loop,CODE_C5135D,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
 $C51368,.1,CODE_C51368,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
 $C51374,.loop2,CODE_C51374,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
@@ -5280,10 +5280,10 @@ $C5167D,.2,CODE_C5167D,new,"branch target only used in Intermission_ticker",src/
 $C516B4,.1,CODE_C516B4,new,"branch target only used in NewTicker2_next",src/bankC5_1000.asm
 $C516BF,.2,CODE_C516BF,new,"branch target only used in NewTicker2_next",src/bankC5_1000.asm
 $C5173C,.1,CODE_C5173C,new,"branch target only used in CODE_C516C2",src/bankC5_1000.asm
-$C51765,.rtl,CODE_C51765,new,"branch target only used in CODE_C51752",src/bankC5_1000.asm
-$C51766,.1,CODE_C51766,new,"branch target only used in CODE_C51752",src/bankC5_1000.asm
-$C5177C,.2,CODE_C5177C,new,"branch target only used in CODE_C51752",src/bankC5_1000.asm
-$C517C2,.3,CODE_C517C2,new,"branch target only used in CODE_C51752",src/bankC5_1000.asm
+$C51765,.rtl,CODE_C51765,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
+$C51766,.1,CODE_C51766,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
+$C5177C,.2,CODE_C5177C,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
+$C517C2,.3,CODE_C517C2,new,"branch target only used in NewTicker2",src/bankC5_1000.asm
 $C517C7,.loop,CODE_C517C7,new,"branch target only used in waitxsr",src/bankC5_1000.asm
 $C517CA,.loop2,CODE_C517CA,new,"branch target only used in waitxsr",src/bankC5_1000.asm
 $C517DB,.1,CODE_C517DB,new,"branch target only used in waitxsr",src/bankC5_1000.asm
@@ -5556,7 +5556,7 @@ $C534FC,.1,CODE_C534FC,new,"branch target only used in CODE_C534E8",src/bankC5_3
 $C53516,.loop2,CODE_C53516,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
 $C5354B,.1,CODE_C5354B,new,"branch target only used in CODE_C53535",src/bankC5_3000.asm
 $C53568,.2,CODE_C53568,new,"branch target only used in CODE_C53535",src/bankC5_3000.asm
-$C5357F,.loop,CODE_C5357F,new,"branch target only used in CODE_C53574",src/bankC5_3000.asm
+$C5357F,.loop,CODE_C5357F,new,"branch target only used in clearTeamStats",src/bankC5_3000.asm
 $C535D7,.loop,CODE_C535D7,new,"branch target only used in CODE_C535CA",src/bankC5_3000.asm
 $C535DE,.1,CODE_C535DE,new,"branch target only used in CODE_C535CA",src/bankC5_3000.asm
 $C53623,.1,CODE_C53623,new,"branch target only used in loadTeamStruct",src/bankC5_3000.asm
@@ -5598,10 +5598,10 @@ $C5386A,.4,CODE_C5386A,new,"branch target only used in CODE_C53813",src/bankC5_3
 $C538E9,.loop,CODE_C538E9,new,"branch target only used in PassPadToTeammate",src/bankC5_3000.asm
 $C538F3,.1,CODE_C538F3,new,"branch target only used in PassPadToTeammate",src/bankC5_3000.asm
 $C538F7,.2,CODE_C538F7,new,"branch target only used in PassPadToTeammate",src/bankC5_3000.asm
-$C5390E,.1,CODE_C5390E,new,"branch target only used in CODE_C53903",src/bankC5_3000.asm
-$C53914,.2,CODE_C53914,new,"branch target only used in CODE_C53903",src/bankC5_3000.asm
-$C5392C,.1,CODE_C5392C,new,"branch target only used in CODE_C53921",src/bankC5_3000.asm
-$C53932,.2,CODE_C53932,new,"branch target only used in CODE_C53921",src/bankC5_3000.asm
+$C5390E,.1,CODE_C5390E,new,"branch target only used in PadTakeRightDefense",src/bankC5_3000.asm
+$C53914,.2,CODE_C53914,new,"branch target only used in PadTakeRightDefense",src/bankC5_3000.asm
+$C5392C,.1,CODE_C5392C,new,"branch target only used in PadTakeLeftDefense",src/bankC5_3000.asm
+$C53932,.2,CODE_C53932,new,"branch target only used in PadTakeLeftDefense",src/bankC5_3000.asm
 $C53950,.1,CODE_C53950,new,"branch target only used in PadTakePosition",src/bankC5_3000.asm
 $C53955,.loop,CODE_C53955,new,"branch target only used in PadTakePosition",src/bankC5_3000.asm
 $C53964,.2,CODE_C53964,new,"branch target only used in PadTakePosition",src/bankC5_3000.asm
@@ -6990,8 +6990,8 @@ $CF0401,.rtl,CODE_CF0401,new,"branch target only used in SoundVolumeUp",src/bank
 $CF0442,.loop,CODE_CF0442,new,"branch target only used in LoadTeamSongs",src/bankCF_0000.asm
 $CF045C,.1,CODE_CF045C,new,"branch target only used in LoadTeamSongs",src/bankCF_0000.asm
 $CF0490,.loop,CODE_CF0490,new,"branch target only used in PlayTeamSong",src/bankCF_0000.asm
-$CF04C0,.1,CODE_CF04C0,new,"branch target only used in CODE_CF04B6",src/bankCF_0000.asm
-$CF04DC,.2,CODE_CF04DC,new,"branch target only used in CODE_CF04B6",src/bankCF_0000.asm
+$CF04C0,.1,CODE_CF04C0,new,"branch target only used in StartMenuMusic",src/bankCF_0000.asm
+$CF04DC,.2,CODE_CF04DC,new,"branch target only used in StartMenuMusic",src/bankCF_0000.asm
 $CFEE5C,.1,CODE_CFEE5C,new,"branch target only used in CODE_CFEE25",src/bankCF_E000.asm
 $CFEE69,.2,CODE_CFEE69,new,"branch target only used in CODE_CFEE25",src/bankCF_E000.asm
 $CFEEA1,.1,CODE_CFEEA1,new,"branch target only used in CODE_CFEE6C",src/bankCF_E000.asm
@@ -7330,3 +7330,13 @@ $C0138A,.readRawEventByte,.l0481,code,setupSequencePointers patches tcall 14 to 
 $C018C2,.setupSequencePointers,.l09B9,code,Nonzero first sequence byte selects dictionary decoding; zero selects raw byte reads.,src/bankC0_1000.asm
 $CF04E3,SoundSequenceTable,DATA8_CF04E3,code,Low seven bits of sequence ID select the four-byte pointer/flag entry; flag selection logic remains unclear.,src/bankCF_0000.asm
 $CF0583,SampleVolumeOverrideLists,DATA8_CF0583,code,Consumer maps each sample ID to its driver slot and replaces FD02/FD03 stereo-volume defaults; list selection unresolved.,src/bankCF_0000.asm
+$C53574,clearTeamStats,CODE_C53574,94S+code,"the same start as 94S clearTeamStats, side by side: tmgoalie saved, the stat block from tmPwrGoals cleared, tmgoalie back, tmboxlist and tmboxlist + maxros = $FFFF; 95 then copies the teams ($17C9 / $17CB) and their TeamList words; StartGame_go calls it",src/bankC5_3000.asm
+$C53903,PadTakeRightDefense,CODE_C53903,94S+code,"the same code as 94S PadTakeRightDefense: the team from X, defcontrol,y, A = 2 or 1 by pfgoal,x, then PadTakePosition",src/bankC5_3000.asm
+$C53921,PadTakeLeftDefense,CODE_C53921,94S+code,"the same code as 94S PadTakeLeftDefense: A = 1 or 2 by pfgoal,x, falling into PadTakePosition",src/bankC5_3000.asm
+$C51752,NewTicker2,CODE_C51752,94S+code,"the same code as 94S NewTicker2 (and NewTicker3 after it, a local label here); TickerNum, the user's game at $24C6, the game flags at $2488",src/bankC5_1000.asm
+$C4AED5,ChkOffsides,CODE_C4AED5,94S+code,"the same code as 94S ChkOffsides, side by side; the blue line is $58 where 94S has $54 (95 rink tuning, as in ClearOffsidesIfAllPlayers)",src/bankC4_A000.asm
+$C511B8,SetScore,CODE_C511B8,94S+code,"the same code as 94S SetScore, side by side: gsper ($2458) 3 to 5 with the score check, a tie in gsp 4, gsflags bit 2 ($2488), else gsper + 1 and gss1 / gss2 ($2468 / $2478) from gst1 / gst2 ($2418 / $2428); CODE_C512B1 is 94S's local .4",src/bankC5_1000.asm
+$C50056,Restart,CODE_C50056,94S+purpose,"same job as 94S Restart (start over at the option screens: the stack $1FFF, the menu music, jmlvector $5C, setoptions, the shootout or the game); demoread, the quit prompt and the League Menu's X come back to it",src/bankC5_0000.asm
+$CF04B6,StartMenuMusic,CODE_CF04B6,code,"Restart calls it where 94S Restart starts its menu song; flags $1EA7 (request, cleared) and $1EA9 (set after the first call)",src/bankCF_0000.asm
+$125F,tmPwrGoals,,94S+code,"RAM: clearTeamStats clears from here where 94S clearTeamStats clears from tmPwrGoals (side by side)",src/ram95s.asm
+$17C5,defcontrol,,94S+code,"RAM: PadTakeLeftDefense / PadTakeRightDefense test it by team where 94S tests defcontrol,y (the same code)",src/ram95s.asm

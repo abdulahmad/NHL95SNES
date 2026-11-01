@@ -1240,9 +1240,9 @@ PenGoalStuff:						; called from other segments
 	sta.w tmap,y
 	jsr.w CODE_C47A7C
 	ldy.b a2
-	lda.w $125F,y
+	lda.w tmPwrGoals,y
 	inc a
-	sta.w $125F,y
+	sta.w tmPwrGoals,y
 	lda.w #$0001
 	tsb.w tmflags
 	tsb.w $1301

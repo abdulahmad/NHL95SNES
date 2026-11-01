@@ -635,7 +635,9 @@ CODE_CF04A8:						; from PlayTeamSongNow
 CODE_CF04B4:						; from PlayTeamSong
 	plx
 	rtl
-CODE_CF04B6:						; called from other segments
+StartMenuMusic:						; reloads and starts the front end song $A4 (LoadSounds of DATA8_CF05D4,
+									; StartSound) between SoundVolumeDown and SoundVolumeUp; on its first call
+									; it only sets its flag, unless the request flag is set
 	lda.w $1EA7
 	bne .1
 	lda.w $1EA9

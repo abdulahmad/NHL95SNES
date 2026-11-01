@@ -97,7 +97,9 @@ Mod100:								; from CODE_C5111D and other segments
 	rtl
 DATA8_C511B7:						; not traced: data between routines
 	db $6B
-CODE_C511B8:						; called from other segments
+SetScore:							; the score of the other game a0 for the ticker: its period stepped and
+									; both scores raised from the teams' strengths (CODE_C512B1), or the game
+									; ended
 	phx
 	ldx.b a0
 	lda.w $2458,x
@@ -192,7 +194,7 @@ DATA8_C51271:						; not traced: data between routines
 	db $23,$00,$21,$00,$1A,$00,$06,$00,$1E,$00,$22,$00,$1E,$00,$06,$00
 	db $1A,$00,$24,$00,$1E,$00,$08,$00,$16,$00,$25,$00,$1F,$00,$0A,$00
 	db $13,$00,$26,$00,$1F,$00,$0C,$00,$0F,$00,$26,$00,$20,$00,$0F,$00
-CODE_C512B1:						; from CODE_C511B8 and other segments
+CODE_C512B1:						; from SetScore and other segments
 	asl.b d0
 	lda.w #$00C3
 	sta.b $69
@@ -684,8 +686,8 @@ Intermission_ticker:				; the intermission's ticker (Intermission calls it where
 	lda.b d1
 	sta.w TickerNum
 	bmi CODE_C51667
-.2:									; go to CODE_C51752
-	jmp.w CODE_C51752
+.2:									; go to NewTicker2
+	jmp.w NewTicker2
 Intermission_tick:					; no caller found (not traced)
 	lda.w demoflag
 	beq CODE_C516A6
@@ -714,8 +716,8 @@ NewTicker2_next:					; from Intermission_tick and other segments
 	lda.b d1
 	sta.w TickerNum
 	bmi CODE_C516A6
-.2:									; go to CODE_C51752
-	jmp.w CODE_C51752
+.2:									; go to NewTicker2
+	jmp.w NewTicker2
 CODE_C516C2:						; called from other segments
 	lda.w #$0020
 	jsl.l AllocWorkBuf2
@@ -783,16 +785,17 @@ CODE_C516C2:						; called from other segments
 CODE_C51749:						; no caller found (not traced)
 	lda.w gameclock
 	cmp.w #$01E1
-	bcc CODE_C51752
+	bcc NewTicker2
 	rtl
-CODE_C51752:						; from Intermission_ticker, NewTicker2_next, CODE_C51749, CODE_C51752, ...
+NewTicker2:							; the score ticker's next game: TickerNum counted down, skipping the
+									; user's game and games with flag bits $0006, then its box shown
 	lda.w TickerNum
 	sta.b d3
 	bmi .rtl
 	dec.w TickerNum
 	lda.b d3
 	cmp.w $24C6
-	beq CODE_C51752
+	beq NewTicker2
 	bra .1
 .rtl:								; return
 	rtl
@@ -803,7 +806,7 @@ CODE_C51752:						; from Intermission_ticker, NewTicker2_next, CODE_C51749, CODE
 	tax
 	lda.w $2488,x
 	bit.w #$0006
-	bne CODE_C51752
+	bne NewTicker2
 	lda.w sflags
 	bit.w #$0001
 	bne .2

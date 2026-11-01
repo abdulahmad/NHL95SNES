@@ -31,12 +31,14 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 CODE_C5004E:						; called from other segments
 	jsl.l CODE_C370AC
 	jsl.l FadeOutWait
-CODE_C50056:						; from CODE_C50056, CODE_C50ADD, demoread and other segments
+Restart:							; starts over at the setup screen: the stack reset, StartMenuMusic,
+									; jmlvector, GameSetUp, then the shootout or the scouting report and the
+									; game
 	rep #$30
 	lda.w #$1FFF
 	tcs
 	stz.w $24C4
-	jsl.l CODE_CF04B6
+	jsl.l StartMenuMusic
 	lda.w #$445C
 	sta.w jmlvector
 	lda.w #$C08B
@@ -50,7 +52,7 @@ CODE_C50056:						; from CODE_C50056, CODE_C50ADD, demoread and other segments
 	cmp.w #$0004
 	bne .1
 	jsl.l PlayShootout
-	bra CODE_C50056
+	bra Restart
 .1:									; call Create_HotCold_Table, call CODE_C52CC1, call ScoutingReport, ...
 	jsl.l Create_HotCold_Table
 	jsr.w CODE_C52CC1
@@ -82,8 +84,8 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	bne .1
 	lda.w #$0020
 	tsb.w gmode
-.1:									; call CODE_C53574, call restoreteams, call CODE_C5362C, ...
-	jsl.l CODE_C53574
+.1:									; call clearTeamStats, call restoreteams, call CODE_C5362C, ...
+	jsl.l clearTeamStats
 	jsl.l restoreteams
 	jsl.l CODE_C5362C
 	lda.w #$007F
@@ -1307,13 +1309,13 @@ CODE_C50ADD:						; called from other segments
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jmp.w StartPer
-.6:									; if $1864 = $0003 go to .7, if $1864 = $0002 go to .7, go to CODE_C50056
+.6:									; if $1864 = $0003 go to .7, if $1864 = $0002 go to .7, go to Restart
 	lda.w $1864
 	cmp.w #$0003
 	beq .7
 	cmp.w #$0002
 	beq .7
-	jmp.w CODE_C50056
+	jmp.w Restart
 .7:									; call CODE_C5E49A, call CODE_C50BEC, call CODE_C5DE9B, ...
 	jsr.w CODE_C5E49A
 	jsr.w CODE_C50BEC
@@ -1350,7 +1352,7 @@ CODE_C50ADD:						; called from other segments
 	sta.l $306051
 	dec a
 	sta.b tmp0
-	jsl.l CODE_CF04B6
+	jsl.l StartMenuMusic
 	jmp.w CODE_C5ADDC
 .11:								; go to CODE_C5AF07
 	pea.w $7E7F
@@ -1402,7 +1404,7 @@ CODE_C50BEC:						; from CODE_C50ADD
 	sta.l $7F8F20,x
 	lda.w $1265
 	sta.l $7F8F0A,x
-	lda.w $125F
+	lda.w tmPwrGoals
 	sta.l $7F8F22,x
 	lda.w $1261
 	sta.l $7F8F0C,x
@@ -1662,9 +1664,9 @@ demoread:							; from Gameloop and other segments
 	bne .5
 .rtl:								; return
 	rtl
-.5:									; fadestep = 0, go to CODE_C50056
+.5:									; fadestep = 0, go to Restart
 	stz.w fadestep
-	jml.l CODE_C50056
+	jml.l Restart
 CODE_C50E8D:						; no caller found (not traced)
 	lda.w #$0005
 	sta.w fadestep
@@ -1717,7 +1719,7 @@ UpdateScores:						; no caller found (not traced)
 	sta.w $2488,x
 	bit.w #$0004
 	bne .1
-	jsl.l CODE_C511B8
+	jsl.l SetScore
 .1:									; a0 - 1, a0 - 1, d1 - 1, if the result >= 0 go to .loop, ...
 	dec.b a0
 	dec.b a0
