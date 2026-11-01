@@ -443,7 +443,7 @@ CODE_C5F368:						; called from other segments
 	and.w #$00FF
 	asl a
 	tax
-	lda.l $CFF27C,x
+	lda.l DATA8_CFF27C,x
 	sta.b $9F
 	and.w #$00FF
 	bne CODE_C5F397

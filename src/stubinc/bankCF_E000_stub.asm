@@ -6,6 +6,13 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+DATA8_CFF3A0 = $CFF3A0				; layout pointers (bankCF_F000)
+DATA8_CFF3A2 = $CFF3A2				; layout pointers (bankCF_F000)
+CODE_CFF0CB = $CFF0CB
+CODE_CFF0F6 = $CFF0F6
+CODE_CFF137 = $CFF137
+CODE_CFF240 = $CFF240
+CODE_CFF279 = $CFF279
 DATA8_C60848 = $C60848				; source bank and layout words (bankC6_0000)
 CODE_C3846C = $C3846C
 CODE_C5287A = $C5287A

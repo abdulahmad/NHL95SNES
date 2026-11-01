@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankCF_F000 (org $CFF0CB): banks $C0-$CE are all source. <- CURRENT
+None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
 
 ## Sources
 
@@ -695,6 +695,10 @@ bankCF_F000 (org $CFF0CB): banks $C0-$CE are all source. <- CURRENT
   take the layout from DATA8_C60848+1 and dispatch on its record (DATA8_CFF3A2 / DATA8_CFF3A0, then the handler table
   DATA8_CFEEAE; the top layouts jump through the pointer table itself). Whole-bank seeds with the wrong M/X or inside data were
   dropped; $CF0000-$CF0006,x stay numbers (bank bases of the records).
+- 2026-10-31: bankCF_F000 matched: the rest of the frame handlers, then the layout data: DATA8_CFF27C (a size word per layout,
+  read by CODE_C5F368, now by label), DATA8_CFF3A0 / DATA8_CFF3A2 (146 pointers in this bank: 0-141 layout records, 142-145 the
+  code at CODE_CFFD9E and CODE_CFFF88, which the top layouts jump to), the 141 records, the two routines and zeros to the end of
+  the ROM. Bank $CF is all source, and so is the whole ROM.
 
 ## ROM map
 
@@ -957,4 +961,4 @@ The first row that is still incbin is the current segment.
 | bankCF_C000 | matched 4154 bytes | $CFC262 | $CFD29B | sound data: sound 34 (DATA8_CFC262), Sample23; org moved to $CFC262, end moved +$29C |
 | bankCF_D000 | matched 7041 bytes | $CFD29C | $CFEE1C | sound data: Sample06; org moved to $CFD29C, end moved +$E1D |
 | bankCF_E000 | matched 686 bytes | $CFEE1D | $CFF0CA | the frame code: CODE_CFEE25 / CODE_CFEE6C (placement tables, layouts), handlers, jump tables; org moved to $CFEE1D, end moved +$CB |
-| bankCF_F000 | incbin | $CFF0CB | $CFFFFF | <- CURRENT |
+| bankCF_F000 | matched 3893 bytes | $CFF0CB | $CFFFFF | the rest of the frame code, DATA8_CFF27C (size words), DATA8_CFF3A0 / DATA8_CFF3A2 (layout pointers), 141 layout records, CODE_CFFD9E / CODE_CFFF88, zeros; org moved to $CFF0CB |

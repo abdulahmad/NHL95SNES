@@ -18,15 +18,16 @@
   rink map set (IceRinkMap, IceRinkTiles). Bank $CD: the rest of the rink set (IceRinkPalette), the player photo sets of
   WSH, WPG, ANH, BOS, BUF, CGY, CHI, DAL, DET, EDM and FLA, HartPic, then DATA8_CDF94A (a per-frame table that runs into
   bank $CE). Bank $CE: DATA8_CE0192 (the parallel per-frame table), the photo sets of HFD, LA, MTL, NJ, NYI, NYR, OTW, PHI,
-  PIT, QUE, SJ and STL, PresidentsPic, the Stanley Cup map set and a zero fill. The segments of bank $CF are incbin.
-- Next: segment bankCF_F000, org $CFF0CB (see `SEGMENT_AGENT.md`, `PROMPT.md`). Banks $C0-$CE are all source (the code banks $C4
+  PIT, QUE, SJ and STL, PresidentsPic, the Stanley Cup map set and a zero fill. Bank $CF: the sound code, the sound table,
+  SampleList, the sounds and four samples, then the frame code, its layout data and a zero fill. Every segment is source.
+- Next: no segment is left (see `SEGMENT_AGENT.md`, `PROMPT.md`); what remains is naming (the Unsure list). Banks $C0-$CF are all source (the code banks $C4
   / $C5 were done before $C3, out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12. Bank
   $C3: the team database (TeamList, PlayerList, the player and team records as labels and ROM cuts, since the names are
   licensed), data tables and text, PhotoPaletteTable, game code ($C36B83-$C38EFD), then samples 03, 04, 05, 28, 07, 08, 24, 25,
-  30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Remaining: bank
-  $CF (code and the sample list). Onboarding: McMarkis.
+  30, 29 and a zero fill. Banks $C4 / $C5: game code (CODE_ names; the seed rules are in the notes below). Bank $CF:
+  the sound code and data, the frame code and its layout data. Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -111,6 +112,10 @@
   Sample23, Sample06, and code again from $CFEE1D. ../work/sndseg.py J writes the data segments and keeps the sound table
   and SampleList entries current. For bank $CF the whole-bank decode drops the raw jsl search of bank $C3 (all source now;
   it seeded sample bytes) and a seed with the wrong M/X at $CF0204; $CF0000,x / $CF0001,x are bank bases (3-byte records).
+  The end of the bank: two jml stubs with no caller ($CFEE1D, $CFEE21), the frame code CODE_CFEE25 / CODE_CFEE6C (mirrored /
+  normal; layout from DATA8_C60848+1, the record through DATA8_CFF3A2 / DATA8_CFF3A0 and the handler table DATA8_CFEEAE),
+  DATA8_CFF27C (the size words CODE_C5F368 reads), the 141 layout records, CODE_CFFD9E / CODE_CFFF88 (the top layouts jump
+  there through the pointer table) and zeros. The records are read as $CF0000-$CF0008,x (bank bases; numbers).
 
 ## Setup notes
 

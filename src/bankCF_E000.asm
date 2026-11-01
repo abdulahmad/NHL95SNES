@@ -23,7 +23,7 @@ CODE_CFEE25:						; called from other segments
 	bcs CODE_CFEE5C
 	asl a
 	tax
-	lda.l $CFF3A2,x
+	lda.l DATA8_CFF3A2,x
 	tax
 	stx.b $E5
 	lda.l $CF0000,x
@@ -36,7 +36,7 @@ CODE_CFEE5C:						; from CODE_CFEE25
 	eor.w #$0001
 	asl a
 	tax
-	jmp ($F3A2,x)
+	jmp (DATA8_CFF3A2,x)
 CODE_CFEE69:						; from CODE_CFEE5C
 	jmp ($00A5)
 CODE_CFEE6C:						; called from other segments
@@ -56,7 +56,7 @@ CODE_CFEE6C:						; called from other segments
 	bcs CODE_CFEEA1
 	asl a
 	tax
-	lda.l $CFF3A0,x
+	lda.l DATA8_CFF3A0,x
 	sta.b $E5
 	tax
 	lda.l $CF0000,x
@@ -68,7 +68,7 @@ CODE_CFEEA1:						; from CODE_CFEE6C
 	bcs CODE_CFEEAB
 	asl a
 	tax
-	jmp ($F3A0,x)
+	jmp (DATA8_CFF3A0,x)
 CODE_CFEEAB:						; from CODE_CFEE6C, CODE_CFEEA1
 	jmp ($00A5)
 DATA8_CFEEAE:						; jump table: the routine for each index
@@ -319,8 +319,8 @@ CODE_CFF09D:						; from CODE_CFF086
 	tax
 	jmp (DATA8_CFF0AA,x)
 DATA8_CFF0AA:						; jump table: the routine for each index
-	dw CODE_CFF0B4,$F0CB,$F0F6,$F137
-	dw $F279
+	dw CODE_CFF0B4,CODE_CFF0CB,CODE_CFF0F6,CODE_CFF137
+	dw CODE_CFF279
 CODE_CFF0B4:						; from DATA8_CFF0AA
 	ldx.b $E5
 	lda.l $CF0001,x
@@ -329,4 +329,4 @@ CODE_CFF0B4:						; from DATA8_CFF0AA
 	lda.l $CF0002,x
 	and.w #$00FF
 	sta.b $EF
-	jmp.w $F240
+	jmp.w CODE_CFF240
