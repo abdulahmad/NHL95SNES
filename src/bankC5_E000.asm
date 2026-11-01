@@ -1379,28 +1379,28 @@ AnimateSprites:						; the animation tick: step the script of each sprite object
 	tay
 	lda.w $18E0
 	sta.b $08
-CODE_C5E9D5:						; from CODE_C5E9EA
+AnimateSpriteObject:				; step the timer when the object's update selector matches
 	ldx.w $1AE2,y
 	lda.b $26
 	eor.b $38,x
 	bit.w #$0001
-	bne CODE_C5E9EA
+	bne AnimateNextSprite
 	lda.b $0E,x
-	clc
+	clc								; subtract speed plus one, then test the sign of the result
 	sbc.b $0A,x
-	bmi CODE_C5E9EF
+	bmi BeginSpriteAnimStep
 	sta.b $0E,x
-CODE_C5E9EA:						; from CODE_C5EAA2, CODE_C5EAF6, CODE_C5EB7F, CODE_C5EBAE, ...
+AnimateNextSprite:					; continue with the previous active-list entry or return
 	dey
 	dey
-	bpl CODE_C5E9D5
+	bpl AnimateSpriteObject
 	rtl
-CODE_C5E9EF:						; from CODE_C5E9D5
+BeginSpriteAnimStep:				; save the active-list index and reload the object's timer
 	sty.b tmp0
 	lda.b $0C,x
 	sta.b $0E,x
 	txy
-CODE_C5E9F6:						; from CODE_C5EAFF, CODE_C5EB06, CODE_C5EB15, CODE_C5EB36, ...
+ReadSpriteAnim:						; read a frame byte or dispatch a command at the script position
 	lda.b $30,x
 	clc
 	adc.b $32,x
@@ -1409,17 +1409,17 @@ CODE_C5E9F6:						; from CODE_C5EAFF, CODE_C5EB06, CODE_C5EB15, CODE_C5EB36, ...
 	stx.b tmp1
 	bit.w #$0080
 	beq .1
-	jmp.w CODE_C5EAAF
+	jmp.w DispatchSpriteAnim
 .1:									; X = Y, Y = tmp0, A and $007F, if A is not $28,x go to .3
 	tyx
 	ldy.b tmp0
 	and.w #$007F
 	cmp.b $28,x
 	bne .3
-.2:									; $30,x + 1, go to CODE_C5E9EA
+.2:									; advance one script byte and yield to the next object
 	inc.b $30,x
 	clc
-	bra CODE_C5E9EA
+	bra AnimateNextSprite
 .3:									; $28,x = A, $2A,x = $FFFF, A = $22,x, if $2000 bits clear go to .2, ...
 	sta.b $28,x
 	lda.w #$FFFF
@@ -1429,7 +1429,7 @@ CODE_C5E9F6:						; from CODE_C5EAFF, CODE_C5EB06, CODE_C5EB15, CODE_C5EB36, ...
 	beq .2
 	sty.b r2
 	stx.b $36
-CODE_C5EA29:						; from CODE_C5EA91
+UploadSpriteAnimFrame:				; update sprite VRAM placement and upload the selected frame
 	lda.b $12,x
 	cmp.b $10,x
 	bne .1
@@ -1491,7 +1491,7 @@ CODE_C5EA29:						; from CODE_C5EA91
 	inc.b $30,x
 	ldy.b r2
 	clc
-	jmp.w CODE_C5E9EA
+	jmp.w AnimateNextSprite
 CODE_C5EA91:						; no caller found (not traced)
 	txy
 	tax
@@ -1500,49 +1500,49 @@ CODE_C5EA91:						; no caller found (not traced)
 	lda.w $002A,y
 	sta.b $2A,x
 	stx.b $36
-	jmp.w CODE_C5EA29
+	jmp.w UploadSpriteAnimFrame
 CODE_C5EAA2:						; no caller found (not traced)
 	lda.w #$FFFF
 	sta.b $28,x
 	sta.b $2A,x
 	ldy.b r2
 	clc
-	jmp.w CODE_C5E9EA
-CODE_C5EAAF:						; from CODE_C5E9F6
+	jmp.w AnimateNextSprite
+DispatchSpriteAnim:					; advance past the opcode and dispatch its low seven bits
 	tyx
 	inc.b $30,x
 	and.w #$007F
 	asl a
 	tax
-	jmp (DATA8_C5EABA,x)
-DATA8_C5EABA:						; jump table: the routine for each index
-	dw CODE_C5EAF6,CODE_C5EAFF,CODE_C5EB06,CODE_C5EB15
-	dw CODE_C5EB33,CODE_C5EB36,CODE_C5EB44,CODE_C5EB52
-	dw CODE_C5EBAE,CODE_C5EBB8,CODE_C5EBE2,CODE_C5EBF2
-	dw CODE_C5EBFD,CODE_C5EC13,CODE_C5EC1A,CODE_C5EC31
-	dw CODE_C5EC34,CODE_C5EAF6,CODE_C5EAF6,CODE_C5EC52
-	dw CODE_C5EC5D,CODE_C5EC68,CODE_C5EC73,CODE_C5EC08
-	dw CODE_C5EAF6,CODE_C5EAF6,CODE_C5EAF6,CODE_C5EC7E
-	dw CODE_C5EC89,CODE_C5EBD6
-CODE_C5EAF6:						; from DATA8_C5EABA, CODE_C5EB33, CODE_C5EC31, CODE_C5EC1A
+	jmp (SpriteAnimCommands,x)
+SpriteAnimCommands:					; handlers indexed by the low seven bits of a script command
+	dw SpriteAnimHold,SpriteAnimRestart,SpriteAnimJumpRelative,SpriteAnimSelectScript
+	dw SpriteAnimHold84,SpriteAnimSetReload,SpriteAnimSetSpeed,SpriteAnimSetFrames
+	dw SpriteAnimDelete,CODE_C5EBB8,SpriteAnimSkipByte,SpriteAnimToggleHFlip
+	dw SpriteAnimToggleVFlip,SpriteAnimYield,CODE_C5EC1A,SpriteAnimHold8F
+	dw SpriteAnimRestoreScript,SpriteAnimHold,SpriteAnimHold,SpriteAnimSetHFlip
+	dw SpriteAnimClearHFlip,SpriteAnimSetVFlip,SpriteAnimClearVFlip,SpriteAnimToggleFlips
+	dw SpriteAnimHold,SpriteAnimHold,SpriteAnimHold,SpriteAnimClearFlag4000
+	dw SpriteAnimBranchIfFlagClear,SpriteAnimSkipByteAlt
+SpriteAnimHold:						; rewind to this command and yield until the next timer expiry
 	tyx
 	dec.b $30,x
 	ldy.b tmp0
 	clc
-	jmp.w CODE_C5E9EA
-CODE_C5EAFF:						; from DATA8_C5EABA
+	jmp.w AnimateNextSprite
+SpriteAnimRestart:					; restart the current script at position zero immediately
 	tyx
 	stz.w $0030,x
-	jmp.w CODE_C5E9F6
-CODE_C5EB06:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimJumpRelative:				; add the following word to the opcode position and continue
 	ldx.b tmp1
 	lda.w $0030,y
 	dec a
 	adc.b $01,x
 	sta.w $0030,y
 	tyx
-	jmp.w CODE_C5E9F6
-CODE_C5EB15:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSelectScript:				; select and save the byte-indexed script, then start it immediately
 	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
@@ -1556,26 +1556,26 @@ CODE_C5EB15:						; from DATA8_C5EABA
 	sta.b $32,x
 	stz.b $30,x
 	stz.b $0E,x
-	jmp.w CODE_C5E9F6
-CODE_C5EB33:						; from DATA8_C5EABA
-	jmp.w CODE_C5EAF6
-CODE_C5EB36:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimHold84:					; hold at this command through SpriteAnimHold
+	jmp.w SpriteAnimHold
+SpriteAnimSetReload:				; read a little-endian word into the timer reload field
 	ldx.b tmp1
 	lda.b $01,x
 	tyx
 	sta.b $0C,x
 	inc.b $30,x
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
-CODE_C5EB44:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSetSpeed:					; read a little-endian word into the timer decrement field
 	ldx.b tmp1
 	lda.b $01,x
 	tyx
 	sta.b $0A,x
 	inc.b $30,x
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
-CODE_C5EB52:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSetFrames:				; read a count and frame bytes, upload the list and yield
 	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
@@ -1600,11 +1600,11 @@ CODE_C5EB52:						; from DATA8_C5EABA
 	sta.b $30,x
 	stx.b p0
 	pei ($9F)
-CODE_C5EB7F:						; from CODE_C5EB88
-	jsr.w CODE_C5ECF1
+UploadSpriteAnimFrames:				; upload the frame list and restore the saved active-list index
+	jsr.w UploadSpriteFrames
 	ldx.b p0
 	ply
-	jmp.w CODE_C5E9EA
+	jmp.w AnimateNextSprite
 CODE_C5EB88:						; no caller found (not traced)
 	txy
 	tax
@@ -1623,42 +1623,42 @@ CODE_C5EB88:						; no caller found (not traced)
 	sta.b $28,x
 	inx
 	inx
-.1:									; $28,x = $FFFF, X = p0, go to CODE_C5EB7F
+.1:									; terminate the copied frame list and enter its upload continuation
 	lda.w #$FFFF
 	sta.b $28,x
 	ldx.b p0
-	bra CODE_C5EB7F
-CODE_C5EBAE:						; from DATA8_C5EABA
+	bra UploadSpriteAnimFrames
+SpriteAnimDelete:					; call DeleteSprite via jsr, although its returns use rtl
 	tyx
 	jsr.w DeleteSprite
 	ldy.b tmp0
 	clc
-	jmp.w CODE_C5E9EA
-CODE_C5EBB8:						; from DATA8_C5EABA
+	jmp.w AnimateNextSprite
+CODE_C5EBB8:						; index into UploadSpriteFrames code bytes as pointers; purpose unresolved
 	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	cmp.w #$0004
 	bcc .1
 	brk #$00						; a brk in the ROM, between routines
-.1:									; A * 2, X = A, A = CODE_C5ECF1,x, X = A, ...
+.1:									; read the indexed word from uploader code and use it as a pointer
 	asl a
 	tax
-	lda.l CODE_C5ECF1,x
+	lda.l UploadSpriteFrames,x
 	tax
 	inc.w $0000,x
 	tyx
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
-CODE_C5EBD6:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSkipByteAlt:				; read a word but skip only one operand byte, then continue
 	phy
 	ldx.b tmp1
 	lda.b $01,x
 	ply
 	tyx
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
-CODE_C5EBE2:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSkipByte:					; read and discard one operand byte, then continue
 	phy
 	ldx.b tmp1
 	lda.b $01,x
@@ -1667,46 +1667,47 @@ CODE_C5EBE2:						; from DATA8_C5EABA
 	ply
 	tyx
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
-CODE_C5EBF2:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimToggleHFlip:				; toggle the horizontal flip attribute and continue
 	tyx
 	lda.b $36,x
 	eor.w #$4000
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EBFD:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimToggleVFlip:				; toggle the vertical tile flip attribute and continue
 	tyx
 	lda.b $36,x
 	eor.w #$8000
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC08:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimToggleFlips:				; toggle both tile flip attributes and continue
 	tyx
 	lda.b $36,x
 	eor.w #$C000
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC13:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimYield:					; yield with the script position after this command
 	tyx
 	ldy.b tmp0
 	clc
-	jmp.w CODE_C5E9EA
-CODE_C5EC1A:						; from DATA8_C5EABA
+	jmp.w AnimateNextSprite
+CODE_C5EC1A:						; call through UploadSpriteFrames code bytes as pointers; purpose
+									; unresolved
 	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	asl a
 	tax
-	jsr (CODE_C5ECF1,x)
+	jsr (UploadSpriteFrames,x)
 	bcs .1
 	tyx
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
-.1:									; go to CODE_C5EAF6
-	jmp.w CODE_C5EAF6
-CODE_C5EC31:						; from DATA8_C5EABA
-	jmp.w CODE_C5EAF6
-CODE_C5EC34:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+.1:									; go to SpriteAnimHold
+	jmp.w SpriteAnimHold
+SpriteAnimHold8F:					; hold at this command through SpriteAnimHold
+	jmp.w SpriteAnimHold
+SpriteAnimRestoreScript:			; restart the saved script and set the animation flag $4000
 	lda.w $0020,y
 	sta.w $001E,y
 	asl a
@@ -1720,51 +1721,51 @@ CODE_C5EC34:						; from DATA8_C5EABA
 	lda.b $22,x
 	ora.w #$4000
 	sta.b $22,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC52:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSetHFlip:					; set the horizontal flip attribute and continue
 	tyx
 	lda.b $36,x
 	ora.w #$4000
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC5D:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimClearHFlip:				; clear the horizontal flip attribute and continue
 	tyx
 	lda.b $36,x
 	and.w #$BFFF
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC68:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimSetVFlip:					; set the vertical tile flip attribute and continue
 	tyx
 	lda.b $36,x
 	ora.w #$8000
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC73:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimClearVFlip:				; clear the vertical tile flip attribute and continue
 	tyx
 	lda.b $36,x
 	and.w #$7FFF
 	sta.b $36,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC7E:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimClearFlag4000:			; clear the animation flag $4000 and continue
 	tyx
 	lda.b $22,x
 	and.w #$BFFF
 	sta.b $22,x
-	jmp.w CODE_C5E9F6
-CODE_C5EC89:						; from DATA8_C5EABA
+	jmp.w ReadSpriteAnim
+SpriteAnimBranchIfFlagClear:		; jump to the byte position if animation flag $4000 is clear
 	lda.w $0022,y
 	bit.w #$4000
 	beq .1
 	tyx
 	inc.b $30,x
-	jmp.w CODE_C5E9F6
+	jmp.w ReadSpriteAnim
 .1:									; X = tmp1, A = $01,x, A and $00FF, $0030,y = A, ...
 	ldx.b tmp1
 	lda.b $01,x
 	and.w #$00FF
 	sta.w $0030,y
 	tyx
-	jmp.w CODE_C5E9F6
+	jmp.w ReadSpriteAnim
 CODE_C5ECA5:						; no caller found (not traced)
 	sta.b $1E,x
 	asl a
@@ -1811,7 +1812,7 @@ SetSpriteAnim:						; starts animation script A of sprite object X (from its rec
 	stz.b $30,x
 	stz.b $0E,x
 	rtl
-CODE_C5ECF1:						; from CODE_C5EB7F, CODE_C5EC1A
+UploadSpriteFrames:					; upload each frame in the object's negative-terminated frame list
 	stx.b $18
 	txy
 	lda.b $10,x

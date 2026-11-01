@@ -7342,3 +7342,35 @@ $125F,tmPwrGoals,,94S+code,"RAM: clearTeamStats clears from here where 94S clear
 $17C5,defcontrol,,94S+code,"RAM: PadTakeLeftDefense / PadTakeRightDefense test it by team where 94S tests defcontrol,y (the same code)",src/ram95s.asm
 $186C,OptPen,,94S+code,"RAM: StartGame_go sets gmode bit $20 when it is 1 where 94S tests OptPen; ShowGameStats picks the row list without the power play rows when it is 0; practice clears it; AddPenalty2 only when set",src/ram95s.asm
 $186E,OptLine,,94S+code,"RAM: PlayShootout saves and clears it where 94S PlayShootout saves and clears OptLine; practice clears it; the line change code tests it",src/ram95s.asm
+$C5E9D5,AnimateSpriteObject,CODE_C5E9D5,code,"step the timer when the object's update selector matches",src/bankC5_E000.asm
+$C5E9EA,AnimateNextSprite,CODE_C5E9EA,code,"continue with the previous active-list entry or return",src/bankC5_E000.asm
+$C5E9EF,BeginSpriteAnimStep,CODE_C5E9EF,code,"save the active-list index and reload the object's timer",src/bankC5_E000.asm
+$C5E9F6,ReadSpriteAnim,CODE_C5E9F6,code,"read a frame byte or dispatch a command at the script position",src/bankC5_E000.asm
+$C5EA29,UploadSpriteAnimFrame,CODE_C5EA29,code,"update sprite VRAM placement and upload the selected frame",src/bankC5_E000.asm
+$C5EAAF,DispatchSpriteAnim,CODE_C5EAAF,code,"advance past the opcode and dispatch its low seven bits",src/bankC5_E000.asm
+$C5EABA,SpriteAnimCommands,DATA8_C5EABA,code,"handlers indexed by the low seven bits of a script command",src/bankC5_E000.asm
+$C5EAF6,SpriteAnimHold,CODE_C5EAF6,code,"rewind to this command and yield until the next timer expiry",src/bankC5_E000.asm
+$C5EAFF,SpriteAnimRestart,CODE_C5EAFF,code,"restart the current script at position zero immediately",src/bankC5_E000.asm
+$C5EB06,SpriteAnimJumpRelative,CODE_C5EB06,code,"add the following word to the opcode position and continue",src/bankC5_E000.asm
+$C5EB15,SpriteAnimSelectScript,CODE_C5EB15,code,"select and save the byte-indexed script, then start it immediately",src/bankC5_E000.asm
+$C5EB33,SpriteAnimHold84,CODE_C5EB33,code,"hold at this command through SpriteAnimHold",src/bankC5_E000.asm
+$C5EB36,SpriteAnimSetReload,CODE_C5EB36,code,"read a little-endian word into the timer reload field",src/bankC5_E000.asm
+$C5EB44,SpriteAnimSetSpeed,CODE_C5EB44,code,"read a little-endian word into the timer decrement field",src/bankC5_E000.asm
+$C5EB52,SpriteAnimSetFrames,CODE_C5EB52,code,"read a count and frame bytes, upload the list and yield",src/bankC5_E000.asm
+$C5EB7F,UploadSpriteAnimFrames,CODE_C5EB7F,code,"upload the frame list and restore the saved active-list index",src/bankC5_E000.asm
+$C5EBAE,SpriteAnimDelete,CODE_C5EBAE,code,"call DeleteSprite via jsr, although its returns use rtl",src/bankC5_E000.asm
+$C5EBD6,SpriteAnimSkipByteAlt,CODE_C5EBD6,code,"read a word but skip only one operand byte, then continue",src/bankC5_E000.asm
+$C5EBE2,SpriteAnimSkipByte,CODE_C5EBE2,code,"read and discard one operand byte, then continue",src/bankC5_E000.asm
+$C5EBF2,SpriteAnimToggleHFlip,CODE_C5EBF2,code,"toggle the horizontal flip attribute and continue",src/bankC5_E000.asm
+$C5EBFD,SpriteAnimToggleVFlip,CODE_C5EBFD,code,"toggle the vertical tile flip attribute and continue",src/bankC5_E000.asm
+$C5EC08,SpriteAnimToggleFlips,CODE_C5EC08,code,"toggle both tile flip attributes and continue",src/bankC5_E000.asm
+$C5EC13,SpriteAnimYield,CODE_C5EC13,code,"yield with the script position after this command",src/bankC5_E000.asm
+$C5EC31,SpriteAnimHold8F,CODE_C5EC31,code,"hold at this command through SpriteAnimHold",src/bankC5_E000.asm
+$C5EC34,SpriteAnimRestoreScript,CODE_C5EC34,code,"restart the saved script and set the animation flag $4000",src/bankC5_E000.asm
+$C5EC52,SpriteAnimSetHFlip,CODE_C5EC52,code,"set the horizontal flip attribute and continue",src/bankC5_E000.asm
+$C5EC5D,SpriteAnimClearHFlip,CODE_C5EC5D,code,"clear the horizontal flip attribute and continue",src/bankC5_E000.asm
+$C5EC68,SpriteAnimSetVFlip,CODE_C5EC68,code,"set the vertical tile flip attribute and continue",src/bankC5_E000.asm
+$C5EC73,SpriteAnimClearVFlip,CODE_C5EC73,code,"clear the vertical tile flip attribute and continue",src/bankC5_E000.asm
+$C5EC7E,SpriteAnimClearFlag4000,CODE_C5EC7E,code,"clear the animation flag $4000 and continue",src/bankC5_E000.asm
+$C5EC89,SpriteAnimBranchIfFlagClear,CODE_C5EC89,code,"jump to the byte position if animation flag $4000 is clear",src/bankC5_E000.asm
+$C5ECF1,UploadSpriteFrames,CODE_C5ECF1,code,"upload each frame in the object's negative-terminated frame list",src/bankC5_E000.asm

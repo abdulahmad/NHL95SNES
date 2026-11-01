@@ -34,7 +34,7 @@ operand names it. The only fixed references are long reads of the header in the 
 | Off | Size | Meaning | Status |
 |---|---|---|---|
 | +0 | dw | frame list start (→ obj $26) | verified |
-| +2 | dw | frame list end (→ obj $2E); the word **at** this address → obj $32 (animation script pointer, see below) | verified (stores); script use partly |
+| +2 | dw | frame list end (→ obj $2E); the word **at** this address → obj $32 (animation script pointer, see below) | verified; script list selection by SetSpriteAnim |
 | +4 | dl | $C104E0, $C104E3, $C104E5 ...: each points at the word $04E2 → the byte $00 at $C104E2 (an empty list) | read but discarded at $C5E6CA/$C5E6CC (dead loads); purpose unknown |
 | +7 | db | max small (8x8) sprites over the frames | verified (VRAM allocation) |
 | +8 | db | max large (16x16) sprites over the frames | verified |
@@ -66,15 +66,101 @@ $C16514-$C16713. So bank $C1 $C10533-$C1965F is all sprite tile data and $C19660
   some large (rec 33: 24 large sprites; rec 38: 1 small + 15 large). Purpose not checked; callers use e.g. #$1C, #$1D, #$1F,
   #$20-#$27.
 
-### Animation script (partly traced)
-Obj $32 = the word after the frame list, obj $30 = position. For single-frame records it is $8028 (bytes `00 80`: frame 0,
-then command $80). Rec 28: $8532 holds $853E → `02 03 04 ... 0C 8B 05 04 03 02 8B 0D 81 01 80 ...`: frame numbers, bytes
-with bit 7 = commands (handled at $C5EAAF, not read). The words after $8532 ($8028, $8551, $8553, $8563, $8565) look like more
-script pointers (guess).
+### Animation script (traced from the interpreter)
+
+The record's +2 word points to a **list of 16-bit script pointers**, immediately after the frame list.
+CreateSprite loads list entry zero. SetSpriteAnim uses A * 2 to select an entry from obj $2E, stores A in
+$1E, loads the pointer into $32, and clears position $30 and timer $0E. The list and scripts are accessed
+with D = 0 through bank $00's ROM mirror. There is no stored script length or checked script index.
+The additional words at Sprite28FramesEnd are script pointers, not part of the first script.
+
+AnimateSprites visits the active list backwards. AnimateSpriteObject skips an object if bit 0 differs
+between direct-page $26 and object $38. Otherwise it computes **timer - speed - 1** (`clc / sbc`),
+using object $0E and $0A, and tests the result's sign (`bmi`, not the carry/borrow). A nonnegative result
+is stored. A negative result enters BeginSpriteAnimStep: save the active-list index in tmp0, reload
+$0E from $0C and start ReadSpriteAnim. Changing speed or reload within a script does not change this
+already reloaded timer. CreateSprite initializes all three timer fields to $0100.
+
+ReadSpriteAnim adds position $30 to pointer $32 and reads a word, but interprets only its low byte.
+Bytes $00-$7F select a frame index in the record's frame list. A different frame replaces $28 and puts
+$FFFF in $2A; if object flags $22 have bit $2000 set, UploadSpriteAnimFrame adjusts VRAM placement and
+calls UploadSpriteFrame. An unchanged frame bypasses both the list reset and upload. Either way the
+position advances one byte and processing yields to AnimateNextSprite.
+
+Bytes with bit 7 set go through DispatchSpriteAnim: position advances past the opcode, then
+`(byte & $7F) * 2` indexes SpriteAnimCommands. Its entries cover $80-$9D only; $9E-$FF are not checked
+and would dispatch through following code bytes. Operands are raw bytes, not recursively decoded as
+commands; words are little endian. Below, **p** is the position of the opcode. Unless a row says yield,
+hold or delete, the handler immediately reads another script byte in the same timer step. There is
+no command-chain limit. Hold means position is restored to p and the object is revisited on a later
+timer expiry; it does not clear any animation flag. Yield means leave the position advanced.
+
+| Byte | Operands after opcode | Handler | Verified action |
+|---|---|---|---|
+| $80 | none | SpriteAnimHold | Hold at p |
+| $81 | none | SpriteAnimRestart | Set position 0 and continue in the same script |
+| $82 | word displacement | SpriteAnimJumpRelative | Set position to p + displacement (16-bit wrap); displacement is relative to the opcode, not its end |
+| $83 | byte script index | SpriteAnimSelectScript | Store index in $1E and $20, load pointer from list $2E, clear position and timer, continue in selected script; does not set flag $4000 |
+| $84 | none | SpriteAnimHold84 | Jump to SpriteAnimHold |
+| $85 | word reload | SpriteAnimSetReload | Store in $0C; next position p + 3 |
+| $86 | word speed | SpriteAnimSetSpeed | Store in $0A; next position p + 3 |
+| $87 | byte count n, then n frame bytes | SpriteAnimSetFrames | Widen frames into words starting at $28, append $FFFF, upload the list with UploadSpriteFrames, yield at p + n + 2 |
+| $88 | none | SpriteAnimDelete | Call DeleteSprite with X = object; the encoded JSR/RTL mismatch prevents assuming a valid return (see below) |
+| $89 | byte index | CODE_C5EBB8 | BRK for index >= 4; otherwise read a pointer from UploadSpriteFrames + 2*index and increment the word it addresses through DB, then continue at p + 2 |
+| $8A | byte ignored | SpriteAnimSkipByte | Read and mask the operand, discard it, continue at p + 2 |
+| $8B | none | SpriteAnimToggleHFlip | XOR object $36 with $4000 |
+| $8C | none | SpriteAnimToggleVFlip | XOR object $36 with $8000 |
+| $8D | none | SpriteAnimYield | Yield at p + 1 |
+| $8E | byte index | CODE_C5EC1A | JSR through the word at UploadSpriteFrames + 2*index in the program bank; carry set on return holds at p, clear consumes the operand and continues at p + 2 |
+| $8F | none | SpriteAnimHold8F | Jump to SpriteAnimHold |
+| $90 | none | SpriteAnimRestoreScript | Copy saved $20 to $1E, select that script, clear position and timer, set flags $22 bit $4000, continue |
+| $91 | none | SpriteAnimHold | Hold at p |
+| $92 | none | SpriteAnimHold | Hold at p |
+| $93 | none | SpriteAnimSetHFlip | Set object $36 bit $4000 |
+| $94 | none | SpriteAnimClearHFlip | Clear object $36 bit $4000 |
+| $95 | none | SpriteAnimSetVFlip | Set object $36 bit $8000 |
+| $96 | none | SpriteAnimClearVFlip | Clear object $36 bit $8000 |
+| $97 | none | SpriteAnimToggleFlips | XOR object $36 with $C000 |
+| $98 | none | SpriteAnimHold | Hold at p |
+| $99 | none | SpriteAnimHold | Hold at p |
+| $9A | none | SpriteAnimHold | Hold at p |
+| $9B | none | SpriteAnimClearFlag4000 | Clear flags $22 bit $4000 and continue at p + 1; this does not itself stop the tick |
+| $9C | byte absolute position | SpriteAnimBranchIfFlagClear | If flags $22 bit $4000 is clear, set position to the operand; otherwise skip it (p + 2) |
+| $9D | byte ignored | SpriteAnimSkipByteAlt | Read a word at p + 1 and discard it, but consume only one byte; continue at p + 2 |
+
+The horizontal flip attribute selects mirrored piece placement in BuildSpriteOAM and is included in
+OAM tile attributes. Bit $8000 is passed to OAM as vertical **tile** flip; the OAM builder does not
+select a vertically mirrored piece-placement path. The commands should not be read as proof of whole
+multi-piece vertical mirroring.
+
+SetSpriteAnim with an unchanged script number returns immediately if flags $22 bit $4000 is set;
+otherwise it sets that bit and clears position and timer. With a changed script it also clears the
+vertical tile flip attribute. Thus $9B allows an external SetSpriteAnim call to restart the same
+script. $80 holds without clearing this flag. $83 saves its index in $20 for $90; SetSpriteAnim does
+not change that saved index (CreateSprite initializes it to zero).
+
+#### Literal behavior that does not establish an intended command contract
+
+- $87 has no count/range validation. The existing scripts use n = 2, occupying $28/$2A with the
+  terminator in $2C. A third frame would place its terminator over the script-list pointer at $2E.
+  A zero count enters the loop anyway and wraps the word counter. UploadSpriteFrames queues each
+  selected frame's small and large tile transfers consecutively, using the same packed/raw frame
+  flags as UploadSpriteFrame. The handler always calls this uploader, without testing flag $2000.
+- $88 uses `jsr.w DeleteSprite`, but DeleteSprite returns with `rtl`. The following instructions
+  restore tmp0 and jump to AnimateNextSprite, but that continuation cannot be treated as a working
+  return contract. No $88 occurs in the record scripts in bankC0_8000.
+- $89 and $8E use **code bytes** at UploadSpriteFrames as a pointer table. Its first four words are
+  $1886, $B59B, $8510, $B510 (the beginning of `stx / txy / lda / sta / lda`), not an identified data
+  table. $89 checks index < 4; $8E has no bound check or proven callee-preservation contract. Their
+  mechanical operations are documented above, but their intended jobs remain unnamed. Neither
+  command occurs in the record scripts in bankC0_8000.
+- $8A and $9D have no persistent effect except consuming one operand byte. No external call is
+  present; names such as sound or callback would be speculation.
+
 
 ## Object RAM (bank $00, X = object) used by these routines
 $05 x, $08 y, $0A speed, $0C reload, $0E timer, $10/$12 small VRAM word address, $14 large VRAM address, $16/$18 large slot,
-$1A/$1C small/large counts, $22 flags (bit 0 = drawn), $24 record index, $26 frame list, $28/$2A/$2C frame numbers
+$1A/$1C small/large counts, $1E current script, $20 saved script, $22 flags (bit 0 = drawn), $24 record index, $26 frame list, $28/$2A/$2C frame numbers
 ($FFFF = none), $2E list end, $30 script position, $32 script pointer, $34 palette (low = index, high = CGRAM slot),
 $36 attributes (bit $4000 = h flip). Lists: $1AE2 active objects (count $1B02, max 8), $1AF2 free list ($1B04),
 $46B8 palette use per index, $46A8 free palette slots ($1B06, count $1B08).
@@ -90,6 +176,6 @@ $46B8 palette use per index, $46A8 free palette slots ($1B06, count $1B08).
 ## Open questions
 - Render records 0-27 (palette = record index, tiles + pieces) to confirm the team logos and the team order.
 - What records 28-40 are (rec 28: 32 small frames; rec 33-36 big).
-- The script command set ($C5EAAF) and the extra words after $8532.
+- The intended contracts of commands $89/$8E and the JSR/RTL mismatch in $88 (literal behavior above).
 - Record +4 (pointer to $04E2 / the 00 byte), +10..+17 (box) and +22: no reader seen.
 - The entry and job of the $C4B567 code that reads the piece origin.

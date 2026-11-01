@@ -162,7 +162,7 @@
   Sound calls: QueueSoundCmd, StartSound, LoadSounds (the driver is not 94S's). Gameloop, PlayShootout, StartPer,
   StartGame_go, ReadPads match 94S; weak RAM votes are taken only where a side by side was read (../work/side.py
   ADDR NAME; bank $C0 code is read from the source). ../work/resum2.py refreshes the generated summaries after RAM names.
-  Not named yet: the sprite script interpreter (DATA8_C5EABA), the rest of bank $C4's game code (no 94S match left
+  SpriteAnimCommands is now traced; still unnamed: the rest of bank $C4's game code (no 94S match left
   above 0.70 in match94.txt but the four rejected ones).
 
 ## Setup notes
@@ -195,7 +195,14 @@
   (WSH before WPG, then ASE, ASW), 28 not known (an arrow, then a spinning disc), 29 a pad and 1-5, 30 a skater, then the EA
   intro pieces, a box, the NHL and NHLPA logos. Readers in bank $C5 (CreateSprite, CreateSpriteSharePal, UploadSpriteFrame and
   AnimateSprites are source in bankC5_E000): $C5E665 (create), $C5EEF3, $C5E8A5 (frame to VRAM), $C5F071 (format 0 without a
-  header), $C5F0D1 (OAM), $C5E9C7 (scripts, commands at $C5EAAF).
+  header), $C5F0D1 (OAM), AnimateSprites (scripts, dispatched through SpriteAnimCommands).
+  The command bytes $80-$9D are documented in sprite_objects.md; CODE_C5EBB8 ($89) and CODE_C5EC1A ($8E)
+  remain unnamed because they treat UploadSpriteFrames code bytes as pointers, with no established intended contract.
+  SpriteAnimDelete ($88) calls the RTL-returning DeleteSprite via JSR; no record script uses it. Unreached
+  CODE_C5EA91 / CODE_C5EAA2 / CODE_C5EB88 keep auto names: they enter animation continuations with unproven
+  saved-index/stack preconditions. CODE_C5ECA5 is an uncalled script setter variant without the SetSpriteAnim
+  flag update; CODE_C5EE3C is an uncalled palette-release fragment. Their intended entry contracts are unverified.
+  Other CODE_ entries outside the interpreter and upload helper were not renamed without a separate purpose trace.
 - PadButtonsMap: a map set of a pad's four buttons with tape-deck symbols (rewind, fast forward, play); it may be the
   replay controls, but its loader ($C373C7, bank $C3) is not traced, so the name only says what it shows.
 - TeamNameBarsMap: the city name bars of the 26 teams (12 x 2 tiles each) are unpacked right after the playoff bracket
