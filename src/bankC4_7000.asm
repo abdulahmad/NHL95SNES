@@ -1331,7 +1331,7 @@ CODE_C47ACD:						; from checkint and other segments
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	jsl.l CODE_C44F20
+	jsl.l FallDown
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
@@ -1555,7 +1555,7 @@ CODE_C47C8C:						; called from other segments
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	jsl.l CODE_C44F20
+	jsl.l FallDown
 	jsl.l PenShotChk
 	beq .2
 	lda.w BA_Sktr_SCnum

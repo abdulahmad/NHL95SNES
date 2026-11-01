@@ -1073,7 +1073,7 @@ checkplcoll:						; from CODE_C43FC8 and other segments
 	bne .2
 	cpy.w #$0018
 	bcs .2
-	jsl.l CODE_C448BB
+	jsl.l CollidePlayers
 .2:									; d1 + 1, go to .loop
 	inc.b d1
 	bra .loop
@@ -1107,13 +1107,14 @@ checkplcoll:						; from CODE_C43FC8 and other segments
 	bne .4
 	cpy.w #$0018
 	bcs .4
-	jsl.l CODE_C448BB
+	jsl.l CollidePlayers
 .4:									; d1 - 1, if the result is not 0 go to .loop2
 	dec.b d1
 	bne .loop2
 .rtl2:								; return
 	rtl
-CODE_C448BB:						; from checkplcoll and other segments
+CollidePlayers:						; collides player X with player Y: their distance and closing speed, the
+									; collision sound, checkint, checkcheck and the bounce
 	pei ($7F)
 	pei ($83)
 	pei ($85)
@@ -1263,8 +1264,8 @@ CODE_C448BB:						; from checkplcoll and other segments
 	beq .12
 	cpy.w puckc
 	bne .13
-.12:								; call CODE_C44EE1
-	jsl.l CODE_C44EE1
+.12:								; call CollisionSfx
+	jsl.l CollisionSfx
 .13:								; call checkint, call checkcheck, pull A, d3 = A, ...
 	pei ($83)
 	pei ($87)
@@ -1831,7 +1832,8 @@ CODE_C44E0A:						; called from other segments
 	lda.w #$FFFF
 	sta.w passReceiverPlayerNum
 	rtl
-CODE_C44EE1:						; from CODE_C45141, CODE_C448BB and other segments
+CollisionSfx:						; the collision sound of players X and Y: sound driver command 4, its
+									; volume from their relative speed (ApproxLength), a random pitch
 	phx
 	phy
 	sec

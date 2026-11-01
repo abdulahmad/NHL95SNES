@@ -1,7 +1,8 @@
 ; Segment bankC4_5000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C44F20
-CODE_C44F20:						; from CODE_C453E6 and other segments
+FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement + 15, then
+									; the fall or stumble animation by the hit
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000F
@@ -244,8 +245,8 @@ CODE_C44F20:						; from CODE_C453E6 and other segments
 	cpx.w #$0018
 	bcs .29
 	bra .29
-.27:								; go to CODE_C44EE1
-	jmp.w CODE_C44EE1
+.27:								; go to CollisionSfx
+	jmp.w CollisionSfx
 .28:								; go to .34
 	jmp.w .34
 .29:								; A = $7E24CA, A + $012C, $7E24CA = A, crowdhold = $002D, ...
@@ -689,8 +690,8 @@ CODE_C453E6:						; from checkcheck and other segments
 	lda.w #$0024
 	sta.b d0
 	jsl.l AddPenalty
-.8:									; go to CODE_C44F20
-	jmp.w CODE_C44F20
+.8:									; go to FallDown
+	jmp.w FallDown
 DATA8_C45519:						; not traced: a table read by CODE_C453E6
 	db $30,$20,$26,$21,$8A,$21,$8A,$21,$8A,$21,$58,$21,$58,$21,$F4,$20
 check4check:						; called from other segments
@@ -987,7 +988,7 @@ holdcheck:							; from CODE_C453E3
 	lda.w #$FFFF
 	sta.w collflag
 	rtl
-SetSPA:								; from Acheck, CODE_C44F20 and other segments
+SetSPA:								; from Acheck, FallDown and other segments
 	lda.b d1
 	cmp.w SPA,x
 	beq .rtl
@@ -1006,7 +1007,7 @@ SetSPAFromA:						; from CODE_C45606, assstanley, dostop, CODE_C453E6, ...
 	sta.w SPAcnt,x
 .rtl:								; return
 	rtl
-SetSPAUpdate:						; from CODE_C44F20, updateanim and other segments
+SetSPAUpdate:						; from FallDown, updateanim and other segments
 	cmp.w SPA,x
 	beq .rtl
 	sta.w SPA,x

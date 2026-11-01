@@ -869,7 +869,7 @@ puckbody:							; called from other segments
 	lda.w puckz
 	cmp.w #$000C
 	bmi .rtl
-	jmp.w CODE_C44F20
+	jmp.w FallDown
 .rtl:								; return
 	rtl
 .5:									; Y = a2, if pfalock,y is not 0 go to .rtl, A + 1, pf2aip,y = A, ...
