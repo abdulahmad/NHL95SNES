@@ -14,15 +14,14 @@
   the math, then game code with CODE_ names), bankC0_A000 ($C09A24-$C0B5BE: asstab, asspuckc_postab, tables, Sample19-21),
   the sound samples after it to bankC0_F000 (Sample15, the vector entry points, the headers, the vectors): bank $C0 is all source.
   The other segments are incbin.
-- Next: segment bankC3_5000, org $C35000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Source so far: banks $C0, $C1, $C2, $C4 and $C5
+- Next: segment bankC3_6000, org $C36000 (see `SEGMENT_AGENT.md`, `PROMPT.md`). Source so far: banks $C0, $C1, $C2, $C4 and $C5
   (the code banks $C4 / $C5 out of ROM order, approved by the project lead). Bank $C1: the sprite data, TeamNicknameTiles, the
   map sets of the pause screen, faceoff box, pad buttons, playoff bracket and team name bars. Bank $C2: the end of the team name
   bars, the title screen sets, CenterIceTiles / CenterIcePalettes, the two developer credits, the ref windows, Sample09-12.
-  Banks $C4 / $C5: game code (CODE_ names; the decoding pipeline and its seed rules are in the notes below). Bank $C3 to $C34FFF
+  Banks $C4 / $C5: game code (CODE_ names; the decoding pipeline and its seed rules are in the notes below). Bank $C3 to $C35FFF
   is source: the team database (TeamList, PlayerList and the player and team records as labels and ROM cuts, since the names are
-  licensed), then data tables and text; the data runs on to $C36B82 (the photo table PhotoPaletteTable at $C35EA7), and the code
-  is $C36B83 to about $C38EFD, then samples and data. Remaining after bank $C3: banks $C6-$CF (bank $CF has code). Onboarding:
-  McMarkis.
+  licensed), then data tables and text; the data runs on to $C36B82 (PhotoPaletteTable is at $C35EAB), and the code is $C36B83
+  to about $C38EFD, then samples and data. Remaining after bank $C3: banks $C6-$CF (bank $CF has code). Onboarding: McMarkis.
 - Sound samples: the sample list at $CF05DD (33 entries of 4 bytes: a long pointer, then a zero) gives their starts; each is a
   12-byte header, then 9-byte BRR blocks up to the one with the end flag (bit 0 of the block header). In bank $C0 (list index,
   start): 19 $C09C54, 20 $C0A2AB, 21 $C0A965, 22 $C0B5BF, 1 $C0BE7A, 0 $C0C1CB, 13 $C0D359, 32 $C0D42B, 18 $C0DE06, 16 $C0E5C5,
@@ -61,7 +60,7 @@
 - Text routine $C4BE34: font address in $0C (bank $C0), flags in $0E (bit 0: 64 byte glyphs, bit 1: lowercase codes use the
   second set at glyph $2B, bit 2: another per-character table); glyph = character - '0'; per-character bytes at $C4C48B, $C4C4B6,
   $C4C4D7, $C4C502. Fonts: BoldFontGlyphs, ItalicFontGlyphs, ThinFontGlyphs.
-- Player photos: the table at $C35EAB has a long pointer (dd) per team in team order to the team's photo set: 6 palettes of
+- Player photos: PhotoPaletteTable ($C35EAB, read 1-based) has a long pointer (dd) per team in team order to the team's photo set: 6 palettes of
   16 colours, then the 6 photos packed (format 2, $1B00 bytes: 48 x 48 linear 4bpp each). In bank $C0: TB at $C04CE7, TOR
   $C05DAC, VAN $C06E6D; the other 23 sets are in banks $CD-$CE.
 - The engine in bank $C0 is 94S's bank $80 engine rebuilt: match routines to 94S by code (src/routines/snes there) and take

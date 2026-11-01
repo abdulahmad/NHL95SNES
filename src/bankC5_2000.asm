@@ -1853,9 +1853,9 @@ CODE_C52ED6:						; from CODE_C52E5C
 	lda.b $01,s
 	asl a
 	tax
-	lda.l $C35EA7,x
+	lda.l PhotoPaletteTable-4,x
 	sta.w $00AC,y
-	lda.l $C35EA9,x
+	lda.l PhotoPaletteTable-2,x
 	ora.w $00DE,y
 	sta.w $00DE,y
 	bra CODE_C52EF9

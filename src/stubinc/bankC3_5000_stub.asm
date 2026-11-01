@@ -4,5 +4,8 @@
 hirom
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+PhotoPalettesTB = $C04CE7
+PhotoPalettesTOR = $C05DAC
+PhotoPalettesVAN = $C06E6D
 
 incsrc "../bankC3_5000.asm"

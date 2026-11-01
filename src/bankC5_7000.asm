@@ -276,7 +276,7 @@ CODE_C57187:						; from DATA8_C570E8
 	and.w #$0001
 	asl a
 	tax
-	lda.l $C35EA7,x
+	lda.l PhotoPaletteTable-4,x
 	tax
 	ldy.b $6D
 	jsl.l CODE_C4BBE5

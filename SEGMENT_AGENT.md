@@ -30,7 +30,7 @@ Work in small steps: every change is built and checked byte for byte against the
 
 ## Current segment
 
-bankC3_5000 (org $C35000): bank $C3's team database, records first (bankC3_1000-4000), then bankC3_0000 (TeamList, PlayerList),
+bankC3_6000 (org $C36000): bank $C3's team database, records first (bankC3_1000-4000), then bankC3_0000 (TeamList, PlayerList),
 then its code from about $C36000. Banks $C0-$C2, $C4 and $C5 are all source. <- CURRENT
 
 ## Sources
@@ -294,6 +294,8 @@ then its code from about $C36000. Banks $C0-$C2, $C4 and $C5 are all source. <- 
 - 2026-10-31: bankC3_0000 matched: TeamList (a word per team to its record, as 94S TeamList) and PlayerList (a word per player
   to its record plus flags in bits 14-15) as source with the labels, then the first player records. The team database is all
   source now (the record bodies stay ROM cuts).
+- 2026-10-31: bankC3_5000 matched: more data tables and text, and PhotoPaletteTable (a long pointer per team to its photo set,
+  as 94S PhotoPaletteTable); the code reads it 1-based, so its readers use PhotoPaletteTable-4 / -2.
 
 ## ROM map
 
@@ -354,8 +356,8 @@ The first row that is still incbin is the current segment.
 | bankC3_2000 | matched 4103 bytes | $C32001 | $C33007 | player records (219: Player319 ... Player537, by PlayerList index), labels and ROM cuts (the names are licensed); out of ROM order inside the bank; org moved to $C32001, end moved +$8 |
 | bankC3_3000 | matched 4132 bytes | $C33008 | $C3402B | the last player records (106), then team records AllStarsEast ... Washington (labels by city, as 94S, and ROM cuts: the names are licensed); out of ROM order inside the bank; org moved to $C33008, end moved +$2C |
 | bankC3_4000 | matched 4052 bytes | $C3402C | $C34FFF | the last team records Pittsburgh ... Washington (labels by city, ROM cuts), a team record not in TeamList (DATA8_C34427), then data tables and text (db, DATA8_ labels where code reads them); out of ROM order inside the bank; org moved to $C3402C |
-| bankC3_5000 | incbin <- CURRENT | $C35000 | $C35FFF | |
-| bankC3_6000 | incbin | $C36000 | $C36FFF | |
+| bankC3_5000 | matched 4096 bytes | $C35000 | $C35FFF | data tables and text (db, DATA8_ labels where code reads them), PhotoPaletteTable (dd per team, 94S name) |
+| bankC3_6000 | incbin <- CURRENT | $C36000 | $C36FFF | |
 | bankC3_7000 | incbin | $C37000 | $C37FFF | |
 | bankC3_8000 | incbin | $C38000 | $C38FFF | |
 | bankC3_9000 | incbin | $C39000 | $C39FFF | |
