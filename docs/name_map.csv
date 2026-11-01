@@ -4449,9 +4449,9 @@ $C49875,.1,CODE_C49875,new,"branch target only used in SetShotMode",src/bankC4_9
 $C4989B,.2,CODE_C4989B,new,"branch target only used in SetShotMode",src/bankC4_9000.asm
 $C498B1,.1,CODE_C498B1,new,"branch target only used in assshoot",src/bankC4_9000.asm
 $C498BC,.2,CODE_C498BC,new,"branch target only used in assshoot",src/bankC4_9000.asm
-$C498FA,.1,CODE_C498FA,new,"branch target only used in CODE_C498D3",src/bankC4_9000.asm
-$C49929,.2,CODE_C49929,new,"branch target only used in CODE_C498D3",src/bankC4_9000.asm
-$C4992F,.rtl,CODE_C4992F,new,"branch target only used in CODE_C498D3",src/bankC4_9000.asm
+$C498FA,.1,CODE_C498FA,new,"branch target only used in ShotMode",src/bankC4_9000.asm
+$C49929,.2,CODE_C49929,new,"branch target only used in ShotMode",src/bankC4_9000.asm
+$C4992F,.rtl,CODE_C4992F,new,"branch target only used in ShotMode",src/bankC4_9000.asm
 $C49955,.1,CODE_C49955,new,"branch target only used in doshot",src/bankC4_9000.asm
 $C4996D,.2,CODE_C4996D,new,"branch target only used in doshot",src/bankC4_9000.asm
 $C4997D,.3,CODE_C4997D,new,"branch target only used in doshot",src/bankC4_9000.asm
@@ -7575,3 +7575,10 @@ $14E5,CrowdLoud,,94S+code,"RAM: 94S puckfaceoff clears CrowdLoud at the same fir
 $189E,shootoutstop,,94S+code,"RAM: 94S: PlayShootout clears it, SetPA sets 1 in a shootout, puckfaceoff ends the turn while it is set; the same three steps here (side by side)",src/ram95s.asm
 $234C,newperiod,,94S+code,"RAM: 94S newperiod at the same puckfaceoff steps (side by side); SetupTeamForIntermission sets 1 as in 94S",src/ram95s.asm
 $234E,pspuckback,,94S+code,"RAM: 94S pucknorm / pucknorm_move side by side: pucknorm clears it, pucknorm_move counts it up to $30 (then EndPenaltyShot) or clears it",src/ram95s.asm
+$C498D3,ShotMode,CODE_C498D3,94S+code,"the same code as 94S ShotMode side by side (puckc, the SPA range, SPAnum $18 to doshot, passdir, passspeed); doinput and assshoot go to it as in 94S",src/bankC4_9000.asm
+$C51667,Intermission_rtl,CODE_C51667,94S+code,"94S Intermission_rtl: the same place after InIntermission and demoflag are cleared, the target of the same Intermission_ticker branch",src/bankC5_1000.asm
+$C516A6,IntermissionTick_done,CODE_C516A6,94S+code,"94S IntermissionTick_done: the same lda #0 / rtl, the target of the same branches",src/bankC5_1000.asm
+$C51749,NewTicker,CODE_C51749,94S+code,"the same four instructions as 94S NewTicker",src/bankC5_1000.asm
+$2372,pausemenuon,,94S+code,"RAM: 94S pausemenuon side by side: Intermission and Pausemode clear it at the same steps; CODE_C5503C (the pause menu setup) sets $FFFF where 94S Pausemode_menu does",src/ram95s.asm
+$24C6,gamenum,,94S+code,"RAM: 94S gamenum side by side in Intermission_ticker and NewTicker2_next (ora with TickerNum); UpdateScores skips that game as 94S InitScores does",src/ram95s.asm
+$24C8,tickerstart,,94S+code,"RAM: 94S tickerstart side by side: Intermission saves TickerNum, Intermission_tick plays DoHiLights when the ticker comes round to it",src/ram95s.asm

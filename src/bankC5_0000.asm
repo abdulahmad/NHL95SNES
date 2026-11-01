@@ -1596,11 +1596,11 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.w sfhormode
 	bne .1
 	jsl.l ClrHor
-.1:									; Vcount = 0, OldVcount = 0, call WaitTransfers, $2372 = 0, ...
+.1:									; Vcount = 0, OldVcount = 0, call WaitTransfers, pausemenuon = 0, ...
 	stz.b Vcount
 	stz.w OldVcount
 	jsl.l WaitTransfers
-	stz.w $2372
+	stz.w pausemenuon
 	stz.w $1857
 	jsl.l forceblack
 	stz.w $079C
@@ -1715,9 +1715,9 @@ UpdateScores:						; no caller found (not traced)
 	sta.w TickerNum
 	asl a
 	sta.b a0
-.loop:								; loop: if d1 = $24C6 go to .1, X = a0, A = $2488,x, A and $FFFD, ...
+.loop:								; loop: if d1 = gamenum go to .1, X = a0, A = $2488,x, A and $FFFD, ...
 	lda.b d1
-	cmp.w $24C6
+	cmp.w gamenum
 	beq .1
 	ldx.b a0
 	lda.w $2488,x

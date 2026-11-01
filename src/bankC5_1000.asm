@@ -544,7 +544,7 @@ Intermission:						; the intermission between periods: the teams set up
 	sta.w tickervc
 	jsl.l Intermission_ticker
 	lda.w TickerNum
-	sta.w $24C8
+	sta.w tickerstart
 	lda.w #$FFFF
 	sta.w pausepad
 	ldy.w #$0000
@@ -670,55 +670,56 @@ Intermission:						; the intermission between periods: the teams set up
 	jsl.l CODE_C558CC
 	jsl.l CODE_C5589E
 	jsl.l SoundVolumeUp
-.5:									; Vcount = 0, OldVcount = 0, $2372 = 0, InIntermission = 0, ...
+.5:									; Vcount = 0, OldVcount = 0, pausemenuon = 0, InIntermission = 0, ...
 	stz.b Vcount
 	stz.w OldVcount
-	stz.w $2372
+	stz.w pausemenuon
 	stz.w InIntermission
 	stz.w demoflag
-CODE_C51667:						; from Intermission_ticker
+Intermission_rtl:					; the return at the end of Intermission; Intermission_ticker leaves
+									; through it when there is no ticker game
 	rtl
 Intermission_ticker:				; the intermission's ticker (Intermission calls it where 94S calls
 									; Intermission_ticker)
 	lda.w TickerNum
 	bmi .1
-	ora.w $24C6
+	ora.w gamenum
 	bne .2
-.1:									; call GetShifter, TickerNum = d1, if d1 < 0 go to CODE_C51667
+.1:									; call GetShifter, TickerNum = d1, if d1 < 0 go to Intermission_rtl
 	jsl.l GetShifter
 	lda.b d1
 	sta.w TickerNum
-	bmi CODE_C51667
+	bmi Intermission_rtl
 .2:									; go to NewTicker2
 	jmp.w NewTicker2
 Intermission_tick:					; no caller found (not traced)
 	lda.w demoflag
-	beq CODE_C516A6
+	beq IntermissionTick_done
 	lda.b Vcount
 	sec
 	sbc.w tickervc
 	cmp.w #$0150
-	bcc CODE_C516A6
+	bcc IntermissionTick_done
 	jsl.l NewTicker2_next
-	lda.w $24C8
+	lda.w tickerstart
 	cmp.w TickerNum
 	bne Intermission_tick
 	jsl.l DoHiLights
 	lda.w #$0008
 	trb.w sflags3
-CODE_C516A6:						; from Intermission_tick, NewTicker2_next
+IntermissionTick_done:				; A = 0, return: the end of Intermission_tick
 	lda.w #$0000
 	rtl
 NewTicker2_next:					; from Intermission_tick and other segments
 	lda.w TickerNum
 	bmi .1
-	ora.w $24C6
+	ora.w gamenum
 	bne .2
-.1:									; call GetShifter, TickerNum = d1, if d1 < 0 go to CODE_C516A6
+.1:									; call GetShifter, TickerNum = d1, if d1 < 0 go to IntermissionTick_done
 	jsl.l GetShifter
 	lda.b d1
 	sta.w TickerNum
-	bmi CODE_C516A6
+	bmi IntermissionTick_done
 .2:									; go to NewTicker2
 	jmp.w NewTicker2
 PushTime:							; a1 = the time d0 (seconds) as a minutes:seconds string (in a work
@@ -786,7 +787,7 @@ PushTime:							; a1 = the time d0 (seconds) as a minutes:seconds string (in a w
 	sta.b (a1)
 	rep #$20
 	rtl
-CODE_C51749:						; no caller found (not traced)
+NewTicker:							; shows the next ticker score (NewTicker2) once gameclock is below $1E1
 	lda.w gameclock
 	cmp.w #$01E1
 	bcc NewTicker2
@@ -798,7 +799,7 @@ NewTicker2:							; the score ticker's next game: TickerNum counted down, skippi
 	bmi .rtl
 	dec.w TickerNum
 	lda.b d3
-	cmp.w $24C6
+	cmp.w gamenum
 	beq NewTicker2
 	bra .1
 .rtl:								; return

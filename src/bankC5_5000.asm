@@ -161,7 +161,7 @@ CODE_C5503C:						; called from other segments
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.w #$FFFF
-	sta.w $2372
+	sta.w pausemenuon
 	sta.w $18F2
 	lda.w #$0802
 	jsl.l AllocWorkBuf

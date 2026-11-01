@@ -722,10 +722,11 @@ assshoot:							; assignment (asstab entry 19): computer shooting, wind up then 
 	sec
 	sbc.b d7
 	sta.w temp2b,x
-	bpl CODE_C498D3
+	bpl ShotMode
 	lda.w #$0080
 	tsb.b d2
-CODE_C498D3:						; from assshoot and other segments
+ShotMode:							; shot input for the puck carrier: doshot at animation frame $18, the pad
+									; direction to passdir, passspeed counted up
 	cpx.w puckc
 	bne .2
 	lda.w SPA,x
@@ -766,7 +767,7 @@ CODE_C498D3:						; from assshoot and other segments
 	trb.w sflags
 .rtl:								; return
 	rtl
-doshot:								; from CODE_C498D3, CODE_C49E91, ...
+doshot:								; from ShotMode, CODE_C49E91, ...
 	jsl.l shotdiradj
 	pea.w $000D
 	lda.w passspeed

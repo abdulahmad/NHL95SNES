@@ -1530,8 +1530,8 @@ doinput:							; called from other segments
 	jml.l doplayeracc
 .24:								; go to CODE_C4A0C1
 	jml.l CODE_C4A0C1
-.25:								; go to CODE_C498D3
-	jml.l CODE_C498D3
+.25:								; go to ShotMode
+	jml.l ShotMode
 .26:								; d0 = $0014, go to assinsert
 	lda.w #$0014
 	sta.b d0

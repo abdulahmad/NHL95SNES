@@ -268,6 +268,9 @@ fox					=	$2034		; face off spot x: Stop4Pen sets it, puckfaceoff2 puts it in pu
 foy					=	$2036		; face off spot y: Stop4Pen sets it, puckfaceoff2 puts it in pucky
 newperiod			=	$234C		; 1 at a period start: puckfaceoff opens no line change box and clears it
 pspuckback			=	$234E		; penalty shot: pucknorm_move counts frames; EndPenaltyShot at $30
+pausemenuon			=	$2372		; $FFFF from the pause menu setup; Pausemode / Intermission clear it
+gamenum				=	$24C6		; the user's game: UpdateScores and NewTicker2 skip it
+tickerstart			=	$24C8		; TickerNum kept by Intermission; Intermission_tick stops there
 sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing while it is set
 
 ; work RAM, long addresses
