@@ -348,7 +348,7 @@ CODE_C5E20B:						; from CODE_C5E17C and other segments
 	pha
 	pea.w $7F7E
 	plb
-	jsr.w CODE_C5B983
+	jsr.w BuildTeamSeasonRecord
 	plb
 	pla
 	phx
@@ -518,7 +518,7 @@ CODE_C5E336:						; called from other segments
 CODE_C5E37E:						; called from other segments
 	lda.w #$0019
 	sta.w $17C9
-	jsr.w CODE_C5B983
+	jsr.w BuildTeamSeasonRecord
 	stz.w $0000,x
 	stx.b $81
 .loop:								; loop: push X, A = $17C9, A - 1, if the result < 0 go to .1, ...
@@ -527,7 +527,7 @@ CODE_C5E37E:						; called from other segments
 	dec a
 	bmi .1
 	sta.w $17C9
-	jsr.w CODE_C5B983
+	jsr.w BuildTeamSeasonRecord
 	ply
 	tya
 	sta.w $0000,x
@@ -669,7 +669,7 @@ CODE_C5E49A:						; called from other segments
 	jsl.l CODE_C5E50E
 	jsr.w SetupScreen
 	stz.b $26
-	jsr.w CODE_C5BBC0
+	jsr.w RefreshSprites
 	stz.b $CF
 	lda.w #$0100
 	sta.b $D1

@@ -20,8 +20,8 @@ UnpackStream0 = $C5F071
 RandomBelowA = $C58CCD
 CODE_C5A3C1 = $C5A3C1
 CODE_C5A46A = $C5A46A
-CODE_C5B983 = $C5B983
-CODE_C5BBC0 = $C5BBC0
+BuildTeamSeasonRecord = $C5B983
+RefreshSprites = $C5BBC0
 CODE_C5D7E9 = $C5D7E9
 FadeOutWait = $C58A99
 

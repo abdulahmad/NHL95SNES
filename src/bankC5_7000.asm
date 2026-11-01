@@ -904,7 +904,7 @@ CODE_C57578:						; from EditLinesScreen
 	jsl.l DeleteSprite
 	ldx.b $79
 	jsl.l DeleteSprite
-	jsr.w CODE_C5BBC0
+	jsr.w RefreshSprites
 	pla
 	sta.b $69
 	pla

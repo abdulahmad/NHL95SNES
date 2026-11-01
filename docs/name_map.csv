@@ -6503,13 +6503,13 @@ $C5B76D,.12,CODE_C5B76D,new,"branch target only used in DrawLeaderRow",src/bankC
 $C5B781,.13,CODE_C5B781,new,"branch target only used in DrawLeaderRow",src/bankC5_B000.asm
 $C5B7AF,.14,CODE_C5B7AF,new,"branch target only used in DrawLeaderRow",src/bankC5_B000.asm
 $C5B7C6,.15,CODE_C5B7C6,new,"branch target only used in DrawLeaderRow",src/bankC5_B000.asm
-$C5BA1A,.loop,CODE_C5BA1A,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
-$C5BA94,.1,CODE_C5BA94,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
-$C5BAB4,.2,CODE_C5BAB4,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
-$C5BAD9,.3,CODE_C5BAD9,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
-$C5BAFA,.4,CODE_C5BAFA,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
-$C5BB1A,.5,CODE_C5BB1A,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
-$C5BB3A,.6,CODE_C5BB3A,new,"branch target only used in CODE_C5B983",src/bankC5_B000.asm
+$C5BA1A,.loop,CODE_C5BA1A,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
+$C5BA94,.1,CODE_C5BA94,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
+$C5BAB4,.2,CODE_C5BAB4,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
+$C5BAD9,.3,CODE_C5BAD9,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
+$C5BAFA,.4,CODE_C5BAFA,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
+$C5BB1A,.5,CODE_C5BB1A,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
+$C5BB3A,.6,CODE_C5BB3A,new,"branch target only used in BuildTeamSeasonRecord",src/bankC5_B000.asm
 $C5BBE9,.1,CODE_C5BBE9,new,"branch target only used in DrawSeasonPlayerRow",src/bankC5_B000.asm
 $C5BC62,.2,CODE_C5BC62,new,"branch target only used in DrawSeasonPlayerRow",src/bankC5_B000.asm
 $C5BC6C,.3,CODE_C5BC6C,new,"branch target only used in DrawSeasonPlayerRow",src/bankC5_B000.asm
@@ -7699,3 +7699,8 @@ $C5B631,PrintPlayerCategory,CODE_C5B631,genesis+purpose,"95 Genesis PrintPlayerC
 $C5B4C2,FillLeaderEntry,CODE_C5B4C2,code,"from the code: PlayerNumberTeam, SeasonGoals, SeasonAssists or SeasonSaves, SeasonGoalsAgainst and the percentage at +8 / +$A / +$C",src/bankC5_B000.asm
 $C5B558,AddLeaderEntry,CODE_C5B558,code,"from the code: AllocWorkBuf $10, FillLeaderEntry, the insert routine for d1 from DATA8_C5B56C",src/bankC5_B000.asm
 $C55AB8,StartScrollListLong,CODE_C55AB8,code,"jsr StartScrollList, rtl",src/bankC5_5000.asm
+$C5B983,BuildTeamSeasonRecord,CODE_C5B983,code,"from the code: AllocWorkBuf $32, team * $83 bits into $306E43, 2-bit results of 84 games from $30606D, the x 100 / divisions; DrawSeasonTeamStats and the standings code read the entry",src/bankC5_B000.asm
+$C5B97F,BuildTeamSeasonRecordLong,CODE_C5B97F,code,"jsr BuildTeamSeasonRecord, rtl",src/bankC5_B000.asm
+$C5BB46,ReadTeamStatBits,CODE_C5BB46,code,"from the code: two words at r2 / 8, shifted by r2 and 7 through the shift entries, masked to A bits by the table after them",src/bankC5_B000.asm
+$C5BBC0,RefreshSprites,CODE_C5BBC0,code,"from the code: AnimateSprites, BuildSpriteOAM ($1D8F / $1E00), PackOAMHigh, WaitTransfers",src/bankC5_B000.asm
+$C5BBBC,RefreshSpritesLong,CODE_C5BBBC,code,"jsr RefreshSprites, rtl",src/bankC5_B000.asm

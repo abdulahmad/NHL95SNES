@@ -1021,7 +1021,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	lda.w #$00F8
 	sta.b $D1
 	lda.w $17C9
-	jsr.w CODE_C5B983
+	jsr.w BuildTeamSeasonRecord
 	phy
 	lda.w $0004,y
 	jsr.w BinToBCD
@@ -1171,10 +1171,12 @@ CODE_C5B96D:						; from DrawSeasonTeamStats, CODE_C5B96D
 	dec.b tmp0
 	bpl CODE_C5B96D
 	rts
-CODE_C5B97F:						; called from other segments
-	jsr.w CODE_C5B983
+BuildTeamSeasonRecordLong:			; BuildTeamSeasonRecord for long calls
+	jsr.w BuildTeamSeasonRecord
 	rtl
-CODE_C5B983:						; from DrawSeasonTeamStats, CODE_C5B97F and other segments
+BuildTeamSeasonRecord:				; team A's season record in a new $32-byte work buffer entry (Y): stat
+									; fields from save RAM (ReadTeamStatBits), wins / losses / ties from the
+									; 2-bit results at $30606D, points, percentages
 	tax
 	lda.w #$0032
 	jsl.l AllocWorkBuf
@@ -1186,37 +1188,37 @@ CODE_C5B983:						; from DrawSeasonTeamStats, CODE_C5B97F and other segments
 	jsl.l Mul16U
 	ply
 	lda.w #$000C
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $000E,y
 	lda.w #$000D
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $0018,y
 	lda.w #$000E
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $001C,y
 	lda.w #$000B
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $001E,y
 	lda.w #$000B
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $0020,y
 	lda.w #$000B
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $0022,y
 	lda.w #$000B
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $0024,y
 	lda.w #$000B
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $0026,y
 	lda.w #$000B
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $0028,y
 	lda.w #$000C
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $002A,y
 	lda.w #$000E
-	jsr.w CODE_C5BB46
+	jsr.w ReadTeamStatBits
 	sta.w $002E,y
 	lda.w $000C,y
 	ldx.w #$0015
@@ -1382,7 +1384,8 @@ CODE_C5B983:						; from DrawSeasonTeamStats, CODE_C5B97F and other segments
 	stz.w $0000,x
 	stz.w $0002,x
 	rts
-CODE_C5BB46:						; from CODE_C5B983
+ReadTeamStatBits:					; A = the next A bits of the team stats bit stream at $306E43 (bit pointer
+									; r2, advanced)
 	sta.b r1
 	lda.b r2
 	lsr a
@@ -1436,10 +1439,11 @@ CODE_C5BB91:						; from DATA8_C5BB6C
 DATA8_C5BB9C:						; not traced: a table read by CODE_C5BB91
 	db $01,$00,$03,$00,$07,$00,$0F,$00,$1F,$00,$3F,$00,$7F,$00,$FF,$00
 	db $FF,$01,$FF,$03,$FF,$07,$FF,$0F,$FF,$1F,$FF,$3F,$FF,$7F,$FF,$FF
-CODE_C5BBBC:						; called from other segments
-	jsr.w CODE_C5BBC0
+RefreshSpritesLong:					; RefreshSprites for long calls
+	jsr.w RefreshSprites
 	rtl
-CODE_C5BBC0:						; from CODE_C5BBBC, CODE_C5BCE3 and other segments
+RefreshSprites:						; animates the sprites, builds OAM from them, packs the high table and
+									; waits for the transfers
 	inc.b $26
 	jsl.l AnimateSprites
 	lda.w #$1D8F
@@ -1591,7 +1595,7 @@ CODE_C5BCE3:						; from DrawSeasonTeamStats
 	stx.b d7
 	lda.w #$0001
 	sta.b $26
-	jsr.w CODE_C5BBC0
+	jsr.w RefreshSprites
 	lda.w #$0040
 	sta.b $CF
 	lda.w #$0088

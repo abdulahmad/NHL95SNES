@@ -827,7 +827,7 @@ CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	sta.l OBSEL
 	rep #$20
 	stz.w BG2HScroll
-	jsl.l CODE_C5BBBC
+	jsl.l RefreshSpritesLong
 	lda.w #BlueColoursHook
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
@@ -968,7 +968,7 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-	jsl.l CODE_C5BBBC
+	jsl.l RefreshSpritesLong
 	lda.w #$0088
 	sta.b $CF
 	lda.w #$00F0
@@ -1458,9 +1458,9 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	dex
 	bpl .loop
 	lda.w #$0000
-.1:									; $6D = A, call CODE_C5B97F, X = $364E
+.1:									; $6D = A, call BuildTeamSeasonRecordLong, X = $364E
 	sta.b $6D
-	jsl.l CODE_C5B97F
+	jsl.l BuildTeamSeasonRecordLong
 	ldx.w #$364E
 .loop2:								; loop: if $000A,y >= $0000,x go to .2, A = X, A + $0006, X = A, ...
 	lda.w $000A,y
@@ -1683,9 +1683,9 @@ ScanPresidents:						; Presidents Trophy: the team with the most standings point
 	sta.b a3
 	lda.w #$0000
 	sta.b a2
-.loop:								; loop: $6D = A, call CODE_C5B97F, if $0004,x < a2 go to .2, ...
+.loop:								; loop: $6D = A, call BuildTeamSeasonRecordLong, ...
 	sta.b $6D
-	jsl.l CODE_C5B97F
+	jsl.l BuildTeamSeasonRecordLong
 	lda.w $0004,x
 	cmp.b a2
 	bcc .2
@@ -1713,9 +1713,9 @@ CODE_C4DF5B:						; from ScanSelke, ScanJennings, ScanNorris
 	sta.b a2
 	sta.b $71
 	dec.b a2
-.loop:								; loop: $6D = A, call CODE_C5B97F, if $002A,x >= a2 go to .1, a2 = A, ...
+.loop:								; loop: $6D = A, call BuildTeamSeasonRecordLong, ...
 	sta.b $6D
-	jsl.l CODE_C5B97F
+	jsl.l BuildTeamSeasonRecordLong
 	lda.w $002A,x
 	cmp.b a2
 	bcs .1

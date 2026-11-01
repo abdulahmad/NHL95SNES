@@ -538,7 +538,7 @@ CODE_C40444:						; from CODE_C40000
 	ldx.b a0
 	jsl.l DeleteSprite
 	stz.b a0
-	jsl.l CODE_C5BBBC
+	jsl.l RefreshSpritesLong
 	jsl.l ResetWorkBuf
 	lda.w #PlayoffBracketMap&$FFFF
 	ldx.w #PlayoffBracketMap>>16

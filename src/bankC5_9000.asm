@@ -593,7 +593,7 @@ ControllerSetupScreen:				; builds the controller setup screen: a sprite for eac
 	jsl.l DeleteSprite
 	ldx.b $75
 	jsl.l DeleteSprite
-	jsr.w CODE_C5BBC0
+	jsr.w RefreshSprites
 	lda.w #$0003
 	sta.b $1E
 	inc.b $20
@@ -652,7 +652,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	sta.w BG3VScroll
 	jsl.l WaitTransfers
 	jsr.w CODE_C5A50B
-	jsr.w CODE_C5BBC0
+	jsr.w RefreshSprites
 	lda.w #$0005
 	sta.w $18DE
 	lda.w #$0008

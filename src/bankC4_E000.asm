@@ -583,8 +583,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	bra .6
 .5:									; call CODE_C4EECD
 	jsr.w CODE_C4EECD
-.6:									; call CODE_C5BBBC, $CF = $0018, $D1 = $0050, a2 = $0002, ...
-	jsl.l CODE_C5BBBC
+.6:									; call RefreshSpritesLong, $CF = $0018, $D1 = $0050, a2 = $0002, ...
+	jsl.l RefreshSpritesLong
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$0050
@@ -770,8 +770,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	bra .11
 .10:								; call CODE_C4EECD
 	jsr.w CODE_C4EECD
-.11:								; call CODE_C5BBBC, $CF = $00B0, $D1 = $00E8, a2 = 0, ...
-	jsl.l CODE_C5BBBC
+.11:								; call RefreshSpritesLong, $CF = $00B0, $D1 = $00E8, a2 = 0, ...
+	jsl.l RefreshSpritesLong
 	lda.w #$00B0
 	sta.b $CF
 	lda.w #$00E8
@@ -874,7 +874,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-	jsl.l CODE_C5BBBC
+	jsl.l RefreshSpritesLong
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$00F0
