@@ -294,8 +294,8 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	jsl.l WaitTransfers
 	lda.w #$00A3
 	jsl.l StartSound
-	ldx.w #CODE_C4B6D2>>16
-	lda.w #CODE_C4B6D2
+	ldx.w #TitleStartMusicTask>>16
+	lda.w #TitleStartMusicTask
 	ldy.w #$FF00
 	jsl.l AddTask
 	inc.w $1EA7

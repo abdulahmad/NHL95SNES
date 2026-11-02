@@ -40,7 +40,7 @@ ClearOffsidesIfAllPlayers:			; called from other segments
 	and.w #$FFEF
 	sta.w tmflags,y
 	rtl
-CODE_C4B05E:						; passed as a long pointer (lda # of its bank and address) to SetNMIHook
+IntroMode7Hook:						; writes the intro Mode 7 scale, centre, control and main-screen shadows
 	sep #$20
 	lda.w $18D0
 	sta.w $211B
@@ -72,21 +72,21 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldx.w #DATA8_C07F7B>>16
 	lda.w #DATA8_C07F7B&$FFFF
 	jsl.l LoadSounds
-	lda.w #CODE_C4B05E
-	ldx.w #CODE_C4B05E>>16
+	lda.w #IntroMode7Hook
+	ldx.w #IntroMode7Hook>>16
 	jsl.l SetNMIHook
 	jsl.l InitTasks
 	stz.b $81
 	lda.b PadRaw1
-	jsr.w CODE_C4B1D6
+	jsr.w CheckIntroMirrorButtons
 	lda.b PadRaw2
-	jsr.w CODE_C4B1D6
+	jsr.w CheckIntroMirrorButtons
 	lda.b $C5
-	jsr.w CODE_C4B1D6
+	jsr.w CheckIntroMirrorButtons
 	lda.b $C7
-	jsr.w CODE_C4B1D6
+	jsr.w CheckIntroMirrorButtons
 	lda.b $C9
-	jsr.w CODE_C4B1D6
+	jsr.w CheckIntroMirrorButtons
 	jsl.l SetupMode7Screen
 	lda.w #$7FFF
 	jsl.l SetBackdropColour
@@ -97,7 +97,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	stx.b a0
 	lda.w #$0066
 	ldy.w #$0043
-	jsr.w CODE_C4B280
+	jsr.w PositionIntroSprite
 	jsl.l AnimateSprites
 	jsl.l MarkWorkBuf
 	lda.b $08
@@ -107,7 +107,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	stx.b a1
 	lda.w #$009F
 	ldy.w #$0043
-	jsr.w CODE_C4B280
+	jsr.w PositionIntroSprite
 	jsl.l AnimateSprites
 	jsl.l MarkWorkBuf
 	lda.b $08
@@ -117,7 +117,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	stx.b a2
 	lda.w #$0080
 	ldy.w #$007C
-	jsr.w CODE_C4B280
+	jsr.w PositionIntroSprite
 	jsl.l AnimateSprites
 	jsl.l MarkWorkBuf
 	lda.b $08
@@ -127,7 +127,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	stx.b a3
 	lda.w #$0080
 	ldy.w #$0094
-	jsr.w CODE_C4B280
+	jsr.w PositionIntroSprite
 	jsl.l AnimateSprites
 	jsl.l MarkWorkBuf
 	lda.w #$0025
@@ -135,7 +135,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	stx.b $7B
 	lda.w #$0080
 	ldy.w #$00B4
-	jsr.w CODE_C4B280
+	jsr.w PositionIntroSprite
 	jsl.l MarkWorkBuf
 	lda.w #$0010
 	sta.w $18D8
@@ -152,26 +152,26 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldx.b a0
 	ldy.b $65
 	jsr.w CODE_C4B36A
-	lda.w #CODE_C4B1E4
-	ldx.w #CODE_C4B1E4>>16
+	lda.w #IntroStartALogo
+	ldx.w #IntroStartALogo>>16
 	ldy.w #$0001
 	clc
 	jsl.l StartTasks
 	jsl.l AddStartKeyTask
-	lda.w #CODE_C4B66E
-	ldx.w #CODE_C4B66E>>16
+	lda.w #IntroSoundCue1
+	ldx.w #IntroSoundCue1>>16
 	ldy.w #$F000
 	jsl.l AddTask
 	lda.b a0
 	ldx.w #$0001
-	jsr.w CODE_C4B299
+	jsr.w StartIntroScaleTask
 	stz.w fadestep
 .loop:								; loop: call RunTasks, if $2D9D = 0 go to .loop, go to ClearNMIHook
 	jsl.l RunTasks
 	lda.w $2D9D
 	beq .loop
 	jml.l ClearNMIHook
-CODE_C4B1D6:						; from IntroSequence
+CheckIntroMirrorButtons:			; sets the intro mirror flag when all masked controller buttons are held
 	and.w #$F0C0
 	cmp.w #$F0C0
 	bne .rts
@@ -179,7 +179,7 @@ CODE_C4B1D6:						; from IntroSequence
 	tsb.b $81
 .rts:								; return
 	rts
-CODE_C4B1E4:						; passed as a long pointer (lda # of its bank and address) to StartTasks
+IntroStartALogo:					; waits for unit scale, then starts the A logo animation
 	lda.w $18D0
 	cmp.w #$0100
 	beq .1
@@ -190,11 +190,11 @@ CODE_C4B1E4:						; passed as a long pointer (lda # of its bank and address) to 
 	jsr.w CODE_C4B36A
 	lda.b a1
 	ldx.w #$0001
-	jsr.w CODE_C4B299
+	jsr.w StartIntroScaleTask
 	ldx.b d1
-	lda.w #CODE_C4B206
+	lda.w #IntroStartSportsWord
 	sta.w $0002,x
-CODE_C4B206:						; a task routine: stored as the next routine of a task
+IntroStartSportsWord:				; waits for unit scale, then starts the Sports word animation
 	lda.w $18D0
 	cmp.w #$0100
 	beq .1
@@ -205,11 +205,11 @@ CODE_C4B206:						; a task routine: stored as the next routine of a task
 	jsr.w CODE_C4B36A
 	lda.b a2
 	ldx.w #$0000
-	jsr.w CODE_C4B299
+	jsr.w StartIntroScaleTask
 	ldx.b d1
-	lda.w #CODE_C4B228
+	lda.w #IntroStartElectronicWord
 	sta.w $0002,x
-CODE_C4B228:						; a task routine: stored as the next routine of a task
+IntroStartElectronicWord:			; waits for unit scale, then starts the Electronic word animation
 	lda.w $18D0
 	cmp.w #$0100
 	bne CODE_C4B27F
@@ -218,37 +218,38 @@ CODE_C4B228:						; a task routine: stored as the next routine of a task
 	jsr.w CODE_C4B36A
 	lda.b a3
 	ldx.w #$0000
-	jsr.w CODE_C4B299
+	jsr.w StartIntroScaleTask
 	ldx.b d1
-	lda.w #CODE_C4B247
+	lda.w #IntroWaitForUnitScale
 	sta.w $0002,x
-CODE_C4B247:						; a task routine: stored as the next routine of a task
+IntroWaitForUnitScale:				; waits for unit scale and resets the intro task delay
 	lda.w $18D0
 	cmp.w #$0100
 	bne CODE_C4B27F
 	ldx.b d1
 	stz.w $0008,x
-	lda.w #CODE_C4B25A
+	lda.w #IntroShowFinalWord
 	sta.w $0002,x
-CODE_C4B25A:						; a task routine: stored as the next routine of a task
+IntroShowFinalWord:					; waits 30 task ticks, reveals the final word sprite and resets the delay
 	lda.w $0008,x
 	cmp.w #$001E
 	bne CODE_C4B27F
 	ldx.b $7B
-	jsr.w CODE_C4B31A
+	jsr.w ShowIntroSprite
 	ldx.b d1
 	stz.w $0008,x
-	lda.w #CODE_C4B272
+	lda.w #IntroEndDelay
 	sta.w $0002,x
-CODE_C4B272:						; a task routine: stored as the next routine of a task
+IntroEndDelay:						; ends the intro task sequence after its final hold
 	lda.w $0008,x
 	cmp.w #$0258
 	bne CODE_C4B27F
 	lda.w #$8000
 	trb.b $85
-CODE_C4B27F:						; from CODE_C4B1E4, CODE_C4B206, CODE_C4B228, CODE_C4B247, ...
+CODE_C4B27F:						; from IntroStartALogo, IntroStartSportsWord, ...
 	rtl
-CODE_C4B280:						; from IntroSequence, CODE_C4B10D
+PositionIntroSprite:				; positions and hides an intro sprite, mirroring its horizontal position
+									; when enabled
 	bit.b $81
 	bpl .1
 	sec
@@ -263,7 +264,7 @@ CODE_C4B280:						; from IntroSequence, CODE_C4B10D
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4B299:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
+StartIntroScaleTask:				; starts the intro scale animation for sprite A with flash flag X
 	sta.b d0
 	lda.w #$0001
 	trb.b $81
@@ -273,26 +274,26 @@ CODE_C4B299:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	sta.w $18D8
 	lda.w #$4000
 	sta.w $18D0
-	lda.w #CODE_C4B2BD
-	ldx.w #CODE_C4B2BD>>16
+	lda.w #IntroScaleToFlash
+	ldx.w #IntroScaleToFlash>>16
 	ldy.w #$1000
 	jsl.l AddTask
 	rts
-CODE_C4B2BD:						; passed as a long pointer (lda # of its bank and address) to AddTask
-	jsr.w CODE_C4B2F9
+IntroScaleToFlash:					; reduces the intro scale and starts the colour flash at its threshold
+	jsr.w StepIntroScale
 	cmp.w #$0280
 	bcs CODE_C4B2F8
-	lda.w #CODE_C4B2DC
+	lda.w #IntroScaleToSprite
 	sta.w $0002,x
 	lda.b $81
 	lsr a
 	bcc CODE_C4B2F8
-	lda.w #CODE_C4B32D
-	ldx.w #CODE_C4B32D>>16
+	lda.w #IntroColourFlashTask
+	ldx.w #IntroColourFlashTask>>16
 	ldy.w #$0500
 	jmp.w AddTask
-CODE_C4B2DC:						; a task routine: stored as the next routine of a task
-	jsr.w CODE_C4B2F9
+IntroScaleToSprite:					; reduces scale to unity, reveals the sprite and removes the task
+	jsr.w StepIntroScale
 	cmp.w #$0100
 	bcs CODE_C4B2F8
 	lda.w #$0100
@@ -300,11 +301,11 @@ CODE_C4B2DC:						; a task routine: stored as the next routine of a task
 	lda.w #$0010
 	sta.w $18D8
 	ldx.b d0
-	jsr.w CODE_C4B31A
+	jsr.w ShowIntroSprite
 	jmp.w RemoveTask
-CODE_C4B2F8:						; from CODE_C4B2BD, CODE_C4B2DC
+CODE_C4B2F8:						; from IntroScaleToFlash, IntroScaleToSprite
 	rtl
-CODE_C4B2F9:						; from CODE_C4B2BD, CODE_C4B2DC
+StepIntroScale:						; reduces the intro scale by a clamped quarter of its current value
 	lda.w $18D0
 	lsr a
 	lsr a
@@ -322,7 +323,7 @@ CODE_C4B2F9:						; from CODE_C4B2BD, CODE_C4B2DC
 	inc a
 	sta.w $18D0
 	rts
-CODE_C4B31A:						; from CODE_C4B25A, CODE_C4B2DC
+ShowIntroSprite:					; reveals an intro sprite and applies horizontal flip when enabled
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
@@ -333,7 +334,7 @@ CODE_C4B31A:						; from CODE_C4B25A, CODE_C4B2DC
 	sta.b $36,x
 .rts:								; return
 	rts
-CODE_C4B32D:						; passed as a long pointer (lda # of its bank and address) to AddTask
+IntroColourFlashTask:				; plays the intro fixed-colour flash and removes itself at the terminator
 	and.w #$00FF
 	sep #$20
 	lda.w $0008,x
@@ -353,9 +354,9 @@ CODE_C4B32D:						; passed as a long pointer (lda # of its bank and address) to 
 	sta.l $002132
 	rep #$20
 	jmp.w RemoveTask
-DATA8_C4B35D:						; not traced: a table read by CODE_C4B32D
+DATA8_C4B35D:						; not traced: a table read by IntroColourFlashTask
 	db $64,$68,$6C,$70,$74,$78,$7C,$7F,$78,$70,$68,$64,$00
-CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
+CODE_C4B36A:						; from CODE_C4B10D, IntroStartElectronicWord, IntroStartALogo, ...
 	lda.b $34,x
 	and.w #$FF00
 	lsr a
@@ -396,7 +397,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$80
 	jsr.w CODE_C4B660
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$40
 	jsr.w CODE_C4B668
@@ -409,7 +410,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$40
 	jsr.w CODE_C4B661
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$20
 	jsr.w CODE_C4B667
@@ -422,7 +423,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$20
 	jsr.w CODE_C4B662
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$10
 	jsr.w CODE_C4B660
@@ -435,7 +436,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$10
 	jsr.w CODE_C4B663
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$08
 	jsr.w CODE_C4B661
@@ -448,7 +449,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$08
 	tsb.b a4
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$04
 	jsr.w CODE_C4B662
@@ -461,7 +462,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$04
 	jsr.w CODE_C4B66A
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$02
 	jsr.w CODE_C4B663
@@ -474,7 +475,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$02
 	jsr.w CODE_C4B669
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$01
 	tsb.b a4
@@ -487,7 +488,7 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	lda.w $0011,y
 	and.b #$01
 	jsr.w CODE_C4B668
-	jsr.w CODE_C4B653
+	jsr.w StoreIntroPixel
 	iny
 	iny
 	dec.b $75
@@ -715,7 +716,8 @@ CODE_C4B36A:						; from CODE_C4B10D, CODE_C4B228, CODE_C4B1E4, CODE_C4B206
 	inc.w TransfersReady
 	wai
 	rts
-CODE_C4B653:						; from CODE_C4B36A
+StoreIntroPixel:					; stores the assembled intro pixel with its palette base unless
+									; transparent
 	lda.b a4
 	beq .1
 	ora.b $79
@@ -744,11 +746,11 @@ CODE_C4B66A:						; from CODE_C4B36A
 	rol a
 	tsb.b a4
 	rts
-CODE_C4B66E:						; passed as a long pointer (lda # of its bank and address) to AddTask
+IntroSoundCue1:						; starts the first pair of intro sounds after 30 ticks
 	lda.w $0008,x
 	cmp.w #$001E
 	bcc CODE_C4B688
-	lda.w #CODE_C4B689
+	lda.w #IntroSoundCue2
 	sta.w $0002,x
 	lda.w #$0014
 	jsl.l StartSound
@@ -756,36 +758,36 @@ CODE_C4B66E:						; passed as a long pointer (lda # of its bank and address) to 
 	bra CODE_C4B6CE
 CODE_C4B688:						; a task routine: stored as the next routine of a task
 	rtl
-CODE_C4B689:						; a task routine: stored as the next routine of a task
+IntroSoundCue2:						; starts the second pair of intro sounds after 60 ticks
 	lda.w $0008,x
 	cmp.w #$003C
 	bcc CODE_C4B688
-	lda.w #CODE_C4B6A3
+	lda.w #IntroSoundCue3
 	sta.w $0002,x
 	lda.w #$0013
 	jsl.l StartSound
 	lda.w #$0010
 	bra CODE_C4B6CE
-CODE_C4B6A3:						; a task routine: stored as the next routine of a task
+IntroSoundCue3:						; starts the third pair of intro sounds after 90 ticks
 	lda.w $0008,x
 	cmp.w #$005A
 	bcc CODE_C4B688
-	lda.w #CODE_C4B6BD
+	lda.w #IntroSoundCue4
 	sta.w $0002,x
 	lda.w #$0016
 	jsl.l StartSound
 	lda.w #$0009
 	bra CODE_C4B6CE
-CODE_C4B6BD:						; a task routine: stored as the next routine of a task
+IntroSoundCue4:						; starts the last intro sound after 150 ticks and disables this task
 	lda.w $0008,x
 	cmp.w #$0096
 	bcc CODE_C4B688
 	lda.w #CODE_C4B688
 	sta.w $0002,x
 	lda.w #$0015
-CODE_C4B6CE:						; from CODE_C4B66E, CODE_C4B689, CODE_C4B6A3
+CODE_C4B6CE:						; from IntroSoundCue1, IntroSoundCue2, IntroSoundCue3
 	jml.l StartSound
-CODE_C4B6D2:						; passed as a long pointer (lda # of its bank and address) to AddTask
+TitleStartMusicTask:				; starts the title music after the task delay and disables this task
 	lda.w $0008,x
 	cmp.w #$0177
 	bcc CODE_C4B6EA
@@ -1249,8 +1251,8 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	jsl.l QueueColours
 	stz.w fadestep
 	stz.w fadestep
-	lda.w #CODE_C4BA67
-	ldx.w #CODE_C4BA67>>16
+	lda.w #CreditsWaitForFade
+	ldx.w #CreditsWaitForFade>>16
 	ldy.w #$0001
 	sec
 	jsl.l StartTasks
@@ -1262,13 +1264,13 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	lda.w #$0000
 	sta.l $002130
 	rtl
-CODE_C4BA67:						; passed as a long pointer (lda # of its bank and address) to StartTasks
+CreditsWaitForFade:					; waits for the developer credits delay before fading their palettes
 	lda.w $0008,x
 	cmp.w #$00B4
 	bne CODE_C4BAD5
-	lda.w #CODE_C4BA75
+	lda.w #CreditsFadePalettes
 	sta.w $0002,x
-CODE_C4BA75:						; a task routine: stored as the next routine of a task
+CreditsFadePalettes:				; steps and queues both developer credits palette fades
 	lda.w #$0060
 	sta.b d3
 	ldy.b d7
@@ -1297,15 +1299,15 @@ CODE_C4BA75:						; a task routine: stored as the next routine of a task
 	bne CODE_C4BAD5
 	ldx.b d1
 	stz.w $0008,x
-	lda.w #CODE_C4BAC8
+	lda.w #CreditsEndDelay
 	sta.w $0002,x
-CODE_C4BAC8:						; a task routine: stored as the next routine of a task
+CreditsEndDelay:					; ends the developer credits task sequence after the final delay
 	lda.w $0008,x
 	cmp.w #$00B4
 	bne CODE_C4BAD5
 	lda.w #$8000
 	trb.b $85
-CODE_C4BAD5:						; from CODE_C4BA67, CODE_C4BA75, CODE_C4BAC8
+CODE_C4BAD5:						; from CreditsWaitForFade, CreditsFadePalettes, CreditsEndDelay
 	rtl
 TextPalettes:						; the 4 text palettes, 4 colours each, that InitTextMap queues to CGRAM
 									; colour 0

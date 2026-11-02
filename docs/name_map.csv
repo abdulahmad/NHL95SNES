@@ -4368,14 +4368,14 @@ $C4B026,.2,CODE_C4B026,new,"branch target only used in ClearOffsidesIfAllPlayers
 $C4B03F,.3,CODE_C4B03F,new,"branch target only used in ClearOffsidesIfAllPlayers",src/bankC4_B000.asm
 $C4B04E,.4,CODE_C4B04E,new,"branch target only used in ClearOffsidesIfAllPlayers",src/bankC4_B000.asm
 $C4B1C9,.loop,CODE_C4B1C9,new,"branch target only used in IntroSequence",src/bankC4_B000.asm
-$C4B1E3,.rts,CODE_C4B1E3,new,"branch target only used in CODE_C4B1D6",src/bankC4_B000.asm
-$C4B1EF,.1,CODE_C4B1EF,new,"branch target only used in CODE_C4B1E4",src/bankC4_B000.asm
-$C4B211,.1,CODE_C4B211,new,"branch target only used in CODE_C4B206",src/bankC4_B000.asm
-$C4B28C,.1,CODE_C4B28C,new,"branch target only used in CODE_C4B280",src/bankC4_B000.asm
-$C4B306,.1,CODE_C4B306,new,"branch target only used in CODE_C4B2F9",src/bankC4_B000.asm
-$C4B30E,.2,CODE_C4B30E,new,"branch target only used in CODE_C4B2F9",src/bankC4_B000.asm
-$C4B32C,.rts,CODE_C4B32C,new,"branch target only used in CODE_C4B31A",src/bankC4_B000.asm
-$C4B34E,.1,CODE_C4B34E,new,"branch target only used in CODE_C4B32D",src/bankC4_B000.asm
+$C4B1E3,.rts,CODE_C4B1E3,new,"branch target only used in CheckIntroMirrorButtons",src/bankC4_B000.asm
+$C4B1EF,.1,CODE_C4B1EF,new,"branch target only used in IntroStartALogo",src/bankC4_B000.asm
+$C4B211,.1,CODE_C4B211,new,"branch target only used in IntroStartSportsWord",src/bankC4_B000.asm
+$C4B28C,.1,CODE_C4B28C,new,"branch target only used in PositionIntroSprite",src/bankC4_B000.asm
+$C4B306,.1,CODE_C4B306,new,"branch target only used in StepIntroScale",src/bankC4_B000.asm
+$C4B30E,.2,CODE_C4B30E,new,"branch target only used in StepIntroScale",src/bankC4_B000.asm
+$C4B32C,.rts,CODE_C4B32C,new,"branch target only used in ShowIntroSprite",src/bankC4_B000.asm
+$C4B34E,.1,CODE_C4B34E,new,"branch target only used in IntroColourFlashTask",src/bankC4_B000.asm
 $C4B393,.1,CODE_C4B393,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
 $C4B399,.loop,CODE_C4B399,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
 $C4B4B6,.2,CODE_C4B4B6,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
@@ -4390,7 +4390,7 @@ $C4B5BA,.8,CODE_C4B5BA,new,"branch target only used in CODE_C4B36A",src/bankC4_B
 $C4B5C0,.9,CODE_C4B5C0,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
 $C4B5DD,.loop4,CODE_C4B5DD,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
 $C4B62B,.loop5,CODE_C4B62B,new,"branch target only used in CODE_C4B36A",src/bankC4_B000.asm
-$C4B659,.1,CODE_C4B659,new,"branch target only used in CODE_C4B653",src/bankC4_B000.asm
+$C4B659,.1,CODE_C4B659,new,"branch target only used in StoreIntroPixel",src/bankC4_B000.asm
 $C4B6F2,.loop,CODE_C4B6F2,new,"branch target only used in InitTasks",src/bankC4_B000.asm
 $C4B760,.1,CODE_C4B760,new,"branch target only used in StartTasks",src/bankC4_B000.asm
 $C4B76A,.loop,CODE_C4B76A,new,"branch target only used in AddTask",src/bankC4_B000.asm
@@ -8207,3 +8207,27 @@ $C4EC88,UnpackPlayerPhoto,CODE_C4EC88,code,"ShowMatchups and DrawAwardWinner pas
 $C4EE9D,MapPhotoTiles,CODE_C4EE9D,code,"X is VRAM address and Y first tile; five calls to row writer plus final fallthrough row at the sixth address",src/bankC4_E000.asm
 $C4EEC0,MapPhotoTileRow,CODE_C4EEC0,code,"Y first tile copied to A; loop from five down to zero writes VMDATAL and increments A",src/bankC4_E000.asm
 $C4EF41,SetAllStarPhotoPointers,CODE_C4EF41,code,"ScoutingReport calls only for teams at or above 1A; writes photo block and bank/index pairs at the roster photo offsets for each all-star side",src/bankC4_E000.asm
+$C4B05E,IntroMode7Hook,CODE_C4B05E,code,"NMI hook installed by IntroSequence; writes M7A/M7D from 18D0, M7X/M7Y from 18D2/18D4, M7SEL and TM",src/bankC4_B000.asm
+$C4B1D6,CheckIntroMirrorButtons,CODE_C4B1D6,code,"masks F0C0 and compares F0C0 then sets bit 8000 of 81; IntroSequence calls for each pad",src/bankC4_B000.asm
+$C4B1E4,IntroStartALogo,CODE_C4B1E4,code,"a1 is sprite 22 created in IntroSequence; waits for 18D0=0100 then prepares frame and starts scale task",src/bankC4_B000.asm
+$C4B206,IntroStartSportsWord,CODE_C4B206,code,"a2 is sprite 23 created in IntroSequence; waits for 18D0=0100 then prepares frame and starts scale task",src/bankC4_B000.asm
+$C4B228,IntroStartElectronicWord,CODE_C4B228,code,"a3 is sprite 24 created in IntroSequence; waits for 18D0=0100 then prepares frame and starts scale task",src/bankC4_B000.asm
+$C4B247,IntroWaitForUnitScale,CODE_C4B247,code,"compares 18D0 to 0100 then clears task +8 and installs C4B25A",src/bankC4_B000.asm
+$C4B25A,IntroShowFinalWord,CODE_C4B25A,code,"sprite 25 saved at 7B by IntroSequence; calls C4B31A after task counter 001E",src/bankC4_B000.asm
+$C4B272,IntroEndDelay,CODE_C4B272,code,"clears task-loop flag 8000 in 85 when counter reaches 0258",src/bankC4_B000.asm
+$C4B280,PositionIntroSprite,CODE_C4B280,code,"writes sprite +5 from A or 256-A, +8 from Y, and clears bit zero of +22",src/bankC4_B000.asm
+$C4B299,StartIntroScaleTask,CODE_C4B299,code,"sets d0, merges X into flag 81, enables BG1 with TM shadow 11, sets scale 4000 and adds C4B2BD task",src/bankC4_B000.asm
+$C4B2BD,IntroScaleToFlash,CODE_C4B2BD,code,"calls C4B2F9 until below 0280 then installs C4B2DC and optionally adds C4B32D",src/bankC4_B000.asm
+$C4B2DC,IntroScaleToSprite,CODE_C4B2DC,code,"clamps scale at 0100, changes TM shadow to 10, calls C4B31A on d0 and RemoveTask",src/bankC4_B000.asm
+$C4B2F9,StepIntroScale,CODE_C4B2F9,code,"subtracts clamp(scale/4,0020,0280) from 18D0 and returns new scale",src/bankC4_B000.asm
+$C4B31A,ShowIntroSprite,CODE_C4B31A,code,"sets bit zero of sprite +22; mirror flag 81 sets bit 4000 of sprite +36",src/bankC4_B000.asm
+$C4B32D,IntroColourFlashTask,CODE_C4B32D,code,"indexes DATA8_C4B35D by task counter and writes COLDATA/CGADSUB/CGWSEL; zero disables colour math",src/bankC4_B000.asm
+$C4B653,StoreIntroPixel,CODE_C4B653,code,"a4 nonzero is ORed with 79, written to 0000,x; increments X and clears a4",src/bankC4_B000.asm
+$C4B66E,IntroSoundCue1,CODE_C4B66E,code,"task counter 001E starts sound 14 then tail-calls sound 11 and installs C4B689",src/bankC4_B000.asm
+$C4B689,IntroSoundCue2,CODE_C4B689,code,"task counter 003C starts sound 13 then tail-calls sound 10 and installs C4B6A3",src/bankC4_B000.asm
+$C4B6A3,IntroSoundCue3,CODE_C4B6A3,code,"task counter 005A starts sound 16 then tail-calls sound 09 and installs C4B6BD",src/bankC4_B000.asm
+$C4B6BD,IntroSoundCue4,CODE_C4B6BD,code,"task counter 0096 installs bare RTL task C4B688 and tail-calls sound 15",src/bankC4_B000.asm
+$C4B6D2,TitleStartMusicTask,CODE_C4B6D2,code,"counter 0177 triggers StartSound A4, clears 1EA7 and installs bare RTL C4B6EA",src/bankC4_B000.asm
+$C4BA67,CreditsWaitForFade,CODE_C4BA67,code,"DeveloperCredits passes this to StartTasks; counter 00B4 installs C4BA75",src/bankC4_B000.asm
+$C4BA75,CreditsFadePalettes,CODE_C4BA75,code,"fades 60 colours at CGRAM 20 and 20 at zero; countdown 7D ends with reset task timer",src/bankC4_B000.asm
+$C4BAC8,CreditsEndDelay,CODE_C4BAC8,code,"at counter 00B4 clears task-loop flag 8000 of 85",src/bankC4_B000.asm
