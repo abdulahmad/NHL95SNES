@@ -1308,10 +1308,10 @@ ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one Seaso
 									; scores highest
 	lda.w #$0000
 	sta.b a2
-.1:									; $6D = A, HomeTeam = A, call CODE_C531BC
+.1:									; $6D = A, HomeTeam = A, call LoadSeasonHomeRoster
 	sta.b $6D
 	sta.w HomeTeam
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 .loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .2, $2DCB = A, ...
 	lda.w $2DCB
 	dec a
@@ -1341,7 +1341,7 @@ ScanSelke:							; Selke Trophy: from the team CODE_C4DF5B picks, the forward wi
 	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w HomeTeam
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 	stz.b a2
 .loop:								; loop: A = $2DCD, A - 1, if the result < 0 go to .1, ...
 	lda.w $2DCD
@@ -1382,7 +1382,7 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 	lda.l $3075A4,x
 	and.w #$00FF
 	sta.w HomeTeam
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 	lda.w $2DC9
 	clc
 	sbc.w $2DCB
@@ -1426,7 +1426,7 @@ ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, ...
 	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w HomeTeam
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 	stz.b a2
 .loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .1, $2DCB = A, ...
 	lda.w $2DCB
@@ -1499,11 +1499,11 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	cmp.w #$001A
 	bne .1
 	ldx.w #$0000
-.5:									; $6D = X, HomeTeam = $3652,x, call CODE_C531BC, tmp2 = 0, ...
+.5:									; $6D = X, HomeTeam = $3652,x, call LoadSeasonHomeRoster, tmp2 = 0, ...
 	stx.b $6D
 	lda.w $3652,x
 	sta.w HomeTeam
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 	stz.b tmp2
 	stz.b r1
 	lda.w $2DCF
@@ -1605,7 +1605,7 @@ ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one wi
 	sta.w HomeTeam
 	pei ($6F)
 	pei ($71)
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 	pla
 	sta.b $71
 	pla
@@ -1647,7 +1647,7 @@ ScanNorris:							; Norris Trophy: from the team CODE_C4DF5B picks, the defencem
 	stz.b a2
 	jsr.w CODE_C4DF5B
 	sta.w HomeTeam
-	jsl.l CODE_C531BC
+	jsl.l LoadSeasonHomeRoster
 	stz.b a2
 .loop:								; loop: A = $2DCF, A - 1, if the result = 0 go to .1, $2DCF = A, ...
 	lda.w $2DCF

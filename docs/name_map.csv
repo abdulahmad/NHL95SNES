@@ -5147,18 +5147,18 @@ $C530AA,.loop,CODE_C530AA,new,"branch target only used in CODE_C530A0",src/bankC
 $C530B2,.rts,CODE_C530B2,new,"branch target only used in CODE_C530A0",src/bankC5_3000.asm
 $C530CD,.rts,CODE_C530CD,new,"branch target only used in CODE_C530B3",src/bankC5_3000.asm
 $C5312D,.loop,CODE_C5312D,new,"branch target only used in CODE_C5311F",src/bankC5_3000.asm
-$C531EA,.loop,CODE_C531EA,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C531F8,.1,CODE_C531F8,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C53214,.2,CODE_C53214,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C53221,.3,CODE_C53221,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C53227,.4,CODE_C53227,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C53241,.5,CODE_C53241,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C5324F,.6,CODE_C5324F,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C53261,.7,CODE_C53261,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C5326D,.8,CODE_C5326D,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C53284,.9,CODE_C53284,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C5328C,.10,CODE_C5328C,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
-$C5329F,.11,CODE_C5329F,new,"branch target only used in CODE_C531C7",src/bankC5_3000.asm
+$C531EA,.loop,CODE_C531EA,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C531F8,.1,CODE_C531F8,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C53214,.2,CODE_C53214,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C53221,.3,CODE_C53221,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C53227,.4,CODE_C53227,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C53241,.5,CODE_C53241,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C5324F,.6,CODE_C5324F,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C53261,.7,CODE_C53261,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C5326D,.8,CODE_C5326D,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C53284,.9,CODE_C53284,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C5328C,.10,CODE_C5328C,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
+$C5329F,.11,CODE_C5329F,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
 $C532BF,.1,CODE_C532BF,new,"branch target only used in CODE_C532B5",src/bankC5_3000.asm
 $C532DB,.1,CODE_C532DB,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
 $C532E5,.loop,CODE_C532E5,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
@@ -7990,3 +7990,7 @@ $C095BF,PrintShooterNames,CODE_C095BF,94S+purpose,"94S PrintShooterNames's job (
 $C096C0,PickShooterRow,CODE_C096C0,94S+purpose,"94S PickShooterRow side by side (curitem, GoalieCount, homeshooters / awayshooters); called where 94S ShootersPick calls it",src/bankC0_9000.asm
 $17C9,HomeTeam,,94S+code,"RAM: 94S ShootersBackground side by side (lda HomeTeam / VisTeam by a2); at defcontrol's offset from 94S; LoadGameRosters, AddGamePlayerStats and the season code use it as the home team",src/ram95s.asm
 $17CB,VisTeam,,94S+code,"RAM: as HomeTeam, the next word, as in 94S",src/ram95s.asm
+$C531C7,LoadSeasonRoster,CODE_C531C7,code,"from the code: the loop over the $27E player entries, the team field (5 bits), SwapRosterPlayers; LoadTeamRoster calls it in play modes 2 and 3",src/bankC5_3000.asm
+$C531BC,LoadSeasonHomeRoster,CODE_C531BC,code,"from the code; the award scanners call it for each team",src/bankC5_3000.asm
+$C530EB,AddRosterPlayer,CODE_C530EB,code,"from the code",src/bankC5_3000.asm
+$C530CE,SwapRosterPlayers,CODE_C530CE,code,"from the code",src/bankC5_3000.asm

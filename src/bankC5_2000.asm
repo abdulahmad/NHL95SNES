@@ -1614,8 +1614,8 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	beq .1
 	cpx.w #$0002
 	bne .2
-.1:									; call CODE_C531C7, go to .3
-	jsr.w CODE_C531C7
+.1:									; call LoadSeasonRoster, go to .3
+	jsr.w LoadSeasonRoster
 	bra .3
 .2:									; if $1872 is not 0 go to .1, A * 2, X = A, A = $C30000,x, ...
 	ldx.w $1872

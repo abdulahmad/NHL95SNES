@@ -43,7 +43,7 @@ CODE_C530B3:						; from CODE_C5308D, CODE_C530A0
 	clc
 .rts:								; return
 	rts
-CODE_C530CE:						; from CODE_C531C7
+SwapRosterPlayers:					; swaps the roster entries at X and Y (the id at +8 and the index at +$3A)
 	lda.w $0008,x
 	pha
 	lda.w $003A,x
@@ -57,7 +57,8 @@ CODE_C530CE:						; from CODE_C531C7
 	pla
 	sta.w $0008,y
 	rts
-CODE_C530EB:						; from CODE_C531C7
+AddRosterPlayer:					; adds player tmp2 to the roster table at tmp1: the count + 1, its index
+									; at +$3A and its PlayerList id at +8
 	phx
 	lda.b (tmp1)
 	inc a
@@ -131,7 +132,7 @@ CODE_C53136:						; no caller found (not traced)
 	adc.b $A5
 	sta.b $0A
 	rts
-CODE_C53167:						; from CODE_C531C7 and other segments
+CODE_C53167:						; from LoadSeasonRoster and other segments
 	lda.l $C30000,x
 	pha
 	and.w #$000F
@@ -173,13 +174,16 @@ CODE_C53167:						; from CODE_C531C7 and other segments
 	and.w #$00FF
 	sta.w $043C,y
 	rts
-CODE_C531BC:						; called from other segments
+LoadSeasonHomeRoster:				; LoadSeasonRoster of team A into the home roster table ($2DC9), for long
+									; calls
 	ldy.w #$2DC9
 	sta.b tmp0
 	sty.b tmp1
-	jsr.w CODE_C531C7
+	jsr.w LoadSeasonRoster
 	rtl
-CODE_C531C7:						; from CODE_C531BC and other segments
+LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season data: each
+									; player whose entry at $306A56 has team tmp0 (AddRosterPlayer), then the
+									; entries ordered
 	asl a
 	tax
 	lda.l $C30000,x
@@ -200,7 +204,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	and.w #$001F
 	cmp.b tmp0
 	bne .1
-	jsr.w CODE_C530EB
+	jsr.w AddRosterPlayer
 .1:									; A = tmp2, A + 1, if A >= $027E go to .3, tmp2 = A, ...
 	lda.b tmp2
 	inc a
@@ -215,7 +219,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	and.w #$001F
 	cmp.b tmp0
 	bne .2
-	jsr.w CODE_C530EB
+	jsr.w AddRosterPlayer
 .2:									; X + 1, X + 1, X + 1, A = tmp2, ...
 	inx
 	inx
@@ -255,7 +259,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	asl a
 	adc.b tmp1
 	tax
-	jsr.w CODE_C530CE
+	jsr.w SwapRosterPlayers
 	plx
 	bra .7
 .7:									; Y + 1, Y + 1, tmp2 - 1, if the result is not 0 go to .4, ...
@@ -291,7 +295,7 @@ CODE_C531C7:						; from CODE_C531BC and other segments
 	asl a
 	adc.b tmp1
 	tax
-	jsr.w CODE_C530CE
+	jsr.w SwapRosterPlayers
 .11:								; Y + 1, Y + 1, tmp2 - 1, if the result is not 0 go to .8, ...
 	iny
 	iny
