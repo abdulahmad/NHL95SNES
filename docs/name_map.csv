@@ -8762,3 +8762,11 @@ $1B08,PalSlotsUsed,,code,"RAM: from the code: UseSpritePalette counts up (stops 
 $1B0E,SpriteChainTail,,code,"RAM: from the code: CreateSprite links the new object after it and makes it the tail, DeleteSprite unlinks and moves it back",src/ram95s.asm
 $46A8,PalSlotList,,code,"RAM: from the code: ResetSpritesAt fills it, UseSpritePalette takes from it, DeleteSprite gives back; docs/sprite_objects.md: free palette slots",src/ram95s.asm
 $1912,SpriteObjRAM,,code,"RAM: from the code: ResetSpritesAt builds the free list from $1912 in $3A steps, BackupPauseBuffers / RestorePauseBuffers copy $1FE bytes from it; docs/sprite_objects.md lists the fields",src/ram95s.asm
+$DB8A,SimTable,,code,"RAM: from the code: SimPlayerStats spreads the shots through $DB8A-$DB90; BuildSimPickTable stores a running weight sum and the player per entry (4 bytes), SimGiveGoals / SimGiveAssists search it",src/ram95s.asm
+$DBDA,SimGroupStart,,code,"RAM: from the code: SimPlayerStats stores the roster's goalie count, + the next count at $DBDC, + the next at $DBDE; the two pick ranges come from them",src/ram95s.asm
+$DBE0,SimPickFirst,,code,"RAM: from the code: SimPlayerStats sets it from the group bounds, BuildSimPickTable counts it up to SimPickEnd",src/ram95s.asm
+$DBE2,SimPickEnd,,code,"RAM: from the code: SimPlayerStats sets it from the group bounds; BuildSimPickTable's loop end",src/ram95s.asm
+$DBE4,SimGiveLater,,code,"RAM: from the code: SimPlayerStats splits the count (Mul16U), gives the first part to one range, then this to the next",src/ram95s.asm
+$DBE6,SimGiveCount,,code,"RAM: from the code: SimPlayerStats sets it, the give loops count it down",src/ram95s.asm
+$DBE8,SimPickTotal,,code,"RAM: from the code: BuildSimPickTable adds each weight, SimGiveGoals / SimGiveAssists take RandomBelowA7E of it",src/ram95s.asm
+$DBEA,SimPickIndex,,code,"RAM: from the code: BuildSimPickTable clears it and moves it on per player",src/ram95s.asm

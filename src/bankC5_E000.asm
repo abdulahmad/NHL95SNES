@@ -28,18 +28,18 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	lda.b $0A
 	sta.b r2
 	jsl.l Div16x8U
-	sta.w $DB90
-	sta.w $DB8E
-	sta.w $DB8C
+	sta.w SimTable+$6
+	sta.w SimTable+$4
+	sta.w SimTable+$2
 	clc
 	adc.l RDMPYL
 	adc.b $01,s
-	sta.w $DB8A
+	sta.w SimTable
 	pla
 	ldy.b $0E
 	ldx.w #$0000
-.loop:								; loop: $00A2,y = $DB8A,x, X + 1, X + 1, Y + 1, ...
-	lda.w $DB8A,x
+.loop:								; loop: $00A2,y = SimTable,x, X + 1, X + 1, Y + 1, ...
+	lda.w SimTable,x
 	sta.w $00A2,y
 	inx
 	inx
@@ -63,22 +63,22 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	lda.b $A5
 	bne .2
 	jmp.w SimPlayerStatsReturn
-.2:									; Y = $0002, $DBDA = [p0],y, $DBE0 = A, Y + 1, ...
+.2:									; Y = $0002, SimGroupStart = [p0],y, SimPickFirst = A, Y + 1, ...
 	ldy.w #$0002
 	lda.b [p0],y
-	sta.w $DBDA
-	sta.w $DBE0
+	sta.w SimGroupStart
+	sta.w SimPickFirst
 	iny
 	iny
 	clc
 	adc.b [p0],y
-	sta.w $DBDC
-	sta.w $DBE2
+	sta.w SimGroupStart+$2
+	sta.w SimPickEnd
 	iny
 	iny
 	adc.b [p0],y
-	sta.w $DBDE
-	stz.w $DBE4
+	sta.w SimGroupStart+$4
+	stz.w SimGiveLater
 	lda.b $A4
 	and.w #$FF00
 	cmp.w #$0100
@@ -91,19 +91,19 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	lda.b $A5
 	sec
 	sbc.b $36
-	sta.w $DBE4
+	sta.w SimGiveLater
 	lda.b $36
-.4:									; $DBE6 = A, call SimGiveGoals, $DBE0 = $DBDC, $DBE2 = $DBDE, ...
-	sta.w $DBE6
+.4:									; SimGiveCount = A, call SimGiveGoals, ...
+	sta.w SimGiveCount
 	jsr.w SimGiveGoals
-	lda.w $DBDC
-	sta.w $DBE0
-	lda.w $DBDE
-	sta.w $DBE2
-	lda.w $DBE4
-	sta.w $DBE6
+	lda.w SimGroupStart+$2
+	sta.w SimPickFirst
+	lda.w SimGroupStart+$4
+	sta.w SimPickEnd
+	lda.w SimGiveLater
+	sta.w SimGiveCount
 	jsr.w SimGiveGoals
-	stz.w $DBE4
+	stz.w SimGiveLater
 	lda.b $A5
 	lsr a
 	beq SimPlayerStatsReturn
@@ -120,32 +120,32 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	lda.b $A5
 	sec
 	sbc.b $36
-	sta.w $DBE4
+	sta.w SimGiveLater
 	lda.b $36
-.6:									; $DBE6 = A, $DBE0 = $DBDA, $DBE2 = $DBDC, call SimGiveAssists, ...
-	sta.w $DBE6
-	lda.w $DBDA
-	sta.w $DBE0
-	lda.w $DBDC
-	sta.w $DBE2
+.6:									; SimGiveCount = A, SimPickFirst = SimGroupStart, ...
+	sta.w SimGiveCount
+	lda.w SimGroupStart
+	sta.w SimPickFirst
+	lda.w SimGroupStart+$2
+	sta.w SimPickEnd
 	jsr.w SimGiveAssists
-	lda.w $DBDC
-	sta.w $DBE0
-	lda.w $DBDE
-	sta.w $DBE2
-	lda.w $DBE4
-	sta.w $DBE6
-SimGiveAssists:						; gives $DBE6 assists one at a time to random players of the pick table
-									; (BuildSimPickTable): + 1 at + $6E
-	lda.w $DBE6
+	lda.w SimGroupStart+$2
+	sta.w SimPickFirst
+	lda.w SimGroupStart+$4
+	sta.w SimPickEnd
+	lda.w SimGiveLater
+	sta.w SimGiveCount
+SimGiveAssists:						; gives SimGiveCount assists one at a time to random players of the pick
+									; table (BuildSimPickTable): + 1 at + $6E
+	lda.w SimGiveCount
 	beq SimPlayerStatsReturn
 	jsr.w BuildSimPickTable
-.1:									; A = $DBE8, call RandomBelowA7E, X = $0000
-	lda.w $DBE8
+.1:									; A = SimPickTotal, call RandomBelowA7E, X = $0000
+	lda.w SimPickTotal
 	jsr.w RandomBelowA7E
 	ldx.w #$0000
-.loop:								; loop: if A < $DB8A,x go to .2, if zero go to .2, X + 1, X + 1, ...
-	cmp.w $DB8A,x
+.loop:								; loop: if A < SimTable,x go to .2, if zero go to .2, X + 1, X + 1, ...
+	cmp.w SimTable,x
 	bcc .2
 	beq .2
 	inx
@@ -153,27 +153,27 @@ SimGiveAssists:						; gives $DBE6 assists one at a time to random players of th
 	inx
 	inx
 	bra .loop
-.2:									; A = $DB8C,x, A + $0E, X = A, $006E,x + 1, ...
-	lda.w $DB8C,x
+.2:									; A = SimTable+$2,x, A + $0E, X = A, $006E,x + 1, ...
+	lda.w SimTable+$2,x
 	clc
 	adc.b $0E
 	tax
 	inc.w $006E,x
-	dec.w $DBE6
+	dec.w SimGiveCount
 	bne .1
 SimPlayerStatsReturn:				; the rts SimPlayerStats and SimGiveAssists share
 	rts
-SimGiveGoals:						; gives $DBE6 goals one at a time to random players of the pick table
-									; (BuildSimPickTable): + 1 at + $3A
-	lda.w $DBE6
+SimGiveGoals:						; gives SimGiveCount goals one at a time to random players of the pick
+									; table (BuildSimPickTable): + 1 at + $3A
+	lda.w SimGiveCount
 	beq .rts
 	jsr.w BuildSimPickTable
-.1:									; A = $DBE8, call RandomBelowA7E, X = $0000
-	lda.w $DBE8
+.1:									; A = SimPickTotal, call RandomBelowA7E, X = $0000
+	lda.w SimPickTotal
 	jsr.w RandomBelowA7E
 	ldx.w #$0000
-.loop:								; loop: if A < $DB8A,x go to .2, if zero go to .2, X + 1, X + 1, ...
-	cmp.w $DB8A,x
+.loop:								; loop: if A < SimTable,x go to .2, if zero go to .2, X + 1, X + 1, ...
+	cmp.w SimTable,x
 	bcc .2
 	beq .2
 	inx
@@ -181,21 +181,22 @@ SimGiveGoals:						; gives $DBE6 goals one at a time to random players of the pi
 	inx
 	inx
 	bra .loop
-.2:									; A = $DB8C,x, A + $0E, X = A, $003A,x + 1, ...
-	lda.w $DB8C,x
+.2:									; A = SimTable+$2,x, A + $0E, X = A, $003A,x + 1, ...
+	lda.w SimTable+$2,x
 	clc
 	adc.b $0E
 	tax
 	inc.w $003A,x
-	dec.w $DBE6
+	dec.w SimGiveCount
 	bne .1
 .rts:								; return
 	rts
-BuildSimPickTable:					; the pick table of players $DBE0 up to $DBE2: each weighs 2 ^ (n - 1), n
-									; the low nibble of his roster byte + $112, totals in $DB8A by player
-	stz.w $DBEA
-	stz.w $DBE8
-	lda.w $DBE0
+BuildSimPickTable:					; the pick table of players SimPickFirst up to SimPickEnd: each weighs 2 ^
+									; (n - 1), n the low nibble of his roster byte + $112, running sums in
+									; SimTable by player
+	stz.w SimPickIndex
+	stz.w SimPickTotal
+	lda.w SimPickFirst
 .loop:								; loop: A * 2, A * 2, A * 2, A * 2, ...
 	asl a
 	asl a
@@ -209,25 +210,25 @@ BuildSimPickTable:					; the pick table of players $DBE0 up to $DBE2: each weigh
 	tay
 	lda.w #$0000
 	sec
-.loop2:								; loop: Y - 1, if the result is not 0 go to .loop2, X = $DBEA, ...
+.loop2:								; loop: Y - 1, if the result is not 0 go to .loop2, X = SimPickIndex, ...
 	rol a
 	dey
 	bne .loop2
-	ldx.w $DBEA
+	ldx.w SimPickIndex
 	clc
-	adc.w $DBE8
-	sta.w $DBE8
-	sta.w $DB8A,x
-	lda.w $DBE0
-	sta.w $DB8C,x
+	adc.w SimPickTotal
+	sta.w SimPickTotal
+	sta.w SimTable,x
+	lda.w SimPickFirst
+	sta.w SimTable+$2,x
 	inx
 	inx
 	inx
 	inx
-	stx.w $DBEA
+	stx.w SimPickIndex
 	inc a
-	sta.w $DBE0
-	cmp.w $DBE2
+	sta.w SimPickFirst
+	cmp.w SimPickEnd
 	bne .loop
 	rts
 SimTeamTotals:						; a simulated team's game totals at X from its goals A: shots are goals +

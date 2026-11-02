@@ -468,6 +468,14 @@ RandomState			=	$466E		; RandomBelowA's 32 bit generator (SeedRandom seeds it)
 BG3ScrollHDMA		=	$468C		; BG3 scroll HDMA table: BG3ScrollHDMA1 / 2's copy or a scrolling list's
 PalSlotList			=	$46A8		; the free sprite CGRAM palette slots, a word each (PalSlotNext)
 SpritePalUse		=	$46B8		; per palette: minus if not loaded, else CGRAM slot (high) and uses (low)
+SimTable			=	$DB8A		; SimPlayerStats' table: the shot split, then the pick table (sum, player)
+SimGroupStart		=	$DBDA		; SimPlayerStats: the first skater (after the goalies), then 2 more bounds
+SimPickFirst		=	$DBE0		; BuildSimPickTable: the first player of the range (moved on per entry)
+SimPickEnd			=	$DBE2		; BuildSimPickTable: the player the range stops at
+SimGiveLater		=	$DBE4		; SimPlayerStats: the goals or assists left for the second range
+SimGiveCount		=	$DBE6		; the goals / assists SimGiveGoals / SimGiveAssists hand out
+SimPickTotal		=	$DBE8		; BuildSimPickTable: the sum of the weights (the random limit)
+SimPickIndex		=	$DBEA		; BuildSimPickTable: the next entry of SimTable (4 bytes each)
 
 ; work RAM, long addresses
 Crowdlevel			=	$7E24CA		; crowd noise level: the play raises it, updatecrowdf lets it fade
