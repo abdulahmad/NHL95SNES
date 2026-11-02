@@ -1403,7 +1403,7 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	lda.w $364E,x
 	eor.w #$0001
 	sta.w $364E,x
-	jsr.w CODE_C5DA58
+	jsr.w RedrawTradeLists
 	jsl.l SendTextMap
 .12:								; go to .1
 	jmp.w .1
@@ -1505,7 +1505,7 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	lda.w #$3207
 	sta.b $75
 	lda.w #DrawTradeRow
-	jsr.w CODE_C5D8E7
+	jsr.w SetupTradeLists
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	stz.b $85

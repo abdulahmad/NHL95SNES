@@ -1179,7 +1179,9 @@ PrintPositionCounts:				; prints the goalie, defence and forward counts (d0, d1,
 	ldy.w #$0009
 	jsl.l PrintBoldLeftStr
 	rts
-CODE_C5D8E7:						; called from other segments
+SetupTradeLists:					; the trade screen's two lists: the band HDMA tables (TM at $3E4E, BG3
+									; vertical scroll at $3F4E), the two cursor sprites, both lists drawn,
+									; then PlaceTradeCursors
 	sta.b d4
 	stz.b $77
 	stz.b $79
@@ -1297,7 +1299,7 @@ CODE_C5D8E7:						; called from other segments
 	ldy.b a3
 	ldx.b $7B
 	lda.b a1
-	jsr.w CODE_C5DAAF
+	jsr.w DrawTradeListRows
 	lda.b $79
 	sta.b $91
 	lda.b $75
@@ -1305,7 +1307,7 @@ CODE_C5D8E7:						; called from other segments
 	ldy.b $71
 	ldx.b $7D
 	lda.b $69
-	jsr.w CODE_C5DAAF
+	jsr.w DrawTradeListRows
 PlaceTradeCursors:					; each frame, places the two trade list cursor sprites (d3, $8D) at their
 									; rows and hides the one past its list's end
 	ldy.b a2
@@ -1350,7 +1352,8 @@ PlaceTradeCursors:					; each frame, places the two trade list cursor sprites (d
 .4:									; $22,x = A, return
 	sta.b $22,x
 	rts
-CODE_C5DA58:						; called from other segments
+RedrawTradeLists:					; draws both trade lists again and rebuilds the scroll table ($3F4E) for
+									; their windows
 	lda.b $77
 	sta.b $91
 	lda.b a4
@@ -1358,7 +1361,7 @@ CODE_C5DA58:						; called from other segments
 	ldy.b a3
 	ldx.b $7B
 	lda.b a1
-	jsr.w CODE_C5DAAF
+	jsr.w DrawTradeListRows
 	lda.b $79
 	sta.b $91
 	lda.b $75
@@ -1366,10 +1369,10 @@ CODE_C5DA58:						; called from other segments
 	ldy.b $71
 	ldx.b $7D
 	lda.b $69
-	jsr.w CODE_C5DAAF
+	jsr.w DrawTradeListRows
 	ldy.w #$0003
 	lda.w #$0000
-	jsr.w CODE_C5DC54
+	jsr.w TradeListScrollEntries
 	lda.b $71
 	clc
 	sbc.b a3
@@ -1385,7 +1388,7 @@ CODE_C5DA58:						; called from other segments
 	iny
 	iny
 	lda.w #$0002
-	jsr.w CODE_C5DC54
+	jsr.w TradeListScrollEntries
 	lda.w #$0001
 	sta.w $3F4E,y
 	dec a
@@ -1393,7 +1396,9 @@ CODE_C5DA58:						; called from other segments
 	dec a
 	sta.w $3F4F,y
 	rts
-CODE_C5DAAF:						; from CODE_C5D8E7, CODE_C5DA58
+DrawTradeListRows:					; draws a trade list's rows from $91 - 1 to just below its window (A rows
+									; shown, X the count), each on its row of the list's wrapping text rows
+									; from Y, through the row routine at $8F
 	phy
 	phx
 	tay
@@ -1406,13 +1411,13 @@ CODE_C5DAAF:						; from CODE_C5D8E7, CODE_C5DA58
 	adc.b $91
 	pha
 	lda.b $91
-	beq CODE_C5DAC2
+	beq DrawTradeRowNext
 	dec a
-CODE_C5DAC2:						; from CODE_C5DAAF, CODE_C5DAE2
+DrawTradeRowNext:					; DrawTradeListRows' loop: row A while below both limits
 	cmp.b $01,s
-	bcs CODE_C5DAEF
+	bcs DrawTradeListRowsDone
 	cmp.b $03,s
-	bcs CODE_C5DAEF
+	bcs DrawTradeListRowsDone
 	sta.b $91
 .loop:								; loop: if A < tmp1 go to .1, A - tmp2, if the result >= 0 go to .loop
 	cmp.b tmp1
@@ -1424,15 +1429,16 @@ CODE_C5DAC2:						; from CODE_C5DAAF, CODE_C5DAE2
 	adc.b $05,s
 	sta.b $6D
 	jsr.w ClearTextRow
-	pea.w CODE_C5DAE2-1
+	pea.w TradeRowDrawn-1
 	jmp ($008F)
-CODE_C5DAE2:						; from CODE_C5DAC2
+TradeRowDrawn:						; the row routine returns here: WaitTransfers, RestoreWorkBuf, the next
+									; row
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.b $91
 	inc a
-	bra CODE_C5DAC2
-CODE_C5DAEF:						; from CODE_C5DAC2
+	bra DrawTradeRowNext
+DrawTradeListRowsDone:				; DrawTradeListRows' end: its three pushed values dropped
 	pla
 	pla
 	pla
@@ -1463,7 +1469,7 @@ TradeCursorUp:						; moves the cursor of team a2's trade list up a row; when it
 	dec a
 	sta.b $77,x
 	dec a
-	bmi CODE_C5DB38
+	bmi ScrollTradeListUp
 	sta.b $91
 .loop:								; loop: if A < tmp1 go to .1, A - tmp2, if the result >= 0 go to .loop
 	cmp.b tmp1
@@ -1475,24 +1481,26 @@ TradeCursorUp:						; moves the cursor of team a2's trade list up a row; when it
 	adc.b $6F,x
 	sta.b $6D
 	jsr.w ClearTextRow
-	pea.w CODE_C5DB30-1
+	pea.w TradeUpRowDrawn-1
 	jmp ($008F)
-CODE_C5DB30:						; from TradeCursorUp
+TradeUpRowDrawn:					; TradeCursorUp's row above drawn: SendTextMap, then ScrollTradeListUp
 	jsl.l SendTextMap
-	bra CODE_C5DB38
+	bra ScrollTradeListUp
 TradeCursorUpReturn:				; TradeCursorUp's exit at the top of the list: the pushed value dropped,
 									; rts
 	pla
 	rts
-CODE_C5DB38:						; from TradeCursorUp, CODE_C5DB30
+ScrollTradeListUp:					; scrolls the moved trade list up a row over 8 frames, the BG3 scroll
+									; table rebuilt each frame (TradeScrollStepUp for it,
+									; TradeListScrollEntries for the other)
 	lda.w #$0007
-.1:									; push A, Y = $0003, if $03,s is not 0 go to .2, call CODE_C5DCEE, ...
+.1:									; push A, Y = $0003, if $03,s is not 0 go to .2, ...
 	pha
 	ldy.w #$0003
 	wai
 	lda.b $03,s
 	bne .2
-	jsr.w CODE_C5DCEE
+	jsr.w TradeScrollStepUp
 	lda.b $05,s
 	sta.w $3F4E,y
 	lda.w #$FFFF
@@ -1502,7 +1510,7 @@ CODE_C5DB38:						; from TradeCursorUp, CODE_C5DB30
 	iny
 	lda.b $03,s
 	eor.w #$0002
-	jsr.w CODE_C5DC54
+	jsr.w TradeListScrollEntries
 	lda.w #$0001
 	sta.w $3F4E,y
 	dec a
@@ -1510,9 +1518,9 @@ CODE_C5DB38:						; from TradeCursorUp, CODE_C5DB30
 	dec a
 	sta.w $3F4F,y
 	bra .3
-.2:									; A xor $0002, call CODE_C5DC54, $3F4E,y = $05,s, $3F4F,y = $FFFF, ...
+.2:									; A xor $0002, call TradeListScrollEntries, $3F4E,y = $05,s, ...
 	eor.w #$0002
-	jsr.w CODE_C5DC54
+	jsr.w TradeListScrollEntries
 	lda.b $05,s
 	sta.w $3F4E,y
 	lda.w #$FFFF
@@ -1520,7 +1528,7 @@ CODE_C5DB38:						; from TradeCursorUp, CODE_C5DB30
 	iny
 	iny
 	iny
-	jsr.w CODE_C5DCEE
+	jsr.w TradeScrollStepUp
 	lda.w #$0001
 	sta.w $3F4E,y
 	dec a
@@ -1563,7 +1571,7 @@ TradeCursorDown:					; moves the cursor of team a2's trade list down a row (not 
 	phx
 	inc a
 	cmp.b $7B,x
-	bcs CODE_C5DBE8
+	bcs ScrollTradeListDown
 	sta.b $91
 .loop:								; loop: if A < tmp1 go to .1, A - tmp2, if the result >= 0 go to .loop
 	cmp.b tmp1
@@ -1575,27 +1583,29 @@ TradeCursorDown:					; moves the cursor of team a2's trade list down a row (not 
 	adc.b $6F,x
 	sta.b $6D
 	jsr.w ClearTextRow
-	pea.w CODE_C5DBE0-1
+	pea.w TradeDownRowDrawn-1
 	jmp ($008F)
-CODE_C5DBE0:						; from TradeCursorDown
+TradeDownRowDrawn:					; TradeCursorDown's row below drawn: SendTextMap, then ScrollTradeListDown
 	jsl.l SendTextMap
-	bra CODE_C5DBE8
+	bra ScrollTradeListDown
 TradeCursorDownReturn:				; TradeCursorDown's exit at the end of the list: the pushed value dropped,
 									; rts
 	pla
 	rts
-CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
+ScrollTradeListDown:				; the list's first row + 1, then it scrolls down a row over 8 frames, the
+									; BG3 scroll table rebuilt each frame (TradeScrollStepDown for it,
+									; TradeListScrollEntries for the other)
 	lda.b $01,s
 	tax
 	inc.b $77,x
 	lda.w #$0007
-.1:									; push A, Y = $0003, if $03,s is not 0 go to .2, call CODE_C5DCA7, ...
+.1:									; push A, Y = $0003, if $03,s is not 0 go to .2, ...
 	pha
 	ldy.w #$0003
 	wai
 	lda.b $03,s
 	bne .2
-	jsr.w CODE_C5DCA7
+	jsr.w TradeScrollStepDown
 	lda.b $05,s
 	sta.w $3F4E,y
 	lda.w #$FFFF
@@ -1605,7 +1615,7 @@ CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
 	iny
 	lda.b $03,s
 	eor.w #$0002
-	jsr.w CODE_C5DC54
+	jsr.w TradeListScrollEntries
 	lda.w #$0001
 	sta.w $3F4E,y
 	dec a
@@ -1613,9 +1623,9 @@ CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
 	dec a
 	sta.w $3F4F,y
 	bra .3
-.2:									; A xor $0002, call CODE_C5DC54, $3F4E,y = $05,s, $3F4F,y = $FFFF, ...
+.2:									; A xor $0002, call TradeListScrollEntries, $3F4E,y = $05,s, ...
 	eor.w #$0002
-	jsr.w CODE_C5DC54
+	jsr.w TradeListScrollEntries
 	lda.b $05,s
 	sta.w $3F4E,y
 	lda.w #$FFFF
@@ -1623,7 +1633,7 @@ CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
 	iny
 	iny
 	iny
-	jsr.w CODE_C5DCA7
+	jsr.w TradeScrollStepDown
 	lda.w #$0001
 	sta.w $3F4E,y
 	dec a
@@ -1639,7 +1649,8 @@ CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
 	stz.w padlast
 	stz.w repeatdelayframes
 	rts
-CODE_C5DC54:						; from CODE_C5DA58, CODE_C5DB38, CODE_C5DBE8, CODE_C5DB38, ...
+TradeListScrollEntries:				; the BG3 scroll HDMA entries at $3F4E,y of trade list A's window (one, or
+									; two when its first row wraps in the text rows); Y past them
 	tax
 	lda.b $67,x
 	inc a
@@ -1690,7 +1701,8 @@ CODE_C5DC54:						; from CODE_C5DA58, CODE_C5DB38, CODE_C5DBE8, CODE_C5DB38, ...
 	adc.w #$0006
 	tay
 	rts
-CODE_C5DCA7:						; from CODE_C5DBE8
+TradeScrollStepDown:				; moves trade list Y's scroll entries one line for ScrollTradeListDown; Y
+									; past them
 	lda.w $3F4F,y
 	inc a
 	sta.w $3F4F,y
@@ -1729,7 +1741,8 @@ CODE_C5DCA7:						; from CODE_C5DBE8
 	adc.w #$0006
 	tay
 	rts
-CODE_C5DCEE:						; from CODE_C5DB38
+TradeScrollStepUp:					; moves trade list Y's scroll entries one line for ScrollTradeListUp; Y
+									; past them
 	sep #$20
 	lda.b tmp2
 	asl a

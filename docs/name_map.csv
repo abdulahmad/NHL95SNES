@@ -6391,24 +6391,24 @@ $C5DA25,.1,CODE_C5DA25,new,"branch target only used in PlaceTradeCursors",src/ba
 $C5DA2A,.2,CODE_C5DA2A,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
 $C5DA50,.3,CODE_C5DA50,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
 $C5DA55,.4,CODE_C5DA55,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
-$C5DACC,.loop,CODE_C5DACC,new,"branch target only used in CODE_C5DAC2",src/bankC5_D000.asm
-$C5DAD4,.1,CODE_C5DAD4,new,"branch target only used in CODE_C5DAC2",src/bankC5_D000.asm
+$C5DACC,.loop,CODE_C5DACC,new,"branch target only used in DrawTradeRowNext",src/bankC5_D000.asm
+$C5DAD4,.1,CODE_C5DAD4,new,"branch target only used in DrawTradeRowNext",src/bankC5_D000.asm
 $C5DB1A,.loop,CODE_C5DB1A,new,"branch target only used in TradeCursorUp",src/bankC5_D000.asm
 $C5DB22,.1,CODE_C5DB22,new,"branch target only used in TradeCursorUp",src/bankC5_D000.asm
-$C5DB3B,.1,CODE_C5DB3B,new,"branch target only used in CODE_C5DB38",src/bankC5_D000.asm
-$C5DB6D,.2,CODE_C5DB6D,new,"branch target only used in CODE_C5DB38",src/bankC5_D000.asm
-$C5DB92,.3,CODE_C5DB92,new,"branch target only used in CODE_C5DB38",src/bankC5_D000.asm
+$C5DB3B,.1,CODE_C5DB3B,new,"branch target only used in ScrollTradeListUp",src/bankC5_D000.asm
+$C5DB6D,.2,CODE_C5DB6D,new,"branch target only used in ScrollTradeListUp",src/bankC5_D000.asm
+$C5DB92,.3,CODE_C5DB92,new,"branch target only used in ScrollTradeListUp",src/bankC5_D000.asm
 $C5DBCA,.loop,CODE_C5DBCA,new,"branch target only used in TradeCursorDown",src/bankC5_D000.asm
 $C5DBD2,.1,CODE_C5DBD2,new,"branch target only used in TradeCursorDown",src/bankC5_D000.asm
-$C5DBF0,.1,CODE_C5DBF0,new,"branch target only used in CODE_C5DBE8",src/bankC5_D000.asm
-$C5DC22,.2,CODE_C5DC22,new,"branch target only used in CODE_C5DBE8",src/bankC5_D000.asm
-$C5DC47,.3,CODE_C5DC47,new,"branch target only used in CODE_C5DBE8",src/bankC5_D000.asm
-$C5DC5D,.loop,CODE_C5DC5D,new,"branch target only used in CODE_C5DC54",src/bankC5_D000.asm
-$C5DC65,.1,CODE_C5DC65,new,"branch target only used in CODE_C5DC54",src/bankC5_D000.asm
-$C5DC7C,.2,CODE_C5DC7C,new,"branch target only used in CODE_C5DC54",src/bankC5_D000.asm
-$C5DCCD,.1,CODE_C5DCCD,new,"branch target only used in CODE_C5DCA7",src/bankC5_D000.asm
-$C5DD16,.1,CODE_C5DD16,new,"branch target only used in CODE_C5DCEE",src/bankC5_D000.asm
-$C5DD1D,.2,CODE_C5DD1D,new,"branch target only used in CODE_C5DCEE",src/bankC5_D000.asm
+$C5DBF0,.1,CODE_C5DBF0,new,"branch target only used in ScrollTradeListDown",src/bankC5_D000.asm
+$C5DC22,.2,CODE_C5DC22,new,"branch target only used in ScrollTradeListDown",src/bankC5_D000.asm
+$C5DC47,.3,CODE_C5DC47,new,"branch target only used in ScrollTradeListDown",src/bankC5_D000.asm
+$C5DC5D,.loop,CODE_C5DC5D,new,"branch target only used in TradeListScrollEntries",src/bankC5_D000.asm
+$C5DC65,.1,CODE_C5DC65,new,"branch target only used in TradeListScrollEntries",src/bankC5_D000.asm
+$C5DC7C,.2,CODE_C5DC7C,new,"branch target only used in TradeListScrollEntries",src/bankC5_D000.asm
+$C5DCCD,.1,CODE_C5DCCD,new,"branch target only used in TradeScrollStepDown",src/bankC5_D000.asm
+$C5DD16,.1,CODE_C5DD16,new,"branch target only used in TradeScrollStepUp",src/bankC5_D000.asm
+$C5DD1D,.2,CODE_C5DD1D,new,"branch target only used in TradeScrollStepUp",src/bankC5_D000.asm
 $C5DD4F,.loop,CODE_C5DD4F,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
 $C5DD79,.1,CODE_C5DD79,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
 $C5DD97,.2,CODE_C5DD97,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
@@ -8526,3 +8526,16 @@ $C5E447,ClearPlayerGoals,CODE_C5E447,code,"from the code: A * 9 gives the byte a
 $C5E474,ClearCreatedGoals,CODE_C5E474,code,"from the code: NextSaveBits3 per record ($99 bits apart up to $C30), $A5 from $26A; the season reset (CODE_C4CFF5) calls it",src/bankC5_E000.asm
 $CF038E,StartCrowdSound,CODE_CF038E,code,"from the code: if $1EA5 is 0 it becomes 2 and jml StartSound with A = 2; puckfaceoff2 and Pausemode call it after sound 6; updatecrowdf runs only while $1EA5 is set, LoadSounds clears it",src/bankCF_0000.asm
 $1EA5,CrowdSoundOn,,code,"RAM: from the code: StartCrowdSound sets 2 and starts sound 2, LoadSounds clears it when it reloads the sounds, updatecrowdf works only while it is set",src/ram95s.asm
+$C5D8E7,SetupTradeLists,CODE_C5D8E7,code,"from the code: SetupHDMA $2C / $3E4E and $12 / $3F4E (inline parameters), the band sizes from a3, a1, $71 and $69, sprite 28 twice (d3, $8D), DrawTradeListRows for each list; DrawTradePage calls it with DrawTradeRow",src/bankC5_D000.asm
+$C5DA58,RedrawTradeLists,CODE_C5DA58,code,"from the code: DrawTradeListRows for each list, then TradeListScrollEntries for both around the middle band; TradePlayers calls it after a mark changes",src/bankC5_D000.asm
+$C5DAAF,DrawTradeListRows,CODE_C5DAAF,code,"from the code: the limits pushed, the row wrapped by A + 2 rows, ClearTextRow, the jmp ($8F) returning to TradeRowDrawn, WaitTransfers / RestoreWorkBuf per row",src/bankC5_D000.asm
+$C5DAC2,DrawTradeRowNext,CODE_C5DAC2,code,"from the code: the two stacked limit tests, then the wrap and the row call",src/bankC5_D000.asm
+$C5DAE2,TradeRowDrawn,CODE_C5DAE2,code,"from the code: the return address DrawTradeRowNext pushes before jmp ($8F)",src/bankC5_D000.asm
+$C5DAEF,DrawTradeListRowsDone,CODE_C5DAEF,code,"from the code: pla three times, rts",src/bankC5_D000.asm
+$C5DB30,TradeUpRowDrawn,CODE_C5DB30,code,"from the code: the return address TradeCursorUp pushes before its row routine",src/bankC5_D000.asm
+$C5DB38,ScrollTradeListUp,CODE_C5DB38,code,"from the code: 8 wai frames building the $3F4E entries of both bands in screen order, then padlast and repeatdelayframes cleared",src/bankC5_D000.asm
+$C5DBE0,TradeDownRowDrawn,CODE_C5DBE0,code,"from the code: the return address TradeCursorDown pushes before its row routine",src/bankC5_D000.asm
+$C5DBE8,ScrollTradeListDown,CODE_C5DBE8,code,"from the code: inc $77,x, 8 wai frames building the $3F4E entries of both bands, then padlast and repeatdelayframes cleared",src/bankC5_D000.asm
+$C5DC54,TradeListScrollEntries,CODE_C5DC54,code,"from the code: $77,x wrapped by $67,x + 2, line counts and scroll values * 8, Y + 3 or + 6",src/bankC5_D000.asm
+$C5DCA7,TradeScrollStepDown,CODE_C5DCA7,code,"from the code: the line count - 1 / scroll + 1 of the entry at $3F4E,y, the split entry when the count reaches 0",src/bankC5_D000.asm
+$C5DCEE,TradeScrollStepUp,CODE_C5DCEE,code,"from the code: the entry at $3F4E,y split when its count is the full window (tmp2 * 8), else count + 1 / scroll - 1",src/bankC5_D000.asm
