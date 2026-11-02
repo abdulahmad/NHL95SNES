@@ -624,12 +624,12 @@ CODE_C553D6:						; from ShowPenaltyBoxPlayer
 	cpx.w #$0034
 	bcc .1
 	lda.w #$2EC7
-.1:									; A + $01,s, Y = A, pull A, A = $0110,y, ...
+.1:									; A + $01,s, Y = A, pull A, A = BandScroll+$10,y, ...
 	clc
 	adc.b $01,s
 	tay
 	pla
-	lda.w $0110,y
+	lda.w BandScroll+$10,y
 	and.w #$00FF
 	tax
 	lda.l BCDTable,x
@@ -1399,32 +1399,32 @@ StartScrollList:					; starts a scrolling list: X rows shown from text row Y, ea
 	bcc .1
 	sbc.w #$007F
 	ldx.w #$007F
-	stx.w $469D
-	sty.w $469E
+	stx.w BG3ScrollHDMA+$11
+	sty.w BG3ScrollHDMA+$12
 	ldx.w #$0002
-.1:									; $469D,x = A, A = Y, $469E,x = A, $469F,x = $0008, ...
-	sta.w $469D,x
+.1:									; BG3ScrollHDMA+$11,x = A, A = Y, BG3ScrollHDMA+$12,x = A, ...
+	sta.w BG3ScrollHDMA+$11,x
 	tya
-	sta.w $469E,x
+	sta.w BG3ScrollHDMA+$12,x
 	lda.w #$0008
-	sta.w $469F,x
+	sta.w BG3ScrollHDMA+$13,x
 	lda.w #$0013
-	sta.w $46A0,x
+	sta.w BG3ScrollHDMA+$14,x
 	lda.b $71
 	asl a
 	asl a
 	asl a
-	sta.w $46A1,x
+	sta.w BG3ScrollHDMA+$15,x
 	tya
-	sta.w $46A2,x
+	sta.w BG3ScrollHDMA+$16,x
 	lda.w #$0008
-	sta.w $46A3,x
+	sta.w BG3ScrollHDMA+$17,x
 	lda.w #$0013
-	sta.w $46A4,x
+	sta.w BG3ScrollHDMA+$18,x
 	lda.w #$0001
-	sta.w $46A5,x
+	sta.w BG3ScrollHDMA+$19,x
 	tya
-	sta.w $46A6,x
+	sta.w BG3ScrollHDMA+$1A,x
 	ldx.w #$FFFF
 	lda.b a4
 	dec a
@@ -1434,18 +1434,18 @@ StartScrollList:					; starts a scrolling list: X rows shown from text row Y, ea
 	cmp.w #$0080
 	bcc .2
 	sbc.w #$007F
-	sta.w $468F
-	stx.w $4690
+	sta.w BG3ScrollHDMA+$3
+	stx.w BG3ScrollHDMA+$4
 	lda.w #$007F
-	sta.w $468C
-	stx.w $468D
+	sta.w BG3ScrollHDMA
+	stx.w BG3ScrollHDMA+$1
 	ldx.w #$0050
 	jsl.l SetupHDMA
 	db $02,$12,$8C,$46,$7E,$7E		; inline parameters
 	bra .3
-.2:									; $468F = A, $4690 = X, X = $0050, call SetupHDMA
-	sta.w $468F
-	stx.w $4690
+.2:									; BG3ScrollHDMA+$3 = A, BG3ScrollHDMA+$4 = X, X = $0050, call SetupHDMA
+	sta.w BG3ScrollHDMA+$3
+	stx.w BG3ScrollHDMA+$4
 	ldx.w #$0050
 	jsl.l SetupHDMA
 	db $02,$12,$8F,$46,$7E,$7E		; inline parameters
@@ -1457,9 +1457,9 @@ StartScrollList:					; starts a scrolling list: X rows shown from text row Y, ea
 	asl a
 	asl a
 	asl a
-	sta.w $4692
-	stx.w $4693
-	stz.w $4695
+	sta.w BG3ScrollHDMA+$6
+	stx.w BG3ScrollHDMA+$7
+	stz.w BG3ScrollHDMA+$9
 	lda.w #$E000
 	sta.w DMAEnShadow
 	lda.w #$0010
@@ -1620,26 +1620,26 @@ ScrollListDownDone:					; the end of a list scroll: padlast and padchangeany cle
 ScrollListDownReturn:				; the rts ScrollListDown leaves through when the list is at its end
 	rts
 ScrollListDownAnim:					; scrolls the list down a row over 8 frames by the BG3 scroll HDMA entries
-									; ($4692 on), then ScrollListDownDone
+									; (BG3ScrollHDMA+$6 on), then ScrollListDownDone
 	inc.b $69
 	ldx.w #$0008
-.loop:								; loop: X - 1, if the result < 0 go to ScrollListDownDone, $4693 + 1, ...
+.loop:								; loop: X - 1, if the result < 0 go to ScrollListDownDone, ...
 	dex
 	bmi ScrollListDownDone
 	wai
-	inc.w $4693
+	inc.w BG3ScrollHDMA+$7
 	sep #$20
-	dec.w $4692
+	dec.w BG3ScrollHDMA+$6
 	bne .1
 	lda.b tmp2
 	asl a
 	asl a
 	asl a
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	rep #$20
 	lda.w #$FFFF
-	sta.w $4693
-	stz.w $4694
+	sta.w BG3ScrollHDMA+$7
+	stz.w BG3ScrollHDMA+$8
 	bra .loop
 .1:									; A = tmp2, A * 2, A * 2, A * 2, ...
 	lda.b tmp2
@@ -1647,18 +1647,18 @@ ScrollListDownAnim:					; scrolls the list down a row over 8 frames by the BG3 s
 	asl a
 	asl a
 	sec
-	sbc.w $4692
-	sta.w $4695
+	sbc.w BG3ScrollHDMA+$6
+	sta.w BG3ScrollHDMA+$9
 	rep #$20
-	lda.w $4692
+	lda.w BG3ScrollHDMA+$6
 	and.w #$00FF
 	eor.w #$FFFF
-	sta.w $4696
+	sta.w BG3ScrollHDMA+$A
 	lda.w #$0001
-	sta.w $4698
+	sta.w BG3ScrollHDMA+$C
 	lda.w #$FFFF
-	sta.w $4699
-	stz.w $469B
+	sta.w BG3ScrollHDMA+$D
+	stz.w BG3ScrollHDMA+$F
 	bra .loop
 ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows are above
 	lda.b $71
@@ -1688,7 +1688,7 @@ ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows 
 ScrollUpRowDrawn:					; ScrollListUp's new top row drawn: SendTextMap, then ScrollListUpAnim
 	jsl.l SendTextMap
 ScrollListUpAnim:					; scrolls the list up a row over 8 frames by the BG3 scroll HDMA entries
-									; ($4692 on)
+									; (BG3ScrollHDMA+$6 on)
 	ldx.w #$0008
 .loop:								; loop: X - 1, if the result < 0 go to .2, A 8-bit, A = tmp2, ...
 	dex
@@ -1699,35 +1699,35 @@ ScrollListUpAnim:					; scrolls the list up a row over 8 frames by the BG3 scrol
 	asl a
 	asl a
 	asl a
-	cmp.w $4692
+	cmp.w BG3ScrollHDMA+$6
 	bne .1
 	dec a
-	sta.w $4695
+	sta.w BG3ScrollHDMA+$9
 	lda.b #$01
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	rep #$20
-	lda.w $4693
+	lda.w BG3ScrollHDMA+$7
 	dec a
-	sta.w $4696
+	sta.w BG3ScrollHDMA+$A
 	lda.b tmp2
 	asl a
 	asl a
 	asl a
 	dec a
 	dec a
-	sta.w $4693
+	sta.w BG3ScrollHDMA+$7
 	lda.w #$0001
-	sta.w $4698
+	sta.w BG3ScrollHDMA+$C
 	lda.w #$FFFF
-	sta.w $4699
-	stz.w $469B
+	sta.w BG3ScrollHDMA+$D
+	stz.w BG3ScrollHDMA+$F
 	bra .loop
-.1:									; $4692 + 1, $4695 - 1, A 16-bit, $4693 - 1, ...
-	inc.w $4692
-	dec.w $4695
+.1:									; BG3ScrollHDMA+$6 + 1, BG3ScrollHDMA+$9 - 1, A 16-bit, ...
+	inc.w BG3ScrollHDMA+$6
+	dec.w BG3ScrollHDMA+$9
 	rep #$20
-	dec.w $4693
-	dec.w $4696
+	dec.w BG3ScrollHDMA+$7
+	dec.w BG3ScrollHDMA+$A
 	bra .loop
 .2:									; padlast = 0, padchangeany = 0
 	stz.w padlast

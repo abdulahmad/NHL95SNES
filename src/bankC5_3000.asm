@@ -497,7 +497,7 @@ FormatRosterShortName:				; builds packed number, first initial and surname text
 	jsl.l AllocWorkBuf2
 	tay
 	phx
-	lda.w $0110,x
+	lda.w BandScroll+$10,x
 	and.w #$007F
 	jsr.w BinToBCD
 	tax
@@ -1691,7 +1691,7 @@ setplayer:							; from forcepldata and other segments
 	lsr a
 	adc.b a0
 	tay
-	lda.w $0110,y
+	lda.w BandScroll+$10,y
 	and.w #$007F
 	phx
 	tax

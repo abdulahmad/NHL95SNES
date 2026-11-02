@@ -1000,9 +1000,9 @@ CODE_C4785E:						; called from other segments
 	tcs
 	stx.b $00
 	lda.l TextMapFill
-	sta.w $3E4E
-	ldx.w #$3E4E
-	ldy.w #$3E50
+	sta.w ListBuf
+	ldx.w #ListBuf
+	ldy.w #ListBuf+$2
 	lda.w #$0013
 	mvn $7E,$7E
 	clc
@@ -1012,7 +1012,7 @@ CODE_C4785E:						; called from other segments
 	pea.w $0016
 	pha
 	pea.w $007E
-	pea.w $3E4E
+	pea.w ListBuf
 	adc.w #$0020
 	dey
 	bpl .loop

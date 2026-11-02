@@ -20,7 +20,7 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	asl a
 	adc.b tmp0
 	tax
-	lda.w $0110,x
+	lda.w BandScroll+$10,x
 	sta.w mesarea
 	lda.w $0112,x
 	sta.w mesarea+2

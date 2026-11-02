@@ -110,9 +110,9 @@ UpdateTeamLogos:					; setup screen state 0 (DATA8_C58DF0): replaces the home lo
 	jsr.w QueueVisPalette
 .rts:								; return
 	rts
-SetupLinePalette3:					; SetRowPalette3 on the setup screen's current line (row $010E); GameSetUp
-									; calls it before the cursor moves
-	lda.w $010E
+SetupLinePalette3:					; SetRowPalette3 on the setup screen's current line (row SetupLineRow);
+									; GameSetUp calls it before the cursor moves
+	lda.w SetupLineRow
 SetRowPalette3:						; sets palette 3 on the 64 text map tiles from row A (two rows of 32)
 	xba
 	lsr a
@@ -130,9 +130,9 @@ SetRowPalette3:						; sets palette 3 on the 64 text map tiles from row A (two r
 	dex
 	bpl .loop
 	rts
-SetupLinePalette0:					; SetRowPalette0 on the setup screen's current line (row $010E), then
-									; SendTextMap
-	lda.w $010E
+SetupLinePalette0:					; SetRowPalette0 on the setup screen's current line (row SetupLineRow),
+									; then SendTextMap
+	lda.w SetupLineRow
 SetRowPalette0:						; sets palette 0 on the 64 text map tiles from row A (two rows of 32),
 									; then SendTextMap
 	xba

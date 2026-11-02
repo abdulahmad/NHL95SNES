@@ -1,7 +1,7 @@
 ; Segment bankC5_C000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5BFE0
-KeepDivisionTeams:					; keeps only the teams of division d1 in the sorted list at $3E4E
+KeepDivisionTeams:					; keeps only the teams of division d1 in the sorted list at ListBuf
 									; (DATA8_C40EDA by team against DATA8_C04CBF), a1 = the count from
 									; DATA8_C04CC3
 	ldx.b d1
@@ -12,8 +12,8 @@ KeepDivisionTeams:					; keeps only the teams of division d1 in the sorted list 
 	and.w #$00FF
 	sta.b a1
 	ldy.w #$0032
-.loop:								; loop: X = $3E4E,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
-	ldx.w $3E4E,y
+.loop:								; loop: X = ListBuf,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
+	ldx.w ListBuf,y
 	lda.w $000C,x
 	tax
 	lda.l DATA8_C40EDA,x
@@ -21,17 +21,17 @@ KeepDivisionTeams:					; keeps only the teams of division d1 in the sorted list 
 	cmp.b tmp0
 	beq .1
 	lda.w #$0000
-	sta.w $3E4E,y
+	sta.w ListBuf,y
 .1:									; Y - 1, Y - 1, if the result >= 0 go to .loop, X = $0000, ...
 	dey
 	dey
 	bpl .loop
 	ldx.w #$0000
 	txy
-.loop2:								; loop: if $3E4E,x = 0 go to .2, $3E4E,y = A, Y + 1, Y + 1
-	lda.w $3E4E,x
+.loop2:								; loop: if ListBuf,x = 0 go to .2, ListBuf,y = A, Y + 1, Y + 1
+	lda.w ListBuf,x
 	beq .2
-	sta.w $3E4E,y
+	sta.w ListBuf,y
 	iny
 	iny
 .2:									; X + 1, X + 1, if X < $0034 go to .loop2, return
@@ -40,11 +40,11 @@ KeepDivisionTeams:					; keeps only the teams of division d1 in the sorted list 
 	cpx.w #$0034
 	bcc .loop2
 	rts
-SortStandingsByStat:				; fills the list at $3E4E with the team records linked from $81, sorted by
-									; stat d0 (its compare routine from DATA8_C5C0AE)
+SortStandingsByStat:				; fills the list at ListBuf with the team records linked from $81, sorted
+									; by stat d0 (its compare routine from DATA8_C5C0AE)
 	ldx.w #$0032
-.loop:								; loop: $3E4E,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
-	stz.w $3E4E,x
+.loop:								; loop: ListBuf,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
+	stz.w ListBuf,x
 	dex
 	dex
 	bpl .loop
@@ -65,7 +65,7 @@ CODE_C5C048:						; from CODE_C5C054
 	iny
 	iny
 CODE_C5C04A:						; from CODE_C5C03F
-	lda.w $3E4E,y
+	lda.w ListBuf,y
 	beq CODE_C5C05C
 	phy
 	tay
@@ -74,11 +74,11 @@ CODE_C5C054:						; from SortByPoints, SortByGoalsAvg, SortByGoalsAllowed, ...
 	txa
 	tyx
 	ply
-	sta.w $3E4E,y
+	sta.w ListBuf,y
 	bra CODE_C5C048
 CODE_C5C05C:						; from CODE_C5C04A
 	txa
-	sta.w $3E4E,y
+	sta.w ListBuf,y
 	ldx.b tmp1
 	lda.w $0002,x
 	bne CODE_C5C03F
@@ -1604,7 +1604,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	asl a
 	adc.b d2
 	tax
-	lda.w $0110,x
+	lda.w BandScroll+$10,x
 	sta.w mesarea
 	lda.w $0112,x
 	sta.w mesarea+2

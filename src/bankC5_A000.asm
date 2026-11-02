@@ -1155,33 +1155,33 @@ ScrollGamesUpLine:					; one line of the scroll to the game above: BG2 scroll - 
 									; HDMA counts and values moved, the entering game's colours queued; step 0
 									; again at the end
 	dec.w BG2VScroll
-	lda.w $468F
+	lda.w BG3ScrollHDMA+$3
 	and.w #$00FF
 	cmp.w #$0038
 	bne .1
-	lda.w $0102
+	lda.w BandScroll+$2
 	dec a
-	sta.w $0104
-	lda.w $0100
+	sta.w BandScroll+$4
+	lda.w BandScroll
 	dec a
-	sta.w $0102
+	sta.w BandScroll+$2
 	clc
-	lda.w $0110
+	lda.w BandScroll+$10
 	adc.w #$00A7
-	sta.w $0100
+	sta.w BandScroll
 	sep #$20
 	lda.b #$01
-	sta.w $468F
+	sta.w BG3ScrollHDMA+$3
 	lda.b #$38
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	dec a
-	sta.w $4695
+	sta.w BG3ScrollHDMA+$9
 	rep #$20
 	rts
-.1:									; $0100 - 1, $0102 - 1, $0104 - 1, if A is not $0028 go to .3, ...
-	dec.w $0100
-	dec.w $0102
-	dec.w $0104
+.1:									; BandScroll - 1, BandScroll+$2 - 1, BandScroll+$4 - 1, ...
+	dec.w BandScroll
+	dec.w BandScroll+$2
+	dec.w BandScroll+$4
 	cmp.w #$0028
 	bne .3
 	pha
@@ -1209,24 +1209,24 @@ ScrollGamesUpLine:					; one line of the scroll to the game above: BG2 scroll - 
 	and.w #$00FF
 	jsr.w QueueTeamPalette
 	pla
-.5:									; A 8-bit, A + 1, $468F = A, A = $4695, ...
+.5:									; A 8-bit, A + 1, BG3ScrollHDMA+$3 = A, A = BG3ScrollHDMA+$9, ...
 	sep #$20
 	inc a
-	sta.w $468F
-	lda.w $4695
+	sta.w BG3ScrollHDMA+$3
+	lda.w BG3ScrollHDMA+$9
 	dec a
 	bne .6
 	lda.b #$37
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	rep #$20
-	lda.w $0104
-	sta.w $0110
-	lda.w $0102
-	sta.w $0104
+	lda.w BandScroll+$4
+	sta.w BandScroll+$10
+	lda.w BandScroll+$2
+	sta.w BandScroll+$4
 	stz.b $89
 	rts
-.6:									; $4695 = A, A 16-bit, return
-	sta.w $4695
+.6:									; BG3ScrollHDMA+$9 = A, A 16-bit, return
+	sta.w BG3ScrollHDMA+$9
 	rep #$20
 	rts
 ScrollGamesDown:					; Games Today step 2: ScrollGamesDownLine twice a frame
@@ -1236,10 +1236,10 @@ ScrollGamesDownLine:				; one line of the scroll to the game below: BG2 scroll +
 									; again at the end
 	inc.w BG2VScroll
 	sep #$20
-	lda.w $468F
+	lda.w BG3ScrollHDMA+$3
 	dec a
 	beq .7
-	sta.w $468F
+	sta.w BG3ScrollHDMA+$3
 	cmp.b #$28
 	bne .2
 	rep #$20
@@ -1268,42 +1268,42 @@ ScrollGamesDownLine:				; one line of the scroll to the game below: BG2 scroll +
 	and.w #$00FF
 	jsr.w QueueTeamPalette
 	sep #$20
-.4:									; if $38 = $4692 go to .5, $4692 = A, go to .6
+.4:									; if $38 = BG3ScrollHDMA+$6 go to .5, BG3ScrollHDMA+$6 = A, go to .6
 	lda.b #$38
-	cmp.w $4692
+	cmp.w BG3ScrollHDMA+$6
 	beq .5
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	bra .6
-.5:									; $4695 + 1
-	inc.w $4695
-.6:									; A 16-bit, A = $0110, A + 1, $0104 = A, ...
+.5:									; BG3ScrollHDMA+$9 + 1
+	inc.w BG3ScrollHDMA+$9
+.6:									; A 16-bit, A = BandScroll+$10, A + 1, BandScroll+$4 = A, ...
 	rep #$20
-	lda.w $0110
+	lda.w BandScroll+$10
 	inc a
-	sta.w $0104
-	sta.w $0110
-	inc.w $0100
-	inc.w $0102
+	sta.w BandScroll+$4
+	sta.w BandScroll+$10
+	inc.w BandScroll
+	inc.w BandScroll+$2
 	rts
-.7:									; $468F = $38, A - 1, $4692 = A, $4695 = $01, ...
+.7:									; BG3ScrollHDMA+$3 = $38, A - 1, BG3ScrollHDMA+$6 = A, ...
 	lda.b #$38
-	sta.w $468F
+	sta.w BG3ScrollHDMA+$3
 	dec a
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	lda.b #$01
-	sta.w $4695
+	sta.w BG3ScrollHDMA+$9
 	rep #$20
 	sec
-	lda.w $0100
+	lda.w BandScroll
 	sbc.w #$00A7
-	sta.w $0110
-	lda.w $0102
+	sta.w BandScroll+$10
+	lda.w BandScroll+$2
 	inc a
-	sta.w $0100
-	lda.w $0104
+	sta.w BandScroll
+	lda.w BandScroll+$4
 	inc a
-	sta.w $0102
-	sta.w $0104
+	sta.w BandScroll+$2
+	sta.w BandScroll+$4
 	stz.b $89
 	rts
 DrawGameInSlot:						; draws game $85 for a scroll: its marks (DrawGameMarks), $8D / $8E its
@@ -1450,20 +1450,20 @@ ClearSeasonWarning:					; clears the 10 text rows from row $10 (the season in pr
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-InitSetupScroll:					; the setup screen's scrolling: BG3ScrollHDMA1 copied to $7E:468C, the
-									; scroll words from $0100 and the BG scrolls reset, the current line row
-									; $010E = $10
+InitSetupScroll:					; the setup screen's scrolling:  $10=BG3ScrollHDMA1 copied to
+									; BG3ScrollHDMA, the BandScroll words and the BG scrolls reset,
+									; SetupLineRow = $10= $10
 	lda.w #$001B
 	ldx.w #$48E2
-	ldy.w #$468C
+	ldy.w #BG3ScrollHDMA
 	mvn $7E,$C0
 	lda.w #$FFFF
-	sta.w $0100
-	sta.w $0102
-	sta.w $0104
-	sta.w $0106
-	sta.w $0108
-	sta.w $0110
+	sta.w BandScroll
+	sta.w BandScroll+$2
+	sta.w BandScroll+$4
+	sta.w BandScroll+$6
+	sta.w BandScroll+$8
+	sta.w BandScroll+$10
 	stz.w BG1HScroll
 	stz.w BG2HScroll
 	stz.w BG3HScroll
@@ -1472,9 +1472,9 @@ InitSetupScroll:					; the setup screen's scrolling: BG3ScrollHDMA1 copied to $7
 	lda.w #$FFFA
 	sta.w BG2VScroll
 	lda.w #$FF90
-	sta.w $010A
+	sta.w BandScroll+$A
 	lda.w #$0010
-	sta.w $010E
+	sta.w SetupLineRow
 	rts
 SeasonOptionsInput:					; the League Menu each frame (screen state 6): up / down move, B / start /
 									; select run the item (SeasonMenuJumps), X leaves
@@ -1615,19 +1615,19 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	sta.w ScratchBuf+$4
 	lda.w #$001B
 	ldx.w #$48FE
-	ldy.w #$468C
+	ldy.w #BG3ScrollHDMA
 	mvn $7E,$C0
 	lda.w #$FFFF
-	sta.w $0100
-	sta.w $0102
-	sta.w $0104
-	sta.w $0110
+	sta.w BandScroll
+	sta.w BandScroll+$2
+	sta.w BandScroll+$4
+	sta.w BandScroll+$10
 	lda.w #$FF2F
-	sta.w $0108
+	sta.w BandScroll+$8
 	lda.w #$FF4F
-	sta.w $010A
+	sta.w BandScroll+$A
 	lda.w #$FF2F
-	sta.w $0106
+	sta.w BandScroll+$6
 	lda.w #$F000
 	sta.w DMAEnShadow
 	lda.w #$00A7

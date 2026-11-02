@@ -67,7 +67,7 @@ DrawLeagueLeaders:					; draws the League Leaders page for the current category 
 	iny
 	iny
 	txa
-	sta.w $3E4E,y
+	sta.w ListBuf,y
 .2:									; if $0002,x is not 0 go to .loop3, A = Y, A / 2, a1 = A, ...
 	lda.w $0002,x
 	bne .loop3
@@ -856,7 +856,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	lda.b a3
 	asl a
 	tax
-	lda.w $3E4E,x
+	lda.w ListBuf,x
 	tax
 	lda.w $0004,x
 	cmp.w #$026A
@@ -1850,7 +1850,7 @@ DrawStandingsRow:					; draws row a3 of the NHL Standings list: a team and its s
 	lda.b a3
 	asl a
 	tax
-	lda.w $3E4E,x
+	lda.w ListBuf,x
 	tax
 	lda.w $000C,x
 	phx

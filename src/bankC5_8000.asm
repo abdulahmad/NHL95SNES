@@ -6,7 +6,7 @@ PrintSaveRecordRow:					; save record A on row $6D: the holder's name, then the 
 									; team 'vs' the other team, through PrintRecordCell
 	asl a
 	tax
-	lda.w $3E6E,x
+	lda.w ListBuf+$20,x
 	sta.b a3
 	tax
 	ldy.w ScratchBuf+$6,x
@@ -571,7 +571,7 @@ DecompressLZSSHere:					; DecompressLZSS's decoder without setting the WRAM addr
 	stz.w ScratchBuf+$200,x
 	stz.w ScratchBuf+$400,x
 	stz.w ScratchBuf+$600,x
-	stz.w $3E4E,x
+	stz.w ListBuf,x
 	stz.w $404E,x
 	stz.w $4266,x
 	stz.w $4466,x
@@ -1783,110 +1783,110 @@ DATA8_C58DF0:						; jump table: the routine for each index
 	dw UpdateTeamLogos,SetupScrollUp,SetupScrollDown
 SetupScrollUp:						; a frame of the setup list's scroll after SetupLineUp ($99 = 2): the band
 									; scroll words move a line over 16 frames, then $99 = 0
-	lda.w $4692
+	lda.w BG3ScrollHDMA+$6
 	and.w #$00FF
 	cmp.w #$0010
 	bne .1
-	lda.w $0106
+	lda.w BandScroll+$6
 	dec a
-	sta.w $0108
-	lda.w $0104
+	sta.w BandScroll+$8
+	lda.w BandScroll+$4
 	dec a
-	sta.w $0106
-	lda.w $0102
+	sta.w BandScroll+$6
+	lda.w BandScroll+$2
 	dec a
-	sta.w $0104
-	lda.w $0100
+	sta.w BandScroll+$4
+	lda.w BandScroll
 	dec a
-	sta.w $0102
+	sta.w BandScroll+$2
 	clc
-	lda.w $0110
+	lda.w BandScroll+$10
 	adc.w #$004F
-	sta.w $0100
+	sta.w BandScroll
 	sep #$20
 	lda.b #$01
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	lda.b #$10
-	sta.w $469B
+	sta.w BG3ScrollHDMA+$F
 	dec a
-	sta.w $469E
+	sta.w BG3ScrollHDMA+$12
 	rep #$20
 	rts
-.1:									; $0100 - 1, $0102 - 1, $0104 - 1, $0106 - 1, ...
-	dec.w $0100
-	dec.w $0102
-	dec.w $0104
-	dec.w $0106
-	dec.w $0108
+.1:									; BandScroll - 1, BandScroll+$2 - 1, BandScroll+$4 - 1, ...
+	dec.w BandScroll
+	dec.w BandScroll+$2
+	dec.w BandScroll+$4
+	dec.w BandScroll+$6
+	dec.w BandScroll+$8
 	sep #$20
 	inc a
-	sta.w $4692
-	lda.w $469E
+	sta.w BG3ScrollHDMA+$6
+	lda.w BG3ScrollHDMA+$12
 	dec a
 	bne .2
 	lda.b #$0F
-	sta.w $469B
+	sta.w BG3ScrollHDMA+$F
 	rep #$20
-	lda.w $0108
-	sta.w $0110
-	lda.w $0106
-	sta.w $0108
+	lda.w BandScroll+$8
+	sta.w BandScroll+$10
+	lda.w BandScroll+$6
+	sta.w BandScroll+$8
 	stz.b $99
 	rts
-.2:									; $469E = A, A 16-bit, return
-	sta.w $469E
+.2:									; BG3ScrollHDMA+$12 = A, A 16-bit, return
+	sta.w BG3ScrollHDMA+$12
 	rep #$20
 	rts
 SetupScrollDown:					; a frame of the setup list's scroll after SetupLineDown ($99 = 4): the
 									; band scroll words move a line over 16 frames, then $99 = 0
 	sep #$20
-	lda.w $4692
+	lda.w BG3ScrollHDMA+$6
 	dec a
 	beq .3
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	lda.b #$10
-	cmp.w $469B
+	cmp.w BG3ScrollHDMA+$F
 	beq .1
-	sta.w $469B
+	sta.w BG3ScrollHDMA+$F
 	bra .2
-.1:									; $469E + 1
-	inc.w $469E
-.2:									; A 16-bit, A = $0110, A + 1, $0108 = A, ...
+.1:									; BG3ScrollHDMA+$12 + 1
+	inc.w BG3ScrollHDMA+$12
+.2:									; A 16-bit, A = BandScroll+$10, A + 1, BandScroll+$8 = A, ...
 	rep #$20
-	lda.w $0110
+	lda.w BandScroll+$10
 	inc a
-	sta.w $0108
-	sta.w $0110
-	inc.w $0100
-	inc.w $0102
-	inc.w $0104
-	inc.w $0106
+	sta.w BandScroll+$8
+	sta.w BandScroll+$10
+	inc.w BandScroll
+	inc.w BandScroll+$2
+	inc.w BandScroll+$4
+	inc.w BandScroll+$6
 	rts
-.3:									; $4692 = $10, A - 1, $469B = A, $469E = $01, ...
+.3:									; BG3ScrollHDMA+$6 = $10, A - 1, BG3ScrollHDMA+$F = A, ...
 	lda.b #$10
-	sta.w $4692
+	sta.w BG3ScrollHDMA+$6
 	dec a
-	sta.w $469B
+	sta.w BG3ScrollHDMA+$F
 	lda.b #$01
-	sta.w $469E
+	sta.w BG3ScrollHDMA+$12
 	rep #$20
 	sec
-	lda.w $0100
+	lda.w BandScroll
 	sbc.w #$004F
-	sta.w $0110
-	lda.w $0102
+	sta.w BandScroll+$10
+	lda.w BandScroll+$2
 	inc a
-	sta.w $0100
-	lda.w $0104
+	sta.w BandScroll
+	lda.w BandScroll+$4
 	inc a
-	sta.w $0102
-	lda.w $0106
+	sta.w BandScroll+$2
+	lda.w BandScroll+$6
 	inc a
-	sta.w $0104
-	lda.w $0108
+	sta.w BandScroll+$4
+	lda.w BandScroll+$8
 	inc a
-	sta.w $0106
-	sta.w $0108
+	sta.w BandScroll+$6
+	sta.w BandScroll+$8
 	stz.b $99
 	rts
 SetupLineUp:						; setup screen up: the line above (d6 - 1); at the top row the list
@@ -1901,16 +1901,16 @@ SetupLineUp:						; setup screen up: the line above (d6 - 1); at the top row the
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-.1:									; call SetupLinePalette3, A = $010E, A - 1, A - 1, ...
+.1:									; call SetupLinePalette3, A = SetupLineRow, A - 1, A - 1, ...
 	jsr.w SetupLinePalette3
-	lda.w $010E
+	lda.w SetupLineRow
 	dec a
 	dec a
 	cmp.w #$0010
 	bcs .2
 	lda.w #$0018
-.2:									; $010E = A, X = a0, A = $08,x, A - $0010, ...
-	sta.w $010E
+.2:									; SetupLineRow = A, X = a0, A = $08,x, A - $0010, ...
+	sta.w SetupLineRow
 	sec
 	ldx.b a0
 	lda.b $08,x
@@ -1948,16 +1948,16 @@ SetupLineDown:						; setup screen down: the line below (d6 + 1, below the line 
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-.2:									; call SetupLinePalette3, A = $010E, A + 1, A + 1, ...
+.2:									; call SetupLinePalette3, A = SetupLineRow, A + 1, A + 1, ...
 	jsr.w SetupLinePalette3
-	lda.w $010E
+	lda.w SetupLineRow
 	inc a
 	inc a
 	cmp.w #$001A
 	bcc .3
 	lda.w #$0010
-.3:									; $010E = A, X = a0, A = $08,x, A + $0010, ...
-	sta.w $010E
+.3:									; SetupLineRow = A, X = a0, A = $08,x, A + $0010, ...
+	sta.w SetupLineRow
 	clc
 	ldx.b a0
 	lda.b $08,x
@@ -1970,9 +1970,10 @@ SetupLineDown:						; setup screen down: the line below (d6 + 1, below the line 
 	sta.b $22,x
 	lda.w #$0004
 	sta.b $99
-DrawSetupLine:						; draws setup line d6 on its text row ($010E): the title at the left and
-									; the setting centred (right aligned in play mode 7), then SendTextMap
-	lda.w $010E
+DrawSetupLine:						; draws setup line d6 on its text row (SetupLineRow): the title at the
+									; left and the setting centred (right aligned in play mode 7), then
+									; SendTextMap
+	lda.w SetupLineRow
 	xba
 	lsr a
 	lsr a
@@ -1990,7 +1991,7 @@ DrawSetupLine:						; draws setup line d6 on its text row ($010E): the title at 
 	phx
 	lda.l $C30002,x
 	tax
-	ldy.w $010E
+	ldy.w SetupLineRow
 	jsl.l PrintItalicLeft
 	plx
 	lda.w #$0094
@@ -2004,7 +2005,7 @@ DrawSetupLine:						; draws setup line d6 on its text row ($010E): the title at 
 	tax
 	lda.l $C30000,x
 	tax
-	ldy.w $010E
+	ldy.w SetupLineRow
 	lda.w OptPlayMode
 	cmp.w #$0007
 	bne .1

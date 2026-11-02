@@ -41,7 +41,7 @@ TradeValue:							; one side of a trade: the value of its chosen players (from t
 	asl a
 	adc.b a4
 	tax
-	lda.w $0110,x
+	lda.w BandScroll+$10,x
 	sta.w mesarea
 	lda.w $0112,x
 	sta.w mesarea+2
@@ -1179,9 +1179,9 @@ PrintPositionCounts:				; prints the goalie, defence and forward counts (d0, d1,
 	ldy.w #$0009
 	jsl.l PrintBoldLeftStr
 	rts
-SetupTradeLists:					; the trade screen's two lists: the band HDMA tables (TM at $3E4E, BG3
-									; vertical scroll at $3F4E), the two cursor sprites, both lists drawn,
-									; then PlaceTradeCursors
+SetupTradeLists:					; the trade screen's two lists: the band HDMA tables (TM at ListBuf, BG3
+									; vertical scroll at TradeScrollHDMA), the two cursor sprites, both lists
+									; drawn, then PlaceTradeCursors
 	sta.b d4
 	stz.b $77
 	stz.b $79
@@ -1197,20 +1197,20 @@ SetupTradeLists:					; the trade screen's two lists: the band HDMA tables (TM at
 	asl a
 	asl a
 	asl a
-	sta.w $3E4E
-	sty.w $3E4F
+	sta.w ListBuf
+	sty.w ListBuf+$1
 	lda.w #$0008
-	sta.w $3E50
-	stx.w $3E51
+	sta.w ListBuf+$2
+	stx.w ListBuf+$3
 	lda.b a1
 	asl a
 	asl a
 	asl a
-	sta.w $3E52
-	sty.w $3E53
+	sta.w ListBuf+$4
+	sty.w ListBuf+$5
 	lda.w #$0008
-	sta.w $3E54
-	stx.w $3E55
+	sta.w ListBuf+$6
+	stx.w ListBuf+$7
 	lda.b $71
 	clc
 	sbc.b a3
@@ -1219,40 +1219,40 @@ SetupTradeLists:					; the trade screen's two lists: the band HDMA tables (TM at
 	asl a
 	asl a
 	asl a
-	sta.w $3E56
-	sty.w $3E57
+	sta.w ListBuf+$8
+	sty.w ListBuf+$9
 	lda.w #$0008
-	sta.w $3E58
-	stx.w $3E59
+	sta.w ListBuf+$A
+	stx.w ListBuf+$B
 	lda.b $69
 	asl a
 	asl a
 	asl a
-	sta.w $3E5A
-	sty.w $3E5B
+	sta.w ListBuf+$C
+	sty.w ListBuf+$D
 	lda.w #$0008
-	sta.w $3E5C
-	stx.w $3E5D
+	sta.w ListBuf+$E
+	stx.w ListBuf+$F
 	lda.w #$0001
-	sta.w $3E5E
-	sty.w $3E5F
-	stz.w $3E60
+	sta.w ListBuf+$10
+	sty.w ListBuf+$11
+	stz.w ListBuf+$12
 	ldy.w #$FFFF
 	lda.b a3
 	dec a
 	asl a
 	asl a
 	asl a
-	sta.w $3F4E
-	sty.w $3F4F
+	sta.w TradeScrollHDMA
+	sty.w TradeScrollHDMA+$1
 	lda.b a1
 	inc a
 	inc a
 	asl a
 	asl a
 	asl a
-	sta.w $3F51
-	sty.w $3F52
+	sta.w TradeScrollHDMA+$3
+	sty.w TradeScrollHDMA+$4
 	lda.b $71
 	clc
 	sbc.b a3
@@ -1261,20 +1261,20 @@ SetupTradeLists:					; the trade screen's two lists: the band HDMA tables (TM at
 	asl a
 	asl a
 	asl a
-	sta.w $3F54
-	sty.w $3F55
+	sta.w TradeScrollHDMA+$6
+	sty.w TradeScrollHDMA+$7
 	lda.b $69
 	inc a
 	inc a
 	asl a
 	asl a
 	asl a
-	sta.w $3F57
-	sty.w $3F58
+	sta.w TradeScrollHDMA+$9
+	sty.w TradeScrollHDMA+$A
 	lda.w #$0001
-	sta.w $3F5A
-	sty.w $3F5B
-	stz.w $3F5D
+	sta.w TradeScrollHDMA+$C
+	sty.w TradeScrollHDMA+$D
+	stz.w TradeScrollHDMA+$F
 	ldx.w #$0050
 	jsl.l SetupHDMA
 	db $02,$12,$4E,$3F,$7E,$7E		; inline parameters
@@ -1352,8 +1352,8 @@ PlaceTradeCursors:					; each frame, places the two trade list cursor sprites (d
 .4:									; $22,x = A, return
 	sta.b $22,x
 	rts
-RedrawTradeLists:					; draws both trade lists again and rebuilds the scroll table ($3F4E) for
-									; their windows
+RedrawTradeLists:					; draws both trade lists again and rebuilds the scroll table
+									; (TradeScrollHDMA) for their windows
 	lda.b $77
 	sta.b $91
 	lda.b a4
@@ -1381,20 +1381,20 @@ RedrawTradeLists:					; draws both trade lists again and rebuilds the scroll tab
 	asl a
 	asl a
 	asl a
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
 	lda.w #$0002
 	jsr.w TradeListScrollEntries
 	lda.w #$0001
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	dec a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	rts
 DrawTradeListRows:					; draws a trade list's rows from $91 - 1 to just below its window (A rows
 									; shown, X the count), each on its row of the list's wrapping text rows
@@ -1445,7 +1445,7 @@ DrawTradeListRowsDone:				; DrawTradeListRows' end: its three pushed values drop
 	rts
 TradeCursorUp:						; moves the cursor of team a2's trade list up a row; when it leaves the
 									; shown rows the list scrolls (the new row drawn by the row routine at
-									; $8F, then a 7-frame scroll through the HDMA table at $3F4E)
+									; $8F, then a 7-frame scroll through TradeScrollHDMA)
 	ldx.b a2
 	lda.b $73,x
 	sta.b d2
@@ -1502,9 +1502,9 @@ ScrollTradeListUp:					; scrolls the moved trade list up a row over 8 frames, th
 	bne .2
 	jsr.w TradeScrollStepUp
 	lda.b $05,s
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
@@ -1512,29 +1512,29 @@ ScrollTradeListUp:					; scrolls the moved trade list up a row over 8 frames, th
 	eor.w #$0002
 	jsr.w TradeListScrollEntries
 	lda.w #$0001
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	dec a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	bra .3
-.2:									; A xor $0002, call TradeListScrollEntries, $3F4E,y = $05,s, ...
+.2:									; A xor $0002, call TradeListScrollEntries, TradeScrollHDMA,y = $05,s, ...
 	eor.w #$0002
 	jsr.w TradeListScrollEntries
 	lda.b $05,s
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
 	jsr.w TradeScrollStepUp
 	lda.w #$0001
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	dec a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 .3:									; pull A, A - 1, if the result >= 0 go to .1, pull A, ...
 	pla
 	dec a
@@ -1607,9 +1607,9 @@ ScrollTradeListDown:				; the list's first row + 1, then it scrolls down a row o
 	bne .2
 	jsr.w TradeScrollStepDown
 	lda.b $05,s
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
@@ -1617,29 +1617,29 @@ ScrollTradeListDown:				; the list's first row + 1, then it scrolls down a row o
 	eor.w #$0002
 	jsr.w TradeListScrollEntries
 	lda.w #$0001
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	dec a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	bra .3
-.2:									; A xor $0002, call TradeListScrollEntries, $3F4E,y = $05,s, ...
+.2:									; A xor $0002, call TradeListScrollEntries, TradeScrollHDMA,y = $05,s, ...
 	eor.w #$0002
 	jsr.w TradeListScrollEntries
 	lda.b $05,s
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
 	jsr.w TradeScrollStepDown
 	lda.w #$0001
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	dec a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 .3:									; pull A, A - 1, if the result >= 0 go to .1, pull A, ...
 	pla
 	dec a
@@ -1649,8 +1649,9 @@ ScrollTradeListDown:				; the list's first row + 1, then it scrolls down a row o
 	stz.w padlast
 	stz.w repeatdelayframes
 	rts
-TradeListScrollEntries:				; the BG3 scroll HDMA entries at $3F4E,y of trade list A's window (one, or
-									; two when its first row wraps in the text rows); Y past them
+TradeListScrollEntries:				; the BG3 scroll HDMA entries at TradeScrollHDMA,y of trade list A's
+									; window (one, or two when its first row wraps in the text rows); Y past
+									; them
 	tax
 	lda.b $67,x
 	inc a
@@ -1669,33 +1670,33 @@ TradeListScrollEntries:				; the BG3 scroll HDMA entries at $3F4E,y of trade lis
 	asl a
 	asl a
 	asl a
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
 	rts
-.2:									; A * 2, A * 2, A * 2, $3F51,y = A, ...
+.2:									; A * 2, A * 2, A * 2, TradeScrollHDMA+$3,y = A, ...
 	asl a
 	asl a
 	asl a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	tax
 	lda.b $A5
 	asl a
 	asl a
 	asl a
 	sec
-	sbc.w $3F51,y
-	sta.w $3F4E,y
+	sbc.w TradeScrollHDMA+$3,y
+	sta.w TradeScrollHDMA,y
 	txa
 	dec a
-	sta.w $3F4F,y
-	lda.w $3F4E,y
+	sta.w TradeScrollHDMA+$1,y
+	lda.w TradeScrollHDMA,y
 	and.w #$00FF
 	eor.w #$FFFF
-	sta.w $3F52,y
+	sta.w TradeScrollHDMA+$4,y
 	tya
 	clc
 	adc.w #$0006
@@ -1703,22 +1704,22 @@ TradeListScrollEntries:				; the BG3 scroll HDMA entries at $3F4E,y of trade lis
 	rts
 TradeScrollStepDown:				; moves trade list Y's scroll entries one line for ScrollTradeListDown; Y
 									; past them
-	lda.w $3F4F,y
+	lda.w TradeScrollHDMA+$1,y
 	inc a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	sep #$20
-	lda.w $3F4E,y
+	lda.w TradeScrollHDMA,y
 	dec a
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	bne .1
 	lda.b tmp2
 	asl a
 	asl a
 	asl a
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	rep #$20
 	lda.w #$FFFF
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 	iny
 	iny
 	iny
@@ -1729,13 +1730,13 @@ TradeScrollStepDown:				; moves trade list Y's scroll entries one line for Scrol
 	asl a
 	asl a
 	sec
-	sbc.w $3F4E,y
-	sta.w $3F51,y
+	sbc.w TradeScrollHDMA,y
+	sta.w TradeScrollHDMA+$3,y
 	rep #$20
-	lda.w $3F4E,y
+	lda.w TradeScrollHDMA,y
 	and.w #$00FF
 	eor.w #$FFFF
-	sta.w $3F52,y
+	sta.w TradeScrollHDMA+$4,y
 	tya
 	clc
 	adc.w #$0006
@@ -1748,44 +1749,44 @@ TradeScrollStepUp:					; moves trade list Y's scroll entries one line for Scroll
 	asl a
 	asl a
 	asl a
-	cmp.w $3F4E,y
+	cmp.w TradeScrollHDMA,y
 	bne .2
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	lda.b #$01
-	sta.w $3F4E,y
+	sta.w TradeScrollHDMA,y
 	rep #$20
-	lda.w $3F4F,y
+	lda.w TradeScrollHDMA+$1,y
 	dec a
-	sta.w $3F52,y
+	sta.w TradeScrollHDMA+$4,y
 	lda.b tmp2
 	asl a
 	asl a
 	asl a
 	dec a
 	dec a
-	sta.w $3F4F,y
+	sta.w TradeScrollHDMA+$1,y
 .1:									; A = Y, A + $0006, Y = A, return
 	tya
 	clc
 	adc.w #$0006
 	tay
 	rts
-.2:									; A = $3F4E,y, A + 1, $3F4E,y = A, A = $3F51,y, ...
-	lda.w $3F4E,y
+.2:									; A = TradeScrollHDMA,y, A + 1, TradeScrollHDMA,y = A, ...
+	lda.w TradeScrollHDMA,y
 	inc a
-	sta.w $3F4E,y
-	lda.w $3F51,y
+	sta.w TradeScrollHDMA,y
+	lda.w TradeScrollHDMA+$3,y
 	dec a
-	sta.w $3F51,y
+	sta.w TradeScrollHDMA+$3,y
 	rep #$20
-	lda.w $3F4F,y
+	lda.w TradeScrollHDMA+$1,y
 	dec a
-	sta.w $3F4F,y
-	lda.w $3F52,y
+	sta.w TradeScrollHDMA+$1,y
+	lda.w TradeScrollHDMA+$4,y
 	dec a
-	sta.w $3F52,y
-	lda.w $3F51,y
+	sta.w TradeScrollHDMA+$4,y
+	lda.w TradeScrollHDMA+$3,y
 	and.w #$00FF
 	bne .1
 	iny

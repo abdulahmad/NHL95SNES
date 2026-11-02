@@ -1786,11 +1786,11 @@ SetAllStarPhotoPointers:			; sets the scouting photo pointers for an all-star ro
 	lda.w #$BA13
 	sta.w $00D4,y
 	lda.w #$00CD
-	sta.w $0106,y
+	sta.w BandScroll+$6,y
 	lda.w #$9411
 	sta.w $00D2,y
 	lda.w #$01CD
-	sta.w $0104,y
+	sta.w BandScroll+$4,y
 	lda.w #$BA13
 	sta.w $00BA,y
 	lda.w #$02CD
@@ -1804,7 +1804,7 @@ SetAllStarPhotoPointers:			; sets the scouting photo pointers for an all-star ro
 	lda.w #$04C0
 	sta.w $00F4,y
 	rts
-.1:									; $00AC,y = $6D00, $00DE,y = $05CE, $00D4,y = $5E35, $0106,y = $01CD, ...
+.1:									; $00AC,y = $6D00, $00DE,y = $05CE, $00D4,y = $5E35, ...
 	lda.w #$6D00
 	sta.w $00AC,y
 	lda.w #$05CE
@@ -1812,11 +1812,11 @@ SetAllStarPhotoPointers:			; sets the scouting photo pointers for an all-star ro
 	lda.w #$5E35
 	sta.w $00D4,y
 	lda.w #$01CD
-	sta.w $0106,y
+	sta.w BandScroll+$6,y
 	lda.w #$6D00
 	sta.w $00CE,y
 	lda.w #$00CE
-	sta.w $0100,y
+	sta.w BandScroll,y
 	lda.w #$B8A0
 	sta.w $00B8,y
 	lda.w #$03CE

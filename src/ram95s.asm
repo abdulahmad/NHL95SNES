@@ -38,6 +38,8 @@ Hpos				=	$CB			; ice rink horizontal position (the camera x; updatescroll)
 Vpos				=	$CD			; ice rink vertical position (the camera y; updatescroll)
 
 ; low RAM
+BandScroll			=	$0100		; BG3 scroll words of the screen bands, a word each to $010A, then $0110
+SetupLineRow		=	$010E		; setup screen: the text row of the current line ($10 on)
 DMAEnShadow			=	$0490		; the NMI writes this word to MDMAEN and HDMAEN
 brightness			=	$0492		; screen brightness 0-15 the fade sets; the NMI writes it to INIDISP
 FrameCount			=	$0494		; + 1 each NMI unless FrameCountHold; WaitFrame waits for it to change
@@ -446,7 +448,10 @@ BracketWin2Y		=	$3D58		; bracket screen: the second window's y
 BracketWin2Cell		=	$3D5A		; bracket screen: the second window's cell (set with the cursor's)
 BracketWin2Phase	=	$3D5C		; bracket screen: the second window's animation step
 BracketSlotTeams	=	$3D5E		; bracket screen: the team in each bracket slot ($FFFF: none yet)
+ListBuf				=	$3E4E		; 256 bytes: standings / record order lists, the trade screen's TM HDMA
+TradeScrollHDMA		=	$3F4E		; the trade screen's BG3 vertical scroll HDMA table (one entry per band)
 RandomState			=	$466E		; RandomBelowA's 32 bit generator (SeedRandom seeds it)
+BG3ScrollHDMA		=	$468C		; BG3 scroll HDMA table: BG3ScrollHDMA1 / 2's copy or a scrolling list's
 SpritePalUse		=	$46B8		; per palette: minus if not loaded, else CGRAM slot (high) and uses (low)
 
 ; work RAM, long addresses

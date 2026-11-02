@@ -8742,3 +8742,8 @@ $3D58,BracketWin2Y,,code,"RAM: from the code: as BracketWin1Y for the second win
 $3D5A,BracketWin2Cell,,code,"RAM: from the code: the cursor moves store the new cell here too; UpdateBracketWindows aims window 2 at it",src/ram95s.asm
 $3D5C,BracketWin2Phase,,code,"RAM: from the code: as BracketWin1Phase for the second window",src/ram95s.asm
 $3D5E,BracketSlotTeams,,code,"RAM: from the code: RebuildBracketTeams fills it with $FFFF, PopulateBracketTeams stores each slot's team, BracketMarkSeries / DrawBracketSeriesSummary read it",src/ram95s.asm
+$0100,BandScroll,,code,"RAM: from the code: BG3ScrollHDMA1 / 2 (indirect HDMA, copied to BG3ScrollHDMA) point at $0100-$010A; InitSetupScroll sets them, the setup screen's and Games Today's scrolls step them, $0110 is the spare band word",src/ram95s.asm
+$010E,SetupLineRow,,code,"RAM: from the code: InitSetupScroll sets $10, SetupLineUp / Down step it by 2, DrawSetupLine and SetupLinePalette0 / 3 use it",src/ram95s.asm
+$3E4E,ListBuf,,code,"RAM: from the code: KeepDivisionTeams and the record holders' Insert*Record build their order lists here, SetupTradeLists its TM band table (SetupHDMA $2C)",src/ram95s.asm
+$3F4E,TradeScrollHDMA,,code,"RAM: from the code: SetupTradeLists (SetupHDMA $12 at $3F4E), TradeListScrollEntries and the scroll steps rebuild it",src/ram95s.asm
+$468C,BG3ScrollHDMA,,code,"RAM: from the code: InitSetupScroll / GamesToday copy the ROM table here (indirect HDMA on $0100 ...); StartScrollList builds a direct one at +0 or +3 and its TM table at +$11",src/ram95s.asm

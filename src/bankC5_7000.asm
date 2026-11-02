@@ -363,7 +363,7 @@ CalcRosterAttrib:					; the rating of roster player d0 of team a2 for the attrib
 	clc
 	adc.b d0
 	tax
-	lda.w $0110,x
+	lda.w BandScroll+$10,x
 	plp
 	bcs .6
 	lsr a
@@ -1715,10 +1715,10 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	sta.b tmp0
 	beq .8
 	lda.w #$FFFF
-	sta.w $3E4E
+	sta.w ListBuf
 	lda.w #$002D
-	ldx.w #$3E4E
-	ldy.w #$3E50
+	ldx.w #ListBuf
+	ldy.w #ListBuf+$2
 	mvn $7E,$7E
 	ldx.w #$0000
 .loop2:								; loop: tmp1 = X, A = ScratchBuf+$10,x, call InsertWinRecord, ...
@@ -1814,8 +1814,8 @@ DATA8_C57DCD:						; jump table: the routine for each index
 InsertWinRecord:					; puts user record tmp1 in the win page's order list before the first one
 									; whose win % is not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
-.loop:								; loop: if $3E4E,y < 0 go to .2, if A >= ScratchBuf+$10,x go to .1, ...
-	ldx.w $3E4E,y
+.loop:								; loop: if ListBuf,y < 0 go to .2, if A >= ScratchBuf+$10,x go to .1, ...
+	ldx.w ListBuf,y
 	bmi .2
 	cmp.w ScratchBuf+$10,x
 	bcs .1
@@ -1823,25 +1823,25 @@ InsertWinRecord:					; puts user record tmp1 in the win page's order list before
 	iny
 	cpy.w #$000E
 	bcc .loop
-.1:									; push Y, Y = $3E5D, X = $3E5B, A = $000D, ...
+.1:									; push Y, Y = ListBuf+$F, X = ListBuf+$D, A = $000D, ...
 	phy
-	ldy.w #$3E5D
-	ldx.w #$3E5B
+	ldy.w #ListBuf+$F
+	ldx.w #ListBuf+$D
 	sec
 	lda.w #$000D
 	sbc.b $01,s
 	mvp $7E,$7E
 	ply
-.2:									; $3E4E,y = tmp1, X = A, return
+.2:									; ListBuf,y = tmp1, X = A, return
 	lda.b tmp1
-	sta.w $3E4E,y
+	sta.w ListBuf,y
 	tax
 	rts
 InsertGoalRecord:					; puts user record tmp1 in the goal page's order list before the first one
 									; whose goals are not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
-.loop:								; loop: if $3E5E,y < 0 go to .2, if A >= ScratchBuf+$2,x go to .1, ...
-	ldx.w $3E5E,y
+.loop:								; loop: if ListBuf+$10,y < 0 go to .2, ...
+	ldx.w ListBuf+$10,y
 	bmi .2
 	cmp.w ScratchBuf+$2,x
 	bcs .1
@@ -1849,25 +1849,25 @@ InsertGoalRecord:					; puts user record tmp1 in the goal page's order list befo
 	iny
 	cpy.w #$000E
 	bcc .loop
-.1:									; push Y, Y = $3E6D, X = $3E6B, A = $000D, ...
+.1:									; push Y, Y = ListBuf+$1F, X = ListBuf+$1D, A = $000D, ...
 	phy
-	ldy.w #$3E6D
-	ldx.w #$3E6B
+	ldy.w #ListBuf+$1F
+	ldx.w #ListBuf+$1D
 	sec
 	lda.w #$000D
 	sbc.b $01,s
 	mvp $7E,$7E
 	ply
-.2:									; $3E5E,y = tmp1, X = A, return
+.2:									; ListBuf+$10,y = tmp1, X = A, return
 	lda.b tmp1
-	sta.w $3E5E,y
+	sta.w ListBuf+$10,y
 	tax
 	rts
 InsertSaveRecord:					; puts user record tmp1 in the save page's order list before the first one
 									; whose saves are not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
-.loop:								; loop: if $3E6E,y < 0 go to .2, if A >= ScratchBuf+$6,x go to .1, ...
-	ldx.w $3E6E,y
+.loop:								; loop: if ListBuf+$20,y < 0 go to .2, ...
+	ldx.w ListBuf+$20,y
 	bmi .2
 	cmp.w ScratchBuf+$6,x
 	bcs .1
@@ -1875,18 +1875,18 @@ InsertSaveRecord:					; puts user record tmp1 in the save page's order list befo
 	iny
 	cpy.w #$000E
 	bcc .loop
-.1:									; push Y, Y = $3E7D, X = $3E7B, A = $000D, ...
+.1:									; push Y, Y = ListBuf+$2F, X = ListBuf+$2D, A = $000D, ...
 	phy
-	ldy.w #$3E7D
-	ldx.w #$3E7B
+	ldy.w #ListBuf+$2F
+	ldx.w #ListBuf+$2D
 	sec
 	lda.w #$000D
 	sbc.b $01,s
 	mvp $7E,$7E
 	ply
-.2:									; $3E6E,y = tmp1, X = A, return
+.2:									; ListBuf+$20,y = tmp1, X = A, return
 	lda.b tmp1
-	sta.w $3E6E,y
+	sta.w ListBuf+$20,y
 	tax
 	rts
 PrintWinRecords:					; Record Holders page 0: name, win %, wins, losses, ties of each user
@@ -1932,7 +1932,7 @@ PrintWinRecordRow:					; win page row A on text row $6D: the user's name, win %,
 	stx.b $D1
 	asl a
 	tax
-	lda.w $3E4E,x
+	lda.w ListBuf,x
 	sta.b a3
 	adc.w #ScratchBuf+$12
 	tax
@@ -1997,7 +1997,7 @@ PrintGoalRecordRow:					; goal record A on row $6D: the holder's name, then the 
 									; wins are 0
 	asl a
 	tax
-	lda.w $3E5E,x
+	lda.w ListBuf+$10,x
 	sta.b a3
 	tax
 	ldy.w ScratchBuf+$A,x
