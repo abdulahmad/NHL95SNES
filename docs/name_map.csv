@@ -3337,12 +3337,12 @@ $C40C3C,.loop,CODE_C40C3C,new,"branch target only used in SetSeasonGoalsAgainst"
 $C40C49,.1,CODE_C40C49,new,"branch target only used in SetSeasonGoalsAgainst",src/bankC4_0000.asm
 $C40C7C,.loop,CODE_C40C7C,new,"branch target only used in SetSeasonSaves",src/bankC4_0000.asm
 $C40CA3,.1,CODE_C40CA3,new,"branch target only used in SetSeasonSaves",src/bankC4_0000.asm
-$C40CBF,.loop,CODE_C40CBF,new,"branch target only used in CODE_C40CB3",src/bankC4_0000.asm
-$C40CE8,.loop,CODE_C40CE8,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
-$C40CF2,.1,CODE_C40CF2,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
-$C40D02,.loop2,CODE_C40D02,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
-$C40D2D,.loop3,CODE_C40D2D,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
-$C40D3A,.2,CODE_C40D3A,new,"branch target only used in CODE_C40CE3",src/bankC4_0000.asm
+$C40CBF,.loop,CODE_C40CBF,new,"branch target only used in AddPlayoffDayPlayerStats",src/bankC4_0000.asm
+$C40CE8,.loop,CODE_C40CE8,new,"branch target only used in AddPlayoffTeamPlayerStats",src/bankC4_0000.asm
+$C40CF2,.1,CODE_C40CF2,new,"branch target only used in AddPlayoffTeamPlayerStats",src/bankC4_0000.asm
+$C40D02,.loop2,CODE_C40D02,new,"branch target only used in AddPlayoffTeamPlayerStats",src/bankC4_0000.asm
+$C40D2D,.loop3,CODE_C40D2D,new,"branch target only used in AddPlayoffTeamPlayerStats",src/bankC4_0000.asm
+$C40D3A,.2,CODE_C40D3A,new,"branch target only used in AddPlayoffTeamPlayerStats",src/bankC4_0000.asm
 $C40DC4,.1,CODE_C40DC4,new,"branch target only used in SetupPlayoffs",src/bankC4_0000.asm
 $C40DEF,.2,CODE_C40DEF,new,"branch target only used in SetupPlayoffs",src/bankC4_0000.asm
 $C40DFA,.rtl,CODE_C40DFA,new,"branch target only used in SetupPlayoffs",src/bankC4_0000.asm
@@ -4593,8 +4593,8 @@ $C4DF45,.1,CODE_C4DF45,new,"branch target only used in ScanPresidents",src/bankC
 $C4DF50,.2,CODE_C4DF50,new,"branch target only used in ScanPresidents",src/bankC4_D000.asm
 $C4DF64,.loop,CODE_C4DF64,new,"branch target only used in CODE_C4DF5B",src/bankC4_D000.asm
 $C4DF77,.1,CODE_C4DF77,new,"branch target only used in CODE_C4DF5B",src/bankC4_D000.asm
-$C4DFA3,.loop,CODE_C4DFA3,new,"branch target only used in CODE_C4DF82",src/bankC4_D000.asm
-$C4DFCD,.loop,CODE_C4DFCD,new,"branch target only used in CODE_C4DFAC",src/bankC4_D000.asm
+$C4DFA3,.loop,CODE_C4DFA3,new,"branch target only used in ReadPlayoffPlayerGoals",src/bankC4_D000.asm
+$C4DFCD,.loop,CODE_C4DFCD,new,"branch target only used in ReadPlayoffPlayerAssists",src/bankC4_D000.asm
 $C4E020,.loop,CODE_C4E020,new,"branch target only used in StanleyCupScreen",src/bankC4_E000.asm
 $C4E0FE,.loop2,CODE_C4E0FE,new,"branch target only used in StanleyCupScreen",src/bankC4_E000.asm
 $C4E140,.1,CODE_C4E140,new,"branch target only used in ScoutingReport",src/bankC4_E000.asm
@@ -4625,20 +4625,20 @@ $C4E67F,.9,CODE_C4E67F,new,"branch target only used in ShowMatchups",src/bankC4_
 $C4E6D7,.10,CODE_C4E6D7,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
 $C4E6DA,.11,CODE_C4E6DA,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
 $C4E79A,.12,CODE_C4E79A,new,"branch target only used in ShowMatchups",src/bankC4_E000.asm
-$C4E8B1,.1,CODE_C4E8B1,new,"branch target only used in CODE_C4E885",src/bankC4_E000.asm
-$C4E8C8,.2,CODE_C4E8C8,new,"branch target only used in CODE_C4E885",src/bankC4_E000.asm
-$C4E8C9,.3,CODE_C4E8C9,new,"branch target only used in CODE_C4E885",src/bankC4_E000.asm
-$C4E8EE,.1,CODE_C4E8EE,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E906,.2,CODE_C4E906,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E932,.3,CODE_C4E932,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E942,.4,CODE_C4E942,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E95F,.5,CODE_C4E95F,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E977,.6,CODE_C4E977,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E97E,.7,CODE_C4E97E,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E98F,.8,CODE_C4E98F,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E9AE,.9,CODE_C4E9AE,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E9C4,.10,CODE_C4E9C4,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
-$C4E9D7,.rts,CODE_C4E9D7,new,"branch target only used in CODE_C4E8CD",src/bankC4_E000.asm
+$C4E8B1,.1,CODE_C4E8B1,new,"branch target only used in RankScoutingHotColdTeams",src/bankC4_E000.asm
+$C4E8C8,.2,CODE_C4E8C8,new,"branch target only used in RankScoutingHotColdTeams",src/bankC4_E000.asm
+$C4E8C9,.3,CODE_C4E8C9,new,"branch target only used in RankScoutingHotColdTeams",src/bankC4_E000.asm
+$C4E8EE,.1,CODE_C4E8EE,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E906,.2,CODE_C4E906,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E932,.3,CODE_C4E932,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E942,.4,CODE_C4E942,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E95F,.5,CODE_C4E95F,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E977,.6,CODE_C4E977,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E97E,.7,CODE_C4E97E,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E98F,.8,CODE_C4E98F,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E9AE,.9,CODE_C4E9AE,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E9C4,.10,CODE_C4E9C4,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
+$C4E9D7,.rts,CODE_C4E9D7,new,"branch target only used in RankScoutingHotColdPlayers",src/bankC4_E000.asm
 $C4EA14,.1,CODE_C4EA14,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
 $C4EA5E,.2,CODE_C4EA5E,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
 $C4EAC6,.3,CODE_C4EAC6,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
@@ -8254,3 +8254,11 @@ $C40E45,RankPlayoffConference,CODE_C40E45,code,"clears list then walks linked re
 $C40E5F,InsertPlayoffSeed,CODE_C40E5F,code,"scans eight slots backwards, compares via C40E8D, shifts lower entries with MVN and stores Y",src/bankC4_0000.asm
 $C40E8D,ComparePlayoffSeeds,CODE_C40E8D,code,"compares fields +0A, +04, +08, +0E descending, +2A ascending, then +18 and +1C; flags drive insertion",src/bankC4_0000.asm
 $C40ECA,ClearPlayoffSeedList,CODE_C40ECA,code,"clears first word at 364E then propagates zero through remaining seven words with MVN",src/bankC4_0000.asm
+$C40CB3,AddPlayoffDayPlayerStats,CODE_C40CB3,code,"RecordPlayoffDay calls this; iterates 2C42 games at 7F8EF8 with stride 010A and both team halves via C40CE3",src/bankC4_0000.asm
+$C40CE3,AddPlayoffTeamPlayerStats,CODE_C40CE3,code,"locates team in SRPOTeams; fields +3A and +6E match AddPlayerSeasonStats goals/assists; adds into seven-bit fields at 3072E8/307446",src/bankC4_0000.asm
+$C4DF82,ReadPlayoffPlayerGoals,CODE_C4DF82,code,"same DATA8_C40D76 team base and player times seven used by C40CE3 writer; reads 3072E8; ScanConnSmythe sums with C4DFAC",src/bankC4_D000.asm
+$C4DFAC,ReadPlayoffPlayerAssists,CODE_C4DFAC,code,"same DATA8_C40D76 team base and player times seven used by C40CE3 writer; reads 307446; ScanConnSmythe sums with C4DF82",src/bankC4_D000.asm
+$C4E885,RankScoutingHotColdTeams,CODE_C4E885,code,"calls C4E8CD twice; compares summed rating changes with thresholds four/eight; same logic as local .10 of 94S ScoutingReport so code name",src/bankC4_E000.asm
+$C4E8CD,RankScoutingHotColdPlayers,CODE_C4E8CD,code,"calls C571C7 with 24DC zero then one; that flag includes HotColdTable; inserts doubled roster indices by signed rating difference",src/bankC4_E000.asm
+$C4EECD,ScoutUseVisTeamLogo,CODE_C4EECD,code,"queues blank 0480 bytes to VRAM 0370; sets bit zero of visiting logo d7 and clears it on frame d6",src/bankC4_E000.asm
+$C4EF07,ScoutUseHomeTeamLogo,CODE_C4EF07,code,"queues blank 0480 bytes to VRAM 0130; sets bit zero of home logo 9D and clears it on frame 99",src/bankC4_E000.asm

@@ -288,7 +288,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w #$0006
 	sta.w $2DA5
 	jsr.w ShowMatchups
-	jsr.w CODE_C4E885
+	jsr.w RankScoutingHotColdTeams
 	jsr.w BuildScoutingText
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -526,8 +526,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	stz.b QueueBusy
 	ply
 	bra .4
-.3:									; call CODE_C4EF07
-	jsr.w CODE_C4EF07
+.3:									; call ScoutUseHomeTeamLogo
+	jsr.w ScoutUseHomeTeamLogo
 .4:									; X = $2DA5, A = $3274,x, A and $00FF, A - 1, ...
 	ldx.w $2DA5
 	lda.w $3274,x
@@ -582,8 +582,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	stz.b QueueBusy
 	ply
 	bra .6
-.5:									; call CODE_C4EECD
-	jsr.w CODE_C4EECD
+.5:									; call ScoutUseVisTeamLogo
+	jsr.w ScoutUseVisTeamLogo
 .6:									; call RefreshSpritesLong, $CF = $0018, $D1 = $0050, a2 = $0002, ...
 	jsl.l RefreshSpritesLong
 	lda.w #$0018
@@ -721,8 +721,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	stx.b $04
 	stz.b QueueBusy
 	bra .9
-.8:									; call CODE_C4EF07
-	jsr.w CODE_C4EF07
+.8:									; call ScoutUseHomeTeamLogo
+	jsr.w ScoutUseHomeTeamLogo
 .9:									; a0 = $32E5, A and $00FF, $6D = A, X = A, ...
 	lda.w $32E5
 	sta.b a0
@@ -769,8 +769,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	stx.b $04
 	stz.b QueueBusy
 	bra .11
-.10:								; call CODE_C4EECD
-	jsr.w CODE_C4EECD
+.10:								; call ScoutUseVisTeamLogo
+	jsr.w ScoutUseVisTeamLogo
 .11:								; call RefreshSpritesLong, $CF = $00B0, $D1 = $00E8, a2 = 0, ...
 	jsl.l RefreshSpritesLong
 	lda.w #$00B0
@@ -924,16 +924,16 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-CODE_C4E885:						; from ScoutingReport
+RankScoutingHotColdTeams:			; ranks both teams' hot and cold players and selects the hotter team
 	stz.b a2
 	ldy.w #$2DA9
 	ldx.w #$2DC9
-	jsr.w CODE_C4E8CD
+	jsr.w RankScoutingHotColdPlayers
 	lda.w #$0002
 	sta.b a2
 	ldy.w #$2DB7
 	ldx.w #$3207
-	jsr.w CODE_C4E8CD
+	jsr.w RankScoutingHotColdPlayers
 	ldx.w HomeTeam
 	lda.w $2DB5
 	sec
@@ -957,7 +957,8 @@ CODE_C4E885:						; from ScoutingReport
 .3:									; return
 	tsb.w $2DA7
 	rts
-CODE_C4E8CD:						; from CODE_C4E885
+RankScoutingHotColdPlayers:			; ranks a roster's three hottest and coldest players and sums rating
+									; changes
 	stz.w mesarea
 	stz.w mesarea+2
 	stz.w mesarea+4
@@ -1719,7 +1720,7 @@ MapPhotoTileRow:					; writes six consecutive tile words to the current VRAM add
 	dey
 	bpl .loop
 	rts
-CODE_C4EECD:						; from ShowMatchups
+ScoutUseVisTeamLogo:				; clears the left photo tiles and shows the visiting team logo
 	stz.w mesarea
 	stz.w $364E
 	dec.b QueueBusy
@@ -1747,7 +1748,7 @@ CODE_C4EECD:						; from ShowMatchups
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4EF07:						; from ShowMatchups
+ScoutUseHomeTeamLogo:				; clears the right photo tiles and shows the home team logo
 	stz.w mesarea
 	stz.w $364E
 	dec.b QueueBusy

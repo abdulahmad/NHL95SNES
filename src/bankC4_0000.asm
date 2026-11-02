@@ -348,7 +348,7 @@ RecordPlayoffDay:					; adds each of the day's playoff results to its series win
 	dec.b tmp0
 	bne .1
 	plb
-	jsr.w CODE_C40CB3
+	jsr.w AddPlayoffDayPlayerStats
 	lda.l SRPODay
 	inc a
 	sta.l SRPODay
@@ -1617,16 +1617,17 @@ SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at SRGoalieS
 	ora.b tmp0
 	sta.l SRGoalieSaves,x
 	rts
-CODE_C40CB3:						; from RecordPlayoffDay
+AddPlayoffDayPlayerStats:			; adds both teams' player goals and assists from each playoff game to save
+									; RAM
 	lda.w $2C42
 	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-.loop:								; loop: push Y, A = $0004,y, call CODE_C40CE3, pull Y, ...
+.loop:								; loop: push Y, A = $0004,y, call AddPlayoffTeamPlayerStats, pull Y, ...
 	phy
 	lda.w $0004,y
-	jsr.w CODE_C40CE3
+	jsr.w AddPlayoffTeamPlayerStats
 	ply
 	phy
 	lda.w $0002,y
@@ -1636,7 +1637,7 @@ CODE_C40CB3:						; from RecordPlayoffDay
 	adc.w #$001A
 	tay
 	txa
-	jsr.w CODE_C40CE3
+	jsr.w AddPlayoffTeamPlayerStats
 	ply
 	clc
 	tya
@@ -1646,7 +1647,7 @@ CODE_C40CB3:						; from RecordPlayoffDay
 	bne .loop
 	plb
 	rts
-CODE_C40CE3:						; from CODE_C40CB3
+AddPlayoffTeamPlayerStats:			; adds a team's game player goals and assists to the packed playoff totals
 	ldx.w #$000F
 	sep #$20
 .loop:								; loop: if A = SRPOTeams,x go to .1, X - 1, ...
@@ -1720,7 +1721,7 @@ CODE_C40CE3:						; from CODE_C40CB3
 	dec.b tmp1
 	bpl .loop2
 	rts
-DATA8_C40D76:						; not traced: a table read by CODE_C40CE3
+DATA8_C40D76:						; not traced: a table read by AddPlayoffTeamPlayerStats
 	db $00,$00,$AF,$00,$5E,$01,$0D,$02,$BC,$02,$6B,$03,$1A,$04,$C9,$04
 	db $78,$05,$27,$06,$D6,$06,$85,$07,$34,$08,$E3,$08,$92,$09,$41,$0A
 SetupPlayoffs:						; starts the playoffs once the schedule has no more games: the marks

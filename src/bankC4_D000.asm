@@ -1397,11 +1397,11 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 	sec
 	adc.w $2DCB
 	pha
-	jsr.w CODE_C4DF82
+	jsr.w ReadPlayoffPlayerGoals
 	sta.b tmp2
 	pla
 	ldx.b $6D
-	jsr.w CODE_C4DFAC
+	jsr.w ReadPlayoffPlayerAssists
 	clc
 	adc.b tmp2
 	cmp.b a2
@@ -1731,7 +1731,7 @@ CODE_C4DF5B:						; from ScanSelke, ScanJennings, ScanNorris
 	bne .loop
 	lda.b $71
 	rts
-CODE_C4DF82:						; from ScanConnSmythe
+ReadPlayoffPlayerGoals:				; returns the seven-bit playoff goals total for player A on playoff team X
 	sta.b tmp0
 	asl a
 	asl a
@@ -1760,7 +1760,8 @@ CODE_C4DF82:						; from ScanConnSmythe
 	rol a
 	and.w #$007F
 	rts
-CODE_C4DFAC:						; from ScanConnSmythe
+ReadPlayoffPlayerAssists:			; returns the seven-bit playoff assists total for player A on playoff team
+									; X
 	sta.b tmp0
 	asl a
 	asl a
