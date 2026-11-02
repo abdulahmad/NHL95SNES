@@ -5770,35 +5770,35 @@ $C583BD,.2,CODE_C583BD,new,"branch target only used in UnpackFormat6Step",src/ba
 $C583C6,.1,CODE_C583C6,new,"branch target only used in UnpackFormat8",src/bankC5_8000.asm
 $C5842E,.1,CODE_C5842E,new,"branch target only used in UnpackFormat8Step",src/bankC5_8000.asm
 $C58455,.2,CODE_C58455,new,"branch target only used in UnpackFormat8Step",src/bankC5_8000.asm
-$C5846A,.loop,CODE_C5846A,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C58494,.1,CODE_C58494,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C5849B,.loop2,CODE_C5849B,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584AC,.2,CODE_C584AC,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584B1,.3,CODE_C584B1,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584C0,.4,CODE_C584C0,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584D7,.5,CODE_C584D7,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584E2,.6,CODE_C584E2,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584EC,.7,CODE_C584EC,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C584FF,.loop3,CODE_C584FF,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C58526,.rts,CODE_C58526,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
-$C5855B,.1,CODE_C5855B,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C5855D,.2,CODE_C5855D,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C58565,.3,CODE_C58565,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C58588,.4,CODE_C58588,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C585A3,.5,CODE_C585A3,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C585AD,.loop,CODE_C585AD,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C585BC,.6,CODE_C585BC,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C585CB,.loop2,CODE_C585CB,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C585D3,.loop3,CODE_C585D3,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C585EC,.loop4,CODE_C585EC,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C58604,.7,CODE_C58604,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C58636,.8,CODE_C58636,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C58638,.9,CODE_C58638,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C5866D,.loop5,CODE_C5866D,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C5869B,.loop6,CODE_C5869B,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C586A9,.loop7,CODE_C586A9,new,"branch target only used in CODE_C5852B",src/bankC5_8000.asm
-$C586C0,.1,CODE_C586C0,new,"branch target only used in CODE_C586B6",src/bankC5_8000.asm
-$C586C9,.rts,CODE_C586C9,new,"branch target only used in CODE_C586B6",src/bankC5_8000.asm
+$C5846A,.loop,CODE_C5846A,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C58494,.1,CODE_C58494,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C5849B,.loop2,CODE_C5849B,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584AC,.2,CODE_C584AC,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584B1,.3,CODE_C584B1,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584C0,.4,CODE_C584C0,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584D7,.5,CODE_C584D7,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584E2,.6,CODE_C584E2,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584EC,.7,CODE_C584EC,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C584FF,.loop3,CODE_C584FF,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C58526,.rts,CODE_C58526,new,"branch target only used in DecompressLZSSHere",src/bankC5_8000.asm
+$C5855B,.1,CODE_C5855B,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C5855D,.2,CODE_C5855D,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C58565,.3,CODE_C58565,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C58588,.4,CODE_C58588,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C585A3,.5,CODE_C585A3,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C585AD,.loop,CODE_C585AD,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C585BC,.6,CODE_C585BC,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C585CB,.loop2,CODE_C585CB,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C585D3,.loop3,CODE_C585D3,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C585EC,.loop4,CODE_C585EC,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C58604,.7,CODE_C58604,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C58636,.8,CODE_C58636,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C58638,.9,CODE_C58638,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C5866D,.loop5,CODE_C5866D,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C5869B,.loop6,CODE_C5869B,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C586A9,.loop7,CODE_C586A9,new,"branch target only used in MapSetToVRAMBody",src/bankC5_8000.asm
+$C586C0,.1,CODE_C586C0,new,"branch target only used in NextMapSetChunk",src/bankC5_8000.asm
+$C586C9,.rts,CODE_C586C9,new,"branch target only used in NextMapSetChunk",src/bankC5_8000.asm
 $C586D1,.1,CODE_C586D1,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
 $C5871B,.loop,CODE_C5871B,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
 $C5871D,.loop2,CODE_C5871D,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
@@ -5810,7 +5810,7 @@ $C587F0,.5,CODE_C587F0,new,"branch target only used in CODE_C586CA",src/bankC5_8
 $C587FE,.loop4,CODE_C587FE,new,"branch target only used in CODE_C586CA",src/bankC5_8000.asm
 $C5882B,.1,CODE_C5882B,new,"branch target only used in MapSetToWRAM",src/bankC5_8000.asm
 $C58867,.loop,CODE_C58867,new,"branch target only used in MapSetToWRAM",src/bankC5_8000.asm
-$C5888E,.rts,CODE_C5888E,new,"branch target only used in CODE_C58874",src/bankC5_8000.asm
+$C5888E,.rts,CODE_C5888E,new,"branch target only used in NextMapSetChunkWRAM",src/bankC5_8000.asm
 $C588B9,.1,CODE_C588B9,new,"branch target only used in CODE_C5888F",src/bankC5_8000.asm
 $C588E8,.2,CODE_C588E8,new,"branch target only used in CODE_C5888F",src/bankC5_8000.asm
 $C588FC,.loop,CODE_C588FC,new,"branch target only used in CODE_C588EB",src/bankC5_8000.asm
@@ -8037,3 +8037,7 @@ $C4C574,ResetTransferQueues,CODE_C4C574,code,"from the code; the transfer queues
 $C590BB,SetRowPalette0,CODE_C590BB,code,"from the code: as SetRowPalette3 with ora #$0000",src/bankC5_9000.asm
 $C583F3,UnpackFormat8Step,CODE_C583F3,code,"from the code: the two copies through the RAM routines at $A3 / $9F; UnpackFormat8 calls it once per flag bit",src/bankC5_8000.asm
 $C5835C,UnpackFormat6Step,CODE_C5835C,code,"from the code: as UnpackFormat8Step with the other field widths; UnpackFormat6 calls it once per flag bit",src/bankC5_8000.asm
+$C5852B,MapSetToVRAMBody,CODE_C5852B,code,"from the code: MapSetToVRAM is jsr to it and rtl; the header flags, DecompressLZSS into a work buffer, the VMDATA loops, NextMapSetChunk between chunks",src/bankC5_8000.asm
+$C586B6,NextMapSetChunk,CODE_C586B6,code,"from the code; the map set layout in HANDOFF (each chunk a length word, then its bytes)",src/bankC5_8000.asm
+$C58874,NextMapSetChunkWRAM,CODE_C58874,code,"from the code; MapSetToWRAM's form of NextMapSetChunk",src/bankC5_8000.asm
+$C58467,DecompressLZSSHere,CODE_C58467,code,"from the code: DecompressLZSS sets WMADDL / WMADDH and falls into it; MapSetToWRAM calls it for the chunks after the first",src/bankC5_8000.asm

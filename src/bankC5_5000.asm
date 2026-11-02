@@ -1224,7 +1224,7 @@ SetupScreen:						; common start of the stats screens: the tiled background, VRA
 	lda.w #TiledBackMap&$FFFF
 	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
-	jsr.w CODE_C5852B
+	jsr.w MapSetToVRAMBody
 	ldy.w #$5000
 	jsl.l ClearVRAM
 	ldy.w #$5400

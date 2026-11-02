@@ -197,7 +197,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #TiledBackMap&$FFFF
 	ldx.w #TiledBackMap>>16
 	ldy.w #$2000
-	jsr.w CODE_C5852B
+	jsr.w MapSetToVRAMBody
 	sep #$20
 	pea.w $7E80
 	plb

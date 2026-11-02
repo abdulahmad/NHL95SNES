@@ -559,7 +559,8 @@ DecompressLZSS:						; LZSS (4 KB ring) from [$2C] to the WRAM port at X:A; a co
 	and.b #$01
 	sta.l WMADDH
 	rep #$20
-CODE_C58467:						; from MapSetToWRAM
+DecompressLZSSHere:					; DecompressLZSS's decoder without setting the WRAM address: the stream at
+									; [$2C] continues at the current WMADD
 	ldx.w #$01FE
 .loop:								; loop: $364E,x = 0, $384E,x = 0, $3A4E,x = 0, $3C4E,x = 0, ...
 	stz.w $364E,x
@@ -662,9 +663,11 @@ CODE_C58467:						; from MapSetToWRAM
 .rts:								; return
 	rts
 MapSetToVRAM:						; the map set at X:A to VRAM at $9F (map words + $A1), ...
-	jsr.w CODE_C5852B
+	jsr.w MapSetToVRAMBody
 	rtl
-CODE_C5852B:						; from MapSetToVRAM
+MapSetToVRAMBody:					; the work of MapSetToVRAM: the map chunk (packed or not, 32 or 64 wide)
+									; to VRAM at tmp0 with tmp1 added to each word, then the tile and colour
+									; chunks
 	sta.b r1
 	stx.b $32
 	sty.b tmp2
@@ -773,10 +776,10 @@ CODE_C5852B:						; from MapSetToVRAM
 	sta.b tmp0
 	dec.b $A5
 	bne .loop2
-.7:									; pull A, call FreeWorkBuf, call CODE_C586B6, Y = $0004, ...
+.7:									; pull A, call FreeWorkBuf, call NextMapSetChunk, Y = $0004, ...
 	pla
 	jsl.l FreeWorkBuf
-	jsr.w CODE_C586B6
+	jsr.w NextMapSetChunk
 	ldy.w #$0004
 	lda.b [r1],y
 	bit.w #$0080
@@ -830,7 +833,7 @@ CODE_C5852B:						; from MapSetToVRAM
 	bcc .loop5
 	pla
 	jsl.l FreeWorkBuf
-	jsr.w CODE_C586B6
+	jsr.w NextMapSetChunk
 	ldy.w #$0005
 	lda.b [r1],y
 	asl a
@@ -860,7 +863,7 @@ CODE_C5852B:						; from MapSetToVRAM
 	bne .loop7
 	rep #$31
 	rts
-CODE_C586B6:						; from CODE_C5852B, CODE_C586CA
+NextMapSetChunk:					; r1 (bank $32) to the next chunk of the map set: + its length word + 2
 	clc
 	lda.b [r1]
 	adc.b r1
@@ -874,7 +877,7 @@ CODE_C586B6:						; from CODE_C5852B, CODE_C586CA
 	inc.b $32
 .rts:								; return
 	rts
-CODE_C586CA:						; from CODE_C5852B
+CODE_C586CA:						; from MapSetToVRAMBody
 	bit.w #$0080
 	bne .1
 	brk #$00						; a trap: this header form is not handled
@@ -930,7 +933,7 @@ CODE_C586CA:						; from CODE_C5852B
 	rep #$20
 	pla
 	jsl.l FreeWorkBuf
-	jsr.w CODE_C586B6
+	jsr.w NextMapSetChunk
 	ldy.w #$0004
 	lda.b [r1],y
 	bit.w #$0001
@@ -990,7 +993,7 @@ CODE_C586CA:						; from CODE_C5852B
 	rep #$20
 	pla
 	jsl.l FreeWorkBuf
-	jsr.w CODE_C586B6
+	jsr.w NextMapSetChunk
 	ldy.w #$0002
 	lda.b [r1],y
 	and.w #$00FF
@@ -1043,7 +1046,7 @@ MapSetToWRAM:						; unpacks the map set at X:A into the WRAM buffer at r1 (bank
 	lda.b r1
 	ldx.b $32
 	jsr.w DecompressLZSS
-	jsr.w CODE_C58874
+	jsr.w NextMapSetChunkWRAM
 	clc
 	lda.b r2
 	adc.w #$0008
@@ -1051,8 +1054,8 @@ MapSetToWRAM:						; unpacks the map set at X:A into the WRAM buffer at r1 (bank
 	lda.b $36
 	adc.w #$0000
 	sta.b $2E
-	jsr.w CODE_C58467
-	jsr.w CODE_C58874
+	jsr.w DecompressLZSSHere
+	jsr.w NextMapSetChunkWRAM
 	clc
 	lda.b r2
 	adc.w #$0007
@@ -1074,7 +1077,7 @@ MapSetToWRAM:						; unpacks the map set at X:A into the WRAM buffer at r1 (bank
 	bne .loop
 	rep #$20
 	rtl
-CODE_C58874:						; from MapSetToWRAM
+NextMapSetChunkWRAM:				; r2 (bank $36) to the next chunk of the map set: + its length word + 2
 	clc
 	lda.b [r2]
 	adc.b r2
