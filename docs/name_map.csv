@@ -4645,29 +4645,29 @@ $C4EAC6,.3,CODE_C4EAC6,new,"branch target only used in BuildScoutingText",src/ba
 $C4EACE,.4,CODE_C4EACE,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
 $C4EAEF,.5,CODE_C4EAEF,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
 $C4EB14,.loop,CODE_C4EB14,new,"branch target only used in BuildScoutingText",src/bankC4_E000.asm
-$C4EB70,.loop,CODE_C4EB70,new,"branch target only used in CODE_C4EB6C",src/bankC4_E000.asm
-$C4EB7C,.1,CODE_C4EB7C,new,"branch target only used in CODE_C4EB6C",src/bankC4_E000.asm
-$C4EBD2,.loop,CODE_C4EBD2,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EBD5,.1,CODE_C4EBD5,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EBD7,.2,CODE_C4EBD7,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EBEA,.3,CODE_C4EBEA,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EBEE,.4,CODE_C4EBEE,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EC12,.5,CODE_C4EC12,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EC19,.loop2,CODE_C4EC19,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EC4E,.rts,CODE_C4EC4E,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EC4F,.6,CODE_C4EC4F,new,"branch target only used in CODE_C4EBC8",src/bankC4_E000.asm
-$C4EC6E,.1,CODE_C4EC6E,new,"branch target only used in CODE_C4EC58",src/bankC4_E000.asm
-$C4EC76,.2,CODE_C4EC76,new,"branch target only used in CODE_C4EC58",src/bankC4_E000.asm
-$C4EC87,.rts,CODE_C4EC87,new,"branch target only used in CODE_C4EC58",src/bankC4_E000.asm
-$C4ECC1,.1,CODE_C4ECC1,new,"branch target only used in CODE_C4EC88",src/bankC4_E000.asm
-$C4ECC7,.2,CODE_C4ECC7,new,"branch target only used in CODE_C4EC88",src/bankC4_E000.asm
-$C4ECCC,.loop,CODE_C4ECCC,new,"branch target only used in CODE_C4EC88",src/bankC4_E000.asm
-$C4EE73,.3,CODE_C4EE73,new,"branch target only used in CODE_C4EC88",src/bankC4_E000.asm
-$C4EE81,.4,CODE_C4EE81,new,"branch target only used in CODE_C4EC88",src/bankC4_E000.asm
-$C4EE9B,.5,CODE_C4EE9B,new,"branch target only used in CODE_C4EC88",src/bankC4_E000.asm
-$C4EEAE,.loop,CODE_C4EEAE,new,"branch target only used in CODE_C4EE9D",src/bankC4_E000.asm
-$C4EEC4,.loop,CODE_C4EEC4,new,"branch target only used in CODE_C4EEC0",src/bankC4_E000.asm
-$C4EF8F,.1,CODE_C4EF8F,new,"branch target only used in CODE_C4EF41",src/bankC4_E000.asm
+$C4EB70,.loop,CODE_C4EB70,new,"branch target only used in AppendScoutString",src/bankC4_E000.asm
+$C4EB7C,.1,CODE_C4EB7C,new,"branch target only used in AppendScoutString",src/bankC4_E000.asm
+$C4EBD2,.loop,CODE_C4EBD2,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EBD5,.1,CODE_C4EBD5,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EBD7,.2,CODE_C4EBD7,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EBEA,.3,CODE_C4EBEA,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EBEE,.4,CODE_C4EBEE,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EC12,.5,CODE_C4EC12,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EC19,.loop2,CODE_C4EC19,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EC4E,.rts,CODE_C4EC4E,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EC4F,.6,CODE_C4EC4F,new,"branch target only used in PrintNextScoutWord",src/bankC4_E000.asm
+$C4EC6E,.1,CODE_C4EC6E,new,"branch target only used in NextScoutTextLine",src/bankC4_E000.asm
+$C4EC76,.2,CODE_C4EC76,new,"branch target only used in NextScoutTextLine",src/bankC4_E000.asm
+$C4EC87,.rts,CODE_C4EC87,new,"branch target only used in NextScoutTextLine",src/bankC4_E000.asm
+$C4ECC1,.1,CODE_C4ECC1,new,"branch target only used in UnpackPlayerPhoto",src/bankC4_E000.asm
+$C4ECC7,.2,CODE_C4ECC7,new,"branch target only used in UnpackPlayerPhoto",src/bankC4_E000.asm
+$C4ECCC,.loop,CODE_C4ECCC,new,"branch target only used in UnpackPlayerPhoto",src/bankC4_E000.asm
+$C4EE73,.3,CODE_C4EE73,new,"branch target only used in UnpackPlayerPhoto",src/bankC4_E000.asm
+$C4EE81,.4,CODE_C4EE81,new,"branch target only used in UnpackPlayerPhoto",src/bankC4_E000.asm
+$C4EE9B,.5,CODE_C4EE9B,new,"branch target only used in UnpackPlayerPhoto",src/bankC4_E000.asm
+$C4EEAE,.loop,CODE_C4EEAE,new,"branch target only used in MapPhotoTiles",src/bankC4_E000.asm
+$C4EEC4,.loop,CODE_C4EEC4,new,"branch target only used in MapPhotoTileRow",src/bankC4_E000.asm
+$C4EF8F,.1,CODE_C4EF8F,new,"branch target only used in SetAllStarPhotoPointers",src/bankC4_E000.asm
 $C4F028,.loop,CODE_C4F028,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
 $C4F05C,.1,CODE_C4F05C,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
 $C4F081,.loop2,CODE_C4F081,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
@@ -8194,3 +8194,16 @@ $C4D52B,CreateTitleFadingSprite,CODE_C4D52B,code,"CreateSprite stores index at 9
 $C4D5AC,DrawTitleTextPage,CODE_C4D5AC,code,"reads count and packed text pointers from DATA8_C4D10A; prints centered bold lines and queues map at 56C0",src/bankC4_D000.asm
 $C4D636,GetMapSetPalettePointer,CODE_C4D636,code,"skips two length-prefixed chunks and nine bytes; TitleScreen passes result directly as palette source in transfer queue",src/bankC4_D000.asm
 $C4D773,InitAwardScreen,CODE_C4D773,code,"used by SeasonAwards and StanleyCupScreen; resets queues and sprites, loads TiledBackMap and installs BlueColoursHook",src/bankC4_D000.asm
+$C4E387,ExitScoutingReport,CODE_C4E387,code,"shared exit reached on start or completed automatic text; SoundVolumeDown, FadeOutWait, clear DMAEnShadow and NMI hook, ResetSprites",src/bankC4_E000.asm
+$C4E3BF,RestartScoutingText,CODE_C4E3BF,code,"deletes sprites at 77 and 79 then falls into C4E3CB; called on X in ScoutingReport",src/bankC4_E000.asm
+$C4E3CB,InitScoutDisplay,CODE_C4E3CB,94S+purpose,"same reset-scrolling purpose as 94S hockey/InitScoutDisplay.asm; here restores 7D from 7B, clears text rows and starts scrolling list",src/bankC4_E000.asm
+$C4EB23,AppendScoutPlayerTrio,CODE_C4EB23,code,"reads three word indices at A, calls C4EB5C for each, writes separators between them",src/bankC4_E000.asm
+$C4EB5C,AppendScoutPlayerName,CODE_C4EB5C,code,"multiplies doubled index by 16 and adds roster base d0 plus 0118; falls via branch into string append",src/bankC4_E000.asm
+$C4EB6C,AppendScoutString,CODE_C4EB6C,code,"copies bytes to 364E indexed by 81 until zero and updates 81; shared by packed text and roster names",src/bankC4_E000.asm
+$C4EB81,AppendScoutHotColdParagraph,CODE_C4EB81,code,"BuildScoutingText supplies team A, roster d0 and six indices at X; appends first trio then second at X+6 with packed text separators",src/bankC4_E000.asm
+$C4EBC8,PrintNextScoutWord,CODE_C4EBC8,code,"scans from 7D to space or zero; handles 39 newline marker; copies word to mesarea and PrintBoldLeftStr; timing handled by caller",src/bankC4_E000.asm
+$C4EC58,NextScoutTextLine,CODE_C4EC58,code,"resets character count to two and pixel cursor to 16; advances 2DC7, wraps 27 to 17 and calls scroll helper after row 26",src/bankC4_E000.asm
+$C4EC88,UnpackPlayerPhoto,CODE_C4EC88,code,"ShowMatchups and DrawAwardWinner pass photo source; allocates decompressed buffer then converts selected photo into 0480 bytes of 4bpp planar tiles",src/bankC4_E000.asm
+$C4EE9D,MapPhotoTiles,CODE_C4EE9D,code,"X is VRAM address and Y first tile; five calls to row writer plus final fallthrough row at the sixth address",src/bankC4_E000.asm
+$C4EEC0,MapPhotoTileRow,CODE_C4EEC0,code,"Y first tile copied to A; loop from five down to zero writes VMDATAL and increments A",src/bankC4_E000.asm
+$C4EF41,SetAllStarPhotoPointers,CODE_C4EF41,code,"ScoutingReport calls only for teams at or above 1A; writes photo block and bank/index pairs at the roster photo offsets for each all-star side",src/bankC4_E000.asm

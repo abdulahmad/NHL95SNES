@@ -886,7 +886,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	jsl.l MapTileBlock
 	ldy.w #$3076
 	ldx.w #$5106
-	jsr.w CODE_C4EE9D
+	jsr.w MapPhotoTiles
 	lda.w #$0240
 	jsl.l FreeWorkBuf
 	lda.w #$0002
@@ -1151,7 +1151,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	adc.w #$00C0
 	phy
 	ldy.b $68
-	jsr.w CODE_C4EC88
+	jsr.w UnpackPlayerPhoto
 	ply
 	sta.b a2
 	dec.b QueueBusy
@@ -1243,7 +1243,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	jsl.l MapTileBlock
 	ldy.w #$3076
 	ldx.w #$5106
-	jsr.w CODE_C4EE9D
+	jsr.w MapPhotoTiles
 	rts
 DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name and its logo sprite
 	sta.w HomeTeam

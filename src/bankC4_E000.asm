@@ -180,13 +180,13 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	cmp.w #$001A
 	bcc .2
 	ldy.w #$2DC9
-	jsr.w CODE_C4EF41
-.2:									; if VisTeam < $001A go to .3, Y = $3207, call CODE_C4EF41
+	jsr.w SetAllStarPhotoPointers
+.2:									; if VisTeam < $001A go to .3, Y = $3207, call SetAllStarPhotoPointers
 	lda.w VisTeam
 	cmp.w #$001A
 	bcc .3
 	ldy.w #$3207
-	jsr.w CODE_C4EF41
+	jsr.w SetAllStarPhotoPointers
 .3:									; call RebuildChangedLines, $CF = $0018, $D1 = $0060, A = VisTeam, ...
 	jsr.w RebuildChangedLines
 	lda.w #$0018
@@ -232,10 +232,10 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	jsl.l SetNMIHook
 	ldx.w #$50B6
 	ldy.w #$3013
-	jsr.w CODE_C4EE9D
+	jsr.w MapPhotoTiles
 	ldx.w #$50A4
 	ldy.w #$3437
-	jsr.w CODE_C4EE9D
+	jsr.w MapPhotoTiles
 	lda.w #$003D
 	sta.b $1A
 	lda.w #$0038
@@ -301,7 +301,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.w $2DA1
 	lda.w #$0019
 	sta.w $2DA3
-	jsr.w CODE_C4E3CB
+	jsr.w InitScoutDisplay
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
 .loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
@@ -336,7 +336,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w $2DA3
 	dec a
 	bne .7
-	jsr.w CODE_C4EBC8
+	jsr.w PrintNextScoutWord
 	lda.w #$0019
 .7:									; $2DA3 = A, if repeatdelayframes is not 0 go to .loop, ...
 	sta.w $2DA3
@@ -344,7 +344,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	bne .loop
 	lda.w padchangeany
 	bit.w #$1000
-	bne CODE_C4E387
+	bne ExitScoutingReport
 	bit.w #$0400
 	beq .8
 	lda.w #$0001
@@ -371,13 +371,14 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	tsb.w $2DA1
 	jsr.w PrevMatchup
 	jmp.w .loop
-.11:								; if $0040 bits clear go to .12, call CODE_C4E3BF
+.11:								; if $0040 bits clear go to .12, call RestartScoutingText
 	bit.w #$0040
 	beq .12
-	jsr.w CODE_C4E3BF
+	jsr.w RestartScoutingText
 .12:								; go to .loop
 	jmp.w .loop
-CODE_C4E387:						; from ScoutingReport, CODE_C4EBC8
+ExitScoutingReport:					; fades out the scouting report and sound, disables HDMA and resets
+									; sprites
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
@@ -402,12 +403,12 @@ PrevMatchup:						; the previous matchup of the scouting report (before 0, 6), t
 	dec a
 	sta.w $2DA5
 	jmp.w ShowMatchups
-CODE_C4E3BF:						; from ScoutingReport
+RestartScoutingText:				; deletes the scroll sprites and restarts the scouting commentary
 	ldx.b $77
 	jsl.l DeleteSprite
 	ldx.b $79
 	jsl.l DeleteSprite
-CODE_C4E3CB:						; from ScoutingReport
+InitScoutDisplay:					; resets the scouting text pointer, cursor and scrolling display
 	lda.b $7B
 	sta.b $7D
 	lda.w #$0012
@@ -491,7 +492,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	adc.w #$00C0
 	phy
 	ldy.b $64
-	jsr.w CODE_C4EC88
+	jsr.w UnpackPlayerPhoto
 	tay
 	dec.b QueueBusy
 	lda.b $00
@@ -547,7 +548,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	adc.w #$00C0
 	phy
 	ldy.b $64
-	jsr.w CODE_C4EC88
+	jsr.w UnpackPlayerPhoto
 	tay
 	dec.b QueueBusy
 	lda.b $00
@@ -687,7 +688,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	clc
 	adc.w #$00C0
 	ldy.b $64
-	jsr.w CODE_C4EC88
+	jsr.w UnpackPlayerPhoto
 	tay
 	dec.b QueueBusy
 	lda.b $00
@@ -735,7 +736,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	clc
 	adc.w #$00C0
 	ldy.b $64
-	jsr.w CODE_C4EC88
+	jsr.w UnpackPlayerPhoto
 	tay
 	dec.b QueueBusy
 	lda.b $00
@@ -1192,19 +1193,19 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	sty.b $81
 	ldx.w #$4DFA
 	jsr.w AppendScoutText
-.4:									; d0 = $2DC9, A = HomeTeam, X = $2DA9, call CODE_C4EB81, ...
+.4:									; d0 = $2DC9, A = HomeTeam, X = $2DA9, ...
 	lda.w #$2DC9
 	sta.b d0
 	lda.w HomeTeam
 	ldx.w #$2DA9
-	jsr.w CODE_C4EB81
+	jsr.w AppendScoutHotColdParagraph
 	lda.w #$3207
 	sta.b d0
 	lda.w VisTeam
 	cmp.w HomeTeam
 	beq .5
 	ldx.w #$2DB7
-	jsr.w CODE_C4EB81
+	jsr.w AppendScoutHotColdParagraph
 .5:									; X = $4E27, call AppendScoutText, $364E,y = $0000, Y + 1, ...
 	ldx.w #$4E27
 	jsr.w AppendScoutText
@@ -1230,11 +1231,11 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	bne .loop
 	rep #$20
 	rts
-CODE_C4EB23:						; from CODE_C4EB81
+AppendScoutPlayerTrio:				; appends three player names with separators to the scouting text
 	pha
 	tax
 	lda.w $0000,x
-	jsr.w CODE_C4EB5C
+	jsr.w AppendScoutPlayerName
 	lda.w #$2040
 	sta.w $364E,y
 	iny
@@ -1243,7 +1244,7 @@ CODE_C4EB23:						; from CODE_C4EB81
 	lda.b $01,s
 	tax
 	lda.w $0002,x
-	jsr.w CODE_C4EB5C
+	jsr.w AppendScoutPlayerName
 	lda.w #$2040
 	sta.w $364E,y
 	lda.w #$6E61
@@ -1257,7 +1258,7 @@ CODE_C4EB23:						; from CODE_C4EB81
 	sty.b $81
 	plx
 	lda.w $0004,x
-CODE_C4EB5C:						; from CODE_C4EB23
+AppendScoutPlayerName:				; appends the roster player name selected by the doubled player index in A
 	asl a
 	asl a
 	asl a
@@ -1265,11 +1266,11 @@ CODE_C4EB5C:						; from CODE_C4EB23
 	adc.b d0
 	adc.w #$0118
 	tax
-	bra CODE_C4EB6C
+	bra AppendScoutString
 AppendScoutText:					; unpacks text X (UnpackText) and appends it to the scouting report's
 									; text buffer
 	jsl.l UnpackText
-CODE_C4EB6C:						; from CODE_C4EB5C
+AppendScoutString:					; appends the zero-terminated string at X to the scouting text buffer
 	ldy.b $81
 	sep #$20
 .loop:								; loop: if $0000,x = 0 go to .1, $364E,y = A, X + 1, Y + 1, ...
@@ -1283,7 +1284,8 @@ CODE_C4EB6C:						; from CODE_C4EB5C
 	rep #$20
 	sty.b $81
 	rts
-CODE_C4EB81:						; from BuildScoutingText
+AppendScoutHotColdParagraph:		; appends a team's name and its hot and cold player trios to the scouting
+									; text
 	phx
 	pha
 	lda.w #$6F46
@@ -1309,22 +1311,22 @@ CODE_C4EB81:						; from BuildScoutingText
 	iny
 	sty.b $81
 	lda.b $01,s
-	jsr.w CODE_C4EB23
+	jsr.w AppendScoutPlayerTrio
 	ldx.w #$4E06
 	jsr.w AppendScoutText
 	pla
 	clc
 	adc.w #$0006
-	jsr.w CODE_C4EB23
+	jsr.w AppendScoutPlayerTrio
 	ldx.w #$4E17
 	jmp.w AppendScoutText
-CODE_C4EBC8:						; from ScoutingReport
+PrintNextScoutWord:					; prints the next scouting word, wrapping or advancing lines as needed
 	ldx.b $7D
 	lda.w $2DC5
 	cmp.w #$0021
 	bcc .1
-.loop:								; loop: call CODE_C4EC58
-	jsr.w CODE_C4EC58
+.loop:								; loop: call NextScoutTextLine
+	jsr.w NextScoutTextLine
 .1:									; A 8-bit
 	sep #$20
 .2:									; if $0000,x = 0 go to .4, X + 1, if $0000,x is not $39 go to .3, ...
@@ -1335,7 +1337,7 @@ CODE_C4EBC8:						; from ScoutingReport
 	bne .3
 	rep #$20
 	inc.b $7D
-	jsr.w CODE_C4EC58
+	jsr.w NextScoutTextLine
 	bra .loop
 .3:									; if A is not $20 go to .2
 	cmp.b #$20
@@ -1353,7 +1355,7 @@ CODE_C4EBC8:						; from ScoutingReport
 	sta.w $2DC5
 	cmp.w #$0022
 	bcc .5
-	jsr.w CODE_C4EC58
+	jsr.w NextScoutTextLine
 	lda.w $2DC5
 	clc
 	adc.b d0
@@ -1389,12 +1391,12 @@ CODE_C4EBC8:						; from ScoutingReport
 	jsl.l WaitTransfers
 .rts:								; return
 	rts
-.6:									; if $23BA = 0 go to .rts, pull A, go to CODE_C4E387
+.6:									; if $23BA = 0 go to .rts, pull A, go to ExitScoutingReport
 	lda.w $23BA
 	beq .rts
 	pla
-	jmp.w CODE_C4E387
-CODE_C4EC58:						; from CODE_C4EBC8
+	jmp.w ExitScoutingReport
+NextScoutTextLine:					; resets the scouting text column and advances or scrolls the text row
 	lda.w #$0002
 	sta.w $2DC5
 	lda.w #$0010
@@ -1418,7 +1420,8 @@ CODE_C4EC58:						; from CODE_C4EBC8
 	plx
 .rts:								; return
 	rts
-CODE_C4EC88:						; from ShowMatchups, ShowMatchups, ...
+UnpackPlayerPhoto:					; decompresses a player photo and converts its packed pixels into planar
+									; tiles
 	sty.b d2
 	stx.b $36
 	sta.b r2
@@ -1690,15 +1693,15 @@ CODE_C4EC88:						; from ShowMatchups, ShowMatchups, ...
 .5:									; pull A, return
 	pla
 	rts
-CODE_C4EE9D:						; from ScoutingReport and other segments
+MapPhotoTiles:						; writes a six by six block of consecutive photo tiles directly to VRAM
 	lda.w #$0080
 	sta.l VMAIN
 	lda.w #$0004
 	sta.b d0
 	txa
 	sta.l VMADDL
-.loop:								; loop: call CODE_C4EEC0, Y = A, A = X, A + $0020, ...
-	jsr.w CODE_C4EEC0
+.loop:								; loop: call MapPhotoTileRow, Y = A, A = X, A + $0020, ...
+	jsr.w MapPhotoTileRow
 	tay
 	txa
 	clc
@@ -1707,7 +1710,7 @@ CODE_C4EE9D:						; from ScoutingReport and other segments
 	sta.l VMADDL
 	dec.b d0
 	bpl .loop
-CODE_C4EEC0:						; from CODE_C4EE9D
+MapPhotoTileRow:					; writes six consecutive tile words to the current VRAM address
 	tya
 	ldy.w #$0005
 .loop:								; loop: VMDATAL = A, A + 1, Y - 1, if the result >= 0 go to .loop, ...
@@ -1772,7 +1775,7 @@ CODE_C4EF07:						; from ShowMatchups
 	and.w #$FFFE
 	sta.b $22,x
 	rts
-CODE_C4EF41:						; from ScoutingReport
+SetAllStarPhotoPointers:			; sets the scouting photo pointers for an all-star roster
 	cmp.w #$001A
 	beq .1
 	lda.w #$CBDA
