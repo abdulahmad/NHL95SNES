@@ -1133,7 +1133,8 @@ CODE_C55513:						; called from other segments
 	jsl.l CODE_C53A29
 	jsl.l WaitTransfers
 	jml.l RestoreWorkBuf
-CODE_C5589E:						; called from other segments
+QueueSavedTextMap:					; queues the text map saved at the pause ($800 bytes from the buffer at
+									; $364A) to VRAM $5800
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1155,11 +1156,14 @@ CODE_C5589E:						; called from other segments
 	lda.w #$0802
 	jsl.l FreeWorkBuf
 	jml.l MarkWorkBuf
-CODE_C558CC:						; called from other segments
+FreePauseBuffers:					; frees the pause screen's work buffers (FreeWorkBuf $040E, MarkWorkBuf),
+									; then RestorePauseBuffers
 	lda.w #$040E
 	jsl.l FreeWorkBuf
 	jsl.l MarkWorkBuf
-CODE_C558D7:						; from ExitToPauseMenu and other segments
+RestorePauseBuffers:				; copies BackupPauseBuffers' two buffers back (the sprite objects at
+									; $1912, the palette slots from $46A8) and re-uploads the frames of the
+									; objects in use
 	ldx.w $3648
 	ldy.w #$1912
 	lda.w #$01FD
@@ -1290,7 +1294,7 @@ ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed,
 	jsl.l FreeWorkBuf
 	sta.w $18E0
 	jsl.l WaitTransfers
-	jsl.l CODE_C558D7
+	jsl.l RestorePauseBuffers
 	ldy.w #$5000
 	jsl.l QueueClearVRAM
 	jsl.l WaitTransfers
@@ -1804,7 +1808,9 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C55E57:						; called from other segments
+TeamLogoSprite:						; for team a2 (HomeTeam / VisTeam): its 16 logo colours queued from
+									; $7F:D80A + team * 32 and its logo sprite made (CreateSprite, the object
+									; in $7B)
 	jsl.l WaitTransfers
 	ldy.w HomeTeam
 	lda.b a2
@@ -1914,7 +1920,7 @@ BCDTextAt:							; the BCD number A as text (no leading zeros, zero ended) at X 
 	pla
 	ply
 	rts
-CODE_C55F1F:						; called from other segments
+FitNameToMesarea:					; FitName into mesarea (Y = mesarea)
 	ldy.w #mesarea
 FitName:							; copies the zero-ended name at X to Y in at most A characters: as it is,
 									; else the first name as an initial ('F= Last'), else cut short with '=';

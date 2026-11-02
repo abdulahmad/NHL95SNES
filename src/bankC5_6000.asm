@@ -612,8 +612,8 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	ldy.w #$0012
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
-.2:									; call CODE_C55E57, X = $2DC9, if a2 = 0 go to .3, X = $3207
-	jsr.w CODE_C55E57
+.2:									; call TeamLogoSprite, X = $2DC9, if a2 = 0 go to .3, X = $3207
+	jsr.w TeamLogoSprite
 	ldx.w #$2DC9
 	lda.b a2
 	beq .3
@@ -942,7 +942,7 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	plx
 	tax
 	lda.w #$000E
-	jsr.w CODE_C55F1F
+	jsr.w FitNameToMesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.b a2
@@ -1352,7 +1352,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	plx
 	tax
 	lda.w #$000C
-	jsr.w CODE_C55F1F
+	jsr.w FitNameToMesarea
 	ldy.b $6D
 	jsl.l PrintBoldCentredStr
 	lda.b $D1
@@ -1627,7 +1627,7 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	adc.w #$0118
 	tax
 	lda.w #$000C
-	jsr.w CODE_C55F1F
+	jsr.w FitNameToMesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 .5:									; pull X, return
@@ -1688,7 +1688,7 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	plx
 	tax
 	lda.w #$000D
-	jsr.w CODE_C55F1F
+	jsr.w FitNameToMesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	lda.w #$00E0
@@ -1746,7 +1746,7 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	jsr.w CODE_C55E57
+	jsr.w TeamLogoSprite
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady

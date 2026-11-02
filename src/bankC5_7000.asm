@@ -499,7 +499,7 @@ PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcoun
 	stz.b $22
 	ldx.w $18F0
 	jsl.l DeleteSprite
-	jsl.l CODE_C558D7
+	jsl.l RestorePauseBuffers
 	jsl.l CODE_C55513
 	pei ($9B)
 	lda.b $5F
@@ -532,7 +532,7 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	jsr.w CODE_C55E57
+	jsr.w TeamLogoSprite
 	stz.b $69
 	stz.b $79
 	ldx.w #$0000
@@ -1201,7 +1201,7 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	jsr.w CODE_C55E57
+	jsr.w TeamLogoSprite
 	stz.b $7D
 	ldx.w #$2DC9
 	lda.b a2

@@ -669,8 +669,8 @@ Intermission:						; the intermission between periods: the teams set up
 	sta.b $81
 	pla
 	sta.b d0
-	jsl.l CODE_C558CC
-	jsl.l CODE_C5589E
+	jsl.l FreePauseBuffers
+	jsl.l QueueSavedTextMap
 	jsl.l SoundVolumeUp
 .5:									; Vcount = 0, OldVcount = 0, pausemenuon = 0, InIntermission = 0, ...
 	stz.b Vcount

@@ -1593,8 +1593,8 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	sta.b $81
 	pla
 	sta.b d0
-	jsl.l CODE_C558CC
-	jsl.l CODE_C5589E
+	jsl.l FreePauseBuffers
+	jsl.l QueueSavedTextMap
 	pla
 	sta.w sfhormode
 	bne .1

@@ -5439,8 +5439,8 @@ $C55702,.3,CODE_C55702,new,"branch target only used in CODE_C55513",src/bankC5_5
 $C55711,.4,CODE_C55711,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
 $C5571A,.5,CODE_C5571A,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
 $C55724,.6,CODE_C55724,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
-$C558F2,.loop,CODE_C558F2,new,"branch target only used in CODE_C558D7",src/bankC5_5000.asm
-$C55907,.1,CODE_C55907,new,"branch target only used in CODE_C558D7",src/bankC5_5000.asm
+$C558F2,.loop,CODE_C558F2,new,"branch target only used in RestorePauseBuffers",src/bankC5_5000.asm
+$C55907,.1,CODE_C55907,new,"branch target only used in RestorePauseBuffers",src/bankC5_5000.asm
 $C55A16,.1,CODE_C55A16,new,"branch target only used in ExitToPauseMenu",src/bankC5_5000.asm
 $C55AF5,.1,CODE_C55AF5,new,"branch target only used in StartScrollList",src/bankC5_5000.asm
 $C55B59,.2,CODE_C55B59,new,"branch target only used in StartScrollList",src/bankC5_5000.asm
@@ -5463,7 +5463,7 @@ $C55D64,.2,CODE_C55D64,new,"branch target only used in CODE_C55D14",src/bankC5_5
 $C55D81,.loop,CODE_C55D81,new,"branch target only used in ClearTextRow",src/bankC5_5000.asm
 $C55E14,.1,CODE_C55E14,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
 $C55E2A,.2,CODE_C55E2A,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
-$C55E65,.1,CODE_C55E65,new,"branch target only used in CODE_C55E57",src/bankC5_5000.asm
+$C55E65,.1,CODE_C55E65,new,"branch target only used in TeamLogoSprite",src/bankC5_5000.asm
 $C55EE1,.1,CODE_C55EE1,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
 $C55EEE,.2,CODE_C55EEE,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
 $C55EF7,.3,CODE_C55EF7,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
@@ -8143,3 +8143,8 @@ $C5EE6C,UseSpritePalette,CODE_C5EE6C,code,"from the code: the slot table at $46B
 $C5EE9B,QueueSpritePalette,CODE_C5EE9B,code,"from the code: a 32-byte transfer record pushed on the colour queue ($04), the source from the palette tables at $808002 / $C0",src/bankC5_E000.asm
 $C5EEE6,ReuseSpritePalette,CODE_C5EEE6,code,"from the code; UseSpritePalette branches here",src/bankC5_E000.asm
 $C5E851,AllocSpriteTiles,CODE_C5E851,code,"from the code; CreateSprite and CreateSpriteSharePal call it",src/bankC5_E000.asm
+$C558D7,RestorePauseBuffers,CODE_C558D7,code,"from the code: the two mvn from the pointer at $3648, UploadSpriteFrame for each; the reverse of BackupPauseBuffers; ExitToPauseMenu and PauseReplay use it",src/bankC5_5000.asm
+$C558CC,FreePauseBuffers,CODE_C558CC,code,"from the code: it falls into RestorePauseBuffers; Pausemode and Intermission call it on the way out",src/bankC5_5000.asm
+$C5589E,QueueSavedTextMap,CODE_C5589E,code,"from the code: the transfer record pushed on the VRAM queue; Pausemode and Intermission call it on the way out",src/bankC5_5000.asm
+$C55F1F,FitNameToMesarea,CODE_C55F1F,code,"from the code: it falls into FitName; the stats rows use it",src/bankC5_5000.asm
+$C55E57,TeamLogoSprite,CODE_C55E57,code,"from the code; the pause screens with a team logo call it (ShowPlayerStats, TeamRoster, EditLinesScreen, PauseGoalie)",src/bankC5_5000.asm
