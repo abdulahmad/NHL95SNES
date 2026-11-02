@@ -186,8 +186,8 @@
   InitScores, DoHiLights, printscores1 = ldx a3).
   Bank $C5: the front end's screen states 0-13 have named handlers (DATA8_C5967A); each scrolling list's row
   routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. Still unnamed in
-  bank $C5: much of the game side (bankC5_0000 / 1000 / 2000 / 3000 / 4000), the Edit Lines player list
-  (CODE_C57578), the bankC5_D000 roster / trade list helpers, the bankC5_E000 sprite helpers. The game frame is named
+  bank $C5: parts of the game side (bankC5_2000 / 3000 / 4000), the bankC5_D000 roster / trade list helpers, the
+  bankC5_E000 sprite helpers (the Edit Lines screen, the season records and the playoffs are named). The game frame is named
   as in 94S (DoGameFrame, updateplayers, setvideo, updatescroll, PeriodOver, the face offs, SetupPenaltyShot, the line
   change box); bare rtl stubs sit where 94S calls StartBenchCheer, UpdateBenchCheer, InitScores and DoHiLights, and
   SetHor / ClrHor keep only the puck speed halving and the sfhormode count. Hand-checked RAM names go in with
