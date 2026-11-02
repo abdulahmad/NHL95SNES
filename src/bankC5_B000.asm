@@ -1420,39 +1420,41 @@ ReadTeamStatBits:					; A = the next A bits of the team stats bit stream at SRTe
 	adc.b r2
 	sta.b r2
 	lda.b $2E
-	jmp (DATA8_C5BB6C,x)
-DATA8_C5BB6C:						; jump table: the routine for each index
-	dw CODE_C5BB91,CODE_C5BB8E,CODE_C5BB8B,CODE_C5BB88
-	dw CODE_C5BB85,CODE_C5BB82,CODE_C5BB7F,CODE_C5BB7C
-CODE_C5BB7C:						; from DATA8_C5BB6C
+	jmp (StatBitsShiftTable,x)
+StatBitsShiftTable:					; ReadTeamStatBits' entries by the stream's bit offset (0-7):
+									; StatBitsMask, then StatBitsShift1-7
+	dw StatBitsMask,StatBitsShift1,StatBitsShift2,StatBitsShift3
+	dw StatBitsShift4,StatBitsShift5,StatBitsShift6,StatBitsShift7
+StatBitsShift7:						; shifts the stream bits right 7 times (A into r0), then on down to
+									; StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB7F:						; from DATA8_C5BB6C
+StatBitsShift6:						; the stream bits right 6 times, then on to StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB82:						; from DATA8_C5BB6C
+StatBitsShift5:						; the stream bits right 5 times, then on to StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB85:						; from DATA8_C5BB6C
+StatBitsShift4:						; the stream bits right 4 times, then on to StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB88:						; from DATA8_C5BB6C
+StatBitsShift3:						; the stream bits right 3 times, then on to StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB8B:						; from DATA8_C5BB6C
+StatBitsShift2:						; the stream bits right 2 times, then on to StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB8E:						; from DATA8_C5BB6C
+StatBitsShift1:						; the stream bits right once, then on to StatBitsMask
 	lsr a
 	ror.b r0
-CODE_C5BB91:						; from DATA8_C5BB6C
+StatBitsMask:						; A = r0's low r1 bits (LowBitMasks), ReadTeamStatBits' result
 	lda.b r1
 	asl a
 	tax
 	lda.b r0
-	and.l DATA8_C5BB9C-2,x
+	and.l LowBitMasks-2,x
 	rts
-DATA8_C5BB9C:						; not traced: a table read by CODE_C5BB91
+LowBitMasks:						; the masks of the low 1 to 16 bits, a word each
 	db $01,$00,$03,$00,$07,$00,$0F,$00,$1F,$00,$3F,$00,$7F,$00,$FF,$00
 	db $FF,$01,$FF,$03,$FF,$07,$FF,$0F,$FF,$1F,$FF,$3F,$FF,$7F,$FF,$FF
 RefreshSpritesLong:					; RefreshSprites for long calls

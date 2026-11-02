@@ -599,8 +599,8 @@ $C5B363,DATA8_C5B363,,new,"not traced: a table read by CODE_C5B346 (in bankC5_B0
 $C5B56C,DATA8_C5B56C,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
 $C5B66A,DATA8_C5B66A,,new,"not traced: a table read by CODE_C5B631 (in bankC5_B000)",src/bankC5_B000.asm
 $C5B670,DATA8_C5B670,,new,"not traced: a table read by CODE_C5B631 (in bankC5_B000)",src/bankC5_B000.asm
-$C5BB6C,DATA8_C5BB6C,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
-$C5BB9C,DATA8_C5BB9C,,new,"not traced: a table read by CODE_C5BB91 (in bankC5_B000)",src/bankC5_B000.asm
+$C5BB6C,StatBitsShiftTable,DATA8_C5BB6C,code,"from the code: jmp (table,x) with X = (bit position & 7) * 2",src/bankC5_B000.asm
+$C5BB9C,LowBitMasks,DATA8_C5BB9C,code,"from the code: $0001, $0003 ... $FFFF; StatBitsMask reads it by the bit count r1",src/bankC5_B000.asm
 $C5BEDD,DATA8_C5BEDD,,new,"jump table: the routine for each index (in bankC5_B000)",src/bankC5_B000.asm
 $C5C0AE,DATA8_C5C0AE,,new,"the compare routines of the sort in CODE_C5C029 (one per sort key) (in bankC5_C000)",src/bankC5_C000.asm
 $C5C655,DATA8_C5C655,,new,"not traced: data between routines (in bankC5_C000)",src/bankC5_C000.asm
@@ -8671,3 +8671,11 @@ $1B04,SpriteFreeCount,,code,"RAM: from the code: CreateSprite / DeleteSprite (do
 $1B0A,SmallTileNext,,code,"RAM: from the code: AllocSpriteTiles takes from it, DeleteSprite and InitGameSprites set it",src/ram95s.asm
 $1B0C,LargeSlotNext,,code,"RAM: from the code: AllocLargeSpriteTiles takes from it, DeleteSprite and InitGameSprites set it",src/ram95s.asm
 $46B8,SpritePalUse,,code,"RAM: from the code: UseSpritePalette takes a slot when it is minus, ReuseSpritePalette adds a use, DeleteSprite takes one off; docs/sprite_objects.md: palette use per index",src/ram95s.asm
+$C5BB7C,StatBitsShift7,CODE_C5BB7C,code,"from the code: entry 7 of StatBitsShiftTable; each step lsr a / ror r0",src/bankC5_B000.asm
+$C5BB7F,StatBitsShift6,CODE_C5BB7F,code,"from the code: entry 6 of StatBitsShiftTable",src/bankC5_B000.asm
+$C5BB82,StatBitsShift5,CODE_C5BB82,code,"from the code: entry 5 of StatBitsShiftTable",src/bankC5_B000.asm
+$C5BB85,StatBitsShift4,CODE_C5BB85,code,"from the code: entry 4 of StatBitsShiftTable",src/bankC5_B000.asm
+$C5BB88,StatBitsShift3,CODE_C5BB88,code,"from the code: entry 3 of StatBitsShiftTable",src/bankC5_B000.asm
+$C5BB8B,StatBitsShift2,CODE_C5BB8B,code,"from the code: entry 2 of StatBitsShiftTable",src/bankC5_B000.asm
+$C5BB8E,StatBitsShift1,CODE_C5BB8E,code,"from the code: entry 1 of StatBitsShiftTable",src/bankC5_B000.asm
+$C5BB91,StatBitsMask,CODE_C5BB91,code,"from the code: the and with the mask word for r1 bits; entry 0 of StatBitsShiftTable and the end of the shifts",src/bankC5_B000.asm
