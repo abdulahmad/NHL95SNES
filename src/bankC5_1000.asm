@@ -216,16 +216,16 @@ SimPeriodGoals:						; d0 = the goals team d0 scores against team d1 in a period
 	lda.w #$00C5
 	sta.b $69
 	lda.b [a1]
-	sta.w $07BE
+	sta.w nibblebuffer
 	ldy.w #$0002
 	lda.b [a1],y
-	sta.w $07C0
+	sta.w nibblebuffer+2
 	ldy.w #$0004
 	lda.b [a1],y
-	sta.w $07C2
+	sta.w nibblebuffer+4
 	ldy.w #$0006
 	lda.b [a1],y
-	sta.w $07C4
+	sta.w nibblebuffer+6
 	asl.b d1
 	lda.w #$00C3
 	sta.b $69
@@ -246,20 +246,20 @@ SimPeriodGoals:						; d0 = the goals team d0 scores against team d1 in a period
 	lda.w #$00C5
 	sta.b $69
 	lda.b [a1]
-	adc.w $07BE
-	sta.w $07BE
+	adc.w nibblebuffer
+	sta.w nibblebuffer
 	ldy.w #$0002
 	lda.b [a1],y
-	adc.w $07C0
-	sta.w $07C0
+	adc.w nibblebuffer+2
+	sta.w nibblebuffer+2
 	ldy.w #$0004
 	lda.b [a1],y
-	adc.w $07C2
-	sta.w $07C2
+	adc.w nibblebuffer+4
+	sta.w nibblebuffer+4
 	ldy.w #$0006
 	lda.b [a1],y
-	adc.w $07C4
-	sta.w $07C4
+	adc.w nibblebuffer+6
+	sta.w nibblebuffer+6
 	lda.w #$0004
 	sta.b d0
 	pei ($85)

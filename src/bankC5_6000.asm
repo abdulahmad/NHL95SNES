@@ -1187,9 +1187,9 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	sta.b $D1
 	ldx.w #$4F7B
 	jsr.w PrintPenaltyHead
-	lda.w $1159
+	lda.w PenSumLength
 	asl a
-	adc.w $1159
+	adc.w PenSumLength
 	bne .1
 	sta.b a1
 	lda.w #$0010
@@ -1316,7 +1316,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w #$0060
 	sta.b $D1
 	ldx.b $65
-	lda.w $115B,x
+	lda.w PenSum,x
 	and.w #$0FFF
 	jsr.w TimeTextMSS
 	ldy.b $6D

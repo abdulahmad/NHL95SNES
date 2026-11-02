@@ -91,7 +91,7 @@ chk4pass:							; called from other segments
 	sbc.w #$0004
 	and.w #$0007
 	sta.w passdir
-	lda.w $05E4,y
+	lda.w puckdist,y
 	sta.b d2
 	lda.w #$0005
 	sta.b d3
@@ -100,9 +100,9 @@ chk4pass:							; called from other segments
 	cpx.w #$000C
 	bcs .loop
 	ldy.w #$000C
-.loop:								; loop: if d2 < $05E4,y go to .8, A = puckdir,y, A - $0004, ...
+.loop:								; loop: if d2 < puckdist,y go to .8, A = puckdir,y, A - $0004, ...
 	lda.b d2
-	cmp.w $05E4,y
+	cmp.w puckdist,y
 	bcc .8
 	lda.w puckdir,y
 	sec
@@ -200,10 +200,10 @@ dopass:								; from passmode, chk4pass and other segments
 .3:									; r0 = $1000
 	lda.w #$1000
 	sta.b r0
-.4:									; A = r0, A + $05E4,y, if carry set go to .5, if A >= d4 go to .5, ...
+.4:									; A = r0, A + puckdist,y, if carry set go to .5, if A >= d4 go to .5, ...
 	lda.b r0
 	clc
-	adc.w $05E4,y
+	adc.w puckdist,y
 	bcs .5
 	cmp.b d4
 	bcs .5

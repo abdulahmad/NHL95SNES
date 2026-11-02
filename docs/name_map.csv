@@ -8715,3 +8715,18 @@ $0774,replaylock,,94S+purpose,"RAM: 94S replaylock (layout: replaydelay and recs
 $0786,replayHpos,,94S+purpose,"RAM: 94S replayHpos (layout: replaynewframe and percue at the same offset): ReplayMode sets it, UpdateReplayCamera eases it",src/ram95s.asm
 $0788,replayVpos,,94S+purpose,"RAM: 94S replayVpos (layout as replayHpos): ReplayMode sets it, UpdateReplayCamera eases it",src/ram95s.asm
 $1143,penmsgtimer,,94S+purpose,"RAM: 94S penmsgtimer (layout: InjCntDown and RefCnt at the same offset): SetPA sets it ($7FFF or less in horizontal mode), UpdatePA counts it",src/ram95s.asm
+$05E4,puckdist,,94S+purpose,"RAM: 94S puckdist: CalcPuckDistances stores the approximate length just before vtoa / puckdir, at the 94S layout offset; 95S keeps no squared distance (chk4pass compares this one where 94S compares puckdist2)",src/ram95s.asm
+$05BC,fopadfirst,,94S+purpose,"RAM: 94S fopadfirst (both named neighbours at the 94S offset): FaceoffPads reads and stores it",src/ram95s.asm
+$05C0,padsitnext,,94S+purpose,"RAM: 94S padsitnext (layout and use): assepen, RestorePenaltyPad and ReassignPenaltyPads read it by team, ReassignPenaltyPads moves it on",src/ram95s.asm
+$0668,goaliestopped,,94S+purpose,"RAM: 94S goaliestopped (layout): GoalieUpdateState tests, sets and clears it as 94S assgoalie does",src/ram95s.asm
+$06D4,FaceoffUnused,,94S+purpose,"RAM: 94S FaceoffUnused (layout and use): stz in FaceoffPads only",src/ram95s.asm
+$0784,replaymusic,,94S+purpose,"RAM: 94S replaymusic (layout and use)",src/ram95s.asm
+$07BE,nibblebuffer,,94S+code,"RAM: 94S nibblebuffer: SimPeriodGoals builds the four words from the offence and defence rating rows, the same code as 94S SetScore",src/ram95s.asm
+$0900,oldframe,,94S+purpose,"RAM: 94S oldframe (layout): defaultsprites_0 stores it",src/ram95s.asm
+$0C20,SCnum,,94S+purpose,"RAM: 94S SCnum (layout): defaultsprites_0 stores it",src/ram95s.asm
+$1159,PenSumLength,,94S+purpose,"RAM: 94S PenSumLength (layout): chkprogress adds an entry, ShowPenaltySummary reads the count",src/ram95s.asm
+$115B,PenSum,,94S+purpose,"RAM: 94S PenSum (layout): chkprogress writes the entry, DrawPenaltyRow reads it",src/ram95s.asm
+$1267,tmPenalties,,94S+purpose,"RAM: 94S tmPenalties (team struct, layout): chkprogress counts them by team",src/ram95s.asm
+$126B,tmPenmin,,94S+purpose,"RAM: 94S tmPenmin (team struct, layout): chkprogress adds them by team",src/ram95s.asm
+$1297,tmshots,,94S+purpose,"RAM: 94S tmshots (team struct, layout): SeasonGameOver and UpdateUserRecord read it",src/ram95s.asm
+$17D7,tmteam,,94S+purpose,"RAM: 94S tmteam (layout): clearTeamStats stores it",src/ram95s.asm

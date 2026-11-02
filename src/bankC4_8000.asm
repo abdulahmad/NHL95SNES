@@ -1572,7 +1572,7 @@ GoalieUpdateState:					; update goalie animation, puck holding, saves and comput
 	lda.w pflags,y
 	bit.w #$1000
 	bne .14
-	lda.w $05E4,y
+	lda.w puckdist,y
 	cmp.w #$0023
 	bcc .16
 .14:								; a0 + 1, a0 + 1, d0 - 1, if the result >= 0 go to .loop, ...
@@ -1664,7 +1664,7 @@ GoalieUpdateState:					; update goalie animation, puck holding, saves and comput
 	jsl.l RandomWord
 	cmp.w #$0A00
 	bcs .24
-	lda.w $05E4,x
+	lda.w puckdist,x
 	cmp.w #$0023
 	bcs .28
 	lda.w pucky
@@ -1673,10 +1673,10 @@ GoalieUpdateState:					; update goalie animation, puck holding, saves and comput
 	cmp.w #$010F
 	bpl .28
 	jmp.w .17
-.23:								; if temp4,x is not 0 go to .24, if $05E4,x >= $002D go to .28, ...
+.23:								; if temp4,x is not 0 go to .24, if puckdist,x >= $002D go to .28, ...
 	lda.w temp4,x
 	bne .24
-	lda.w $05E4,x
+	lda.w puckdist,x
 	cmp.w #$002D
 	bcs .28
 	lda.w pucky
@@ -2188,18 +2188,18 @@ GoalieUpdateState:					; update goalie animation, puck holding, saves and comput
 	beq .81
 	eor.w #$FFFF
 	inc a
-.81:								; A / 2, if A >= r0 go to .82, if $0668 is not 0 go to .83, ...
+.81:								; A / 2, if A >= r0 go to .82, if goaliestopped is not 0 go to .83, ...
 	lsr a
 	cmp.b r0
 	bcs .82
-	lda.w $0668
+	lda.w goaliestopped
 	bne .83
 	stz.w Xvel,x
 	stz.w Yvel,x
-	inc.w $0668
+	inc.w goaliestopped
 	rtl
-.82:								; $0668 = 0
-	stz.w $0668
+.82:								; goaliestopped = 0
+	stz.w goaliestopped
 .83:								; d1 = d2, push A, A = Xvel,x, A and $00FF, ...
 	lda.b d2
 	sta.b d1

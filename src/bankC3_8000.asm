@@ -629,13 +629,13 @@ defaultsprites_0:					; clear object state, load initial fields and sort the obj
 	stz.b a2
 	stz.b a3
 	stz.b a4
-.loop2:								; loop: X = a2, Y = a3, $0C20,y = d6, $0900,y = $FFFF, ...
+.loop2:								; loop: X = a2, Y = a3, SCnum,y = d6, oldframe,y = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	lda.b d6
-	sta.w $0C20,y
+	sta.w SCnum,y
 	lda.w #$FFFF
-	sta.w $0900,y
+	sta.w oldframe,y
 	sta.w $0876,y
 	sta.w pnum,y
 	lda.l DATA8_C38658,x
@@ -793,10 +793,10 @@ CalcPuckDistances:					; update every object distance and direction to the puck
 	bcc .3
 	lsr.b r3
 	asl a
-.3:									; A / 2, A + r3, $05E4,x = A, call vtoa, ...
+.3:									; A / 2, A + r3, puckdist,x = A, call vtoa, ...
 	lsr a
 	adc.b r3
-	sta.w $05E4,x
+	sta.w puckdist,x
 	jsl.l vtoa
 	sta.w puckdir,x
 	inx

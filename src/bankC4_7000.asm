@@ -669,15 +669,15 @@ chkprogress:						; from PenaltyManager and other segments
 	adc.w #$0014
 	bmi .11
 	sta.w CwdExciteLvl
-.11:								; Y = a2, A = $1267,y, A + 1, $1267,y = A, ...
+.11:								; Y = a2, A = tmPenalties,y, A + 1, tmPenalties,y = A, ...
 	ldy.b a2
-	lda.w $1267,y
+	lda.w tmPenalties,y
 	inc a
-	sta.w $1267,y
-	lda.w $126B,y
+	sta.w tmPenalties,y
+	lda.w tmPenmin,y
 	clc
 	adc.b d2
-	sta.w $126B,y
+	sta.w tmPenmin,y
 	lda.w pnum,x
 	and.w #$00FF
 	ora.b d0
@@ -702,7 +702,7 @@ chkprogress:						; from PenaltyManager and other segments
 	sta.w ppenmin,x
 	rep #$20
 	plx
-	lda.w $1159
+	lda.w PenSumLength
 	cmp.w #$0041
 	bcs .14
 	asl a
@@ -710,24 +710,24 @@ chkprogress:						; from PenaltyManager and other segments
 	tay
 	jsl.l GetPeriodTimeRemaining
 	lda.b d0
-	sta.w $115B,y
+	sta.w PenSum,y
 	iny
 	iny
 	lda.w TempPlOffset
 	cmp.w #$0080
 	bmi .13
 	ora.w #$0080
-.13:								; A 8-bit, $115B,y = A, A 16-bit, Y + 1, ...
+.13:								; A 8-bit, PenSum,y = A, A 16-bit, Y + 1, ...
 	sep #$20
-	sta.w $115B,y
+	sta.w PenSum,y
 	rep #$20
 	iny
 	lda.b (a0)
 	and.w #$00FF
 	sep #$20
-	sta.w $115B,y
+	sta.w PenSum,y
 	rep #$20
-	inc.w $1159
+	inc.w PenSumLength
 .14:								; A = TempPlOffset, A and $00FF, if $0080 bits clear go to .15, A or $FF00
 	lda.w TempPlOffset
 	and.w #$00FF
@@ -1270,7 +1270,7 @@ RestorePenaltyPad:					; restore a disabled team pad to the player returning fro
 	lda.w teampads,x
 	cmp.w #$0004
 	bcc .2
-	ldy.w $05C0,x
+	ldy.w padsitnext,x
 .loop:								; loop: Y + 1, Y + 1, if Y is not $000A go to .1, Y = $0000
 	iny
 	iny
@@ -1407,12 +1407,12 @@ assepen:							; assignment (asstab entry 11): leave the penalty box
 	lda.w attribute,x
 	ora.w #$0800
 	sta.w attribute,x
-.4:									; X = a2, if teampads,x < $0004 go to .6, Y = $05C0,x
+.4:									; X = a2, if teampads,x < $0004 go to .6, Y = padsitnext,x
 	ldx.b a2
 	lda.w teampads,x
 	cmp.w #$0004
 	bcc .6
-	ldy.w $05C0,x
+	ldy.w padsitnext,x
 .loop:								; loop: Y + 1, Y + 1, if Y is not $000A go to .5, Y = $0000
 	iny
 	iny
@@ -1747,11 +1747,11 @@ ReassignPenaltyPads:				; reassign team controllers when a player leaves for the
 	sta.b d4
 	jsl.l PassPadToTeammate
 	rtl
-.4:									; if Y is not $0003 go to .6, X = a2, Y = $05C0,x
+.4:									; if Y is not $0003 go to .6, X = a2, Y = padsitnext,x
 	cpy.w #$0003
 	bne .6
 	ldx.b a2
-	ldy.w $05C0,x
+	ldy.w padsitnext,x
 .loop2:								; loop: Y + 1, Y + 1, if Y is not $000A go to .5, Y = $0000
 	iny
 	iny
@@ -1769,9 +1769,9 @@ ReassignPenaltyPads:				; reassign team controllers when a player leaves for the
 	inc a
 	lsr a
 	sta.w cont1team,y
-.6:									; X = a2, Y = $05C0,x, go to .7
+.6:									; X = a2, Y = padsitnext,x, go to .7
 	ldx.b a2
-	ldy.w $05C0,x
+	ldy.w padsitnext,x
 	bra .7
 .loop3:								; loop: Y + 1, Y + 1, if Y is not $000A go to .7, Y = $0000
 	iny
@@ -1793,9 +1793,9 @@ ReassignPenaltyPads:				; reassign team controllers when a player leaves for the
 	cpy.w #$000A
 	bne .8
 	ldy.w #$0000
-.8:									; A = Y, $05C0,x = A, pull Y, X = c1playernum,y, ...
+.8:									; A = Y, padsitnext,x = A, pull Y, X = c1playernum,y, ...
 	tya
-	sta.w $05C0,x
+	sta.w padsitnext,x
 	ply
 	ldx.w c1playernum,y
 	lda.w #$FFFF

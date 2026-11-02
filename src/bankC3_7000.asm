@@ -1108,7 +1108,7 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	jsl.l forceblack
 	lda.w shootoutmode
 	bne .19
-	lda.w $0784
+	lda.w replaymusic
 	beq .19
 	lda.w OptPlayMode
 	beq .19

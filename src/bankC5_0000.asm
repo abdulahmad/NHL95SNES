@@ -842,10 +842,10 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	bcc .47
 	lsr.b r3
 	asl a
-.47:								; A / 2, A + r3, $05E4,x = A, if X >= $0018 go to .49, ...
+.47:								; A / 2, A + r3, puckdist,x = A, if X >= $0018 go to .49, ...
 	lsr a
 	adc.b r3
-	sta.w $05E4,x
+	sta.w puckdist,x
 	cpx.w #$0018
 	bcs .49
 	sta.b r3
@@ -1398,7 +1398,7 @@ SeasonGameOver:						; after the user's season game: its game record (the first 
 	sta.l $7F8F2C,x
 	xba
 	tsb.b tmp0
-	lda.w $1297
+	lda.w tmshots
 	sta.l $7F8F1C,x
 	sta.l $7F8F18,x
 	lda.w $1299

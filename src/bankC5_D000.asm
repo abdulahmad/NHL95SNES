@@ -776,9 +776,9 @@ UpdateUserRecord:					; adds the game to the user record of team X: a win, loss 
 .1:									; $8D + 1, go to .4
 	inc.b $8D
 	bra .4
-.2:									; d3 + 1, A = $1297,y, A - tmscore,y, if A < $85 go to .3, ...
+.2:									; d3 + 1, A = tmshots,y, A - tmscore,y, if A < $85 go to .3, ...
 	inc.b d3
-	lda.w $1297,y
+	lda.w tmshots,y
 	sec
 	sbc.w tmscore,y
 	cmp.b $85

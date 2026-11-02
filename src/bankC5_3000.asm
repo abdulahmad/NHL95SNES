@@ -708,7 +708,7 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	lda.w #$000C
 	sta.w $1285
 	lda.w HomeTeam
-	sta.w $17D7
+	sta.w tmteam
 	asl a
 	tax
 	lda.l $C30000,x
@@ -838,7 +838,7 @@ FaceoffPads:						; restores pad sides and resets player control before assignin
 	stz.w goalieflags,x
 	stz.w goalieturnwait,x
 	stz.w goaliedivewait,x
-	stz.w $06D4,x
+	stz.w FaceoffUnused,x
 	dex
 	dex
 	bpl .loop2
@@ -853,9 +853,9 @@ FaceoffPads:						; restores pad sides and resets player control before assignin
 	beq .6
 	lda.w #$0005
 	sta.b p0
-	ldx.w $05BC
+	ldx.w fopadfirst
 	lda.w #$FFFF
-	sta.w $05BC
+	sta.w fopadfirst
 	dex
 	dex
 	bpl .loop4
@@ -865,9 +865,9 @@ FaceoffPads:						; restores pad sides and resets player control before assignin
 	bne .4
 	stx.b d4
 	phx
-	lda.w $05BC
+	lda.w fopadfirst
 	bpl .3
-	stx.w $05BC
+	stx.w fopadfirst
 .3:									; call findpc, pull X
 	jsl.l findpc
 	plx
@@ -1017,7 +1017,7 @@ CODE_C537DE:						; no caller found (not traced)
 	bmi .1
 	lda.w pfalock,x
 	bne .1
-	lda.w $05E4,x
+	lda.w puckdist,x
 	cmp.w #$0028
 	bcs .1
 	jmp.w CODE_C53882
@@ -1068,9 +1068,9 @@ CODE_C53813:						; from findpc, CODE_C537DE
 	bmi .3
 	cmp.b d4
 	bne .4
-.3:									; r3 = 0, if $05E4,x >= d2 go to .4, d3 = X, d2 = A
+.3:									; r3 = 0, if puckdist,x >= d2 go to .4, d3 = X, d2 = A
 	stz.b r3
-	lda.w $05E4,x
+	lda.w puckdist,x
 	cmp.b d2
 	bcs .4
 	stx.b d3
