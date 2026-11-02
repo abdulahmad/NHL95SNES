@@ -617,22 +617,22 @@ PlayTeamSong:						; plays song A of the home team's songs (LoadTeamSongs) when 
 	phx
 	sta.b tmp0
 	ldx.w #$03E8
-.loop:								; loop: X - 1, if the result < 0 go to CODE_CF04B4, A = $002143, ...
+.loop:								; loop: X - 1, if the result < 0 go to PlayTeamSongReturn, ...
 	dex
-	bmi CODE_CF04B4
+	bmi PlayTeamSongReturn
 	lda.l $002143
 	and.w #$00FF
 	cmp.w #$007E
 	bne .loop
 	lda.l $002142
 	and.w #$0038
-	bne CODE_CF04B4
+	bne PlayTeamSongReturn
 CODE_CF04A8:						; from PlayTeamSongNow
 	ldx.b tmp0
 	lda.w $50D4,x
 	and.w #$00FF
 	jsl.l StartSound
-CODE_CF04B4:						; from PlayTeamSong
+PlayTeamSongReturn:					; PlayTeamSong's exit: X pulled, rtl
 	plx
 	rtl
 StartMenuMusic:						; reloads and starts the front end song $A4 (LoadSounds of DATA8_CF05D4,

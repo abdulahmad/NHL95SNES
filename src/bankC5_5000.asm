@@ -27,7 +27,7 @@ PauseMenuInput:						; the pause menu's pad: left / right the tab (pausetab 0-2)
 	bne PauseItemDown
 	bit.w #$8000
 	bne RunPauseItem
-CODE_C54F37:						; from SetPauseTab, PauseItemUp, PauseItemDown
+PauseMenuReturn:					; the shared rts of PauseMenuInput and its item and tab routines
 	rts
 RunPauseItem:						; runs item pauseitem of tab pausetab through its table: Info, Stats,
 									; Options or the quit prompt (DATA8_C55012 / 18 in play mode 1)
@@ -69,7 +69,7 @@ RunPauseItem:						; runs item pauseitem of tab pausetab through its table: Info
 	jmp (DATA8_C5501C,x)
 PauseItemUp:						; the pause menu item one up (pauseitem - 1, not below 0), the tab redrawn
 	lda.w pauseitem
-	beq CODE_C54F37
+	beq PauseMenuReturn
 	dec a
 	sta.w pauseitem
 RedrawPauseTab:						; DrawPauseTab for the current tab
@@ -79,13 +79,13 @@ PauseItemDown:						; the pause menu item one down (below pauseitems), the tab r
 	lda.w pauseitem
 	inc a
 	cmp.w pauseitems
-	bcs CODE_C54F37
+	bcs PauseMenuReturn
 	sta.w pauseitem
 	bra RedrawPauseTab
 SetPauseTab:						; switches the pause menu to tab X when it is another: the old one erased
 									; (CODE_C5524B), item 0, DrawPauseTab
 	cpx.w pausetab
-	beq CODE_C54F37
+	beq PauseMenuReturn
 	phx
 	bit.w pausetab
 	bmi .1
@@ -1556,7 +1556,7 @@ ScrollListDown:						; scrolls a scrolling list down a row (the pad's down) when
 	clc
 	adc.b $71
 	cmp.b a1
-	bcs CODE_C55C92
+	bcs ScrollListDownReturn
 	inc a
 	cmp.b a1
 	bcs CODE_C55C93
@@ -1579,7 +1579,7 @@ CODE_C55C86:						; from ScrollListDown
 CODE_C55C8C:						; from CODE_C55C93
 	stz.w padlast
 	stz.w padchangeany
-CODE_C55C92:						; from ScrollListDown
+ScrollListDownReturn:				; the rts ScrollListDown leaves through when the list is at its end
 	rts
 CODE_C55C93:						; from ScrollListDown, CODE_C55C86
 	inc.b $69
@@ -1628,7 +1628,7 @@ ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows 
 	inc a
 	sta.b tmp2
 	lda.b $69
-	beq CODE_C55D6A
+	beq ScrollListUpReturn
 	dec a
 	sta.b $69
 	dec a
@@ -1692,7 +1692,7 @@ CODE_C55D14:						; from ScrollListUp
 .2:									; padlast = 0, padchangeany = 0
 	stz.w padlast
 	stz.w padchangeany
-CODE_C55D6A:						; from ScrollListUp
+ScrollListUpReturn:					; the rts ScrollListUp leaves through when the list is at its top
 	rts
 DATA8_C55D6B:						; jump table: the routine for each index (code in bankC5_6000 uses it)
 	dw CODE_C55D8A,CODE_C55DAC,CODE_C55DEF,CODE_C55E3D

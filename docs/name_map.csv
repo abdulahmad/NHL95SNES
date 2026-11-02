@@ -8124,3 +8124,11 @@ $C56B83,ShowPauseTab,CODE_C56B83,code,"from the code",src/bankC5_6000.asm
 $C56B80,ShowQuitPrompt,CODE_C56B80,code,"from the code; the Quit Game item of the Options tab; PauseTimeout goes there too when the team has no timeout left",src/bankC5_6000.asm
 $C56B7B,ResumeFromQuit,CODE_C56B7B,code,"from the code; DATA8_C55038's first item",src/bankC5_6000.asm
 $C5004E,QuitGame,CODE_C5004E,code,"from the code: it falls into Restart; DATA8_C55038's second item",src/bankC5_0000.asm
+$C54B5F,RestoreBenchEnergyReturn,CODE_C54B5F,code,"from the code: a bare rtl after RestoreTeamBenchEnergy, branched to only from RestoreBenchEnergy",src/bankC5_4000.asm
+$C55C92,ScrollListDownReturn,CODE_C55C92,code,"from the code: a bare rts, branched to only from ScrollListDown",src/bankC5_5000.asm
+$C55D6A,ScrollListUpReturn,CODE_C55D6A,code,"from the code: a bare rts, branched to only from ScrollListUp",src/bankC5_5000.asm
+$C5E41C,ClampRosterTeamsReturn,CODE_C5E41C,code,"from the code: a bare rts, branched to only from ClampRosterTeams",src/bankC5_E000.asm
+$C54F37,PauseMenuReturn,CODE_C54F37,code,"from the code: a bare rts after PauseMenuInput's tests; PauseItemUp / Down and SetPauseTab branch to it, ShowOtherScores pushes it as a return address",src/bankC5_5000.asm
+$C5DB36,TradeCursorUpReturn,CODE_C5DB36,code,"from the code: pla / rts, branched to only from TradeCursorUp",src/bankC5_D000.asm
+$C5DBE6,TradeCursorDownReturn,CODE_C5DBE6,code,"from the code: pla / rts, branched to only from TradeCursorDown",src/bankC5_D000.asm
+$CF04B4,PlayTeamSongReturn,CODE_CF04B4,code,"from the code: plx / rtl, branched to only from PlayTeamSong",src/bankCF_0000.asm

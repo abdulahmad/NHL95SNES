@@ -1371,7 +1371,7 @@ reenergizeteam:						; gives every player of team a2 full energy ($1000); the be
 	rtl
 RestoreBenchEnergy:					; called from other segments
 	lda.w OptLine
-	beq CODE_C54B5F
+	beq RestoreBenchEnergyReturn
 	stz.b a2
 	jsl.l RestoreTeamBenchEnergy
 	lda.w #$0002
@@ -1404,7 +1404,7 @@ RestoreTeamBenchEnergy:				; team a2's players on the bench (tmpdst $FFFE) get 1
 	dec.b d0
 	dec.b d0
 	bpl .loop
-CODE_C54B5F:						; from RestoreBenchEnergy
+RestoreBenchEnergyReturn:			; the rtl RestoreBenchEnergy's early branches leave through
 	rtl
 lcfound_close:						; closes team a2's line change box: its six rows overwritten from
 									; DATA8_C58942 through the transfer queue, then the score box (when the

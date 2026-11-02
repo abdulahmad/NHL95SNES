@@ -602,7 +602,8 @@ SaveOptRosters:						; stores OptRosters in save RAM, then with it set ClampRost
 	rep #$20
 	lda.w OptRosters
 	bne ClampRosterTeams
-CODE_C5E41C:						; from ClampRosterTeams
+ClampRosterTeamsReturn:				; the rts ClampRosterTeams leaves through when the visiting team is in
+									; range
 	rts
 ClampRosterTeams:					; keeps HomeTeam and VisTeam among the 26 NHL teams (else $E / $17, saved
 									; and redrawn)
@@ -613,10 +614,10 @@ ClampRosterTeams:					; keeps HomeTeam and VisTeam among the 26 NHL teams (else 
 	sta.w HomeTeam
 	sta.l SRHomeTeam
 	jsr.w CODE_C5A46A
-.1:									; if VisTeam < $001A go to CODE_C5E41C, VisTeam = $0017, ...
+.1:									; if VisTeam < $001A go to ClampRosterTeamsReturn, VisTeam = $0017, ...
 	lda.w VisTeam
 	cmp.w #$001A
-	bcc CODE_C5E41C
+	bcc ClampRosterTeamsReturn
 	lda.w #$0017
 	sta.w VisTeam
 	sta.l SRVisTeam

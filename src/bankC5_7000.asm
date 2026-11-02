@@ -1463,7 +1463,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	asl a
 	adc.b d0
 	bne .5
-	pea.w CODE_C54F37
+	pea.w PauseMenuReturn
 	bra .6
 .5:									; A - 1
 	dec a

@@ -1453,7 +1453,7 @@ TradeCursorUp:						; moves the cursor of team a2's trade list up a row; when it
 	asl a
 	pha
 	lda.b $77,x
-	beq CODE_C5DB36
+	beq TradeCursorUpReturn
 	phx
 	dec a
 	sta.b $77,x
@@ -1475,7 +1475,8 @@ TradeCursorUp:						; moves the cursor of team a2's trade list up a row; when it
 CODE_C5DB30:						; from TradeCursorUp
 	jsl.l SendTextMap
 	bra CODE_C5DB38
-CODE_C5DB36:						; from TradeCursorUp
+TradeCursorUpReturn:				; TradeCursorUp's exit at the top of the list: the pushed value dropped,
+									; rts
 	pla
 	rts
 CODE_C5DB38:						; from TradeCursorUp, CODE_C5DB30
@@ -1553,7 +1554,7 @@ TradeCursorDown:					; moves the cursor of team a2's trade list down a row (not 
 	clc
 	adc.b $67,x
 	cmp.b $7B,x
-	bcs CODE_C5DBE6
+	bcs TradeCursorDownReturn
 	phx
 	inc a
 	cmp.b $7B,x
@@ -1574,7 +1575,8 @@ TradeCursorDown:					; moves the cursor of team a2's trade list down a row (not 
 CODE_C5DBE0:						; from TradeCursorDown
 	jsl.l SendTextMap
 	bra CODE_C5DBE8
-CODE_C5DBE6:						; from TradeCursorDown
+TradeCursorDownReturn:				; TradeCursorDown's exit at the end of the list: the pushed value dropped,
+									; rts
 	pla
 	rts
 CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
