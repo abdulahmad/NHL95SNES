@@ -4988,37 +4988,37 @@ $C52053,.loop,CODE_C52053,new,"branch target only used in setupice",src/bankC5_2
 $C52195,.loop2,CODE_C52195,new,"branch target only used in setupice",src/bankC5_2000.asm
 $C52251,.loop,CODE_C52251,new,"branch target only used in setupice_reset",src/bankC5_2000.asm
 $C5225E,.1,CODE_C5225E,new,"branch target only used in setupice_reset",src/bankC5_2000.asm
-$C5236C,.1,CODE_C5236C,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52373,.2,CODE_C52373,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C5237B,.3,CODE_C5237B,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C5237E,.4,CODE_C5237E,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52391,.5,CODE_C52391,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52399,.6,CODE_C52399,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C523AC,.7,CODE_C523AC,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C523B6,.8,CODE_C523B6,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C523BE,.9,CODE_C523BE,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C523EE,.10,CODE_C523EE,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52407,.11,CODE_C52407,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C5240F,.12,CODE_C5240F,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52422,.13,CODE_C52422,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C5242C,.14,CODE_C5242C,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52434,.15,CODE_C52434,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52464,.16,CODE_C52464,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52484,.17,CODE_C52484,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C5248E,.18,CODE_C5248E,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52496,.19,CODE_C52496,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C524C7,.20,CODE_C524C7,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C524ED,.21,CODE_C524ED,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C524F7,.22,CODE_C524F7,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C524FF,.23,CODE_C524FF,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52530,.24,CODE_C52530,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52544,.25,CODE_C52544,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52571,.26,CODE_C52571,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52585,.27,CODE_C52585,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C525AC,.28,CODE_C525AC,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C525C0,.29,CODE_C525C0,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C525ED,.30,CODE_C525ED,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
-$C52601,.31,CODE_C52601,new,"branch target only used in CODE_C52348",src/bankC5_2000.asm
+$C5236C,.1,CODE_C5236C,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52373,.2,CODE_C52373,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C5237B,.3,CODE_C5237B,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C5237E,.4,CODE_C5237E,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52391,.5,CODE_C52391,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52399,.6,CODE_C52399,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C523AC,.7,CODE_C523AC,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C523B6,.8,CODE_C523B6,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C523BE,.9,CODE_C523BE,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C523EE,.10,CODE_C523EE,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52407,.11,CODE_C52407,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C5240F,.12,CODE_C5240F,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52422,.13,CODE_C52422,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C5242C,.14,CODE_C5242C,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52434,.15,CODE_C52434,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52464,.16,CODE_C52464,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52484,.17,CODE_C52484,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C5248E,.18,CODE_C5248E,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52496,.19,CODE_C52496,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C524C7,.20,CODE_C524C7,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C524ED,.21,CODE_C524ED,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C524F7,.22,CODE_C524F7,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C524FF,.23,CODE_C524FF,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52530,.24,CODE_C52530,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52544,.25,CODE_C52544,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52571,.26,CODE_C52571,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52585,.27,CODE_C52585,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C525AC,.28,CODE_C525AC,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C525C0,.29,CODE_C525C0,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C525ED,.30,CODE_C525ED,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
+$C52601,.31,CODE_C52601,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
 $C52713,.1,CODE_C52713,new,"branch target only used in CODE_C52706",src/bankC5_2000.asm
 $C52733,.2,CODE_C52733,new,"branch target only used in CODE_C52706",src/bankC5_2000.asm
 $C52745,.3,CODE_C52745,new,"branch target only used in CODE_C52706",src/bankC5_2000.asm
@@ -8157,3 +8157,10 @@ $C571B4,RosterColRating,CODE_C571B4,code,"from the code",src/bankC5_7000.asm
 $C5308D,FixLineForward,CODE_C5308D,code,"from the code: the range tests against $0C / $A5 that LoadTeamRoster sets (after the goalies and the defence), the search loop",src/bankC5_3000.asm
 $C530A0,FixLineDefence,CODE_C530A0,code,"from the code: as FixLineForward over the defence range",src/bankC5_3000.asm
 $C530B3,PlayerInLine,CODE_C530B3,code,"from the code: the five byte compares, clc when none matches",src/bankC5_3000.asm
+$C522BF,DrawPadArrows,CODE_C522BF,code,"from the code: the stack moved to the OAM pointer ($28), DrawPadArrow for pad 1 with the next pad's entry as its continuation; 94S setvideo draws these arrows with its local .t1 for each pad; setvideo calls it",src/bankC5_2000.asm
+$C522DF,PadArrow2,CODE_C522DF,code,"from the code",src/bankC5_2000.asm
+$C522F7,PadArrow3,CODE_C522F7,code,"from the code",src/bankC5_2000.asm
+$C5230F,PadArrow4,CODE_C5230F,code,"from the code",src/bankC5_2000.asm
+$C52327,PadArrow5,CODE_C52327,code,"from the code",src/bankC5_2000.asm
+$C5233F,PadArrowsDone,CODE_C5233F,code,"from the code",src/bankC5_2000.asm
+$C52348,DrawPadArrow,CODE_C52348,code,"from the code: Xpos / Ypos against Hpos / Vpos, the edge cases, jmp ($A5)",src/bankC5_2000.asm

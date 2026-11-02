@@ -301,7 +301,7 @@ setvideo:							; once per game frame: the sprite table built for the next vblan
 	jsl.l updatescroll
 	jsl.l CODE_C526FB
 	jsl.l UpdateGameObjectSprites
-	jsl.l CODE_C522BF
+	jsl.l DrawPadArrows
 	jsl.l BuildSpriteOAM
 	jsl.l PackOAMHigh
 	inc.w TransfersReady
@@ -309,54 +309,57 @@ setvideo:							; once per game frame: the sprite table built for the next vblan
 	jsl.l updatescroll_rows
 	ldx.b a3
 	rtl
-CODE_C522BF:						; from setvideo and other segments
+DrawPadArrows:						; the arrow sprite over the player each pad controls (c1playernum on), for
+									; the five pads in turn, written straight to the OAM buffer
 	dec.b QueueBusy
 	tsc
 	sta.b $1C
 	lda.b $28
 	tcs
 	ldy.w c1playernum
-	bmi CODE_C522DF
+	bmi PadArrow2
 	ldx.w #$22DF
-	bra CODE_C52348
+	bra DrawPadArrow
 DATA8_C522D1:						; not traced: data between routines
 	db $1B,$15,$2A,$D0,$A0,$25,$45,$24,$00,$7A,$00,$7B,$50,$64
-CODE_C522DF:						; from CODE_C522BF
+PadArrow2:							; DrawPadArrows' step for pad 2 ($1513), continuing with PadArrow3
 	ldy.w $1513
-	bmi CODE_C522F7
+	bmi PadArrow3
 	ldx.w #$22F7
-	bra CODE_C52348
+	bra DrawPadArrow
 DATA8_C522E9:						; not traced: data between routines
 	db $1D,$15,$CA,$D2,$A2,$25,$48,$24,$20,$7A,$20,$7B,$80,$64
-CODE_C522F7:						; from CODE_C522DF
+PadArrow3:							; DrawPadArrows' step for pad 3 ($1515), continuing with PadArrow4
 	ldy.w $1515
-	bmi CODE_C5230F
+	bmi PadArrow4
 	ldx.w #$230F
-	bra CODE_C52348
+	bra DrawPadArrow
 DATA8_C52301:						; not traced: data between routines
 	db $1F,$15,$6A,$D5,$A4,$25,$4B,$24,$40,$7A,$40,$7B,$B0,$64
-CODE_C5230F:						; from CODE_C522F7
+PadArrow4:							; DrawPadArrows' step for pad 4 ($1517), continuing with PadArrow5
 	ldy.w $1517
-	bmi CODE_C52327
+	bmi PadArrow5
 	ldx.w #$2327
-	bra CODE_C52348
+	bra DrawPadArrow
 DATA8_C52319:						; not traced: data between routines
 	db $21,$15,$2A,$D0,$A6,$27,$4E,$26,$60,$7A,$60,$7B,$E0,$64
-CODE_C52327:						; from CODE_C5230F
+PadArrow5:							; DrawPadArrows' step for pad 5 ($1519), continuing with PadArrowsDone
 	ldy.w $1519
-	bmi CODE_C5233F
+	bmi PadArrowsDone
 	ldx.w #$233F
-	bra CODE_C52348
+	bra DrawPadArrow
 DATA8_C52331:						; not traced: data between routines
 	db $23,$15,$CA,$D2,$A8,$27,$51,$26,$80,$7A,$80,$7B,$10,$65
-CODE_C5233F:						; from CODE_C52327
+PadArrowsDone:						; the end of DrawPadArrows: the OAM pointer ($28) kept, the stack back,
+									; QueueBusy cleared
 	tsc
 	sta.b $28
 	lda.b $1C
 	tcs
 	stz.b QueueBusy
 	rtl
-CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
+DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else at the
+									; screen edge pointing at him; then on to the continuation in X
 	stx.b $A5
 	lda.w Xpos,y
 	clc
@@ -722,7 +725,7 @@ CODE_C52348:						; from CODE_C522BF, CODE_C522DF, CODE_C522F7, CODE_C5230F, ...
 	phy
 	pea.w $C3E4
 	jmp ($00A5)
-CODE_C52628:						; from CODE_C52348
+CODE_C52628:						; from DrawPadArrow
 	tsc
 	sta.b $28
 	lda.b $00
@@ -753,7 +756,7 @@ CODE_C52628:						; from CODE_C52348
 	lda.b $28
 	tcs
 	rts
-CODE_C52666:						; from CODE_C52348
+CODE_C52666:						; from DrawPadArrow
 	tsc
 	sta.b $28
 	lda.b $00
@@ -785,7 +788,7 @@ CODE_C52666:						; from CODE_C52348
 	lda.b $28
 	tcs
 	rts
-CODE_C526A7:						; from CODE_C52348
+CODE_C526A7:						; from DrawPadArrow
 	tsc
 	sta.b $28
 	lda.b $00
