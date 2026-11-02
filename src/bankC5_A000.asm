@@ -1350,8 +1350,8 @@ DrawGameInSlot:						; draws game $85 for a scroll: its marks (DrawGameMarks), $
 	jsl.l PrintThinCentred
 	jsl.l SendTextMap
 	rts
-PrintGamesTodayDate:				; prints day d0's date (CODE_C56168) in italics on row 5, the row cleared
-									; first
+PrintGamesTodayDate:				; prints day d0's date (MakeDateString) in italics on row 5, the row
+									; cleared first
 	lda.b $D3
 	clc
 	adc.w #$0140
