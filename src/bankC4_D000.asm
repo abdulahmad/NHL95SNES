@@ -151,7 +151,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	jsl.l ResetWorkBuf
 	jsl.l InitTextMap
 	jsl.l CODE_C4C574
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w #$FFFF
 	sta.w BG1VScroll
 	sta.w BG2VScroll
@@ -713,7 +713,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	lda.w #BlueColoursHook
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w #$00D7
 	sta.b $18
 	lda.w #$00D0
@@ -781,7 +781,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	jml.l ClearNMIHook
 CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
 	jsl.l CODE_C4C574
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	jsl.l ResetWorkBuf
 	lda.w #$007F
 	sta.b $2E

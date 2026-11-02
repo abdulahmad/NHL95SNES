@@ -151,7 +151,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 									; (ShowMatchups; the next every 300 frames, A next, Y previous) and the
 									; commentary (BuildScoutingText) scrolling, X restarts it; start leaves
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .1
@@ -383,7 +383,7 @@ CODE_C4E387:						; from ScoutingReport, CODE_C4EBC8
 	stz.w DMAEnShadow
 	jsl.l WaitTransfers
 	jsl.l ClearNMIHook
-	jml.l CODE_C5E50E
+	jml.l ResetSprites
 NextMatchup:						; the next matchup of the scouting report (after 6, 0), then ShowMatchups
 	lda.w $2DA5
 	inc a

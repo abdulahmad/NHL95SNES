@@ -106,7 +106,7 @@ CODE_C59052:						; called from other segments
 	rts
 CODE_C5909A:						; called from other segments
 	lda.w $010E
-CODE_C5909D:						; from StartSeason, CODE_C596C0, CODE_C596AF, CODE_C59DBE, ...
+SetRowPalette3:						; sets palette 3 on the 64 text map tiles from row A (two rows of 32)
 	xba
 	lsr a
 	lsr a
@@ -233,7 +233,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #BlueColoursHook&$FFFF
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	jsr.w CODE_C5C0BE
 	lda.w #$0008
 	sta.b $18
@@ -462,7 +462,7 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	jsl.l forceblack
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w #$0040
 	sta.b $20
 	lda.w #$0044
@@ -690,7 +690,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	lda.w #$00B5
 	sta.b $08,x
 	lda.w #$0018
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	jsl.l SendTextMap
 	lda.w #$000D
 	sta.b $99
@@ -745,7 +745,7 @@ AskNameOk:							; Is the player name ok: up / down Yes / No; start: No starts o
 CODE_C596AF:						; from AskNameOk, NameEntry
 	stz.b d6
 	lda.w #$0012
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.w #$000F
 	jsr.w CODE_C590BB
 CODE_C596BD:						; from CODE_C596C0
@@ -754,7 +754,7 @@ CODE_C596C0:						; from AskNameOk
 	lda.w #$0001
 	sta.b d6
 	lda.w #$000F
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.w #$0012
 	jsr.w CODE_C590BB
 	bra CODE_C596BD
@@ -808,11 +808,11 @@ CODE_C596D3:						; from AskNameOk
 	lda.w #$0005
 	sta.w fadestep
 	lda.w #$000B
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.w #$000E
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.w #$0011
-	jmp.w CODE_C5909D
+	jmp.w SetRowPalette3
 CODE_C59767:						; from DATA8_C5967A, NameEntry
 	rts
 NameEntry:							; Create Player name entry, screen states 0 and 1 (first and last name):
@@ -1640,7 +1640,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	asl a
 	adc.b d6
 	adc.w #$0008
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.b d6
 	dec a
 	bpl .5
@@ -1656,7 +1656,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	asl a
 	adc.b d6
 	adc.w #$0008
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.b d6
 	inc a
 	cmp.w #$0004
@@ -1733,9 +1733,9 @@ CODE_C59DBE:						; from EditPlayerInfo
 	bcc .loop
 	jsr.w PrintCreatedOverall
 	lda.w #$0008
-.loop2:								; loop: push A, call CODE_C5909D, pull A, A + 1, ...
+.loop2:								; loop: push A, call SetRowPalette3, pull A, A + 1, ...
 	pha
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	pla
 	inc a
 	inc a

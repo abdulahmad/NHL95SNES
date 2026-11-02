@@ -219,7 +219,7 @@ CODE_C5503C:						; called from other segments
 	dey
 	bpl .loop
 CODE_C550E2:						; from ExitToPauseMenu
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w #$0039
 	sta.b $1A
 	lda.w gsp

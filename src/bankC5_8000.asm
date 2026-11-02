@@ -1451,7 +1451,7 @@ SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	pea.w $7E80
 	plb
 	sep #$20
@@ -1518,7 +1518,7 @@ SetupMode1Screen:					; a mode 1 screen: the work buffer reset, the BG map regis
 									; (SetBGMapRegs), BGMODE 1, TM, the BG scrolls
 	jsl.l WaitTransfers
 	jsl.l ResetWorkBuf
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	jsr.w SetBGMapRegs
 	db $58,$51,$5C,$5C,$02,$43		; inline parameters
 	pea.w $7E80

@@ -5853,7 +5853,7 @@ $C5900F,.2,CODE_C5900F,new,"branch target only used in CODE_C58FD8",src/bankC5_9
 $C59032,.1,CODE_C59032,new,"branch target only used in CODE_C59012",src/bankC5_9000.asm
 $C59073,.1,CODE_C59073,new,"branch target only used in CODE_C59052",src/bankC5_9000.asm
 $C59099,.rts,CODE_C59099,new,"branch target only used in CODE_C59052",src/bankC5_9000.asm
-$C590A6,.loop,CODE_C590A6,new,"branch target only used in CODE_C5909D",src/bankC5_9000.asm
+$C590A6,.loop,CODE_C590A6,new,"branch target only used in SetRowPalette3",src/bankC5_9000.asm
 $C590C4,.loop,CODE_C590C4,new,"branch target only used in CODE_C590BB",src/bankC5_9000.asm
 $C592B4,.1,CODE_C592B4,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
 $C592CD,.2,CODE_C592CD,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
@@ -6442,10 +6442,10 @@ $C5E4CC,.loop,CODE_C5E4CC,new,"branch target only used in ShowPleaseWait",src/ba
 $C5E4E6,.loop,CODE_C5E4E6,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
 $C5E4F0,.1,CODE_C5E4F0,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
 $C5E502,.loop2,CODE_C5E502,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
-$C5E555,.loop,CODE_C5E555,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
-$C5E565,.loop2,CODE_C5E565,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
-$C5E577,.loop3,CODE_C5E577,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
-$C5E588,.loop4,CODE_C5E588,new,"branch target only used in CODE_C5E51C",src/bankC5_E000.asm
+$C5E555,.loop,CODE_C5E555,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
+$C5E565,.loop2,CODE_C5E565,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
+$C5E577,.loop3,CODE_C5E577,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
+$C5E588,.loop4,CODE_C5E588,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
 $C5E59C,.1,CODE_C5E59C,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
 $C5E5A0,.loop,CODE_C5E5A0,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
 $C5E5AA,.2,CODE_C5E5AA,new,"branch target only used in DeleteSprite",src/bankC5_E000.asm
@@ -8029,3 +8029,7 @@ $C5C6A2,RecordOverallLong,CODE_C5C6A2,code,"from the code",src/bankC5_C000.asm
 $C5A07A,RatingNibble,CODE_C5A07A,code,"from the code: DATA8_C5A08B (0 0 1 1 2 2 3 3 3 3 4 4 4 5 5 6); the created player's ratings go through it into their record",src/bankC5_A000.asm
 $C5A083,RatingNibbleHigh,CODE_C5A083,code,"from the code",src/bankC5_A000.asm
 $C59F79,PrintCreatedOverall,CODE_C59F79,code,"from the code: RatingNibble / RatingNibbleHigh into mesarea, RecordOverall, two right-aligned prints; ModifyRatings calls it",src/bankC5_A000.asm
+$C5E51C,ResetSpritesAt,CODE_C5E51C,code,"from the code: $DB = $6000 + $E1 * 16, $E3 / $DF, the clears and the slot pointers",src/bankC5_E000.asm
+$C5E50E,ResetSprites,CODE_C5E50E,code,"from the code; the screen set-ups call it (15 calls)",src/bankC5_E000.asm
+$C5E172,RandomBelowA7E,CODE_C5E172,code,"from the code: pea $7F7E / plb, RandomBelowA, plb",src/bankC5_E000.asm
+$C5909D,SetRowPalette3,CODE_C5909D,code,"from the code: A * 64 + $D3, and #$E3FF / ora #$0C00 over 64 words",src/bankC5_9000.asm

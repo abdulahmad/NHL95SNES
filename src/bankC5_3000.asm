@@ -1221,7 +1221,7 @@ CODE_C53980:						; called from other segments
 	jsr.w CODE_C53984
 	rtl
 CODE_C53984:						; from CODE_C53980 and other segments
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	stz.b $20
 	stz.b $1E
 	lda.w #$001D

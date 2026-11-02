@@ -179,7 +179,7 @@ ExitPlayoffBracket:					; leaves the playoff bracket for the League Menu (Season
 	lda.w #BlueColoursHook&$FFFF
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w #$001C
 	jsl.l CreateSprite
 	stx.b a0

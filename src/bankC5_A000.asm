@@ -1359,20 +1359,20 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	bit.w #$0400
 	bne .4
 	rts
-.2:									; A = $0015, call CODE_C590BB, A = $0018, call CODE_C5909D, ...
+.2:									; A = $0015, call CODE_C590BB, A = $0018, call SetRowPalette3, ...
 	lda.w #$0015
 	jsr.w CODE_C590BB
 	lda.w #$0018
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.w #$00B5
 .3:									; X = a0, $08,x = A, call SendTextMap, return
 	ldx.b a0
 	sta.b $08,x
 	jsl.l SendTextMap
 	rts
-.4:									; A = $0015, call CODE_C5909D, A = $0018, call CODE_C590BB, ...
+.4:									; A = $0015, call SetRowPalette3, A = $0018, call CODE_C590BB, ...
 	lda.w #$0015
-	jsr.w CODE_C5909D
+	jsr.w SetRowPalette3
 	lda.w #$0018
 	jsr.w CODE_C590BB
 	lda.w #$00CD
@@ -1782,7 +1782,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	lda.w #$0001
 	sta.w $190E
 	stz.w $1910
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	jsr.w ShowOtherScores
 	stz.w $190E
 	jsl.l CODE_C4C574
@@ -1816,7 +1816,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	stz.w DMAEnShadow
 	wai
 	jsr.w SetupScreen
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	lda.w #$FFFA
 	sta.w BG2VScroll
 	jsr.w CODE_C5C0BE

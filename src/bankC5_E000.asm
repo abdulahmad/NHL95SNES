@@ -20,7 +20,7 @@ CODE_C5DF5F:						; called from other segments
 	pei ($36)
 	ldy.w #$0002
 	lda.b [p0],y
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	inc a
 	sta.b r1
 	lda.b $0A
@@ -50,7 +50,7 @@ CODE_C5DF5F:						; called from other segments
 	bmi .1
 	beq .1
 	lda.b [p0],y
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	clc
 	adc.b $0E
 	tax
@@ -137,9 +137,9 @@ CODE_C5E083:						; from CODE_C5DF5F
 	lda.w $DBE6
 	beq CODE_C5E0B0
 	jsr.w CODE_C5E0DF
-.1:									; A = $DBE8, call CODE_C5E172, X = $0000
+.1:									; A = $DBE8, call RandomBelowA7E, X = $0000
 	lda.w $DBE8
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	ldx.w #$0000
 .loop:								; loop: if A < $DB8A,x go to .2, if zero go to .2, X + 1, X + 1, ...
 	cmp.w $DB8A,x
@@ -164,9 +164,9 @@ CODE_C5E0B1:						; from CODE_C5DF5F
 	lda.w $DBE6
 	beq .rts
 	jsr.w CODE_C5E0DF
-.1:									; A = $DBE8, call CODE_C5E172, X = $0000
+.1:									; A = $DBE8, call RandomBelowA7E, X = $0000
 	lda.w $DBE8
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	ldx.w #$0000
 .loop:								; loop: if A < $DB8A,x go to .2, if zero go to .2, X + 1, X + 1, ...
 	cmp.w $DB8A,x
@@ -230,36 +230,36 @@ SimTeamTotals:						; a simulated team's game totals at X from its goals A: shot
 	sta.b tmp1
 	sta.w $000C,x
 	lda.w #$001E
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	adc.w #$000A
 	clc
 	adc.b tmp1
 	sta.w $000E,x
 	lda.w #$00C8
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	sta.w $0010,x
 	lda.b tmp1
 	lsr a
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	sta.w $0012,x
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	sta.w $0014,x
 	lda.b tmp1
 	lsr a
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	sta.w $0016,x
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	sta.w $0018,x
 	lda.b tmp1
 	lsr a
 	lsr a
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	sta.w $001A,x
-	jsr.w CODE_C5E172
+	jsr.w RandomBelowA7E
 	adc.w $001A,x
 	sta.w $001C,x
 	rts
-CODE_C5E172:						; from CODE_C5DF5F, SimTeamTotals, CODE_C5E0B1, ...
+RandomBelowA7E:						; RandomBelowA with the data bank $7E around it (its callers run with $7F)
 	pea.w $7F7E
 	plb
 	jsl.l RandomBelowA
@@ -673,7 +673,7 @@ ShowPleaseWait:						; fades out and shows the Please Wait= screen, then waits f
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	stz.w DMAEnShadow
-	jsl.l CODE_C5E50E
+	jsl.l ResetSprites
 	jsr.w SetupScreen
 	stz.b $26
 	jsr.w RefreshSprites
@@ -722,14 +722,17 @@ CODE_C5E4D2:						; called from other segments
 	lda.b $0C
 	sta.l SRDayPlayed
 	rts
-CODE_C5E50E:						; from ShowPleaseWait and other segments
+ResetSprites:						; ResetSpritesAt with the menu screens' tile area (tile $A0, $58 tiles),
+									; for long calls
 	lda.w #$00A0
 	sta.b $E1
 	lda.w #$0058
 	sta.b $DD
-	jsr.w CODE_C5E51C
+	jsr.w ResetSpritesAt
 	rtl
-CODE_C5E51C:						; from CODE_C5E50E
+ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A bytes each), the
+									; OAM buffer at $46B8 to $FFFF, OAMADDR 0, the sprite tile area from tile
+									; $E1 ($DD tiles)
 	lda.b $E1
 	asl a
 	asl a
