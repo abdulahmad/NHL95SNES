@@ -68,10 +68,10 @@ BracketCursorRight:					; moves the bracket cursor one column right (a1, at most
 	cmp.w #$0007
 	bcs BracketCursorRightReturn
 	sta.b a1
-	lda.w $3D52
+	lda.w BracketCursorCell
 	inc a
-	sta.w $3D52
-	sta.w $3D5A
+	sta.w BracketCursorCell
+	sta.w BracketWin2Cell
 BracketCursorRightReturn:			; the rts BracketCursorRight ends with, shared by BracketCursorLeft
 	rts
 BracketCursorLeft:					; moves the bracket cursor one column left (a1, not below 0)
@@ -79,23 +79,23 @@ BracketCursorLeft:					; moves the bracket cursor one column left (a1, not below
 	beq BracketCursorRightReturn
 	dec a
 	sta.b a1
-	lda.w $3D52
+	lda.w BracketCursorCell
 	dec a
-	sta.w $3D52
-	sta.w $3D5A
+	sta.w BracketCursorCell
+	sta.w BracketWin2Cell
 	rts
 BracketMarkSeries:					; toggles the mark of the series under the bracket cursor ($2C46) when
 									; both teams are known and it is not decided, and highlights its teams'
 									; bars
-	lda.w $3D52
+	lda.w BracketCursorCell
 	asl a
 	tax
 	lda.l DATA8_C41166,x
 	tay
 	asl a
 	tax
-	lda.w $3D5E,x
-	ora.w $3D7C,x
+	lda.w BracketSlotTeams,x
+	ora.w BracketSlotTeams+$1E,x
 	bmi .rts
 	tyx
 	lda.l SRPOWins,x
@@ -131,12 +131,13 @@ BracketCursorUp:					; moves the bracket cursor up a row ($69) by its column's s
 DATA8_C400FE:						; jump table: the routine for each index
 	dw BracketRowUp,BracketRowUpToEdge,BracketRowNoMove,BracketRowNoMove
 	dw BracketRowNoMove,BracketRowUpToEdge,BracketRowUp
-BracketRowUp:						; the bracket cursor one row up: $3D52 / $3D5A - 7, $69 - 1
+BracketRowUp:						; the bracket cursor one row up: BracketCursorCell / BracketWin2Cell - 7,
+									; $69 - 1
 	sec
-	lda.w $3D52
+	lda.w BracketCursorCell
 	sbc.w #$0007
-	sta.w $3D52
-	sta.w $3D5A
+	sta.w BracketCursorCell
+	sta.w BracketWin2Cell
 	dec.b $69
 	rts
 BracketRowUpToEdge:					; repeats upward row movement until the top edge
@@ -156,12 +157,13 @@ BracketCursorDown:					; moves the bracket cursor down a row ($69, below 3) by i
 DATA8_C40130:						; jump table: the routine for each index
 	dw BracketRowDown,BracketRowDownToEdge,BracketRowNoMove,BracketRowNoMove
 	dw BracketRowNoMove,BracketRowDownToEdge,BracketRowDown
-BracketRowDown:						; the bracket cursor one row down: $3D52 / $3D5A + 7, $69 + 1
+BracketRowDown:						; the bracket cursor one row down: BracketCursorCell / BracketWin2Cell +
+									; 7, $69 + 1
 	inc.b $69
-	lda.w $3D52
+	lda.w BracketCursorCell
 	adc.w #$0007
-	sta.w $3D52
-	sta.w $3D5A
+	sta.w BracketCursorCell
+	sta.w BracketWin2Cell
 	rts
 BracketRowDownToEdge:				; repeats downward row movement until the bottom edge
 	jsr.w BracketRowDown
@@ -376,7 +378,7 @@ DrawBracketSeriesSummary:			; queues the selected series teams and win counts in
 	tsx
 	tcs
 	stx.b $00
-	lda.w $3D52
+	lda.w BracketCursorCell
 	asl a
 	tax
 	lda.l DATA8_C41166,x
@@ -407,7 +409,7 @@ DrawBracketSeriesSummary:			; queues the selected series teams and win counts in
 	adc.w #$0700
 	pha
 	ldy.w #$000A
-	lda.w $3D5E,x
+	lda.w BracketSlotTeams,x
 	bpl .1
 	lda.b $D3
 	adc.w #$03E0
@@ -418,7 +420,7 @@ DrawBracketSeriesSummary:			; queues the selected series teams and win counts in
 	lsr a
 	lsr a
 	adc.b $D3
-.2:									; push Y, push A, Y = $000A, if $3D7C,x >= 0 go to .3, ...
+.2:									; push Y, push A, Y = $000A, if BracketSlotTeams+$1E,x >= 0 go to .3, ...
 	pea.w $0006
 	pea.w $5F09
 	pea.w $007E
@@ -428,7 +430,7 @@ DrawBracketSeriesSummary:			; queues the selected series teams and win counts in
 	pea.w $007E
 	pha
 	ldy.w #$000A
-	lda.w $3D7C,x
+	lda.w BracketSlotTeams+$1E,x
 	bpl .3
 	lda.b $D3
 	adc.w #$03E0
@@ -929,17 +931,17 @@ UpdateBracketWindows:				; updates the two moving bracket window shapes in alter
 	bcs .2
 	ldx.w #ScratchBuf+$380
 	ldy.w #ScratchBuf+$382
-.2:									; X = $3D54, X + 1, X + 1, if $3D54 < $009E go to .3, ...
+.2:									; X = BracketWin1Phase, X + 1, X + 1, ...
 	mvn $7E,$7E
-	ldx.w $3D54
+	ldx.w BracketWin1Phase
 	inx
 	inx
 	cpx.w #$009E
 	bcc .3
 	ldx.w #$0000
-.3:									; $3D54 = X, Y = $3D52, call GetBracketWindowOffset, ...
-	stx.w $3D54
-	ldy.w $3D52
+.3:									; BracketWin1Phase = X, Y = BracketCursorCell, ...
+	stx.w BracketWin1Phase
+	ldy.w BracketCursorCell
 	jsr.w GetBracketWindowOffset
 	lda.l DATA8_C41006,x
 	adc.b tmp0
@@ -950,20 +952,20 @@ UpdateBracketWindows:				; updates the two moving bracket window shapes in alter
 	lda.b tmp1
 	adc.l DATA8_C41076,x
 	sta.b tmp1
-	ldx.w #$3D4E
+	ldx.w #BracketWin1X
 	jsr.w ApproachBracketWindowTarget
-	ldx.w $3D4E
-	ldy.w $3D50
+	ldx.w BracketWin1X
+	ldy.w BracketWin1Y
 	jsr.w WriteBracketWindowShape
-	ldx.w $3D5C
+	ldx.w BracketWin2Phase
 	inx
 	inx
 	cpx.w #$009E
 	bcc .4
 	ldx.w #$0000
-.4:									; $3D5C = X, Y = $3D5A, call GetBracketWindowOffset, ...
-	stx.w $3D5C
-	ldy.w $3D5A
+.4:									; BracketWin2Phase = X, Y = BracketWin2Cell, ...
+	stx.w BracketWin2Phase
+	ldy.w BracketWin2Cell
 	jsr.w GetBracketWindowOffset
 	lda.l DATA8_C4103E,x
 	adc.b tmp0
@@ -974,10 +976,10 @@ UpdateBracketWindows:				; updates the two moving bracket window shapes in alter
 	lda.b tmp1
 	adc.l DATA8_C410AE,x
 	sta.b tmp1
-	ldx.w #$3D56
+	ldx.w #BracketWin2X
 	jsr.w ApproachBracketWindowTarget
-	ldx.w $3D56
-	ldy.w $3D58
+	ldx.w BracketWin2X
+	ldy.w BracketWin2Y
 	jmp.w WriteBracketWindowShape
 GetBracketWindowOffset:				; reads signed horizontal and vertical animation offsets and indexes the
 									; selected cell
@@ -1209,12 +1211,12 @@ PopulateBracketTeams:				; places playoff teams and their name bars through the 
 	asl a
 	asl a
 	tax
-.loop2:								; loop: A = $C4119E,x, A * 2, Y = A, $3D5E,y = tmp2, ...
+.loop2:								; loop: A = $C4119E,x, A * 2, Y = A, BracketSlotTeams,y = tmp2, ...
 	lda.l $C4119E,x
 	asl a
 	tay
 	lda.b tmp2
-	sta.w $3D5E,y
+	sta.w BracketSlotTeams,y
 	lda.l DATA8_C410E6,x
 	sta.w $2C64,y
 	tay
@@ -1235,9 +1237,9 @@ RebuildBracketTeams:				; clears bracket work tables and repopulates the playoff
 	lda.w #ScratchBuf
 	ldy.w #$1000
 	jsl.l ClearRAM7E
-	dec.w $3D5E
+	dec.w BracketSlotTeams
 	lda.w #$0040
-	ldx.w #$3D5E
+	ldx.w #BracketSlotTeams
 	txy
 	iny
 	mvn $7E,$7E

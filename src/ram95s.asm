@@ -437,6 +437,15 @@ ScoutTextRow		=	$2DC7		; scouting report: the commentary text row ($11-$1A, then
 HomeRoster			=	$2DC9		; the home team's roster table (LoadTeamRoster): counts, players, lines
 VisRoster			=	$3207		; the visiting team's roster table (as HomeRoster)
 ScratchBuf			=	$364E		; 2 KB scratch: DecompressLZSS's window, the screens' lists and text
+BracketWin1X		=	$3D4E		; bracket screen: the first window's x, moved toward its cell (then y)
+BracketWin1Y		=	$3D50		; bracket screen: the first window's y
+BracketCursorCell	=	$3D52		; bracket screen: the cursor's cell (column + 7 a row), window 1's aim
+BracketWin1Phase	=	$3D54		; bracket screen: the first window's animation step (0-$9C, by 2)
+BracketWin2X		=	$3D56		; bracket screen: the second window's x (then y)
+BracketWin2Y		=	$3D58		; bracket screen: the second window's y
+BracketWin2Cell		=	$3D5A		; bracket screen: the second window's cell (set with the cursor's)
+BracketWin2Phase	=	$3D5C		; bracket screen: the second window's animation step
+BracketSlotTeams	=	$3D5E		; bracket screen: the team in each bracket slot ($FFFF: none yet)
 RandomState			=	$466E		; RandomBelowA's 32 bit generator (SeedRandom seeds it)
 SpritePalUse		=	$46B8		; per palette: minus if not loaded, else CGRAM slot (high) and uses (low)
 

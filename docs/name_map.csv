@@ -8733,3 +8733,12 @@ $17D7,tmteam,,94S+purpose,"RAM: 94S tmteam (layout): clearTeamStats stores it",s
 $2DC9,HomeRoster,,code,"RAM: from the code: LoadTeamRoster builds it at Y (+0 count, +2 goalies, +4 forwards, +6 the other count, +8 the player words, +$3A the player indices, +$6C the lines, +$110 the 32-byte player records); the home side is always $2DC9, the visitors' $3207",src/ram95s.asm
 $3207,VisRoster,,code,"RAM: from the code: LoadTeamRoster's table for the visitors, $43E bytes after HomeRoster; the code picks one or the other by team",src/ram95s.asm
 $364E,ScratchBuf,,code,"RAM: from the code: DecompressLZSSHere clears $364E-$3E4D as its window; BuildScoutingText, the playoff seeds, BuildTeamLines' pools, Framer, the record holders, the trade lists ... use it between unpacks",src/ram95s.asm
+$3D4E,BracketWin1X,,code,"RAM: from the code: UpdateBracketWindows passes X = this to ApproachBracketWindowTarget (x, then y at +2) and the pair to WriteBracketWindowShape",src/ram95s.asm
+$3D50,BracketWin1Y,,code,"RAM: from the code: ApproachBracketWindowTarget's second word; WriteBracketWindowShape's Y",src/ram95s.asm
+$3D52,BracketCursorCell,,code,"RAM: from the code: BracketCursorLeft / Right +-1, BracketRowUp / Down +-7, BracketMarkSeries and DrawBracketSeriesSummary read it, UpdateBracketWindows aims window 1 at it",src/ram95s.asm
+$3D54,BracketWin1Phase,,code,"RAM: from the code: UpdateBracketWindows steps it and wraps at $9E, GetBracketWindowOffset reads the offsets by it",src/ram95s.asm
+$3D56,BracketWin2X,,code,"RAM: from the code: as BracketWin1X for the second window",src/ram95s.asm
+$3D58,BracketWin2Y,,code,"RAM: from the code: as BracketWin1Y for the second window",src/ram95s.asm
+$3D5A,BracketWin2Cell,,code,"RAM: from the code: the cursor moves store the new cell here too; UpdateBracketWindows aims window 2 at it",src/ram95s.asm
+$3D5C,BracketWin2Phase,,code,"RAM: from the code: as BracketWin1Phase for the second window",src/ram95s.asm
+$3D5E,BracketSlotTeams,,code,"RAM: from the code: RebuildBracketTeams fills it with $FFFF, PopulateBracketTeams stores each slot's team, BracketMarkSeries / DrawBracketSeriesSummary read it",src/ram95s.asm
