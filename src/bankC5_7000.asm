@@ -562,8 +562,8 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 .4:									; a0 = X, $65 = Y
 	stx.b a0
 	sty.b $65
-.5:									; call CODE_C574A4
-	jsr.w CODE_C574A4
+.5:									; call PrintLineNames
+	jsr.w PrintLineNames
 .6:									; call SendTextMap, fadestep = 0
 	jsl.l SendTextMap
 	stz.w fadestep
@@ -609,13 +609,13 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	txa
 	clc
 	adc.w #$000D
-	jsr.w CODE_C5755C
+	jsr.w RecolourTextRow
 	lda.w #$2400
 	sta.b d0
 	lda.b $69
 	clc
 	adc.w #$000D
-	jsr.w CODE_C5755C
+	jsr.w RecolourTextRow
 	bra .6
 .10:								; if $0200 bits clear go to .11, if $79 = 0 go to .loop, A - 1, ...
 	bit.w #$0200
@@ -653,16 +653,18 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	jsl.l WaitTransfers
 	stz.b $69
 	jmp.w .5
-.13:								; if $8000 bits clear go to .14, call CODE_C57578, go to .2
+.13:								; if $8000 bits clear go to .14, call SelectLinePlayer, go to .2
 	bit.w #$8000
 	beq .14
-	jsr.w CODE_C57578
+	jsr.w SelectLinePlayer
 	jmp.w .2
 .14:								; go to .loop
 	jmp.w .loop
 .15:								; go to ExitToPauseMenu
 	jmp.w ExitToPauseMenu
-CODE_C574A4:						; from EditLinesScreen
+PrintLineNames:						; prints the line being edited: its title (Best Line with line changes
+									; off, else the line's name by $79), then each slot's row (PrintLineSlot),
+									; the cursor row ($69) highlighted
 	lda.w #$0020
 	sta.b $CF
 	lda.w #$00A8
@@ -692,9 +694,9 @@ CODE_C574A4:						; from EditLinesScreen
 	cmp.b $69
 	beq .3
 	ldx.w #$2000
-.3:									; $D5 = X, call CODE_C57509, $6D + 1, A = a3, ...
+.3:									; $D5 = X, call PrintLineSlot, $6D + 1, A = a3, ...
 	stx.b $D5
-	jsr.w CODE_C57509
+	jsr.w PrintLineSlot
 	inc.b $6D
 	lda.b a3
 	inc a
@@ -712,7 +714,8 @@ CODE_C574A4:						; from EditLinesScreen
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C57509:						; from CODE_C574A4
+PrintLineSlot:						; prints slot a3 of the edited line on row $6D: its position name
+									; (DATA8_C35E47) and its player
 	lda.w #$0020
 	sta.b $CF
 	lda.w #$0040
@@ -757,7 +760,8 @@ CODE_C57509:						; from CODE_C574A4
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	rts
-CODE_C5755C:						; from EditLinesScreen, CODE_C57779
+RecolourTextRow:					; puts palette bits d0 on the non-blank tiles of text row A (32 tiles;
+									; their palette bits cleared first)
 	xba
 	lsr a
 	lsr a
@@ -776,7 +780,9 @@ CODE_C5755C:						; from EditLinesScreen, CODE_C57779
 	dey
 	bne .loop
 	rts
-CODE_C57578:						; from EditLinesScreen
+SelectLinePlayer:					; picks a player for the line slot: a scrolling list of the team's
+									; players, up / down scroll, left / right change the rating column ($7D),
+									; B picks, start leaves
 	pei ($7B)
 	pei ($65)
 	pei ($79)
@@ -809,8 +815,8 @@ CODE_C57578:						; from EditLinesScreen
 	sta.b $65
 	lda.w $0004,x
 	sta.b a1
-.2:									; A = CODE_C576FD, X = $000A, Y = $000E, call StartScrollList, ...
-	lda.w #CODE_C576FD
+.2:									; A = DrawLinePlayerRow, X = $000A, Y = $000E, call StartScrollList, ...
+	lda.w #DrawLinePlayerRow
 	ldx.w #$000A
 	ldy.w #$000E
 	jsr.w StartScrollList
@@ -931,7 +937,7 @@ CODE_C57578:						; from EditLinesScreen
 	sta.l $002112
 	rep #$20
 	rts
-CODE_C576CC:						; from CODE_C57578
+CODE_C576CC:						; from SelectLinePlayer
 	lda.b $D3
 	clc
 	adc.w #$0320
@@ -956,7 +962,8 @@ CODE_C576CC:						; from CODE_C57578
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-CODE_C576FD:						; a callback: CODE_C57578 passes it to StartScrollList
+DrawLinePlayerRow:					; draws row a3 of SelectLinePlayer's list: a player and the shown rating,
+									; the current row highlighted
 	ldx.w #$2000
 	lda.b a3
 	cmp.b $7B
@@ -1013,11 +1020,11 @@ CODE_C576FD:						; a callback: CODE_C57578 passes it to StartScrollList
 	tax
 	pea.w CODE_C57773-1
 	jmp (DATA8_C570E8,x)
-CODE_C57773:						; from CODE_C576FD
+CODE_C57773:						; from DrawLinePlayerRow
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C57779:						; from CODE_C57578
+CODE_C57779:						; from SelectLinePlayer
 	ldx.b $71
 	inx
 	stx.b tmp1
@@ -1030,10 +1037,10 @@ CODE_C57779:						; from CODE_C57578
 	bcc .1
 	sbc.b tmp2
 	bpl .loop
-.1:									; A + a4, call CODE_C5755C, d0 = $2400, A = $7B
+.1:									; A + a4, call RecolourTextRow, d0 = $2400, A = $7B
 	clc
 	adc.b a4
-	jsr.w CODE_C5755C
+	jsr.w RecolourTextRow
 	lda.w #$2400
 	sta.b d0
 	lda.b $7B
@@ -1042,10 +1049,10 @@ CODE_C57779:						; from CODE_C57578
 	bcc .2
 	sbc.b tmp2
 	bpl .loop2
-.2:									; A + a4, call CODE_C5755C, call SendTextMap, call WaitTransfers, ...
+.2:									; A + a4, call RecolourTextRow, call SendTextMap, call WaitTransfers, ...
 	clc
 	adc.b a4
-	jsr.w CODE_C5755C
+	jsr.w RecolourTextRow
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	ldx.w #$0000
@@ -1058,7 +1065,7 @@ CODE_C57779:						; from CODE_C57578
 	stz.w padchangeany
 .rts:								; return
 	rts
-CODE_C577C3:						; from CODE_C57578
+CODE_C577C3:						; from SelectLinePlayer
 	lda.w #$000C
 	sta.b $6D
 	jsr.w ClearTextRow
@@ -1081,7 +1088,7 @@ CODE_C577C3:						; from CODE_C57578
 	ldy.b $6D
 	jsl.l PrintBoldRight
 	rts
-CODE_C577F7:						; from CODE_C57578
+CODE_C577F7:						; from SelectLinePlayer
 	stx.b tmp1
 	inc.b $7B
 	asl a
