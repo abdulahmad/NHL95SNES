@@ -1141,8 +1141,8 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	lda.w #$0002
 	sta.b a2
 	stz.b a1
-.3:									; Y = $1297, if pfteam,x = 0 go to .4, Y + 1, Y + 1
-	ldy.w #$1297
+.3:									; Y = tmshots, if pfteam,x = 0 go to .4, Y + 1, Y + 1
+	ldy.w #tmshots
 	lda.w pfteam,x
 	beq .4
 	iny

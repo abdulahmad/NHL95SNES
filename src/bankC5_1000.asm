@@ -267,7 +267,7 @@ SimPeriodGoals:						; d0 = the goals team d0 scores against team d1 in a period
 	pei ($69)
 	pei ($67)
 	stz.b $69
-	lda.w #$07BE
+	lda.w #nibblebuffer
 	sta.b a1
 	stz.b d1
 	bra .1
@@ -294,7 +294,7 @@ SimPeriodGoals:						; d0 = the goals team d0 scores against team d1 in a period
 	bpl .loop2
 	lda.b a1
 	sec
-	sbc.w #$07BE
+	sbc.w #nibblebuffer
 	lsr a
 	sta.b d0
 	pla
