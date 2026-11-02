@@ -1252,8 +1252,8 @@ BuildTeamSeasonRecord:				; team A's season record in a new $32-byte work buffer
 	lda.b #$30
 	pha
 	plb
-.loop:								; loop: $32 = $606D,y, A and $03, X = A, $2C,x + 1, ...
-	lda.w $606D,y
+.loop:								; loop: $32 = SRTeamResults&$FFFF,y, A and $03, X = A, $2C,x + 1, ...
+	lda.w SRTeamResults&$FFFF,y
 	sta.b $32
 	and.b #$03
 	tax

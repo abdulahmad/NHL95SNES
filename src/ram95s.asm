@@ -490,6 +490,7 @@ Crowdlevel			=	$7E24CA		; crowd noise level: the play raises it, updatecrowdf le
 unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)
 
 ; save RAM (bank $30), long addresses
+SRSignature1		=	$306000		; save signature 1 of 3: the cartridge header and vectors ($40 bytes)
 SROptUserRec		=	$306040		; saved user records option (OptUserRec)
 SRHomeTeam			=	$306041		; saved home team: LoadSavedGameOptions puts it in HomeTeam
 SRVisTeam			=	$306043		; saved visiting team: LoadSavedGameOptions puts it in VisTeam
@@ -507,6 +508,7 @@ SRDayScores			=	$306053		; the day's scores, a word per game (home low byte, awa
 SRTeamResults		=	$30606D		; per team 21 bytes: a 2-bit result a game (1 win, 2 loss, 3 tie)
 SRGoals				=	$30628F		; per player 9 bits: season goals (goalies: goalie index, GA bits)
 SRAssists			=	$306724		; per player 9 bits: season assists (goalies: goals against)
+SRSignature2		=	$306A16		; save signature 2 of 3 (as SRSignature1)
 SRPlayerTeams		=	$306A56		; per player 12 bits: team (5 bits) and sweater number (7 bits)
 SRTeamStats			=	$306E43		; team stats bit stream, $83 bits a team
 SRGoalieSaves		=	$306FED		; per goalie 12 bits: season saves
@@ -520,3 +522,4 @@ SRPODay				=	$3075B4		; the playoff day: + 1 after each playoff day
 SRPOWins			=	$307865		; per series the wins: home low nibble, away high (4 decides)
 SRPOTeamRounds		=	$307874		; per playoff team slot: the round it reached
 SRUserGames			=	$307884		; a bit per season game: set for the games the users play
+SRSignature3		=	$30790D		; save signature 3 of 3 (as SRSignature1)

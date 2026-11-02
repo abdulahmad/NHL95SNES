@@ -7,30 +7,30 @@ ClearSeasonData:					; clears the season in save RAM (SeasonDay and the day, res
 	phb
 	lda.w #$0000
 	sta.l SeasonDay
-	ldx.w #$6050
-	ldy.w #$6052
+	ldx.w #SeasonDay&$FFFF
+	ldy.w #(SeasonDay+2)&$FFFF
 	lda.w #$09C3
 	mvn $30,$30
-	ldx.w #$6E43
-	ldy.w #$6E45
+	ldx.w #SRTeamStats&$FFFF
+	ldy.w #(SRTeamStats+2)&$FFFF
 	lda.w #$0290
 	stz.w $0000,x
 	mvn $30,$30
-	ldx.w #$72E8
-	ldy.w #$72EA
+	ldx.w #SRPOGoals&$FFFF
+	ldy.w #(SRPOGoals+2)&$FFFF
 	lda.w #$0622
 	stz.w $0000,x
 	mvn $30,$30
 	lda.l $001902
 	beq .1
 	lda.w #$0183
-	ldx.w #$7162
-	ldy.w #$7164
+	ldx.w #SRCreatedPlayers&$FFFF
+	ldy.w #(SRCreatedPlayers+2)&$FFFF
 	stz.w $0000,x
 	mvn $30,$30
 	lda.w #$03EA
-	ldx.w #$6A56
-	ldy.w #$6A58
+	ldx.w #SRPlayerTeams&$FFFF
+	ldy.w #(SRPlayerTeams+2)&$FFFF
 	stz.w $0000,x
 	mvn $30,$30
 	jsr.w InitPlayerTeams
@@ -82,7 +82,7 @@ InitPlayerTeams:					; SRPlayerTeams from the team data: each player of teams $1
 	and.w #$7F00
 	asl a
 	tsb.b $A5
-	lda.w $6A56,y
+	lda.w SRPlayerTeams&$FFFF,y
 	and.w #$000F
 	bra .4
 .3:									; A = tmp0, A / 2, $A5 = A, A = $C2FFFF,x, ...
@@ -95,11 +95,11 @@ InitPlayerTeams:					; SRPlayerTeams from the team data: each player of teams $1
 	lsr a
 	lsr a
 	tsb.b $A5
-	lda.w $6A56,y
+	lda.w SRPlayerTeams&$FFFF,y
 	and.w #$F000
-.4:									; A or $A5, $6A56,y = A, X = tmp2, X + 1, ...
+.4:									; A or $A5, SRPlayerTeams&$FFFF,y = A, X = tmp2, X + 1, ...
 	ora.b $A5
-	sta.w $6A56,y
+	sta.w SRPlayerTeams&$FFFF,y
 	ldx.b tmp2
 	inx
 	inx
@@ -128,9 +128,9 @@ ClearCreatedPlayerTeams:			; sets team $1F (no team; free agents are $1A) in the
 	bra .3
 .2:									; A = $001F
 	lda.w #$001F
-.3:									; A or $6A56,x, $6A56,x = A, A = Y, A + $000C, ...
-	ora.w $6A56,x
-	sta.w $6A56,x
+.3:									; A or SRPlayerTeams&$FFFF,x, SRPlayerTeams&$FFFF,x = A, A = Y, ...
+	ora.w SRPlayerTeams&$FFFF,x
+	sta.w SRPlayerTeams&$FFFF,x
 	tya
 	clc
 	adc.w #$000C

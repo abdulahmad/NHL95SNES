@@ -1869,27 +1869,27 @@ InitSaveRAM:						; checks the save signatures and initializes save RAM and defa
 									; mismatch
 	pea.w $7E30
 	plb
-	ldy.w #$6000
+	ldy.w #SRSignature1&$FFFF
 	jsr.w CompareSaveSignature
 	bne .1
-	ldy.w #$6A16
+	ldy.w #SRSignature2&$FFFF
 	jsr.w CompareSaveSignature
 	bne .1
-	ldy.w #$790D
+	ldy.w #SRSignature3&$FFFF
 	jsr.w CompareSaveSignature
 	beq .2
-.1:									; A = $1FFE, $6000 = 0, X = $6000, Y = X, ...
+.1:									; A = $1FFE, SRSignature1&$FFFF = 0, X = SRSignature1&$FFFF, Y = X, ...
 	lda.w #$1FFE
-	stz.w $6000
-	ldx.w #$6000
+	stz.w SRSignature1&$FFFF
+	ldx.w #SRSignature1&$FFFF
 	txy
 	iny
 	mvn $30,$30
-	ldy.w #$6000
+	ldy.w #SRSignature1&$FFFF
 	jsr.w WriteSaveSignature
-	ldy.w #$6A16
+	ldy.w #SRSignature2&$FFFF
 	jsr.w WriteSaveSignature
-	ldy.w #$790D
+	ldy.w #SRSignature3&$FFFF
 	jsr.w WriteSaveSignature
 	jsl.l InitSavedRosters
 	lda.w #$0101

@@ -8778,3 +8778,6 @@ $4672,CreateFirstName,,code,"RAM: from the code: NameEntry stores it, AnswerName
 $467C,CreateLastName,,code,"RAM: from the code: NameEntry stores it, AnswerNameOk tests it, SaveCreatedPlayer packs the letters from +1",src/ram95s.asm
 $4688,HomeUserRec,,code,"RAM: from the code: UserNameEntry sets $FFFF, then the home pad's NameEntryScreen result ($65); UpdateRecords reads it",src/ram95s.asm
 $468A,VisUserRec,,code,"RAM: from the code: UserNameEntry sets $FFFF, then the visiting pad's NameEntryScreen result; UpdateRecords reads it",src/ram95s.asm
+$306000,SRSignature1,,code,"RAM: from the code: InitSaveRAM compares it (CompareSaveSignature) and rewrites it (WriteSaveSignature, $C0FFC0-$C0FFFF) when any of the three differs",src/ram95s.asm
+$306A16,SRSignature2,,code,"RAM: from the code: InitSaveRAM's second CompareSaveSignature / WriteSaveSignature",src/ram95s.asm
+$30790D,SRSignature3,,code,"RAM: from the code: InitSaveRAM's third CompareSaveSignature / WriteSaveSignature",src/ram95s.asm
