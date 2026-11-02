@@ -570,9 +570,9 @@ LoadTeamSongs:						; the home team's 6 songs from TeamSongs into a list (each $
 	ldx.w #TeamSongSoundList>>16
 	lda.w #TeamSongSoundList&$FFFF
 	jsl.l LoadSounds
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
-	adc.w $17C9
+	adc.w HomeTeam
 	asl a
 	tax
 	lda.w #$50D4

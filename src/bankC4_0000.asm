@@ -1295,9 +1295,9 @@ AddGamePlayerStats:					; AddPlayerSeasonStats for both teams of game record Y (
 									; + $1A)
 	tyx
 	lda.l $7F0004,x
-	sta.l $0017C9
+	sta.l HomeTeam
 	lda.l $7F0002,x
-	sta.l $0017CB
+	sta.l VisTeam
 	phy
 	pea.w $7E7E
 	plb

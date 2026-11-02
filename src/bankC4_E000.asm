@@ -176,24 +176,24 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w #$00A6
 	jsl.l StartSound
 	jsl.l SoundVolumeUp
-	lda.w $17C9
+	lda.w HomeTeam
 	cmp.w #$001A
 	bcc .2
 	ldy.w #$2DC9
 	jsr.w CODE_C4EF41
-.2:									; if $17CB < $001A go to .3, Y = $3207, call CODE_C4EF41
-	lda.w $17CB
+.2:									; if VisTeam < $001A go to .3, Y = $3207, call CODE_C4EF41
+	lda.w VisTeam
 	cmp.w #$001A
 	bcc .3
 	ldy.w #$3207
 	jsr.w CODE_C4EF41
-.3:									; call RebuildChangedLines, $CF = $0018, $D1 = $0060, A = $17CB, ...
+.3:									; call RebuildChangedLines, $CF = $0018, $D1 = $0060, A = VisTeam, ...
 	jsr.w RebuildChangedLines
 	lda.w #$0018
 	sta.b $CF
 	lda.w #$0060
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -204,7 +204,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -240,7 +240,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b $1A
 	lda.w #$0038
 	sta.b $18
-	lda.w $17CB
+	lda.w VisTeam
 	jsl.l CreateSprite
 	stx.b d7
 	inc.b $38,x
@@ -260,7 +260,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b $1A
 	lda.w #$00C8
 	sta.b $18
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b $9D
 	inc.b $38,x
@@ -887,7 +887,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $CF
 	lda.w #$0050
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l $C30000,x
@@ -906,7 +906,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	tax
 	lda.l $C30000,x
@@ -933,12 +933,12 @@ CODE_C4E885:						; from ScoutingReport
 	ldy.w #$2DB7
 	ldx.w #$3207
 	jsr.w CODE_C4E8CD
-	ldx.w $17C9
+	ldx.w HomeTeam
 	lda.w $2DB5
 	sec
 	sbc.w $2DC3
 	bpl .1
-	ldx.w $17CB
+	ldx.w VisTeam
 	eor.w #$FFFF
 	inc a
 .1:									; $2DA7 = X, X = A, A = $8000, if X >= $0008 go to .3, ...
@@ -1091,7 +1091,7 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	stz.b $81
 	ldx.w #$4DB9
 	jsr.w AppendScoutText
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1107,7 +1107,7 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	ldx.w #$4DC8
 	jsr.w AppendScoutText
 	plx
-	lda.w $17C9
+	lda.w HomeTeam
 	beq .1
 	jsr.w AppendScoutText
 .1:									; $364E,y = $0020, Y + 1, $81 = Y, X = d0, ...
@@ -1129,7 +1129,7 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	iny
 	iny
 	sty.b $81
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1141,7 +1141,7 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	jsl.l CODE_C560A8
 	stx.b d0
 	plx
-	lda.w $17CB
+	lda.w VisTeam
 	bne .2
 	ldx.w #$4720
 .2:									; call AppendScoutText, $364E,y = $0020, Y + 1, $81 = Y, ...
@@ -1192,16 +1192,16 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	sty.b $81
 	ldx.w #$4DFA
 	jsr.w AppendScoutText
-.4:									; d0 = $2DC9, A = $17C9, X = $2DA9, call CODE_C4EB81, ...
+.4:									; d0 = $2DC9, A = HomeTeam, X = $2DA9, call CODE_C4EB81, ...
 	lda.w #$2DC9
 	sta.b d0
-	lda.w $17C9
+	lda.w HomeTeam
 	ldx.w #$2DA9
 	jsr.w CODE_C4EB81
 	lda.w #$3207
 	sta.b d0
-	lda.w $17CB
-	cmp.w $17C9
+	lda.w VisTeam
+	cmp.w HomeTeam
 	beq .5
 	ldx.w #$2DB7
 	jsr.w CODE_C4EB81

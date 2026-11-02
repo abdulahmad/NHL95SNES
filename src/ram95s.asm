@@ -296,6 +296,8 @@ cont5team			=	$17BD		; Pad 5 (multitap) team word, the last of the five the loop
 goaliemode1			=	$17C1		; manual goalie flag per team (word, by team 0 / 2); StartGame_go sets it
 goaliemode2			=	$17C3		; visitors' manual goalie flag (goaliemode1+2); StartGame_go sets it
 defcontrol			=	$17C5		; defense control on / off per team (word, by team 0 / 2)
+HomeTeam			=	$17C9		; the game's home team (team number)
+VisTeam				=	$17CB		; the game's visiting team (team number)
 tmdata				=	$17D3		; per team (y = 0/2): the team data address in bank $C3
 lcpad				=	$184C		; Per team (y = 0/2) the pad (d4) that opened the line change box, ...
 jmlvector			=	$1850		; RAM jml routine: $5C (jml) at +0, the target at +1..+3 (RunTasks)

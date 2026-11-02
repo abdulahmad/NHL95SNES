@@ -2910,43 +2910,43 @@ $C09401,.3,CODE_C09401,new,"branch target only used in ShootoutWonBy",src/bankC0
 $C09415,.4,CODE_C09415,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
 $C09418,.5,CODE_C09418,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
 $C09465,.6,CODE_C09465,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C0947B,.7,CODE_C0947B,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C0948C,.8,CODE_C0948C,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C094BC,.loop,CODE_C094BC,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C094E2,.9,CODE_C094E2,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C094E4,.10,CODE_C094E4,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C094F1,.11,CODE_C094F1,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C094F8,.12,CODE_C094F8,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C09500,.13,CODE_C09500,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C0950E,.14,CODE_C0950E,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C0951F,.15,CODE_C0951F,new,"branch target only used in ShootoutWonBy",src/bankC0_9000.asm
-$C09598,.1,CODE_C09598,new,"branch target only used in CODE_C0958F",src/bankC0_9000.asm
-$C095AC,.2,CODE_C095AC,new,"branch target only used in CODE_C0958F",src/bankC0_9000.asm
-$C095BE,.rtl,CODE_C095BE,new,"branch target only used in CODE_C0958F",src/bankC0_9000.asm
-$C09614,.1,CODE_C09614,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
-$C09623,.loop,CODE_C09623,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
-$C09654,.2,CODE_C09654,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
-$C09655,.3,CODE_C09655,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
-$C09678,.4,CODE_C09678,new,"branch target only used in CODE_C095BF",src/bankC0_9000.asm
+$C0947B,.7,CODE_C0947B,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C0948C,.8,CODE_C0948C,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C094BC,.loop,CODE_C094BC,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C094E2,.9,CODE_C094E2,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C094E4,.10,CODE_C094E4,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C094F1,.11,CODE_C094F1,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C094F8,.12,CODE_C094F8,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C09500,.13,CODE_C09500,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C0950E,.14,CODE_C0950E,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C0951F,.15,CODE_C0951F,new,"branch target only used in ShootoutShooters",src/bankC0_9000.asm
+$C09598,.1,CODE_C09598,new,"branch target only used in ShootersBackground",src/bankC0_9000.asm
+$C095AC,.2,CODE_C095AC,new,"branch target only used in ShootersBackground",src/bankC0_9000.asm
+$C095BE,.rtl,CODE_C095BE,new,"branch target only used in ShootersBackground",src/bankC0_9000.asm
+$C09614,.1,CODE_C09614,new,"branch target only used in PrintShooterNames",src/bankC0_9000.asm
+$C09623,.loop,CODE_C09623,new,"branch target only used in PrintShooterNames",src/bankC0_9000.asm
+$C09654,.2,CODE_C09654,new,"branch target only used in PrintShooterNames",src/bankC0_9000.asm
+$C09655,.3,CODE_C09655,new,"branch target only used in PrintShooterNames",src/bankC0_9000.asm
+$C09678,.4,CODE_C09678,new,"branch target only used in PrintShooterNames",src/bankC0_9000.asm
 $C096A3,.1,CODE_C096A3,new,"branch target only used in InitShooters",src/bankC0_9000.asm
 $C096AF,.loop,CODE_C096AF,new,"branch target only used in InitShooters",src/bankC0_9000.asm
-$C096E1,.1,CODE_C096E1,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C096F0,.2,CODE_C096F0,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C096F7,.3,CODE_C096F7,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C09759,.4,CODE_C09759,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C0978B,.5,CODE_C0978B,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C09790,.6,CODE_C09790,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C0979B,.7,CODE_C0979B,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C097A2,.loop,CODE_C097A2,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C097D6,.8,CODE_C097D6,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C097DD,.9,CODE_C097DD,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C097EF,.10,CODE_C097EF,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C097FF,.11,CODE_C097FF,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C0980F,.12,CODE_C0980F,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C09822,.13,CODE_C09822,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C09835,.14,CODE_C09835,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C0983F,.15,CODE_C0983F,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
-$C0984B,.16,CODE_C0984B,new,"branch target only used in CODE_C096C0",src/bankC0_9000.asm
+$C096E1,.1,CODE_C096E1,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C096F0,.2,CODE_C096F0,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C096F7,.3,CODE_C096F7,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C09759,.4,CODE_C09759,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C0978B,.5,CODE_C0978B,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C09790,.6,CODE_C09790,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C0979B,.7,CODE_C0979B,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C097A2,.loop,CODE_C097A2,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C097D6,.8,CODE_C097D6,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C097DD,.9,CODE_C097DD,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C097EF,.10,CODE_C097EF,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C097FF,.11,CODE_C097FF,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C0980F,.12,CODE_C0980F,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C09822,.13,CODE_C09822,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C09835,.14,CODE_C09835,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C0983F,.15,CODE_C0983F,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
+$C0984B,.16,CODE_C0984B,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
 $C09874,.1,CODE_C09874,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
 $C09885,.loop,CODE_C09885,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
 $C0988F,.2,CODE_C0988F,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
@@ -7982,3 +7982,11 @@ $C5B676,BinToBCDLong,CODE_C5B676,code,"jsr BinToBCD, rtl",src/bankC5_B000.asm
 $1543,HotColdTable,,94S+code,"RAM: 2 votes; read side by side in 94S setplayer .8 (HotColdTable,y / 4 added to a rating); Create_HotCold_Table writes it, CalcAttrib reads it as in 94S",src/ram95s.asm
 $C528D4,eraser,CODE_C528D4,94S+purpose,"the seven callers set d0 / d1 to a box size and d2 to blankchar before it, as 94S's callers of eraser do; here it only returns (as the StartBenchCheer and InitScores stubs)",src/bankC5_2000.asm
 $24C0,blankchar,,94S+code,"RAM: side by side with 94S's eraser calls (lda blankchar, sta d2); at the offset gamenum and playoffRoundIdx have from 94S",src/ram95s.asm
+$C09469,ShootoutShooters,,94S+code,"94S ShootoutShooters side by side: the pad team test (cont1team / cont2team), the set-up calls, up / down over rows 0-5, A / B to the pick, start sets tmgoalie from homeshooters / awayshooters; it follows ShootoutWonBy with no label and nothing in the ROM points at it",src/bankC0_9000.asm
+$C09529,ShootersSetup,CODE_C09529,94S+purpose,"94S ShootersSetup's job with its print calls gone: the same eraser box size and printa; called only from ShootoutShooters, which nothing reaches",src/bankC0_9000.asm
+$C09551,DrawShootersBack,CODE_C09551,94S+purpose,"94S DrawShootersBack's place: ShootersBackground calls it on the flag test as 94S does (drawlinesback); only the parameters of the removed calls are left",src/bankC0_9000.asm
+$C0958F,ShootersBackground,CODE_C0958F,94S+purpose,"94S ShootersBackground side by side: the flag test, DrawShootersBack, X $58 / Y $18, d1 = HomeTeam or VisTeam; its print calls gone",src/bankC0_9000.asm
+$C095BF,PrintShooterNames,CODE_C095BF,94S+purpose,"94S PrintShooterNames's job (the same eraser box size), called after up, down and the pick as in 94S",src/bankC0_9000.asm
+$C096C0,PickShooterRow,CODE_C096C0,94S+purpose,"94S PickShooterRow side by side (curitem, GoalieCount, homeshooters / awayshooters); called where 94S ShootersPick calls it",src/bankC0_9000.asm
+$17C9,HomeTeam,,94S+code,"RAM: 94S ShootersBackground side by side (lda HomeTeam / VisTeam by a2); at defcontrol's offset from 94S; LoadGameRosters, AddGamePlayerStats and the season code use it as the home team",src/ram95s.asm
+$17CB,VisTeam,,94S+code,"RAM: as HomeTeam, the next word, as in 94S",src/ram95s.asm

@@ -1938,7 +1938,7 @@ CODE_C4CF7B:						; from CODE_C4D051 and other segments
 CODE_C4CF8F:						; from CODE_C4CF7B and other segments
 	lda.w #$0019
 CODE_C4CF92:						; from CODE_C4CFBE
-	sta.w $17C9
+	sta.w HomeTeam
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1994,7 +1994,7 @@ CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFBE
 	ply
 	dey
 	bne CODE_C4CFBE
-	lda.w $17C9
+	lda.w HomeTeam
 	dec a
 	bpl CODE_C4CF92
 	rtl

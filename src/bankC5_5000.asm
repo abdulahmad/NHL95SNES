@@ -315,7 +315,7 @@ CODE_C550E2:						; from ExitToPauseMenu
 	pea.w $0280
 	pea.w $3430
 	pea.w $007E
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	sta.b $2E
 	asl a
@@ -332,7 +332,7 @@ CODE_C550E2:						; from ExitToPauseMenu
 	pea.w $0280
 	pea.w $3570
 	pea.w $007E
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	sta.b $2E
 	asl a
@@ -1001,7 +1001,7 @@ CODE_C55513:						; called from other segments
 	pea.w $0010
 	pei ($32)
 	pei ($30)
-	lda.w $17C9
+	lda.w HomeTeam
 	pea.w $0020
 	pea.w $0040
 	pea.w $00C0
@@ -1010,7 +1010,7 @@ CODE_C55513:						; called from other segments
 	lsr a
 	adc.w #$3F22
 	pha
-	lda.w $17CB
+	lda.w VisTeam
 	pea.w $0020
 	pea.w $0030
 	pea.w $00C0
@@ -1044,9 +1044,9 @@ CODE_C55513:						; called from other segments
 	pea.w $0300
 	pea.w $2080
 	pea.w $007E
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
-	adc.w $17C9
+	adc.w HomeTeam
 	xba
 	adc.w $364C
 	pha
@@ -1059,7 +1059,7 @@ CODE_C55513:						; called from other segments
 	pea.w $0020
 	pea.w $0060
 	pea.w $00C2
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	asl a
 	asl a
@@ -1302,11 +1302,11 @@ SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both tea
 	lda.w #$0040
 	sta.b $18
 	sta.b $1A
-	lda.w $17CB
+	lda.w VisTeam
 	jsl.l CreateSprite
 	lda.w #$00C0
 	sta.b $18
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	inc.b $38,x
 	ldy.w #$2801
@@ -1319,7 +1319,7 @@ SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both tea
 	sta.b $CF
 	lda.w #$0068
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -1330,7 +1330,7 @@ SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both tea
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -1800,10 +1800,10 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	rts
 CODE_C55E57:						; called from other segments
 	jsl.l WaitTransfers
-	ldy.w $17C9
+	ldy.w HomeTeam
 	lda.b a2
 	beq .1
-	ldy.w $17CB
+	ldy.w VisTeam
 .1:									; push Y, QueueBusy - 1, A = $04, $04 = X, ...
 	phy
 	dec.b QueueBusy

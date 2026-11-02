@@ -74,7 +74,7 @@ DATA8_C59050:						; not reached by the traced code (data or unused code)
 	db $68,$60
 CODE_C59052:						; called from other segments
 	ldx.b d7
-	lda.w $17C9
+	lda.w HomeTeam
 	cmp.b $24,x
 	beq .1
 	lda.b $05,x
@@ -82,13 +82,13 @@ CODE_C59052:						; called from other segments
 	lda.b $08,x
 	sta.b $1A
 	jsl.l DeleteSprite
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b d7
 	jsr.w CODE_C5A4B9
-.1:									; X = $9D, if $17CB = $24,x go to .rts, $18 = $05,x, $1A = $08,x, ...
+.1:									; X = $9D, if VisTeam = $24,x go to .rts, $18 = $05,x, $1A = $08,x, ...
 	ldx.b $9D
-	lda.w $17CB
+	lda.w VisTeam
 	cmp.b $24,x
 	beq .rts
 	lda.b $05,x
@@ -96,7 +96,7 @@ CODE_C59052:						; called from other segments
 	lda.b $08,x
 	sta.b $1A
 	jsl.l DeleteSprite
-	lda.w $17CB
+	lda.w VisTeam
 	jsl.l CreateSprite
 	stx.b $9D
 	lda.w #$0001
@@ -294,15 +294,15 @@ CODE_C592A9:						; from setoptions
 	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .3
-	lda.w $17CB
-	cmp.w $17C9
+	lda.w VisTeam
+	cmp.w HomeTeam
 	bne .3
 	inc a
 	cmp.w #$001A
 	bcc .2
 	lda.w #$0000
-.2:									; $17CB = A, $306043 = A, call CODE_C5A3C1
-	sta.w $17CB
+.2:									; VisTeam = A, $306043 = A, call CODE_C5A3C1
+	sta.w VisTeam
 	sta.l $306043
 	jsr.w CODE_C5A3C1
 .3:									; A = $0480, A + $D3, Y = $0200, call ClearRAM7E, ...

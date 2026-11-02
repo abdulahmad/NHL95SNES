@@ -980,10 +980,10 @@ updatepwrplay:						; called from other segments
 	ldy.w #$5AE5
 	jsl.l QueueVRAMDMALen
 	lda.w sflags
-	ldx.w $17C9
+	ldx.w HomeTeam
 	bit.w #$4000
 	beq .8
-	ldx.w $17CB
+	ldx.w VisTeam
 .8:									; A = X, call CODE_C53A71, Y = $5AE1, go to QueueVRAMDMALen
 	txa
 	jsl.l CODE_C53A71

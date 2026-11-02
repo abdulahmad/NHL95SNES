@@ -193,14 +193,14 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	cmp.w #$001C
 	bcc .1
 	lda.w #$001B
-.1:									; $17C9 = A, if $306043 < $001C go to .2, A = $001B
-	sta.w $17C9
+.1:									; HomeTeam = A, if $306043 < $001C go to .2, A = $001B
+	sta.w HomeTeam
 	lda.l $306043
 	cmp.w #$001C
 	bcc .2
 	lda.w #$001B
-.2:									; $17CB = A, A = $30604D, A and $0001, $190A = A, ...
-	sta.w $17CB
+.2:									; VisTeam = A, A = $30604D, A and $0001, $190A = A, ...
+	sta.w VisTeam
 	lda.l $30604D
 	and.w #$0001
 	sta.w $190A

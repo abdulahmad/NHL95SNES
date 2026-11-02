@@ -1117,7 +1117,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	pha
 	jsl.l PlayerNumberTeamLong
 	and.w #$00FF
-	sta.w $17C9
+	sta.w HomeTeam
 	asl a
 	tax
 	lda.w #$0028
@@ -1198,7 +1198,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	sta.b $1A
 	lda.w #$004C
 	sta.b $18
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b $75
 	stz.w $364E
@@ -1245,7 +1245,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	jsr.w CODE_C4EE9D
 	rts
 DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name and its logo sprite
-	sta.w $17C9
+	sta.w HomeTeam
 	asl a
 	tax
 	lda.w #$0028
@@ -1283,7 +1283,7 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	sta.b $1A
 	lda.w #$004C
 	sta.b $18
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b $75
 	jsl.l CODE_C5A4B5
@@ -1308,9 +1308,9 @@ ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one Seaso
 									; scores highest
 	lda.w #$0000
 	sta.b a2
-.1:									; $6D = A, $17C9 = A, call CODE_C531BC
+.1:									; $6D = A, HomeTeam = A, call CODE_C531BC
 	sta.b $6D
-	sta.w $17C9
+	sta.w HomeTeam
 	jsl.l CODE_C531BC
 .loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .2, $2DCB = A, ...
 	lda.w $2DCB
@@ -1340,7 +1340,7 @@ ScanSelke:							; Selke Trophy: from the team CODE_C4DF5B picks, the forward wi
 									; goals + assists
 	stz.b a2
 	jsr.w CODE_C4DF5B
-	sta.w $17C9
+	sta.w HomeTeam
 	jsl.l CODE_C531BC
 	stz.b a2
 .loop:								; loop: A = $2DCD, A - 1, if the result < 0 go to .1, ...
@@ -1381,7 +1381,7 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 	tax
 	lda.l $3075A4,x
 	and.w #$00FF
-	sta.w $17C9
+	sta.w HomeTeam
 	jsl.l CODE_C531BC
 	lda.w $2DC9
 	clc
@@ -1425,7 +1425,7 @@ ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, ...
 									; scores highest
 	stz.b a2
 	jsr.w CODE_C4DF5B
-	sta.w $17C9
+	sta.w HomeTeam
 	jsl.l CODE_C531BC
 	stz.b a2
 .loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .1, $2DCB = A, ...
@@ -1499,10 +1499,10 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	cmp.w #$001A
 	bne .1
 	ldx.w #$0000
-.5:									; $6D = X, $17C9 = $3652,x, call CODE_C531BC, tmp2 = 0, ...
+.5:									; $6D = X, HomeTeam = $3652,x, call CODE_C531BC, tmp2 = 0, ...
 	stx.b $6D
 	lda.w $3652,x
-	sta.w $17C9
+	sta.w HomeTeam
 	jsl.l CODE_C531BC
 	stz.b tmp2
 	stz.b r1
@@ -1581,7 +1581,7 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one with the most
 									; goals + assists
 	lda.w #$FFFF
-	sta.w $17C9
+	sta.w HomeTeam
 	inc a
 	sta.b a2
 .loop:								; loop: a3 = A, A * 2, A + a3, A / 2, ...
@@ -1596,13 +1596,13 @@ ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one wi
 	lsr a
 	lsr a
 	lsr a
-.1:									; A and $001F, if A >= $001A go to .3, if A = $17C9 go to .2, ...
+.1:									; A and $001F, if A >= $001A go to .3, if A = HomeTeam go to .2, ...
 	and.w #$001F
 	cmp.w #$001A
 	bcs .3
-	cmp.w $17C9
+	cmp.w HomeTeam
 	beq .2
-	sta.w $17C9
+	sta.w HomeTeam
 	pei ($6F)
 	pei ($71)
 	jsl.l CODE_C531BC
@@ -1646,7 +1646,7 @@ ScanNorris:							; Norris Trophy: from the team CODE_C4DF5B picks, the defencem
 									; most goals + assists
 	stz.b a2
 	jsr.w CODE_C4DF5B
-	sta.w $17C9
+	sta.w HomeTeam
 	jsl.l CODE_C531BC
 	stz.b a2
 .loop:								; loop: A = $2DCF, A - 1, if the result = 0 go to .1, $2DCF = A, ...

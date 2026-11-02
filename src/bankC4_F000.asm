@@ -334,14 +334,14 @@ RosterDiffers:						; carry set when the roster table at Y differs from the one 
 .1:									; return
 	sec
 	rts
-RebuildChangedLines:				; for both teams of the game ($17C9 into $2DC9, $17CB into $3207), in play
-									; mode 2 or 3, or 0 / 1 with $1872 set: BuildTeamLines when its roster
-									; differs from the cartridge one
+RebuildChangedLines:				; for both teams of the game (HomeTeam into $2DC9, VisTeam into $3207), in
+									; play mode 2 or 3, or 0 / 1 with $1872 set: BuildTeamLines when its
+									; roster differs from the cartridge one
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3
-.1:									; A = $17C9, Y = $364E, call LoadDefaultRoster, Y = $2DC9, ...
-	lda.w $17C9
+.1:									; A = HomeTeam, Y = $364E, call LoadDefaultRoster, Y = $2DC9, ...
+	lda.w HomeTeam
 	ldy.w #$364E
 	jsl.l LoadDefaultRoster
 	ldy.w #$2DC9
@@ -350,8 +350,8 @@ RebuildChangedLines:				; for both teams of the game ($17C9 into $2DC9, $17CB in
 	bcc .2
 	ldy.w #$2DC9
 	jsr.w BuildTeamLines
-.2:									; A = $17CB, Y = $364E, call LoadDefaultRoster, Y = $3207, ...
-	lda.w $17CB
+.2:									; A = VisTeam, Y = $364E, call LoadDefaultRoster, Y = $3207, ...
+	lda.w VisTeam
 	ldy.w #$364E
 	jsl.l LoadDefaultRoster
 	ldy.w #$3207

@@ -151,10 +151,10 @@ CODE_C56100:						; called from other segments
 	jsr.w CODE_C56104
 	rtl
 CODE_C56104:						; from CODE_C56100, DrawPenaltyRow, DrawScoringRow and other segments
-	ldx.w $17C9
+	ldx.w HomeTeam
 	cmp.w #$0000
 	beq .1
-	ldx.w $17CB
+	ldx.w VisTeam
 .1:									; A = X, A * 2, X = A, A = $C30000,x, ...
 	txa
 	asl a
@@ -1392,10 +1392,10 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	sta.b r0
 	lda.w #$039E
 	jsr.w CODE_C56C4C
-	lda.w $17C9
+	lda.w HomeTeam
 	ldx.b a2
 	beq .1
-	lda.w $17CB
+	lda.w VisTeam
 .1:									; A * 2, X = A, A = DATA8_C3585C,x, X = A, ...
 	asl a
 	tax

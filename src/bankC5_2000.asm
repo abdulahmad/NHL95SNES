@@ -70,7 +70,7 @@ setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the ti
 	pea.w $0010
 	pea.w $007E
 	pea.w $BC5C
-	lda.w $17C9
+	lda.w HomeTeam
 	pea.w $0020
 	pea.w $0040
 	pea.w $00C0
@@ -79,7 +79,7 @@ setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the ti
 	lsr a
 	adc.w #$3F22
 	pha
-	lda.w $17CB
+	lda.w VisTeam
 	pea.w $0020
 	pea.w $0030
 	pea.w $00C0
@@ -145,9 +145,9 @@ setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the ti
 	pea.w $0300
 	pea.w $2080
 	pea.w $007E
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
-	adc.w $17C9
+	adc.w HomeTeam
 	xba
 	adc.w #$50DC
 	pha
@@ -160,7 +160,7 @@ setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the ti
 	pea.w $0020
 	pea.w $0060
 	pea.w $00C2
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	asl a
 	asl a
@@ -1592,12 +1592,12 @@ LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMod
 	pla
 	sta.w $1872
 	rtl
-LoadGameRosters:					; LoadTeamRoster for both teams of the game: $17C9 into $2DC9, $17CB into
-									; $3207
-	lda.w $17C9
+LoadGameRosters:					; LoadTeamRoster for both teams of the game: HomeTeam into $2DC9, VisTeam
+									; into $3207
+	lda.w HomeTeam
 	ldy.w #$2DC9
 	jsr.w LoadTeamRoster
-	lda.w $17CB
+	lda.w VisTeam
 	ldy.w #$3207
 LoadTeamRoster:						; builds team A's roster table at Y from its team data (from the season
 									; data in play modes 2 and 3 or with $1872 set): the player and goalie

@@ -134,12 +134,12 @@ CODE_C5C0BE:						; called from other segments
 	ldy.w #$2C01
 	ldx.w #$5184
 	jsl.l MapTileBlock
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b d7
 	lda.w #$0040
 	sta.b $18
-	lda.w $17CB
+	lda.w VisTeam
 	jsl.l CreateSprite
 	stx.b $9D
 	inc.b $38,x
@@ -320,7 +320,7 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -686,7 +686,7 @@ CODE_C5C4FC:						; from DrawFreeAgentsPage, SignFreeAgents
 .rts:								; return
 	rts
 CODE_C5C58A:						; from SignFreeAgents
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	asl a
 	asl a
@@ -722,7 +722,7 @@ CODE_C5C58A:						; from SignFreeAgents
 	lda.l $306A56,x
 	and.w #$F000
 	ora.w #$0FE0
-	ora.w $17CB
+	ora.w VisTeam
 	sta.l $306A56,x
 .4:									; if tmp0 < $026A go to .5, call CreatedPlayerBits, A = Y, A + $005D, ...
 	lda.b tmp0
@@ -792,10 +792,10 @@ DATA8_C5C655:						; not traced: data between routines
 CODE_C5C658:						; from CODE_C5C58A
 	ldx.w #$0000
 	txy
-.loop:								; loop: A = $306A56,x, A and $001F, if A is not $17CB go to .1, ...
+.loop:								; loop: A = $306A56,x, A and $001F, if A is not VisTeam go to .1, ...
 	lda.l $306A56,x
 	and.w #$001F
-	cmp.w $17CB
+	cmp.w VisTeam
 	bne .1
 	lda.l $306A56,x
 	lsr a
@@ -1093,7 +1093,7 @@ DrawReleasePage:					; draws the Release Players page and starts its scrolling l
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -1417,10 +1417,10 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	ldx.w #$51A4
 	jsl.l MapTileBlock
 	ldy.w #$0005
-	lda.w $17C9
+	lda.w HomeTeam
 	jsr.w CODE_C5A4A5
 	ldy.w #$000E
-	lda.w $17CB
+	lda.w VisTeam
 	jsr.w CODE_C5A4A5
 	lda.w #$008C
 	sta.b $CF
@@ -1679,13 +1679,13 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	ldx.w #$5094
 	jsl.l MapTileBlock
 	ldy.w #$0005
-	lda.w $17C9
+	lda.w HomeTeam
 	jsr.w CODE_C5A4A5
 	lda.w #$00A0
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -1843,7 +1843,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	lda.w #$3207
 	sta.b a4
 	jsr.w TradeValue
-	ldx.w $17CB
+	ldx.w VisTeam
 	lda.b $77
 	sec
 	sbc.b $79
@@ -1851,12 +1851,12 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	bpl .1
 	eor.w #$FFFF
 	inc a
-.1:									; if A < $0005 go to .3, A = Y, if the result >= 0 go to .2, X = $17C9
+.1:									; if A < $0005 go to .3, A = Y, if the result >= 0 go to .2, X = HomeTeam
 	cmp.w #$0005
 	bcc .3
 	tya
 	bpl .2
-	ldx.w $17C9
+	ldx.w HomeTeam
 .2:									; r3 = X, return
 	stx.b r3
 	sec
@@ -1933,11 +1933,11 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	stx.b r3
 	clc
 	rts
-.5:									; X = $17C9, go to .7
-	ldx.w $17C9
+.5:									; X = HomeTeam, go to .7
+	ldx.w HomeTeam
 	bra .7
-.6:									; X = $17CB
-	ldx.w $17CB
+.6:									; X = VisTeam
+	ldx.w VisTeam
 .7:									; r3 = $4B7F, return
 	lda.w #$4B7F
 	sta.b r3

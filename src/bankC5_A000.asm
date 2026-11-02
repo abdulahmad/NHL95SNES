@@ -360,7 +360,7 @@ DATA8_C5A354:						; a pointer to CODE_C5A359 (its reader is not traced)
 CODE_C5A356:						; after the pointer word DATA8_C5A354; no caller found (not traced)
 	jmp.w CODE_C5A3C1
 CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
-	lda.w $17CB
+	lda.w VisTeam
 	cmp.w #$001A
 	bcc .3
 	beq .1
@@ -368,23 +368,23 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 	bra .2
 .1:									; A = $0000
 	lda.w #$0000
-.2:									; $17CB = A
-	sta.w $17CB
-.3:									; if A is not $17C9 go to CODE_C5A397, A = padchangeany, ...
-	cmp.w $17C9
+.2:									; VisTeam = A
+	sta.w VisTeam
+.3:									; if A is not HomeTeam go to CODE_C5A397, A = padchangeany, ...
+	cmp.w HomeTeam
 	bne CODE_C5A397
 	lda.w padchangeany
 	bit.w #$0200
 	beq .5
-	lda.w $17CB
+	lda.w VisTeam
 	dec a
 	bpl .4
 	lda.w #$0019
-.4:									; $17CB = A, go to CODE_C5A397
-	sta.w $17CB
+.4:									; VisTeam = A, go to CODE_C5A397
+	sta.w VisTeam
 	bra CODE_C5A397
-.5:									; A = $17CB, A + 1, if A < $001A go to .4, A = $0000, ...
-	lda.w $17CB
+.5:									; A = VisTeam, A + 1, if A < $001A go to .4, A = $0000, ...
+	lda.w VisTeam
 	inc a
 	cmp.w #$001A
 	bcc .4
@@ -397,13 +397,13 @@ CODE_C5A397:						; from CODE_C5A359
 	beq .rts
 	dec a
 	beq .rts
-.1:									; if $17CB is not $001A go to .3, A = $0000
-	lda.w $17CB
+.1:									; if VisTeam is not $001A go to .3, A = $0000
+	lda.w VisTeam
 	cmp.w #$001A
 	bne .3
 	lda.w #$0000
-.2:									; $17CB = A, go to .rts
-	sta.w $17CB
+.2:									; VisTeam = A, go to .rts
+	sta.w VisTeam
 	bra .rts
 .3:									; if A is not $001B go to .rts, A = $0019, go to .2
 	cmp.w #$001B
@@ -415,7 +415,7 @@ CODE_C5A397:						; from CODE_C5A359
 DATA8_C5A3BF:						; a pointer to CODE_C5A397 (its reader is not traced)
 	dw CODE_C5A397
 CODE_C5A3C1:						; from CODE_C5A356 and other segments
-	lda.w $17CB
+	lda.w VisTeam
 	sta.l $306043
 	jsl.l WaitTransfers
 	pei ($CF)
@@ -426,7 +426,7 @@ CODE_C5A3C1:						; from CODE_C5A356 and other segments
 	sta.b $CF
 	lda.w #$0068
 	sta.b $D1
-	lda.w $17CB
+	lda.w VisTeam
 	jmp.w CODE_C5A48C
 CODE_C5A3E6:						; from CODE_C5A3C1, CODE_C5A46A
 	clc
@@ -446,7 +446,7 @@ DATA8_C5A3FD:						; a pointer to CODE_C5A402 (its reader is not traced)
 CODE_C5A3FF:						; after the pointer word DATA8_C5A3FD; no caller found (not traced)
 	jmp.w CODE_C5A46A
 CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
-	lda.w $17C9
+	lda.w HomeTeam
 	cmp.w #$001A
 	bcc .3
 	beq .1
@@ -454,23 +454,23 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 	bra .2
 .1:									; A = $0000
 	lda.w #$0000
-.2:									; $17C9 = A
-	sta.w $17C9
-.3:									; if A is not $17CB go to CODE_C5A440, A = padchangeany, ...
-	cmp.w $17CB
+.2:									; HomeTeam = A
+	sta.w HomeTeam
+.3:									; if A is not VisTeam go to CODE_C5A440, A = padchangeany, ...
+	cmp.w VisTeam
 	bne CODE_C5A440
 	lda.w padchangeany
 	bit.w #$0200
 	beq .5
-	lda.w $17C9
+	lda.w HomeTeam
 	dec a
 	bpl .4
 	lda.w #$0019
-.4:									; $17C9 = A, go to CODE_C5A440
-	sta.w $17C9
+.4:									; HomeTeam = A, go to CODE_C5A440
+	sta.w HomeTeam
 	bra CODE_C5A440
-.5:									; A = $17C9, A + 1, if A < $001A go to .4, A = $0000, ...
-	lda.w $17C9
+.5:									; A = HomeTeam, A + 1, if A < $001A go to .4, A = $0000, ...
+	lda.w HomeTeam
 	inc a
 	cmp.w #$001A
 	bcc .4
@@ -483,13 +483,13 @@ CODE_C5A440:						; from CODE_C5A402
 	beq .rts
 	dec a
 	beq .rts
-.1:									; if $17C9 is not $001A go to .3, A = $0000
-	lda.w $17C9
+.1:									; if HomeTeam is not $001A go to .3, A = $0000
+	lda.w HomeTeam
 	cmp.w #$001A
 	bne .3
 	lda.w #$0000
-.2:									; $17C9 = A, go to .rts
-	sta.w $17C9
+.2:									; HomeTeam = A, go to .rts
+	sta.w HomeTeam
 	bra .rts
 .3:									; if A is not $001B go to .rts, A = $0019, go to .2
 	cmp.w #$001B
@@ -501,7 +501,7 @@ CODE_C5A440:						; from CODE_C5A402
 DATA8_C5A468:						; a pointer to CODE_C5A440 (its reader is not traced)
 	dw CODE_C5A440
 CODE_C5A46A:						; from CODE_C5A3FF and other segments
-	lda.w $17C9
+	lda.w HomeTeam
 	sta.l $306041
 	jsl.l WaitTransfers
 	pei ($CF)
@@ -512,7 +512,7 @@ CODE_C5A46A:						; from CODE_C5A3FF and other segments
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
-	lda.w $17C9
+	lda.w HomeTeam
 CODE_C5A48C:						; from CODE_C5A3C1
 	ldy.w #$000D
 CODE_C5A48F:						; from CODE_C5A4A5
@@ -547,7 +547,7 @@ CODE_C5A4B9:						; from CODE_C5A4B5 and other segments
 	pea.w $0020
 	pea.w $0020
 	pea.w $007F
-	lda.w $17C9
+	lda.w HomeTeam
 	xba
 	lsr a
 	lsr a
@@ -572,7 +572,7 @@ CODE_C5A4E2:						; from CODE_C5A4DE and other segments
 	pea.w $0020
 	pea.w $0030
 	pea.w $007F
-	lda.w $17CB
+	lda.w VisTeam
 	xba
 	lsr a
 	lsr a
@@ -738,22 +738,22 @@ SeasonTeamStatsInput:				; the Season Team Stats screen each frame (screen state
 	jmp.w SeasonOptions
 .rts:								; return
 	rts
-.2:									; A = $17C9, A + 1, if A < $001A go to .3, A = $0000
-	lda.w $17C9
+.2:									; A = HomeTeam, A + 1, if A < $001A go to .3, A = $0000
+	lda.w HomeTeam
 	inc a
 	cmp.w #$001A
 	bcc .3
 	lda.w #$0000
-.3:									; $17C9 = A, go to DrawSeasonTeamStats
-	sta.w $17C9
+.3:									; HomeTeam = A, go to DrawSeasonTeamStats
+	sta.w HomeTeam
 	jmp.w DrawSeasonTeamStats
-.4:									; A = $17C9, A - 1, if the result >= 0 go to .5, A = $0019
-	lda.w $17C9
+.4:									; A = HomeTeam, A - 1, if the result >= 0 go to .5, A = $0019
+	lda.w HomeTeam
 	dec a
 	bpl .5
 	lda.w #$0019
-.5:									; $17C9 = A, go to DrawSeasonTeamStats
-	sta.w $17C9
+.5:									; HomeTeam = A, go to DrawSeasonTeamStats
+	sta.w HomeTeam
 	jmp.w DrawSeasonTeamStats
 SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen state 10): up / down
 									; scroll, B goalies / players, left / right switch the team, start /
@@ -792,8 +792,8 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	ldx.b $79
 	jsl.l DeleteSprite
 	jmp.w SeasonOptions
-.5:									; A = $17C9, A + 1, if A < $001A go to .6, A = $0000
-	lda.w $17C9
+.5:									; A = HomeTeam, A + 1, if A < $001A go to .6, A = $0000
+	lda.w HomeTeam
 	inc a
 	cmp.w #$001A
 	bcc .6
@@ -809,13 +809,13 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 .8:									; d0 = 0, go to .11
 	stz.b d0
 	bra .11
-.9:									; A = $17C9, A - 1, if the result >= 0 go to .10, A = $0019
-	lda.w $17C9
+.9:									; A = HomeTeam, A - 1, if the result >= 0 go to .10, A = $0019
+	lda.w HomeTeam
 	dec a
 	bpl .10
 	lda.w #$0019
-.10:								; $17C9 = A
-	sta.w $17C9
+.10:								; HomeTeam = A
+	sta.w HomeTeam
 .11:								; X = $77, call DeleteSprite, X = $79, call DeleteSprite, ...
 	ldx.b $77
 	jsl.l DeleteSprite
@@ -1801,12 +1801,12 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	jmp.w CODE_C5ADDC
 .2:									; go to MenuPlayGames
 	jmp.w MenuPlayGames
-.3:									; $0017C9 = $0004,x, A = $0002,x, $17CB = A, $2C44 = X, ...
+.3:									; HomeTeam = $0004,x, A = $0002,x, VisTeam = A, $2C44 = X, ...
 	lda.w $0004,x
-	sta.l $0017C9
+	sta.l HomeTeam
 	lda.w $0002,x
 	plb
-	sta.w $17CB
+	sta.w VisTeam
 	stx.w $2C44
 	jsl.l CODE_C4C574
 	jsl.l ResetWorkBuf

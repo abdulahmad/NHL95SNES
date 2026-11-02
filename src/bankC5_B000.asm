@@ -114,7 +114,7 @@ SeasonTeamStats:					; League Menu Team Stats: the season stats of a team (recor
 	ldy.w #$2801
 	ldx.w #$50A8
 	jsl.l MapTileBlock
-	stz.w $17C9
+	stz.w HomeTeam
 	stz.b d7
 	jsr.w DrawSeasonTeamStats
 	jsl.l SendTextMap
@@ -156,7 +156,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	jsl.l MapTileBlock
 	lda.w #$0002
 	sta.w OptPlayMode
-	stz.w $17C9
+	stz.w HomeTeam
 	jsr.w LoadGameRosters
 	sec
 	lda.w $2DC9
@@ -1020,7 +1020,7 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	jsl.l WaitTransfers
 	lda.w #$00F8
 	sta.b $D1
-	lda.w $17C9
+	lda.w HomeTeam
 	jsr.w BuildTeamSeasonRecord
 	phy
 	lda.w $0004,y
@@ -1590,7 +1590,7 @@ CODE_C5BCE3:						; from DrawSeasonTeamStats
 	jsl.l DeleteSprite
 	stz.b d7
 	jsr.w CODE_C5A4B9
-	lda.w $17C9
+	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b d7
 	lda.w #$0001
@@ -1606,7 +1606,7 @@ CODE_C5BCE3:						; from DrawSeasonTeamStats
 	ldy.w #$0080
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	tax
 	lda.l DATA8_C3585C,x

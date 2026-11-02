@@ -689,13 +689,13 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	stz.w tmsort
 	lda.w #$000C
 	sta.w $1285
-	lda.w $17C9
+	lda.w HomeTeam
 	sta.w $17D7
 	asl a
 	tax
 	lda.l $C30000,x
 	sta.w tmdata
-	lda.w $17CB
+	lda.w VisTeam
 	sta.w $17D9
 	asl a
 	tax
@@ -1230,12 +1230,12 @@ CODE_C53984:						; from CODE_C53980 and other segments
 	lda.w #$0045
 	sta.b $1C,x
 	sta.w $1B0C
-	lda.w $17C9
+	lda.w HomeTeam
 	asl a
 	adc.w #$0081
 	sta.w $17CD
 	jsl.l CODE_C5EE6C
-	lda.w $17CB
+	lda.w VisTeam
 	asl a
 	adc.w #$0080
 	sta.w $17CF
@@ -1251,11 +1251,11 @@ CODE_C539D7:						; called from other segments
 	ldy.w #$0003
 	lda.w #$5AF7
 	jsl.l Framer
-	lda.w $17CB
+	lda.w VisTeam
 	jsr.w CODE_C53A75
 	ldy.w #$5B18
 	jsl.l QueueVRAMDMALen
-	lda.w $17C9
+	lda.w HomeTeam
 	jsr.w CODE_C53A75
 	ldy.w #$5B1C
 	jsl.l QueueVRAMDMALen

@@ -524,16 +524,16 @@ CODE_C5E336:						; called from other segments
 	rts
 CODE_C5E37E:						; called from other segments
 	lda.w #$0019
-	sta.w $17C9
+	sta.w HomeTeam
 	jsr.w BuildTeamSeasonRecord
 	stz.w $0000,x
 	stx.b $81
-.loop:								; loop: push X, A = $17C9, A - 1, if the result < 0 go to .1, ...
+.loop:								; loop: push X, A = HomeTeam, A - 1, if the result < 0 go to .1, ...
 	phx
-	lda.w $17C9
+	lda.w HomeTeam
 	dec a
 	bmi .1
-	sta.w $17C9
+	sta.w HomeTeam
 	jsr.w BuildTeamSeasonRecord
 	ply
 	tya
@@ -603,19 +603,19 @@ CODE_C5E40C:						; no caller found (not traced)
 CODE_C5E41C:						; from CODE_C5E41D
 	rts
 CODE_C5E41D:						; from CODE_C5E40C and other segments
-	lda.w $17C9
+	lda.w HomeTeam
 	cmp.w #$001A
 	bcc .1
 	lda.w #$000E
-	sta.w $17C9
+	sta.w HomeTeam
 	sta.l $306041
 	jsr.w CODE_C5A46A
-.1:									; if $17CB < $001A go to CODE_C5E41C, $17CB = $0017, $306043 = A, ...
-	lda.w $17CB
+.1:									; if VisTeam < $001A go to CODE_C5E41C, VisTeam = $0017, $306043 = A, ...
+	lda.w VisTeam
 	cmp.w #$001A
 	bcc CODE_C5E41C
 	lda.w #$0017
-	sta.w $17CB
+	sta.w VisTeam
 	sta.l $306043
 	jmp.w CODE_C5A3C1
 CODE_C5E447:						; from CODE_C5E474 and other segments

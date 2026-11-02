@@ -553,10 +553,10 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	bra .5
 .4:									; Y = $0002
 	ldy.w #$0002
-.5:									; push Y, A = $17C9,y, A * 2, X = A, ...
+.5:									; push Y, A = HomeTeam,y, A * 2, X = A, ...
 	phy
 	brk #$00						; a brk in the ROM
-	lda.w $17C9,y
+	lda.w HomeTeam,y
 	asl a
 	tax
 	lda.l $C30000,x
@@ -588,6 +588,8 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	sta.b d0
 .6:									; go to AddPenalty2
 	jml.l AddPenalty2
+ShootoutShooters:					; pick the shootout shooters of a pad's team: up / down move the row, A /
+									; B pick (PickShooterRow), start sets the goalie; no code reaches it
 	jsl.l GetPadTeam
 	lda.w #$0001
 	sta.b d0
@@ -603,19 +605,19 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	cmp.b d0
 	beq .8
 	jmp.w .10
-.8:									; X = a2, $2352 = $17C9,x, $2350 = $FFFF, call CODE_C09529, ...
+.8:									; X = a2, $2352 = HomeTeam,x, $2350 = $FFFF, call ShootersSetup, ...
 	ldx.b a2
-	lda.w $17C9,x
+	lda.w HomeTeam,x
 	sta.w $2352
 	lda.w #$FFFF
 	sta.w $2350
-	jsl.l CODE_C09529
-	jsl.l CODE_C0958F
+	jsl.l ShootersSetup
+	jsl.l ShootersBackground
 	stz.w $1878
 	lda.w #$0001
 	sta.w $0802
 	stz.w $0806
-	jsl.l CODE_C095BF
+	jsl.l PrintShooterNames
 	lda.w #$0005
 	ldx.w #$0050
 	jsl.l ScreenOn
@@ -651,24 +653,25 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	dec a
 	sta.w tmgoalie,y
 	rtl
-.13:								; if $1878 = 0 go to .9, $1878 - 1, call CODE_C095BF, go to .9
+.13:								; if $1878 = 0 go to .9, $1878 - 1, call PrintShooterNames, go to .9
 	lda.w $1878
 	beq .9
 	dec.w $1878
-	jsl.l CODE_C095BF
+	jsl.l PrintShooterNames
 	bra .9
-.14:								; if $1878 - $0005 >= 0 go to .9, $1878 + 1, call CODE_C095BF, go to .9
+.14:								; if $1878 - $0005 >= 0 go to .9, $1878 + 1, call PrintShooterNames, ...
 	lda.w $1878
 	cmp.w #$0005
 	bpl .9
 	inc.w $1878
-	jsl.l CODE_C095BF
+	jsl.l PrintShooterNames
 	bra .9
-.15:								; call CODE_C096C0, call CODE_C095BF, go to .9
-	jsl.l CODE_C096C0
-	jsl.l CODE_C095BF
+.15:								; call PickShooterRow, call PrintShooterNames, go to .9
+	jsl.l PickShooterRow
+	jsl.l PrintShooterNames
 	bra .9
-CODE_C09529:						; called from ShootoutWonBy
+ShootersSetup:						; ShootoutShooters' set-up: the eraser box ($20 x $0D, a bare rtl here),
+									; printa $0800, then ShootersBackground
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -682,9 +685,10 @@ CODE_C09529:						; called from ShootoutWonBy
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l CODE_C0958F
+	jsl.l ShootersBackground
 	rtl
-CODE_C09551:						; called from CODE_C0958F
+DrawShootersBack:					; the shooters back with its drawing gone: the eraser box and the print
+									; parameters only
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -709,18 +713,19 @@ CODE_C09551:						; called from CODE_C0958F
 	clc
 	adc.w #$0C00
 	rtl
-CODE_C0958F:						; called from ShootoutWonBy, CODE_C09529, CODE_C095BF
+ShootersBackground:					; the shooters screen background: DrawShootersBack when $2364 is set, d1 =
+									; HomeTeam or VisTeam by a2, then irqline2 $50
 	lda.w $2364
 	beq .1
-	jsl.l CODE_C09551
-.1:									; X = $0058, Y = $0018, d1 = $17C9, if a2 = 0 go to .2, ...
+	jsl.l DrawShootersBack
+.1:									; X = $0058, Y = $0018, d1 = HomeTeam, if a2 = 0 go to .2, ...
 	ldx.w #$0058
 	ldy.w #$0018
-	lda.w $17C9
+	lda.w HomeTeam
 	sta.b d1
 	lda.b a2
 	beq .2
-	lda.w $17CB
+	lda.w VisTeam
 	sta.b d1
 .2:									; if $2364 = 0 go to .rtl, call WaitFrame, irqline2 = $0050, $2364 = 0
 	lda.w $2364
@@ -731,7 +736,8 @@ CODE_C0958F:						; called from ShootoutWonBy, CODE_C09529, CODE_C095BF
 	stz.w $2364
 .rtl:								; return
 	rtl
-CODE_C095BF:						; called from ShootoutWonBy
+PrintShooterNames:					; redraws the shooter rows: the eraser box ($20 x $13), the rows printed
+									; with the cursor row ($1878) marked
 	lda.w #$0020
 	sta.b d0
 	lda.w #$0013
@@ -792,7 +798,7 @@ CODE_C095BF:						; called from ShootoutWonBy
 	sta.w $2358
 	phx
 	ldx.b a2
-	lda.w $17C9,x
+	lda.w HomeTeam,x
 	cmp.w #$0018
 	bcc .2
 	ldx.w #$0000
@@ -814,8 +820,8 @@ CODE_C095BF:						; called from ShootoutWonBy
 	dec.b d1
 	bmi .4
 	jmp.w .loop
-.4:									; call CODE_C0958F, return
-	jsl.l CODE_C0958F
+.4:									; call ShootersBackground, return
+	jsl.l ShootersBackground
 	rtl
 DATA8_C0967D:						; not traced: 1, 2, 3, 4
 	db $01,$02,$03,$04
@@ -850,7 +856,9 @@ InitShooters:						; the 8 shooters of team a2 (0 home, 2 visitors) into its sho
 	dec.b d0
 	bpl .loop
 	rts
-CODE_C096C0:						; called from ShootoutWonBy
+PickShooterRow:						; the pick on a shooter row: the goalie row cycles the goalie
+									; (GoalieCount), a shooter row opens the shooter list (the code after its
+									; rtl, 94S ShooterSelectList)
 	lda.w $1878
 	bne .3
 	jsl.l GoalieCount
@@ -1027,7 +1035,7 @@ CODE_C096C0:						; called from ShootoutWonBy
 	dec.w $1884
 	jsl.l CODE_C09855
 	jmp.w .loop
-CODE_C09855:						; called from CODE_C096C0, CODE_C096C0, ...
+CODE_C09855:						; called from PickShooterRow, PickShooterRow, ...
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -1149,7 +1157,7 @@ CODE_C09910:						; called from CODE_C09855
 	lda.w #$2000
 	sta.w printa
 	rtl
-CODE_C0998F:						; called from CODE_C096C0
+CODE_C0998F:						; called from PickShooterRow
 	ldy.b d1
 	phy
 	lda.w #$0009

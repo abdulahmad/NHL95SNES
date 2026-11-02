@@ -77,13 +77,13 @@ ExecuteTrade:						; does the trade: each chosen player's team in the player tea
 	sta.b tmp0
 	ldx.w #$2DC9
 	ldy.w #$364E
-	lda.w $17CB
+	lda.w VisTeam
 	jsr.w CODE_C5D0A9
 	lda.b $7D
 	sta.b tmp0
 	ldx.w #$3207
 	ldy.w #$36B2
-	lda.w $17C9
+	lda.w HomeTeam
 CODE_C5D0A9:						; from ExecuteTrade
 	stx.b tmp2
 	sty.b tmp1
@@ -159,16 +159,16 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 	bne .loop2
 .rts:								; return
 	rts
-.2:									; a2 = $17C9, pausepad = Y, call NameEntryScreen, $4688 = $65, ...
-	lda.w $17C9
+.2:									; a2 = HomeTeam, pausepad = Y, call NameEntryScreen, $4688 = $65, ...
+	lda.w HomeTeam
 	sta.b a2
 	sty.w pausepad
 	jsr.w NameEntryScreen
 	lda.b $65
 	sta.w $4688
 	bra .1
-.3:									; a2 = $17CB, pausepad = Y, call NameEntryScreen, $468A = $65, ...
-	lda.w $17CB
+.3:									; a2 = VisTeam, pausepad = Y, call NameEntryScreen, $468A = $65, ...
+	lda.w VisTeam
 	sta.b a2
 	sty.w pausepad
 	jsr.w NameEntryScreen
@@ -262,7 +262,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	jsl.l ClearVRAM
 	ldy.w #$2801
 	lda.b a2
-	cmp.w $17C9
+	cmp.w HomeTeam
 	beq .1
 	ldy.w #$2C01
 .1:									; X = $5115, call MapTileBlock, X = d7, Y = $9D, ...
@@ -271,7 +271,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	ldx.b d7
 	ldy.b $9D
 	lda.b a2
-	cmp.w $17C9
+	cmp.w HomeTeam
 	beq .2
 	txy
 	ldx.b $9D
@@ -733,9 +733,9 @@ CODE_C5D5CD:						; called from other segments
 	beq .rtl
 	lda.w $1904
 	beq .rtl
-	lda.w $17C9
+	lda.w HomeTeam
 	sta.w $12AF
-	lda.w $17CB
+	lda.w VisTeam
 	sta.w $12B1
 	lda.w $4688
 	bmi .1
@@ -1960,9 +1960,9 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	sta.w $0036,y
 	phy
 	lda.w $0002,y
-	sta.l $0017CB
+	sta.l VisTeam
 	lda.w $0004,y
-	sta.l $0017C9
+	sta.l HomeTeam
 	pei ($9F)
 	pei ($A1)
 	pei ($A3)
