@@ -1275,12 +1275,12 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	dec a
 	beq .1
 	rts
-.1:									; $CF = $0070, $D1 = $00E0, A = $115E,x, A and $00FF, ...
+.1:									; $CF = $0070, $D1 = $00E0, A = PenSum+3,x, A and $00FF, ...
 	lda.w #$0070
 	sta.b $CF
 	lda.w #$00E0
 	sta.b $D1
-	lda.w $115E,x
+	lda.w PenSum+3,x
 	and.w #$00FF
 	tax
 	lda.l Penaltylist,x
@@ -1292,14 +1292,14 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	ldy.b $6D
 	jsl.l PrintBoldRightStr
 	rts
-.2:									; $D5 = $2400, $CF = $0010, $D1 = $0030, A = $115C,x, ...
+.2:									; $D5 = $2400, $CF = $0010, $D1 = $0030, A = PenSum+1,x, ...
 	lda.w #$2400
 	sta.b $D5
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0030
 	sta.b $D1
-	lda.w $115C,x
+	lda.w PenSum+1,x
 	and.w #$00C0
 	lsr a
 	lsr a
@@ -1327,7 +1327,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w #$0080
 	sta.b $D1
 	ldx.b $65
-	lda.w $115D,x
+	lda.w PenSum+2,x
 	and.w #$0080
 	beq .3
 	pea.w VisRoster
@@ -1343,7 +1343,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w #$00E0
 	sta.b $D1
 	ldx.b $65
-	lda.w $115D,x
+	lda.w PenSum+2,x
 	and.w #$007F
 	asl a
 	asl a
@@ -1363,7 +1363,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w #$00F8
 	sta.b $D1
 	ldx.b $65
-	lda.w $115E,x
+	lda.w PenSum+3,x
 	and.w #$00FF
 	tax
 	lda.l Penaltylist,x
