@@ -1,7 +1,8 @@
 ; Segment bankCF_F000: the rest of the frame code, the layout data (size words, record pointers, records),
 ; two routines the top layouts jump to, then zeros to the end of the ROM.
 org $CFF0CB
-CODE_CFF0CB:						; called from other segments
+SmallPieces2:						; two 8 x 8 pieces: their x / y bytes, the tile counter + 1, then
+									; PutSmallPiece2
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -16,8 +17,9 @@ CODE_CFF0CB:						; called from other segments
 	and.w #$00FF
 	sta.b $F1
 	inc.b tmp1
-	jmp.w CODE_CFF203
-CODE_CFF0F6:						; called from other segments
+	jmp.w PutSmallPiece2
+SmallPieces3:						; three 8 x 8 pieces: their x / y bytes, the tile counter + 2, then
+									; PutSmallPiece3
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -43,8 +45,9 @@ CODE_CFF101:						; called from other segments
 	inc a
 	inc a
 	sta.b tmp1
-	jmp.w CODE_CFF1C6
-CODE_CFF137:						; called from other segments
+	jmp.w PutSmallPiece3
+SmallPieces4:						; four 8 x 8 pieces: their x / y bytes, the tile counter + 3, the fourth
+									; piece's sprite, then PutSmallPiece3
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -97,9 +100,9 @@ CODE_CFF137:						; called from other segments
 	cmp.w #$FFF9
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFF1C6
+.2:									; pull A, go to PutSmallPiece3
 	pla
-	bra CODE_CFF1C6
+	bra PutSmallPiece3
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -109,7 +112,8 @@ CODE_CFF137:						; called from other segments
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF1C6:						; from CODE_CFF101, CODE_CFF137
+PutSmallPiece3:						; the third 8 x 8 piece's sprite (tile tmp1, x $EB / y $F3) when on
+									; screen, then PutSmallPiece2
 	lda.b tmp1
 	pha
 	dec a
@@ -133,9 +137,9 @@ CODE_CFF1C6:						; from CODE_CFF101, CODE_CFF137
 	cmp.w #$FFF9
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFF203
+.2:									; pull A, go to PutSmallPiece2
 	pla
-	bra CODE_CFF203
+	bra PutSmallPiece2
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -145,7 +149,7 @@ CODE_CFF1C6:						; from CODE_CFF101, CODE_CFF137
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF203:						; from CODE_CFF0CB, CODE_CFF1C6
+PutSmallPiece2:						; the second 8 x 8 piece's sprite (x $E9 / y $F1), then PutSmallPiece1
 	lda.b tmp1
 	pha
 	dec a
@@ -170,9 +174,9 @@ CODE_CFF221:						; called from other segments
 	cmp.w #$FFF9
 	and.w #$00FF
 	bcs CODE_CFF239
-CODE_CFF231:						; from CODE_CFF203, CODE_CFF234
+CODE_CFF231:						; from PutSmallPiece2, CODE_CFF234
 	pla
-	bra CODE_CFF240
+	bra PutSmallPiece1
 CODE_CFF234:						; from CODE_CFF221
 	cmp.w #$00E0
 	bcs CODE_CFF231
@@ -182,7 +186,7 @@ CODE_CFF239:						; from CODE_CFF221
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF240:						; from CODE_CFF231 and other segments
+PutSmallPiece1:						; the first 8 x 8 piece's sprite (x $E7 / y $EF), then LayoutDone
 	pei ($A1)
 	ldx.w #$0000
 	clc
@@ -203,9 +207,9 @@ CODE_CFF240:						; from CODE_CFF231 and other segments
 	cmp.w #$FFF9
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFF279
+.2:									; pull A, go to LayoutDone
 	pla
-	bra CODE_CFF279
+	bra LayoutDone
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -215,7 +219,7 @@ CODE_CFF240:						; from CODE_CFF231 and other segments
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF279:						; from CODE_CFF240 and other segments
+LayoutDone:							; the end of a frame layout: on to the caller's continuation in $A5
 	jmp ($00A5)
 DATA8_CFF27C:						; per layout (the high byte of a DATA8_C60848 word) a size word:
 									; QueueFrameTiles queues two transfers of twice its low byte, then one
@@ -239,12 +243,12 @@ DATA8_CFF27C:						; per layout (the high byte of a DATA8_C60848 word) a size wo
 	dw $2080,$8080,$8080,$8080,$8080,$2060,$2060,$0080
 	dw $0080,$8080,$8080,$8080,$8080,$0060,$0060,$0080
 	dw $0080,$2000
-DATA8_CFF3A0:						; CODE_CFEE6C reads layout A at DATA8_CFF3A0+2A (layout 0 is skipped,
+DATA8_CFF3A0:						; DrawFrameLayout reads layout A at DATA8_CFF3A0+2A (layout 0 is skipped,
 									; so this word is not read); $8F-$91 jump through it
 	dw $2000
 DATA8_CFF3A2:						; per layout a pointer in this bank: entries 0-141 a layout record
-									; (its first byte picks the handler in DATA8_CFEEAE), 142-145 code
-									; that CODE_CFEE25 / CODE_CFEE6C jump to
+									; (its first byte picks the handler in LayoutBigPieces), 142-145 code
+									; that DrawFrameLayoutFlip / DrawFrameLayout jump to
 	dw DATA8_CFF4C6&$FFFF,DATA8_CFF4D8&$FFFF,DATA8_CFF4EA&$FFFF,DATA8_CFF4FA&$FFFF
 	dw DATA8_CFF50A&$FFFF,DATA8_CFF51A&$FFFF,DATA8_CFF52A&$FFFF,DATA8_CFF53C&$FFFF
 	dw DATA8_CFF54E&$FFFF,DATA8_CFF560&$FFFF,DATA8_CFF572&$FFFF,DATA8_CFF582&$FFFF

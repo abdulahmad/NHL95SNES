@@ -6,7 +6,8 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_CFEE6C = $CFEE6C
+DrawFrameLayout = $CFEE6C
+PadTagFrameDoneJump = $CFEE21
 IceRinkMap = $CCEEA5				; the rink map set
 setpads = $C38043
 UpdateGameObjectSprites = $C382B8	; queue changed player frames and build sorted object sprites

@@ -1041,12 +1041,13 @@ CODE_C52852:						; from TagPadMarker
 	clc
 	adc.w #$0010
 	sta.b $0C
-	lda.w #$EE21
+	lda.w #PadTagFrameDoneJump&$FFFF
 	sta.b $A5
 	ldy.b $2A
 	lda.w #$0072
-	jml.l CODE_CFEE6C
-CODE_C5287A:						; called from other segments
+	jml.l DrawFrameLayout
+PadTagFrameDone:					; the frame layout's continuation for the player tags: the OAM pointer
+									; kept, then NextPadTag
 	sty.b $2A
 	ldy.b $10
 	bra NextPadTag

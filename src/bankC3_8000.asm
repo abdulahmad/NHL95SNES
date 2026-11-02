@@ -490,7 +490,7 @@ UpdateGameObjectSprites:			; queue changed player frames and build sorted object
 	lda.b $28
 	tcs
 	ldy.b $2A
-	lda.w #$EE1D
+	lda.w #NextSortedGameObjectJump&$FFFF
 	sta.b $A5
 	ldx.w #$000F
 DrawSortedGameObject:				; draw the current sorted object with its frame and flip attributes
@@ -520,7 +520,7 @@ DrawSortedGameObject:				; draw the current sorted object with its frame and fli
 	lda.w $0876,x
 	bmi NextSortedGameObject
 	beq NextSortedGameObject
-	jml.l CODE_CFEE25
+	jml.l DrawFrameLayoutFlip
 .1:									; tmp1 = DATA8_C3847C,x, tmp2 = DATA8_C3849C,x, ...
 	lda.l DATA8_C3847C,x
 	sta.b tmp1
@@ -529,7 +529,7 @@ DrawSortedGameObject:				; draw the current sorted object with its frame and fli
 	lda.w $0876,x
 	bmi NextSortedGameObject
 	beq NextSortedGameObject
-	jml.l CODE_CFEE6C
+	jml.l DrawFrameLayout
 NextSortedGameObject:				; advance the sorted object loop or restore the caller stack
 	ldx.b $1A
 	dex

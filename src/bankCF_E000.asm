@@ -1,11 +1,14 @@
 ; Segment bankCF_E000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $CFEE1D
-CODE_CFEE1D:						; no caller found (not traced): jml to bank $C3
+NextSortedGameObjectJump:			; jumps to NextSortedGameObject: DrawSortedGameObject's continuation (in
+									; $A5) for the frame code
 	jml.l NextSortedGameObject
-CODE_CFEE21:						; no caller found (not traced): jml to bank $C5
-	jml.l CODE_C5287A
-CODE_CFEE25:						; called from other segments
+PadTagFrameDoneJump:				; jumps to PadTagFrameDone: the tags' continuation (in $A5) for the frame
+									; code
+	jml.l PadTagFrameDone
+DrawFrameLayoutFlip:				; DrawFrameLayout for an x-flipped object: the flipped offsets and the
+									; record next to the normal one
 	asl a
 	tax
 	lda.l DATA8_C618D8,x
@@ -29,7 +32,7 @@ CODE_CFEE25:						; called from other segments
 	lda.l $CF0000,x
 	and.w #$00FF
 	tax
-	jmp (DATA8_CFEEAE,x)
+	jmp (LayoutBigPieces,x)
 .1:									; if A >= $0090 go to .2, A xor $0001, A * 2, X = A, ...
 	cmp.w #$0090
 	bcs .2
@@ -39,7 +42,9 @@ CODE_CFEE25:						; called from other segments
 	jmp (DATA8_CFF3A2,x)
 .2:									; jump through $00A5
 	jmp ($00A5)
-CODE_CFEE6C:						; called from other segments
+DrawFrameLayout:					; draws frame A of a game object at x $0A / y $0C from its bank $CF layout
+									; record: 1-4 16 x 16 pieces, then 1-4 8 x 8 ones, into the OAM buffer;
+									; then on through $A5
 	asl a
 	tax
 	lda.l DATA8_C61090,x
@@ -62,7 +67,7 @@ CODE_CFEE6C:						; called from other segments
 	lda.l $CF0000,x
 	and.w #$00FF
 	tax
-	jmp (DATA8_CFEEAE,x)
+	jmp (LayoutBigPieces,x)
 .1:									; if A >= $0092 go to .2, A * 2, X = A, jump through DATA8_CFF3A0,x
 	cmp.w #$0092
 	bcs .2
@@ -71,10 +76,11 @@ CODE_CFEE6C:						; called from other segments
 	jmp (DATA8_CFF3A0,x)
 .2:									; jump through $00A5
 	jmp ($00A5)
-DATA8_CFEEAE:						; jump table: the routine for each index
-	dw CODE_CFEEB8,CODE_CFEECF,CODE_CFEEFE,CODE_CFEF41
-	dw CODE_CFF086
-CODE_CFEEB8:						; from DATA8_CFEEAE
+LayoutBigPieces:					; a layout record's 16 x 16 pieces by its first byte: 1, 2, 3 or 4 pieces,
+									; or none (LayoutSmallNext)
+	dw BigPieces1,BigPieces2,BigPieces3,BigPieces4
+	dw LayoutSmallNext
+BigPieces1:							; one 16 x 16 piece: its x / y bytes, then PutBigPiece1
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -82,8 +88,9 @@ CODE_CFEEB8:						; from DATA8_CFEEAE
 	lda.l $CF0002,x
 	and.w #$00FF
 	sta.b $EF
-	jmp.w CODE_CFF04D
-CODE_CFEECF:						; from DATA8_CFEEAE
+	jmp.w PutBigPiece1
+BigPieces2:							; two 16 x 16 pieces: their x / y bytes, the tile counter + 2, then
+									; PutBigPiece2
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -101,8 +108,9 @@ CODE_CFEECF:						; from DATA8_CFEEAE
 	inc a
 	inc a
 	sta.b tmp2
-	jmp.w CODE_CFF00F
-CODE_CFEEFE:						; from DATA8_CFEEAE
+	jmp.w PutBigPiece2
+BigPieces3:							; three 16 x 16 pieces: their x / y bytes, the tile counter + 4, then
+									; PutBigPiece3
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -126,8 +134,9 @@ CODE_CFEEFE:						; from DATA8_CFEEAE
 	lda.b tmp2
 	adc.w #$0004
 	sta.b tmp2
-	jmp.w CODE_CFEFD1
-CODE_CFEF41:						; from DATA8_CFEEAE
+	jmp.w PutBigPiece3
+BigPieces4:							; four 16 x 16 pieces: their x / y bytes, the tile counter + 6, the fourth
+									; piece's sprite, then PutBigPiece3
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -181,9 +190,9 @@ CODE_CFEF41:						; from DATA8_CFEEAE
 	cmp.w #$FFF1
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFEFD1
+.2:									; pull A, go to PutBigPiece3
 	pla
-	bra CODE_CFEFD1
+	bra PutBigPiece3
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -193,7 +202,8 @@ CODE_CFEF41:						; from DATA8_CFEEAE
 	pha
 	stx.b $00,y
 	iny
-CODE_CFEFD1:						; from CODE_CFEEFE, CODE_CFEF41
+PutBigPiece3:						; the third 16 x 16 piece's sprite (tile tmp2, x $EB / y $F3 from x $0A /
+									; y $0C) when on screen, then PutBigPiece2
 	lda.b tmp2
 	pha
 	dec a
@@ -218,9 +228,9 @@ CODE_CFEFD1:						; from CODE_CFEEFE, CODE_CFEF41
 	cmp.w #$FFF1
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFF00F
+.2:									; pull A, go to PutBigPiece2
 	pla
-	bra CODE_CFF00F
+	bra PutBigPiece2
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -230,7 +240,7 @@ CODE_CFEFD1:						; from CODE_CFEEFE, CODE_CFEF41
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF00F:						; from CODE_CFEECF, CODE_CFEFD1 and other segments
+PutBigPiece2:						; the second 16 x 16 piece's sprite (x $E9 / y $F1), then PutBigPiece1
 	lda.b tmp2
 	pha
 	dec a
@@ -255,9 +265,9 @@ CODE_CFF00F:						; from CODE_CFEECF, CODE_CFEFD1 and other segments
 	cmp.w #$FFF1
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFF04D
+.2:									; pull A, go to PutBigPiece1
 	pla
-	bra CODE_CFF04D
+	bra PutBigPiece1
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -267,7 +277,7 @@ CODE_CFF00F:						; from CODE_CFEECF, CODE_CFEFD1 and other segments
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF04D:						; from CODE_CFF00F, CODE_CFEEB8
+PutBigPiece1:						; the first 16 x 16 piece's sprite (x $E7 / y $EF), then LayoutSmallNext
 	pei ($A3)
 	ldx.w #$0002
 	clc
@@ -288,9 +298,9 @@ CODE_CFF04D:						; from CODE_CFF00F, CODE_CFEEB8
 	cmp.w #$FFF1
 	and.w #$00FF
 	bcs .4
-.2:									; pull A, go to CODE_CFF086
+.2:									; pull A, go to LayoutSmallNext
 	pla
-	bra CODE_CFF086
+	bra LayoutSmallNext
 .3:									; if A >= $00E0 go to .2
 	cmp.w #$00E0
 	bcs .2
@@ -300,7 +310,8 @@ CODE_CFF04D:						; from CODE_CFF00F, CODE_CFEEB8
 	pha
 	stx.b $00,y
 	iny
-CODE_CFF086:						; from CODE_CFF04D, DATA8_CFEEAE
+LayoutSmallNext:					; steps $E5 past the 16 x 16 part to the 8 x 8 part and runs it by its
+									; first byte (LayoutSmallPieces)
 	ldx.b $E5
 	lda.l $CF0000,x
 	and.w #$000F
@@ -317,11 +328,12 @@ CODE_CFF086:						; from CODE_CFF04D, DATA8_CFEEAE
 	lda.l $CF0000,x
 	and.w #$00FF
 	tax
-	jmp (DATA8_CFF0AA,x)
-DATA8_CFF0AA:						; jump table: the routine for each index
-	dw CODE_CFF0B4,CODE_CFF0CB,CODE_CFF0F6,CODE_CFF137
-	dw CODE_CFF279
-CODE_CFF0B4:						; from DATA8_CFF0AA
+	jmp (LayoutSmallPieces,x)
+LayoutSmallPieces:					; a layout record's 8 x 8 pieces by their first byte: 1, 2, 3 or 4 pieces,
+									; or none (LayoutDone)
+	dw SmallPieces1,SmallPieces2,SmallPieces3,SmallPieces4
+	dw LayoutDone
+SmallPieces1:						; one 8 x 8 piece: its x / y bytes, then PutSmallPiece1
 	ldx.b $E5
 	lda.l $CF0001,x
 	and.w #$00FF
@@ -329,4 +341,4 @@ CODE_CFF0B4:						; from DATA8_CFF0AA
 	lda.l $CF0002,x
 	and.w #$00FF
 	sta.b $EF
-	jmp.w CODE_CFF240
+	jmp.w PutSmallPiece1

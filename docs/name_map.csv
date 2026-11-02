@@ -2403,8 +2403,8 @@ $CFAAAD,Sample31,,new,"sound sample 31 of SampleList: header, then BRR blocks",s
 $CFC262,DATA8_CFC262,,new,"sound 34 of DATA8_CF04E3: a length word, then its data; CODE_CF0313 sends the samples it lists from +3 (a count, then the sample numbers)",src/bankCF_C000.asm
 $CFC561,Sample23,,new,"sound sample 23 of SampleList: header, then BRR blocks",src/bankCF_C000.asm
 $CFD29C,Sample06,,new,"sound sample 6 of SampleList: header, then BRR blocks",src/bankCF_D000.asm
-$CFEEAE,DATA8_CFEEAE,,new,"jump table: the routine for each index",src/bankCF_E000.asm
-$CFF0AA,DATA8_CFF0AA,,new,"jump table: the routine for each index",src/bankCF_E000.asm
+$CFEEAE,LayoutBigPieces,DATA8_CFEEAE,code,"from the code: jmp (table,x) with the record's first byte from DrawFrameLayout",src/bankCF_E000.asm
+$CFF0AA,LayoutSmallPieces,DATA8_CFF0AA,code,"from the code: jmp (table,x) from LayoutSmallNext",src/bankCF_E000.asm
 $CFF27C,DATA8_CFF27C,,new,"per layout (the high byte of a DATA8_C60848 word) a size word: CODE_C5F368 queues two transfers of twice its low byte, then one of its high byte (zero parts skipped)",src/bankCF_F000.asm
 $CFF3A0,DATA8_CFF3A0,,new,"CODE_CFEE6C reads layout A at DATA8_CFF3A0+2A (layout 0 is skipped, so this word is not read); $8F-$91 jump through it",src/bankCF_F000.asm
 $CFF3A2,DATA8_CFF3A2,,new,"per layout a pointer in this bank: entries 0-141 a layout record (its first byte picks the handler in DATA8_CFEEAE), 142-145 code that CODE_CFEE25 / CODE_CFEE6C jump to",src/bankCF_F000.asm
@@ -6632,41 +6632,41 @@ $CF045C,.1,CODE_CF045C,new,"branch target only used in LoadTeamSongs",src/bankCF
 $CF0490,.loop,CODE_CF0490,new,"branch target only used in PlayTeamSong",src/bankCF_0000.asm
 $CF04C0,.1,CODE_CF04C0,new,"branch target only used in StartMenuMusic",src/bankCF_0000.asm
 $CF04DC,.2,CODE_CF04DC,new,"branch target only used in StartMenuMusic",src/bankCF_0000.asm
-$CFEE5C,.1,CODE_CFEE5C,new,"branch target only used in CODE_CFEE25",src/bankCF_E000.asm
-$CFEE69,.2,CODE_CFEE69,new,"branch target only used in CODE_CFEE25",src/bankCF_E000.asm
-$CFEEA1,.1,CODE_CFEEA1,new,"branch target only used in CODE_CFEE6C",src/bankCF_E000.asm
-$CFEEAB,.2,CODE_CFEEAB,new,"branch target only used in CODE_CFEE6C",src/bankCF_E000.asm
-$CFEFAD,.1,CODE_CFEFAD,new,"branch target only used in CODE_CFEF41",src/bankCF_E000.asm
-$CFEFC2,.2,CODE_CFEFC2,new,"branch target only used in CODE_CFEF41",src/bankCF_E000.asm
-$CFEFC5,.3,CODE_CFEFC5,new,"branch target only used in CODE_CFEF41",src/bankCF_E000.asm
-$CFEFCA,.4,CODE_CFEFCA,new,"branch target only used in CODE_CFEF41",src/bankCF_E000.asm
-$CFEFEB,.1,CODE_CFEFEB,new,"branch target only used in CODE_CFEFD1",src/bankCF_E000.asm
-$CFF000,.2,CODE_CFF000,new,"branch target only used in CODE_CFEFD1",src/bankCF_E000.asm
-$CFF003,.3,CODE_CFF003,new,"branch target only used in CODE_CFEFD1",src/bankCF_E000.asm
-$CFF008,.4,CODE_CFF008,new,"branch target only used in CODE_CFEFD1",src/bankCF_E000.asm
-$CFF029,.1,CODE_CFF029,new,"branch target only used in CODE_CFF00F",src/bankCF_E000.asm
-$CFF03E,.2,CODE_CFF03E,new,"branch target only used in CODE_CFF00F",src/bankCF_E000.asm
-$CFF041,.3,CODE_CFF041,new,"branch target only used in CODE_CFF00F",src/bankCF_E000.asm
-$CFF046,.4,CODE_CFF046,new,"branch target only used in CODE_CFF00F",src/bankCF_E000.asm
-$CFF062,.1,CODE_CFF062,new,"branch target only used in CODE_CFF04D",src/bankCF_E000.asm
-$CFF077,.2,CODE_CFF077,new,"branch target only used in CODE_CFF04D",src/bankCF_E000.asm
-$CFF07A,.3,CODE_CFF07A,new,"branch target only used in CODE_CFF04D",src/bankCF_E000.asm
-$CFF07F,.4,CODE_CFF07F,new,"branch target only used in CODE_CFF04D",src/bankCF_E000.asm
-$CFF097,.1,CODE_CFF097,new,"branch target only used in CODE_CFF086",src/bankCF_E000.asm
-$CFF09D,.2,CODE_CFF09D,new,"branch target only used in CODE_CFF086",src/bankCF_E000.asm
-$CFF1A2,.1,CODE_CFF1A2,new,"branch target only used in CODE_CFF137",src/bankCF_F000.asm
-$CFF1B7,.2,CODE_CFF1B7,new,"branch target only used in CODE_CFF137",src/bankCF_F000.asm
-$CFF1BA,.3,CODE_CFF1BA,new,"branch target only used in CODE_CFF137",src/bankCF_F000.asm
-$CFF1BF,.4,CODE_CFF1BF,new,"branch target only used in CODE_CFF137",src/bankCF_F000.asm
-$CFF1DF,.1,CODE_CFF1DF,new,"branch target only used in CODE_CFF1C6",src/bankCF_F000.asm
-$CFF1F4,.2,CODE_CFF1F4,new,"branch target only used in CODE_CFF1C6",src/bankCF_F000.asm
-$CFF1F7,.3,CODE_CFF1F7,new,"branch target only used in CODE_CFF1C6",src/bankCF_F000.asm
-$CFF1FC,.4,CODE_CFF1FC,new,"branch target only used in CODE_CFF1C6",src/bankCF_F000.asm
-$CFF21C,.1,CODE_CFF21C,new,"branch target only used in CODE_CFF203",src/bankCF_F000.asm
-$CFF255,.1,CODE_CFF255,new,"branch target only used in CODE_CFF240",src/bankCF_F000.asm
-$CFF26A,.2,CODE_CFF26A,new,"branch target only used in CODE_CFF240",src/bankCF_F000.asm
-$CFF26D,.3,CODE_CFF26D,new,"branch target only used in CODE_CFF240",src/bankCF_F000.asm
-$CFF272,.4,CODE_CFF272,new,"branch target only used in CODE_CFF240",src/bankCF_F000.asm
+$CFEE5C,.1,CODE_CFEE5C,new,"branch target only used in DrawFrameLayoutFlip",src/bankCF_E000.asm
+$CFEE69,.2,CODE_CFEE69,new,"branch target only used in DrawFrameLayoutFlip",src/bankCF_E000.asm
+$CFEEA1,.1,CODE_CFEEA1,new,"branch target only used in DrawFrameLayout",src/bankCF_E000.asm
+$CFEEAB,.2,CODE_CFEEAB,new,"branch target only used in DrawFrameLayout",src/bankCF_E000.asm
+$CFEFAD,.1,CODE_CFEFAD,new,"branch target only used in BigPieces4",src/bankCF_E000.asm
+$CFEFC2,.2,CODE_CFEFC2,new,"branch target only used in BigPieces4",src/bankCF_E000.asm
+$CFEFC5,.3,CODE_CFEFC5,new,"branch target only used in BigPieces4",src/bankCF_E000.asm
+$CFEFCA,.4,CODE_CFEFCA,new,"branch target only used in BigPieces4",src/bankCF_E000.asm
+$CFEFEB,.1,CODE_CFEFEB,new,"branch target only used in PutBigPiece3",src/bankCF_E000.asm
+$CFF000,.2,CODE_CFF000,new,"branch target only used in PutBigPiece3",src/bankCF_E000.asm
+$CFF003,.3,CODE_CFF003,new,"branch target only used in PutBigPiece3",src/bankCF_E000.asm
+$CFF008,.4,CODE_CFF008,new,"branch target only used in PutBigPiece3",src/bankCF_E000.asm
+$CFF029,.1,CODE_CFF029,new,"branch target only used in PutBigPiece2",src/bankCF_E000.asm
+$CFF03E,.2,CODE_CFF03E,new,"branch target only used in PutBigPiece2",src/bankCF_E000.asm
+$CFF041,.3,CODE_CFF041,new,"branch target only used in PutBigPiece2",src/bankCF_E000.asm
+$CFF046,.4,CODE_CFF046,new,"branch target only used in PutBigPiece2",src/bankCF_E000.asm
+$CFF062,.1,CODE_CFF062,new,"branch target only used in PutBigPiece1",src/bankCF_E000.asm
+$CFF077,.2,CODE_CFF077,new,"branch target only used in PutBigPiece1",src/bankCF_E000.asm
+$CFF07A,.3,CODE_CFF07A,new,"branch target only used in PutBigPiece1",src/bankCF_E000.asm
+$CFF07F,.4,CODE_CFF07F,new,"branch target only used in PutBigPiece1",src/bankCF_E000.asm
+$CFF097,.1,CODE_CFF097,new,"branch target only used in LayoutSmallNext",src/bankCF_E000.asm
+$CFF09D,.2,CODE_CFF09D,new,"branch target only used in LayoutSmallNext",src/bankCF_E000.asm
+$CFF1A2,.1,CODE_CFF1A2,new,"branch target only used in SmallPieces4",src/bankCF_F000.asm
+$CFF1B7,.2,CODE_CFF1B7,new,"branch target only used in SmallPieces4",src/bankCF_F000.asm
+$CFF1BA,.3,CODE_CFF1BA,new,"branch target only used in SmallPieces4",src/bankCF_F000.asm
+$CFF1BF,.4,CODE_CFF1BF,new,"branch target only used in SmallPieces4",src/bankCF_F000.asm
+$CFF1DF,.1,CODE_CFF1DF,new,"branch target only used in PutSmallPiece3",src/bankCF_F000.asm
+$CFF1F4,.2,CODE_CFF1F4,new,"branch target only used in PutSmallPiece3",src/bankCF_F000.asm
+$CFF1F7,.3,CODE_CFF1F7,new,"branch target only used in PutSmallPiece3",src/bankCF_F000.asm
+$CFF1FC,.4,CODE_CFF1FC,new,"branch target only used in PutSmallPiece3",src/bankCF_F000.asm
+$CFF21C,.1,CODE_CFF21C,new,"branch target only used in PutSmallPiece2",src/bankCF_F000.asm
+$CFF255,.1,CODE_CFF255,new,"branch target only used in PutSmallPiece1",src/bankCF_F000.asm
+$CFF26A,.2,CODE_CFF26A,new,"branch target only used in PutSmallPiece1",src/bankCF_F000.asm
+$CFF26D,.3,CODE_CFF26D,new,"branch target only used in PutSmallPiece1",src/bankCF_F000.asm
+$CFF272,.4,CODE_CFF272,new,"branch target only used in PutSmallPiece1",src/bankCF_F000.asm
 $CFFDB0,.1,CODE_CFFDB0,new,"branch target only used in CODE_CFFD9E",src/bankCF_F000.asm
 $CFFDC3,.2,CODE_CFFDC3,new,"branch target only used in CODE_CFFD9E",src/bankCF_F000.asm
 $CFFDC6,.3,CODE_CFFDC6,new,"branch target only used in CODE_CFFD9E",src/bankCF_F000.asm
@@ -8598,3 +8598,24 @@ $17CD,HomeSpritePal,,code,"RAM: from the code: InitGameSprites sets it and uses 
 $17CF,VisSpritePal,,code,"RAM: from the code: InitGameSprites sets it and uses it; the face off box and the pause screen pick it by the period (gsp)",src/ram95s.asm
 $18EE,PauseMapBuf,,code,"RAM: from the code: InitPauseScreen allocates the $2D60-byte pause map there; the pause draw routines add it as their base (third Claude thread)",src/ram95s.asm
 $18F8,PauseMusicOn,,code,"RAM: from the code: Pausemode_menu sets it after loading the pause music; RestoreGameScreen reloads the team songs when it is set",src/ram95s.asm
+$CFEE6C,DrawFrameLayout,CODE_CFEE6C,code,"from the code: the per-frame offsets (DATA8_C61090 / DATA8_C618D8), the record from DATA8_CFF3A0 by DATA8_C60848's byte, the piece count byte through LayoutBigPieces; DrawSortedGameObject calls it when attrxflip ($0800) is clear",src/bankCF_E000.asm
+$CFEE25,DrawFrameLayoutFlip,CODE_CFEE25,code,"from the code: DATA8_C62120 for x, the record index eor 1 into DATA8_CFF3A2; DrawSortedGameObject calls it when attrxflip ($0800) is set (94S attribute bits)",src/bankCF_E000.asm
+$CFEEB8,BigPieces1,CODE_CFEEB8,code,"from the code: record +1 / +2 to $E7 / $EF",src/bankCF_E000.asm
+$CFEECF,BigPieces2,CODE_CFEECF,code,"from the code: record +1-+4 to $E7 / $EF / $E9 / $F1, tmp2 + 2",src/bankCF_E000.asm
+$CFEEFE,BigPieces3,CODE_CFEEFE,code,"from the code: record +1-+6, tmp2 + 4",src/bankCF_E000.asm
+$CFEF41,BigPieces4,CODE_CFEF41,code,"from the code: record +1-+8, tmp2 + 6, the on-screen tests and the OAM entry with size bit 2",src/bankCF_E000.asm
+$CFEFD1,PutBigPiece3,CODE_CFEFD1,code,"from the code: the x / y range tests, tile tmp2 pushed with $A3, the OAM high bits at $00,y (2 = large)",src/bankCF_E000.asm
+$CFF00F,PutBigPiece2,CODE_CFF00F,code,"from the code: as PutBigPiece3 with the second pair",src/bankCF_E000.asm
+$CFF04D,PutBigPiece1,CODE_CFF04D,code,"from the code: as PutBigPiece3 with the first pair and the tile number tmp2 itself",src/bankCF_E000.asm
+$CFF086,LayoutSmallNext,CODE_CFF086,code,"from the code: the count nibble (8 or more: none) gives the skip, then jmp (DATA8_CFF0AA,x)",src/bankCF_E000.asm
+$CFF0B4,SmallPieces1,CODE_CFF0B4,code,"from the code: record +1 / +2 to $E7 / $EF",src/bankCF_E000.asm
+$CFF0CB,SmallPieces2,CODE_CFF0CB,code,"from the code: record +1-+4, inc tmp1",src/bankCF_F000.asm
+$CFF0F6,SmallPieces3,CODE_CFF0F6,code,"from the code: record +1-+6, tmp1 + 2",src/bankCF_F000.asm
+$CFF137,SmallPieces4,CODE_CFF137,code,"from the code: record +1-+8, tmp1 + 3, the on-screen tests and the OAM entry with size bit 0",src/bankCF_F000.asm
+$CFF1C6,PutSmallPiece3,CODE_CFF1C6,code,"from the code: the x / y range tests, tile tmp1 pushed with $A1, the OAM high bits at $00,y (0 = small)",src/bankCF_F000.asm
+$CFF203,PutSmallPiece2,CODE_CFF203,code,"from the code: as PutSmallPiece3 with the second pair",src/bankCF_F000.asm
+$CFF240,PutSmallPiece1,CODE_CFF240,code,"from the code: as PutSmallPiece3 with the first pair",src/bankCF_F000.asm
+$CFF279,LayoutDone,CODE_CFF279,code,"from the code: jmp ($A5); also the none entry of LayoutSmallPieces",src/bankCF_F000.asm
+$CFEE1D,NextSortedGameObjectJump,CODE_CFEE1D,code,"from the code: jml NextSortedGameObject; DrawSortedGameObject puts its address in $A5 before jumping to DrawFrameLayout",src/bankCF_E000.asm
+$C5287A,PadTagFrameDone,CODE_C5287A,code,"from the code: sty $2A, ldy $10 (the pad), bra NextPadTag; reached through PadTagFrameDoneJump",src/bankC5_2000.asm
+$CFEE21,PadTagFrameDoneJump,CODE_CFEE21,code,"from the code: jml to it; the player tag code puts its address in $A5 before jumping to DrawFrameLayout",src/bankCF_E000.asm
