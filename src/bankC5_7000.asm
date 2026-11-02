@@ -197,9 +197,10 @@ CODE_C570CC:						; from CODE_C5705E
 .1:									; go to CODE_C5705E
 	jmp.w CODE_C5705E
 DATA8_C570E8:						; jump table: the routine for each index
-	dw CODE_C570F4,AttribEnergy,CODE_C57187,CODE_C5719B
-	dw $0000,CODE_C571B4
-CODE_C570F4:						; from DATA8_C570E8
+	dw RosterColStatus,AttribEnergy,RosterColHand,RosterColWeight
+	dw $0000,RosterColRating
+RosterColStatus:					; TeamRoster's status column for player d0: Ice, Bench, Inj= P / Inj= G
+									; (DATA8_C35E9F) or the penalty time left (M:SS)
 	lda.b d0
 	asl a
 	ldx.b a2
@@ -272,18 +273,19 @@ AttribEnergy:						; prints the energy of roster player d0 of team a2 as a perce
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C57187:						; from DATA8_C570E8
-	jsr.w CODE_C571CB
+RosterColHand:						; TeamRoster's shooting hand column: Left or Right by bit 0 of the
+									; attribute (CalcRosterAttrib)
+	jsr.w CalcRosterAttrib
 	and.w #$0001
 	asl a
 	tax
-	lda.l PhotoPaletteTable-4,x
+	lda.l DATA8_C35E9F+8,x
 	tax
 	ldy.b $6D
 	jsl.l PrintBoldCentred
 	rts
-CODE_C5719B:						; from DATA8_C570E8
-	jsr.w CODE_C571CB
+RosterColWeight:					; TeamRoster's weight column: the attribute (CalcRosterAttrib) * 8 + 140
+	jsr.w CalcRosterAttrib
 	asl a
 	asl a
 	asl a
@@ -294,18 +296,20 @@ CODE_C5719B:						; from DATA8_C570E8
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C571B4:						; from DATA8_C570E8
-	jsr.w CODE_C571CB
+RosterColRating:					; TeamRoster's rating column: the attribute value (CalcRosterAttrib)
+	jsr.w CalcRosterAttrib
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.b $6D
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C571C7:						; called from other segments
-	jsr.w CODE_C571CB
+CalcRosterAttribLong:				; CalcRosterAttrib for long calls
+	jsr.w CalcRosterAttrib
 	rtl
-CODE_C571CB:						; from CODE_C571C7, CODE_C57187, CODE_C5719B, CODE_C571B4
+CalcRosterAttrib:					; the rating of roster player d0 of team a2 for the attributes in mask d4:
+									; CalcAttrib's weighted sum with the hot / cold bytes, read from the
+									; roster table's player record
 	stz.b $81
 	ldx.w #$2DC9
 	lda.b d0
@@ -487,7 +491,7 @@ CODE_C571CB:						; from CODE_C571C7, CODE_C57187, CODE_C5719B, CODE_C571B4
 	lsr a
 .21:								; go to .10
 	bra .10
-DATA8_C57309:						; not traced: a table read by CODE_C571CB
+DATA8_C57309:						; not traced: a table read by CalcRosterAttrib
 	db $00,$00,$01,$02,$03,$03,$02,$01,$02,$01,$03,$02,$01,$01,$01,$01
 	db $00,$00,$00,$09,$02,$02,$09,$09,$02,$02,$02,$02,$02,$02,$02,$02
 PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcountmark+2 set

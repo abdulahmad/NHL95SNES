@@ -5607,36 +5607,36 @@ $C56FC1,.4,CODE_C56FC1,new,"branch target only used in CODE_C56F5C",src/bankC5_7
 $C56FEA,.5,CODE_C56FEA,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
 $C570E4,.rts,CODE_C570E4,new,"branch target only used in CODE_C570CC",src/bankC5_7000.asm
 $C570E5,.1,CODE_C570E5,new,"branch target only used in CODE_C570CC",src/bankC5_7000.asm
-$C570FE,.1,CODE_C570FE,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
-$C57111,.2,CODE_C57111,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
-$C5711B,.3,CODE_C5711B,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
-$C57131,.4,CODE_C57131,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
-$C5713B,.5,CODE_C5713B,new,"branch target only used in CODE_C570F4",src/bankC5_7000.asm
+$C570FE,.1,CODE_C570FE,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
+$C57111,.2,CODE_C57111,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
+$C5711B,.3,CODE_C5711B,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
+$C57131,.4,CODE_C57131,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
+$C5713B,.5,CODE_C5713B,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
 $C57153,.1,CODE_C57153,new,"branch target only used in AttribEnergy",src/bankC5_7000.asm
 $C57162,.2,CODE_C57162,new,"branch target only used in AttribEnergy",src/bankC5_7000.asm
 $C57177,.3,CODE_C57177,new,"branch target only used in AttribEnergy",src/bankC5_7000.asm
-$C571E1,.1,CODE_C571E1,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C571F7,.2,CODE_C571F7,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57206,.3,CODE_C57206,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57210,.4,CODE_C57210,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57212,.5,CODE_C57212,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57224,.6,CODE_C57224,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57239,.7,CODE_C57239,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57252,.8,CODE_C57252,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57263,.9,CODE_C57263,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57289,.10,CODE_C57289,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57291,.11,CODE_C57291,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C5729B,.rts,CODE_C5729B,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C5729C,.12,CODE_C5729C,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C5729E,.13,CODE_C5729E,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C572BA,.14,CODE_C572BA,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C572BF,.15,CODE_C572BF,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C572C7,.16,CODE_C572C7,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C572DA,.17,CODE_C572DA,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C572EB,.18,CODE_C572EB,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C572F6,.19,CODE_C572F6,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57302,.20,CODE_C57302,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
-$C57307,.21,CODE_C57307,new,"branch target only used in CODE_C571CB",src/bankC5_7000.asm
+$C571E1,.1,CODE_C571E1,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C571F7,.2,CODE_C571F7,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57206,.3,CODE_C57206,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57210,.4,CODE_C57210,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57212,.5,CODE_C57212,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57224,.6,CODE_C57224,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57239,.7,CODE_C57239,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57252,.8,CODE_C57252,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57263,.9,CODE_C57263,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57289,.10,CODE_C57289,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57291,.11,CODE_C57291,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C5729B,.rts,CODE_C5729B,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C5729C,.12,CODE_C5729C,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C5729E,.13,CODE_C5729E,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C572BA,.14,CODE_C572BA,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C572BF,.15,CODE_C572BF,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C572C7,.16,CODE_C572C7,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C572DA,.17,CODE_C572DA,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C572EB,.18,CODE_C572EB,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C572F6,.19,CODE_C572F6,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57302,.20,CODE_C57302,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
+$C57307,.21,CODE_C57307,new,"branch target only used in CalcRosterAttrib",src/bankC5_7000.asm
 $C57358,.1,CODE_C57358,new,"branch target only used in PauseReplay",src/bankC5_7000.asm
 $C573A0,.1,CODE_C573A0,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
 $C573A2,.2,CODE_C573A2,new,"branch target only used in EditLinesScreen",src/bankC5_7000.asm
@@ -8148,3 +8148,9 @@ $C558CC,FreePauseBuffers,CODE_C558CC,code,"from the code: it falls into RestoreP
 $C5589E,QueueSavedTextMap,CODE_C5589E,code,"from the code: the transfer record pushed on the VRAM queue; Pausemode and Intermission call it on the way out",src/bankC5_5000.asm
 $C55F1F,FitNameToMesarea,CODE_C55F1F,code,"from the code: it falls into FitName; the stats rows use it",src/bankC5_5000.asm
 $C55E57,TeamLogoSprite,CODE_C55E57,code,"from the code; the pause screens with a team logo call it (ShowPlayerStats, TeamRoster, EditLinesScreen, PauseGoalie)",src/bankC5_5000.asm
+$C571CB,CalcRosterAttrib,CODE_C571CB,code,"from the code: the HotColdTable row d0 * 12 (+ $138 for the away team), BitMaskTable2 against d4, the record at +$110; CalcAttrib does the same from the team data",src/bankC5_7000.asm
+$C571C7,CalcRosterAttribLong,CODE_C571C7,code,"jsr CalcRosterAttrib, rtl",src/bankC5_7000.asm
+$C570F4,RosterColStatus,CODE_C570F4,code,"from the code: tmpdst of the player, TimeTextMSS, the status texts",src/bankC5_7000.asm
+$C57187,RosterColHand,CODE_C57187,code,"from the code: the two texts at DATA8_C35E9F+8",src/bankC5_7000.asm
+$C5719B,RosterColWeight,CODE_C5719B,code,"from the code",src/bankC5_7000.asm
+$C571B4,RosterColRating,CODE_C571B4,code,"from the code",src/bankC5_7000.asm

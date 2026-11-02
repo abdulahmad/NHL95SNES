@@ -602,7 +602,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	stz.b $91
 	lda.w #$0001
 	sta.l $7E24DC
-	jsl.l CODE_C571C7
+	jsl.l CalcRosterAttribLong
 	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
@@ -638,7 +638,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	stz.b $91
 	lda.w #$0001
 	sta.l $7E24DC
-	jsl.l CODE_C571C7
+	jsl.l CalcRosterAttribLong
 	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
@@ -784,7 +784,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $91
 	lda.w #$0001
 	sta.l $7E24DC
-	jsl.l CODE_C571C7
+	jsl.l CalcRosterAttribLong
 	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
@@ -809,7 +809,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $91
 	lda.w #$0001
 	sta.l $7E24DC
-	jsl.l CODE_C571C7
+	jsl.l CalcRosterAttribLong
 	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
@@ -981,16 +981,16 @@ CODE_C4E8CD:						; from CODE_C4E885
 	ldy.w #$F0C9
 	sty.b d4
 	ldy.w #$0010
-.2:									; $91 = Y, d0 = A, $24DC = 0, call CODE_C571C7, ...
+.2:									; $91 = Y, d0 = A, $24DC = 0, call CalcRosterAttribLong, ...
 	sty.b $91
 	sta.b d0
 	stz.w $24DC
-	jsl.l CODE_C571C7
+	jsl.l CalcRosterAttribLong
 	pha
 	lda.b $05,s
 	sta.b d0
 	inc.w $24DC
-	jsl.l CODE_C571C7
+	jsl.l CalcRosterAttribLong
 	sec
 	sbc.b $01,s
 	plx
