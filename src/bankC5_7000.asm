@@ -2055,9 +2055,9 @@ PrintSaveRecords:					; Record Holders page 2: the users' save records (name, Sa
 	lda.w #$0008
 	sta.b $6D
 	lda.w #$0000
-.loop:								; loop: $65 = A, call CODE_C5800C, $6D + 1, A = $65, ...
+.loop:								; loop: $65 = A, call PrintSaveRecordRow, $6D + 1, A = $65, ...
 	sta.b $65
-	jsr.w CODE_C5800C
+	jsr.w PrintSaveRecordRow
 	inc.b $6D
 	lda.b $65
 	inc a

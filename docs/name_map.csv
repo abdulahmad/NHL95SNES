@@ -5755,8 +5755,8 @@ $C57F28,.loop,CODE_C57F28,new,"branch target only used in PrintGoalRecords",src/
 $C57FC9,.loop,CODE_C57FC9,new,"branch target only used in CODE_C57FC7",src/bankC5_7000.asm
 $C57FD5,.1,CODE_C57FD5,new,"branch target only used in CODE_C57FC7",src/bankC5_7000.asm
 $C57FFB,.loop,CODE_C57FFB,new,"branch target only used in PrintSaveRecords",src/bankC5_7000.asm
-$C5809C,.loop,CODE_C5809C,new,"branch target only used in CODE_C5809A",src/bankC5_8000.asm
-$C580A8,.1,CODE_C580A8,new,"branch target only used in CODE_C5809A",src/bankC5_8000.asm
+$C5809C,.loop,CODE_C5809C,new,"branch target only used in AppendMesarea",src/bankC5_8000.asm
+$C580A8,.1,CODE_C580A8,new,"branch target only used in AppendMesarea",src/bankC5_8000.asm
 $C58216,.1,CODE_C58216,new,"branch target only used in Decompress",src/bankC5_8000.asm
 $C5824F,.1,CODE_C5824F,new,"branch target only used in UnpackFormat0",src/bankC5_8000.asm
 $C58270,.2,CODE_C58270,new,"branch target only used in UnpackFormat0",src/bankC5_8000.asm
@@ -5834,20 +5834,20 @@ $C58DA0,.5,CODE_C58DA0,new,"branch target only used in GameSetUp",src/bankC5_800
 $C58DAA,.6,CODE_C58DAA,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
 $C58DB4,.7,CODE_C58DB4,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
 $C58DC1,.8,CODE_C58DC1,new,"branch target only used in GameSetUp",src/bankC5_8000.asm
-$C58E3A,.1,CODE_C58E3A,new,"branch target only used in CODE_C58DF6",src/bankC5_8000.asm
-$C58E6B,.2,CODE_C58E6B,new,"branch target only used in CODE_C58DF6",src/bankC5_8000.asm
-$C58E88,.1,CODE_C58E88,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
-$C58E8B,.2,CODE_C58E8B,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
-$C58EA4,.3,CODE_C58EA4,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
-$C58EF2,.1,CODE_C58EF2,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
-$C58F02,.2,CODE_C58F02,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
-$C58F22,.3,CODE_C58F22,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
-$C58F27,.rts,CODE_C58F27,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
-$C58F32,.1,CODE_C58F32,new,"branch target only used in CODE_C58F28",src/bankC5_8000.asm
-$C58F47,.2,CODE_C58F47,new,"branch target only used in CODE_C58F28",src/bankC5_8000.asm
-$C58F57,.3,CODE_C58F57,new,"branch target only used in CODE_C58F28",src/bankC5_8000.asm
-$C58FC9,.1,CODE_C58FC9,new,"branch target only used in CODE_C58F75",src/bankC5_8000.asm
-$C58FCD,.2,CODE_C58FCD,new,"branch target only used in CODE_C58F75",src/bankC5_8000.asm
+$C58E3A,.1,CODE_C58E3A,new,"branch target only used in SetupScrollUp",src/bankC5_8000.asm
+$C58E6B,.2,CODE_C58E6B,new,"branch target only used in SetupScrollUp",src/bankC5_8000.asm
+$C58E88,.1,CODE_C58E88,new,"branch target only used in SetupScrollDown",src/bankC5_8000.asm
+$C58E8B,.2,CODE_C58E8B,new,"branch target only used in SetupScrollDown",src/bankC5_8000.asm
+$C58EA4,.3,CODE_C58EA4,new,"branch target only used in SetupScrollDown",src/bankC5_8000.asm
+$C58EF2,.1,CODE_C58EF2,new,"branch target only used in SetupLineUp",src/bankC5_8000.asm
+$C58F02,.2,CODE_C58F02,new,"branch target only used in SetupLineUp",src/bankC5_8000.asm
+$C58F22,.3,CODE_C58F22,new,"branch target only used in SetupLineUp",src/bankC5_8000.asm
+$C58F27,.rts,CODE_C58F27,new,"branch target only used in SetupLineUp",src/bankC5_8000.asm
+$C58F32,.1,CODE_C58F32,new,"branch target only used in SetupLineDown",src/bankC5_8000.asm
+$C58F47,.2,CODE_C58F47,new,"branch target only used in SetupLineDown",src/bankC5_8000.asm
+$C58F57,.3,CODE_C58F57,new,"branch target only used in SetupLineDown",src/bankC5_8000.asm
+$C58FC9,.1,CODE_C58FC9,new,"branch target only used in DrawSetupLine",src/bankC5_8000.asm
+$C58FCD,.2,CODE_C58FCD,new,"branch target only used in DrawSetupLine",src/bankC5_8000.asm
 $C58FF6,.1,CODE_C58FF6,new,"branch target only used in CODE_C58FD8",src/bankC5_9000.asm
 $C5900F,.2,CODE_C5900F,new,"branch target only used in CODE_C58FD8",src/bankC5_9000.asm
 $C59032,.1,CODE_C59032,new,"branch target only used in CODE_C59012",src/bankC5_9000.asm
@@ -8325,3 +8325,12 @@ $C58BB9,CopyFlipString2,CODE_C58BB9,code,"from the code: the count byte, AllocWo
 $C58D05,SeedRandom,CODE_C58D05,code,"from the code: SLHV, two OPHCT and two OPVCT reads into the four bytes RandomBelowA rolls; setoptions calls it",src/bankC5_8000.asm
 $C580B7,TeamNumSecondText,CODE_C580B7,code,"from the code: the team data pointer at $C30000 + 2A, + 2, SkipPackedText, the same tail as TeamSecondText; PrintSaveRecords calls it",src/bankC5_8000.asm
 $466E,RandomState,,code,"RAM: from the code: RandomBelowA rolls its four bytes and divides by the second; SeedRandom fills them from the H / V counters",src/ram95s.asm
+$C58EE0,SetupLineUp,CODE_C58EE0,code,"from the code: GameSetUp calls it on pad bit $0800 (up); d6 - 1, the cursor sprite y - $10 against $8C, $99 = 2 and DrawSetupLine, else SetRowPalette0 on the new row",src/bankC5_8000.asm
+$C58F28,SetupLineDown,CODE_C58F28,code,"from the code: GameSetUp calls it on pad bit $0400 (down); d6 + 1 against $69, the cursor sprite y + $10 against $CC, $99 = 4 and DrawSetupLine",src/bankC5_8000.asm
+$C58FD7,SetupLineDownReturn,CODE_C58FD7,code,"from the code: SetupLineDown jumps here when d6 + 1 reaches the line count",src/bankC5_8000.asm
+$C58F75,DrawSetupLine,CODE_C58F75,code,"from the code: ClearRAM7E of the row, the option record at $C30000 + a3 + d6 * 8 (+2 title, +4 / +6 the setting's text list and value), PrintItalicLeft, PrintItalicCentred or PrintItalicRight, SendTextMap; the up / down and left / right handlers end here",src/bankC5_8000.asm
+$C58DF6,SetupScrollUp,CODE_C58DF6,code,"from the code: GameSetUp runs it through DATA8_C58DF0 by $99; the first frame rotates the five words, then each is decreased with the count in $4692",src/bankC5_8000.asm
+$C58E71,SetupScrollDown,CODE_C58E71,code,"from the code: GameSetUp runs it through DATA8_C58DF0 by $99; each word increased per frame, rotated on the last with the count in $4692",src/bankC5_8000.asm
+$C5800C,PrintSaveRecordRow,CODE_C5800C,code,"from the code: the record offset from $3E6E by A (none when its count is 0), the name at + $3660, BinToBCD of the count, ' by ' / ' vs ' with TeamNumSecondText of the two team bytes; PrintSaveRecords calls it per row",src/bankC5_8000.asm
+$C58091,PrintRecordCell,CODE_C58091,code,"from the code: jsl PrintBoldCentredStr, $CF = $D1; PrintSaveRecordRow's two cells",src/bankC5_8000.asm
+$C5809A,AppendMesarea,CODE_C5809A,code,"from the code: the byte loop into mesarea,y up to the zero; PrintSaveRecordRow adds the team names with it",src/bankC5_8000.asm

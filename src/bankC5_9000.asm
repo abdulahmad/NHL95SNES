@@ -32,8 +32,8 @@ CODE_C58FD8:						; called from other segments
 	dec a
 	pha
 	rts
-.2:									; go to CODE_C58F75
-	jmp.w CODE_C58F75
+.2:									; go to DrawSetupLine
+	jmp.w DrawSetupLine
 CODE_C59012:						; called from other segments
 	lda.b d6
 	asl a
@@ -69,7 +69,7 @@ CODE_C5904B:						; from CODE_C58FD8, CODE_C59012
 	dex
 	phx
 CODE_C5904D:						; from CODE_C59012
-	jmp.w CODE_C58F75
+	jmp.w DrawSetupLine
 DATA8_C59050:						; not reached by the traced code (data or unused code)
 	db $68,$60
 CODE_C59052:						; called from other segments

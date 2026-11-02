@@ -2,14 +2,15 @@
 ; the transfer queue helpers, HDMA set-up, then game code. Routines not traced to a job keep their address as
 ; a name.
 org $C5800C
-CODE_C5800C:						; called from other segments
+PrintSaveRecordRow:					; save record A on row $6D: the holder's name, then the saves 'by' the
+									; team 'vs' the other team, through PrintRecordCell
 	asl a
 	tax
 	lda.w $3E6E,x
 	sta.b a3
 	tax
 	ldy.w $3654,x
-	beq CODE_C5800C-3
+	beq PrintSaveRecordRow-3
 	ldx.w #$0010
 	stx.b $CF
 	ldx.w #$0060
@@ -17,7 +18,7 @@ CODE_C5800C:						; called from other segments
 	adc.w #$3660
 	tax
 	ldy.b $6D
-	jsr.w CODE_C58091
+	jsr.w PrintRecordCell
 	lda.w #$00F0
 	sta.b $D1
 	ldx.b a3
@@ -40,7 +41,7 @@ CODE_C5800C:						; called from other segments
 	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
-	jsr.w CODE_C5809A
+	jsr.w AppendMesarea
 	lda.w #$7620
 	sta.w mesarea,y
 	iny
@@ -57,17 +58,19 @@ CODE_C5800C:						; called from other segments
 	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
-	jsr.w CODE_C5809A
+	jsr.w AppendMesarea
 	lda.w #$0000
 	sta.w mesarea,y
 	ldx.w #mesarea
 	ldy.b $6D
-CODE_C58091:						; from CODE_C5800C
+PrintRecordCell:					; PrintBoldCentredStr, then the next column ($D1) becomes the current one
+									; ($CF)
 	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C5809A:						; from CODE_C5800C
+AppendMesarea:						; copies the zero ended string at X to mesarea + Y (no zero after it); Y =
+									; its end
 	sep #$20
 .loop:								; loop: if $0000,x = 0 go to .1, mesarea,y = A, X + 1, Y + 1, ...
 	lda.w $0000,x
@@ -1729,16 +1732,16 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	bra .3
 .2:									; $23BC = 0
 	stz.w $23BC
-.3:									; A = padchangeany, if $0800 bits clear go to .4, call CODE_C58EE0, ...
+.3:									; A = padchangeany, if $0800 bits clear go to .4, call SetupLineUp, ...
 	lda.w padchangeany
 	bit.w #$0800
 	beq .4
-	jsr.w CODE_C58EE0
+	jsr.w SetupLineUp
 	bra .8
-.4:									; if $0400 bits clear go to .5, call CODE_C58F28, go to .8
+.4:									; if $0400 bits clear go to .5, call SetupLineDown, go to .8
 	bit.w #$0400
 	beq .5
-	jsr.w CODE_C58F28
+	jsr.w SetupLineDown
 	bra .8
 .5:									; if $0200 bits clear go to .6, call CODE_C58FD8, go to .8
 	bit.w #$0200
@@ -1777,8 +1780,9 @@ StartDemo:							; starts the demo: the demo flag set, user records off, play mo
 	stz.w OptPlayMode
 	jmp.w CODE_C593B1
 DATA8_C58DF0:						; jump table: the routine for each index
-	dw CODE_C59052,CODE_C58DF6,CODE_C58E71
-CODE_C58DF6:						; from DATA8_C58DF0
+	dw CODE_C59052,SetupScrollUp,SetupScrollDown
+SetupScrollUp:						; a frame of the setup list's scroll after SetupLineUp ($99 = 2): the band
+									; scroll words move a line over 16 frames, then $99 = 0
 	lda.w $4692
 	and.w #$00FF
 	cmp.w #$0010
@@ -1833,7 +1837,8 @@ CODE_C58DF6:						; from DATA8_C58DF0
 	sta.w $469E
 	rep #$20
 	rts
-CODE_C58E71:						; from DATA8_C58DF0
+SetupScrollDown:					; a frame of the setup list's scroll after SetupLineDown ($99 = 4): the
+									; band scroll words move a line over 16 frames, then $99 = 0
 	sep #$20
 	lda.w $4692
 	dec a
@@ -1884,7 +1889,9 @@ CODE_C58E71:						; from DATA8_C58DF0
 	sta.w $0108
 	stz.b $99
 	rts
-CODE_C58EE0:						; from GameSetUp
+SetupLineUp:						; setup screen up: the line above (d6 - 1); at the top row the list
+									; scrolls (SetupScrollUp) and the new line is drawn, else the cursor moves
+									; up a row
 	lda.b d6
 	beq .rts
 	dec a
@@ -1916,18 +1923,20 @@ CODE_C58EE0:						; from GameSetUp
 	sta.b $22,x
 	lda.w #$0002
 	sta.b $99
-	bra CODE_C58F75
+	bra DrawSetupLine
 .3:									; $08,x = A, call CODE_C590B8
 	sta.b $08,x
 	jsr.w CODE_C590B8
 .rts:								; return
 	rts
-CODE_C58F28:						; from GameSetUp
+SetupLineDown:						; setup screen down: the line below (d6 + 1, below the line count $69); at
+									; the bottom row the list scrolls (SetupScrollDown) and the new line is
+									; drawn, else the cursor moves down a row
 	lda.b d6
 	inc a
 	cmp.b $69
 	bcc .1
-	jmp.w CODE_C58FD7
+	jmp.w SetupLineDownReturn
 .1:									; d6 = A, A + 1, if A < $69 go to .2, if A < $0005 go to .2, ...
 	sta.b d6
 	inc a
@@ -1961,7 +1970,8 @@ CODE_C58F28:						; from GameSetUp
 	sta.b $22,x
 	lda.w #$0004
 	sta.b $99
-CODE_C58F75:						; from CODE_C58EE0
+DrawSetupLine:						; draws setup line d6 on its text row ($010E): the title at the left and
+									; the setting centred (right aligned in play mode 7), then SendTextMap
 	lda.w $010E
 	xba
 	lsr a
@@ -2005,8 +2015,8 @@ CODE_C58F75:						; from CODE_C58EE0
 .2:									; call SendTextMap, return
 	jsl.l SendTextMap
 	rts
-CODE_C58FD2:						; from CODE_C58F28
+CODE_C58FD2:						; from SetupLineDown
 	sta.b $08,x
 	jsr.w CODE_C590B8
-CODE_C58FD7:						; from CODE_C58F28
+SetupLineDownReturn:				; the shared rts of SetupLineDown
 	rts
