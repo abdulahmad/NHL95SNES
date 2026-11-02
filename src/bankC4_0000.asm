@@ -37,10 +37,10 @@ PlayoffBracketScreen:				; the playoff bracket screen (GamesToday in play mode 3
 	beq .6
 	jsr.w BracketCursorDown
 	lda.b a2
-.6:									; if $0F00 bits clear go to .7, call CODE_C40322, A = a2
+.6:									; if $0F00 bits clear go to .7, call DrawBracketSeriesSummary, A = a2
 	bit.w #$0F00
 	beq .7
-	jsr.w CODE_C40322
+	jsr.w DrawBracketSeriesSummary
 	lda.b a2
 .7:									; if $C0F0 bits clear go to .8, call BracketMarkSeries, A = a2
 	bit.w #$C0F0
@@ -51,9 +51,9 @@ PlayoffBracketScreen:				; the playoff bracket screen (GamesToday in play mode 3
 	bit.w #$3000
 	beq .9
 	jmp.w ExitPlayoffBracket
-.9:									; call ScrollBracketToCursor, call CODE_C4077C, call AnimateSprites, ...
+.9:									; call ScrollBracketToCursor, call UpdateBracketWindows, ...
 	jsr.w ScrollBracketToCursor
-	jsr.w CODE_C4077C
+	jsr.w UpdateBracketWindows
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -117,7 +117,7 @@ BracketMarkSeries:					; toggles the mark of the series under the bracket cursor
 	plx
 	ldy.w $2C82,x
 	jsr.w ToggleTeamBarHighlight
-	jmp.w CODE_C4062A
+	jmp.w RefreshBracketColumns
 .rts:								; return
 	rts
 BracketCursorUp:					; moves the bracket cursor up a row ($69) by its column's step
@@ -129,8 +129,8 @@ BracketCursorUp:					; moves the bracket cursor up a row ($69) by its column's s
 	tax
 	jmp (DATA8_C400FE,x)
 DATA8_C400FE:						; jump table: the routine for each index
-	dw BracketRowUp,CODE_C4011C,CODE_C40152,CODE_C40152
-	dw CODE_C40152,CODE_C4011C,BracketRowUp
+	dw BracketRowUp,BracketRowUpToEdge,BracketRowNoMove,BracketRowNoMove
+	dw BracketRowNoMove,BracketRowUpToEdge,BracketRowUp
 BracketRowUp:						; the bracket cursor one row up: $3D52 / $3D5A - 7, $69 - 1
 	sec
 	lda.w $3D52
@@ -139,7 +139,7 @@ BracketRowUp:						; the bracket cursor one row up: $3D52 / $3D5A - 7, $69 - 1
 	sta.w $3D5A
 	dec.b $69
 	rts
-CODE_C4011C:						; from DATA8_C400FE
+BracketRowUpToEdge:					; repeats upward row movement until the top edge
 	jsr.w BracketRowUp
 	bra BracketCursorUp
 CODE_C40121:						; from BracketCursorUp, BracketCursorDown
@@ -154,8 +154,8 @@ BracketCursorDown:					; moves the bracket cursor down a row ($69, below 3) by i
 	tax
 	jmp (DATA8_C40130,x)
 DATA8_C40130:						; jump table: the routine for each index
-	dw BracketRowDown,CODE_C4014D,CODE_C40152,CODE_C40152
-	dw CODE_C40152,CODE_C4014D,BracketRowDown
+	dw BracketRowDown,BracketRowDownToEdge,BracketRowNoMove,BracketRowNoMove
+	dw BracketRowNoMove,BracketRowDownToEdge,BracketRowDown
 BracketRowDown:						; the bracket cursor one row down: $3D52 / $3D5A + 7, $69 + 1
 	inc.b $69
 	lda.w $3D52
@@ -163,10 +163,10 @@ BracketRowDown:						; the bracket cursor one row down: $3D52 / $3D5A + 7, $69 +
 	sta.w $3D52
 	sta.w $3D5A
 	rts
-CODE_C4014D:						; from DATA8_C40130
+BracketRowDownToEdge:				; repeats downward row movement until the bottom edge
 	jsr.w BracketRowDown
 	bra BracketCursorDown
-CODE_C40152:						; from DATA8_C400FE, DATA8_C40130
+BracketRowNoMove:					; leaves the row unchanged in the centre bracket columns
 	rts
 ExitPlayoffBracket:					; leaves the playoff bracket for the League Menu (SeasonOptions): the
 									; screen reset for it
@@ -229,7 +229,7 @@ BuildPlayoffDay:					; the day's playoff game records from the series still runn
 	lda.w #$0000
 	sta.l SRDayPlayed
 	jsl.l ResetWorkBuf
-	jsr.w CODE_C409E3
+	jsr.w RebuildBracketTeams
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
@@ -370,7 +370,7 @@ AdvancePlayoffTeam:					; the playoff team A one round on (SRPOTeamRounds + 1 in
 	sta.l SRPOTeamRounds,x
 	rep #$21
 	rts
-CODE_C40322:						; from PlayoffBracketScreen, SetupPlayoffBracket
+DrawBracketSeriesSummary:			; queues the selected series teams and win counts into the summary map
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -508,10 +508,10 @@ ScrollBracketToCursor:				; moves the bracket's scroll position ($65) toward the
 	lsr a
 	beq .7
 	sta.b tmp1
-.loop:								; loop: a0 - 1, tmp0 = 0, call CODE_C4064B, tmp1 - 1, ...
+.loop:								; loop: a0 - 1, tmp0 = 0, call QueueBracketColumn, tmp1 - 1, ...
 	dec.b a0
 	stz.b tmp0
-	jsr.w CODE_C4064B
+	jsr.w QueueBracketColumn
 	dec.b tmp1
 	bne .loop
 	bra .7
@@ -521,11 +521,11 @@ ScrollBracketToCursor:				; moves the bracket's scroll position ($65) toward the
 	lsr a
 	beq .7
 	sta.b tmp1
-.loop2:								; loop: a0 + 1, tmp0 = $0020, call CODE_C4064B, tmp1 - 1, ...
+.loop2:								; loop: a0 + 1, tmp0 = $0020, call QueueBracketColumn, tmp1 - 1, ...
 	inc.b a0
 	lda.w #$0020
 	sta.b tmp0
-	jsr.w CODE_C4064B
+	jsr.w QueueBracketColumn
 	dec.b tmp1
 	bne .loop2
 .7:									; BG2HScroll = $65, return
@@ -646,7 +646,7 @@ SetupPlayoffBracket:				; sets up the playoff bracket screen: the bracket and th
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-	jsr.w CODE_C409E3
+	jsr.w RebuildBracketTeams
 	stz.b a0
 	phd
 	lda.w #$2100
@@ -729,24 +729,25 @@ SetupPlayoffBracket:				; sets up the playoff bracket screen: the bracket and th
 	phx
 	jsr.w ToggleTeamBarHighlight
 	plx
-.3:									; X - 1, X - 1, if the result >= 0 go to .loop6, call CODE_C4062A, ...
+.3:									; X - 1, X - 1, if the result >= 0 go to .loop6, ...
 	dex
 	dex
 	bpl .loop6
 	wai
-	jsr.w CODE_C4062A
+	jsr.w RefreshBracketColumns
 	stz.w fadestep
-	jmp.w CODE_C40322
-CODE_C4062A:						; from SetupPlayoffBracket, BracketMarkSeries
+	jmp.w DrawBracketSeriesSummary
+RefreshBracketColumns:				; uploads the visible bracket map columns while preserving the scroll
+									; column
 	pei ($63)
 	ldx.w #$0003
 .loop:								; loop: push X, Y = $0008
 	phx
 	ldy.w #$0008
-.loop2:								; loop: push Y, tmp0 = 0, call CODE_C4064B, a0 + 1, ...
+.loop2:								; loop: push Y, tmp0 = 0, call QueueBracketColumn, a0 + 1, ...
 	phy
 	stz.b tmp0
-	jsr.w CODE_C4064B
+	jsr.w QueueBracketColumn
 	inc.b a0
 	ply
 	dey
@@ -758,7 +759,7 @@ CODE_C4062A:						; from SetupPlayoffBracket, BracketMarkSeries
 	pla
 	sta.b a0
 	rts
-CODE_C4064B:						; from CODE_C4062A, ScrollBracketToCursor
+QueueBracketColumn:					; gathers and queues one bracket map column for the scrolling background
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -811,8 +812,8 @@ CODE_C4064B:						; from CODE_C4062A, ScrollBracketToCursor
 CheckCreateSlots:					; returns when one of the 20 created player slots is free; else the Alert
 									; You have reached the maximum number of Created Players (ShowAlert)
 	ldy.w #$0003
-.loop:								; loop: call CODE_C406C4, if A = $0000 go to .rtl, A = Y, A + $009C, ...
-	jsr.w CODE_C406C4
+.loop:								; loop: call ReadCreatedPlayerSlotField, if A = $0000 go to .rtl, ...
+	jsr.w ReadCreatedPlayerSlotField
 	cmp.w #$0000
 	beq .rtl
 	clc
@@ -825,7 +826,7 @@ CheckCreateSlots:					; returns when one of the 20 created player slots is free;
 	bra ShowAlert
 .rtl:								; return
 	rtl
-CODE_C406C4:						; from CheckCreateSlots
+ReadCreatedPlayerSlotField:			; reads the five-bit created-player field at bit offset Y
 	tya
 	lsr a
 	lsr a
@@ -911,7 +912,7 @@ GetShifter:							; called from other segments
 	bpl .loop
 	dec.b d1
 	rtl
-CODE_C4077C:						; from PlayoffBracketScreen
+UpdateBracketWindows:				; updates the two moving bracket window shapes in alternating HDMA buffers
 	lda.b $26
 	lsr a
 	lda.w #$A000
@@ -936,10 +937,10 @@ CODE_C4077C:						; from PlayoffBracketScreen
 	cpx.w #$009E
 	bcc .3
 	ldx.w #$0000
-.3:									; $3D54 = X, Y = $3D52, call CODE_C4081B, A = DATA8_C41006,x, ...
+.3:									; $3D54 = X, Y = $3D52, call GetBracketWindowOffset, ...
 	stx.w $3D54
 	ldy.w $3D52
-	jsr.w CODE_C4081B
+	jsr.w GetBracketWindowOffset
 	lda.l DATA8_C41006,x
 	adc.b tmp0
 	sec
@@ -950,20 +951,20 @@ CODE_C4077C:						; from PlayoffBracketScreen
 	adc.l DATA8_C41076,x
 	sta.b tmp1
 	ldx.w #$3D4E
-	jsr.w CODE_C40840
+	jsr.w ApproachBracketWindowTarget
 	ldx.w $3D4E
 	ldy.w $3D50
-	jsr.w CODE_C408B3
+	jsr.w WriteBracketWindowShape
 	ldx.w $3D5C
 	inx
 	inx
 	cpx.w #$009E
 	bcc .4
 	ldx.w #$0000
-.4:									; $3D5C = X, Y = $3D5A, call CODE_C4081B, A = DATA8_C4103E,x, ...
+.4:									; $3D5C = X, Y = $3D5A, call GetBracketWindowOffset, ...
 	stx.w $3D5C
 	ldy.w $3D5A
-	jsr.w CODE_C4081B
+	jsr.w GetBracketWindowOffset
 	lda.l DATA8_C4103E,x
 	adc.b tmp0
 	sec
@@ -974,11 +975,12 @@ CODE_C4077C:						; from PlayoffBracketScreen
 	adc.l DATA8_C410AE,x
 	sta.b tmp1
 	ldx.w #$3D56
-	jsr.w CODE_C40840
+	jsr.w ApproachBracketWindowTarget
 	ldx.w $3D56
 	ldy.w $3D58
-	jmp.w CODE_C408B3
-CODE_C4081B:						; from CODE_C4077C
+	jmp.w WriteBracketWindowShape
+GetBracketWindowOffset:				; reads signed horizontal and vertical animation offsets and indexes the
+									; selected cell
 	lda.l DATA8_C40EF4,x
 	tax
 	ora.w #$FF00
@@ -999,7 +1001,7 @@ CODE_C4081B:						; from CODE_C4077C
 	asl a
 	tax
 	rts
-CODE_C40840:						; from CODE_C4077C
+ApproachBracketWindowTarget:		; moves the window centre at X toward tmp0 and tmp1
 	sec
 	lda.b tmp0
 	sbc.w $0000,x
@@ -1063,7 +1065,8 @@ CODE_C40840:						; from CODE_C4077C
 	adc.w $0002,x
 	sta.w $0002,x
 	rts
-CODE_C408B3:						; from CODE_C4077C
+WriteBracketWindowShape:			; writes clipped window edges for the bracket shape into the active HDMA
+									; buffer
 	stx.b tmp0
 	lda.b $26
 	lsr a
@@ -1145,7 +1148,7 @@ CODE_C408B3:						; from CODE_C4077C
 	jmp.w .2
 .rts:								; return
 	rts
-CODE_C40955:						; from CODE_C40999
+CopyBracketTeamBar:					; copies a team's two-row name bar into the bracket map
 	phb
 	sta.b tmp0
 	asl a
@@ -1187,7 +1190,7 @@ ToggleTeamBarRow:					; toggles palette bit $0400 of 12 tiles at X in the map bu
 	dey
 	bpl .loop
 	rts
-CODE_C40999:						; from CODE_C409E3
+PopulateBracketTeams:				; places playoff teams and their name bars through the rounds they reached
 	ldx.w #$000F
 .loop:								; loop: A = SRPOTeams,x, A and $00FF, tmp2 = A, A = SRPOTeamRounds,x, ...
 	lda.l SRPOTeams,x
@@ -1217,7 +1220,7 @@ CODE_C40999:						; from CODE_C409E3
 	tay
 	lda.b tmp2
 	phx
-	jsr.w CODE_C40955
+	jsr.w CopyBracketTeamBar
 	plx
 	inx
 	inx
@@ -1227,7 +1230,7 @@ CODE_C40999:						; from CODE_C409E3
 	dex
 	bpl .loop
 	rts
-CODE_C409E3:						; from BuildPlayoffDay, SetupPlayoffBracket
+RebuildBracketTeams:				; clears bracket work tables and repopulates the playoff teams
 	jsl.l WaitTransfers
 	lda.w #$364E
 	ldy.w #$1000
@@ -1238,7 +1241,7 @@ CODE_C409E3:						; from BuildPlayoffDay, SetupPlayoffBracket
 	txy
 	iny
 	mvn $7E,$7E
-	jmp.w CODE_C40999
+	jmp.w PopulateBracketTeams
 AddIntermissionGoals:				; in season and playoff play (OptPlayMode 2 / 3), adds a random 0-1 goals
 									; to each team of each of the day's computer games not yet done
 	lda.w OptPlayMode
@@ -1258,13 +1261,13 @@ AddIntermissionGoals:				; in season and playoff play (OptPlayMode 2 / 3), adds 
 	bne .3
 	lda.w $0006,y
 	bmi .3
-	jsr.w CODE_C40A60
+	jsr.w RandomIntermissionGoal
 	adc.w $000A,y
 	sta.w $000A,y
-	jsr.w CODE_C40A60
+	jsr.w RandomIntermissionGoal
 	adc.w $0008,y
 	sta.w $0008,y
-	jsr.w CODE_C40A60
+	jsr.w RandomIntermissionGoal
 	cmp.w #$0014
 	bcs .3
 	cmp.w #$000A
@@ -1284,7 +1287,8 @@ AddIntermissionGoals:				; in season and playoff play (OptPlayMode 2 / 3), adds 
 	bne .loop
 	plb
 	rtl
-CODE_C40A60:						; from AddIntermissionGoals
+RandomIntermissionGoal:				; returns a random value below two while switching to the work RAM data
+									; bank
 	lda.w #$0002
 	pea.w $7F7E
 	plb
@@ -1731,37 +1735,37 @@ SetupPlayoffs:						; starts the playoffs once the schedule has no more games: t
 	jsl.l CODE_C5E37E
 	lda.w #$0002
 	sta.b tmp0
-	jsr.w CODE_C40E45
-	jsr.w CODE_C40E3A
+	jsr.w RankPlayoffConference
+	jsr.w GetTopPlayoffSeedMask
 	ldx.w #$0004
 	bit.w #$0004
 	bne .1
 	ldx.w #$0008
-.1:									; tmp0 = X, call CODE_C40E14, call CODE_C40E2D, r0 = $75A4, ...
+.1:									; tmp0 = X, call FindPlayoffDivisionSeed, call SwapPlayoffSecondSeed, ...
 	stx.b tmp0
-	jsr.w CODE_C40E14
-	jsr.w CODE_C40E2D
+	jsr.w FindPlayoffDivisionSeed
+	jsr.w SwapPlayoffSecondSeed
 	lda.w #$75A4
 	sta.b r0
 	lda.w #$0030
 	sta.b $2E
-	jsr.w CODE_C40DFB
+	jsr.w StorePlayoffSeeds
 	lda.w #$0001
 	sta.b tmp0
-	jsr.w CODE_C40E45
-	jsr.w CODE_C40E3A
+	jsr.w RankPlayoffConference
+	jsr.w GetTopPlayoffSeedMask
 	ldx.w #$0010
 	bit.w #$0010
 	bne .2
 	ldx.w #$0020
-.2:									; tmp0 = X, call CODE_C40E14, call CODE_C40E2D, call CODE_C40DFB
+.2:									; tmp0 = X, call FindPlayoffDivisionSeed, call SwapPlayoffSecondSeed, ...
 	stx.b tmp0
-	jsr.w CODE_C40E14
-	jsr.w CODE_C40E2D
-	jsr.w CODE_C40DFB
+	jsr.w FindPlayoffDivisionSeed
+	jsr.w SwapPlayoffSecondSeed
+	jsr.w StorePlayoffSeeds
 .rtl:								; return
 	rtl
-CODE_C40DFB:						; from SetupPlayoffs
+StorePlayoffSeeds:					; writes the eight ranked team numbers to the playoff seed list
 	sep #$20
 	ldy.w #$000E
 .loop:								; loop: X = $364E,y, [r0] = $000C,x, X = r0, X + 1, ...
@@ -1776,7 +1780,7 @@ CODE_C40DFB:						; from SetupPlayoffs
 	bpl .loop
 	rep #$20
 	rts
-CODE_C40E14:						; from SetupPlayoffs
+FindPlayoffDivisionSeed:			; finds the highest remaining seed matching the division mask
 	ldy.w #$000C
 .loop:								; loop: X = $364E,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
 	ldx.w $364E,y
@@ -1792,39 +1796,40 @@ CODE_C40E14:						; from SetupPlayoffs
 	iny
 .rts:								; return
 	rts
-CODE_C40E2D:						; from SetupPlayoffs
+SwapPlayoffSecondSeed:				; swaps the selected ranked entry with the second playoff seed
 	lda.w $365A
 	ldx.w $364E,y
 	sta.w $364E,y
 	stx.w $365A
 	rts
-CODE_C40E3A:						; from SetupPlayoffs
+GetTopPlayoffSeedMask:				; returns the conference and division mask of the top ranked team
 	ldy.w $365C
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
 	rts
-CODE_C40E45:						; from SetupPlayoffs
-	jsr.w CODE_C40ECA
+RankPlayoffConference:				; builds the ranked playoff seed list for teams matching the conference
+									; mask
+	jsr.w ClearPlayoffSeedList
 	ldy.b $81
 .loop:								; loop: X = $000C,y, A = DATA8_C40EDA,x, if tmp0 bits clear go to .1, ...
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
 	bit.b tmp0
 	beq .1
-	jsr.w CODE_C40E5F
+	jsr.w InsertPlayoffSeed
 .1:									; A = $0002,y, Y = A, if the result is not 0 go to .loop, return
 	lda.w $0002,y
 	tay
 	bne .loop
 	rts
-CODE_C40E5F:						; from CODE_C40E45
+InsertPlayoffSeed:					; inserts a team record into the ranked playoff seed pointers
 	ldx.w #$000E
-.1:									; if $364E,x = 0 go to .2, tmp1 = X, X = A, call CODE_C40E8D, ...
+.1:									; if $364E,x = 0 go to .2, tmp1 = X, X = A, call ComparePlayoffSeeds, ...
 	lda.w $364E,x
 	beq .2
 	stx.b tmp1
 	tax
-	jsr.w CODE_C40E8D
+	jsr.w ComparePlayoffSeeds
 	bcs .3
 	sty.b tmp2
 	ldy.w #$364E
@@ -1844,7 +1849,7 @@ CODE_C40E5F:						; from CODE_C40E45
 	dex
 	bpl .1
 	rts
-CODE_C40E8D:						; from CODE_C40E5F
+ComparePlayoffSeeds:				; compares two team records using the playoff seeding tiebreak order
 	lda.w $000A,x
 	cmp.w $000A,y
 	beq .1
@@ -1878,17 +1883,17 @@ CODE_C40E8D:						; from CODE_C40E5F
 	lda.w $001C,x
 	cmp.w $001C,y
 	rts
-CODE_C40ECA:						; from CODE_C40E45
+ClearPlayoffSeedList:				; clears the ranked playoff seed pointer list
 	stz.w $364E
 	ldx.w #$364E
 	ldy.w #$3650
 	lda.w #$000D
 	mvn $7E,$7E
 	rts
-DATA8_C40EDA:						; not traced: a table read by CODE_C40E45, CODE_C40E3A, CODE_C40E14
+DATA8_C40EDA:						; not traced: a table read by RankPlayoffConference, ...
 	db $06,$11,$11,$06,$0A,$0A,$0A,$06,$21,$11,$06,$11,$21,$21,$21,$11
 	db $21,$11,$11,$06,$0A,$21,$0A,$06,$21,$0A
-DATA8_C40EF4:						; not traced: a table read by CODE_C4081B
+DATA8_C40EF4:						; not traced: a table read by GetBracketWindowOffset
 	db $00,$00,$01,$01,$02,$02,$03,$02,$04,$02,$05,$03,$06,$03,$07,$03
 	db $08,$03,$09,$03,$0A,$03,$0B,$03,$0C,$03,$0D,$03,$0E,$03,$0F,$03
 	db $10,$02,$11,$02,$12,$02,$13,$01,$14,$00,$13,$FF,$12,$FE,$11,$FE
@@ -1899,9 +1904,9 @@ DATA8_C40EF4:						; not traced: a table read by CODE_C4081B
 	db $F0,$02,$EF,$02,$EE,$02,$ED,$01,$EC,$00,$ED,$FF,$EE,$FE,$EF,$FE
 	db $F0,$FE,$F1,$FD,$F2,$FD,$F3,$FD,$F4,$FD,$F5,$FD,$F6,$FD,$F7,$FD
 	db $F8,$FD,$F9,$FD,$FA,$FD,$FB,$FD,$FC,$FE,$FD,$FE,$FE,$FE,$FF,$FF
-DATA8_C40F94:						; not traced: a table read by CODE_C408B3, CODE_C408B3
+DATA8_C40F94:						; not traced: a table read by WriteBracketWindowShape, ...
 	db $12
-DATA8_C40F95:						; not traced: a table read by CODE_C408B3, CODE_C408B3
+DATA8_C40F95:						; not traced: a table read by WriteBracketWindowShape, ...
 	db $1A,$0F,$1D,$0C,$20,$0B,$21,$09,$23,$08,$24,$07,$25,$06,$26,$05
 	db $27,$05,$27,$04,$28,$03,$29,$03,$29,$03,$29,$02,$2A,$02,$2A,$02
 	db $2A,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01,$2B,$01
