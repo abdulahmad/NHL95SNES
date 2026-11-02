@@ -2026,7 +2026,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	sta.b $A5
 	jsr.w NextSaveBits7
 	ldx.b $A5
-	sta.w BandScroll+$10,x
+	sta.w $0110,x
 	lda.w #$0006
 	sta.b $0A
 .loop8:								; loop: call NextSaveBits8, A 8-bit, X = $A5, X + 1, ...
@@ -2035,7 +2035,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	ldx.b $A5
 	inx
 	stx.b $A5
-	sta.w BandScroll+$10,x
+	sta.w $0110,x
 	rep #$20
 	dec.b $0A
 	bpl .loop8
@@ -2052,7 +2052,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	adc.b tmp1
 	tay
 	lda.l $C30000,x
-	sta.w BandScroll+$10,y
+	sta.w $0110,y
 	lda.l $C30002,x
 	sta.w $0112,y
 	lda.l $C30004,x
@@ -2108,7 +2108,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	tay
 	txa
 	sep #$20
-	sta.w BandScroll+$10,y
+	sta.w $0110,y
 	rep #$20
 	lda.b tmp2
 	inc a

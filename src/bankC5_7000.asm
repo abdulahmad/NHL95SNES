@@ -363,7 +363,7 @@ CalcRosterAttrib:					; the rating of roster player d0 of team a2 for the attrib
 	clc
 	adc.b d0
 	tax
-	lda.w BandScroll+$10,x
+	lda.w $0110,x
 	plp
 	bcs .6
 	lsr a

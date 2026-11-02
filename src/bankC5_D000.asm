@@ -41,7 +41,7 @@ TradeValue:							; one side of a trade: the value of its chosen players (from t
 	asl a
 	adc.b a4
 	tax
-	lda.w BandScroll+$10,x
+	lda.w $0110,x
 	sta.w mesarea
 	lda.w $0112,x
 	sta.w mesarea+2

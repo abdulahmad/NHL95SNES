@@ -1604,7 +1604,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	asl a
 	adc.b d2
 	tax
-	lda.w BandScroll+$10,x
+	lda.w $0110,x
 	sta.w mesarea
 	lda.w $0112,x
 	sta.w mesarea+2

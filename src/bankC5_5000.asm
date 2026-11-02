@@ -624,12 +624,12 @@ CODE_C553D6:						; from ShowPenaltyBoxPlayer
 	cpx.w #$0034
 	bcc .1
 	lda.w #$2EC7
-.1:									; A + $01,s, Y = A, pull A, A = BandScroll+$10,y, ...
+.1:									; A + $01,s, Y = A, pull A, A = $0110,y, ...
 	clc
 	adc.b $01,s
 	tay
 	pla
-	lda.w BandScroll+$10,y
+	lda.w $0110,y
 	and.w #$00FF
 	tax
 	lda.l BCDTable,x
