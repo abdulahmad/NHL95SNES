@@ -947,10 +947,10 @@ ShowGoalBox:						; the goal box after a goal: both line change boxes closed (Cl
 	clc
 	adc.b a2
 	tay
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	ldx.b a2
 	beq .3
-	lda.w #$3207
+	lda.w #VisRoster
 .3:									; a2 = A, A = tmgoals,y, A and $00FF, if A is not $0003 go to .4, ...
 	sta.b a2
 	lda.w tmgoals,y

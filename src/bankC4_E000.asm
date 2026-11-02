@@ -179,13 +179,13 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	lda.w HomeTeam
 	cmp.w #$001A
 	bcc .2
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	jsr.w SetAllStarPhotoPointers
-.2:									; if VisTeam < $001A go to .3, Y = $3207, call SetAllStarPhotoPointers
+.2:									; if VisTeam < $001A go to .3, Y = VisRoster, call SetAllStarPhotoPointers
 	lda.w VisTeam
 	cmp.w #$001A
 	bcc .3
-	ldy.w #$3207
+	ldy.w #VisRoster
 	jsr.w SetAllStarPhotoPointers
 .3:									; call RebuildChangedLines, $CF = $0018, $D1 = $0060, A = VisTeam, ...
 	jsr.w RebuildChangedLines
@@ -473,20 +473,20 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jmp.w .12
 .1:									; go to .7
 	jmp.w .7
-.2:									; A = $2E36,x, A and $00FF, A - 1, A * 2, ...
-	lda.w $2E36,x
+.2:									; A = HomeRoster+109,x, A and $00FF, A - 1, A * 2, ...
+	lda.w HomeRoster+109,x
 	and.w #$00FF
 	dec a
 	asl a
 	tay
-	lda.w $2EA7,y
+	lda.w HomeRoster+222,y
 	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq .3
-	lda.w $2E75,y
+	lda.w HomeRoster+172,y
 	sta.b a2
 	clc
 	adc.w #$00C0
@@ -528,21 +528,21 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	bra .4
 .3:									; call ScoutUseHomeTeamLogo
 	jsr.w ScoutUseHomeTeamLogo
-.4:									; X = curmatchup, A = $3274,x, A and $00FF, A - 1, ...
+.4:									; X = curmatchup, A = VisRoster+109,x, A and $00FF, A - 1, ...
 	ldx.w curmatchup
-	lda.w $3274,x
+	lda.w VisRoster+109,x
 	and.w #$00FF
 	dec a
 	asl a
 	tay
-	lda.w $32E5,y
+	lda.w VisRoster+222,y
 	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq .5
-	lda.w $32B3,y
+	lda.w VisRoster+172,y
 	sta.b a2
 	clc
 	adc.w #$00C0
@@ -593,7 +593,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$0002
 	sta.b a2
 	ldx.w curmatchup
-	lda.w $3274,x
+	lda.w VisRoster+109,x
 	and.w #$00FF
 	dec a
 	sta.b d0
@@ -629,7 +629,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $D1
 	stz.b a2
 	ldx.w curmatchup
-	lda.w $2E36,x
+	lda.w HomeRoster+109,x
 	and.w #$00FF
 	dec a
 	sta.b d0
@@ -675,15 +675,15 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	rts
-.7:									; a0 = $2EA7, A and $00FF, $6D = A, X = A, ...
-	lda.w $2EA7
+.7:									; a0 = HomeRoster+222, A and $00FF, $6D = A, X = A, ...
+	lda.w HomeRoster+222
 	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq .8
-	lda.w $2E75
+	lda.w HomeRoster+172
 	sta.b a2
 	clc
 	adc.w #$00C0
@@ -723,15 +723,15 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	bra .9
 .8:									; call ScoutUseHomeTeamLogo
 	jsr.w ScoutUseHomeTeamLogo
-.9:									; a0 = $32E5, A and $00FF, $6D = A, X = A, ...
-	lda.w $32E5
+.9:									; a0 = VisRoster+222, A and $00FF, $6D = A, X = A, ...
+	lda.w VisRoster+222
 	sta.b a0
 	and.w #$00FF
 	sta.b $6D
 	tax
 	cmp.w #$00FF
 	beq .10
-	lda.w $32B3
+	lda.w VisRoster+172
 	sta.b a2
 	clc
 	adc.w #$00C0
@@ -927,12 +927,12 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 RankScoutingHotColdTeams:			; ranks both teams' hot and cold players and selects the hotter team
 	stz.b a2
 	ldy.w #HomeHotCold
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	jsr.w RankScoutingHotColdPlayers
 	lda.w #$0002
 	sta.b a2
 	ldy.w #VisHotCold
-	ldx.w #$3207
+	ldx.w #VisRoster
 	jsr.w RankScoutingHotColdPlayers
 	ldx.w HomeTeam
 	lda.w HomeHotCold+12
@@ -1194,13 +1194,13 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	sty.b $81
 	ldx.w #$4DFA
 	jsr.w AppendScoutText
-.4:									; d0 = $2DC9, A = HomeTeam, X = HomeHotCold, ...
-	lda.w #$2DC9
+.4:									; d0 = HomeRoster, A = HomeTeam, X = HomeHotCold, ...
+	lda.w #HomeRoster
 	sta.b d0
 	lda.w HomeTeam
 	ldx.w #HomeHotCold
 	jsr.w AppendScoutHotColdParagraph
-	lda.w #$3207
+	lda.w #VisRoster
 	sta.b d0
 	lda.w VisTeam
 	cmp.w HomeTeam

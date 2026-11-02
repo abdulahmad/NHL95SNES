@@ -1609,10 +1609,10 @@ LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMod
 LoadGameRosters:					; LoadTeamRoster for both teams of the game: HomeTeam into $2DC9, VisTeam
 									; into $3207
 	lda.w HomeTeam
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	jsr.w LoadTeamRoster
 	lda.w VisTeam
-	ldy.w #$3207
+	ldy.w #VisRoster
 LoadTeamRoster:						; builds team A's roster table at Y from its team data (from the season
 									; data in play modes 2 and 3 or with OptRosters set): the player and
 									; goalie counts, the player ids, then the line data at +$6C

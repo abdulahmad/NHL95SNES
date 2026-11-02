@@ -8730,3 +8730,5 @@ $1267,tmPenalties,,94S+purpose,"RAM: 94S tmPenalties (team struct, layout): chkp
 $126B,tmPenmin,,94S+purpose,"RAM: 94S tmPenmin (team struct, layout): chkprogress adds them by team",src/ram95s.asm
 $1297,tmshots,,94S+purpose,"RAM: 94S tmshots (team struct, layout): SeasonGameOver and UpdateUserRecord read it",src/ram95s.asm
 $17D7,tmteam,,94S+purpose,"RAM: 94S tmteam (layout): clearTeamStats stores it",src/ram95s.asm
+$2DC9,HomeRoster,,code,"RAM: from the code: LoadTeamRoster builds it at Y (+0 count, +2 goalies, +4 forwards, +6 the other count, +8 the player words, +$3A the player indices, +$6C the lines, +$110 the 32-byte player records); the home side is always $2DC9, the visitors' $3207",src/ram95s.asm
+$3207,VisRoster,,code,"RAM: from the code: LoadTeamRoster's table for the visitors, $43E bytes after HomeRoster; the code picks one or the other by team",src/ram95s.asm

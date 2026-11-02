@@ -159,8 +159,8 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	stz.w HomeTeam
 	jsr.w LoadGameRosters
 	sec
-	lda.w $2DC9
-	sbc.w $2DCB
+	lda.w HomeRoster
+	sbc.w HomeRoster+2
 	sta.b a1
 	stz.b $69
 	lda.w #DrawSeasonPlayerRow
@@ -1496,7 +1496,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	plx
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	pha
 	jsr.w PlayerNumberBCD
 	jsr.w BCDDigits4
@@ -1544,9 +1544,9 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	plx
 	plx
 	jmp.w PrintRowBCD
-.3:									; A = $2DCB, A + a3, A * 2, X = A, ...
+.3:									; A = HomeRoster+2, A + a3, A * 2, X = A, ...
 	clc
-	lda.w $2DCB
+	lda.w HomeRoster+2
 	adc.b a3
 	asl a
 	tax
@@ -1562,7 +1562,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	plx
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	pha
 	jsr.w PlayerNumberBCD
 	jsr.w BCDDigits4

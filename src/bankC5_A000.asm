@@ -855,13 +855,13 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	jsl.l SendTextMap
 	jsr.w DrawPlayerStatsTeam
 	jsr.w LoadGameRosters
-	lda.w $2DCB
+	lda.w HomeRoster+2
 	sta.b a1
 	lda.b d0
 	bne .12
 	sec
-	lda.w $2DC9
-	sbc.w $2DCB
+	lda.w HomeRoster
+	sbc.w HomeRoster+2
 	sta.b a1
 .12:								; $69 = 0, A = DrawSeasonPlayerRow, X = $000C, Y = $000B, ...
 	stz.b $69

@@ -240,21 +240,21 @@ PrintScoringLeader:					; queue the team and player name of one scoring leader
 	sta.b a0
 	rts
 FindScoringLeaders:					; scan both team roster ranges for the leading scorers
-	ldx.w $2DC9
+	ldx.w HomeRoster
 .loop:								; loop: X - 1, A = X, call InsertScoringLeader, ...
 	dex
 	txa
 	jsr.w InsertScoringLeader
-	cpx.w $2DCB
+	cpx.w HomeRoster+2
 	bcs .loop
-	ldx.w $3207
+	ldx.w VisRoster
 .loop2:								; loop: X - 1, A = X, A + $001A, call InsertScoringLeader, ...
 	dex
 	txa
 	clc
 	adc.w #$001A
 	jsr.w InsertScoringLeader
-	cpx.w $3209
+	cpx.w VisRoster+2
 	bcs .loop2
 	rts
 InsertScoringLeader:				; insert a player into the top three by points then goals

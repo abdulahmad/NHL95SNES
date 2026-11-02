@@ -61,10 +61,10 @@ ShowRosterLine:						; TeamRoster's page of team a2: the line title ($79, 0 the 
 	lda.w #$000D
 	sta.b $6D
 	stz.b a3
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	lda.b a2
 	beq .5
-	ldx.w #$3207
+	ldx.w #VisRoster
 .5:									; a0 = X, if $79 is not 0 go to ShowRosterLineSlots, $91 = $0010
 	stx.b a0
 	lda.b $79
@@ -317,7 +317,7 @@ CalcRosterAttrib:					; the rating of roster player d0 of team a2 for the attrib
 									; CalcAttrib's weighted sum with the hot / cold bytes, read from the
 									; roster table's player record
 	stz.b $81
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	lda.b d0
 	asl a
 	adc.b d0
@@ -326,7 +326,7 @@ CalcRosterAttrib:					; the rating of roster player d0 of team a2 for the attrib
 	ldy.b a2
 	beq .1
 	adc.w #$0138
-	ldx.w #$3207
+	ldx.w #VisRoster
 .1:									; $89 = A, d1 = 0, $85 = 0, A = d0, ...
 	sta.b $89
 	stz.b d1
@@ -560,14 +560,14 @@ EditLinesScreen:					; pause menu Edit Lines: the lines of team a2 (pad left / r
 	ldy.w #$0018
 	ldx.w #$4F06
 	jsl.l PrintBoldLeft
-.3:									; A = $537F, call PrintTextPage, X = $2DC9, Y = $17DB, ...
+.3:									; A = $537F, call PrintTextPage, X = HomeRoster, Y = $17DB, ...
 	lda.w #$537F
 	jsl.l PrintTextPage
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	ldy.w #$17DB
 	lda.b a2
 	beq .4
-	ldx.w #$3207
+	ldx.w #VisRoster
 	ldy.w #$1813
 .4:									; a0 = X, $65 = Y
 	stx.b a0
@@ -1225,10 +1225,10 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	sta.b $D1
 	jsr.w TeamLogoSprite
 	stz.b $7D
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	lda.b a2
 	beq .1
-	ldx.w #$3207
+	ldx.w #VisRoster
 .1:									; a0 = X, a1 = $0002,x, X = a2, if tmgoalie,x >= 0 go to .2, ...
 	stx.b a0
 	lda.w $0002,x

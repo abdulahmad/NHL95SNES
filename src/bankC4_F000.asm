@@ -351,25 +351,25 @@ RebuildChangedLines:				; for both teams of the game (HomeTeam into $2DC9, VisTe
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3
-.1:									; A = HomeTeam, Y = $364E, call LoadDefaultRoster, Y = $2DC9, ...
+.1:									; A = HomeTeam, Y = $364E, call LoadDefaultRoster, Y = HomeRoster, ...
 	lda.w HomeTeam
 	ldy.w #$364E
 	jsl.l LoadDefaultRoster
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	ldx.w #$364E
 	jsr.w RosterDiffers
 	bcc .2
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	jsr.w BuildTeamLines
-.2:									; A = VisTeam, Y = $364E, call LoadDefaultRoster, Y = $3207, ...
+.2:									; A = VisTeam, Y = $364E, call LoadDefaultRoster, Y = VisRoster, ...
 	lda.w VisTeam
 	ldy.w #$364E
 	jsl.l LoadDefaultRoster
-	ldy.w #$3207
+	ldy.w #VisRoster
 	ldx.w #$364E
 	jsr.w RosterDiffers
 	bcc .rts
-	ldy.w #$3207
+	ldy.w #VisRoster
 	jsr.w BuildTeamLines
 	bra .rts
 .3:									; if OptPlayMode = 0 go to .4, A - 1, if the result is not 0 go to .rts

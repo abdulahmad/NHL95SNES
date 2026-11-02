@@ -187,7 +187,7 @@ UnpackTeamBonuses:					; unpacks the team bonus bytes at X into roster table Y: 
 	rts
 LoadSeasonHomeRoster:				; LoadSeasonRoster of team A into the home roster table ($2DC9), for long
 									; calls
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	sta.b tmp0
 	sty.b tmp1
 	jsr.w LoadSeasonRoster
@@ -321,10 +321,10 @@ LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season 
 	rts
 GetForwardCount:					; d0 = the forward count of team a2 (+4 of its roster table); no caller
 									; found
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	lda.b a2
 	beq .1
-	ldx.w #$3207
+	ldx.w #VisRoster
 .1:									; d0 = $0004,x, return
 	lda.w $0004,x
 	sta.b d0
@@ -337,10 +337,10 @@ LoadTeamLines:						; copies team a2's lines into RAM through GetTeamLines; OptL
 	phy
 	jsl.l GetTeamLines
 	pei ($6F)
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	ldx.b a2
 	beq .1
-	lda.w #$3207
+	lda.w #VisRoster
 .1:									; a1 = A, A + $0008, X = A, Y = $001C
 	sta.b a1
 	clc
@@ -480,11 +480,11 @@ PlayerShortName:					; from GetPlayerNumInitial and other segments
 	sta.b d0
 	rtl
 RosterPlayerShortName:				; selects the roster and player from TempPlOffset and formats a short name
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	lda.w TempPlOffset
 	bpl FormatRosterShortName
 	and.w #$00FF
-	ldx.w #$3207
+	ldx.w #VisRoster
 FormatRosterShortName:				; builds packed number, first initial and surname text from roster X and
 									; player A
 	stx.b tmp0
@@ -784,10 +784,10 @@ InitScores:							; an rtl: called where 94S sets random scores for the round's 
 DATA8_C5362D:						; not traced: data between routines
 	db $6B
 GetPlayerCount:						; returns team a2 roster count in d0
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	lda.b a2
 	beq .1
-	ldy.w #$3207
+	ldy.w #VisRoster
 .1:									; d0 = $0000,y, return
 	lda.w $0000,y
 	sta.b d0
@@ -1621,10 +1621,10 @@ setplayer:							; from forcepldata and other segments
 	lda.w #$FFFF
 	sta.w tmpdst,y
 	lsr.b d3
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	lda.b a0
 	beq .6
-	ldy.w #$3207
+	ldy.w #VisRoster
 .6:									; a0 = Y, PPBonus = 0, PKBonus = 0, ThirdPBonus = 0, ...
 	sty.b a0
 	stz.w PPBonus

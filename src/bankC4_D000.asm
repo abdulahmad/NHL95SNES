@@ -1139,20 +1139,20 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	jsl.l LoadGameRostersLong
 	ldy.w #$FFFE
 	pla
-.loop:								; loop: Y + 1, Y + 1, if A is not $2E03,y go to .loop, $65 = Y, ...
+.loop:								; loop: Y + 1, Y + 1, if A is not HomeRoster+58,y go to .loop, ...
 	iny
 	iny
-	cmp.w $2E03,y
+	cmp.w HomeRoster+58,y
 	bne .loop
 	sty.b $65
-	lda.w $2EA7,y
+	lda.w HomeRoster+222,y
 	sta.b a1
 	and.w #$00FF
 	sta.b $71
 	tax
 	cmp.w #$00FF
 	beq .1
-	lda.w $2E75,y
+	lda.w HomeRoster+172,y
 	sta.b a3
 	clc
 	adc.w #$00C0
@@ -1320,14 +1320,14 @@ ScanVezina:							; Vezina Trophy: of the goalies of the 26 teams, the one Seaso
 	sta.b $6D
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
-.loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .2, $2DCB = A, ...
-	lda.w $2DCB
+.loop:								; loop: A = HomeRoster+2, A - 1, if the result < 0 go to .2, ...
+	lda.w HomeRoster+2
 	dec a
 	bmi .2
-	sta.w $2DCB
+	sta.w HomeRoster+2
 	asl a
 	tax
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	sta.b a3
 	jsl.l SeasonSavesLong
 	lda.b tmp0
@@ -1351,17 +1351,17 @@ ScanSelke:							; Selke Trophy: from the team CODE_C4DF5B picks, the forward wi
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
 	stz.b a2
-.loop:								; loop: A = $2DCD, A - 1, if the result < 0 go to .1, ...
-	lda.w $2DCD
+.loop:								; loop: A = HomeRoster+4, A - 1, if the result < 0 go to .1, ...
+	lda.w HomeRoster+4
 	dec a
 	bmi .1
 	beq .1
-	sta.w $2DCD
+	sta.w HomeRoster+4
 	clc
-	adc.w $2DCB
+	adc.w HomeRoster+2
 	asl a
 	tax
-	lda.w $2E05,x
+	lda.w HomeRoster+60,x
 	sta.b a3
 	jsl.l SeasonGoalsLong
 	lda.b tmp0
@@ -1391,18 +1391,18 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 	and.w #$00FF
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
-	lda.w $2DC9
+	lda.w HomeRoster
 	clc
-	sbc.w $2DCB
-	sta.w $2DC9
-.loop:								; loop: A = $2DC9, A - 1, if the result < 0 go to .2, $2DC9 = A, ...
-	lda.w $2DC9
+	sbc.w HomeRoster+2
+	sta.w HomeRoster
+.loop:								; loop: A = HomeRoster, A - 1, if the result < 0 go to .2, ...
+	lda.w HomeRoster
 	dec a
 	bmi .2
-	sta.w $2DC9
+	sta.w HomeRoster
 	ldx.b $6D
 	sec
-	adc.w $2DCB
+	adc.w HomeRoster+2
 	pha
 	jsr.w ReadPlayoffPlayerGoals
 	sta.b tmp2
@@ -1414,12 +1414,12 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 	cmp.b a2
 	bcc .loop
 	sta.b a2
-	lda.w $2DC9
+	lda.w HomeRoster
 	sec
-	adc.w $2DCB
+	adc.w HomeRoster+2
 	asl a
 	tax
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	sta.b $71
 	bra .loop
 .2:									; A = $6D, A + 1, if A < $0010 go to .1, A = $71, ...
@@ -1436,14 +1436,14 @@ ScanJennings:						; Jennings Trophy: from the team CODE_C4DF5B picks, ...
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
 	stz.b a2
-.loop:								; loop: A = $2DCB, A - 1, if the result < 0 go to .1, $2DCB = A, ...
-	lda.w $2DCB
+.loop:								; loop: A = HomeRoster+2, A - 1, if the result < 0 go to .1, ...
+	lda.w HomeRoster+2
 	dec a
 	bmi .1
-	sta.w $2DCB
+	sta.w HomeRoster+2
 	asl a
 	tax
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	sta.b a3
 	jsl.l SeasonGoalieGamesLong
 	lda.b tmp0
@@ -1514,17 +1514,17 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	jsl.l LoadSeasonHomeRoster
 	stz.b tmp2
 	stz.b r1
-	lda.w $2DCF
+	lda.w HomeRoster+6
 	clc
-	adc.w $2DCD
-.loop3:								; loop: A - 1, if the result < 0 go to .loop4, $2DCD = A, A + $2DCB, ...
+	adc.w HomeRoster+4
+.loop3:								; loop: A - 1, if the result < 0 go to .loop4, HomeRoster+4 = A, ...
 	dec a
 	bmi .loop4
-	sta.w $2DCD
-	adc.w $2DCB
+	sta.w HomeRoster+4
+	adc.w HomeRoster+2
 	asl a
 	tax
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	sta.b a3
 	jsl.l SeasonGoalsLong
 	lda.b tmp0
@@ -1546,7 +1546,7 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	inx
 	inx
 	stx.b tmp2
-	lda.w $2DCD
+	lda.w HomeRoster+4
 	bra .loop3
 .loop4:								; loop: X - 1, X - 1, X - 1, X - 1, ...
 	dex
@@ -1618,14 +1618,14 @@ ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one wi
 	sta.b $71
 	pla
 	sta.b a3
-.2:									; A = $2DCB, A - 1, A * 2, X = A, ...
-	lda.w $2DCB
+.2:									; A = HomeRoster+2, A - 1, A * 2, X = A, ...
+	lda.w HomeRoster+2
 	dec a
 	asl a
 	tax
 	lda.b a3
-.loop2:								; loop: if A = $2E03,x go to .3, X - 1, X - 1, ...
-	cmp.w $2E03,x
+.loop2:								; loop: if A = HomeRoster+58,x go to .3, X - 1, X - 1, ...
+	cmp.w HomeRoster+58,x
 	beq .3
 	dex
 	dex
@@ -1657,17 +1657,17 @@ ScanNorris:							; Norris Trophy: from the team CODE_C4DF5B picks, the defencem
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
 	stz.b a2
-.loop:								; loop: A = $2DCF, A - 1, if the result = 0 go to .1, $2DCF = A, ...
-	lda.w $2DCF
+.loop:								; loop: A = HomeRoster+6, A - 1, if the result = 0 go to .1, ...
+	lda.w HomeRoster+6
 	dec a
 	beq .1
-	sta.w $2DCF
+	sta.w HomeRoster+6
 	clc
-	adc.w $2DCB
-	adc.w $2DCD
+	adc.w HomeRoster+2
+	adc.w HomeRoster+4
 	asl a
 	tax
-	lda.w $2E03,x
+	lda.w HomeRoster+58,x
 	sta.b a3
 	jsl.l SeasonGoalsLong
 	lda.b tmp0

@@ -1310,13 +1310,13 @@ AddGamePlayerStats:					; AddPlayerSeasonStats for both teams of game record Y (
 	jsl.l LoadGameRostersLong
 	ply
 	phy
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	jsr.w AddPlayerSeasonStats
 	pla
 	clc
 	adc.w #$001A
 	tay
-	ldx.w #$3207
+	ldx.w #VisRoster
 	jsr.w AddPlayerSeasonStats
 	rtl
 AddPlayerSeasonStats:				; adds one team's game player stats to the season totals in save RAM:

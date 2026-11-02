@@ -620,7 +620,7 @@ CODE_C553D6:						; from ShowPenaltyBoxPlayer
 	asl a
 	asl a
 	pha
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	cpx.w #$0034
 	bcc .1
 	lda.w #$2EC7

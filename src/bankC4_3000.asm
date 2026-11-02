@@ -1663,10 +1663,10 @@ DrawPenaltyShotMatchup:				; draws the penalty shot box: the shooter's and the o
 	ldy.w #$0008
 	lda.w #$5846
 	jsl.l Framer
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	ldy.w BA_Team
 	beq .1
-	ldx.w #$3207
+	ldx.w #VisRoster
 .1:									; A = BA_Skater_Offset, call FormatRosterShortName, call CentreNameX, ...
 	lda.w BA_Skater_Offset
 	jsl.l FormatRosterShortName
@@ -1679,10 +1679,10 @@ DrawPenaltyShotMatchup:				; draws the penalty shot box: the shooter's and the o
 	ldx.w #$00C3
 	lda.w #$5F13
 	jsl.l QueueVRAMDMALen
-	ldx.w #$3207
+	ldx.w #VisRoster
 	ldy.w BA_Team
 	beq .2
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 .2:									; A = Y, A xor $0002, Y = A, A = tmgoalie,y, ...
 	tya
 	eor.w #$0002

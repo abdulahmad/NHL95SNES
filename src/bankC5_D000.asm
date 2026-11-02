@@ -75,13 +75,13 @@ ExecuteTrade:						; does the trade: each chosen player's team in the player tea
 									; to the other team
 	lda.b $7B
 	sta.b tmp0
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	ldy.w #$364E
 	lda.w VisTeam
 	jsr.w SetMarkedPlayersTeam
 	lda.b $7D
 	sta.b tmp0
-	ldx.w #$3207
+	ldx.w #VisRoster
 	ldy.w #$36B2
 	lda.w HomeTeam
 SetMarkedPlayersTeam:				; each player marked in the list at Y (bit 0; roster X) gets team A in his
@@ -2012,9 +2012,9 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	plb
 	jsl.l RestoreWorkBuf
 	jsr.w LoadGameRosters
-	ldy.w #$2DC9
+	ldy.w #HomeRoster
 	jsl.l BuildTeamLinesPreserveTemps
-	ldy.w #$3207
+	ldy.w #VisRoster
 	jsl.l BuildTeamLinesPreserveTemps
 	plb
 	pla
@@ -2032,7 +2032,7 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	stz.w $0000,x
 	lda.w #$00CE
 	mvn $7F,$7F
-	lda.w #$3207
+	lda.w #VisRoster
 	sta.b p0
 	lda.w #$007E
 	sta.b $3A
@@ -2041,7 +2041,7 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	adc.w #$001A
 	tax
 	jsr.w SimPlayerStats
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	sta.b p0
 	lda.b $01,s
 	clc

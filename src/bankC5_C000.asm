@@ -348,7 +348,7 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	jsr.w LoadGameRosters
 	pla
 	sta.w OptPlayMode
-	ldx.w #$3207
+	ldx.w #VisRoster
 	lda.w $0002,x
 	sta.b d0
 	lda.w $0006,x
@@ -990,10 +990,10 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 .5:									; call ScrollListDown, go to .loop
 	jsr.w ScrollListDown
 	jmp.w .loop
-.6:									; if $8000 bits clear go to .loop, Y = $3207, A = $69, A + $85, ...
+.6:									; if $8000 bits clear go to .loop, Y = VisRoster, A = $69, A + $85, ...
 	bit.w #$8000
 	beq .loop
-	ldy.w #$3207
+	ldy.w #VisRoster
 	lda.b $69
 	clc
 	adc.b $85
@@ -1128,7 +1128,7 @@ DrawReleasePage:					; draws the Release Players page and starts its scrolling l
 	jsr.w LoadGameRosters
 	pla
 	sta.w OptPlayMode
-	ldx.w #$3207
+	ldx.w #VisRoster
 	lda.w $0002,x
 	sta.b d0
 	lda.w $0006,x
@@ -1158,7 +1158,7 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 									; rating
 	lda.w #$0010
 	sta.l $7E24DC
-	ldy.w #$3207
+	ldy.w #VisRoster
 	ldx.w #$49B8
 	lda.b a3
 	sec
@@ -1201,7 +1201,7 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	jsl.l PrintBoldCentred
 	lda.b a3
 	asl a
-	adc.w #$3207
+	adc.w #VisRoster
 	tax
 	lda.w $003A,x
 	sta.b tmp0
@@ -1254,13 +1254,13 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	asl a
 	asl a
 	tax
-	lda.w $3317,x
+	lda.w VisRoster+272,x
 	sta.w mesarea
-	lda.w $3319,x
+	lda.w VisRoster+274,x
 	sta.w mesarea+2
-	lda.w $331B,x
+	lda.w VisRoster+276,x
 	sta.w mesarea+4
-	lda.w $331D,x
+	lda.w VisRoster+278,x
 	sta.w mesarea+6
 	jsr.w RecordOverall
 	jsr.w BinToBCD
@@ -1290,7 +1290,7 @@ ReleaseMarkedPlayers:				; start on Release Players: each marked player ($364E b
 	tya
 	asl a
 	tax
-	lda.w $3241,x
+	lda.w VisRoster+58,x
 	sta.b tmp0
 	lsr a
 	bcc .3
@@ -1471,15 +1471,15 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	jsr.w LoadGameRosters
 	pla
 	sta.w OptPlayMode
-	lda.w $2DCB
+	lda.w HomeRoster+2
 	clc
-	adc.w $2DCD
-	adc.w $2DCF
+	adc.w HomeRoster+4
+	adc.w HomeRoster+6
 	sta.b $7B
-	lda.w $3209
+	lda.w VisRoster+2
 	clc
-	adc.w $320B
-	adc.w $320D
+	adc.w VisRoster+4
+	adc.w VisRoster+6
 	sta.b $7D
 	ldx.w #$0000
 .loop:								; loop: $364E,x = 0, X + 1, if X is not $7B go to .loop, X = $0000
@@ -1500,9 +1500,9 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	sta.b a3
 	lda.w #$0011
 	sta.b $71
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	sta.b a4
-	lda.w #$3207
+	lda.w #VisRoster
 	sta.b $75
 	lda.w #DrawTradeRow
 	jsr.w SetupTradeLists
@@ -1525,10 +1525,10 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	sbc.w $0004,y
 	bmi .1
 	ldx.w #$4CF0
-.1:									; A = $0000, if d2 = $2DC9 go to .2, A = $0064
+.1:									; A = $0000, if d2 = HomeRoster go to .2, A = $0064
 	lda.w #$0000
 	ldy.b d2
-	cpy.w #$2DC9
+	cpy.w #HomeRoster
 	beq .2
 	lda.w #$0064
 .2:									; A + $91, Y = A, A = $364E,y, if $0001 bits clear go to .3, ...
@@ -1716,7 +1716,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	jsl.l PrintThinCentred
 	lda.w #$0010
 	sta.b $CF
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	sta.b d2
 	ldy.w #$0008
 	ldx.b $7B
@@ -1724,7 +1724,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	jsr.w PrintTradedPlayers
 	lda.w #$0090
 	sta.b $CF
-	lda.w #$3207
+	lda.w #VisRoster
 	sta.b d2
 	ldy.w #$0008
 	ldx.b $7D
@@ -1846,7 +1846,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	sta.b tmp2
 	lda.w #$364E
 	sta.b d2
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	sta.b a4
 	jsr.w TradeValue
 	lda.b d0
@@ -1862,7 +1862,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	sta.b tmp2
 	lda.w #$36B2
 	sta.b d2
-	lda.w #$3207
+	lda.w #VisRoster
 	sta.b a4
 	jsr.w TradeValue
 	ldx.w VisTeam
@@ -1883,8 +1883,8 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	stx.b r3
 	sec
 	rts
-.3:									; A = $2DCB, A - d5, A + d0, if A >= $0002 go to .4, ...
-	lda.w $2DCB
+.3:									; A = HomeRoster+2, A - d5, A + d0, if A >= $0002 go to .4, ...
+	lda.w HomeRoster+2
 	sec
 	sbc.b d5
 	clc
@@ -1892,11 +1892,11 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	cmp.w #$0002
 	bcs .4
 	jmp.w .5
-.4:									; if A >= $0004 go to .5, r3 = A, A = $2DCD, A - $95, ...
+.4:									; if A >= $0004 go to .5, r3 = A, A = HomeRoster+4, A - $95, ...
 	cmp.w #$0004
 	bcs .5
 	sta.b r3
-	lda.w $2DCD
+	lda.w HomeRoster+4
 	sec
 	sbc.b $95
 	clc
@@ -1907,7 +1907,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	bcs .5
 	adc.b r3
 	sta.b r3
-	lda.w $2DCF
+	lda.w HomeRoster+6
 	sec
 	sbc.b d6
 	clc
@@ -1919,7 +1919,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	adc.b r3
 	cmp.w #$001A
 	bcs .5
-	lda.w $3209
+	lda.w VisRoster+2
 	sec
 	sbc.b d0
 	clc
@@ -1929,7 +1929,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	cmp.w #$0004
 	bcs .6
 	sta.b r3
-	lda.w $320B
+	lda.w VisRoster+4
 	sec
 	sbc.b $81
 	clc
@@ -1940,7 +1940,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	bcs .6
 	adc.b r3
 	sta.b r3
-	lda.w $320D
+	lda.w VisRoster+6
 	sec
 	sbc.b d1
 	clc

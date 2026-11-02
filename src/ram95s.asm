@@ -434,6 +434,8 @@ HomeHotCold			=	$2DA9		; scouting report, home: 3 hottest, 3 coldest (index * 2)
 VisHotCold			=	$2DB7		; scouting report, visitors: as HomeHotCold
 ScoutTextCol		=	$2DC5		; scouting report: the commentary text column (characters, from 2)
 ScoutTextRow		=	$2DC7		; scouting report: the commentary text row ($11-$1A, then it scrolls)
+HomeRoster			=	$2DC9		; the home team's roster table (LoadTeamRoster): counts, players, lines
+VisRoster			=	$3207		; the visiting team's roster table (as HomeRoster)
 RandomState			=	$466E		; RandomBelowA's 32 bit generator (SeedRandom seeds it)
 SpritePalUse		=	$46B8		; per palette: minus if not loaded, else CGRAM slot (high) and uses (low)
 

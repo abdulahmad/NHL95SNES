@@ -1588,7 +1588,7 @@ getlinee:							; returns the average skater energy of line A for team a2
 	asl a
 	asl a
 	asl a
-	adc.w #$2DC9
+	adc.w #HomeRoster
 	ldy.b a2
 	beq .1
 	adc.w #$043E

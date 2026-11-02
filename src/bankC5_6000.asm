@@ -615,12 +615,12 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	ldy.w #$0012
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
-.2:									; call TeamLogoSprite, X = $2DC9, if a2 = 0 go to .3, X = $3207
+.2:									; call TeamLogoSprite, X = HomeRoster, if a2 = 0 go to .3, X = VisRoster
 	jsr.w TeamLogoSprite
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	lda.b a2
 	beq .3
-	ldx.w #$3207
+	ldx.w #VisRoster
 .3:									; if $7D is not $FFFF go to .4, a1 = $0002,x, call SortGoalieStats, ...
 	lda.b $7D
 	cmp.w #$FFFF
@@ -759,11 +759,11 @@ ClearPlayerStatsList:				; clears ShowPlayerStats' list area of the text map ($3
 	rts
 SortPlayerStats:					; sorts team a2's skaters by stat column $7D (PlayerStatColumn), best
 									; first, into the order list at $364E after the goalies
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	ldy.w #$0000
 	lda.b a2
 	beq .1
-	ldx.w #$3207
+	ldx.w #VisRoster
 	ldy.w #$001A
 .1:									; $A5 = Y, $364E = $0002,x, $0C = A, tmp1 = A, ...
 	sty.b $A5
@@ -858,11 +858,11 @@ DATA8_C566DE:						; jump table: the routine for each index
 	dw StatColPenMin
 SortGoalieStats:					; starts ShowPlayerStats' order list at $364E: team a2's goalies ordered
 									; by goals against (tmgoals)
-	ldx.w #$2DC9
+	ldx.w #HomeRoster
 	ldy.w #$0000
 	lda.b a2
 	beq .1
-	ldx.w #$3207
+	ldx.w #VisRoster
 	ldy.w #$001A
 .1:									; $A5 = Y, $364E = 0, $0C = 0, tmp1 = 0, ...
 	sty.b $A5
@@ -928,10 +928,10 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	tay
 	lda.w $364E,y
 	sta.b $65
-	lda.w #$2DC9
+	lda.w #HomeRoster
 	ldx.b a2
 	beq .1
-	lda.w #$3207
+	lda.w #VisRoster
 .1:									; push A, A = $65, A * 2, A * 2, ...
 	pha
 	lda.b $65
