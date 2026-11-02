@@ -1463,7 +1463,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	jsl.l PrintItalicCentredStr
 	ldy.w #$0009
 	jsl.l PrintTitleBar
-	lda.w $190E
+	lda.w SeasonScoresMode
 	beq .3
 	ldx.w #$4717
 	ldy.w #$0019
@@ -1533,8 +1533,8 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	jsr.w ScrollListDown
 .8:									; go to .loop2
 	bra .loop2
-.9:									; if $190E = 0 go to .loop2, $1910 - 1
-	lda.w $190E
+.9:									; if SeasonScoresMode = 0 go to .loop2, $1910 - 1
+	lda.w SeasonScoresMode
 	beq .loop2
 	dec.w $1910
 .10:								; go to ExitToPauseMenu

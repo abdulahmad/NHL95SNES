@@ -1392,8 +1392,8 @@ PrintNextScoutWord:					; prints the next scouting word, wrapping or advancing l
 	jsl.l WaitTransfers
 .rts:								; return
 	rts
-.6:									; if $23BA = 0 go to .rts, pull A, go to ExitScoutingReport
-	lda.w $23BA
+.6:									; if DemoMode = 0 go to .rts, pull A, go to ExitScoutingReport
+	lda.w DemoMode
 	beq .rts
 	pla
 	jmp.w ExitScoutingReport

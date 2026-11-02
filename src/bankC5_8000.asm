@@ -1696,15 +1696,15 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 									; left / right change it, start / select run the play mode (DATA8_C58DD0);
 									; 360 frames with no key start the demo (StartDemo)
 	jsr.w setoptions
-	lda.w $23BA
+	lda.w DemoMode
 	beq .1
 	jsl.l LoadSavedGameOptions
-.1:									; fadestep = 0, $23BA = 0, $23BC = 0
+.1:									; fadestep = 0, DemoMode = 0
 	stz.w fadestep
-	stz.w $23BA
+	stz.w DemoMode
 .reenter:							; the idle count cleared, ...
 									; after Start New
-	stz.w $23BC
+	stz.w SetupIdleTime
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
 .loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
@@ -1730,8 +1730,8 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	lda.w #$000F
 	sta.w repeatdelayframes
 	bra .3
-.2:									; $23BC = 0
-	stz.w $23BC
+.2:									; SetupIdleTime = 0
+	stz.w SetupIdleTime
 .3:									; A = padchangeany, if $0800 bits clear go to .4, call SetupLineUp, ...
 	lda.w padchangeany
 	bit.w #$0800
@@ -1760,12 +1760,12 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	asl a
 	tax
 	jmp (DATA8_C58DD0,x)
-.8:									; A = $23BC, A + 1, if A >= $0168 go to StartDemo, $23BC = A, ...
-	lda.w $23BC
+.8:									; A = SetupIdleTime, A + 1, if A >= $0168 go to StartDemo, ...
+	lda.w SetupIdleTime
 	inc a
 	cmp.w #$0168
 	bcs StartDemo
-	sta.w $23BC
+	sta.w SetupIdleTime
 	jmp.w .loop
 DATA8_C58DD0:						; the routine of each play mode, run on start in the setup screen:
 									; Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player,

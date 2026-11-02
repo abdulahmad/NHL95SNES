@@ -803,17 +803,17 @@ InitTasks:							; empties the task list: 10 free task slots, the list head and 
 									; task (TaskFrameEnd), the task flags; the done flag is kept as the last
 									; one and cleared
 	ldx.w #$0000
-	lda.w #$2CF7
+	lda.w #TaskSlots
 	clc
-.loop:								; loop: $2D6F,x = A, A + $000C, X + 1, X + 1, ...
-	sta.w $2D6F,x
+.loop:								; loop: TaskSlotStack,x = A, A + $000C, X + 1, X + 1, ...
+	sta.w TaskSlotStack,x
 	adc.w #$000C
 	inx
 	inx
 	cpx.w #$0014
 	bne .loop
-	stz.w $2D6F,x
-	stz.w TaskFreeList
+	stz.w TaskSlotStack,x
+	stz.w TaskFreeIndex
 	lda.w #TaskFrameEnd
 	sta.w $2D87
 	sta.w $2D93
@@ -869,12 +869,12 @@ AddTask:							; adds the task routine X:A with priority Y to the task list, bef
 	txy
 	ldx.w $0000,y
 	bne .loop
-.1:									; X = TaskFreeList, A = $2D6F,x, X + 1, X + 1, ...
-	ldx.w TaskFreeList
-	lda.w $2D6F,x
+.1:									; X = TaskFreeIndex, A = TaskSlotStack,x, X + 1, X + 1, ...
+	ldx.w TaskFreeIndex
+	lda.w TaskSlotStack,x
 	inx
 	inx
-	stx.w TaskFreeList
+	stx.w TaskFreeIndex
 	tax
 	pla
 	sta.w $0006,x
@@ -907,15 +907,15 @@ RemoveTask:							; takes the running task (d1) out of the task list and frees i
 	txy
 	ldx.w $0000,y
 	bne .loop
-.2:									; $0000,y = $0000,x, A = X, X = TaskFreeList, X - 1, ...
+.2:									; $0000,y = $0000,x, A = X, X = TaskFreeIndex, X - 1, ...
 	lda.w $0000,x
 	sta.w $0000,y
 	txa
-	ldx.w TaskFreeList
+	ldx.w TaskFreeIndex
 	dex
 	dex
-	sta.w $2D6F,x
-	stx.w TaskFreeList
+	sta.w TaskSlotStack,x
+	stx.w TaskFreeIndex
 	rtl
 RunTasks:							; runs each task of the task list once, in order (its frame count + 1),
 									; through jmlvector

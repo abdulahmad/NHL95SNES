@@ -570,10 +570,10 @@ Intermission:						; the intermission between periods: the teams set up
 	ora.w cont5team
 	bne .3
 	stz.w pausepad
-.3:									; InIntermission = $0001, if $23BA = 0 go to .4, go to .5
+.3:									; InIntermission = $0001, if DemoMode = 0 go to .4, go to .5
 	lda.w #$0001
 	sta.w InIntermission
-	lda.w $23BA
+	lda.w DemoMode
 	beq .4
 	jmp.w .5
 .4:									; call AddIntermissionGoals

@@ -8754,7 +8754,7 @@ $18DE,TextSpaceWidth,,code,"RAM: from the code: InitTextMap sets 9, DrawNextText
 $18E0,WorkBufMark,,code,"RAM: from the code: MarkWorkBuf stores the pointer, RestoreWorkBuf goes back to it, ResetWorkBuf resets it; LoadTeamRoster, updatefaceoff and the pause menu set it",src/ram95s.asm
 $1EA1,SoundQueueHead,,code,"RAM: from the code: QueueSoundCmd stores the next entry at it and moves it on (4 bytes an entry); the senders stop when the tail reaches it",src/ram95s.asm
 $1EA3,SoundQueueTail,,code,"RAM: from the code: SendQueuedSoundCmd / SendSoundCmdAtTail send from it and move it on; LoadSounds and WaitSoundQueueEmpty wait for it to meet the head",src/ram95s.asm
-$2D83,TaskFreeList,,code,"RAM: from the code: InitTasks builds the free slots, AddTask takes the head and stores the next, RemoveTask puts the slot back as the head",src/ram95s.asm
+$2D83,TaskFreeIndex,,code,"RAM: from the code: AddTask takes TaskSlotStack,x at it and moves it on, RemoveTask moves it back and stores the freed slot, InitTasks clears it; first named TaskFreeList",src/ram95s.asm
 $2D85,TaskListHead,,code,"RAM: from the code: InitTasks sets the list, RunTasks walks from it",src/ram95s.asm
 $2D9D,TasksDone,,code,"RAM: from the code: TaskEndCheck and CODE_C4B844 set it, IntroSequence / TitleScreen / DeveloperCredits loop until it is set, InitTasks clears it",src/ram95s.asm
 $1B06,PalSlotNext,,code,"RAM: from the code: UseSpritePalette takes PalSlotList,x at it and moves it on, DeleteSprite puts a slot back there",src/ram95s.asm
@@ -8781,3 +8781,10 @@ $468A,VisUserRec,,code,"RAM: from the code: UserNameEntry sets $FFFF, then the v
 $306000,SRSignature1,,code,"RAM: from the code: InitSaveRAM compares it (CompareSaveSignature) and rewrites it (WriteSaveSignature, $C0FFC0-$C0FFFF) when any of the three differs",src/ram95s.asm
 $306A16,SRSignature2,,code,"RAM: from the code: InitSaveRAM's second CompareSaveSignature / WriteSaveSignature",src/ram95s.asm
 $30790D,SRSignature3,,code,"RAM: from the code: InitSaveRAM's third CompareSaveSignature / WriteSaveSignature",src/ram95s.asm
+$23BA,DemoMode,,code,"RAM: from the code: StartDemo stores 1 (long), GameSetUp loads the saved options and clears it when set, Intermission and PrintNextScoutWord test it",src/ram95s.asm
+$23BC,SetupIdleTime,,code,"RAM: from the code: GameSetUp counts it each idle frame and clears it on a key; at $168 it goes to StartDemo",src/ram95s.asm
+$2CF7,TaskSlots,,code,"RAM: from the code: InitTasks pushes $2CF7 + n * $C into TaskSlotStack; AddTask fills a slot (+6 the routine ...)",src/ram95s.asm
+$2D6F,TaskSlotStack,,code,"RAM: from the code: InitTasks fills it with the 10 slots, AddTask takes from it, RemoveTask puts back",src/ram95s.asm
+$48BA,SampleSlots,,code,"RAM: from the code: LoadSample gives a sample the next slot (SampleSlotNext) when its byte is 0, LoadSounds clears them, LoadSequence / LoadTeamSongs / updatecrowdf read them",src/ram95s.asm
+$49BA,SampleSlotNext,,code,"RAM: from the code: LoadSample takes it and counts it up",src/ram95s.asm
+$190E,SeasonScoresMode,,code,"RAM: from the code: FinishSeasonDay sets it around ShowOtherScores; ShowOtherScores prints its end-of-day line and ExitToPauseMenu returns at once when it is set",src/ram95s.asm

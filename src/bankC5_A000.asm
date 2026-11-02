@@ -1820,11 +1820,11 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	jsr.w SimDayGameStats
 	jsl.l ResetWorkBuf
 	lda.w #$0001
-	sta.w $190E
+	sta.w SeasonScoresMode
 	stz.w $1910
 	jsl.l ResetSprites
 	jsr.w ShowOtherScores
-	stz.w $190E
+	stz.w SeasonScoresMode
 	jsl.l ResetTransferQueues
 	lda.w OptPlayMode
 	cmp.w #$0003

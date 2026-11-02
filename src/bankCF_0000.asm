@@ -181,15 +181,15 @@ LoadSounds:							; loads the samples and sounds of the list at X:A into the sou
 	sta.b tmp0
 	ldx.w #$00FE
 	lda.w #$FFFF
-.loop:								; loop: $4BC8,x = A, $4CCA,x = A, $48BA,x = 0, X - 1, ...
+.loop:								; loop: $4BC8,x = A, $4CCA,x = A, SampleSlots,x = 0, X - 1, ...
 	sta.w $4BC8,x
 	sta.w $4CCA,x
-	stz.w $48BA,x
+	stz.w SampleSlots,x
 	dex
 	dex
 	bpl .loop
 	lda.w #$0001
-	sta.w $49BA
+	sta.w SampleSlotNext
 	plx
 	pla
 AppendSounds:						; loads the list at X:A using the current sample allocation, then uploads
@@ -248,13 +248,13 @@ LoadSample:							; assigns sample A a driver slot, copies its header parameters
 									; BRR data if not already loaded
 	and.w #$00FF
 	tax
-	lda.w $48BA,x
+	lda.w SampleSlots,x
 	and.w #$00FF
 	bne .1
-	lda.w $49BA
-	inc.w $49BA
+	lda.w SampleSlotNext
+	inc.w SampleSlotNext
 	sep #$20
-	sta.w $48BA,x
+	sta.w SampleSlots,x
 	rep #$20
 	asl a
 	asl a
@@ -460,7 +460,7 @@ LoadSequence:						; uploads sequence A and its referenced samples, recording th
 	cmp.w #$0021
 	bcs .1
 	tay
-	lda.w $48BA,y
+	lda.w SampleSlots,y
 	and.w #$00FF
 	asl a
 	asl a
@@ -601,7 +601,7 @@ LoadTeamSongs:						; the home team's 6 songs from TeamSongs into a list (each $
 	ldx.w #$007E
 	jsl.l AppendSounds
 	ldx.w #$001B
-	lda.w $48BA,x
+	lda.w SampleSlots,x
 	and.w #$00FF
 	asl a
 	tax

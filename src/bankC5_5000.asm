@@ -1312,7 +1312,7 @@ ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed,
 									; Scores it only fades out and returns
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
-	lda.w $190E
+	lda.w SeasonScoresMode
 	beq .1
 	rts
 .1:									; call ClearNMIHook, A = $0800, call FreeWorkBuf, WorkBufMark = A, ...
@@ -1326,7 +1326,7 @@ ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed,
 	jsl.l QueueClearVRAM
 	jsl.l WaitTransfers
 	stz.w padchangeany
-	lda.w $190E
+	lda.w SeasonScoresMode
 	jmp.w PauseScreenDraw
 SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both teams' logo
 									; sprites

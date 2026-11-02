@@ -255,9 +255,9 @@ updatecrowdf:						; decay the crowd hold and sound level
 	sta.b crowdhold
 .rtl:								; return
 	rtl
-.3:									; X = $0002, A = $48BA,x, A and $00FF, X = A, ...
+.3:									; X = $0002, A = SampleSlots,x, A and $00FF, X = A, ...
 	ldx.w #$0002
-	lda.w $48BA,x
+	lda.w SampleSlots,x
 	and.w #$00FF
 	tax
 	lda.w Crowdlevel&$FFFF
