@@ -210,7 +210,7 @@ PenaltyManager:						; update penalty clocks, new penalties, referee progress an
 	jsl.l checkfornewpen
 	jsl.l chkprogress
 	jml.l UpdatePA
-chkatop:							; from CODE_C47FD4 and other segments
+chkatop:							; from updatepentime and other segments
 	stz.b d1
 	lda.w pucky
 	sec
@@ -236,7 +236,7 @@ chkatop:							; from CODE_C47FD4 and other segments
 	sta.w tmATOP,y
 .rtl:								; return
 	rtl
-CountPowerPlayTime:					; from CODE_C47FD4 and other segments
+CountPowerPlayTime:					; from updatepentime and other segments
 	stz.b d1
 	lda.w tmap
 	sec

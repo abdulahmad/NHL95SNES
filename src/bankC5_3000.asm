@@ -1,8 +1,9 @@
 ; Segment bankC5_3000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5308D
-FixLineForward:						; A = line slot player A if he is a forward (roster index $0C up to $A5),
-									; else the first forward from $0C not in the line (PlayerInLine)
+FixLineDefence:						; A = line slot player A if he is a defenceman (roster index $0C up to
+									; $A5, after the forwards), else the first defenceman from $0C not in the
+									; line (PlayerInLine)
 	cmp.b $0C
 	bcc .1
 	cmp.b $A5
@@ -16,8 +17,9 @@ FixLineForward:						; A = line slot player A if he is a forward (roster index $
 	bra .loop
 .rts:								; return
 	rts
-FixLineDefence:						; A = line slot player A if he is a defenceman (roster index $0A up to
-									; $0C), else the first one from $0A not in the line (PlayerInLine)
+FixLineForward:						; A = line slot player A if he is a forward (roster index $0A up to $0C,
+									; after the goalies), else the first forward from $0A not in the line
+									; (PlayerInLine)
 	cmp.b $0A
 	bcc .1
 	cmp.b $0C

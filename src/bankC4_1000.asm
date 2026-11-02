@@ -1,22 +1,22 @@
 ; Segment bankC4_1000: data tables (not traced yet), labelled where code reads them with a long address. From
 ; DATA8_C41E48 they look like animation lists: word pointers per direction to (frame, value) pairs.
 org $C41006
-DATA8_C41006:						; not traced: a table read by CODE_C407B4
+DATA8_C41006:						; not traced: a table read by UpdateBracketWindows
 	db $18,$00,$92,$00,$0A,$01,$27,$01,$EB,$01,$61,$02,$DA,$02,$18,$00
 	db $92,$00,$0A,$01,$27,$01,$EB,$01,$61,$02,$DA,$02,$18,$00,$92,$00
 	db $0A,$01,$27,$01,$EB,$01,$61,$02,$DA,$02,$18,$00,$92,$00,$0A,$01
 	db $27,$01,$EB,$01,$61,$02,$DA,$02
-DATA8_C4103E:						; not traced: a table read by CODE_C407EE
+DATA8_C4103E:						; not traced: a table read by UpdateBracketWindows
 	db $18,$00,$92,$00,$0A,$01,$C6,$01,$EB,$01,$61,$02,$DA,$02,$18,$00
 	db $92,$00,$0A,$01,$C6,$01,$EB,$01,$61,$02,$DA,$02,$18,$00,$92,$00
 	db $0A,$01,$C6,$01,$EB,$01,$61,$02,$DA,$02,$18,$00,$92,$00,$0A,$01
 	db $C6,$01,$EB,$01,$61,$02,$DA,$02
-DATA8_C41076:						; not traced: a table read by CODE_C407B4
+DATA8_C41076:						; not traced: a table read by UpdateBracketWindows
 	db $09,$00,$1D,$00,$22,$00,$4A,$00,$21,$00,$1C,$00,$09,$00,$31,$00
 	db $1D,$00,$22,$00,$4A,$00,$21,$00,$1C,$00,$31,$00,$61,$00,$75,$00
 	db $22,$00,$4A,$00,$21,$00,$75,$00,$61,$00,$89,$00,$75,$00,$22,$00
 	db $4A,$00,$21,$00,$75,$00,$89,$00
-DATA8_C410AE:						; not traced: a table read by CODE_C407EE
+DATA8_C410AE:						; not traced: a table read by UpdateBracketWindows
 	db $09,$00,$1D,$00,$72,$00,$4A,$00,$72,$00,$1C,$00,$09,$00,$31,$00
 	db $1D,$00,$72,$00,$4A,$00,$72,$00,$1C,$00,$31,$00,$61,$00,$75,$00
 	db $72,$00,$4A,$00,$72,$00,$75,$00,$61,$00,$89,$00,$75,$00,$72,$00
@@ -238,7 +238,7 @@ DATA8_C41166:						; not traced: a table read by DrawBracketSeriesSummary, Brack
 	db $EC,$FF,$EA,$01,$04,$00,$EA,$01,$04,$00,$EB,$01,$04,$00,$57,$02
 	db $04,$00,$56,$02,$00,$00,$56,$02,$00,$00,$55,$02,$00,$00,$56,$02
 	db $EC,$FF
-DATA8_C41E48:						; not traced: a table read by CODE_C4A2A3
+DATA8_C41E48:						; not traced: a table read by dopass_count
 	db $5A,$1E,$6E,$1E,$82,$1E,$96,$1E,$AA,$1E,$BE,$1E,$D2,$1E,$E6,$1E
 	db $00,$00,$C1,$01,$1B,$00,$C2,$01,$02,$00,$C3,$01,$02,$00,$C4,$01
 	db $02,$00,$C5,$01,$EC,$FF,$C7,$01,$1B,$00,$C8,$01,$02,$00,$C9,$01

@@ -289,7 +289,11 @@
   it from r2 (the sequence pointer), not the flag byte in SoundSequenceTable; the intended selection is unresolved.
 - Scoreboard: CODE_C539D7 draws the score box (team abbreviations, scores) and CODE_C53A29 the period box (showclockdma,
   the period text, a power play frame); together they do 94S printscores1's job, split differently: not named.
-- CODE_C535EF sits where 94S PlayerShortName calls GetPlayerRecord but reads an offset table, then a word through it;
-  what the result points at in the bank $C3 database is not checked: not named.
-- CODE_C54114 has setlccords's job (the line change box position by team and direction, then getlchoice 2), but bytes
-  inside it ($C54120) decode as data; not named until that decode is checked. $18AA: CloseLCBoxes and the face off code count it up; not named.
+- CODE_C535EF sits where 94S PlayerShortName calls GetPlayerRecord but reads an offset table, then a word through it.
+  The third Claude thread followed its reads for all 662 roster players. It doubles the PlayerList pointer before
+  reading, so it never reaches a real player record: not named.
+- setlccords (was CODE_C54114) is resolved: the bytes at $C54120 are `ldy.w #$5AB5`. The old `phy` entry at $C54122 was
+  its operand's last byte, and that entry's caller was a false match. $18AA: CloseLCBoxes and the face off code count it up; not named.
+- FixLineForward / FixLineDefence were first named the wrong way round. The range right after the goalies is the
+  forwards (roster +4 is the forward count, GetForwardCount). Line bytes +1 / +2 are LD / RD (the slot texts), so the
+  routine that fixes those is FixLineDefence.

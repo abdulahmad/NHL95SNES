@@ -780,7 +780,7 @@ PutClockDigit:						; copies big digit A (its low 4 bits: 2 x 3 tiles from the d
 	sta.w $0042,y
 	lda.w $0780,x
 	sta.w $0080,y
-	lda.w replaynewframe,x
+	lda.w $0782,x
 	sta.w $0082,y
 	ply
 	rts

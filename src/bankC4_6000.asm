@@ -1216,7 +1216,7 @@ DATA8_C4692F:						; not traced: a table read by PlayerAccDir2x2, PlayerAccDir3,
 	db $00,$00,$04,$00,$07,$00,$04,$00,$00,$00,$FC,$FF,$F9,$FF,$FC,$FF
 DATA8_C4693F:						; not traced: a table read by PlayerAccDir3, PlayerAccDir3x2, ...
 	db $07,$00,$04,$00,$00,$00,$FC,$FF,$F9,$FF,$FC,$FF,$00,$00,$04,$00
-doplayeracc:						; from CODE_C470E7 and other segments
+doplayeracc:						; from skatetopuck and other segments
 	lda.w position,x
 	bne .1
 	jmp.w goalieacc

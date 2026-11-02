@@ -5139,12 +5139,12 @@ $C5304C,.32,CODE_C5304C,new,"branch target only used in LoadTeamRoster",src/bank
 $C53059,.33,CODE_C53059,new,"branch target only used in LoadTeamRoster",src/bankC5_2000.asm
 $C5305C,.loop10,CODE_C5305C,new,"branch target only used in LoadTeamRoster",src/bankC5_2000.asm
 $C53084,.34,CODE_C53084,new,"branch target only used in LoadTeamRoster",src/bankC5_2000.asm
-$C53095,.1,CODE_C53095,new,"branch target only used in FixLineForward",src/bankC5_3000.asm
-$C53097,.loop,CODE_C53097,new,"branch target only used in FixLineForward",src/bankC5_3000.asm
-$C5309F,.rts,CODE_C5309F,new,"branch target only used in FixLineForward",src/bankC5_3000.asm
-$C530A8,.1,CODE_C530A8,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
-$C530AA,.loop,CODE_C530AA,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
-$C530B2,.rts,CODE_C530B2,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
+$C53095,.1,CODE_C53095,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
+$C53097,.loop,CODE_C53097,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
+$C5309F,.rts,CODE_C5309F,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
+$C530A8,.1,CODE_C530A8,new,"branch target only used in FixLineForward",src/bankC5_3000.asm
+$C530AA,.loop,CODE_C530AA,new,"branch target only used in FixLineForward",src/bankC5_3000.asm
+$C530B2,.rts,CODE_C530B2,new,"branch target only used in FixLineForward",src/bankC5_3000.asm
 $C530CD,.rts,CODE_C530CD,new,"branch target only used in PlayerInLine",src/bankC5_3000.asm
 $C5312D,.loop,CODE_C5312D,new,"branch target only used in RecordGoalieCount",src/bankC5_3000.asm
 $C531EA,.loop,CODE_C531EA,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
@@ -8173,8 +8173,8 @@ $C570F4,RosterColStatus,CODE_C570F4,code,"from the code: tmpdst of the player, T
 $C57187,RosterColHand,CODE_C57187,code,"from the code: the two texts at DATA8_C35E9F+8",src/bankC5_7000.asm
 $C5719B,RosterColWeight,CODE_C5719B,code,"from the code",src/bankC5_7000.asm
 $C571B4,RosterColRating,CODE_C571B4,code,"from the code",src/bankC5_7000.asm
-$C5308D,FixLineForward,CODE_C5308D,code,"from the code: the range tests against $0C / $A5 that LoadTeamRoster sets (after the goalies and the defence), the search loop",src/bankC5_3000.asm
-$C530A0,FixLineDefence,CODE_C530A0,code,"from the code: as FixLineForward over the defence range",src/bankC5_3000.asm
+$C5308D,FixLineDefence,CODE_C5308D,code,"from the code: the range LoadTeamRoster sets after the goalies and forwards up to the player count + 1; it fixes line bytes +1 / +2 (LD, RD); first named FixLineForward, swapped by mistake",src/bankC5_3000.asm
+$C530A0,FixLineForward,CODE_C530A0,code,"from the code: the range LoadTeamRoster sets from the goalie count + 1 and the forward count (+4, which GetForwardCount reads); it fixes line bytes +3 / +4 / +5 (LW, C, RW); first named FixLineDefence, swapped by mistake",src/bankC5_3000.asm
 $C530B3,PlayerInLine,CODE_C530B3,code,"from the code: the five byte compares, clc when none matches",src/bankC5_3000.asm
 $C522BF,DrawPadArrows,CODE_C522BF,code,"from the code: the stack moved to the OAM pointer ($28), DrawPadArrow for pad 1 with the next pad's entry as its continuation; 94S setvideo draws these arrows with its local .t1 for each pad; setvideo calls it",src/bankC5_2000.asm
 $C522DF,PadArrow2,CODE_C522DF,code,"from the code",src/bankC5_2000.asm

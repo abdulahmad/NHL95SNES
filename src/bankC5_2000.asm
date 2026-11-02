@@ -1748,22 +1748,22 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	adc.w $0004,y
 	sta.b $0C
 	stz.b tmp2
-.loop5:								; loop: A 8-bit, A = $006D,y, call FixLineForward, $006D,y = A, ...
+.loop5:								; loop: A 8-bit, A = $006D,y, call FixLineDefence, $006D,y = A, ...
 	sep #$20
 	lda.w $006D,y
-	jsr.w FixLineForward
+	jsr.w FixLineDefence
 	sta.w $006D,y
 	lda.w $006E,y
-	jsr.w FixLineForward
+	jsr.w FixLineDefence
 	sta.w $006E,y
 	lda.w $006F,y
-	jsr.w FixLineDefence
+	jsr.w FixLineForward
 	sta.w $006F,y
 	lda.w $0070,y
-	jsr.w FixLineDefence
+	jsr.w FixLineForward
 	sta.w $0070,y
 	lda.w $0071,y
-	jsr.w FixLineDefence
+	jsr.w FixLineForward
 	sta.w $0071,y
 	rep #$20
 	tya

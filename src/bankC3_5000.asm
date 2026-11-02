@@ -229,25 +229,25 @@ DATA8_C3585C:						; not traced: read by DrawAwardWinner, DrawPresidentsWinner, 
 	db $4B,$02,$EF,$12,$EB,$12,$F0,$4B,$00,$B3,$12,$FF,$FF,$F7,$4B,$00
 	db $D7,$12,$FF,$FF,$01,$4C,$06,$6F,$12,$FF,$FF,$0B,$4C,$02,$DB,$12
 	db $DF,$12,$11,$4C,$04,$DB,$12,$DF,$12
-DATA8_C35E25:						; not traced: read by CODE_C563E0, CODE_C56ABB, CODE_C56DA1, ...
+DATA8_C35E25:						; not traced: read by DrawPeriodStats, DrawPenaltyRow, DrawScoringRow, ...
 	db $59,$4F,$5D,$4F,$61,$4F,$65,$4F
-DATA8_C35E2D:						; not traced: read by CODE_C56E3D
+DATA8_C35E2D:						; not traced: read by DrawScoringRow
 	db $9A,$4F,$78,$4F,$FF,$FF,$9D,$4F,$9F,$4F
-DATA8_C35E37:						; not traced: read by CODE_C56F91, CODE_C574B8
+DATA8_C35E37:						; not traced: read by ShowRosterLine, PrintLineNames
 	db $74,$4C,$83,$4E,$8B,$4E,$4D,$4A,$93,$4E,$9E,$4E,$A9,$4E,$B5,$4E
 DATA8_C35E47:						; not traced: read by CODE_C5705E, PrintLineSlot
 	db $A2,$4F,$A4,$4F,$A6,$4F,$A8,$4F,$AA,$4F
-DATA8_C35E51:						; not traced: read by CODE_C4E537
+DATA8_C35E51:						; not traced: read by ShowMatchups
 	db $BD,$49,$C7,$49,$D7,$49,$D2,$49,$E0,$49
-DATA8_C35E5B:						; not traced: read by CODE_C5C367
+DATA8_C35E5B:						; not traced: read by DrawFreeAgentRow
 	db $B8,$49,$F0,$4C,$F0,$4C,$F6,$4C,$F6,$4C,$F6,$4C
-DATA8_C35E67:						; not traced: read by CODE_C56FBD, PrintLinePlayerHeader
+DATA8_C35E67:						; not traced: read by ShowRosterLine, PrintLinePlayerHeader
 	db $C7,$4E,$CC,$4E,$D2,$4E,$F7,$49,$F2,$49,$D7,$4E,$04,$4A,$10,$4A
 	db $26,$4A,$2F,$4A,$3A,$4A,$1C,$4A,$DC,$4E,$FD,$49,$45,$4A,$4D,$4A
-DATA8_C35E87:						; not traced: read by CODE_C56F98, Pausemode_gnum
+DATA8_C35E87:						; not traced: read by ShowRosterLine, Pausemode_gnum
 	db $C7,$4E,$CC,$4E,$F7,$49,$F2,$49,$6B,$4C,$10,$4A,$54,$4A,$5E,$4A
 	db $68,$4A,$7A,$4A,$71,$4A,$DC,$4E
-DATA8_C35E9F:						; not traced: read by CODE_C5713B
+DATA8_C35E9F:						; not traced: read by RosterColStatus
 	db $56,$4C,$5A,$4C,$5F,$4C,$65,$4C,$ED,$49,$E9,$49
 PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 6 palettes,
 									; then the photos (as 94S PhotoPaletteTable); read 1-based (-4 + team x 4)
@@ -265,7 +265,7 @@ PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 
 	db $6C,$61,$79,$6F,$66,$66,$73,$40,$20,$44,$61,$79,$20
 DATA8_C35F60:						; not traced: read by MakeDateString, ShowOtherScores, SeasonOptions, ...
 	db $25,$09
-DATA8_C35F62:						; not traced: read by CODE_C5A8B0
+DATA8_C35F62:						; not traced: read by GamesTodayKeys
 	db $46,$09,$67,$09,$88,$09,$A9,$09,$CA,$09,$0B,$09,$2C,$09,$4D,$09
 	db $6E,$09,$8F,$09,$B0,$09,$D1,$09,$12,$09,$33,$09,$54,$09,$75,$09
 	db $96,$09,$B7,$09,$D8,$09,$19,$09,$3A,$09,$5B,$09,$7C,$09,$9D,$09

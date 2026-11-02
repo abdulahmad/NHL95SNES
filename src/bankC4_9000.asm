@@ -1263,7 +1263,7 @@ InitBreakawayPath:					; choose the starting side and waypoint of the breakaway 
 	sta.w sopathside
 	stz.w sopathx
 	bra .12
-Findhittype:						; from SetShotMode, CODE_C4A20F, PassReceiverOneTimer, ...
+Findhittype:						; from SetShotMode, dopass_swing, PassReceiverOneTimer, ...
 	lda.b d0
 	eor.w #$FFFF
 	inc a
