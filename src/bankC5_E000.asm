@@ -588,8 +588,8 @@ CODE_C5E3F0:						; no caller found (not traced)
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3FE:						; no caller found (not traced)
 	sep #$20
-	lda.w $1904
-	sta.l $306040
+	lda.w OptUserRec
+	sta.l SROptUserRec
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines

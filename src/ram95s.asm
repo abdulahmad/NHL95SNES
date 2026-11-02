@@ -332,6 +332,7 @@ sopathpoint			=	$18CA		; assbreakaway: index of the path point; cleared at the s
 sopathside			=	$18CC		; assbreakaway: side of the path
 sopathface			=	$18CE		; assbreakaway: facedir when the last path point was taken
 BlockMove			=	$18FA		; RAM routine phb, mvn, plb, rtl; the mvn banks at +2 (ClearRAM7E)
+OptUserRec			=	$1904		; user records option: nonzero on (UpdateRecords)
 ltplayer			=	$2002		; a2touchpuck: the last player to touch the puck (index / 2)
 ltx					=	$2004		; a2touchpuck: that player's Xpos; Stop4Pen's face off x
 lty					=	$2006		; a2touchpuck: that player's Ypos; Stop4Pen's face off y
@@ -367,6 +368,7 @@ Crowdlevel			=	$7E24CA		; crowd noise level: the play raises it, updatecrowdf le
 unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)
 
 ; save RAM (bank $30), long addresses
+SROptUserRec		=	$306040		; saved user records option (OptUserRec)
 SRHomeTeam			=	$306041		; saved home team: LoadSavedGameOptions puts it in HomeTeam
 SRVisTeam			=	$306043		; saved visiting team: LoadSavedGameOptions puts it in VisTeam
 SROptperlen			=	$306049		; saved period length option (Optperlen)

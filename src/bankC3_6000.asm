@@ -228,9 +228,9 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	lda.l SROptGoalie
 	and.w #$0001
 	sta.w OptGoalie
-	lda.l $306040
+	lda.l SROptUserRec
 	and.w #$0001
-	sta.w $1904
+	sta.w OptUserRec
 	lda.l $30604F
 	and.w #$0001
 	sta.w $1872

@@ -1620,7 +1620,7 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	cpy.w #$000C
 	bne .loop
 	lda.b $01,s
-	jsr.w CODE_C5D6F5
+	jsr.w ReadUserRecord
 	lda.b d4
 	clc
 	adc.b $8D

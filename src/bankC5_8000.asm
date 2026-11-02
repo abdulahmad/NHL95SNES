@@ -1766,7 +1766,7 @@ StartDemo:							; starts the demo: the demo flag set, user records off, play mo
 									; Exhibition, then the controller setup (CODE_C593B1)
 	lda.w #$0001
 	sta.l $7E23BA
-	stz.w $1904
+	stz.w OptUserRec
 	stz.w OptPlayMode
 	jmp.w CODE_C593B1
 DATA8_C58DF0:						; jump table: the routine for each index

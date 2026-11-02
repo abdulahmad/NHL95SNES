@@ -135,7 +135,7 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rts
-	lda.w $1904
+	lda.w OptUserRec
 	beq .rts
 	jsr.w CODE_C5D1C5
 	ldy.w #$0000
@@ -727,11 +727,12 @@ CODE_C5D5A5:						; from DrawNameGrid, EditUserName
 	lda.w #$000A
 	jsl.l PrintBoldFixedLeftStr
 	rts
-CODE_C5D5CD:						; called from other segments
+UpdateRecords:						; after a game, outside play mode 1 and with user records on (OptUserRec):
+									; the user record of each team that has a user name ($4688 / $468A)
 	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rtl
-	lda.w $1904
+	lda.w OptUserRec
 	beq .rtl
 	lda.w HomeTeam
 	sta.w $12AF
@@ -740,17 +741,18 @@ CODE_C5D5CD:						; called from other segments
 	lda.w $4688
 	bmi .1
 	ldx.w #$0000
-	jsr.w CODE_C5D5FD
-.1:									; if $468A < 0 go to .rtl, X = $0002, call CODE_C5D5FD
+	jsr.w UpdateUserRecord
+.1:									; if $468A < 0 go to .rtl, X = $0002, call UpdateUserRecord
 	lda.w $468A
 	bmi .rtl
 	ldx.w #$0002
-	jsr.w CODE_C5D5FD
+	jsr.w UpdateUserRecord
 .rtl:								; return
 	rtl
-CODE_C5D5FD:						; from CODE_C5D5CD
+UpdateUserRecord:					; adds the game to the user record of team X: a win, loss or tie, the
+									; biggest margin and the most goals with the teams, then WriteUserRecord
 	pha
-	jsr.w CODE_C5D6F5
+	jsr.w ReadUserRecord
 	txa
 	eor.w #$0002
 	tay
@@ -788,7 +790,8 @@ CODE_C5D5FD:						; from CODE_C5D5CD
 	sta.b d1
 .4:									; pull A
 	pla
-CODE_C5D649:						; from CODE_C5D77F
+WriteUserRecord:					; writes d0, $81, d1 and $85 back as user a3's record in save RAM ($307112
+									; on)
 	sta.b a3
 	asl a
 	adc.b a3
@@ -832,7 +835,7 @@ CODE_C5D649:						; from CODE_C5D77F
 	jsr.w CODE_C5D6AA
 	ldx.w #$7156
 	lda.b $8D
-CODE_C5D6AA:						; from CODE_C5D649
+CODE_C5D6AA:						; from WriteUserRecord
 	stx.b $77
 	tax
 	lda.b $71
@@ -857,7 +860,7 @@ CODE_C5D6AA:						; from CODE_C5D649
 	ora.b $7D
 	sta.b [$77],y
 	rts
-CODE_C5D6D0:						; from CODE_C5D649
+CODE_C5D6D0:						; from WriteUserRecord
 	stx.b $77
 	ldx.w #$001F
 	stx.b $7B
@@ -879,7 +882,8 @@ CODE_C5D6D0:						; from CODE_C5D649
 	ora.b $7D
 	sta.b [$77],y
 	rts
-CODE_C5D6F5:						; from CODE_C5D5FD
+ReadUserRecord:						; reads user A's record from save RAM ($307112 on, $30 bits a user) into
+									; d0, $81, d1 and $85
 	phx
 	sta.b a0
 	asl a
@@ -927,7 +931,7 @@ CODE_C5D6F5:						; from CODE_C5D5FD
 	sta.b $8D
 	plx
 	rts
-CODE_C5D75C:						; from CODE_C5D6F5
+CODE_C5D75C:						; from ReadUserRecord
 	stx.b a2
 	lda.b $65
 	lsr a
@@ -941,7 +945,7 @@ CODE_C5D75C:						; from CODE_C5D6F5
 .1:									; A and $0FFF, return
 	and.w #$0FFF
 	rts
-CODE_C5D76E:						; from CODE_C5D6F5
+CODE_C5D76E:						; from ReadUserRecord
 	stx.b a2
 	ldy.b a1
 	ldx.b $69
@@ -963,7 +967,7 @@ CODE_C5D77F:						; from EditUserName
 	stz.b d3
 	stz.b d4
 	stz.b $8D
-	jmp.w CODE_C5D649
+	jmp.w WriteUserRecord
 CODE_C5D794:						; called from other segments
 	ldx.w #$0000
 	txy
@@ -1113,7 +1117,8 @@ NextSaveBits8:						; A = the 8 bits at bit Y of the save RAM bit array at SRCre
 	rol a
 	and.w #$00FF
 	rts
-CODE_C5D85D:						; called from other segments
+PrintPositionCounts:				; prints the goalie, defence and forward counts (d0, d1, $81) on rows 6-8
+									; and their total on row 9
 	ldx.b $D3
 	stz.w $019C,x
 	stz.w $019E,x

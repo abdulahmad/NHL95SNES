@@ -1290,12 +1290,12 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	beq .3
 	lda.w #$0004
 	sta.w gsp
-.3:									; call ResetClock, if gsp is not $0004 go to .5, call CODE_C5D5CD, ...
+.3:									; call ResetClock, if gsp is not $0004 go to .5, call UpdateRecords, ...
 	jsl.l ResetClock
 	lda.w gsp
 	cmp.w #$0004
 	bne .5
-	jsl.l CODE_C5D5CD
+	jsl.l UpdateRecords
 	lda.w OptPlayMode
 	cmp.w #$0003
 	beq .4

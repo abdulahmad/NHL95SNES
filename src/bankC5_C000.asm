@@ -254,9 +254,9 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	bra .14
 .13:								; $81 - 1
 	dec.b $81
-.14:								; call CODE_C5C4FC, call CODE_C5D85D, call CODE_C55C12, call SendTextMap
+.14:								; call CODE_C5C4FC, call PrintPositionCounts, call CODE_C55C12, ...
 	jsr.w CODE_C5C4FC
-	jsr.w CODE_C5D85D
+	jsr.w PrintPositionCounts
 	jsr.w CODE_C55C12
 	jsl.l SendTextMap
 .15:								; go to .loop
@@ -398,8 +398,8 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	ldy.w #$000E
 	jsr.w StartScrollList
 	stz.b $85
-.4:									; call CODE_C5D85D, call SendTextMap, return
-	jsr.w CODE_C5D85D
+.4:									; call PrintPositionCounts, call SendTextMap, return
+	jsr.w PrintPositionCounts
 	jsl.l SendTextMap
 	rts
 DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent, his position
@@ -1032,8 +1032,8 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	lda.b (tmp0)
 	inc a
 	sta.b (tmp0)
-.15:								; call CODE_C5D85D, call CODE_C55C12, call SendTextMap
-	jsr.w CODE_C5D85D
+.15:								; call PrintPositionCounts, call CODE_C55C12, call SendTextMap
+	jsr.w PrintPositionCounts
 	jsr.w CODE_C55C12
 	jsl.l SendTextMap
 .16:								; go to .loop
@@ -1132,7 +1132,7 @@ DrawReleasePage:					; draws the Release Players page and starts its scrolling l
 	ldx.w #$0008
 	ldy.w #$000E
 	jsr.w StartScrollList
-	jsr.w CODE_C5D85D
+	jsr.w PrintPositionCounts
 	jsl.l SendTextMap
 	rts
 DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his position and

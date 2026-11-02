@@ -6350,12 +6350,12 @@ $C5D4D4,.rts,CODE_C5D4D4,new,"branch target only used in EditUserName",src/bankC
 $C5D52B,.1,CODE_C5D52B,new,"branch target only used in DrawNameGrid",src/bankC5_D000.asm
 $C5D52E,.loop,CODE_C5D52E,new,"branch target only used in DrawNameGrid",src/bankC5_D000.asm
 $C5D539,.2,CODE_C5D539,new,"branch target only used in DrawNameGrid",src/bankC5_D000.asm
-$C5D5F1,.1,CODE_C5D5F1,new,"branch target only used in CODE_C5D5CD",src/bankC5_D000.asm
-$C5D5FC,.rtl,CODE_C5D5FC,new,"branch target only used in CODE_C5D5CD",src/bankC5_D000.asm
-$C5D614,.1,CODE_C5D614,new,"branch target only used in CODE_C5D5FD",src/bankC5_D000.asm
-$C5D618,.2,CODE_C5D618,new,"branch target only used in CODE_C5D5FD",src/bankC5_D000.asm
-$C5D633,.3,CODE_C5D633,new,"branch target only used in CODE_C5D5FD",src/bankC5_D000.asm
-$C5D648,.4,CODE_C5D648,new,"branch target only used in CODE_C5D5FD",src/bankC5_D000.asm
+$C5D5F1,.1,CODE_C5D5F1,new,"branch target only used in UpdateRecords",src/bankC5_D000.asm
+$C5D5FC,.rtl,CODE_C5D5FC,new,"branch target only used in UpdateRecords",src/bankC5_D000.asm
+$C5D614,.1,CODE_C5D614,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
+$C5D618,.2,CODE_C5D618,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
+$C5D633,.3,CODE_C5D633,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
+$C5D648,.4,CODE_C5D648,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
 $C5D6C4,.1,CODE_C5D6C4,new,"branch target only used in CODE_C5D6AA",src/bankC5_D000.asm
 $C5D6DB,.loop,CODE_C5D6DB,new,"branch target only used in CODE_C5D6D0",src/bankC5_D000.asm
 $C5D76A,.1,CODE_C5D76A,new,"branch target only used in CODE_C5D75C",src/bankC5_D000.asm
@@ -8048,3 +8048,10 @@ $C57509,PrintLineSlot,CODE_C57509,code,"from the code; PrintLineNames calls it f
 $C57578,SelectLinePlayer,CODE_C57578,94S+purpose,"94S / 95 Genesis SelectLinePlayer's job (the slot's player list, left / right the attribute column); EditLinesScreen calls it on B",src/bankC5_7000.asm
 $C576FD,DrawLinePlayerRow,CODE_C576FD,code,"from the code: the row routine SelectLinePlayer passes to StartScrollList",src/bankC5_7000.asm
 $C5755C,RecolourTextRow,CODE_C5755C,code,"from the code: A * 64 + $D3, and #$E3FF, ora d0 when not 0; EditLinesScreen moves its highlight with it",src/bankC5_7000.asm
+$C5D5CD,UpdateRecords,CODE_C5D5CD,genesis+purpose,"95 Genesis UpdateRecords's job (with user records on, the record of each pad's user); PeriodOver calls it when the game is over",src/bankC5_D000.asm
+$C5D5FD,UpdateUserRecord,CODE_C5D5FD,genesis+purpose,"95 Genesis UpdateUserRecord's job (a pad's name log entry, the team record of the game); it reads with ReadUserRecord and falls into WriteUserRecord",src/bankC5_D000.asm
+$C5D6F5,ReadUserRecord,CODE_C5D6F5,code,"from the code: the bit offset A * $30, the 12-bit and 5-bit fields",src/bankC5_D000.asm
+$C5D649,WriteUserRecord,CODE_C5D649,code,"from the code: the fields ReadUserRecord reads",src/bankC5_D000.asm
+$C5D85D,PrintPositionCounts,CODE_C5D85D,code,"from the code: four BCD prints; the free agent and release pages label the rows Goalies, Defensemen, Forwards, Total",src/bankC5_D000.asm
+$1904,OptUserRec,,genesis+purpose,"RAM: 95 Genesis OptUserRec's option (0 on there); LoadSavedGameOptions loads it, StartDemo clears it, UpdateRecords needs it set",src/ram95s.asm
+$306040,SROptUserRec,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0 into OptUserRec",src/ram95s.asm
