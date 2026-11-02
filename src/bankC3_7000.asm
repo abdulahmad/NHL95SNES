@@ -9,35 +9,35 @@ GetNewPresses:						; the changed buttons (padchange) and the new presses (padne
 	and.b PadRaw1
 	sta.w padnew
 	lda.b PadRaw2
-	eor.w $0567
-	sta.w $057B
+	eor.w padlast+2
+	sta.w padchange+2
 	and.b PadRaw2
-	sta.w $0585
+	sta.w padnew+2
 	lda.b $C5
-	eor.w $0569
-	sta.w $057D
+	eor.w padlast+4
+	sta.w padchange+4
 	and.b $C5
-	sta.w $0587
+	sta.w padnew+4
 	lda.b $C7
-	eor.w $056B
-	sta.w $057F
+	eor.w padlast+6
+	sta.w padchange+6
 	and.b $C7
-	sta.w $0589
+	sta.w padnew+6
 	lda.b $C9
-	eor.w $056D
-	sta.w $0581
+	eor.w padlast+8
+	sta.w padchange+8
 	and.b $C9
-	sta.w $058B
+	sta.w padnew+8
 	lda.b PadRaw1
 	sta.w padlast
 	lda.b PadRaw2
-	sta.w $0567
+	sta.w padlast+2
 	lda.b $C5
-	sta.w $0569
+	sta.w padlast+4
 	lda.b $C7
-	sta.w $056B
+	sta.w padlast+6
 	lda.b $C9
-	sta.w $056D
+	sta.w padlast+8
 	rts
 ReadjoyA:							; from ReadPausePad and other segments
 	phx
@@ -77,11 +77,11 @@ ReadJoy1:							; called from other segments
 ReadJoy2:							; read pad two into d0 through d3
 	lda.b PadRaw2
 	sta.b d3
-	lda.w $057B
+	lda.w padchange+2
 	sta.b d2
-	lda.w $0585
+	lda.w padnew+2
 	sta.b d1
-	lda.w $0571
+	lda.w paddir+2
 	sta.b d0
 	rtl
 ReadPausePad:						; read the controller that owns the pause menu
@@ -154,11 +154,11 @@ RemapTiles:							; no caller found (not traced)
 	lsr a
 	rol.w RemapOut,x
 	lsr a
-	rol.w $04D6,x
+	rol.w RemapOut+1,x
 	lsr a
-	rol.w $04E5,x
+	rol.w RemapOut+16,x
 	lsr a
-	rol.w $04E6,x
+	rol.w RemapOut+17,x
 	dec.b tmp2
 	bpl .loop2
 	dec.b $A4
@@ -327,13 +327,13 @@ updatereplay:						; called from other segments
 	sta.w d2
 	ldx.w #$0000
 	ldy.w #$0001
-.loop:								; loop: WMDATA&$FF = Xpos,x, A = $0815,x, A and $0F, r3 = A, ...
+.loop:								; loop: WMDATA&$FF = Xpos,x, A = Xpos+1,x, A and $0F, r3 = A, ...
 	lda.w Xpos,x
 	sta.b WMDATA&$FF
-	lda.w $0815,x
+	lda.w Xpos+1,x
 	and.b #$0F
 	sta.w r3
-	lda.w $0897,x
+	lda.w Ypos+1,x
 	asl a
 	asl a
 	asl a
@@ -361,18 +361,18 @@ updatereplay:						; called from other segments
 	lda.b #$05
 	sta.w d2
 	ldx.w #$0000
-.loop2:								; loop: WMDATA&$FF = rostnum,x, WMDATA&$FF = $0EE2,x, ...
+.loop2:								; loop: WMDATA&$FF = rostnum,x, WMDATA&$FF = rostnum+2,x, ...
 	lda.w rostnum,x
 	sta.b WMDATA&$FF
-	lda.w $0EE2,x
+	lda.w rostnum+2,x
 	sta.b WMDATA&$FF
 	lda.w position,x
 	bpl .6
 	lda.b #$FF
-.6:									; A and $0F, r3 = A, if $0A22,x >= 0 go to .7, A = $FF
+.6:									; A and $0F, r3 = A, if position+2,x >= 0 go to .7, A = $FF
 	and.b #$0F
 	sta.w r3
-	lda.w $0A22,x
+	lda.w position+2,x
 	bpl .7
 	lda.b #$FF
 .7:									; A * 2, A * 2, A * 2, A * 2, ...
@@ -396,7 +396,7 @@ updatereplay:						; called from other segments
 	sta.b WMDATA&$FF
 	lda.w recsfxpitch
 	sta.b WMDATA&$FF
-	lda.w $0779
+	lda.w recsfxpitch+1
 	sta.b WMDATA&$FF
 	lda.w $077B
 	sta.b WMDATA&$FF
@@ -404,32 +404,32 @@ updatereplay:						; called from other segments
 	sta.b WMDATA&$FF
 	lda.w recsfxpitch2
 	sta.b WMDATA&$FF
-	lda.w $077F
+	lda.w recsfxpitch2+1
 	sta.b WMDATA&$FF
 	lda.w $0781
 	sta.b WMDATA&$FF
 	lda.w d7
 	sta.b WMDATA&$FF
-	lda.w $05B0
+	lda.w PadControlObj+2
 	asl a
 	asl a
 	asl a
 	asl a
 	ora.w PadControlObj
 	sta.b WMDATA&$FF
-	lda.w $05B4
+	lda.w PadControlObj+6
 	asl a
 	asl a
 	asl a
 	asl a
-	ora.w $05B2
+	ora.w PadControlObj+4
 	sta.b WMDATA&$FF
-	lda.w $05B8
+	lda.w PadControlObj+10
 	asl a
 	asl a
 	asl a
 	asl a
-	ora.w $05B6
+	ora.w PadControlObj+8
 	sta.b WMDATA&$FF
 	lda.l Crowdlevel
 	sta.b WMDATA&$FF
@@ -1236,8 +1236,8 @@ adda43:								; from adda4 and other segments
 	bit.w #$0008
 	beq .2
 	ora.w #$00F0
-.2:									; $0815,x = A, Ypos,x = $80, A = r3, A / 2, ...
-	sta.w $0815,x
+.2:									; Xpos+1,x = A, Ypos,x = $80, A = r3, A / 2, ...
+	sta.w Xpos+1,x
 	lda.b $80
 	sta.w Ypos,x
 	lda.w r3
@@ -1248,8 +1248,8 @@ adda43:								; from adda4 and other segments
 	bit.w #$0008
 	beq .3
 	ora.w #$00F0
-.3:									; $0897,x = A, frame,x = $80, r3 = $80, A and $003F, ...
-	sta.w $0897,x
+.3:									; Ypos+1,x = A, frame,x = $80, r3 = $80, A and $003F, ...
+	sta.w Ypos+1,x
 	lda.b $80
 	sta.w frame,x
 	lda.b $80
@@ -1354,22 +1354,22 @@ adda43:								; from adda4 and other segments
 	bcc .loop2
 	ldx.w tmp0
 	ldy.w #$0002
-.loop3:								; loop: rostnum,x = $80, $0EE2,x = $80, $0A21,x = 0, r3 = $80, ...
+.loop3:								; loop: rostnum,x = $80, rostnum+2,x = $80, position+1,x = 0, ...
 	lda.b $80
 	sta.w rostnum,x
 	lda.b $80
-	sta.w $0EE2,x
-	stz.w $0A21,x
+	sta.w rostnum+2,x
+	stz.w position+1,x
 	lda.b $80
 	sta.w r3
 	and.w #$000F
 	cmp.w #$000F
 	bne .8
 	lda.w #$FFFF
-	sta.w $0A21,x
-.8:									; position,x = A, $0A23,x = 0, A = r3, A / 2, ...
+	sta.w position+1,x
+.8:									; position,x = A, position+3,x = 0, A = r3, A / 2, ...
 	sta.w position,x
-	stz.w $0A23,x
+	stz.w position+3,x
 	lda.w r3
 	lsr a
 	lsr a
@@ -1379,9 +1379,9 @@ adda43:								; from adda4 and other segments
 	cmp.w #$000F
 	bne .9
 	lda.w #$FFFF
-	sta.w $0A23,x
-.9:									; $0A22,x = A, X + 1, X + 1, X + 1, ...
-	sta.w $0A22,x
+	sta.w position+3,x
+.9:									; position+2,x = A, X + 1, X + 1, X + 1, ...
+	sta.w position+2,x
 	inx
 	inx
 	inx
@@ -1395,8 +1395,8 @@ adda43:								; from adda4 and other segments
 	bra .11
 .10:								; A = $0000
 	lda.w #$0000
-.11:								; $08D9 = A, shadowz = $80, if $80 >= 0 go to .12, A = $FFFF, ...
-	sta.w $08D9
+.11:								; puckz+1 = A, shadowz = $80, if $80 >= 0 go to .12, A = $FFFF, ...
+	sta.w puckz+1
 	lda.b $80
 	sta.w shadowz
 	bpl .12
@@ -1404,14 +1404,14 @@ adda43:								; from adda4 and other segments
 	bra .13
 .12:								; A = $0000
 	lda.w #$0000
-.13:								; $08DB = A, recsfx = $80, recsfxpitch = $80, $0779 = $80, ...
+.13:								; $08DB = A, recsfx = $80, recsfxpitch = $80, recsfxpitch+1 = $80, ...
 	sta.w $08DB
 	lda.b $80
 	sta.w recsfx
 	lda.b $80
 	sta.w recsfxpitch
 	lda.b $80
-	sta.w $0779
+	sta.w recsfxpitch+1
 	lda.b $80
 	sta.w $077B
 	lda.b $80
@@ -1419,7 +1419,7 @@ adda43:								; from adda4 and other segments
 	lda.b $80
 	sta.w recsfxpitch2
 	lda.b $80
-	sta.w $077F
+	sta.w recsfxpitch2+1
 	lda.b $80
 	sta.w $0781
 	lda.b $80
@@ -1433,27 +1433,27 @@ adda43:								; from adda4 and other segments
 	lsr a
 	lsr a
 	lsr a
-	sta.w $05B0
+	sta.w PadControlObj+2
 	lda.b $80
 	sta.w r3
 	and.w #$000F
-	sta.w $05B2
+	sta.w PadControlObj+4
 	lda.w r3
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.w $05B4
+	sta.w PadControlObj+6
 	lda.b $80
 	sta.w r3
 	and.w #$000F
-	sta.w $05B6
+	sta.w PadControlObj+8
 	lda.w r3
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.w $05B8
+	sta.w PadControlObj+10
 	lda.b $80
 	sta.l Crowdlevel
 	lda.b $80
@@ -1465,8 +1465,8 @@ adda43:								; from adda4 and other segments
 	bra .15
 .14:								; A = $0000
 	lda.w #$0000
-.15:								; $1140 = A, A = sflags, if a $0020 bit set go to .16, Hpos = $80, ...
-	sta.w $1140
+.15:								; PBnum+1 = A, A = sflags, if a $0020 bit set go to .16, Hpos = $80, ...
+	sta.w PBnum+1
 	lda.w sflags
 	bit.w #$0020
 	bne .16
@@ -1512,8 +1512,8 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	bit.b #$08
 	beq .1
 	ora.b #$F0
-.1:									; $0815,x = A, Ypos,x = WMDATA, A = r3, A / 2, ...
-	sta.w $0815,x
+.1:									; Xpos+1,x = A, Ypos,x = WMDATA, A = r3, A / 2, ...
+	sta.w Xpos+1,x
 	lda.l WMDATA
 	sta.w Ypos,x
 	lda.b r3
@@ -1524,8 +1524,8 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	bit.b #$08
 	beq .2
 	ora.b #$F0
-.2:									; $0897,x = A, frame,x = WMDATA, r3 = WMDATA, A and $3F, ...
-	sta.w $0897,x
+.2:									; Ypos+1,x = A, frame,x = WMDATA, r3 = WMDATA, A and $3F, ...
+	sta.w Ypos+1,x
 	lda.l WMDATA
 	sta.w frame,x
 	lda.l WMDATA
@@ -1549,22 +1549,22 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.b #$05
 	sta.b d1
 	ldx.w #$0000
-.loop2:								; loop: rostnum,x = WMDATA, $0EE2,x = WMDATA, $0A21,x = 0, ...
+.loop2:								; loop: rostnum,x = WMDATA, rostnum+2,x = WMDATA, position+1,x = 0, ...
 	lda.l WMDATA
 	sta.w rostnum,x
 	lda.l WMDATA
-	sta.w $0EE2,x
-	stz.w $0A21,x
+	sta.w rostnum+2,x
+	stz.w position+1,x
 	lda.l WMDATA
 	sta.b r3
 	and.b #$0F
 	cmp.b #$0F
 	bne .3
 	lda.b #$FF
-	sta.w $0A21,x
-.3:									; position,x = A, $0A23,x = 0, A = r3, A / 2, ...
+	sta.w position+1,x
+.3:									; position,x = A, position+3,x = 0, A = r3, A / 2, ...
 	sta.w position,x
-	stz.w $0A23,x
+	stz.w position+3,x
 	lda.b r3
 	lsr a
 	lsr a
@@ -1574,9 +1574,9 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	cmp.b #$0F
 	bne .4
 	lda.b #$FF
-	sta.w $0A23,x
-.4:									; $0A22,x = A, X + 1, X + 1, X + 1, ...
-	sta.w $0A22,x
+	sta.w position+3,x
+.4:									; position+2,x = A, X + 1, X + 1, X + 1, ...
+	sta.w position+2,x
 	inx
 	inx
 	inx
@@ -1590,8 +1590,8 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	bra .6
 .5:									; A = $00
 	lda.b #$00
-.6:									; $08D9 = A, shadowz = WMDATA, if WMDATA >= 0 go to .7, A = $FF, ...
-	sta.w $08D9
+.6:									; puckz+1 = A, shadowz = WMDATA, if WMDATA >= 0 go to .7, A = $FF, ...
+	sta.w puckz+1
 	lda.l WMDATA
 	sta.w shadowz
 	bpl .7
@@ -1599,14 +1599,14 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	bra .8
 .7:									; A = $00
 	lda.b #$00
-.8:									; $08DB = A, recsfx = WMDATA, recsfxpitch = WMDATA, $0779 = WMDATA, ...
+.8:									; $08DB = A, recsfx = WMDATA, recsfxpitch = WMDATA, ...
 	sta.w $08DB
 	lda.l WMDATA
 	sta.w recsfx
 	lda.l WMDATA
 	sta.w recsfxpitch
 	lda.l WMDATA
-	sta.w $0779
+	sta.w recsfxpitch+1
 	lda.l WMDATA
 	sta.w $077B
 	lda.l WMDATA
@@ -1614,7 +1614,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.l WMDATA
 	sta.w recsfxpitch2
 	lda.l WMDATA
-	sta.w $077F
+	sta.w recsfxpitch2+1
 	lda.l WMDATA
 	sta.w $0781
 	lda.l WMDATA
@@ -1628,27 +1628,27 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lsr a
 	lsr a
 	lsr a
-	sta.w $05B0
+	sta.w PadControlObj+2
 	lda.l WMDATA
 	sta.b r3
 	and.b #$0F
-	sta.w $05B2
+	sta.w PadControlObj+4
 	lda.b r3
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.w $05B4
+	sta.w PadControlObj+6
 	lda.l WMDATA
 	sta.b r3
 	and.b #$0F
-	sta.w $05B6
+	sta.w PadControlObj+8
 	lda.b r3
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.w $05B8
+	sta.w PadControlObj+10
 	lda.l WMDATA
 	sta.l Crowdlevel
 	lda.l WMDATA
@@ -1660,8 +1660,8 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	bra .10
 .9:									; A = $00
 	lda.b #$00
-.10:								; $1140 = A, A = sflags, if a $20 bit set go to .11, Hpos = WMDATA, ...
-	sta.w $1140
+.10:								; PBnum+1 = A, A = sflags, if a $20 bit set go to .11, Hpos = WMDATA, ...
+	sta.w PBnum+1
 	lda.w sflags
 	bit.b #$20
 	bne .11

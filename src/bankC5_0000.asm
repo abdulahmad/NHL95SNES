@@ -392,9 +392,9 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	sta.w topgoalie
 	sta.w botgoalie
 	sta.w tmnear
-	sta.w $12D1
+	sta.w tmnear+2
 	sta.w tmnearpl
-	sta.w $12D5
+	sta.w tmnearpl+2
 	lda.w puckz
 	sta.w puckoldz
 	ldx.w #$001E
@@ -864,11 +864,11 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	sta.w tmnear
 	stx.w tmnearpl
 	bra .49
-.48:								; if A >= $12D1 go to .49, $12D1 = A, $12D5 = X
-	cmp.w $12D1
+.48:								; if A >= tmnear+2 go to .49, tmnear+2 = A, tmnearpl+2 = X
+	cmp.w tmnear+2
 	bcs .49
-	sta.w $12D1
-	stx.w $12D5
+	sta.w tmnear+2
+	stx.w tmnearpl+2
 .49:								; if X >= $0018 go to .52, if A >= $001E go to .52, A = iflags, ...
 	cpx.w #$0018
 	bcs .52
@@ -916,15 +916,15 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	cmp.w #$FED2
 	bpl .55
 	lda.w #$FED2
-.55:								; $08B0 = A, PadControlObj = $000F, $05B0 = A, $05B2 = A, ...
+.55:								; $08B0 = A, PadControlObj = $000F, PadControlObj+2 = A, ...
 	sta.w $08B0
 	lda.w #$000F
 	sta.w PadControlObj
-	sta.w $05B0
-	sta.w $05B2
-	sta.w $05B4
-	sta.w $05B6
-	sta.w $05B8
+	sta.w PadControlObj+2
+	sta.w PadControlObj+4
+	sta.w PadControlObj+6
+	sta.w PadControlObj+8
+	sta.w PadControlObj+10
 	sta.w PadControlObj+12
 	stz.w padinputdone
 	stz.w $05A6
@@ -1418,7 +1418,7 @@ SeasonGameOver:						; after the user's season game: its game record (the first 
 	sta.l $7F8F0C,x
 	lda.w tmSHShots
 	sta.l $7F8F24,x
-	lda.w $127D
+	lda.w tmSHShots+2
 	sta.l $7F8F0E,x
 	lda.w tmSHGoals
 	sta.l $7F8F26,x

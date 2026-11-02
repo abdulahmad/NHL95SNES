@@ -634,10 +634,10 @@ PushNumberWrap:						; a1 = d0 as d1 digits right-aligned after spaces in a buff
 	sty.w PushWidthBuf
 	dey
 	ldx.w #$2020
-	stx.w $055B
-	stx.w $055D
-	stx.w $055F
-	stx.w $0561
+	stx.w PushWidthBuf+2
+	stx.w PushWidthBuf+4
+	stx.w PushWidthBuf+6
+	stx.w PushWidthBuf+8
 	ldx.w #$000A
 	stx.b r1
 .loop2:								; loop: r2 = A, call Div16x8U, A = RDMPYL, Y - 1, ...
@@ -688,7 +688,7 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 									; $FFFF, then sets up the two teams' words
 	lda.w tmgoalie
 	pha
-	lda.w $12CD
+	lda.w tmgoalie+2
 	pha
 	ldx.w #$01AE
 .loop:								; loop: tmPwrGoals,x = 0, X - 1, X - 1, ...
@@ -697,7 +697,7 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	dex
 	bpl .loop
 	pla
-	sta.w $12CD
+	sta.w tmgoalie+2
 	pla
 	sta.w tmgoalie
 	lda.w #$FFFF
@@ -705,7 +705,7 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	sta.w $13F5
 	stz.w tmsort
 	lda.w #$000C
-	sta.w $1285
+	sta.w tmsort+2
 	lda.w HomeTeam
 	sta.w tmteam
 	asl a
@@ -713,7 +713,7 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	lda.l $C30000,x
 	sta.w tmdata
 	lda.w VisTeam
-	sta.w $17D9
+	sta.w tmteam+2
 	asl a
 	tax
 	lda.l $C30000,x
@@ -878,14 +878,14 @@ FaceoffPads:						; restores pad sides and resets player control before assignin
 .5:									; p0 - 1, if the result is not 0 go to .loop4
 	dec.b p0
 	bne .loop4
-.6:									; if teampads+2 = 0 go to .rtl, p0 = $0005, X = $05BE, $05BE = $FFFF, ...
+.6:									; if teampads+2 = 0 go to .rtl, p0 = $0005, X = fopadfirst+2, ...
 	lda.w teampads+2
 	beq .rtl
 	lda.w #$0005
 	sta.b p0
-	ldx.w $05BE
+	ldx.w fopadfirst+2
 	lda.w #$FFFF
-	sta.w $05BE
+	sta.w fopadfirst+2
 	dex
 	dex
 	bpl .loop5
@@ -896,9 +896,9 @@ FaceoffPads:						; restores pad sides and resets player control before assignin
 	bne .8
 	stx.b d4
 	phx
-	lda.w $05BE
+	lda.w fopadfirst+2
 	bpl .7
-	stx.w $05BE
+	stx.w fopadfirst+2
 .7:									; call findpc, pull X
 	jsl.l findpc
 	plx

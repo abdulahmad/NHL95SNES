@@ -340,34 +340,34 @@ ReadPads:							; once per frame: each pad's direction (PadDirection), then the 
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
-	sta.w $0571
+	sta.w paddir+2
 	lda.b $C5
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
-	sta.w $0573
+	sta.w paddir+4
 	lda.b $C7
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
-	sta.w $0575
+	sta.w paddir+6
 	lda.b $C9
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
-	sta.w $0577
+	sta.w paddir+8
 	jsr.w GetNewPresses
 	lda.w padchange
-	ora.w $057B
-	ora.w $057D
-	ora.w $057F
-	ora.w $0581
+	ora.w padchange+2
+	ora.w padchange+4
+	ora.w padchange+6
+	ora.w padchange+8
 	sta.w padchangeany
 	rtl
 PadDirection:						; the d-pad bits (up, down, left, right) to a direction: 0 up, then
@@ -680,11 +680,11 @@ Multi5ConnectCheck:					; from Multi5Init, Multi5Bios and other segments
 	lda.w JOYSER0
 	lsr a
 	lsr a
-	rol.w $04A0
+	rol.w Multi5Sig+1
 	lda.w $4017
 	lsr a
 	lsr a
-	rol.w $04A2
+	rol.w Multi5Sig+3
 	dex
 	bne .loop2
 	stz.w JOYSER0
@@ -697,10 +697,10 @@ Multi5ConnectCheck:					; from Multi5Init, Multi5Bios and other segments
 	lda.w $4017
 	lsr a
 	lsr a
-	rol.w $04A1
+	rol.w Multi5Sig+2
 	dex
 	bne .loop3
-	lda.w $04A0
+	lda.w Multi5Sig+1
 	cmp.b #$FF
 	bne .1
 	lda.w Multi5Sig
@@ -708,11 +708,11 @@ Multi5ConnectCheck:					; from Multi5Init, Multi5Bios and other segments
 	beq .1
 	lda.b #$00
 	sta.w mp5connect
-.1:									; if $04A2 is not $FF go to .2, if $04A1 = $FF go to .2, mp5connect = $00
-	lda.w $04A2
+.1:									; if Multi5Sig+3 is not $FF go to .2, if Multi5Sig+2 = $FF go to .2, ...
+	lda.w Multi5Sig+3
 	cmp.b #$FF
 	bne .2
-	lda.w $04A1
+	lda.w Multi5Sig+2
 	cmp.b #$FF
 	beq .2
 	lda.b #$00

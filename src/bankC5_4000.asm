@@ -153,10 +153,10 @@ setlccords:							; team a2's line change box: A = its map address (the side by 
 	beq .2
 	bit.w #$0002
 	beq .3
-.1:									; Y = $5AB5, if tmap = $12C9 go to .4, Y = $5AD5, go to .4
+.1:									; Y = $5AB5, if tmap = tmap+2 go to .4, Y = $5AD5, go to .4
 	ldy.w #$5AB5
 	lda.w tmap
-	cmp.w $12C9
+	cmp.w tmap+2
 	beq .4
 	ldy.w #$5AD5
 	bra .4

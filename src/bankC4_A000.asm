@@ -541,8 +541,8 @@ DumpInTarget:						; from assdumpin and other segments
 	lda.w #$0006
 	sta.w dumpintarget
 	rtl
-.2:									; A = $063E, A - $0004, A and $0007, passdir = A, ...
-	lda.w $063E
+.2:									; A = puckdir+26, A - $0004, A and $0007, passdir = A, ...
+	lda.w puckdir+26
 	sec
 	sbc.w #$0004
 	and.w #$0007
@@ -565,8 +565,8 @@ DumpInTarget:						; from assdumpin and other segments
 	lda.w #$0012
 	sta.w dumpintarget
 	rtl
-.5:									; A = $063C, A - $0004, A and $0007, passdir = A, ...
-	lda.w $063C
+.5:									; A = puckdir+24, A - $0004, A and $0007, passdir = A, ...
+	lda.w puckdir+24
 	sec
 	sbc.w #$0004
 	and.w #$0007
@@ -1155,7 +1155,7 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	bne .6
 	lda.w tmap
 	sec
-	sbc.w $12C9
+	sbc.w tmap+2
 	beq .8
 	bmi .5
 	lda.w tmPPShots
@@ -1167,20 +1167,20 @@ ChkShotStat:						; from puckgoalie, Goal and other segments
 	inc a
 	sta.w tmSHShots
 	bra .8
-.6:									; A = $12C9, A - tmap, if the result = 0 go to .8, if minus go to .7, ...
-	lda.w $12C9
+.6:									; A = tmap+2, A - tmap, if the result = 0 go to .8, if minus go to .7, ...
+	lda.w tmap+2
 	sec
 	sbc.w tmap
 	beq .8
 	bmi .7
-	lda.w $1279
+	lda.w tmPPShots+2
 	inc a
-	sta.w $1279
+	sta.w tmPPShots+2
 	bra .8
-.7:									; A = $127D, A + 1, $127D = A
-	lda.w $127D
+.7:									; A = tmSHShots+2, A + 1, tmSHShots+2 = A
+	lda.w tmSHShots+2
 	inc a
-	sta.w $127D
+	sta.w tmSHShots+2
 .8:									; A = gsp, A * 2, A * 2, X = A, ...
 	lda.w gsp
 	asl a
@@ -1308,7 +1308,7 @@ Goal:								; called from other segments
 	sta.w tmscore,y
 	lda.w tmap
 	sec
-	sbc.w $12C9
+	sbc.w tmap+2
 	beq .11
 	bmi .9
 	ldy.b a2

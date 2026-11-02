@@ -641,9 +641,9 @@ a2touchpuck:						; called from other segments
 	bne .8
 	lda.w pfgoal,y
 	beq .9
-.7:									; push X, A = $07B7, A and $00FF, A * 2, ...
+.7:									; push X, A = iflags+1, A and $00FF, A * 2, ...
 	phx
-	lda.w $07B7
+	lda.w iflags+1
 	and.w #$00FF
 	asl a
 	sta.b a3
@@ -673,12 +673,12 @@ a2touchpuck:						; called from other segments
 	sec
 	sbc.b d0
 	sta.b d0
-.10:								; if d0 < 0 go to .rtl, A = tmap, A - $12C9, d0 = A, ...
+.10:								; if d0 < 0 go to .rtl, A = tmap, A - tmap+2, d0 = A, ...
 	lda.b d0
 	bmi .rtl
 	lda.w tmap
 	sec
-	sbc.w $12C9
+	sbc.w tmap+2
 	sta.b d0
 	lda.w pfteam,y
 	beq .11

@@ -1023,7 +1023,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sta.w tmap
 	lda.w awaypracplayers
 	inc a
-	sta.w $12C9
+	sta.w tmap+2
 .8:									; call ResetBench, a2 = 0, call setpersonel, call forcepldata, ...
 	jsl.l ResetBench
 	stz.b a2
@@ -1037,8 +1037,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w #$FFFF
 	sta.w tmtouch2
 	sta.w tmtouch3
-	sta.w $12C1
-	sta.w $12C5
+	sta.w tmtouch2+2
+	sta.w tmtouch3+2
 	pei ($71)
 	pei ($6F)
 	stz.b a3
@@ -1117,13 +1117,13 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sta.b d0
 .17:								; call assinsert
 	jsl.l assinsert
-.18:								; d4 = tmap, X = a3, if pfteam,x = 0 go to .19, d4 = $12C9
+.18:								; d4 = tmap, X = a3, if pfteam,x = 0 go to .19, d4 = tmap+2
 	lda.w tmap
 	sta.b d4
 	ldx.b a3
 	lda.w pfteam,x
 	beq .19
-	lda.w $12C9
+	lda.w tmap+2
 	sta.b d4
 .19:								; A = d4, A xor $FFFF, A + 1, A + $0006, ...
 	lda.b d4
@@ -1479,12 +1479,12 @@ FinishFaceoffSetup:					; end of the face off set-up: the line box (line changes
 	ldy.w #$0002
 	jsl.l Framer
 	ldx.w tmline
-	ldy.w $12B9
+	ldy.w tmline+2
 	lda.w gmode
 	bit.w #$0002
 	beq .4
 	txy
-	ldx.w $12B9
+	ldx.w tmline+2
 .4:									; d0 = X, d1 = Y, A = $000B, call AllocWorkBuf, ...
 	stx.b d0
 	sty.b d1

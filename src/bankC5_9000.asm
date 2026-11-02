@@ -531,27 +531,27 @@ MovePadIcons:						; SetContTeams each frame: MovePadIcon for each of the 5 pads
 	beq .1
 	ldx.b a4
 	jsr.w MovePadIcon
-.1:									; if PadRaw2 = $0567 go to .2, X = $75, call MovePadIcon
+.1:									; if PadRaw2 = padlast+2 go to .2, X = $75, call MovePadIcon
 	lda.w PadRaw2
-	cmp.w $0567
+	cmp.w padlast+2
 	beq .2
 	ldx.b $75
 	jsr.w MovePadIcon
-.2:									; if $00C5 = $0569 go to .3, X = $77, call MovePadIcon
+.2:									; if $00C5 = padlast+4 go to .3, X = $77, call MovePadIcon
 	lda.w $00C5
-	cmp.w $0569
+	cmp.w padlast+4
 	beq .3
 	ldx.b $77
 	jsr.w MovePadIcon
-.3:									; if $00C7 = $056B go to .4, X = $79, call MovePadIcon
+.3:									; if $00C7 = padlast+6 go to .4, X = $79, call MovePadIcon
 	lda.w $00C7
-	cmp.w $056B
+	cmp.w padlast+6
 	beq .4
 	ldx.b $79
 	jsr.w MovePadIcon
-.4:									; if $00C9 = $056D go to .rts, X = $7B, go to MovePadIcon
+.4:									; if $00C9 = padlast+8 go to .rts, X = $7B, go to MovePadIcon
 	lda.w $00C9
-	cmp.w $056D
+	cmp.w padlast+8
 	beq .rts
 	ldx.b $7B
 	bra MovePadIcon

@@ -749,7 +749,7 @@ PauseScoresClock:					; the pause screen's big digits: the home score (tmscore) 
 	jmp.w PutClockDigit
 PutPauseScore:						; the three big digits PushNumberWrap left (width 3) to pause map tile Y
 									; on, two tiles apart (PutClockDigit)
-	lda.w $055B
+	lda.w PushWidthBuf+2
 	jsr.w PutClockDigit
 	iny
 	iny
@@ -757,7 +757,7 @@ PutPauseScore:						; the three big digits PushNumberWrap left (width 3) to paus
 	jsr.w PutClockDigit
 	iny
 	iny
-	lda.w $055D
+	lda.w PushWidthBuf+4
 PutClockDigit:						; copies big digit A (its low 4 bits: 2 x 3 tiles from the digit set in
 									; the pause map) to pause map tile Y
 	phy

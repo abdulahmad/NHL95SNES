@@ -240,7 +240,7 @@ CountPowerPlayTime:					; from updatepentime and other segments
 	stz.b d1
 	lda.w tmap
 	sec
-	sbc.w $12C9
+	sbc.w tmap+2
 	beq .rtl
 	bpl .1
 	lda.w #$0002
@@ -912,7 +912,7 @@ updatepwrplay:						; called from other segments
 	sta.b a3
 	lda.w tmap
 	sec
-	sbc.w $12C9
+	sbc.w tmap+2
 	sta.b d0
 	bne .1
 	jmp.w updatepwrplay_clr
