@@ -9,7 +9,7 @@ incsrc "../ram95s.asm"
 MapTileBlock = $C387D8
 ReadPauseMenuPad = $C37065			; read the pause pad into the menu word and update the repeat timer
 DATA8_C3585C = $C3585C
-CODE_C4EFD8 = $C4EFD8
+BuildTeamLinesPreserveTemps = $C4EFD8
 SendTextMap = $C4C2AA
 RestoreWorkBuf = $C4C536
 WaitTransfers = $C4CEDB

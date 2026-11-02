@@ -1826,7 +1826,8 @@ CODE_C4EF41:						; from ScoutingReport
 	lda.w #$04CD
 	sta.w $00FE,y
 	rts
-CODE_C4EFD8:						; called from other segments
+BuildTeamLinesPreserveTemps:		; calls BuildTeamLines while saving and restoring its direct page
+									; temporaries
 	pei ($9F)
 	pei ($A1)
 	pei ($A3)

@@ -4674,14 +4674,14 @@ $C4F081,.loop2,CODE_C4F081,new,"branch target only used in BuildTeamLines",src/b
 $C4F099,.loop3,CODE_C4F099,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
 $C4F11F,.loop4,CODE_C4F11F,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
 $C4F128,.loop5,CODE_C4F128,new,"branch target only used in BuildTeamLines",src/bankC4_F000.asm
-$C4F1D2,.loop,CODE_C4F1D2,new,"branch target only used in CODE_C4F1CB",src/bankC4_F000.asm
-$C4F1E5,.loop,CODE_C4F1E5,new,"branch target only used in CODE_C4F1DE",src/bankC4_F000.asm
-$C4F204,.loop,CODE_C4F204,new,"branch target only used in CODE_C4F201",src/bankC4_F000.asm
-$C4F212,.1,CODE_C4F212,new,"branch target only used in CODE_C4F201",src/bankC4_F000.asm
-$C4F232,.2,CODE_C4F232,new,"branch target only used in CODE_C4F201",src/bankC4_F000.asm
-$C4F243,.loop,CODE_C4F243,new,"branch target only used in CODE_C4F240",src/bankC4_F000.asm
-$C4F251,.1,CODE_C4F251,new,"branch target only used in CODE_C4F240",src/bankC4_F000.asm
-$C4F271,.2,CODE_C4F271,new,"branch target only used in CODE_C4F240",src/bankC4_F000.asm
+$C4F1D2,.loop,CODE_C4F1D2,new,"branch target only used in IsLineDefencemanUsed",src/bankC4_F000.asm
+$C4F1E5,.loop,CODE_C4F1E5,new,"branch target only used in IsLineForwardUsed",src/bankC4_F000.asm
+$C4F204,.loop,CODE_C4F204,new,"branch target only used in InsertRankedLineForward",src/bankC4_F000.asm
+$C4F212,.1,CODE_C4F212,new,"branch target only used in InsertRankedLineForward",src/bankC4_F000.asm
+$C4F232,.2,CODE_C4F232,new,"branch target only used in InsertRankedLineForward",src/bankC4_F000.asm
+$C4F243,.loop,CODE_C4F243,new,"branch target only used in InsertRankedLineDefenceman",src/bankC4_F000.asm
+$C4F251,.1,CODE_C4F251,new,"branch target only used in InsertRankedLineDefenceman",src/bankC4_F000.asm
+$C4F271,.2,CODE_C4F271,new,"branch target only used in InsertRankedLineDefenceman",src/bankC4_F000.asm
 $C4F29A,.loop,CODE_C4F29A,new,"branch target only used in RosterDiffers",src/bankC4_F000.asm
 $C4F2AC,.1,CODE_C4F2AC,new,"branch target only used in RosterDiffers",src/bankC4_F000.asm
 $C4F2B6,.1,CODE_C4F2B6,new,"branch target only used in RebuildChangedLines",src/bankC4_F000.asm
@@ -8167,3 +8167,12 @@ $C52348,DrawPadArrow,CODE_C52348,code,"from the code: Xpos / Ypos against Hpos /
 $C526FB,DrawPlayerTags,CODE_C526FB,code,"from the code: the loop over the objects in PadControlObj, Xpos / Ypos against Hpos / Vpos, rostnum's two nibbles, PutTagChar; setvideo and RenderReplayFrame call it",src/bankC5_2000.asm
 $C52898,PutTagChar,CODE_C52898,code,"from the code: the range tests, the OAM entry at $2A, jmp ($A5)",src/bankC5_2000.asm
 $C52008,QueueFaceoffBox,CODE_C52008,code,"from the code: the transfer record pushed on the VRAM queue; puckfaceoff2 and updatefaceoff call it",src/bankC5_2000.asm
+$C4F197,PickUnusedLineDefenceman,CODE_C4F197,code,"BuildTeamLines uses roster +6 (defencemen per CheckTrade), sorted indices at 374E and used bytes at 384E; exhaustion resets the used count",src/bankC4_F000.asm
+$C4F1B4,PickUnusedLineForward,CODE_C4F1B4,code,"BuildTeamLines uses roster +4 (forwards per CheckTrade), sorted indices at 36CE and used bytes at 380E; exhaustion resets the used count",src/bankC4_F000.asm
+$C4F1CB,IsLineDefencemanUsed,CODE_C4F1CB,code,"increments tmp2 then scans 384E backwards using the byte count at 2E; equality sets carry",src/bankC4_F000.asm
+$C4F1DE,IsLineForwardUsed,CODE_C4F1DE,code,"increments tmp2 then scans 380E backwards using r0 as the byte count; equality sets carry",src/bankC4_F000.asm
+$C4F1EF,MarkLineForwardUsed,CODE_C4F1EF,code,"stores A at 380E plus r0 and increments r0 via Y; called after each forward pick",src/bankC4_F000.asm
+$C4F1F8,MarkLineDefencemanUsed,CODE_C4F1F8,code,"stores A at 384E plus the count at 2E and increments that count; called after each defence pick",src/bankC4_F000.asm
+$C4F201,InsertRankedLineForward,CODE_C4F201,code,"compares 364E,x against 370E,y; shifts rating and index tails with MVP; stores roster index plus one at 36CE,y",src/bankC4_F000.asm
+$C4F240,InsertRankedLineDefenceman,CODE_C4F240,code,"compares 364E,x against 378E,y; shifts rating and index tails with MVP; stores roster index plus one at 374E,y",src/bankC4_F000.asm
+$C4EFD8,BuildTeamLinesPreserveTemps,CODE_C4EFD8,code,"twelve PEI saves around JSR BuildTeamLines with matching PLA stores followed by RTL; more than a simple long wrapper",src/bankC4_E000.asm

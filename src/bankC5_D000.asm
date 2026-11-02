@@ -1993,9 +1993,9 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	jsl.l RestoreWorkBuf
 	jsr.w LoadGameRosters
 	ldy.w #$2DC9
-	jsl.l CODE_C4EFD8
+	jsl.l BuildTeamLinesPreserveTemps
 	ldy.w #$3207
-	jsl.l CODE_C4EFD8
+	jsl.l BuildTeamLinesPreserveTemps
 	plb
 	pla
 	sta.b tmp2

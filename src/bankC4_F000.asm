@@ -50,8 +50,8 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	lda.w $0004,y
 	sta.b tmp1
 	sta.b $A5
-.loop2:								; loop: call CODE_C4F201, X - 1, X - 1, tmp1 - 1, ...
-	jsr.w CODE_C4F201
+.loop2:								; loop: call InsertRankedLineForward, X - 1, X - 1, tmp1 - 1, ...
+	jsr.w InsertRankedLineForward
 	dex
 	dex
 	dec.b tmp1
@@ -64,8 +64,8 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	lda.w $0006,y
 	sta.b tmp1
 	sta.b $0A
-.loop3:								; loop: call CODE_C4F240, X - 1, X - 1, tmp1 - 1, ...
-	jsr.w CODE_C4F240
+.loop3:								; loop: call InsertRankedLineDefenceman, X - 1, X - 1, tmp1 - 1, ...
+	jsr.w InsertRankedLineDefenceman
 	dex
 	dex
 	dec.b tmp1
@@ -97,60 +97,60 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	stx.b $14
 	lda.w $0000,x
 	and.w #$00FF
-	jsr.w CODE_C4F1F8
+	jsr.w MarkLineDefencemanUsed
 	lda.w $0001,x
 	and.w #$00FF
-	jsr.w CODE_C4F1F8
+	jsr.w MarkLineDefencemanUsed
 	lda.w $0002,x
 	and.w #$00FF
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	lda.w $0003,x
 	and.w #$00FF
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	lda.w $0004,x
 	and.w #$00FF
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	lda.w $0005,x
 	and.w #$00FF
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 .loop4:								; loop: A = $14, A + $0008, X = A, $14 = X
 	lda.b $14
 	clc
 	adc.w #$0008
 	tax
 	stx.b $14
-.loop5:								; loop: tmp2 = 0, A 8-bit, call CODE_C4F197, ...
+.loop5:								; loop: tmp2 = 0, A 8-bit, call PickUnusedLineDefenceman, ...
 	stz.b tmp2
 	sep #$20
-	jsr.w CODE_C4F197
+	jsr.w PickUnusedLineDefenceman
 	bcs .loop5
 	sta.w $0001,x
-	jsr.w CODE_C4F1F8
+	jsr.w MarkLineDefencemanUsed
 	stz.b tmp2
-	jsr.w CODE_C4F197
+	jsr.w PickUnusedLineDefenceman
 	bcs .loop5
 	sta.w $0002,x
-	jsr.w CODE_C4F1F8
+	jsr.w MarkLineDefencemanUsed
 	stz.b tmp2
-	jsr.w CODE_C4F1B4
+	jsr.w PickUnusedLineForward
 	bcs .loop5
 	sta.w $0003,x
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	stz.b tmp2
-	jsr.w CODE_C4F1B4
+	jsr.w PickUnusedLineForward
 	bcs .loop5
 	sta.w $0004,x
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	stz.b tmp2
-	jsr.w CODE_C4F1B4
+	jsr.w PickUnusedLineForward
 	bcs .loop5
 	sta.w $0005,x
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	stz.b tmp2
-	jsr.w CODE_C4F1B4
+	jsr.w PickUnusedLineForward
 	bcs .loop5
 	sta.w $0006,x
-	jsr.w CODE_C4F1EF
+	jsr.w MarkLineForwardUsed
 	rep #$20
 	lda.b $14
 	dec.b tmp1
@@ -163,12 +163,13 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	lda.w #$003F
 	mvn $7E,$7E
 	rts
-CODE_C4F191:						; from CODE_C4F197
+CODE_C4F191:						; from PickUnusedLineDefenceman
 	stz.b $2E
 	ldx.b $14
 	sec
 	rts
-CODE_C4F197:						; from BuildTeamLines, CODE_C4F197
+PickUnusedLineDefenceman:			; selects the next ranked defenceman not in the used list; carry set when
+									; the pool is exhausted
 	rep #$20
 	lda.b tmp2
 	cmp.b $0A
@@ -177,16 +178,17 @@ CODE_C4F197:						; from BuildTeamLines, CODE_C4F197
 	tay
 	sep #$20
 	lda.w $374E,y
-	jsr.w CODE_C4F1CB
-	bcs CODE_C4F197
+	jsr.w IsLineDefencemanUsed
+	bcs PickUnusedLineDefenceman
 	ldx.b $14
 	rts
-CODE_C4F1AE:						; from CODE_C4F1B4
+CODE_C4F1AE:						; from PickUnusedLineForward
 	stz.b r0
 	ldx.b $14
 	sec
 	rts
-CODE_C4F1B4:						; from BuildTeamLines, CODE_C4F1B4
+PickUnusedLineForward:				; selects the next ranked forward not in the used list; carry set when the
+									; pool is exhausted
 	rep #$20
 	lda.b tmp2
 	cmp.b $A5
@@ -195,11 +197,12 @@ CODE_C4F1B4:						; from BuildTeamLines, CODE_C4F1B4
 	tay
 	sep #$20
 	lda.w $36CE,y
-	jsr.w CODE_C4F1DE
-	bcs CODE_C4F1B4
+	jsr.w IsLineForwardUsed
+	bcs PickUnusedLineForward
 	ldx.b $14
 	rts
-CODE_C4F1CB:						; from CODE_C4F197
+IsLineDefencemanUsed:				; advances the candidate index and returns carry set if the defenceman is
+									; already used
 	inc.b tmp2
 	ldx.b $2E
 	dex
@@ -209,13 +212,14 @@ CODE_C4F1CB:						; from CODE_C4F197
 	beq CODE_C4F1DC
 	dex
 	bpl .loop
-CODE_C4F1DA:						; from CODE_C4F1CB, CODE_C4F1DE
+CODE_C4F1DA:						; from IsLineDefencemanUsed, IsLineForwardUsed
 	clc
 	rts
-CODE_C4F1DC:						; from CODE_C4F1CB, CODE_C4F1DE
+CODE_C4F1DC:						; from IsLineDefencemanUsed, IsLineForwardUsed
 	sec
 	rts
-CODE_C4F1DE:						; from CODE_C4F1B4
+IsLineForwardUsed:					; advances the candidate index and returns carry set if the forward is
+									; already used
 	inc.b tmp2
 	ldx.b r0
 	dex
@@ -227,19 +231,20 @@ CODE_C4F1DE:						; from CODE_C4F1B4
 	bpl .loop
 	clc
 	rts
-CODE_C4F1EF:						; from BuildTeamLines
+MarkLineForwardUsed:				; appends the forward index to the used list and increments its count
 	ldy.b r0
 	sta.w $380E,y
 	iny
 	sty.b r0
 	rts
-CODE_C4F1F8:						; from BuildTeamLines
+MarkLineDefencemanUsed:				; appends the defenceman index to the used list and increments its count
 	ldy.b $2E
 	sta.w $384E,y
 	iny
 	sty.b $2E
 	rts
-CODE_C4F201:						; from BuildTeamLines
+InsertRankedLineForward:			; inserts a forward and his overall rating into the descending line
+									; selection lists
 	ldy.w #$0000
 .loop:								; loop: if $370E,y < 0 go to .2, if $370E,y < $364E,x go to .1, Y + 1, ...
 	lda.w $370E,y
@@ -273,7 +278,8 @@ CODE_C4F201:						; from BuildTeamLines
 	inc a
 	sta.w $36CE,y
 	rts
-CODE_C4F240:						; from BuildTeamLines
+InsertRankedLineDefenceman:			; inserts a defenceman and his overall rating into the descending line
+									; selection lists
 	ldy.w #$0000
 .loop:								; loop: if $378E,y < 0 go to .2, if $378E,y < $364E,x go to .1, Y + 1, ...
 	lda.w $378E,y
