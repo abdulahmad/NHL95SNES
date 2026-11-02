@@ -1891,7 +1891,7 @@ InitSaveRAM:						; checks the save signatures and initializes save RAM and defa
 	jsr.w WriteSaveSignature
 	ldy.w #$790D
 	jsr.w WriteSaveSignature
-	jsl.l CODE_C4CF75
+	jsl.l InitSavedRosters
 	lda.w #$0101
 	sta.l SROptperlen
 	lda.w #$000E
@@ -1926,21 +1926,25 @@ CompareSaveSignature:				; compares the save signature at Y against the cartridg
 	bne .loop
 .rts:								; return
 	rts
-CODE_C4CF75:						; from InitSaveRAM and other segments
-	jsr.w CODE_C4D05B
-	jsr.w CODE_C4D0D5
-CODE_C4CF7B:						; from CODE_C4CFF5 and other segments
+InitSavedRosters:					; InitPlayerTeams, ClearCreatedPlayerTeams, then SetGoalieIndexes
+	jsr.w InitPlayerTeams
+	jsr.w ClearCreatedPlayerTeams
+SetGoalieIndexes:					; numbers the goalies in SRGoals: each team's goalies
+									; (SetTeamGoalieIndexes), then the 20 created player slots from player
+									; $26A, indexes 0 up ($0A)
 	pea.w $7E7E
 	plb
 	plb
 	stz.b $0A
-	jsl.l CODE_C4CF8F
+	jsl.l SetTeamGoalieIndexes
 	ldy.w #$0014
 	lda.w #$026A
-	jmp.w CODE_C4CFBE
-CODE_C4CF8F:						; from CODE_C4CF7B and other segments
+	jmp.w SetGoalieIndexRun
+SetTeamGoalieIndexes:				; SetGoalieIndexRun for the goalies of teams $19 down to 0 (HomeTeam the
+									; team)
 	lda.w #$0019
-CODE_C4CF92:						; from CODE_C4CFBE
+NextTeamGoalieIndexes:				; team A (HomeTeam): its goalie count and first player from the team data,
+									; then SetGoalieIndexRun
 	sta.w HomeTeam
 	asl a
 	tax
@@ -1965,7 +1969,9 @@ CODE_C4CF92:						; from CODE_C4CFBE
 	lsr a
 	sec
 	sbc.w #$001C
-CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFBE
+SetGoalieIndexRun:					; Y players from player A get goalie indexes $0A on in their 9-bit SRGoals
+									; fields; then the next team (NextTeamGoalieIndexes) while HomeTeam is
+									; above 0
 	phy
 	pha
 	sta.b tmp0
@@ -1996,8 +2002,8 @@ CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFBE
 	inc a
 	ply
 	dey
-	bne CODE_C4CFBE
+	bne SetGoalieIndexRun
 	lda.w HomeTeam
 	dec a
-	bpl CODE_C4CF92
+	bpl NextTeamGoalieIndexes
 	rtl

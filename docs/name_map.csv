@@ -4523,17 +4523,17 @@ $C4CF50,.loop,CODE_C4CF50,new,"branch target only used in InitSaveRAM",src/bankC
 $C4CF58,.2,CODE_C4CF58,new,"branch target only used in InitSaveRAM",src/bankC4_C000.asm
 $C4CF67,.loop,CODE_C4CF67,new,"branch target only used in CompareSaveSignature",src/bankC4_C000.asm
 $C4CF74,.rts,CODE_C4CF74,new,"branch target only used in CompareSaveSignature",src/bankC4_C000.asm
-$C4CFAA,.loop,CODE_C4CFAA,new,"branch target only used in CODE_C4CF92",src/bankC4_C000.asm
-$C4CFD8,.loop,CODE_C4CFD8,new,"branch target only used in CODE_C4CFBE",src/bankC4_C000.asm
-$C4CFDE,.1,CODE_C4CFDE,new,"branch target only used in CODE_C4CFBE",src/bankC4_C000.asm
-$C4D051,.1,CODE_C4D051,new,"branch target only used in CODE_C4CFF5",src/bankC4_D000.asm
-$C4D05E,.1,CODE_C4D05E,new,"branch target only used in CODE_C4D05B",src/bankC4_D000.asm
-$C4D078,.2,CODE_C4D078,new,"branch target only used in CODE_C4D05B",src/bankC4_D000.asm
-$C4D0AA,.3,CODE_C4D0AA,new,"branch target only used in CODE_C4D05B",src/bankC4_D000.asm
-$C4D0C1,.4,CODE_C4D0C1,new,"branch target only used in CODE_C4D05B",src/bankC4_D000.asm
-$C4D0DE,.1,CODE_C4D0DE,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
-$C4D0ED,.2,CODE_C4D0ED,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
-$C4D0F0,.3,CODE_C4D0F0,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
+$C4CFAA,.loop,CODE_C4CFAA,new,"branch target only used in NextTeamGoalieIndexes",src/bankC4_C000.asm
+$C4CFD8,.loop,CODE_C4CFD8,new,"branch target only used in SetGoalieIndexRun",src/bankC4_C000.asm
+$C4CFDE,.1,CODE_C4CFDE,new,"branch target only used in SetGoalieIndexRun",src/bankC4_C000.asm
+$C4D051,.1,CODE_C4D051,new,"branch target only used in ClearSeasonData",src/bankC4_D000.asm
+$C4D05E,.1,CODE_C4D05E,new,"branch target only used in InitPlayerTeams",src/bankC4_D000.asm
+$C4D078,.2,CODE_C4D078,new,"branch target only used in InitPlayerTeams",src/bankC4_D000.asm
+$C4D0AA,.3,CODE_C4D0AA,new,"branch target only used in InitPlayerTeams",src/bankC4_D000.asm
+$C4D0C1,.4,CODE_C4D0C1,new,"branch target only used in InitPlayerTeams",src/bankC4_D000.asm
+$C4D0DE,.1,CODE_C4D0DE,new,"branch target only used in ClearCreatedPlayerTeams",src/bankC4_D000.asm
+$C4D0ED,.2,CODE_C4D0ED,new,"branch target only used in ClearCreatedPlayerTeams",src/bankC4_D000.asm
+$C4D0F0,.3,CODE_C4D0F0,new,"branch target only used in ClearCreatedPlayerTeams",src/bankC4_D000.asm
 $C4D33F,.loop,CODE_C4D33F,new,"branch target only used in TitleScreen",src/bankC4_D000.asm
 $C4D45E,.1,CODE_C4D45E,new,"branch target only used in TitleStartWhiteFade",src/bankC4_D000.asm
 $C4D465,.2,CODE_C4D465,new,"branch target only used in TitleStartWhiteFade",src/bankC4_D000.asm
@@ -8619,3 +8619,11 @@ $CFF279,LayoutDone,CODE_CFF279,code,"from the code: jmp ($A5); also the none ent
 $CFEE1D,NextSortedGameObjectJump,CODE_CFEE1D,code,"from the code: jml NextSortedGameObject; DrawSortedGameObject puts its address in $A5 before jumping to DrawFrameLayout",src/bankCF_E000.asm
 $C5287A,PadTagFrameDone,CODE_C5287A,code,"from the code: sty $2A, ldy $10 (the pad), bra NextPadTag; reached through PadTagFrameDoneJump",src/bankC5_2000.asm
 $CFEE21,PadTagFrameDoneJump,CODE_CFEE21,code,"from the code: jml to it; the player tag code puts its address in $A5 before jumping to DrawFrameLayout",src/bankCF_E000.asm
+$C4CFF5,ClearSeasonData,CODE_C4CFF5,code,"from the code: the mvn fills from $306050, $306E43 and $3072E8 (each stops before the next save block or header copy), OptEraseRosters ($1902) clearing $307162 and SRPlayerTeams then InitPlayerTeams / ClearCreatedPlayerTeams, SetGoalieIndexes, ClearCreatedGoals; StartNewSeason calls it",src/bankC4_D000.asm
+$C4D05B,InitPlayerTeams,CODE_C4D05B,code,"from the code: the team list at $C30000 + $32 down, each player's 12-bit entry (by parity) from the team number and the number byte of his record",src/bankC4_D000.asm
+$C4D0D5,ClearCreatedPlayerTeams,CODE_C4D0D5,code,"from the code: 20 entries 12 bits apart from bit $1CF8 (player $26A), $1F or $1F0 ored in by alignment",src/bankC4_D000.asm
+$C4CF75,InitSavedRosters,CODE_C4CF75,code,"from the code: the two jsr, then it falls into SetGoalieIndexes; InitSaveRAM calls it after clearing save RAM",src/bankC4_C000.asm
+$C4CF7B,SetGoalieIndexes,CODE_C4CF7B,code,"from the code: $0A = 0, SetTeamGoalieIndexes, then SetGoalieIndexRun with Y = $14 and A = $26A (the SRGoals comment: a goalie's field holds his goalie index)",src/bankC4_C000.asm
+$C4CF8F,SetTeamGoalieIndexes,CODE_C4CF8F,code,"from the code: A = $19 into NextTeamGoalieIndexes",src/bankC4_C000.asm
+$C4CF92,NextTeamGoalieIndexes,CODE_C4CF92,code,"from the code: the nibble count loop (the goalie count, as LoadTeamRoster) and the first player (record pointer / 2 - $1C); SetGoalieIndexRun comes back here for the next team",src/bankC4_C000.asm
+$C4CFBE,SetGoalieIndexRun,CODE_C4CFBE,code,"from the code: A * 9 bits, $0A shifted into place and ored in, inc $0A per player, then dec HomeTeam",src/bankC4_C000.asm

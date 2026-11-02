@@ -1434,11 +1434,11 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	jsl.l DrawOptionList
 	jmp.w GameSetUp_reenter
 StartNewSeason:						; play mode 7 (Start New's Erase Team Rosters question): play mode Season,
-									; the season data cleared (CODE_C4CFF5), then the League Menu
+									; the season data cleared (ClearSeasonData), then the League Menu
 									; (EnterLeagueMenu)
 	lda.w #$0002
 	sta.w OptPlayMode
-	jsl.l CODE_C4CFF5
+	jsl.l ClearSeasonData
 	jmp.w EnterLeagueMenu
 ClearSeasonWarning:					; clears the 10 text rows from row $10 (the season in progress warning),
 									; then SendTextMap and WaitTransfers

@@ -1,7 +1,9 @@
 ; Segment bankC4_D000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C4CFF5
-CODE_C4CFF5:						; called from other segments
+ClearSeasonData:					; clears the season in save RAM (SeasonDay and the day, result and stat
+									; blocks, the team stats, the playoffs); with OptEraseRosters also the
+									; created players, then SRPlayerTeams rebuilt; then the goalie indexes
 	phb
 	lda.w #$0000
 	sta.l SeasonDay
@@ -31,14 +33,15 @@ CODE_C4CFF5:						; called from other segments
 	ldy.w #$6A58
 	stz.w $0000,x
 	mvn $30,$30
-	jsr.w CODE_C4D05B
-	jsr.w CODE_C4D0D5
-.1:									; call CODE_C4CF7B, call ClearCreatedGoals, return
-	jsl.l CODE_C4CF7B
+	jsr.w InitPlayerTeams
+	jsr.w ClearCreatedPlayerTeams
+.1:									; call SetGoalieIndexes, call ClearCreatedGoals, return
+	jsl.l SetGoalieIndexes
 	jsl.l ClearCreatedGoals
 	plb
 	rtl
-CODE_C4D05B:						; from CODE_C4CFF5 and other segments
+InitPlayerTeams:					; SRPlayerTeams from the team data: each player of teams $19 down to 0
+									; gets his team (5 bits) and sweater number (7 bits)
 	ldx.w #$0032
 .1:									; tmp0 = X, A = $C30000,x, X = A, A = $C30000,x, ...
 	stx.b tmp0
@@ -107,7 +110,8 @@ CODE_C4D05B:						; from CODE_C4CFF5 and other segments
 	dex
 	bpl .1
 	rts
-CODE_C4D0D5:						; from CODE_C4CFF5 and other segments
+ClearCreatedPlayerTeams:			; sets team $1F (no team; free agents are $1A) in the SRPlayerTeams
+									; entries of the 20 created players
 	ldy.w #$1CF8
 	lda.w #$0013
 	sta.b tmp0

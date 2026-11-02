@@ -6,8 +6,8 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_C4D05B = $C4D05B
-CODE_C4D0D5 = $C4D0D5
+InitPlayerTeams = $C4D05B
+ClearCreatedPlayerTeams = $C4D0D5
 DrawText = $C4BE34
 DrawNextTextCharacter = $C4BE53		; read the next character and prepare its glyph for drawing
 DrawGlyphRow = $C4BF1A				; load a glyph row and dispatch by its destination pixel column
