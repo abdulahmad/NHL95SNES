@@ -5534,18 +5534,18 @@ $C565CB,.12,CODE_C565CB,new,"branch target only used in ShowPlayerStats",src/ban
 $C565E3,.13,CODE_C565E3,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
 $C56603,.14,CODE_C56603,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
 $C56607,.15,CODE_C56607,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
-$C5664A,.1,CODE_C5664A,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
-$C56660,.loop,CODE_C56660,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
-$C5666B,.loop2,CODE_C5666B,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
-$C56683,.2,CODE_C56683,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
-$C56691,.3,CODE_C56691,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
-$C56693,.loop3,CODE_C56693,new,"branch target only used in CODE_C5663A",src/bankC5_6000.asm
-$C566F8,.1,CODE_C566F8,new,"branch target only used in CODE_C566E8",src/bankC5_6000.asm
-$C5670C,.loop,CODE_C5670C,new,"branch target only used in CODE_C566E8",src/bankC5_6000.asm
-$C56720,.loop2,CODE_C56720,new,"branch target only used in CODE_C566E8",src/bankC5_6000.asm
-$C5673B,.2,CODE_C5673B,new,"branch target only used in CODE_C566E8",src/bankC5_6000.asm
-$C56749,.3,CODE_C56749,new,"branch target only used in CODE_C566E8",src/bankC5_6000.asm
-$C5674B,.loop3,CODE_C5674B,new,"branch target only used in CODE_C566E8",src/bankC5_6000.asm
+$C5664A,.1,CODE_C5664A,new,"branch target only used in SortPlayerStats",src/bankC5_6000.asm
+$C56660,.loop,CODE_C56660,new,"branch target only used in SortPlayerStats",src/bankC5_6000.asm
+$C5666B,.loop2,CODE_C5666B,new,"branch target only used in SortPlayerStats",src/bankC5_6000.asm
+$C56683,.2,CODE_C56683,new,"branch target only used in SortPlayerStats",src/bankC5_6000.asm
+$C56691,.3,CODE_C56691,new,"branch target only used in SortPlayerStats",src/bankC5_6000.asm
+$C56693,.loop3,CODE_C56693,new,"branch target only used in SortPlayerStats",src/bankC5_6000.asm
+$C566F8,.1,CODE_C566F8,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
+$C5670C,.loop,CODE_C5670C,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
+$C56720,.loop2,CODE_C56720,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
+$C5673B,.2,CODE_C5673B,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
+$C56749,.3,CODE_C56749,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
+$C5674B,.loop3,CODE_C5674B,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
 $C56771,.1,CODE_C56771,new,"branch target only used in DrawPlayerStatRow",src/bankC5_6000.asm
 $C56798,.2,CODE_C56798,new,"branch target only used in DrawPlayerStatRow",src/bankC5_6000.asm
 $C56814,.1,CODE_C56814,new,"branch target only used in CODE_C5680B",src/bankC5_6000.asm
@@ -8083,3 +8083,13 @@ $1872,OptRosters,,code,"RAM: from the code: the Rosters row of the setup option 
 $190A,OptPlayoffs,,code,"RAM: from the code: the Playoffs row of the setup option table; SaveOptPlayoffs stores it in SRBestOfSeven, LoadSavedGameOptions loads it",src/ram95s.asm
 $30604F,SROptRosters,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0 into OptRosters, SaveOptRosters stores it",src/ram95s.asm
 $C5DF5F,SimPlayerStats,CODE_C5DF5F,code,"from the code: RandomBelowA7E over the lineup in [p0], the goal loop, the assist parts after it; SimDayGameStats calls it for both teams (95 Genesis splits this into SimScorers / SimAssists / SimShots)",src/bankC5_E000.asm
+$C5663A,SortPlayerStats,CODE_C5663A,94S+purpose,"94S SortPlayerStats's job (the players in order of the chosen stat column); ShowPlayerStats calls it after the goalies are ordered, as 94S after InitStatsOrder",src/bankC5_6000.asm
+$C566E8,SortGoalieStats,CODE_C566E8,code,"from the code: the insertion loop over the goalie count (+2 of the roster table), the tmgoals compares",src/bankC5_6000.asm
+$C566A1,PlayerStatColumn,CODE_C566A1,code,"from the code: the jump table DATA8_C566DE to the five column routines",src/bankC5_6000.asm
+$C566AB,StatColGoals,CODE_C566AB,code,"from the code",src/bankC5_6000.asm
+$C566B3,StatColAssists,CODE_C566B3,code,"from the code",src/bankC5_6000.asm
+$C566BB,StatColPoints,CODE_C566BB,code,"from the code",src/bankC5_6000.asm
+$C566CE,StatColShots,CODE_C566CE,code,"from the code",src/bankC5_6000.asm
+$C566D6,StatColPenMin,CODE_C566D6,code,"from the code",src/bankC5_6000.asm
+$C5660A,ClearPlayerStatsList,CODE_C5660A,code,"from the code: the three ClearRAM7E calls",src/bankC5_6000.asm
+$14AF,ppenmin,,94S+code,"RAM: 94S ppenmin: + $34 after tmpshots as in 94S; chkprogress adds the minutes where 94S InProgress does; the player stats penalty minutes column reads it",src/ram95s.asm

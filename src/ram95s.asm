@@ -271,6 +271,7 @@ tmboxlist			=	$13DB		; penalty box list of roster players (bytes, negative ends)
 tmgoals				=	$1413		; per roster player ($1A per team): goals (Goal)
 tmassists			=	$1447		; per roster player: assists (Goal)
 tmpshots			=	$147B		; per roster player: shots (ChkShotStat)
+ppenmin				=	$14AF		; per roster player: penalty minutes (chkprogress adds them)
 CwdExciteLvl		=	$14E3		; crowd excitement: raised by hits and goals, set per playoff stage at a
 CrowdLoud			=	$14E5		; puckfaceoff clears it; no other code uses it
 teampads			=	$14F5		; pads on the home / away team

@@ -693,13 +693,13 @@ chkprogress:						; from PenaltyManager and other segments
 	adc.b d0
 	tax
 	sep #$20
-	lda.w $14AF,x
+	lda.w ppenmin,x
 	rep #$20
 	and.w #$00FF
 	clc
 	adc.b d2
 	sep #$20
-	sta.w $14AF,x
+	sta.w ppenmin,x
 	rep #$20
 	plx
 	lda.w $1159

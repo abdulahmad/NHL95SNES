@@ -614,20 +614,20 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	lda.b a2
 	beq .3
 	ldx.w #$3207
-.3:									; if $7D is not $FFFF go to .4, a1 = $0002,x, call CODE_C566E8, go to .5
+.3:									; if $7D is not $FFFF go to .4, a1 = $0002,x, call SortGoalieStats, ...
 	lda.b $7D
 	cmp.w #$FFFF
 	bne .4
 	lda.w $0002,x
 	sta.b a1
-	jsr.w CODE_C566E8
+	jsr.w SortGoalieStats
 	bra .5
-.4:									; A = $0000,x, A - $0002,x, a1 = A, call CODE_C5663A
+.4:									; A = $0000,x, A - $0002,x, a1 = A, call SortPlayerStats
 	lda.w $0000,x
 	sec
 	sbc.w $0002,x
 	sta.b a1
-	jsr.w CODE_C5663A
+	jsr.w SortPlayerStats
 .5:									; A = DrawPlayerStatRow, X = $000B, Y = $000D, call StartScrollList, ...
 	lda.w #DrawPlayerStatRow
 	ldx.w #$000B
@@ -688,9 +688,9 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	inc a
 	inc a
 	sta.b $7D
-.10:								; call CODE_C5660A, call CODE_C5663A, call CODE_C55C12, ...
-	jsr.w CODE_C5660A
-	jsr.w CODE_C5663A
+.10:								; call ClearPlayerStatsList, call SortPlayerStats, call CODE_C55C12, ...
+	jsr.w ClearPlayerStatsList
+	jsr.w SortPlayerStats
 	jsr.w CODE_C55C12
 	jsr.w CODE_C56880
 	jsl.l SendTextMap
@@ -707,7 +707,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	jsl.l DeleteSprite
 	ldx.b $79
 	jsl.l DeleteSprite
-	jsr.w CODE_C5660A
+	jsr.w ClearPlayerStatsList
 	jmp.w .1
 .13:								; if $8000 bits clear go to .15, A = $D3, A + $02C0, Y = $0040, ...
 	bit.w #$8000
@@ -717,7 +717,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	adc.w #$02C0
 	ldy.w #$0040
 	jsl.l ClearRAM7E
-	jsr.w CODE_C5660A
+	jsr.w ClearPlayerStatsList
 	lda.w #$FFFF
 	cmp.b $7D
 	beq .14
@@ -728,7 +728,8 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	bra .12
 .15:								; go to .loop
 	jmp.w .loop
-CODE_C5660A:						; from ShowPlayerStats
+ClearPlayerStatsList:				; clears ShowPlayerStats' list area of the text map ($380 bytes from
+									; +$300) and the two header rows above it
 	lda.w #$0300
 	clc
 	adc.b $D3
@@ -749,7 +750,8 @@ CODE_C5660A:						; from ShowPlayerStats
 	jsl.l ClearRAM7E
 	jsl.l WaitTransfers
 	rts
-CODE_C5663A:						; from ShowPlayerStats
+SortPlayerStats:					; sorts team a2's skaters by stat column $7D (PlayerStatColumn), best
+									; first, into the order list at $364E after the goalies
 	ldx.w #$2DC9
 	ldy.w #$0000
 	lda.b a2
@@ -767,17 +769,17 @@ CODE_C5663A:						; from ShowPlayerStats
 	sta.b tmp0
 	lda.w #$0002
 	sta.b tmp2
-.loop:								; loop: tmp1 + 1, Y = tmp1, call CODE_C566A1, $0A = A, ...
+.loop:								; loop: tmp1 + 1, Y = tmp1, call PlayerStatColumn, $0A = A, ...
 	inc.b tmp1
 	ldy.b tmp1
-	jsr.w CODE_C566A1
+	jsr.w PlayerStatColumn
 	sta.b $0A
 	stz.b $0E
-.loop2:								; loop: Y = $0E, A = $364E,y, Y = A, call CODE_C566A1, ...
+.loop2:								; loop: Y = $0E, A = $364E,y, Y = A, call PlayerStatColumn, ...
 	ldy.b $0E
 	lda.w $364E,y
 	tay
-	jsr.w CODE_C566A1
+	jsr.w PlayerStatColumn
 	cmp.b $0A
 	bcc .3
 	lda.b $0E
@@ -805,24 +807,25 @@ CODE_C5663A:						; from ShowPlayerStats
 	cpx.b $0E
 	bne .loop3
 	bra .2
-CODE_C566A1:						; from CODE_C5663A
+PlayerStatColumn:					; A = stat column $7D of roster player Y (+ $A5 for the away team): goals,
+									; assists, points, shots or penalty minutes
 	tya
 	clc
 	adc.b $A5
 	pha
 	ldx.b $7D
 	jmp (DATA8_C566DE,x)
-CODE_C566AB:						; from DATA8_C566DE
+StatColGoals:						; PlayerStatColumn's goals column (tmgoals)
 	plx
 	lda.w tmgoals,x
 	and.w #$00FF
 	rts
-CODE_C566B3:						; from DATA8_C566DE
+StatColAssists:						; PlayerStatColumn's assists column (tmassists)
 	plx
 	lda.w tmassists,x
 	and.w #$00FF
 	rts
-CODE_C566BB:						; from DATA8_C566DE
+StatColPoints:						; PlayerStatColumn's points column (tmgoals + tmassists)
 	plx
 	lda.w tmassists,x
 	and.w #$00FF
@@ -833,20 +836,21 @@ CODE_C566BB:						; from DATA8_C566DE
 	adc.b $01,s
 	plx
 	rts
-CODE_C566CE:						; from DATA8_C566DE
+StatColShots:						; PlayerStatColumn's shots column (tmpshots)
 	plx
 	lda.w tmpshots,x
 	and.w #$00FF
 	rts
-CODE_C566D6:						; from DATA8_C566DE
+StatColPenMin:						; PlayerStatColumn's penalty minutes column (ppenmin)
 	plx
-	lda.w $14AF,x
+	lda.w ppenmin,x
 	and.w #$00FF
 	rts
 DATA8_C566DE:						; jump table: the routine for each index
-	dw CODE_C566AB,CODE_C566B3,CODE_C566BB,CODE_C566CE
-	dw CODE_C566D6
-CODE_C566E8:						; from ShowPlayerStats
+	dw StatColGoals,StatColAssists,StatColPoints,StatColShots
+	dw StatColPenMin
+SortGoalieStats:					; starts ShowPlayerStats' order list at $364E: team a2's goalies ordered
+									; by goals against (tmgoals)
 	ldx.w #$2DC9
 	ldy.w #$0000
 	lda.b a2
@@ -986,7 +990,7 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	lda.w #$00F0
 	sta.b $D1
 	ldx.b $65
-	lda.w $14AF,x
+	lda.w ppenmin,x
 	and.w #$00FF
 	ldx.w #$0008
 CODE_C5680B:						; from DrawPlayerStatRow, CODE_C5683C
