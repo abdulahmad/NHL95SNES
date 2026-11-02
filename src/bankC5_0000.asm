@@ -1612,11 +1612,11 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	lda.w $17D1
 	bne .2
 	jsl.l ScreenOn
-.2:									; $17D1 = 0, A = $0006, call StartSound, call CODE_CF038E, ...
+.2:									; $17D1 = 0, A = $0006, call StartSound, call StartCrowdSound, ...
 	stz.w $17D1
 	lda.w #$0006
 	jsl.l StartSound
-	jsl.l CODE_CF038E
+	jsl.l StartCrowdSound
 	jsl.l SoundVolumeUp
 	lda.w #$FFFF
 	sta.w recsfx

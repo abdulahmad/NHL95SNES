@@ -174,7 +174,7 @@ LoadSounds:							; loads the samples and sounds of the list at X:A into the sou
 	cpy.w $1EA1
 	bne LoadSounds
 	wai
-	stz.w $1EA5
+	stz.w CrowdSoundOn
 	pha
 	phx
 	lda.w #$0C00
@@ -477,11 +477,11 @@ LoadSequence:						; uploads sequence A and its referenced samples, recording th
 	pla
 	sta.b r2
 	rtl
-CODE_CF038E:						; called from other segments
-	lda.w $1EA5
+StartCrowdSound:					; starts the crowd sound (sound 2) unless it is on (CrowdSoundOn)
+	lda.w CrowdSoundOn
 	bne .rtl
 	lda.w #$0002
-	sta.w $1EA5
+	sta.w CrowdSoundOn
 	jml.l StartSound
 .rtl:								; return
 	rtl

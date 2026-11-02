@@ -6,7 +6,7 @@ incsrc "../inc/snes_regs.asm"
 incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
-CODE_CF038E = $CF038E
+StartCrowdSound = $CF038E
 StartSound = $CF040B
 PlayTeamSong = $CF048A
 SprSort = $C384FC

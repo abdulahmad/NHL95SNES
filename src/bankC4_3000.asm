@@ -900,7 +900,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	pei ($7D)
 	lda.w #$0006
 	jsl.l StartSound
-	jsl.l CODE_CF038E
+	jsl.l StartCrowdSound
 	lda.w #$FFFF
 	sta.w recsfx
 	sta.w recsfx2

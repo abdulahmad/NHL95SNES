@@ -6621,7 +6621,7 @@ $CF030A,.loop4,CODE_CF030A,new,"branch target only used in CODE_CF02A5",src/bank
 $CF0345,.loop,CODE_CF0345,new,"branch target only used in CODE_CF0313",src/bankCF_0000.asm
 $CF0365,.loop2,CODE_CF0365,new,"branch target only used in CODE_CF0313",src/bankCF_0000.asm
 $CF0387,.1,CODE_CF0387,new,"branch target only used in CODE_CF0313",src/bankCF_0000.asm
-$CF039D,.rtl,CODE_CF039D,new,"branch target only used in CODE_CF038E",src/bankCF_0000.asm
+$CF039D,.rtl,CODE_CF039D,new,"branch target only used in StartCrowdSound",src/bankCF_0000.asm
 $CF03B2,.loop,CODE_CF03B2,new,"branch target only used in SoundVolumeDown",src/bankCF_0000.asm
 $CF03CF,.rtl,CODE_CF03CF,new,"branch target only used in SoundVolumeDown",src/bankCF_0000.asm
 $CF03E0,.loop,CODE_CF03E0,new,"branch target only used in SoundVolumeUp",src/bankCF_0000.asm
@@ -8524,3 +8524,5 @@ $C5E4D2,UpdateDayPlayed,CODE_C5E4D2,code,"from the code: the bit loop over DayGa
 $C5E37E,BuildAllTeamRecords,CODE_C5E37E,code,"from the code: the HomeTeam loop from $19, each record's + 2 pointing at the next, the first stored at $81; SetupPlayoffs and StandingsScreen call it",src/bankC5_E000.asm
 $C5E447,ClearPlayerGoals,CODE_C5E447,code,"from the code: A * 9 gives the byte and bit, the $FE00 mask rotated into place and anded in; SaveCreatedPlayer and ClearCreatedGoals call it",src/bankC5_E000.asm
 $C5E474,ClearCreatedGoals,CODE_C5E474,code,"from the code: NextSaveBits3 per record ($99 bits apart up to $C30), $A5 from $26A; the season reset (CODE_C4CFF5) calls it",src/bankC5_E000.asm
+$CF038E,StartCrowdSound,CODE_CF038E,code,"from the code: if $1EA5 is 0 it becomes 2 and jml StartSound with A = 2; puckfaceoff2 and Pausemode call it after sound 6; updatecrowdf runs only while $1EA5 is set, LoadSounds clears it",src/bankCF_0000.asm
+$1EA5,CrowdSoundOn,,code,"RAM: from the code: StartCrowdSound sets 2 and starts sound 2, LoadSounds clears it when it reloads the sounds, updatecrowdf works only while it is set",src/ram95s.asm

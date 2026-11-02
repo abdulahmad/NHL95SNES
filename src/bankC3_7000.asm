@@ -239,7 +239,7 @@ InitCrowdExcite:					; initialize crowd excitement at a period start except over
 .rtl:								; return
 	rtl
 updatecrowdf:						; decay the crowd hold and sound level
-	lda.w $1EA5
+	lda.w CrowdSoundOn
 	beq .rtl
 	lda.b crowdhold
 	beq .3

@@ -354,6 +354,7 @@ OptUserRec			=	$1904		; user records option: nonzero on (UpdateRecords)
 homepracplayers		=	$1906		; practice mode: the home team's player count (Home Players)
 awaypracplayers		=	$1908		; practice mode: the visitors' player count (Visitor Players)
 OptPlayoffs			=	$190A		; the Playoffs setup option; SRBestOfSeven (0: one game decides)
+CrowdSoundOn		=	$1EA5		; set while the crowd sound plays (StartCrowdSound; LoadSounds clears it)
 ltplayer			=	$2002		; a2touchpuck: the last player to touch the puck (index / 2)
 ltx					=	$2004		; a2touchpuck: that player's Xpos; Stop4Pen's face off x
 lty					=	$2006		; a2touchpuck: that player's Ypos; Stop4Pen's face off y
