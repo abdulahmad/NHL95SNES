@@ -1179,7 +1179,7 @@ CODE_C558D7:						; from ExitToPauseMenu and other segments
 	phy
 	jsr.w UploadSpriteFrame
 	lda.b $34,x
-	jsl.l CODE_C5EE9B
+	jsl.l QueueSpritePalette
 	ply
 .1:									; Y - 1, Y - 1, if the result >= 0 go to .loop, A = $17CD, ...
 	dey
@@ -1191,22 +1191,22 @@ CODE_C558D7:						; from ExitToPauseMenu and other segments
 	lda.w $46B8,x
 	and.w #$FF00
 	ora.w $17CD
-	jsl.l CODE_C5EE9B
+	jsl.l QueueSpritePalette
 	lda.w $17CF
 	asl a
 	tax
 	lda.w $46B8,x
 	and.w #$FF00
 	ora.w $17CF
-	jsl.l CODE_C5EE9B
+	jsl.l QueueSpritePalette
 	lda.w $4828
 	and.w #$FF00
 	ora.w #$00B8
-	jsl.l CODE_C5EE9B
+	jsl.l QueueSpritePalette
 	lda.w $482A
 	and.w #$FF00
 	ora.w #$00B9
-	jsl.l CODE_C5EE9B
+	jsl.l QueueSpritePalette
 	jsl.l WaitTransfers
 	jml.l RestoreWorkBuf
 SetupScreen:						; common start of the stats screens: the tiled background, VRAM cleared,

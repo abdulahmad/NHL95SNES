@@ -1436,8 +1436,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w $17CD
 	bcc .39
 	lda.w $17CF
-.39:								; call CODE_C5EE6C, A = $001E, call CreateSpriteSharePal, $2022 = X, ...
-	jsl.l CODE_C5EE6C
+.39:								; call UseSpritePalette, A = $001E, call CreateSpriteSharePal, ...
+	jsl.l UseSpritePalette
 	lda.w #$001E
 	jsl.l CreateSpriteSharePal
 	stx.w $2022
@@ -1452,8 +1452,8 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w $17CF
 	bcc .40
 	lda.w $17CD
-.40:								; call CODE_C5EE6C, call CODE_C53A29
-	jsl.l CODE_C5EE6C
+.40:								; call UseSpritePalette, call CODE_C53A29
+	jsl.l UseSpritePalette
 	jsl.l CODE_C53A29
 FinishFaceoffSetup:					; end of the face off set-up: the line box (line changes on, no penalty
 									; shot), the drop time in temp1, the centres' and the ref's frames

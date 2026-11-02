@@ -6468,7 +6468,7 @@ $C5E801,.loop,CODE_C5E801,new,"branch target only used in CreateSprite",src/bank
 $C5E80F,.11,CODE_C5E80F,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
 $C5E837,.12,CODE_C5E837,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
 $C5E83B,.13,CODE_C5E83B,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
-$C5E85A,.1,CODE_C5E85A,new,"branch target only used in CODE_C5E851",src/bankC5_E000.asm
+$C5E85A,.1,CODE_C5E85A,new,"branch target only used in AllocSpriteTiles",src/bankC5_E000.asm
 $C5E888,.1,CODE_C5E888,new,"branch target only used in CODE_C5E86F",src/bankC5_E000.asm
 $C5E8F9,.1,CODE_C5E8F9,new,"branch target only used in UploadSpriteFrame",src/bankC5_E000.asm
 $C5E904,.2,CODE_C5E904,new,"branch target only used in UploadSpriteFrame",src/bankC5_E000.asm
@@ -6510,9 +6510,9 @@ $C5EE22,.10,CODE_C5EE22,new,"branch target only used in CODE_C5ECF1",src/bankC5_
 $C5EE24,.11,CODE_C5EE24,new,"branch target only used in CODE_C5ECF1",src/bankC5_E000.asm
 $C5EE30,.12,CODE_C5EE30,new,"branch target only used in CODE_C5ECF1",src/bankC5_E000.asm
 $C5EE66,.1,CODE_C5EE66,new,"branch target only used in CODE_C5EE3C",src/bankC5_E000.asm
-$C5EE80,.1,CODE_C5EE80,new,"branch target only used in CODE_C5EE6C",src/bankC5_E000.asm
-$C5EECE,.1,CODE_C5EECE,new,"branch target only used in CODE_C5EE9B",src/bankC5_E000.asm
-$C5EEDB,.2,CODE_C5EEDB,new,"branch target only used in CODE_C5EE9B",src/bankC5_E000.asm
+$C5EE80,.1,CODE_C5EE80,new,"branch target only used in UseSpritePalette",src/bankC5_E000.asm
+$C5EECE,.1,CODE_C5EECE,new,"branch target only used in QueueSpritePalette",src/bankC5_E000.asm
+$C5EEDB,.2,CODE_C5EEDB,new,"branch target only used in QueueSpritePalette",src/bankC5_E000.asm
 $C5EEFF,.1,CODE_C5EEFF,new,"branch target only used in CreateSpriteSharePal",src/bankC5_E000.asm
 $C5EFA9,.2,CODE_C5EFA9,new,"branch target only used in CreateSpriteSharePal",src/bankC5_E000.asm
 $C5EFB1,.3,CODE_C5EFB1,new,"branch target only used in CreateSpriteSharePal",src/bankC5_E000.asm
@@ -8139,3 +8139,7 @@ $C5D6D0,WriteUserField5,CODE_C5D6D0,code,"from the code: the 5-bit mask shifted 
 $C56A6B,PrintPenaltyHead,CODE_C56A6B,code,"from the code; ShowPenaltySummary prints its column titles with it",src/bankC5_6000.asm
 $C56D37,PrintScoringHead,CODE_C56D37,code,"from the code: PrintBoldLeft with Y 15; ShowScoringSummary prints its column titles with it",src/bankC5_6000.asm
 $C580AB,PrintHeadRow6,CODE_C580AB,code,"from the code: PrintBoldCentred with Y 6",src/bankC5_8000.asm
+$C5EE6C,UseSpritePalette,CODE_C5EE6C,code,"from the code: the slot table at $46B8 by palette, the free list, +$34 of the object",src/bankC5_E000.asm
+$C5EE9B,QueueSpritePalette,CODE_C5EE9B,code,"from the code: a 32-byte transfer record pushed on the colour queue ($04), the source from the palette tables at $808002 / $C0",src/bankC5_E000.asm
+$C5EEE6,ReuseSpritePalette,CODE_C5EEE6,code,"from the code; UseSpritePalette branches here",src/bankC5_E000.asm
+$C5E851,AllocSpriteTiles,CODE_C5E851,code,"from the code; CreateSprite and CreateSpriteSharePal call it",src/bankC5_E000.asm

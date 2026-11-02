@@ -1238,16 +1238,16 @@ CODE_C53984:						; from CODE_C53980 and other segments
 	asl a
 	adc.w #$0081
 	sta.w $17CD
-	jsl.l CODE_C5EE6C
+	jsl.l UseSpritePalette
 	lda.w VisTeam
 	asl a
 	adc.w #$0080
 	sta.w $17CF
-	jsl.l CODE_C5EE6C
+	jsl.l UseSpritePalette
 	lda.w #$00B8
-	jsl.l CODE_C5EE6C
+	jsl.l UseSpritePalette
 	lda.w #$00B9
-	jsl.l CODE_C5EE6C
+	jsl.l UseSpritePalette
 	jsl.l ResetWorkBuf
 	rts
 CODE_C539D7:						; called from other segments

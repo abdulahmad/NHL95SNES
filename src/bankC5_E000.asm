@@ -1048,7 +1048,7 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	clc
 	adc.b $1E
 	sta.w $001A,y
-	jsr.w CODE_C5E851
+	jsr.w AllocSpriteTiles
 	bcs .7
 	lda.b $10
 	xba
@@ -1172,7 +1172,9 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	sta.w $1AE2,x
 	sec
 	rtl
-CODE_C5E851:						; from CreateSpriteSharePal, CreateSprite
+AllocSpriteTiles:					; takes A sprite tiles from the allocator ($1B0A, below $E3) and sets the
+									; object's tile base (+$10 / +$12, $6000 + 16 x the first); with no room
+									; returns unchanged
 	clc
 	adc.w $1B0A
 	cmp.b $E3
@@ -2040,13 +2042,15 @@ CODE_C5EE3C:						; no caller found (not traced)
 	sta.w $46B8,x
 	plx
 	rts
-CODE_C5EE6C:						; called from other segments
+UseSpritePalette:					; gives object X sprite palette A: a palette already loaded is reused
+									; (ReuseSpritePalette), else one of the 8 free CGRAM slots ($46A8 list,
+									; $1B08 count) is taken and the colours queued (QueueSpritePalette)
 	sta.b $34,x
 	txy
 	asl a
 	tax
 	lda.w $46B8,x
-	bpl CODE_C5EEE6
+	bpl ReuseSpritePalette
 	lda.w $1B08
 	cmp.w #$0008
 	bcc .1
@@ -2065,7 +2069,8 @@ CODE_C5EE6C:						; called from other segments
 	sta.w $46B8,x
 	ora.w $0034,y
 	sta.w $0034,y
-CODE_C5EE9B:						; called from other segments
+QueueSpritePalette:					; queues the 16 colours of sprite palette A (low byte) to CGRAM slot (high
+									; byte) + 8
 	phy
 	tay
 	dec.b QueueBusy
@@ -2113,7 +2118,8 @@ CODE_C5EE9B:						; called from other segments
 	stz.b QueueBusy
 	plx
 	rtl
-CODE_C5EEE6:						; from CODE_C5EE6C
+ReuseSpritePalette:					; a sprite palette already loaded: its use count + 1 and its slot into
+									; +$34 of the object
 	inc a
 	sta.w $46B8,x
 	and.w #$FF00
@@ -2198,7 +2204,7 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	clc
 	adc.b $1E
 	sta.w $001A,y
-	jsr.w CODE_C5E851
+	jsr.w AllocSpriteTiles
 	bcs .3
 	lda.b $10
 	xba
