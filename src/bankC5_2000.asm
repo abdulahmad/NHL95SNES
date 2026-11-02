@@ -407,7 +407,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	beq .7
 	lda.w #$0000
 	sta.w $0000,y
-	jsr.w CODE_C52628
+	jsr.w QueuePadArrowVert
 .7:									; if $0A < $00E9 go to .8, A = $00E8
 	lda.b $0A
 	cmp.w #$00E9
@@ -465,7 +465,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	beq .13
 	lda.w #$0000
 	sta.w $0000,y
-	jsr.w CODE_C52628
+	jsr.w QueuePadArrowVert
 .13:								; if $0A < $00E9 go to .14, A = $00E8
 	lda.b $0A
 	cmp.w #$00E9
@@ -514,7 +514,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	beq .17
 	sta.w $0000,y
 	clc
-	jsr.w CODE_C526A7
+	jsr.w QueuePadArrowSide
 .17:								; if $0C >= $0009 go to .18, A = $0009
 	lda.b $0C
 	cmp.w #$0009
@@ -566,7 +566,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	beq .21
 	sta.w $0000,y
 	clc
-	jsr.w CODE_C526A7
+	jsr.w QueuePadArrowSide
 .21:								; if $0C >= $0009 go to .22, A = $0009
 	lda.b $0C
 	cmp.w #$0009
@@ -612,7 +612,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	clc
 	beq .25
 	sta.w $0000,y
-	jsr.w CODE_C52666
+	jsr.w QueuePadArrowCorner
 .25:								; A = $4000, A or tmp2, push A, X = $2A, ...
 	lda.w #$4000
 	tsb.b tmp1
@@ -644,7 +644,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	clc
 	beq .27
 	sta.w $0000,y
-	jsr.w CODE_C52666
+	jsr.w QueuePadArrowCorner
 .27:								; X = $2A, $00,x = $0002, $02,x = 0, A = X, ...
 	pei ($A3)
 	pea.w $09E8
@@ -673,7 +673,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	clc
 	beq .29
 	sta.w $0000,y
-	jsr.w CODE_C52666
+	jsr.w QueuePadArrowCorner
 .29:								; A = $4000, A or tmp2, push A, X = $2A, ...
 	lda.w #$4000
 	tsb.b tmp1
@@ -705,7 +705,7 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	clc
 	beq .31
 	sta.w $0000,y
-	jsr.w CODE_C52666
+	jsr.w QueuePadArrowCorner
 .31:								; X = $2A, $00,x = $0002, $02,x = 0, A = X, ...
 	pei ($A3)
 	pea.w $C7E8
@@ -726,7 +726,8 @@ DrawPadArrow:						; the arrow for player Y: over him when he is on screen, else
 	phy
 	pea.w $C3E4
 	jmp ($00A5)
-CODE_C52628:						; from DrawPadArrow
+QueuePadArrowVert:					; queues the pad's up / down edge arrow image (from + 0 of its tile source
+									; in bank $7F) to its three VRAM blocks
 	tsc
 	sta.b $28
 	lda.b $00
@@ -757,7 +758,8 @@ CODE_C52628:						; from DrawPadArrow
 	lda.b $28
 	tcs
 	rts
-CODE_C52666:						; from DrawPadArrow
+QueuePadArrowCorner:				; queues the pad's corner arrow image (source + $E0) to its three VRAM
+									; blocks
 	tsc
 	sta.b $28
 	lda.b $00
@@ -789,7 +791,8 @@ CODE_C52666:						; from DrawPadArrow
 	lda.b $28
 	tcs
 	rts
-CODE_C526A7:						; from DrawPadArrow
+QueuePadArrowSide:					; queues the pad's left / right edge arrow image (source + $1C0) to its
+									; three VRAM blocks
 	tsc
 	sta.b $28
 	lda.b $00

@@ -8539,3 +8539,6 @@ $C5DBE8,ScrollTradeListDown,CODE_C5DBE8,code,"from the code: inc $77,x, 8 wai fr
 $C5DC54,TradeListScrollEntries,CODE_C5DC54,code,"from the code: $77,x wrapped by $67,x + 2, line counts and scroll values * 8, Y + 3 or + 6",src/bankC5_D000.asm
 $C5DCA7,TradeScrollStepDown,CODE_C5DCA7,code,"from the code: the line count - 1 / scroll + 1 of the entry at $3F4E,y, the split entry when the count reaches 0",src/bankC5_D000.asm
 $C5DCEE,TradeScrollStepUp,CODE_C5DCEE,code,"from the code: the entry at $3F4E,y split when its count is the full window (tmp2 * 8), else count + 1 / scroll - 1",src/bankC5_D000.asm
+$C52628,QueuePadArrowVert,CODE_C52628,code,"from the code: three transfers ($40, $40, $60 bytes) pushed on the queue from the record at X (+2 source, +8 / +A / +C VRAM); DrawPadArrow calls it for a player above or below the screen with x on screen, when the record's image word was not 0",src/bankC5_2000.asm
+$C52666,QueuePadArrowCorner,CODE_C52666,code,"from the code: QueuePadArrowVert's transfers from + $E0; DrawPadArrow calls it for a player off a corner of the screen, when the image word was not 1",src/bankC5_2000.asm
+$C526A7,QueuePadArrowSide,CODE_C526A7,code,"from the code: QueuePadArrowVert's transfers from + $1C0; DrawPadArrow calls it for a player off the left or right edge with y on screen, when the image word was not 2",src/bankC5_2000.asm
