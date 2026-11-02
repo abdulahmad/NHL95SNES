@@ -673,9 +673,9 @@ CODE_C09529:						; called from ShootoutWonBy
 	sta.b d0
 	lda.w #$000D
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jsl.l CODE_C528D4
+	jsl.l eraser
 	lda.w #$0800
 	sta.w printa
 	lda.w #$000E
@@ -689,9 +689,9 @@ CODE_C09551:						; called from CODE_C0958F
 	sta.b d0
 	lda.w #$000D
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jsl.l CODE_C528D4
+	jsl.l eraser
 	lda.w #$0800
 	sta.w printa
 	lda.w #$000E
@@ -736,9 +736,9 @@ CODE_C095BF:						; called from ShootoutWonBy
 	sta.b d0
 	lda.w #$0013
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jsl.l CODE_C528D4
+	jsl.l eraser
 	jsl.l GoalieCount
 	lda.b d0
 	dec a
@@ -877,14 +877,14 @@ CODE_C096C0:						; called from ShootoutWonBy
 	sta.b [a1]
 	rep #$20
 	rtl
-.3:									; d0 = $0020, d1 = $000D, d2 = $24C0, call CODE_C528D4, ...
+.3:									; d0 = $0020, d1 = $000D, d2 = blankchar, call eraser, ...
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jsl.l CODE_C528D4
+	jsl.l eraser
 	ldx.w #$0001
 	ldy.w #$0001
 	lda.w $249C
@@ -1032,9 +1032,9 @@ CODE_C09855:						; called from CODE_C096C0, CODE_C096C0, ...
 	sta.b d0
 	lda.w #$000D
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jsl.l CODE_C528D4
+	jsl.l eraser
 	lda.w #$0011
 	sta.w printx
 	lda.w #$0002

@@ -1078,7 +1078,8 @@ CODE_C52898:						; from CODE_C52766, CODE_C5277A, CODE_C52706
 	jmp ($00A5)
 CODE_C528D3:						; called from other segments
 	rtl
-CODE_C528D4:						; called from other segments
+eraser:								; a bare rtl where 94S fills a d0 by d1 box of the text map with tile d2
+									; (blankchar)
 	rtl
 updatescroll_rows:					; queues the rink map rows that the vertical scroll brought on screen;
 									; BG2VScroll from Vscroll + $170

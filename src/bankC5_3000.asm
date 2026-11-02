@@ -545,9 +545,9 @@ CODE_C53475:						; no caller found (not traced)
 	sta.b d0
 	lda.w #$0002
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jml.l CODE_C528D4
+	jml.l eraser
 PutDigits2:							; from PlayerShortName and other segments
 	lda.w #$2020
 	sta.b tmp0

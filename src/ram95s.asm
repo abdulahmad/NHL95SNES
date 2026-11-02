@@ -354,6 +354,7 @@ gsper				=	$2458		; per other game: the period; 4 or more when over, 5 final (Se
 gss1				=	$2468		; per other game: team 1's score (SetScore)
 gss2				=	$2478		; per other game: team 2's score (SetScore)
 gsflags				=	$2488		; per other game flags: bit 1 asks for a highlight; NewTicker2 skips $0006
+blankchar			=	$24C0		; the blank tile passed to eraser (d2); no code here writes it
 playoffRoundIdx		=	$24C4		; playoff round (GetShifter, NewTicker2); Restart clears it
 gamenum				=	$24C6		; the user's game: UpdateScores and NewTicker2 skip it
 tickerstart			=	$24C8		; TickerNum kept by Intermission; Intermission_tick stops there

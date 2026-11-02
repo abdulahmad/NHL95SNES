@@ -900,9 +900,9 @@ CODE_C51812:						; no caller found (not traced)
 	sta.b d0
 	lda.w #$0009
 	sta.b d1
-	lda.w $24C0
+	lda.w blankchar
 	sta.b d2
-	jml.l CODE_C528D4
+	jml.l eraser
 ShowGoalBox:						; the goal box after a goal: both line change boxes closed (CloseLCBoxes),
 									; then the last ScoreSum entry with the scorer and the assists
 	pei ($6D)

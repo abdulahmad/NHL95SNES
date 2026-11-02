@@ -7980,3 +7980,5 @@ $C4F2AE,RebuildChangedLines,CODE_C4F2AE,code,"from the code: LoadDefaultRoster i
 $C53F66,HotColdRating,CODE_C53F66,code,"the same instructions as 94S setplayer .8 (a local label there): the hot / cold byte divided by 4, added, clamped to 0 and 15; setplayer calls it for each rating",src/bankC5_3000.asm
 $C5B676,BinToBCDLong,CODE_C5B676,code,"jsr BinToBCD, rtl",src/bankC5_B000.asm
 $1543,HotColdTable,,94S+code,"RAM: 2 votes; read side by side in 94S setplayer .8 (HotColdTable,y / 4 added to a rating); Create_HotCold_Table writes it, CalcAttrib reads it as in 94S",src/ram95s.asm
+$C528D4,eraser,CODE_C528D4,94S+purpose,"the seven callers set d0 / d1 to a box size and d2 to blankchar before it, as 94S's callers of eraser do; here it only returns (as the StartBenchCheer and InitScores stubs)",src/bankC5_2000.asm
+$24C0,blankchar,,94S+code,"RAM: side by side with 94S's eraser calls (lda blankchar, sta d2); at the offset gamenum and playoffRoundIdx have from 94S",src/ram95s.asm
