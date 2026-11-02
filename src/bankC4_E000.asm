@@ -1411,12 +1411,12 @@ NextScoutTextLine:					; resets the scouting text column and advances or scrolls
 	cmp.w #$001B
 	bcc .2
 	lda.w #$0011
-.2:									; ScoutTextRow = A, if d5 = 0 go to .rts, push X, call CODE_C55C54, ...
+.2:									; ScoutTextRow = A, if d5 = 0 go to .rts, push X, ...
 	sta.w ScoutTextRow
 	lda.b d5
 	beq .rts
 	phx
-	jsl.l CODE_C55C54
+	jsl.l ScrollListDownLong
 	jsl.l WaitTransfers
 	plx
 .rts:								; return

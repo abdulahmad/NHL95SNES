@@ -270,7 +270,7 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 .14:								; call MarkFreeAgentLimits, call PrintPositionCounts, ...
 	jsr.w MarkFreeAgentLimits
 	jsr.w PrintPositionCounts
-	jsr.w CODE_C55C12
+	jsr.w RedrawScrollList
 	jsl.l SendTextMap
 .15:								; go to .loop
 	jmp.w .loop
@@ -1051,9 +1051,9 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	lda.b (tmp0)
 	inc a
 	sta.b (tmp0)
-.15:								; call PrintPositionCounts, call CODE_C55C12, call SendTextMap
+.15:								; call PrintPositionCounts, call RedrawScrollList, call SendTextMap
 	jsr.w PrintPositionCounts
-	jsr.w CODE_C55C12
+	jsr.w RedrawScrollList
 	jsl.l SendTextMap
 .16:								; go to .loop
 	jmp.w .loop

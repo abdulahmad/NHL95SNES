@@ -83,13 +83,13 @@ PauseItemDown:						; the pause menu item one down (below pauseitems), the tab r
 	sta.w pauseitem
 	bra RedrawPauseTab
 SetPauseTab:						; switches the pause menu to tab X when it is another: the old one erased
-									; (CODE_C5524B), item 0, DrawPauseTab
+									; (DeselectPauseTab), item 0, DrawPauseTab
 	cpx.w pausetab
 	beq PauseMenuReturn
 	phx
 	bit.w pausetab
 	bmi .1
-	jsr.w CODE_C5524B
+	jsr.w DeselectPauseTab
 .1:									; pull A, pausetab = A, pauseitem = 0
 	pla
 	sta.w pausetab
@@ -106,9 +106,9 @@ DrawPauseTab:						; draws tab A's item list (its text in bank $C3 from DATA8_C5
 	bra .2
 .1:									; A = DATA8_C55002,x
 	lda.l DATA8_C55002,x
-.2:									; call CODE_C552A4, call CODE_C55256, A = pauseitem, A / 2, ...
+.2:									; call CODE_C552A4, call SelectPauseTab, A = pauseitem, A / 2, ...
 	jsr.w CODE_C552A4
-	jsr.w CODE_C55256
+	jsr.w SelectPauseTab
 	lda.w pauseitem
 	xba
 	lsr a
@@ -203,16 +203,16 @@ CODE_C5503C:						; called from other segments
 	jsl.l MapSetToWRAM
 	lda.w #$012A
 	ldy.w #$0523
-	jsr.w CODE_C5522E
+	jsr.w FillPauseMapTileRun
 	lda.w #$016A
 	ldy.w #$052D
-	jsr.w CODE_C5522E
+	jsr.w FillPauseMapTileRun
 	lda.w #$0102
 	ldy.w #$0537
-	jsr.w CODE_C5522E
+	jsr.w FillPauseMapTileRun
 	lda.w #$0142
 	ldy.w #$0541
-	jsr.w CODE_C5522E
+	jsr.w FillPauseMapTileRun
 	ldy.w #$045F
 	ldx.w $18EE
 	clc
@@ -370,7 +370,8 @@ CODE_C550E2:						; from ExitToPauseMenu
 	jsl.l WaitTransfers
 	jsl.l ScreenOn
 	rts
-CODE_C5522E:						; from CODE_C5503C
+FillPauseMapTileRun:				; writes consecutive tile words into the pause map at offset A starting
+									; with tile Y
 	clc
 	adc.w $18EE
 	tax
@@ -387,31 +388,31 @@ CODE_C5522E:						; from CODE_C5503C
 	rts
 DATA8_C55245:						; not traced: a table read by CODE_C550E2
 	db $62,$01,$7D,$01,$97,$01
-CODE_C5524B:						; from SetPauseTab
+DeselectPauseTab:					; copies the inactive tab tiles into the current pause tab header
 	lda.w pausetab
 	asl a
 	tax
 	lda.l DATA8_C5529C,x
 	bra CODE_C5525F
-CODE_C55256:						; from DrawPauseTab
+SelectPauseTab:						; copies the active tab tiles into the current pause tab header
 	lda.w pausetab
 	asl a
 	tax
 	lda.l DATA8_C55294,x
-CODE_C5525F:						; from CODE_C5524B
+CODE_C5525F:						; from DeselectPauseTab
 	adc.w $18EE
 	tay
 	lda.l DATA8_C5528C,x
 	adc.w $18EE
 	tax
-	jsr.w CODE_C55278
+	jsr.w CopyPauseTabTileRow
 	txa
 	adc.w #$0030
 	tax
 	tya
 	adc.w #$0030
 	tay
-CODE_C55278:						; from CODE_C5525F
+CopyPauseTabTileRow:				; copies eight tile words from Y to X
 	lda.w #$0008
 	sta.b tmp0
 .loop:								; loop: $0000,x = $0000,y, Y + 1, Y + 1, X + 1, ...
@@ -426,9 +427,9 @@ CODE_C55278:						; from CODE_C5525F
 	rts
 DATA8_C5528C:						; not traced: a table read by CODE_C5525F
 	db $44,$00,$58,$00,$6C,$00,$6C,$00
-DATA8_C55294:						; not traced: a table read by CODE_C55256
+DATA8_C55294:						; not traced: a table read by SelectPauseTab
 	db $C0,$07,$D0,$07,$E0,$07,$E0,$07
-DATA8_C5529C:						; not traced: a table read by CODE_C5524B
+DATA8_C5529C:						; not traced: a table read by DeselectPauseTab
 	db $40,$08,$50,$08,$60,$08,$60,$08
 CODE_C552A4:						; from DrawPauseTab
 	pha
@@ -1507,7 +1508,7 @@ ScrollListArrows:					; a scrolling list each frame: its up arrow sprite shown w
 .4:									; $22,x = A, return
 	sta.b $22,x
 	rts
-CODE_C55C12:						; called from other segments
+RedrawScrollList:					; redraws the visible scrolling list and its adjacent buffered rows
 	lda.b $71
 	inc a
 	sta.b tmp1
@@ -1520,7 +1521,7 @@ CODE_C55C12:						; called from other segments
 	lda.b $69
 	beq CODE_C55C25
 	dec a
-CODE_C55C25:						; from CODE_C55C12, CODE_C55C45
+CODE_C55C25:						; from RedrawScrollList, CODE_C55C45
 	cmp.b $01,s
 	bcs CODE_C55C52
 	cmp.b a1
@@ -1547,7 +1548,7 @@ CODE_C55C45:						; from CODE_C55C25
 CODE_C55C52:						; from CODE_C55C25
 	pla
 	rts
-CODE_C55C54:						; called from other segments
+ScrollListDownLong:					; calls ScrollListDown for long callers
 	jsr.w ScrollListDown
 	rtl
 ScrollListDown:						; scrolls a scrolling list down a row (the pad's down) when rows are below
@@ -1699,7 +1700,7 @@ CODE_C55D14:						; from ScrollListUp
 ScrollListUpReturn:					; the rts ScrollListUp leaves through when the list is at its top
 	rts
 DATA8_C55D6B:						; jump table: the routine for each index (code in bankC5_6000 uses it)
-	dw CODE_C55D8A,CODE_C55DAC,CODE_C55DEF,CODE_C55E3D
+	dw DrawTeamStatNumber,DrawTeamStatPair,DrawTeamStatPercent,DrawTeamStatTime
 ClearTextRow:						; clears row $6D of the text map at $D3 (32 tiles)
 	lda.b $6D
 	xba
@@ -1716,7 +1717,7 @@ ClearTextRow:						; clears row $6D of the text map at $D3 (32 tiles)
 	dey
 	bne .loop
 	rts
-CODE_C55D8A:						; from DATA8_C55D6B
+DrawTeamStatNumber:					; formats a team stat as a centred decimal value
 	ldx.b $65
 	lda.l $C30003,x
 	clc
@@ -1731,7 +1732,7 @@ CODE_C55D8A:						; from DATA8_C55D6B
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C55DAC:						; from DATA8_C55D6B
+DrawTeamStatPair:					; formats two team stats separated by the pair separator
 	ldx.b $65
 	lda.l $C30003,x
 	clc
@@ -1761,7 +1762,7 @@ CODE_C55DAC:						; from DATA8_C55D6B
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C55DEF:						; from DATA8_C55D6B
+DrawTeamStatPercent:				; formats the ratio of two team stats as a percentage capped at 100
 	ldx.b $65
 	lda.l $C30005,x
 	clc
@@ -1796,7 +1797,7 @@ CODE_C55DEF:						; from DATA8_C55D6B
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
 	rts
-CODE_C55E3D:						; from DATA8_C55D6B
+DrawTeamStatTime:					; formats a team stat time as centred minutes and seconds
 	ldx.b $65
 	lda.l $C30003,x
 	clc

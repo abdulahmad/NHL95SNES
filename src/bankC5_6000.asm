@@ -695,10 +695,10 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	inc a
 	inc a
 	sta.b $7D
-.10:								; call ClearPlayerStatsList, call SortPlayerStats, call CODE_C55C12, ...
+.10:								; call ClearPlayerStatsList, call SortPlayerStats, ...
 	jsr.w ClearPlayerStatsList
 	jsr.w SortPlayerStats
-	jsr.w CODE_C55C12
+	jsr.w RedrawScrollList
 	jsr.w PrintPlayerStatHeads
 	jsl.l SendTextMap
 .11:								; if $4000 bits clear go to .13, A = a2, A xor $0002, a2 = A

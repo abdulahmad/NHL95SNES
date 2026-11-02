@@ -888,10 +888,10 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 	bcs .loop
 	inc a
 	sta.b $7D
-.9:									; call CODE_C576CC, call CODE_C577C3, call CODE_C55C12, call SendTextMap
+.9:									; call CODE_C576CC, call CODE_C577C3, call RedrawScrollList, ...
 	jsr.w CODE_C576CC
 	jsr.w CODE_C577C3
-	jsr.w CODE_C55C12
+	jsr.w RedrawScrollList
 	jsl.l SendTextMap
 .10:								; if $8000 bits clear go to .11, A = $65, A + $7B, $7B = A, ...
 	bit.w #$8000

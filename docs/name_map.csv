@@ -5416,8 +5416,8 @@ $C54FBD,.2,CODE_C54FBD,new,"branch target only used in DrawPauseTab",src/bankC5_
 $C54FCF,.loop,CODE_C54FCF,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
 $C550D2,.loop,CODE_C550D2,new,"branch target only used in CODE_C5503C",src/bankC5_5000.asm
 $C55153,.loop,CODE_C55153,new,"branch target only used in CODE_C550E2",src/bankC5_5000.asm
-$C55237,.loop,CODE_C55237,new,"branch target only used in CODE_C5522E",src/bankC5_5000.asm
-$C5527D,.loop,CODE_C5527D,new,"branch target only used in CODE_C55278",src/bankC5_5000.asm
+$C55237,.loop,CODE_C55237,new,"branch target only used in FillPauseMapTileRun",src/bankC5_5000.asm
+$C5527D,.loop,CODE_C5527D,new,"branch target only used in CopyPauseTabTileRow",src/bankC5_5000.asm
 $C552CA,.1,CODE_C552CA,new,"branch target only used in CODE_C552BD",src/bankC5_5000.asm
 $C552E1,.loop,CODE_C552E1,new,"branch target only used in CODE_C552CE",src/bankC5_5000.asm
 $C552F9,.1,CODE_C552F9,new,"branch target only used in CODE_C552CE",src/bankC5_5000.asm
@@ -5461,8 +5461,8 @@ $C55D17,.loop,CODE_C55D17,new,"branch target only used in CODE_C55D14",src/bankC
 $C55D54,.1,CODE_C55D54,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
 $C55D64,.2,CODE_C55D64,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
 $C55D81,.loop,CODE_C55D81,new,"branch target only used in ClearTextRow",src/bankC5_5000.asm
-$C55E14,.1,CODE_C55E14,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
-$C55E2A,.2,CODE_C55E2A,new,"branch target only used in CODE_C55DEF",src/bankC5_5000.asm
+$C55E14,.1,CODE_C55E14,new,"branch target only used in DrawTeamStatPercent",src/bankC5_5000.asm
+$C55E2A,.2,CODE_C55E2A,new,"branch target only used in DrawTeamStatPercent",src/bankC5_5000.asm
 $C55E65,.1,CODE_C55E65,new,"branch target only used in TeamLogoSprite",src/bankC5_5000.asm
 $C55EE1,.1,CODE_C55EE1,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
 $C55EEE,.2,CODE_C55EEE,new,"branch target only used in BCDTextAt",src/bankC5_5000.asm
@@ -8492,3 +8492,13 @@ $C54D03,linebar,CODE_C54D03,94S+purpose,"Same SetLCmode2 energy display as 94S p
 $C54D40,LineBarHigh,CODE_C54D40,code,"High fill dispatch writes 8888 then subtracts 2000 from scaled energy and advances destination twice",src/bankC5_4000.asm
 $C54D55,LineBarMiddle,CODE_C54D55,code,"Middle fill dispatch writes 91 then subtracts 1000 from scaled energy and advances destination once",src/bankC5_4000.asm
 $C54D69,LineBarLow,CODE_C54D69,code,"Low fill dispatch sets tile base 92 and passes the unadjusted scaled energy to the common writer",src/bankC5_4000.asm
+$C5522E,FillPauseMapTileRun,CODE_C5522E,code,"Called four times while preparing PauseScreenMap; adds map buffer base and writes ten incrementing words",src/bankC5_5000.asm
+$C5524B,DeselectPauseTab,CODE_C5524B,code,"SetPauseTab calls this before changing pausetab; selects inactive source offsets and shares two-row copy",src/bankC5_5000.asm
+$C55256,SelectPauseTab,CODE_C55256,code,"DrawPauseTab calls this after setting pausetab; selects active source offsets and shares two-row copy",src/bankC5_5000.asm
+$C55278,CopyPauseTabTileRow,CODE_C55278,code,"Called twice by tab header copier with a row stride between calls; advances both pointers",src/bankC5_5000.asm
+$C55C12,RedrawScrollList,CODE_C55C12,code,"Bounds rows by list count and scroll window; maps each index into circular text rows and calls saved row callback",src/bankC5_5000.asm
+$C55C54,ScrollListDownLong,CODE_C55C54,code,"Only jsr ScrollListDown followed by rtl",src/bankC5_5000.asm
+$C55D8A,DrawTeamStatNumber,CODE_C55D8A,code,"Stat descriptor offset plus a2 selects the word; BCDTable and BCDText feed PrintBoldCentredStr",src/bankC5_5000.asm
+$C55DAC,DrawTeamStatPair,CODE_C55DAC,code,"Descriptor offsets at +3 and +5 select both words; BCDTextAt appends second after character 3E",src/bankC5_5000.asm
+$C55DEF,DrawTeamStatPercent,CODE_C55DEF,code,"Denominator zero gives zero; numerator at least denominator gives 100; otherwise multiplies by 100 and divides",src/bankC5_5000.asm
+$C55E3D,DrawTeamStatTime,CODE_C55E3D,code,"Descriptor offset plus a2 selects word for TimeTextMSS then PrintBoldCentredStr",src/bankC5_5000.asm
