@@ -232,15 +232,15 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	clc
 	adc.b $69
 	tax
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	bit.w #$0040
 	bne .8
 	bit.w #$0080
 	beq .8
 	jmp.w .loop
-.8:									; A xor $0040, $364E,x = A, if $0040 bits clear go to .11, ...
+.8:									; A xor $0040, ScratchBuf,x = A, if $0040 bits clear go to .11, ...
 	eor.w #$0040
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	bit.w #$0040
 	beq .11
 	and.w #$000F
@@ -402,9 +402,9 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	and.w #$FFFE
 	sta.b $22,x
 	bra .4
-.loop2:								; loop: X - 1, $364E,x = 0, if not zero go to .loop2, ...
+.loop2:								; loop: X - 1, ScratchBuf,x = 0, if not zero go to .loop2, ...
 	dex
-	stz.w $364E,x
+	stz.w ScratchBuf,x
 	bne .loop2
 	jsr.w MarkFreeAgentLimits
 	lda.w #DrawFreeAgentRow
@@ -420,7 +420,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 									; and rating
 	ldx.b a3
 	stx.b $65
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	bit.w #$0040
 	beq .1
 	ldy.w #$2400
@@ -602,10 +602,10 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	inx
 	cpx.w #$0008
 	bne .loop4
-.15:								; Y = $0000, X = a3, A = $364E,x, if the result is not 0 go to .16, ...
+.15:								; Y = $0000, X = a3, A = ScratchBuf,x, ...
 	ldy.w #$0000
 	ldx.b a3
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	and.w #$000F
 	bne .16
 	ldy.w #$0010
@@ -624,9 +624,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	lda.w #$2000
 	sta.b $D5
 	rts
-MarkFreeAgentLimits:				; sets bit $80 in the flags ($364E) of each free agent whose group is full
-									; (3 goalies, 15 defense or forwards, 25 players: d0, d1, $81) and clears
-									; it on the others
+MarkFreeAgentLimits:				; sets bit $80 in the flags (ScratchBuf) of each free agent whose group is
+									; full (3 goalies, 15 defense or forwards, 25 players: d0, d1, $81) and
+									; clears it on the others
 	ldx.w #$0000
 .1:									; a3 = X, $65 = X, call FindFreeAgent, if A >= $026A go to .4, ...
 	stx.b a3
@@ -677,11 +677,11 @@ MarkFreeAgentLimits:				; sets bit $80 in the flags ($364E) of each free agent w
 	lda.b $81
 	cmp.w #$000F
 	bcc .10
-.9:									; A = $0080, A or $364E,x, A or tmp0, $364E,x = A, ...
+.9:									; A = $0080, A or ScratchBuf,x, A or tmp0, ScratchBuf,x = A, ...
 	lda.w #$0080
-	ora.w $364E,x
+	ora.w ScratchBuf,x
 	ora.b tmp0
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	bra .11
 .10:								; A = d0, A + d1, A + $81, if A >= $0019 go to .9, ...
 	lda.b d0
@@ -690,10 +690,10 @@ MarkFreeAgentLimits:				; sets bit $80 in the flags ($364E) of each free agent w
 	adc.b $81
 	cmp.w #$0019
 	bcs .9
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	and.w #$FF7F
 	ora.b tmp0
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 .11:								; X + 1, if X = a1 go to .rts, go to .1
 	inx
 	cpx.b a1
@@ -701,9 +701,9 @@ MarkFreeAgentLimits:				; sets bit $80 in the flags ($364E) of each free agent w
 	jmp.w .1
 .rts:								; return
 	rts
-SignMarkedAgents:					; start on Hire Free Agents: each marked free agent ($364E bit $40) goes
-									; to VisTeam in SRPlayerTeams with the first number from its own up that
-									; VisTeam has free; then GameSetUp
+SignMarkedAgents:					; start on Hire Free Agents: each marked free agent (ScratchBuf bit $40)
+									; goes to VisTeam in SRPlayerTeams with the first number from its own up
+									; that VisTeam has free; then GameSetUp
 	lda.w VisTeam
 	asl a
 	asl a
@@ -715,10 +715,10 @@ SignMarkedAgents:					; start on Hire Free Agents: each marked free agent ($364E
 	dex
 	bpl .2
 	jmp.w GameSetUp
-.2:									; a1 = X, $65 = X, A = $364E,x, if $0040 bits clear go to .1, ...
+.2:									; a1 = X, $65 = X, A = ScratchBuf,x, if $0040 bits clear go to .1, ...
 	stx.b a1
 	stx.b $65
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	bit.w #$0040
 	beq .1
 	jsr.w FindFreeAgent
@@ -998,7 +998,7 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	clc
 	adc.b $85
 	tax
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	bit.w #$0001
 	beq .7
 	txa
@@ -1037,10 +1037,10 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 .12:								; tmp0 = $0083
 	lda.w #$0083
 	sta.b tmp0
-.13:								; A = $364E,x, A xor $0001, $364E,x = A, ...
-	lda.w $364E,x
+.13:								; A = ScratchBuf,x, A xor $0001, ScratchBuf,x = A, ...
+	lda.w ScratchBuf,x
 	eor.w #$0001
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	bit.w #$0001
 	beq .14
 	lda.b (tmp0)
@@ -1142,8 +1142,8 @@ DrawReleasePage:					; draws the Release Players page and starts its scrolling l
 	stz.b $69
 	stz.b $85
 	ldx.w #$0000
-.loop:								; loop: $364E,x = 0, X + 1, if X is not a1 go to .loop, ...
-	stz.w $364E,x
+.loop:								; loop: ScratchBuf,x = 0, X + 1, if X is not a1 go to .loop, ...
+	stz.w ScratchBuf,x
 	inx
 	cpx.b a1
 	bne .loop
@@ -1185,9 +1185,9 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	lda.b d1
 	cmp.w #$0007
 	bcc .2
-.4:									; Y = a3, A = $364E,y, if $0001 bits clear go to .5, $D5 = $2400
+.4:									; Y = a3, A = ScratchBuf,y, if $0001 bits clear go to .5, $D5 = $2400
 	ldy.b a3
-	lda.w $364E,y
+	lda.w ScratchBuf,y
 	bit.w #$0001
 	beq .5
 	lda.w #$2400
@@ -1275,16 +1275,16 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	lda.w #$2000
 	sta.b $D5
 	rts
-ReleaseMarkedPlayers:				; start on Release Players: each marked player ($364E bit 0) gets team $1A
-									; (free agent) in SRPlayerTeams; then GameSetUp
+ReleaseMarkedPlayers:				; start on Release Players: each marked player (ScratchBuf bit 0) gets
+									; team $1A (free agent) in SRPlayerTeams; then GameSetUp
 	ldy.w #$FFFF
 .1:									; Y + 1, if Y is not a1 go to .2, go to GameSetUp
 	iny
 	cpy.b a1
 	bne .2
 	jmp.w GameSetUp
-.2:									; A = $364E,y, if $0001 bits clear go to .1, A = Y, A * 2, ...
-	lda.w $364E,y
+.2:									; A = ScratchBuf,y, if $0001 bits clear go to .1, A = Y, A * 2, ...
+	lda.w ScratchBuf,y
 	bit.w #$0001
 	beq .1
 	tya
@@ -1400,9 +1400,9 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	adc.b $77,x
 	adc.b tmp0
 	tax
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	eor.w #$0001
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	jsr.w RedrawTradeLists
 	jsl.l SendTextMap
 .12:								; go to .1
@@ -1482,14 +1482,14 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	adc.w VisRoster+6
 	sta.b $7D
 	ldx.w #$0000
-.loop:								; loop: $364E,x = 0, X + 1, if X is not $7B go to .loop, X = $0000
-	stz.w $364E,x
+.loop:								; loop: ScratchBuf,x = 0, X + 1, if X is not $7B go to .loop, X = $0000
+	stz.w ScratchBuf,x
 	inx
 	cpx.b $7B
 	bne .loop
 	ldx.w #$0000
-.loop2:								; loop: $36B2,x = 0, X + 1, if X is not $7D go to .loop2, a1 = $0005, ...
-	stz.w $36B2,x
+.loop2:								; loop: ScratchBuf+$64,x = 0, X + 1, if X is not $7D go to .loop2, ...
+	stz.w ScratchBuf+$64,x
 	inx
 	cpx.b $7D
 	bne .loop2
@@ -1531,11 +1531,11 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	cpy.w #HomeRoster
 	beq .2
 	lda.w #$0064
-.2:									; A + $91, Y = A, A = $364E,y, if $0001 bits clear go to .3, ...
+.2:									; A + $91, Y = A, A = ScratchBuf,y, if $0001 bits clear go to .3, ...
 	clc
 	adc.b $91
 	tay
-	lda.w $364E,y
+	lda.w ScratchBuf,y
 	bit.w #$0001
 	beq .3
 	lda.w #$2400
@@ -1720,7 +1720,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	sta.b d2
 	ldy.w #$0008
 	ldx.b $7B
-	lda.w #$364E
+	lda.w #ScratchBuf
 	jsr.w PrintTradedPlayers
 	lda.w #$0090
 	sta.b $CF
@@ -1728,7 +1728,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	sta.b d2
 	ldy.w #$0008
 	ldx.b $7D
-	lda.w #$36B2
+	lda.w #ScratchBuf+$64
 	jsr.w PrintTradedPlayers
 	lda.w #$0010
 	sta.b $CF
@@ -1844,7 +1844,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	stz.b $77
 	lda.b $7B
 	sta.b tmp2
-	lda.w #$364E
+	lda.w #ScratchBuf
 	sta.b d2
 	lda.w #HomeRoster
 	sta.b a4
@@ -1860,7 +1860,7 @@ CheckTrade:							; checks the trade: carry clear when it can go; else carry set
 	stz.b $79
 	lda.b $7D
 	sta.b tmp2
-	lda.w #$36B2
+	lda.w #ScratchBuf+$64
 	sta.b d2
 	lda.w #VisRoster
 	sta.b a4

@@ -1045,10 +1045,10 @@ DATA8_C38D43:						; not traced: a table read by PushRef
 	db $3C,$06,$4A,$06,$58,$06,$66,$06,$74,$06
 ClearRefereeMessage:				; queue blank tiles over the referee message rows
 	lda.l TextMapFill
-	sta.w $364E
+	sta.w ScratchBuf
 	lda.w #$003D
-	ldx.w #$364E
-	ldy.w #$3650
+	ldx.w #ScratchBuf
+	ldy.w #ScratchBuf+$2
 	mvn $7E,$7E
 	dec.b QueueBusy
 	lda.b $00
@@ -1066,7 +1066,7 @@ ClearRefereeMessage:				; queue blank tiles over the referee message rows
 	pha
 	adc.w #$0020
 	pea.w $007E
-	pea.w $364E
+	pea.w ScratchBuf
 	dex
 	bpl .loop
 	lda.b $00

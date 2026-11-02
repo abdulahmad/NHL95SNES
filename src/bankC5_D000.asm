@@ -76,13 +76,13 @@ ExecuteTrade:						; does the trade: each chosen player's team in the player tea
 	lda.b $7B
 	sta.b tmp0
 	ldx.w #HomeRoster
-	ldy.w #$364E
+	ldy.w #ScratchBuf
 	lda.w VisTeam
 	jsr.w SetMarkedPlayersTeam
 	lda.b $7D
 	sta.b tmp0
 	ldx.w #VisRoster
-	ldy.w #$36B2
+	ldy.w #ScratchBuf+$64
 	lda.w HomeTeam
 SetMarkedPlayersTeam:				; each player marked in the list at Y (bit 0; roster X) gets team A in his
 									; SRPlayerTeams entry

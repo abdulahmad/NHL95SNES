@@ -1209,9 +1209,9 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b $75
-	stz.w $364E
-	ldx.w #$364E
-	ldy.w #$3650
+	stz.w ScratchBuf
+	ldx.w #ScratchBuf
+	ldy.w #ScratchBuf+$2
 	lda.w #$047D
 	mvn $7E,$7E
 	dec.b QueueBusy
@@ -1222,7 +1222,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	pea.w $0480
 	pea.w $0760
 	pea.w $007E
-	pea.w $364E
+	pea.w ScratchBuf
 	lda.b $00
 	tsx
 	tcs
@@ -1264,9 +1264,9 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	tax
 	ldy.w #$0012
 	jsl.l PrintThinCentred
-	stz.w $364E
-	ldx.w #$364E
-	ldy.w #$3650
+	stz.w ScratchBuf
+	ldx.w #ScratchBuf
+	ldy.w #ScratchBuf+$2
 	lda.w #$047D
 	mvn $7E,$7E
 	dec.b QueueBusy
@@ -1277,7 +1277,7 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	pea.w $0480
 	pea.w $0760
 	pea.w $007E
-	pea.w $364E
+	pea.w ScratchBuf
 	lda.b $00
 	tsx
 	tcs
@@ -1461,16 +1461,16 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	stz.b a2
 	stz.b $32
 	ldx.w #$002E
-.loop:								; loop: $364E,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
-	stz.w $364E,x
+.loop:								; loop: ScratchBuf,x = 0, X - 1, X - 1, ...
+	stz.w ScratchBuf,x
 	dex
 	dex
 	bpl .loop
 	lda.w #$0000
-.1:									; $6D = A, call BuildTeamSeasonRecordLong, X = $364E
+.1:									; $6D = A, call BuildTeamSeasonRecordLong, X = ScratchBuf
 	sta.b $6D
 	jsl.l BuildTeamSeasonRecordLong
-	ldx.w #$364E
+	ldx.w #ScratchBuf
 .loop2:								; loop: if $000A,y >= $0000,x go to .2, A = X, A + $0006, X = A, ...
 	lda.w $000A,y
 	cmp.w $0000,x
@@ -1507,9 +1507,9 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	cmp.w #$001A
 	bne .1
 	ldx.w #$0000
-.5:									; $6D = X, HomeTeam = $3652,x, call LoadSeasonHomeRoster, tmp2 = 0, ...
+.5:									; $6D = X, HomeTeam = ScratchBuf+$4,x, call LoadSeasonHomeRoster, ...
 	stx.b $6D
-	lda.w $3652,x
+	lda.w ScratchBuf+$4,x
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
 	stz.b tmp2
@@ -1535,12 +1535,12 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	clc
 	adc.b tmp1
 	ldx.b tmp2
-	sta.w $3680,x
+	sta.w ScratchBuf+$32,x
 	clc
 	adc.b r1
 	sta.b r1
 	lda.b a3
-	sta.w $367E,x
+	sta.w ScratchBuf+$30,x
 	inx
 	inx
 	inx
@@ -1557,7 +1557,7 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	stx.b tmp2
 	stz.b r2
 	stz.b $36
-	lda.w $3680,x
+	lda.w ScratchBuf+$32,x
 	asl a
 	sta.b $35
 	pei ($30)
@@ -1572,7 +1572,7 @@ ScanHart:							; Hart Trophy: of the 8 teams with the highest standings word $0
 	cmp.b a2
 	bcc .loop4
 	sta.b a2
-	lda.w $367E,x
+	lda.w ScratchBuf+$30,x
 	sta.b $71
 	bra .loop4
 .6:									; A = $6D, A + $0006, X = A, if A >= $0030 go to .7, ...

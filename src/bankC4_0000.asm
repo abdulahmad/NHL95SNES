@@ -918,17 +918,17 @@ UpdateBracketWindows:				; updates the two moving bracket window shapes in alter
 	lda.w #$A000
 	bcc .1
 	lda.w #$C000
-.1:									; DMAEnShadow = A, $364E = $00FF, $39CE = A, X = $364E, ...
+.1:									; DMAEnShadow = A, ScratchBuf = $00FF, ScratchBuf+$380 = A, ...
 	sta.w DMAEnShadow
 	lda.w #$00FF
-	sta.w $364E
-	sta.w $39CE
-	ldx.w #$364E
-	ldy.w #$3650
+	sta.w ScratchBuf
+	sta.w ScratchBuf+$380
+	ldx.w #ScratchBuf
+	ldy.w #ScratchBuf+$2
 	lda.w #$037D
 	bcs .2
-	ldx.w #$39CE
-	ldy.w #$39D0
+	ldx.w #ScratchBuf+$380
+	ldy.w #ScratchBuf+$382
 .2:									; X = $3D54, X + 1, X + 1, if $3D54 < $009E go to .3, ...
 	mvn $7E,$7E
 	ldx.w $3D54
@@ -1079,7 +1079,7 @@ WriteBracketWindowShape:			; writes clipped window edges for the bracket shape i
 	tay
 	ldx.w #$0054
 .2:									; if zero go to .6, A = DATA8_C40F94,x, A and $00FF, A + tmp0, ...
-	lda.w $364E,y
+	lda.w ScratchBuf,y
 	cmp.w #$00FF
 	clc
 	beq .6
@@ -1088,26 +1088,26 @@ WriteBracketWindowShape:			; writes clipped window edges for the bracket shape i
 	adc.b tmp0
 	bpl .3
 	lda.w #$0000
-.3:									; if A >= $0100 go to .10, A 8-bit, $3650,y = A, A = DATA8_C40F95,x, ...
+.3:									; if A >= $0100 go to .10, A 8-bit, ScratchBuf+$2,y = A, ...
 	cmp.w #$0100
 	bcs .10
 	sep #$20
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	rep #$21
 	lda.l DATA8_C40F95,x
 	and.w #$00FF
 	adc.b tmp0
 	bpl .4
 	lda.w #$00FF
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	bra .10
 .4:									; if A < $0100 go to .5, A = $00FF
 	cmp.w #$0100
 	bcc .5
 	lda.w #$00FF
-.5:									; A 8-bit, $3651,y = A, A 16-bit, go to .10
+.5:									; A 8-bit, ScratchBuf+$3,y = A, A 16-bit, go to .10
 	sep #$20
-	sta.w $3651,y
+	sta.w ScratchBuf+$3,y
 	rep #$20
 	bra .10
 .6:									; A = DATA8_C40F94,x, A and $00FF, A + tmp0, ...
@@ -1116,26 +1116,26 @@ WriteBracketWindowShape:			; writes clipped window edges for the bracket shape i
 	adc.b tmp0
 	bpl .7
 	lda.w #$0000
-.7:									; if A >= $0100 go to .10, A 8-bit, $364E,y = A, A = DATA8_C40F95,x, ...
+.7:									; if A >= $0100 go to .10, A 8-bit, ScratchBuf,y = A, ...
 	cmp.w #$0100
 	bcs .10
 	sep #$20
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	rep #$21
 	lda.l DATA8_C40F95,x
 	and.w #$00FF
 	adc.b tmp0
 	bpl .8
 	lda.w #$00FF
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	bra .10
 .8:									; if A < $0100 go to .9, A = $00FF
 	cmp.w #$0100
 	bcc .9
 	lda.w #$00FF
-.9:									; A 8-bit, $364F,y = A, A 16-bit
+.9:									; A 8-bit, ScratchBuf+$1,y = A, A 16-bit
 	sep #$20
-	sta.w $364F,y
+	sta.w ScratchBuf+$1,y
 	rep #$20
 .10:								; A = Y, A + $0004, Y = A, X - 1, ...
 	clc
@@ -1232,7 +1232,7 @@ PopulateBracketTeams:				; places playoff teams and their name bars through the 
 	rts
 RebuildBracketTeams:				; clears bracket work tables and repopulates the playoff teams
 	jsl.l WaitTransfers
-	lda.w #$364E
+	lda.w #ScratchBuf
 	ldy.w #$1000
 	jsl.l ClearRAM7E
 	dec.w $3D5E
@@ -1769,8 +1769,8 @@ SetupPlayoffs:						; starts the playoffs once the schedule has no more games: t
 StorePlayoffSeeds:					; writes the eight ranked team numbers to the playoff seed list
 	sep #$20
 	ldy.w #$000E
-.loop:								; loop: X = $364E,y, [r0] = $000C,x, X = r0, X + 1, ...
-	ldx.w $364E,y
+.loop:								; loop: X = ScratchBuf,y, [r0] = $000C,x, X = r0, X + 1, ...
+	ldx.w ScratchBuf,y
 	lda.w $000C,x
 	sta.b [r0]
 	ldx.b r0
@@ -1783,8 +1783,8 @@ StorePlayoffSeeds:					; writes the eight ranked team numbers to the playoff see
 	rts
 FindPlayoffDivisionSeed:			; finds the highest remaining seed matching the division mask
 	ldy.w #$000C
-.loop:								; loop: X = $364E,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
-	ldx.w $364E,y
+.loop:								; loop: X = ScratchBuf,y, A = $000C,x, X = A, A = DATA8_C40EDA,x, ...
+	ldx.w ScratchBuf,y
 	lda.w $000C,x
 	tax
 	lda.l DATA8_C40EDA,x
@@ -1798,13 +1798,13 @@ FindPlayoffDivisionSeed:			; finds the highest remaining seed matching the divis
 .rts:								; return
 	rts
 SwapPlayoffSecondSeed:				; swaps the selected ranked entry with the second playoff seed
-	lda.w $365A
-	ldx.w $364E,y
-	sta.w $364E,y
-	stx.w $365A
+	lda.w ScratchBuf+$C
+	ldx.w ScratchBuf,y
+	sta.w ScratchBuf,y
+	stx.w ScratchBuf+$C
 	rts
 GetTopPlayoffSeedMask:				; returns the conference and division mask of the top ranked team
-	ldy.w $365C
+	ldy.w ScratchBuf+$E
 	ldx.w $000C,y
 	lda.l DATA8_C40EDA,x
 	rts
@@ -1825,24 +1825,24 @@ RankPlayoffConference:				; builds the ranked playoff seed list for teams matchi
 	rts
 InsertPlayoffSeed:					; inserts a team record into the ranked playoff seed pointers
 	ldx.w #$000E
-.1:									; if $364E,x = 0 go to .2, tmp1 = X, X = A, call ComparePlayoffSeeds, ...
-	lda.w $364E,x
+.1:									; if ScratchBuf,x = 0 go to .2, tmp1 = X, X = A, ...
+	lda.w ScratchBuf,x
 	beq .2
 	stx.b tmp1
 	tax
 	jsr.w ComparePlayoffSeeds
 	bcs .3
 	sty.b tmp2
-	ldy.w #$364E
-	ldx.w #$3650
+	ldy.w #ScratchBuf
+	ldx.w #ScratchBuf+$2
 	lda.b tmp1
 	inc a
 	mvn $7E,$7E
 	ldy.b tmp2
 	ldx.b tmp1
-.2:									; A = Y, $364E,x = A, return
+.2:									; A = Y, ScratchBuf,x = A, return
 	tya
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	rts
 .3:									; X = tmp1, X - 1, X - 1, if the result >= 0 go to .1, ...
 	ldx.b tmp1
@@ -1885,9 +1885,9 @@ ComparePlayoffSeeds:				; compares two team records using the playoff seeding ti
 	cmp.w $001C,y
 	rts
 ClearPlayoffSeedList:				; clears the ranked playoff seed pointer list
-	stz.w $364E
-	ldx.w #$364E
-	ldy.w #$3650
+	stz.w ScratchBuf
+	ldx.w #ScratchBuf
+	ldy.w #ScratchBuf+$2
 	lda.w #$000D
 	mvn $7E,$7E
 	rts

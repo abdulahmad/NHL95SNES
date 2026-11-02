@@ -436,6 +436,7 @@ ScoutTextCol		=	$2DC5		; scouting report: the commentary text column (characters
 ScoutTextRow		=	$2DC7		; scouting report: the commentary text row ($11-$1A, then it scrolls)
 HomeRoster			=	$2DC9		; the home team's roster table (LoadTeamRoster): counts, players, lines
 VisRoster			=	$3207		; the visiting team's roster table (as HomeRoster)
+ScratchBuf			=	$364E		; 2 KB scratch: DecompressLZSS's window, the screens' lists and text
 RandomState			=	$466E		; RandomBelowA's 32 bit generator (SeedRandom seeds it)
 SpritePalUse		=	$46B8		; per palette: minus if not loaded, else CGRAM slot (high) and uses (low)
 

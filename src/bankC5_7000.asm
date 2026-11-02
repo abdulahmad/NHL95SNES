@@ -1628,19 +1628,19 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	stz.b $7D
 	lda.w #$0000
 	tax
-.1:									; a4 = X, push A, $364E,x = A, call GetUserName, ...
+.1:									; a4 = X, push A, ScratchBuf,x = A, call GetUserName, ...
 	stx.b a4
 	pha
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	jsr.w GetUserName
 	cpx.w #$0000
 	beq .2
 	ldy.w #$0000
 	ldx.b a4
-.loop:								; loop: A = mesarea,y, A and $00FF, $3660,x = A, X + 1, ...
+.loop:								; loop: A = mesarea,y, A and $00FF, ScratchBuf+$12,x = A, X + 1, ...
 	lda.w mesarea,y
 	and.w #$00FF
-	sta.w $3660,x
+	sta.w ScratchBuf+$12,x
 	inx
 	iny
 	cpy.w #$000C
@@ -1651,29 +1651,29 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	clc
 	adc.b $8D
 	adc.b d3
-.2:									; if zero go to .5, X = a4, $3650,x = d0, $3654,x = $85, ...
+.2:									; if zero go to .5, X = a4, ScratchBuf+$2,x = d0, ...
 	beq .5
 	ldx.b a4
 	lda.b d0
-	sta.w $3650,x
+	sta.w ScratchBuf+$2,x
 	lda.b $85
-	sta.w $3654,x
+	sta.w ScratchBuf+$6,x
 	sep #$20
 	lda.b $81
-	sta.w $3652,x
+	sta.w ScratchBuf+$4,x
 	lda.b d1
-	sta.w $3653,x
+	sta.w ScratchBuf+$5,x
 	lda.b d2
-	sta.w $3656,x
+	sta.w ScratchBuf+$8,x
 	lda.b $89
-	sta.w $3657,x
+	sta.w ScratchBuf+$9,x
 	rep #$20
 	lda.b d4
-	sta.w $365C,x
+	sta.w ScratchBuf+$E,x
 	lda.b $8D
-	sta.w $365A,x
+	sta.w ScratchBuf+$C,x
 	lda.b d3
-	sta.w $3658,x
+	sta.w ScratchBuf+$A,x
 	ldx.w #$0064
 	jsl.l Mul16x8U
 	lda.b d4
@@ -1687,9 +1687,9 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	sta.b r1
 	jsl.l Div32U_hi0entry
 	lda.b r0
-.4:									; X = a4, $365E,x = A, A = X, A + $0020, ...
+.4:									; X = a4, ScratchBuf+$10,x = A, A = X, A + $0020, ...
 	ldx.b a4
-	sta.w $365E,x
+	sta.w ScratchBuf+$10,x
 	txa
 	clc
 	adc.w #$0020
@@ -1721,13 +1721,13 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	ldy.w #$3E50
 	mvn $7E,$7E
 	ldx.w #$0000
-.loop2:								; loop: tmp1 = X, A = $365E,x, call InsertWinRecord, A = $3650,x, ...
+.loop2:								; loop: tmp1 = X, A = ScratchBuf+$10,x, call InsertWinRecord, ...
 	stx.b tmp1
-	lda.w $365E,x
+	lda.w ScratchBuf+$10,x
 	jsr.w InsertWinRecord
-	lda.w $3650,x
+	lda.w ScratchBuf+$2,x
 	jsr.w InsertGoalRecord
-	lda.w $3654,x
+	lda.w ScratchBuf+$6,x
 	jsr.w InsertSaveRecord
 	txa
 	clc
@@ -1814,10 +1814,10 @@ DATA8_C57DCD:						; jump table: the routine for each index
 InsertWinRecord:					; puts user record tmp1 in the win page's order list before the first one
 									; whose win % is not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
-.loop:								; loop: if $3E4E,y < 0 go to .2, if A >= $365E,x go to .1, Y + 1, ...
+.loop:								; loop: if $3E4E,y < 0 go to .2, if A >= ScratchBuf+$10,x go to .1, ...
 	ldx.w $3E4E,y
 	bmi .2
-	cmp.w $365E,x
+	cmp.w ScratchBuf+$10,x
 	bcs .1
 	iny
 	iny
@@ -1840,10 +1840,10 @@ InsertWinRecord:					; puts user record tmp1 in the win page's order list before
 InsertGoalRecord:					; puts user record tmp1 in the goal page's order list before the first one
 									; whose goals are not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
-.loop:								; loop: if $3E5E,y < 0 go to .2, if A >= $3650,x go to .1, Y + 1, ...
+.loop:								; loop: if $3E5E,y < 0 go to .2, if A >= ScratchBuf+$2,x go to .1, ...
 	ldx.w $3E5E,y
 	bmi .2
-	cmp.w $3650,x
+	cmp.w ScratchBuf+$2,x
 	bcs .1
 	iny
 	iny
@@ -1866,10 +1866,10 @@ InsertGoalRecord:					; puts user record tmp1 in the goal page's order list befo
 InsertSaveRecord:					; puts user record tmp1 in the save page's order list before the first one
 									; whose saves are not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
-.loop:								; loop: if $3E6E,y < 0 go to .2, if A >= $3654,x go to .1, Y + 1, ...
+.loop:								; loop: if $3E6E,y < 0 go to .2, if A >= ScratchBuf+$6,x go to .1, ...
 	ldx.w $3E6E,y
 	bmi .2
-	cmp.w $3654,x
+	cmp.w ScratchBuf+$6,x
 	bcs .1
 	iny
 	iny
@@ -1934,26 +1934,26 @@ PrintWinRecordRow:					; win page row A on text row $6D: the user's name, win %,
 	tax
 	lda.w $3E4E,x
 	sta.b a3
-	adc.w #$3660
+	adc.w #ScratchBuf+$12
 	tax
 	ldy.b $6D
 	jsr.w PrintWinRecordCell
 	ldx.b a3
 	lda.w #$0088
 	sta.b $D1
-	lda.w $365E,x
+	lda.w ScratchBuf+$10,x
 	jsr.w PrintWinRecordNumber
 	lda.w #$00A8
 	sta.b $D1
-	lda.w $3658,x
+	lda.w ScratchBuf+$A,x
 	jsr.w PrintWinRecordNumber
 	lda.w #$00C8
 	sta.b $D1
-	lda.w $365C,x
+	lda.w ScratchBuf+$E,x
 	jsr.w PrintWinRecordNumber
 	lda.w #$00E8
 	sta.b $D1
-	lda.w $365A,x
+	lda.w ScratchBuf+$C,x
 PrintWinRecordNumber:				; A as a number (BinToBCD, BCDText) centred in the cell $CF-$D1 on row
 									; $6D, then $CF = $D1 and X = a3
 	jsr.w BinToBCD
@@ -2000,20 +2000,20 @@ PrintGoalRecordRow:					; goal record A on row $6D: the holder's name, then the 
 	lda.w $3E5E,x
 	sta.b a3
 	tax
-	ldy.w $3658,x
+	ldy.w ScratchBuf+$A,x
 	beq CODE_C57F36
 	ldx.w #$0010
 	stx.b $CF
 	ldx.w #$0060
 	stx.b $D1
-	adc.w #$3660
+	adc.w #ScratchBuf+$12
 	tax
 	ldy.b $6D
 	jsr.w PrintGoalRecordCell
 	lda.w #$00F0
 	sta.b $D1
 	ldx.b a3
-	lda.w $3650,x
+	lda.w ScratchBuf+$2,x
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$6220
@@ -2026,7 +2026,7 @@ PrintGoalRecordRow:					; goal record A on row $6D: the holder's name, then the 
 	inx
 	phx
 	ldy.b a3
-	lda.w $3652,y
+	lda.w ScratchBuf+$4,y
 	and.w #$00FF
 	tax
 	jsr.w TeamNumSecondText
@@ -2043,7 +2043,7 @@ PrintGoalRecordRow:					; goal record A on row $6D: the holder's name, then the 
 	iny
 	phy
 	ldy.b a3
-	lda.w $3653,y
+	lda.w ScratchBuf+$5,y
 	and.w #$00FF
 	tax
 	jsr.w TeamNumSecondText

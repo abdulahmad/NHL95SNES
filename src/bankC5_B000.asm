@@ -274,7 +274,7 @@ DrawDayGames:						; draws day d0's games on Games Today: d1 its schedule entry,
 	jsl.l QueueClearVRAM
 	jsl.l WaitTransfers
 	lda.w #$0011
-	sta.w $3652
+	sta.w ScratchBuf+$4
 	ldx.b a0
 	lda.w #$0060
 	sta.b $08,x
@@ -360,10 +360,10 @@ DrawDayGames:						; draws day d0's games on Games Today: d1 its schedule entry,
 	adc.w #$0003
 	tay
 	jsl.l PrintThinCentred
-.1:									; call WaitTransfers, $3652 = $0017, X = a4, A = $22,x, ...
+.1:									; call WaitTransfers, ScratchBuf+$4 = $0017, X = a4, A = $22,x, ...
 	jsl.l WaitTransfers
 	lda.w #$0017
-	sta.w $3652
+	sta.w ScratchBuf+$4
 	ldx.b a4
 	lda.b $22,x
 	and.w #$FFFE

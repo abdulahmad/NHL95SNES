@@ -834,11 +834,11 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	rts
-.12:								; mesarea = 0, $364E = 0, X = $364E, Y = $3650, ...
+.12:								; mesarea = 0, ScratchBuf = 0, X = ScratchBuf, Y = ScratchBuf+$2, ...
 	stz.w mesarea
-	stz.w $364E
-	ldx.w #$364E
-	ldy.w #$3650
+	stz.w ScratchBuf
+	ldx.w #ScratchBuf
+	ldy.w #ScratchBuf+$2
 	lda.w #$047D
 	mvn $7E,$7E
 	dec.b QueueBusy
@@ -849,11 +849,11 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	pea.w $0480
 	pea.w $0130
 	pea.w $007E
-	pea.w $364E
+	pea.w ScratchBuf
 	pea.w $0480
 	pea.w $0370
 	pea.w $007E
-	pea.w $364E
+	pea.w ScratchBuf
 	lda.b $00
 	tsx
 	tcs
@@ -1112,19 +1112,19 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	lda.w HomeTeam
 	beq .1
 	jsr.w AppendScoutText
-.1:									; $364E,y = $0020, Y + 1, $81 = Y, X = d0, ...
+.1:									; ScratchBuf,y = $0020, Y + 1, $81 = Y, X = d0, ...
 	lda.w #$0020
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	iny
 	sty.b $81
 	ldx.b d0
 	jsr.w AppendScoutText
 	lda.w #$6120
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	lda.w #$646E
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	lda.w #$2064
-	sta.w $3651,y
+	sta.w ScratchBuf+$3,y
 	iny
 	iny
 	iny
@@ -1146,18 +1146,18 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	lda.w VisTeam
 	bne .2
 	ldx.w #$4720
-.2:									; call AppendScoutText, $364E,y = $0020, Y + 1, $81 = Y, ...
+.2:									; call AppendScoutText, ScratchBuf,y = $0020, Y + 1, $81 = Y, ...
 	jsr.w AppendScoutText
 	lda.w #$0020
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	iny
 	sty.b $81
 	ldx.b d0
 	jsr.w AppendScoutText
 	lda.w #$203D
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	lda.w #$0039
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	iny
 	iny
 	iny
@@ -1177,15 +1177,15 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	lda.w hotterteam
 	bpl .3
 	lda.w #$7865
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	lda.w #$7274
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	lda.w #$6D65
-	sta.w $3652,y
+	sta.w ScratchBuf+$4,y
 	lda.w #$6C65
-	sta.w $3654,y
+	sta.w ScratchBuf+$6,y
 	lda.w #$2079
-	sta.w $3656,y
+	sta.w ScratchBuf+$8,y
 	tya
 	clc
 	adc.w #$000A
@@ -1207,11 +1207,11 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	beq .5
 	ldx.w #VisHotCold
 	jsr.w AppendScoutHotColdParagraph
-.5:									; X = $4E27, call AppendScoutText, $364E,y = $0000, Y + 1, ...
+.5:									; X = $4E27, call AppendScoutText, ScratchBuf,y = $0000, Y + 1, ...
 	ldx.w #$4E27
 	jsr.w AppendScoutText
 	lda.w #$0000
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	iny
 	iny
 	sty.b $81
@@ -1223,8 +1223,8 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	jsl.l MarkWorkBuf
 	ldy.w #$0000
 	sep #$20
-.loop:								; loop: $0000,x = $364E,y, X + 1, Y + 1, if Y is not $81 go to .loop, ...
-	lda.w $364E,y
+.loop:								; loop: $0000,x = ScratchBuf,y, X + 1, Y + 1, ...
+	lda.w ScratchBuf,y
 	sta.w $0000,x
 	inx
 	iny
@@ -1238,7 +1238,7 @@ AppendScoutPlayerTrio:				; appends three player names with separators to the sc
 	lda.w $0000,x
 	jsr.w AppendScoutPlayerName
 	lda.w #$2040
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	iny
 	iny
 	sty.b $81
@@ -1247,11 +1247,11 @@ AppendScoutPlayerTrio:				; appends three player names with separators to the sc
 	lda.w $0002,x
 	jsr.w AppendScoutPlayerName
 	lda.w #$2040
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	lda.w #$6E61
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	lda.w #$2064
-	sta.w $3652,y
+	sta.w ScratchBuf+$4,y
 	tya
 	clc
 	adc.w #$0006
@@ -1274,10 +1274,10 @@ AppendScoutText:					; unpacks text X (UnpackText) and appends it to the scoutin
 AppendScoutString:					; appends the zero-terminated string at X to the scouting text buffer
 	ldy.b $81
 	sep #$20
-.loop:								; loop: if $0000,x = 0 go to .1, $364E,y = A, X + 1, Y + 1, ...
+.loop:								; loop: if $0000,x = 0 go to .1, ScratchBuf,y = A, X + 1, Y + 1, ...
 	lda.w $0000,x
 	beq .1
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	inx
 	iny
 	bra .loop
@@ -1290,9 +1290,9 @@ AppendScoutHotColdParagraph:		; appends a team's name and its hot and cold playe
 	phx
 	pha
 	lda.w #$6F46
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	lda.w #$2072
-	sta.w $3650,y
+	sta.w ScratchBuf+$2,y
 	iny
 	iny
 	iny
@@ -1307,7 +1307,7 @@ AppendScoutHotColdParagraph:		; appends a team's name and its hot and cold playe
 	tax
 	jsr.w AppendScoutText
 	lda.w #$2040
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	iny
 	iny
 	sty.b $81
@@ -1449,9 +1449,9 @@ UnpackPlayerPhoto:					; decompresses a player photo and converts its packed pix
 	sta.b $01,s
 	lda.w #$0480
 	sta.b d0
-.1:									; Y = $0000, X = $364E
+.1:									; Y = $0000, X = ScratchBuf
 	ldy.w #$0000
-	ldx.w #$364E
+	ldx.w #ScratchBuf
 .2:									; $85 = $0006
 	lda.w #$0006
 	sta.b $85
@@ -1679,8 +1679,8 @@ UnpackPlayerPhoto:					; decompresses a player photo and converts its packed pix
 	cpx.w #$365E
 	beq .4
 	jmp.w .2
-.4:									; X = $364E, Y = r0, A = $00BF, r0 = Y, ...
-	ldx.w #$364E
+.4:									; X = ScratchBuf, Y = r0, A = $00BF, r0 = Y, ...
+	ldx.w #ScratchBuf
 	ldy.b r0
 	lda.w #$00BF
 	mvn $7E,$7E
@@ -1722,7 +1722,7 @@ MapPhotoTileRow:					; writes six consecutive tile words to the current VRAM add
 	rts
 ScoutUseVisTeamLogo:				; clears the left photo tiles and shows the visiting team logo
 	stz.w mesarea
-	stz.w $364E
+	stz.w ScratchBuf
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1750,7 +1750,7 @@ ScoutUseVisTeamLogo:				; clears the left photo tiles and shows the visiting tea
 	rts
 ScoutUseHomeTeamLogo:				; clears the right photo tiles and shows the home team logo
 	stz.w mesarea
-	stz.w $364E
+	stz.w ScratchBuf
 	dec.b QueueBusy
 	lda.b $00
 	tsx

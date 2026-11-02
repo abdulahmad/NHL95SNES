@@ -1609,10 +1609,10 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	jsl.l SetupHDMA
 	db $42,$10,$14,$49,$C0,$00		; inline parameters
 	lda.w #$0015
-	sta.w $364E
+	sta.w ScratchBuf
 	lda.w #$0011
-	sta.w $3650
-	sta.w $3652
+	sta.w ScratchBuf+$2
+	sta.w ScratchBuf+$4
 	lda.w #$001B
 	ldx.w #$48FE
 	ldy.w #$468C

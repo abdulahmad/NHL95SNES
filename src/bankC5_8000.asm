@@ -9,20 +9,20 @@ PrintSaveRecordRow:					; save record A on row $6D: the holder's name, then the 
 	lda.w $3E6E,x
 	sta.b a3
 	tax
-	ldy.w $3654,x
+	ldy.w ScratchBuf+$6,x
 	beq PrintSaveRecordRow-3
 	ldx.w #$0010
 	stx.b $CF
 	ldx.w #$0060
 	stx.b $D1
-	adc.w #$3660
+	adc.w #ScratchBuf+$12
 	tax
 	ldy.b $6D
 	jsr.w PrintRecordCell
 	lda.w #$00F0
 	sta.b $D1
 	ldx.b a3
-	lda.w $3654,x
+	lda.w ScratchBuf+$6,x
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$6220
@@ -35,7 +35,7 @@ PrintSaveRecordRow:					; save record A on row $6D: the holder's name, then the 
 	inx
 	phx
 	ldy.b a3
-	lda.w $3656,y
+	lda.w ScratchBuf+$8,y
 	and.w #$00FF
 	tax
 	jsr.w TeamNumSecondText
@@ -52,7 +52,7 @@ PrintSaveRecordRow:					; save record A on row $6D: the holder's name, then the 
 	iny
 	phy
 	ldy.b a3
-	lda.w $3657,y
+	lda.w ScratchBuf+$9,y
 	and.w #$00FF
 	tax
 	jsr.w TeamNumSecondText
@@ -566,11 +566,11 @@ DecompressLZSS:						; LZSS (4 KB ring) from [$2C] to the WRAM port at X:A; a co
 DecompressLZSSHere:					; DecompressLZSS's decoder without setting the WRAM address: the stream at
 									; [$2C] continues at the current WMADD
 	ldx.w #$01FE
-.loop:								; loop: $364E,x = 0, $384E,x = 0, $3A4E,x = 0, $3C4E,x = 0, ...
-	stz.w $364E,x
-	stz.w $384E,x
-	stz.w $3A4E,x
-	stz.w $3C4E,x
+.loop:								; loop: ScratchBuf,x = 0, ScratchBuf+$200,x = 0, ...
+	stz.w ScratchBuf,x
+	stz.w ScratchBuf+$200,x
+	stz.w ScratchBuf+$400,x
+	stz.w ScratchBuf+$600,x
 	stz.w $3E4E,x
 	stz.w $404E,x
 	stz.w $4266,x
@@ -609,10 +609,10 @@ DecompressLZSSHere:					; DecompressLZSS's decoder without setting the WRAM addr
 	inc.b r0
 	bne .4
 	inc.b $2E
-.4:									; A 8-bit, WMDATA = A, $364E,y = A, A 16-bit, ...
+.4:									; A 8-bit, WMDATA = A, ScratchBuf,y = A, A 16-bit, ...
 	sep #$20
 	sta.l WMDATA
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	rep #$20
 	iny
 	tya
@@ -650,9 +650,9 @@ DecompressLZSSHere:					; DecompressLZSS's decoder without setting the WRAM addr
 	and.w #$0FFF
 	tax
 	sep #$20
-	lda.w $364E,x
+	lda.w ScratchBuf,x
 	sta.l WMDATA
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	rep #$20
 	iny
 	tya
@@ -1573,44 +1573,44 @@ Framer:								; draws a frame X tiles wide and Y high (its corners, edges and i
 	asl a
 	tax
 	lda.w #$22FC
-	sta.w $3650,x
+	sta.w ScratchBuf+$2,x
 	lda.w #$22DE
-.loop:								; loop: $364E,x = A, X - 1, X - 1, if the result is not 0 go to .loop, ...
-	sta.w $364E,x
+.loop:								; loop: ScratchBuf,x = A, X - 1, X - 1, ...
+	sta.w ScratchBuf,x
 	dex
 	dex
 	bne .loop
 	lda.w #$22FB
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	lda.b tmp1
 	asl a
 	tax
 	lda.w #$22FD
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	lda.w #$22A0
 	ldy.b tmp1
 	dey
-.loop2:								; loop: $3650,x = A, X + 1, X + 1, Y - 1, ...
-	sta.w $3650,x
+.loop2:								; loop: ScratchBuf+$2,x = A, X + 1, X + 1, Y - 1, ...
+	sta.w ScratchBuf+$2,x
 	inx
 	inx
 	dey
 	bne .loop2
 	lda.w #$22FE
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	lda.w #$22FF
-	sta.w $3650,x
+	sta.w ScratchBuf+$2,x
 	lda.w #$22E0
 	ldy.b tmp1
 	dey
-.loop3:								; loop: $3652,x = A, X + 1, X + 1, Y - 1, ...
-	sta.w $3652,x
+.loop3:								; loop: ScratchBuf+$4,x = A, X + 1, X + 1, Y - 1, ...
+	sta.w ScratchBuf+$4,x
 	inx
 	inx
 	dey
 	bne .loop3
 	lda.w #$229F
-	sta.w $3650,x
+	sta.w ScratchBuf+$2,x
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1625,7 +1625,7 @@ Framer:								; draws a frame X tiles wide and Y high (its corners, edges and i
 	adc.w #$0020
 	tay
 	pea.w $007E
-	lda.w #$364E
+	lda.w #ScratchBuf
 	pha
 	adc.b tmp1
 	tax

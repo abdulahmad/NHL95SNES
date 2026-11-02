@@ -758,17 +758,17 @@ ClearPlayerStatsList:				; clears ShowPlayerStats' list area of the text map ($3
 	jsl.l WaitTransfers
 	rts
 SortPlayerStats:					; sorts team a2's skaters by stat column $7D (PlayerStatColumn), best
-									; first, into the order list at $364E after the goalies
+									; first, into the order list at ScratchBuf after the goalies
 	ldx.w #HomeRoster
 	ldy.w #$0000
 	lda.b a2
 	beq .1
 	ldx.w #VisRoster
 	ldy.w #$001A
-.1:									; $A5 = Y, $364E = $0002,x, $0C = A, tmp1 = A, ...
+.1:									; $A5 = Y, ScratchBuf = $0002,x, $0C = A, tmp1 = A, ...
 	sty.b $A5
 	lda.w $0002,x
-	sta.w $364E
+	sta.w ScratchBuf
 	sta.b $0C
 	sta.b tmp1
 	lda.b a1
@@ -782,9 +782,9 @@ SortPlayerStats:					; sorts team a2's skaters by stat column $7D (PlayerStatCol
 	jsr.w PlayerStatColumn
 	sta.b $0A
 	stz.b $0E
-.loop2:								; loop: Y = $0E, A = $364E,y, Y = A, call PlayerStatColumn, ...
+.loop2:								; loop: Y = $0E, A = ScratchBuf,y, Y = A, call PlayerStatColumn, ...
 	ldy.b $0E
-	lda.w $364E,y
+	lda.w ScratchBuf,y
 	tay
 	jsr.w PlayerStatColumn
 	cmp.b $0A
@@ -796,9 +796,9 @@ SortPlayerStats:					; sorts team a2's skaters by stat column $7D (PlayerStatCol
 	cmp.b tmp2
 	bne .loop2
 	tax
-.2:									; $364E,x = tmp1, tmp2 + 1, tmp2 + 1, tmp0 - 1, ...
+.2:									; ScratchBuf,x = tmp1, tmp2 + 1, tmp2 + 1, tmp0 - 1, ...
 	lda.b tmp1
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	inc.b tmp2
 	inc.b tmp2
 	dec.b tmp0
@@ -806,11 +806,11 @@ SortPlayerStats:					; sorts team a2's skaters by stat column $7D (PlayerStatCol
 	rts
 .3:									; X = tmp2
 	ldx.b tmp2
-.loop3:								; loop: X - 1, X - 1, $3650,x = $364E,x, if X is not $0E go to .loop3, ...
+.loop3:								; loop: X - 1, X - 1, ScratchBuf+$2,x = ScratchBuf,x, ...
 	dex
 	dex
-	lda.w $364E,x
-	sta.w $3650,x
+	lda.w ScratchBuf,x
+	sta.w ScratchBuf+$2,x
 	cpx.b $0E
 	bne .loop3
 	bra .2
@@ -856,17 +856,17 @@ StatColPenMin:						; PlayerStatColumn's penalty minutes column (ppenmin)
 DATA8_C566DE:						; jump table: the routine for each index
 	dw StatColGoals,StatColAssists,StatColPoints,StatColShots
 	dw StatColPenMin
-SortGoalieStats:					; starts ShowPlayerStats' order list at $364E: team a2's goalies ordered
-									; by goals against (tmgoals)
+SortGoalieStats:					; starts ShowPlayerStats' order list at ScratchBuf: team a2's goalies
+									; ordered by goals against (tmgoals)
 	ldx.w #HomeRoster
 	ldy.w #$0000
 	lda.b a2
 	beq .1
 	ldx.w #VisRoster
 	ldy.w #$001A
-.1:									; $A5 = Y, $364E = 0, $0C = 0, tmp1 = 0, ...
+.1:									; $A5 = Y, ScratchBuf = 0, $0C = 0, tmp1 = 0, ...
 	sty.b $A5
-	stz.w $364E
+	stz.w ScratchBuf
 	stz.b $0C
 	stz.b tmp1
 	lda.w $0002,x
@@ -902,9 +902,9 @@ SortGoalieStats:					; starts ShowPlayerStats' order list at $364E: team a2's go
 	cmp.b tmp2
 	bne .loop2
 	tax
-.2:									; $364E,x = tmp1, tmp2 + 1, tmp2 + 1, tmp0 - 1, ...
+.2:									; ScratchBuf,x = tmp1, tmp2 + 1, tmp2 + 1, tmp0 - 1, ...
 	lda.b tmp1
-	sta.w $364E,x
+	sta.w ScratchBuf,x
 	inc.b tmp2
 	inc.b tmp2
 	dec.b tmp0
@@ -912,11 +912,11 @@ SortGoalieStats:					; starts ShowPlayerStats' order list at $364E: team a2's go
 	rts
 .3:									; X = tmp2
 	ldx.b tmp2
-.loop3:								; loop: X - 1, X - 1, $3650,x = $364E,x, if X is not $0E go to .loop3, ...
+.loop3:								; loop: X - 1, X - 1, ScratchBuf+$2,x = ScratchBuf,x, ...
 	dex
 	dex
-	lda.w $364E,x
-	sta.w $3650,x
+	lda.w ScratchBuf,x
+	sta.w ScratchBuf+$2,x
 	cpx.b $0E
 	bne .loop3
 	bra .2
@@ -926,7 +926,7 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	lda.b a3
 	asl a
 	tay
-	lda.w $364E,y
+	lda.w ScratchBuf,y
 	sta.b $65
 	lda.w #HomeRoster
 	ldx.b a2

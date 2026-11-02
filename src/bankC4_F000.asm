@@ -29,15 +29,15 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	lda.w $0116,x
 	sta.w mesarea+6
 	jsl.l RecordOverallLong
-	sta.w $364E,y
+	sta.w ScratchBuf,y
 	lda.b tmp1
-	sta.w $368E,y
+	sta.w ScratchBuf+$40,y
 	bra .loop
-.1:									; $36CE = $FFFF, X = $36CE, Y = $36D0, A = $00FD, ...
+.1:									; ScratchBuf+$80 = $FFFF, X = ScratchBuf+$80, Y = ScratchBuf+$82, ...
 	lda.w #$FFFF
-	sta.w $36CE
-	ldx.w #$36CE
-	ldy.w #$36D0
+	sta.w ScratchBuf+$80
+	ldx.w #ScratchBuf+$80
+	ldy.w #ScratchBuf+$82
 	lda.w #$00FD
 	mvn $7E,$7E
 	ldy.b tmp0
@@ -71,29 +71,29 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	dec.b tmp1
 	bne .loop3
 	lda.w #$0001
-	sta.w $37CE
-	lda.w $374E
-	sta.w $37CF
-	lda.w $3750
-	sta.w $37D0
-	lda.w $36D0
-	sta.w $37D1
-	lda.w $36CE
-	sta.w $37D2
-	lda.w $36D2
-	sta.w $37D3
-	lda.w $36D4
-	sta.w $37D4
-	stz.w $37D5
+	sta.w ScratchBuf+$180
+	lda.w ScratchBuf+$100
+	sta.w ScratchBuf+$181
+	lda.w ScratchBuf+$102
+	sta.w ScratchBuf+$182
+	lda.w ScratchBuf+$82
+	sta.w ScratchBuf+$183
+	lda.w ScratchBuf+$80
+	sta.w ScratchBuf+$184
+	lda.w ScratchBuf+$84
+	sta.w ScratchBuf+$185
+	lda.w ScratchBuf+$86
+	sta.w ScratchBuf+$186
+	stz.w ScratchBuf+$187
 	lda.w #$0007
-	ldx.w #$37CE
-	ldy.w #$37D6
+	ldx.w #ScratchBuf+$180
+	ldy.w #ScratchBuf+$188
 	mvn $7E,$7E
 	stz.b r0
 	stz.b $2E
 	lda.w #$0005
 	sta.b tmp1
-	ldx.w #$37D6
+	ldx.w #ScratchBuf+$188
 	stx.b $14
 	lda.w $0000,x
 	and.w #$00FF
@@ -159,7 +159,7 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	lda.b tmp0
 	adc.w #$006C
 	tay
-	ldx.w #$37CE
+	ldx.w #ScratchBuf+$180
 	lda.w #$003F
 	mvn $7E,$7E
 	rts
@@ -178,7 +178,7 @@ PickUnusedLineDefenceman:			; selects the next ranked defenceman not in the used
 	asl a
 	tay
 	sep #$20
-	lda.w $374E,y
+	lda.w ScratchBuf+$100,y
 	jsr.w IsLineDefencemanUsed
 	bcs PickUnusedLineDefenceman
 	ldx.b $14
@@ -198,7 +198,7 @@ PickUnusedLineForward:				; selects the next ranked forward not in the used list
 	asl a
 	tay
 	sep #$20
-	lda.w $36CE,y
+	lda.w ScratchBuf+$80,y
 	jsr.w IsLineForwardUsed
 	bcs PickUnusedLineForward
 	ldx.b $14
@@ -209,8 +209,8 @@ IsLineDefencemanUsed:				; advances the candidate index and returns carry set if
 	ldx.b $2E
 	dex
 	bmi LinePlayerNotUsed
-.loop:								; loop: if A = $384E,x go to LinePlayerUsed, X - 1, ...
-	cmp.w $384E,x
+.loop:								; loop: if A = ScratchBuf+$200,x go to LinePlayerUsed, X - 1, ...
+	cmp.w ScratchBuf+$200,x
 	beq LinePlayerUsed
 	dex
 	bpl .loop
@@ -228,8 +228,8 @@ IsLineForwardUsed:					; advances the candidate index and returns carry set if t
 	ldx.b r0
 	dex
 	bmi LinePlayerNotUsed
-.loop:								; loop: if A = $380E,x go to LinePlayerUsed, X - 1, ...
-	cmp.w $380E,x
+.loop:								; loop: if A = ScratchBuf+$1C0,x go to LinePlayerUsed, X - 1, ...
+	cmp.w ScratchBuf+$1C0,x
 	beq LinePlayerUsed
 	dex
 	bpl .loop
@@ -237,23 +237,23 @@ IsLineForwardUsed:					; advances the candidate index and returns carry set if t
 	rts
 MarkLineForwardUsed:				; appends the forward index to the used list and increments its count
 	ldy.b r0
-	sta.w $380E,y
+	sta.w ScratchBuf+$1C0,y
 	iny
 	sty.b r0
 	rts
 MarkLineDefencemanUsed:				; appends the defenceman index to the used list and increments its count
 	ldy.b $2E
-	sta.w $384E,y
+	sta.w ScratchBuf+$200,y
 	iny
 	sty.b $2E
 	rts
 InsertRankedLineForward:			; inserts a forward and his overall rating into the descending line
 									; selection lists
 	ldy.w #$0000
-.loop:								; loop: if $370E,y < 0 go to .2, if $370E,y < $364E,x go to .1, Y + 1, ...
-	lda.w $370E,y
+.loop:								; loop: if ScratchBuf+$C0,y < 0 go to .2, ...
+	lda.w ScratchBuf+$C0,y
 	bmi .2
-	cmp.w $364E,x
+	cmp.w ScratchBuf,x
 	bcc .1
 	iny
 	iny
@@ -266,29 +266,29 @@ InsertRankedLineForward:			; inserts a forward and his overall rating into the d
 	lda.w #$001D
 	sbc.b tmp2
 	pha
-	ldx.w #$372A
-	ldy.w #$372C
+	ldx.w #ScratchBuf+$DC
+	ldy.w #ScratchBuf+$DE
 	mvp $7E,$7E
 	pla
-	ldx.w #$36EA
-	ldy.w #$36EC
+	ldx.w #ScratchBuf+$9C
+	ldy.w #ScratchBuf+$9E
 	mvp $7E,$7E
 	plx
 	ply
-.2:									; $370E,y = $364E,x, A = $368E,x, A + 1, $36CE,y = A, ...
-	lda.w $364E,x
-	sta.w $370E,y
-	lda.w $368E,x
+.2:									; ScratchBuf+$C0,y = ScratchBuf,x, A = ScratchBuf+$40,x, A + 1, ...
+	lda.w ScratchBuf,x
+	sta.w ScratchBuf+$C0,y
+	lda.w ScratchBuf+$40,x
 	inc a
-	sta.w $36CE,y
+	sta.w ScratchBuf+$80,y
 	rts
 InsertRankedLineDefenceman:			; inserts a defenceman and his overall rating into the descending line
 									; selection lists
 	ldy.w #$0000
-.loop:								; loop: if $378E,y < 0 go to .2, if $378E,y < $364E,x go to .1, Y + 1, ...
-	lda.w $378E,y
+.loop:								; loop: if ScratchBuf+$140,y < 0 go to .2, ...
+	lda.w ScratchBuf+$140,y
 	bmi .2
-	cmp.w $364E,x
+	cmp.w ScratchBuf,x
 	bcc .1
 	iny
 	iny
@@ -301,21 +301,21 @@ InsertRankedLineDefenceman:			; inserts a defenceman and his overall rating into
 	lda.w #$001D
 	sbc.b tmp2
 	pha
-	ldx.w #$37AA
-	ldy.w #$37AC
+	ldx.w #ScratchBuf+$15C
+	ldy.w #ScratchBuf+$15E
 	mvp $7E,$7E
 	pla
-	ldx.w #$376A
-	ldy.w #$376C
+	ldx.w #ScratchBuf+$11C
+	ldy.w #ScratchBuf+$11E
 	mvp $7E,$7E
 	plx
 	ply
-.2:									; $378E,y = $364E,x, A = $368E,x, A + 1, $374E,y = A, ...
-	lda.w $364E,x
-	sta.w $378E,y
-	lda.w $368E,x
+.2:									; ScratchBuf+$140,y = ScratchBuf,x, A = ScratchBuf+$40,x, A + 1, ...
+	lda.w ScratchBuf,x
+	sta.w ScratchBuf+$140,y
+	lda.w ScratchBuf+$40,x
 	inc a
-	sta.w $374E,y
+	sta.w ScratchBuf+$100,y
 	rts
 RosterDiffers:						; carry set when the roster table at Y differs from the one at X (a count
 									; at +0 / +2 / +4 or a player index at +$3A)
@@ -351,22 +351,22 @@ RebuildChangedLines:				; for both teams of the game (HomeTeam into HomeRoster, 
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3
-.1:									; A = HomeTeam, Y = $364E, call LoadDefaultRoster, Y = HomeRoster, ...
+.1:									; A = HomeTeam, Y = ScratchBuf, call LoadDefaultRoster, ...
 	lda.w HomeTeam
-	ldy.w #$364E
+	ldy.w #ScratchBuf
 	jsl.l LoadDefaultRoster
 	ldy.w #HomeRoster
-	ldx.w #$364E
+	ldx.w #ScratchBuf
 	jsr.w RosterDiffers
 	bcc .2
 	ldy.w #HomeRoster
 	jsr.w BuildTeamLines
-.2:									; A = VisTeam, Y = $364E, call LoadDefaultRoster, Y = VisRoster, ...
+.2:									; A = VisTeam, Y = ScratchBuf, call LoadDefaultRoster, Y = VisRoster, ...
 	lda.w VisTeam
-	ldy.w #$364E
+	ldy.w #ScratchBuf
 	jsl.l LoadDefaultRoster
 	ldy.w #VisRoster
-	ldx.w #$364E
+	ldx.w #ScratchBuf
 	jsr.w RosterDiffers
 	bcc .rts
 	ldy.w #VisRoster
