@@ -471,35 +471,35 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.w padchangeany
 	bit.w #$0200
 	beq .1
-	jsr.w HighlightGridCell
+	jsr.w GridCellPalette3
 	dec.b a1
 	bpl .5
 	lda.w #$001A
 	bra .4
-.1:									; if $0100 bits clear go to .2, call HighlightGridCell, A = a1, A + 1, ...
+.1:									; if $0100 bits clear go to .2, call GridCellPalette3, A = a1, A + 1, ...
 	bit.w #$0100
 	beq .2
-	jsr.w HighlightGridCell
+	jsr.w GridCellPalette3
 	lda.b a1
 	inc a
 	cmp.w #$001B
 	bcc .4
 	stz.b a1
 	bra .5
-.2:									; if $0800 bits clear go to .3, call HighlightGridCell, A = a1, ...
+.2:									; if $0800 bits clear go to .3, call GridCellPalette3, A = a1, ...
 	bit.w #$0800
 	beq .3
-	jsr.w HighlightGridCell
+	jsr.w GridCellPalette3
 	lda.b a1
 	sec
 	sbc.w #$0009
 	bpl .4
 	adc.w #$001B
 	bra .4
-.3:									; if $0400 bits clear go to .6, call HighlightGridCell, A = a1, ...
+.3:									; if $0400 bits clear go to .6, call GridCellPalette3, A = a1, ...
 	bit.w #$0400
 	beq .6
-	jsr.w HighlightGridCell
+	jsr.w GridCellPalette3
 	lda.b a1
 	clc
 	adc.w #$0009
@@ -664,9 +664,10 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	stz.b a1
 	jsr.w MoveGridCursor
 	rts
-MoveGridCursor:						; unhighlights letter grid cell a1 and moves the cursor sprite (a0) onto
-									; it (x and y from DATA8_C5A225 / DATA8_C5A25B)
-	jsr.w UnhighlightGridCell
+MoveGridCursor:						; puts the cursor's palette 0 on letter grid cell a1 (GridCellPalette0)
+									; and moves the cursor sprite (a0) onto it (x and y from DATA8_C5A225 /
+									; DATA8_C5A25B)
+	jsr.w GridCellPalette0
 	ldy.b a0
 	lda.b a1
 	asl a
@@ -678,10 +679,12 @@ MoveGridCursor:						; unhighlights letter grid cell a1 and moves the cursor spr
 	adc.w #$0018
 	sta.w $0008,y
 	rts
-UnhighlightGridCell:				; puts palette 0 back on letter grid cell a1 (SetGridCellPalette 0)
+GridCellPalette0:					; puts palette 0 (the cursor's) on letter grid cell a1 (SetGridCellPalette
+									; 0)
 	lda.w #$0000
 	bra SetGridCellPalette
-HighlightGridCell:					; puts palette 3 on letter grid cell a1 (SetGridCellPalette $0C00)
+GridCellPalette3:					; puts palette 3 (the cells' normal look) on letter grid cell a1
+									; (SetGridCellPalette $0C00)
 	lda.w #$0C00
 SetGridCellPalette:					; puts palette bits tmp0 on the 2 x 2 tiles of letter grid cell a1 (its
 									; position from DATA8_C5A1D7), then SendTextMap

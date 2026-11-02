@@ -8085,8 +8085,8 @@ $C5D5A5,PrintEditedName,CODE_C5D5A5,code,"from the code: ClearRAM7E, PrintBoldFi
 $3070D6,SRUserNames,,code,"RAM: from the code: GetUserName / NextNameBits5 read it, EditUserName writes it",src/ram95s.asm
 $C5D303,PutUserName,CODE_C5D303,code,"from the code: the bit offset A * 60, PutNameBits5 for each letter; the reverse of GetUserName; EditUserName calls it",src/bankC5_D000.asm
 $C5D33A,PutNameBits5,CODE_C5D33A,code,"from the code: the 5-bit mask shifted to Y and 7, the and / ora into the array; the write side of NextNameBits5",src/bankC5_D000.asm
-$C5D56C,HighlightGridCell,CODE_C5D56C,code,"from the code; EditUserName calls it for the cell under the cursor",src/bankC5_D000.asm
-$C5D567,UnhighlightGridCell,CODE_C5D567,code,"from the code",src/bankC5_D000.asm
+$C5D56C,GridCellPalette3,CODE_C5D56C,code,"from the code: EditUserName puts it on the cell the cursor leaves, before MoveGridCursor; first named HighlightGridCell, but palette 0 is the cursor's (as in the season screens)",src/bankC5_D000.asm
+$C5D567,GridCellPalette0,CODE_C5D567,code,"from the code: MoveGridCursor puts it on the cell the cursor moves onto; first named UnhighlightGridCell",src/bankC5_D000.asm
 $C5D56F,SetGridCellPalette,CODE_C5D56F,code,"from the code: SetTilePalette on the four tiles",src/bankC5_D000.asm
 $C5D599,SetTilePalette,CODE_C5D599,code,"from the code: and #$E3FF, ora tmp0",src/bankC5_D000.asm
 $C5D54B,MoveGridCursor,CODE_C5D54B,code,"from the code; EditUserName and DrawNameGrid call it",src/bankC5_D000.asm

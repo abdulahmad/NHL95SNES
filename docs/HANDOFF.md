@@ -35,13 +35,13 @@
 
 ## Notes for the next segments
 
-- Bank $C6 frame tables: DATA8_C60000 / DATA8_C60848 are 1060 parallel low-word and bank/layout words. CODE_C5F368 uses A as
+- Bank $C6 frame tables: DATA8_C60000 / DATA8_C60848 are 1060 parallel low-word and bank/layout words. QueueFrameTiles uses A as
   a frame index; it queues raw ROM transfers to VRAM, without an unpacker. A layout word at $CFF27C gives two equal
   transfers of twice its low byte, followed by a transfer of its high byte (zero parts skipped). There are 759 nonzero-bank
   pointers in banks $C6-$CC, with 95 in $C6 ($C62968-$C6FDE7), 105 in $C7 ($C7053E-$C7FE7D), 116 in $C8 ($C80559-$C8FE38),
   108 in $C9 ($C9076B-$C9FFEA), 117 in $CA ($CA09D9-$CAFDF8), 112 in $CB ($CB08B5-$CBFDD4) and 106 in $CC ($CC05E5-$CCEEA4).
   Within each bank their transfer extents exactly meet the next pointer. Entries with bank zero are retained literally
-  (including 0 and 1). CODE_C382B8 updates changed frame indices; CODE_C521EB and the bankC5_5000 setup also queue fixed
+  (including 0 and 1). UpdateGameObjectSprites updates changed frame indices; $C521EB and the bankC5_5000 setup also queue fixed
   frame indices. Three more word tables start at $C61090, $C618D8 and $C62120, each 1060 words, read by the bank $CF frame
   code. The code uses the first and second on its normal path, the second and third on its mirrored path.
 
@@ -61,10 +61,10 @@
 - asstab (bankC0_A000) holds long pointers to the assignment routines in the order of 94S asstab (95 Genesis reorders
   its table, the SNES one does not); every entry is named from 94S and was checked side by side.
 - Code pointers set with immediates (seeds for the code banks): lda #bank, sta $65 / lda #low, sta $63 then a call to
-  CODE_C45950 (a routine; otherwise data read through [$63]); lda #low with ldx #bank (either order) then jsl / jmp / bra
-  to SetNMIHook, SetFrameHook or the task starters CODE_C4B743 / CODE_C4B763; and lda #routine, sta $0002,x (a task's next
+  skateto (a routine; otherwise data read through [$63]); lda #low with ldx #bank (either order) then jsl / jmp / bra
+  to SetNMIHook, SetFrameHook or the task starters StartTasks / AddTask; and lda #routine, sta $0002,x (a task's next
   routine, same bank). The pipeline writes these immediates as labels (label>>16 for the bank). ../work/ptrpairs.py
-  finds the other ldx #bank / lda #address pairs before a call (MapSetToVRAM, Decompress, CODE_C5881C ...) and writes
+  finds the other ldx #bank / lda #address pairs before a call (MapSetToVRAM, Decompress, MapSetToWRAM ...) and writes
   those on a label (or inside the same item, label+n) as labels; the ones past the end of PhotoPaletteTable and
   DATA8_C3585C (length-prefixed tile strings for QueueVRAMDMALen) have no label yet and stay numbers.
 - An indexed long read from the first byte of a bank (lda.l $C30000,x, $C00000,x, $C40000,x) uses the bank as a base for
@@ -87,9 +87,9 @@
   the names; RAM names go in `src/ram95s.asm`. Hooks: SetNMIHook / SetFrameHook take X:A; the NMI calls NMIHook first, then
   FrameHook, both with M 16, X 8. Code still in incbin segments is called by number (jsl.l $C4C58B ...). Team variables: $17C9 is used as the home team and $17CB as the away team (white and dark jerseys).
 
-- Award pictures: AwardPictures (bankC4_D000) holds a map set per award, indexed by the award number ($63); CODE_C4D963
-  prints the award's name from AwardNames and CODE_C4D99C its description from AwardDescs (offsets of packed text in bank
-  $C3: 5-bit codes read by CODE_C4C3BA, 0-25 letters, $1A end, $1B space, $1C case toggle, $1D-$1F a 3-bit index into
+- Award pictures: AwardPictures (bankC4_D000) holds a map set per award, indexed by the award number ($63); $C4D963
+  prints the award's name from AwardNames and $C4D99C its description from AwardDescs (offsets of packed text in bank
+  $C3: 5-bit codes read by UnpackText, 0-25 letters, $1A end, $1B space, $1C case toggle, $1D-$1F a 3-bit index into
   DATA8_C4C420), then loads the picture. The order: 0 Vezina, 1 Selke, 2 Conn Smythe, 3 Jennings, 4 Hart, 5 Art Ross, 6
   Norris, 7 Presidents. Names as 95G AwardPictures (VezinaPic, ...): <Name>PicMap / Tiles / Palette. Each picture follows
   the last raw frame of its bank: VezinaPic $C6FDE8-$C7053D, SelkePic $C7FE7E-$C80558, then ConnSmythePic ($C8FE39-$C9076A),
@@ -98,25 +98,25 @@
   (IceRinkMap, below). ../work/framesseg.py BANK J writes a raw-frame segment (and the picture in the last one), awards.py
   holds the names.
 - Per-frame offsets: DATA8_CDF94A ($CDF94A, into bank $CE) and DATA8_CE0192 ($CE0192) are two more 1060-word tables
-  indexed by the frame number (as DATA8_C60000). CODE_C37FE2 takes the frame from $0856,y and puts the first in $7F
+  indexed by the frame number (as DATA8_C60000). GetFrameHot takes the frame from $0856,y and puts the first in $7F
   (negated when $08E0,y has bit $0800) and the second, negated, in $83. What the offsets place is not traced.
 - Rink: IceRinkMap ($CCEEA5) is a three-chunk map set like the award pictures, but 32 x 170 tiles (the two rink halves,
-  85 rows each), 520 tiles and 4 palettes, to $CD25DF. CODE_C52037 loads it (CODE_C58812); CODE_C55524 finds its tiles chunk.
+  85 rows each), 520 tiles and 4 palettes, to $CD25DF. setupice loads it (MapSetToUnpackbuf); $C55524 finds its tiles chunk.
   It is split at the tiles chunk: IceRinkMap ends bankCC_E000, bankCC_F000 is IceRinkTiles (header and stream start);
   the stream runs on through bankCD_0000 / bankCD_1000 to IceRinkPalette ($CD2559) at the end of bankCD_1000.
 - Stanley Cup: StanleyCupMap / Tiles / Palette ($CEF3E9-$CEFE76, 8 x 14 tiles, 87 tiles, one palette) after
-  PresidentsPic; rendered as the Stanley Cup and named as 94S StanleyCupMap / Tiles / Palette. CODE_C4DFD6 loads it
-  (through CODE_C5881C). Zeros fill bank $CE after it.
-- Bank $CF: the sound code ($CF0000-$CF04E2; SPCUpload as 94S, the rest CODE_ names), DATA8_CF04E3 (40 sounds: a long
-  pointer and a flag byte), DATA8_CF0583 (four lists of sample records), DATA8_CF05D4, SampleList (33 long pointers as dd;
-  entries 26 and 27 share Sample26), DATA8_CF0661 / DATA8_CF0663, then the sounds back to back ($CF0679-$CF95A3 and
-  $CFC262-$CFC560; each a length word and its data; CODE_CF0313 sends the samples listed from +3), Sample26, Sample31,
+  PresidentsPic; rendered as the Stanley Cup and named as 94S StanleyCupMap / Tiles / Palette. StanleyCupScreen loads it
+  (through MapSetToWRAM). Zeros fill bank $CE after it.
+- Bank $CF: the sound code ($CF0000-$CF04E2; SPCUpload as 94S, the rest CODE_ names), SoundSequenceTable (40 sounds: a long
+  pointer and a flag byte), SampleVolumeOverrideLists (four lists of sample records), DATA8_CF05D4, SampleList (33 long pointers as dd;
+  entries 26 and 27 share Sample26), DATA8_CF0661 / TeamSongSoundList, then the sounds back to back ($CF0679-$CF95A3 and
+  $CFC262-$CFC560; each a length word and its data; LoadSequence sends the samples listed from +3), Sample26, Sample31,
   Sample23, Sample06, and code again from $CFEE1D. ../work/sndseg.py J writes the data segments and keeps the sound table
   and SampleList entries current. For bank $CF the whole-bank decode drops the raw jsl search of bank $C3 (all source now;
   it seeded sample bytes) and a seed with the wrong M/X at $CF0204; $CF0000,x / $CF0001,x are bank bases (3-byte records).
   The end of the bank: two jml stubs with no caller ($CFEE1D, $CFEE21), the frame code CODE_CFEE25 / CODE_CFEE6C (mirrored /
   normal; layout from DATA8_C60848+1, the record through DATA8_CFF3A2 / DATA8_CFF3A0 and the handler table DATA8_CFEEAE),
-  DATA8_CFF27C (the size words CODE_C5F368 reads), the 141 layout records, CODE_CFFD9E / CODE_CFFF88 (the top layouts jump
+  DATA8_CFF27C (the size words QueueFrameTiles reads), the 141 layout records, CODE_CFFD9E / CODE_CFFF88 (the top layouts jump
   there through the pointer table) and zeros. The records are read as $CF0000-$CF0008,x (bank bases; numbers).
 - Naming pass (94S by code): ../work/match94.py compares every call target in the bank $C3/$C4/$C5/$CF pickles (body
   flooded over branches, calls not followed) with each NHL94SNES routine (mnemonic + addressing mode, 4-gram candidates,
@@ -143,8 +143,10 @@
   ../work/local94.py compares unnamed routines with 94S local subroutines (a called .label to its return): five
   were the same code (setplayer .8 = HotColdRating ...); they take names from the code. Save RAM (bank $30): the
   season keeps its records there as bit fields; ram95s.asm has a save RAM section (95 Genesis SR* block names where
-  the job matches, SeasonDay ...), written by ../work/srnames.py (long operands; offsets by longfix.py). Still numbers:
-  $306045, $306047 (saved options not traced), $3070D6, $3072E8, $307446, $307884.
+  the job matches, SeasonDay ...), written by ../work/srnames.py (long operands; offsets by longfix.py). Every save
+  RAM address the traced code reads has a name now. DATA8_C59249 is still a db block. It holds the Practice list's
+  two option routines (Home Players at $C5924B, Visitor Players at $C5927A), which save SRhomepracplayers /
+  SRawaypracplayers.
   Code that moves the direct page (lda #$2100 / tcd, also $0100, $0300, $0400, $1E00) reads its .b operands from
   there: no RAM name on them (../work/dpmoved.py); with D = $2100 they are the PPU registers, written NAME&$FF as
   the bank $C0 engine does.
@@ -163,8 +165,8 @@
   Cup screen and the season awards, the pause menu screens, the scouting report, the trade screens, the League Menu and
   its screens, free agents, record holders, change goalie, the controller setup, create player, the user name entry,
   the game setup screen, the start-up screens (IntroSequence ... TitleScreen), the work buffer and text helpers. ../work/pages.py lists the text pages
-  CODE_C4BB5A prints (a descriptor: margins, title, lines) with the routine that passes each: the screens' titles.
-- The front end is a state machine: a screen's entry draws its page, sets the state $99 and returns; CODE_C59651 runs
+  PrintTextPage prints (a descriptor: margins, title, lines) with the routine that passes each: the screens' titles.
+- The front end is a state machine: a screen's entry draws its page, sets the state $99 and returns; ScreenStateLoop runs
   the handler of the state from DATA8_C5967A each frame. The setup screen's start runs DATA8_C58DD0 by play mode
   ($1864: Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player). The start-up screens run a task list
   (StartTasks, AddTask, RunTasks through jmlvector, RemoveTask). The pause: Pausemode (game loop) and Intermission
@@ -178,16 +180,24 @@
   unclear helper). A 94S match below the 0.85 propagation threshold can still hold: read it side by side (FallDown,
   checkpuckcoll_ccx, SetScore were found that way; a size difference keeps the score low). Bank $C4's engine code
   is named (a Codex run, reviewed and cherry-picked: the assignment, collision, goal avoidance, penalty clock,
-  goalie and text rendering helpers); still unnamed there: bankC4_0000 (46), B000 (48), C000 (12), D000 (29),
-  E000 (18), F000 (15), mostly front-end tasks, season / save handling and scouting helpers.
+  goalie and text rendering helpers). A second Codex run named the front-end tasks (title, intro, credits), the
+  bracket, playoff seeding, scouting text and line selection. 38 labels are left in bank $C4: shared tails, uncalled
+  fragments, and the save reset / saved roster packing (CODE_C4CF75-C4D0D5), which still need a full trace.
   Code that follows an exit (rtl, jml) with no label and no pointer to it can be a leftover 94S routine that the
   trace never reached: ShootoutShooters (after ShootoutWonBy, labelled now) and 94S ShooterSelectList, still inline
   after PickShooterRow's rtl. Several 94S calls became bare rtl stubs that keep the 94S name (eraser, StartBenchCheer,
   InitScores, DoHiLights, printscores1 = ldx a3).
   Bank $C5: the front end's screen states 0-13 have named handlers (DATA8_C5967A); each scrolling list's row
-  routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. Still unnamed in
-  bank $C5: parts of the game side (bankC5_2000 / 3000 / 4000), the bankC5_D000 roster / trade list helpers, the
-  bankC5_E000 sprite helpers (the Edit Lines screen, the season records and the playoffs are named). The game frame is named
+  routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. bankC5_9000-C000 (the
+  setup screen, Create Player, League Menu, Games Today, leaders, standings, free agents) were named by a second Claude
+  thread. It left 34 labels: shared tails, loop heads, ReadTeamStatBits' unrolled shift entries. In these screens
+  palette 0 marks the cell or line under the cursor and palette 3 is the normal look. The helpers are named by
+  palette number (SetupLinePalette0 / 3, GridCellPalette0 / 3 ...), not "highlight". A Codex run on bankC5_3000-7000 stopped at
+  its usage limit after three commits (roster and face off pads, line energy bars, pause tabs).
+  Still unnamed in bank $C5: the rest of bankC5_3000 / 4000 / 5000 / 7000, the bankC5_D000 roster / trade list
+  helpers, the bankC5_E000 sprite helpers (the Edit Lines screen, the season records and the playoffs are named).
+  Play mode 1 is Practice (the setup strings and DATA8_C58DD0 order: Exhibition, Practice, Season ...; 95 Genesis
+  checks practice where 95S tests OptPlayMode 1). The game frame is named
   as in 94S (DoGameFrame, updateplayers, setvideo, updatescroll, PeriodOver, the face offs, SetupPenaltyShot, the line
   change box); bare rtl stubs sit where 94S calls StartBenchCheer, UpdateBenchCheer, InitScores and DoHiLights, and
   SetHor / ClrHor keep only the puck speed halving and the sfhormode count. Hand-checked RAM names go in with
@@ -195,6 +205,10 @@
 - Parallel work: the repo is the T3 project "NHL95SNES"; a Codex thread on its own worktree branch (codex/<topic>)
   works beside the main checkout and is merged by cherry-pick (name_map.csv conflicts: keep both sides,
   ../work/resolve_namemap.py). Brief it with the rules and the tools that are safe to run (side.py only reads).
+  When a picked commit's source hunks conflict with renames made here meanwhile, ../work/mergefix.py COMMIT
+  [FILE=theirs] keeps one side of each hunk with every rename of both name_maps applied. Then it updates old label
+  names left in comments (`python3 mergefix.py HEAD` after a clean pick does only that). Take theirs for a file where
+  their side writes a new label comment.
 
 ## Setup notes
 
@@ -244,9 +258,9 @@
   406 players) but the code that reads them is not traced; a player record is taken to hold a packed name and the ratings
   (not decoded); DATA8_C34427 has the form of a team record but TeamList does not point at it.
 - bankC0_A000: the sample header (12 bytes: a pitch-like word, two volume-like bytes, ...) is not decoded; the samples are
-  named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from CODE_C09910 the way CODE_C09681 does.
-- bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input (CODE_C097A2), a string copy to the heap
-  (CODE_C099F4). Its RAM ($1878-$18B6, $0806, $2364, ...) is not named yet. There is a brk at $C09419.
+  named by their index in the sample list. DATA8_C09BC4 also gets a long pointer from PrintShooterRows the way InitShooters does.
+- bankC0_9000: the game code keeps CODE_ names: menus and a list with pad input ($C097A2), a string copy to the heap
+  (CopyLenString2). Its RAM ($1878-$18B6, $0806, $2364, ...) is not named yet. There is a brk at $C09419.
 - asar: mvn / mvp take the operands in byte order, destination bank first (`mvn $7E,$C0` copies from $C0 to $7E).
 - Code banks: decode by recursive descent from the jsl targets in code banks (not from raw byte scans, which give false
   entries), carry M/X through calls, size jump tables against the decoded code, and skip the 6 inline parameter bytes after
@@ -256,7 +270,7 @@
   its pattern (94S MenuBackMap may be the same job: not checked). TransfersReady, DMAEnShadow, QueueBusy are named from the
   NMI code only. Mul8S's A-positive / X-negative path multiplies A by -A (tya where 94S has txa): that is in the ROM.
 - bankC0_4000: DATA8_C0491A, DATA8_C04AA9, DATA8_C04CAB, DATA8_C04CBF, DATA8_C04CC3 are not traced to a purpose
-  (DATA8_C04CB7 is DivisionNames; the two byte tables after it are picked by the same division number).
+  (DivisionNames is DivisionNames; the two byte tables after it are picked by the same division number).
   DigitFontTiles and LinePieceTiles are named from the rendered tiles; BG3ScrollHDMA1/2 from the HDMA set-up.
 - WonCheckTiles / WonCheckPalette: named from the rendered tiles; the screen is not traced.
 - Fonts: named from their rendered glyphs; the screens that draw with them are not traced.
@@ -269,7 +283,7 @@
   Remaining auto labels inside SoundDriver are control-flow joins, loops, patched instruction sites and helpers
   without a separately documented contract. Sound RAM buffers stay numbers.
   CPU continuations CODE_CF0069/008B/0098/00FD/0239/04A8/04B4 keep auto labels; they are not independent APIs.
-  CODE_CF038E starts sample 2 once after LoadSounds, but its game-level trigger is not established; CODE_CF04B6
+  CODE_CF038E starts sample 2 once after LoadSounds, but its game-level trigger is not established; StartMenuMusic
   reloads and starts sequence $A4 under two flags whose game-level meanings are not established.
   DATA8_CF0661 has no reader found. SampleVolumeOverrideLists writes sample stereo-volume overrides, but LoadSequence indexes
   it from r2 (the sequence pointer), not the flag byte in SoundSequenceTable; the intended selection is unresolved.

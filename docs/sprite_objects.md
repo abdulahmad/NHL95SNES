@@ -1,4 +1,4 @@
-# DATA8_C08000 / bank $C1: who reads it and what it is
+# SpriteObjects / bank $C1: who reads it and what it is
 
 Research notes (read-only, ROM `lst/nhl95snes.sfc`). Verified means "read in the ROM bytes / disassembly"; guesses are marked.
 Scratch scripts: `work/recs.py` (record dump), `work/c1dec.py` (decodes every frame's $C1 stream), `work/f2.py`, `work/f3.py`.
@@ -194,7 +194,7 @@ $46B8 palette use per index, $46A8 free palette slots ($1B06, count $1B08).
 ## Names from the sibling projects (purpose matches, not code matches)
 - NHL94SNES `TeamLogoSprites` ($81ABDE): "packed sprite set: the team logos, then Wales, Campbell, NHL, NHLPA" and
   `LogoPaletteTable`. 95's record block plays the same role (logos as sprites with a palette per logo) but with a
-  different format and engine. Possible names (suggestions): `LogoSprites` / `SpriteRecords` for DATA8_C08000,
+  different format and engine. Possible names (suggestions): `LogoSprites` / `SpriteRecords` for SpriteObjects,
   `SpritePalettes` for $C10000, `SpritePieces` for $C19660, `CreateSprite` ($C5E665), `CreateSpriteSharePal` ($C5EEF3),
   `UploadSpriteFrame` ($C5E8A5), `UnpackStream0` ($C5F071), `BuildSpriteOAM` ($C5F0D1), `AnimateSprites` ($C5E9C7).
 - 94S `InitSprites` / `SpriteFrameStart` / `DrawSprite` are a different engine; no code match checked.
