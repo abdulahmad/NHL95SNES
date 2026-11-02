@@ -1733,7 +1733,7 @@ SetupPlayoffs:						; starts the playoffs once the schedule has no more games: t
 	ldy.w #$0078
 	jsl.l ClearRAM7E
 	jsl.l RestoreWorkBuf
-	jsl.l CODE_C5E37E
+	jsl.l BuildAllTeamRecords
 	lda.w #$0002
 	sta.b tmp0
 	jsr.w RankPlayoffConference

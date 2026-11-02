@@ -1798,7 +1798,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	bne .loop
 	lda.l SRDayPlayed
 	beq FinishSeasonDay
-	jsr.w CODE_C5E336
+	jsr.w RestoreDayScores
 FinishSeasonDay:					; once no user game of the day is left: Please Wait, the computer games
 									; simulated (SimDayScores, SimDayGameStats), the other scores shown, the
 									; results and season stats saved, the season day + 1

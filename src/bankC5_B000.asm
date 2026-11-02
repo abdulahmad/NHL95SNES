@@ -196,7 +196,7 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
 	stz.b d0
-	jsl.l CODE_C5E37E
+	jsl.l BuildAllTeamRecords
 	stz.b d1
 DrawStandings:						; draws the standings page: the teams of division d1 sorted by stat d0 as
 									; a scrolling list (DrawStandingsRow a row), the stat's title and the

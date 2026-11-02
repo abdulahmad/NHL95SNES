@@ -59,10 +59,10 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	inc.w $003A,x
 	inc.w $00A2,x
 	bra .loop2
-.1:									; if $A5 is not 0 go to .2, go to CODE_C5E0B0
+.1:									; if $A5 is not 0 go to .2, go to SimPlayerStatsReturn
 	lda.b $A5
 	bne .2
-	jmp.w CODE_C5E0B0
+	jmp.w SimPlayerStatsReturn
 .2:									; Y = $0002, $DBDA = [p0],y, $DBE0 = A, Y + 1, ...
 	ldy.w #$0002
 	lda.b [p0],y
@@ -93,20 +93,20 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	sbc.b $36
 	sta.w $DBE4
 	lda.b $36
-.4:									; $DBE6 = A, call CODE_C5E0B1, $DBE0 = $DBDC, $DBE2 = $DBDE, ...
+.4:									; $DBE6 = A, call SimGiveGoals, $DBE0 = $DBDC, $DBE2 = $DBDE, ...
 	sta.w $DBE6
-	jsr.w CODE_C5E0B1
+	jsr.w SimGiveGoals
 	lda.w $DBDC
 	sta.w $DBE0
 	lda.w $DBDE
 	sta.w $DBE2
 	lda.w $DBE4
 	sta.w $DBE6
-	jsr.w CODE_C5E0B1
+	jsr.w SimGiveGoals
 	stz.w $DBE4
 	lda.b $A5
 	lsr a
-	beq CODE_C5E0B0
+	beq SimPlayerStatsReturn
 	sta.b $A5
 	xba
 	and.w #$FF00
@@ -122,23 +122,24 @@ SimPlayerStats:						; spreads a simulated team's game totals over its players: 
 	sbc.b $36
 	sta.w $DBE4
 	lda.b $36
-.6:									; $DBE6 = A, $DBE0 = $DBDA, $DBE2 = $DBDC, call CODE_C5E083, ...
+.6:									; $DBE6 = A, $DBE0 = $DBDA, $DBE2 = $DBDC, call SimGiveAssists, ...
 	sta.w $DBE6
 	lda.w $DBDA
 	sta.w $DBE0
 	lda.w $DBDC
 	sta.w $DBE2
-	jsr.w CODE_C5E083
+	jsr.w SimGiveAssists
 	lda.w $DBDC
 	sta.w $DBE0
 	lda.w $DBDE
 	sta.w $DBE2
 	lda.w $DBE4
 	sta.w $DBE6
-CODE_C5E083:						; from SimPlayerStats
+SimGiveAssists:						; gives $DBE6 assists one at a time to random players of the pick table
+									; (BuildSimPickTable): + 1 at + $6E
 	lda.w $DBE6
-	beq CODE_C5E0B0
-	jsr.w CODE_C5E0DF
+	beq SimPlayerStatsReturn
+	jsr.w BuildSimPickTable
 .1:									; A = $DBE8, call RandomBelowA7E, X = $0000
 	lda.w $DBE8
 	jsr.w RandomBelowA7E
@@ -160,12 +161,13 @@ CODE_C5E083:						; from SimPlayerStats
 	inc.w $006E,x
 	dec.w $DBE6
 	bne .1
-CODE_C5E0B0:						; from SimPlayerStats, CODE_C5E083
+SimPlayerStatsReturn:				; the rts SimPlayerStats and SimGiveAssists share
 	rts
-CODE_C5E0B1:						; from SimPlayerStats
+SimGiveGoals:						; gives $DBE6 goals one at a time to random players of the pick table
+									; (BuildSimPickTable): + 1 at + $3A
 	lda.w $DBE6
 	beq .rts
-	jsr.w CODE_C5E0DF
+	jsr.w BuildSimPickTable
 .1:									; A = $DBE8, call RandomBelowA7E, X = $0000
 	lda.w $DBE8
 	jsr.w RandomBelowA7E
@@ -189,7 +191,8 @@ CODE_C5E0B1:						; from SimPlayerStats
 	bne .1
 .rts:								; return
 	rts
-CODE_C5E0DF:						; from CODE_C5E0B1, CODE_C5E083
+BuildSimPickTable:					; the pick table of players $DBE0 up to $DBE2: each weighs 2 ^ (n - 1), n
+									; the low nibble of his roster byte + $112, totals in $DB8A by player
 	stz.w $DBEA
 	stz.w $DBE8
 	lda.w $DBE0
@@ -489,7 +492,8 @@ WriteTeamStatBit:					; writes bit 0 of tmp1 to bit r2 of the team stats bit str
 	sta.l SRTeamStats,x
 	inc.b r2
 	rts
-CODE_C5E336:						; called from other segments
+RestoreDayScores:					; puts the scores of the day's games already played (SRDayPlayed) back
+									; into the day's game records from SRDayScores, marked done
 	phb
 	lda.l $7E2C42
 	sta.b tmp0
@@ -524,7 +528,8 @@ CODE_C5E336:						; called from other segments
 	plb
 	plb
 	rts
-CODE_C5E37E:						; called from other segments
+BuildAllTeamRecords:				; BuildTeamSeasonRecord for every team ($19 down to 0 through HomeTeam),
+									; linked into a list by + 2, then MarkWorkBuf
 	lda.w #$0019
 	sta.w HomeTeam
 	jsr.w BuildTeamSeasonRecord
@@ -622,7 +627,7 @@ ClampRosterTeams:					; keeps HomeTeam and VisTeam among the 26 NHL teams (else 
 	sta.w VisTeam
 	sta.l SRVisTeam
 	jmp.w PrintVisTeamName
-CODE_C5E447:						; from CODE_C5E474 and other segments
+ClearPlayerGoals:					; clears player A's 9-bit field of SRGoals
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -650,7 +655,8 @@ CODE_C5E447:						; from CODE_C5E474 and other segments
 	and.b tmp0
 	sta.l SRGoals,x
 	rts
-CODE_C5E474:						; called from other segments
+ClearCreatedGoals:					; ClearPlayerGoals for each created player slot in use (its first 3 bits
+									; not 0), players $26A on
 	lda.w #$026A
 	sta.b $A5
 	ldy.w #$0000
@@ -660,7 +666,7 @@ CODE_C5E474:						; called from other segments
 	beq .1
 	phy
 	lda.b $A5
-	jsr.w CODE_C5E447
+	jsr.w ClearPlayerGoals
 	ply
 .1:									; $A5 + 1, A = Y, A + $0099, Y = A, ...
 	inc.b $A5
@@ -694,7 +700,8 @@ ShowPleaseWait:						; fades out and shows the Please Wait= screen, then waits f
 	cmp.w brightness
 	bne .loop
 	rts
-CODE_C5E4D2:						; called from other segments
+UpdateDayPlayed:					; SRDayPlayed again: a game's bit is set when it was or its record says it
+									; is over (+0 = 0)
 	pea.w $7E7F
 	lda.w DayGameCount
 	sta.b tmp0

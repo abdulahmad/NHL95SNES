@@ -1513,7 +1513,7 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $A5
-	jsr.w CODE_C5E447
+	jsr.w ClearPlayerGoals
 	jmp.w ExitCreatePlayer3
 .11:								; A = $0529, call RatingNibble, tmp2 = A, call WriteSaveBits4, ...
 	lda.w $0529

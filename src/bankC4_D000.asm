@@ -33,9 +33,9 @@ CODE_C4CFF5:						; called from other segments
 	mvn $30,$30
 	jsr.w CODE_C4D05B
 	jsr.w CODE_C4D0D5
-.1:									; call CODE_C4CF7B, call CODE_C5E474, return
+.1:									; call CODE_C4CF7B, call ClearCreatedGoals, return
 	jsl.l CODE_C4CF7B
-	jsl.l CODE_C5E474
+	jsl.l ClearCreatedGoals
 	plb
 	rtl
 CODE_C4D05B:						; from CODE_C4CFF5 and other segments

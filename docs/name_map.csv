@@ -6434,33 +6434,33 @@ $C5E00C,.3,CODE_C5E00C,new,"branch target only used in SimPlayerStats",src/bankC
 $C5E01D,.4,CODE_C5E01D,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
 $C5E04E,.5,CODE_C5E04E,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
 $C5E05F,.6,CODE_C5E05F,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
-$C5E08B,.1,CODE_C5E08B,new,"branch target only used in CODE_C5E083",src/bankC5_E000.asm
-$C5E094,.loop,CODE_C5E094,new,"branch target only used in CODE_C5E083",src/bankC5_E000.asm
-$C5E0A1,.2,CODE_C5E0A1,new,"branch target only used in CODE_C5E083",src/bankC5_E000.asm
-$C5E0B9,.1,CODE_C5E0B9,new,"branch target only used in CODE_C5E0B1",src/bankC5_E000.asm
-$C5E0C2,.loop,CODE_C5E0C2,new,"branch target only used in CODE_C5E0B1",src/bankC5_E000.asm
-$C5E0CF,.2,CODE_C5E0CF,new,"branch target only used in CODE_C5E0B1",src/bankC5_E000.asm
-$C5E0DE,.rts,CODE_C5E0DE,new,"branch target only used in CODE_C5E0B1",src/bankC5_E000.asm
-$C5E0E8,.loop,CODE_C5E0E8,new,"branch target only used in CODE_C5E0DF",src/bankC5_E000.asm
-$C5E0FB,.loop2,CODE_C5E0FB,new,"branch target only used in CODE_C5E0DF",src/bankC5_E000.asm
+$C5E08B,.1,CODE_C5E08B,new,"branch target only used in SimGiveAssists",src/bankC5_E000.asm
+$C5E094,.loop,CODE_C5E094,new,"branch target only used in SimGiveAssists",src/bankC5_E000.asm
+$C5E0A1,.2,CODE_C5E0A1,new,"branch target only used in SimGiveAssists",src/bankC5_E000.asm
+$C5E0B9,.1,CODE_C5E0B9,new,"branch target only used in SimGiveGoals",src/bankC5_E000.asm
+$C5E0C2,.loop,CODE_C5E0C2,new,"branch target only used in SimGiveGoals",src/bankC5_E000.asm
+$C5E0CF,.2,CODE_C5E0CF,new,"branch target only used in SimGiveGoals",src/bankC5_E000.asm
+$C5E0DE,.rts,CODE_C5E0DE,new,"branch target only used in SimGiveGoals",src/bankC5_E000.asm
+$C5E0E8,.loop,CODE_C5E0E8,new,"branch target only used in BuildSimPickTable",src/bankC5_E000.asm
+$C5E0FB,.loop2,CODE_C5E0FB,new,"branch target only used in BuildSimPickTable",src/bankC5_E000.asm
 $C5E192,.loop,CODE_C5E192,new,"branch target only used in SaveDayGameStats",src/bankC5_E000.asm
 $C5E1EB,.1,CODE_C5E1EB,new,"branch target only used in SaveDayGameStats",src/bankC5_E000.asm
 $C5E1FF,.loop2,CODE_C5E1FF,new,"branch target only used in SaveDayGameStats",src/bankC5_E000.asm
 $C5E314,.1,CODE_C5E314,new,"branch target only used in WriteTeamStatBit",src/bankC5_E000.asm
-$C5E34D,.loop,CODE_C5E34D,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
-$C5E36F,.1,CODE_C5E36F,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
-$C5E38C,.loop,CODE_C5E38C,new,"branch target only used in CODE_C5E37E",src/bankC5_E000.asm
-$C5E3A4,.1,CODE_C5E3A4,new,"branch target only used in CODE_C5E37E",src/bankC5_E000.asm
+$C5E34D,.loop,CODE_C5E34D,new,"branch target only used in RestoreDayScores",src/bankC5_E000.asm
+$C5E36F,.1,CODE_C5E36F,new,"branch target only used in RestoreDayScores",src/bankC5_E000.asm
+$C5E38C,.loop,CODE_C5E38C,new,"branch target only used in BuildAllTeamRecords",src/bankC5_E000.asm
+$C5E3A4,.1,CODE_C5E3A4,new,"branch target only used in BuildAllTeamRecords",src/bankC5_E000.asm
 $C5E3B8,.1,CODE_C5E3B8,new,"branch target only used in SaveOptPlayoffs",src/bankC5_E000.asm
 $C5E432,.1,CODE_C5E432,new,"branch target only used in ClampRosterTeams",src/bankC5_E000.asm
-$C5E460,.loop,CODE_C5E460,new,"branch target only used in CODE_C5E447",src/bankC5_E000.asm
-$C5E467,.1,CODE_C5E467,new,"branch target only used in CODE_C5E447",src/bankC5_E000.asm
-$C5E47C,.loop,CODE_C5E47C,new,"branch target only used in CODE_C5E474",src/bankC5_E000.asm
-$C5E48B,.1,CODE_C5E48B,new,"branch target only used in CODE_C5E474",src/bankC5_E000.asm
+$C5E460,.loop,CODE_C5E460,new,"branch target only used in ClearPlayerGoals",src/bankC5_E000.asm
+$C5E467,.1,CODE_C5E467,new,"branch target only used in ClearPlayerGoals",src/bankC5_E000.asm
+$C5E47C,.loop,CODE_C5E47C,new,"branch target only used in ClearCreatedGoals",src/bankC5_E000.asm
+$C5E48B,.1,CODE_C5E48B,new,"branch target only used in ClearCreatedGoals",src/bankC5_E000.asm
 $C5E4CC,.loop,CODE_C5E4CC,new,"branch target only used in ShowPleaseWait",src/bankC5_E000.asm
-$C5E4E6,.loop,CODE_C5E4E6,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
-$C5E4F0,.1,CODE_C5E4F0,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
-$C5E502,.loop2,CODE_C5E502,new,"branch target only used in CODE_C5E4D2",src/bankC5_E000.asm
+$C5E4E6,.loop,CODE_C5E4E6,new,"branch target only used in UpdateDayPlayed",src/bankC5_E000.asm
+$C5E4F0,.1,CODE_C5E4F0,new,"branch target only used in UpdateDayPlayed",src/bankC5_E000.asm
+$C5E502,.loop2,CODE_C5E502,new,"branch target only used in UpdateDayPlayed",src/bankC5_E000.asm
 $C5E555,.loop,CODE_C5E555,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
 $C5E565,.loop2,CODE_C5E565,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
 $C5E577,.loop3,CODE_C5E577,new,"branch target only used in ResetSpritesAt",src/bankC5_E000.asm
@@ -8515,3 +8515,12 @@ $C5DE3F,StoreTeamResult,CODE_C5DE3F,code,"from the code: team * $15 (Mul8U), the
 $C5DDC0,SimGoalLimit,CODE_C5DDC0,code,"from the code: the team data at $C30000 + 2A, its +6 offset, the byte at +4, RandomBelowA, WRDIVL / WRDIVB by 10, RDDIVL + 4; SimDayScores raises each side's score toward it",src/bankC5_D000.asm
 $C5D0A9,SetMarkedPlayersTeam,CODE_C5D0A9,code,"from the code: the (tmp1),y flag loop to tmp0, the player index at X + $3A, the 12-bit SRPlayerTeams entry (low or high 5 bits by its parity) takes A or A * 16; ExecuteTrade calls it for both sides of a trade",src/bankC5_D000.asm
 $C5D1C5,StartUserNameEntry,CODE_C5D1C5,code,"from the code: FadeOutWait, DMAEnShadow $8000, DeleteSprite of $73,y for y 8 down to 0, CreateSprite $1C, SetSpriteAnim 3",src/bankC5_D000.asm
+$C5E0B1,SimGiveGoals,CODE_C5E0B1,code,"from the code: RandomBelowA7E below the weight total $DBE8, the cumulative table at $DB8A / $DB8C, inc $3A,x per goal; SimPlayerStats calls it (+$3A is the goals field AddPlayerSeasonStats reads)",src/bankC5_E000.asm
+$C5E083,SimGiveAssists,CODE_C5E083,code,"from the code: the same pick as SimGiveGoals with inc $6E,x (the assists field AddPlayerSeasonStats reads); SimPlayerStats calls it",src/bankC5_E000.asm
+$C5E0DF,BuildSimPickTable,CODE_C5E0DF,code,"from the code: the [p0] + player * 32 + $112 nibble, the rol loop, the running sum in $DBE8 stored with the player at $DB8A / $DB8C; SimGiveGoals and SimGiveAssists call it",src/bankC5_E000.asm
+$C5E0B0,SimPlayerStatsReturn,CODE_C5E0B0,code,"from the code: SimPlayerStats jumps here to return, SimGiveAssists branches here when there is nothing to give",src/bankC5_E000.asm
+$C5E336,RestoreDayScores,CODE_C5E336,code,"from the code: the SRDayPlayed bit loop over DayGameCount records at $7F8EF8 ($10A each): +0 = 0, +6 = $FFFF, +$0A / +8 from SRDayScores' low / high byte; MenuPlayGames calls it",src/bankC5_E000.asm
+$C5E4D2,UpdateDayPlayed,CODE_C5E4D2,code,"from the code: the bit loop over DayGameCount records at $7F8EF8 rebuilding the bits with ror, shifted down to bit 0; PeriodOver calls it",src/bankC5_E000.asm
+$C5E37E,BuildAllTeamRecords,CODE_C5E37E,code,"from the code: the HomeTeam loop from $19, each record's + 2 pointing at the next, the first stored at $81; SetupPlayoffs and StandingsScreen call it",src/bankC5_E000.asm
+$C5E447,ClearPlayerGoals,CODE_C5E447,code,"from the code: A * 9 gives the byte and bit, the $FE00 mask rotated into place and anded in; SaveCreatedPlayer and ClearCreatedGoals call it",src/bankC5_E000.asm
+$C5E474,ClearCreatedGoals,CODE_C5E474,code,"from the code: NextSaveBits3 per record ($99 bits apart up to $C30), $A5 from $26A; the season reset (CODE_C4CFF5) calls it",src/bankC5_E000.asm

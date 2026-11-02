@@ -1332,8 +1332,8 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	jsr.w RecordDayResults
 	jsr.w SaveDayGameStats
 	bra .9
-.8:									; call CODE_C5E4D2
-	jsr.w CODE_C5E4D2
+.8:									; call UpdateDayPlayed
+	jsr.w UpdateDayPlayed
 .9:									; X = DayGameCount, A = SRDayPlayed
 	pea.w $C57E
 	plb
