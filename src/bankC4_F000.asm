@@ -345,9 +345,9 @@ RosterDiffers:						; carry set when the roster table at Y differs from the one 
 .1:									; return
 	sec
 	rts
-RebuildChangedLines:				; for both teams of the game (HomeTeam into $2DC9, VisTeam into $3207), in
-									; play mode 2 or 3, or 0 / 1 with OptRosters set: BuildTeamLines when its
-									; roster differs from the cartridge one
+RebuildChangedLines:				; for both teams of the game (HomeTeam into HomeRoster, VisTeam into
+									; VisRoster), in play mode 2 or 3, or 0 / 1 with OptRosters set:
+									; BuildTeamLines when its roster differs from the cartridge one
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcc .3

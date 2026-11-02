@@ -185,8 +185,7 @@ UnpackTeamBonuses:					; unpacks the team bonus bytes at X into roster table Y: 
 	and.w #$00FF
 	sta.w $043C,y
 	rts
-LoadSeasonHomeRoster:				; LoadSeasonRoster of team A into the home roster table ($2DC9), for long
-									; calls
+LoadSeasonHomeRoster:				; LoadSeasonRoster of team A into HomeRoster, for long calls
 	ldy.w #HomeRoster
 	sta.b tmp0
 	sty.b tmp1

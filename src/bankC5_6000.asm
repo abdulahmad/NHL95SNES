@@ -1330,10 +1330,10 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w $115D,x
 	and.w #$0080
 	beq .3
-	pea.w $3207
+	pea.w VisRoster
 	bra .4
 .3:									; continue
-	pea.w $2DC9
+	pea.w HomeRoster
 .4:									; call TeamSecondText, Y = $6D, call PrintBoldCentred, $CF = $D1, ...
 	jsr.w TeamSecondText
 	ldy.b $6D
@@ -1601,10 +1601,10 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	lda.w ScoreSum+2,x
 	and.w #$0080
 	beq .1
-	pea.w $3207
+	pea.w VisRoster
 	bra .2
 .1:									; continue
-	pea.w $2DC9
+	pea.w HomeRoster
 .2:									; $CF = $007A, $D1 = $00E0, if RDMPYL = 0 go to .6, A - 1, ...
 	lda.w #$007A
 	sta.b $CF

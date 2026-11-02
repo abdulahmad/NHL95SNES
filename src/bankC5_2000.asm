@@ -1606,8 +1606,8 @@ LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMod
 	pla
 	sta.w OptRosters
 	rtl
-LoadGameRosters:					; LoadTeamRoster for both teams of the game: HomeTeam into $2DC9, VisTeam
-									; into $3207
+LoadGameRosters:					; LoadTeamRoster for both teams of the game: HomeTeam into HomeRoster,
+									; VisTeam into VisRoster
 	lda.w HomeTeam
 	ldy.w #HomeRoster
 	jsr.w LoadTeamRoster
