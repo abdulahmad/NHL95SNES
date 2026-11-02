@@ -1812,7 +1812,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	stz.w PauseMusicOn
-	lda.w $17D1
+	lda.w pregamepause
 	bne .1
 	lda.w InIntermission
 	beq .2

@@ -516,7 +516,7 @@ PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcoun
 	dec a
 	dec a
 	sta.w vcountmark+2
-	lda.w $17D1
+	lda.w pregamepause
 	bne .1
 	jsl.l ReplayMode
 .1:									; pull A, d7 = A, $A2 = A, pull A, ...

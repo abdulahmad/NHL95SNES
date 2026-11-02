@@ -94,6 +94,9 @@ dumpintarget		=	$066C		; assdumpin: the target index (DumpInTarget), a word offs
 passtargetx			=	$066E		; dopass_count: x where the pass meets the receiver
 passtargety			=	$0670		; dopass: pucky + the pass vector y; asspassrec: goal line y (+-$108) ...
 onetimerreq			=	$0672		; Set when the pass receiver's pad presses shoot (asspassrec, doinput) or
+passwait			=	$0676		; per player: frames until the passed puck arrives (dopass, asspassrec)
+lastshotspeed		=	$068E		; doshot's shot speed (passspeed after the backhand cut)
+GoalieUnused		=	$0692		; assgoalietopuck clears it when the assignment starts; nothing reads it
 goalieturnwait		=	$0694		; Per player: AdjustFacingDirection/goalieacc set 6 after turning a
 goaliedivewait		=	$06B4		; per player: goalie wait after a dive; updateplayers counts it to 0
 benchcheer			=	$06EC		; bench cheer: FallDown and Goal clear it; nothing reads it
@@ -106,6 +109,8 @@ recsfx2				=	$077C		; QueueSound moves recsfx here when a second sound comes in 
 recsfxpitch2		=	$077E		; QueueSound copies recsfxpitch here with recsfx2; ReplayMode restores
 replaynewframe		=	$0782		; RestoreReplayFrame increments it, UpdateReplayCamera clears it
 percue				=	$078A		; StartPer sets $FFFF (0 in mode 4); puckfaceoff2 picks the song by it
+textdirtylo			=	$079C		; lowest changed word of the text map ($FFFF: none)
+textdirtyhi			=	$079E		; highest changed word of the text map
 collflag			=	$07A2		; a player collision happened: checkcoll restores the old position (set by
 impactstep			=	$07A4		; d7*2: impact decay this game frame (Gameloop)
 velstep				=	$07A6		; d7*16: velocity to position scale this game frame (Gameloop)
@@ -306,6 +311,7 @@ HomeTeam			=	$17C9		; the game's home team (team number)
 VisTeam				=	$17CB		; the game's visiting team (team number)
 HomeSpritePal		=	$17CD		; the home team's sprite palette (HomeTeam * 2 + $81, UseSpritePalette)
 VisSpritePal		=	$17CF		; the visitors' sprite palette (VisTeam * 2 + $80, UseSpritePalette)
+pregamepause		=	$17D1		; set by StartGame_go when a pad has a team: StartPer opens the pause
 tmdata				=	$17D3		; per team (y = 0/2): the team data address in bank $C3
 lcpad				=	$184C		; Per team (y = 0/2) the pad (d4) that opened the line change box, ...
 jmlvector			=	$1850		; RAM jml routine: $5C (jml) at +0, the target at +1..+3 (RunTasks)

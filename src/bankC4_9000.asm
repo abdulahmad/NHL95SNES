@@ -791,9 +791,9 @@ doshot:								; from ShotMode, PassReceiverOneTimer, ...
 	bne .2
 	lda.w #$000E
 	sta.b $01,s
-.2:									; $068E = passspeed, if passspeed < $001E go to .3, $01,s = $0010
+.2:									; lastshotspeed = passspeed, if passspeed < $001E go to .3, $01,s = $0010
 	lda.w passspeed
-	sta.w $068E
+	sta.w lastshotspeed
 	cmp.w #$001E
 	bcc .3
 	lda.w #$0010
@@ -1325,8 +1325,8 @@ asspassrec:							; called from other segments
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-.1:									; $0676,x - 1, if the result < 0 go to EndPassReceiverAssignment, ...
-	dec.w $0676,x
+.1:									; passwait,x - 1, if the result < 0 go to EndPassReceiverAssignment, ...
+	dec.w passwait,x
 	bmi EndPassReceiverAssignment
 	lda.w puckc
 	bpl EndPassReceiverAssignment

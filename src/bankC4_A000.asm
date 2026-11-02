@@ -498,7 +498,7 @@ dopass_count:						; from dopass and other segments
 	lda.b d6
 	clc
 	adc.w #$0006
-	sta.w $0676,y
+	sta.w passwait,y
 	ldx.b curobj
 	lda.b d6
 	sta.w nopuck,x

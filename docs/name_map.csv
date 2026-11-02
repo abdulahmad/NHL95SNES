@@ -4821,8 +4821,8 @@ $C50BE5,.11,CODE_C50BE5,new,"branch target only used in PeriodOver",src/bankC5_0
 $C50BF3,.loop,CODE_C50BF3,new,"branch target only used in SeasonGameOver",src/bankC5_0000.asm
 $C50BF9,.1,CODE_C50BF9,new,"branch target only used in SeasonGameOver",src/bankC5_0000.asm
 $C50D02,.rts,CODE_C50D02,new,"branch target only used in SeasonGameOver",src/bankC5_0000.asm
-$C50D0B,.rtl,CODE_C50D0B,new,"branch target only used in CODE_C50D03",src/bankC5_0000.asm
-$C50D14,.rtl,CODE_C50D14,new,"branch target only used in CODE_C50D0C",src/bankC5_0000.asm
+$C50D0B,.rtl,CODE_C50D0B,new,"branch target only used in ExtendTextDirtyLo",src/bankC5_0000.asm
+$C50D14,.rtl,CODE_C50D14,new,"branch target only used in ExtendTextDirtyHi",src/bankC5_0000.asm
 $C50D23,.rtl,CODE_C50D23,new,"branch target only used in startpause",src/bankC5_0000.asm
 $C50DDD,.1,CODE_C50DDD,new,"branch target only used in Pausemode",src/bankC5_0000.asm
 $C50E02,.2,CODE_C50E02,new,"branch target only used in Pausemode",src/bankC5_0000.asm
@@ -8701,3 +8701,11 @@ $C54120,.1,CODE_C54120,new,"branch target only used in setlccords",src/bankC5_40
 $C54130,.2,CODE_C54130,new,"branch target only used in setlccords",src/bankC5_4000.asm
 $C54135,.3,CODE_C54135,new,"branch target only used in setlccords",src/bankC5_4000.asm
 $C54140,.4,CODE_C54140,new,"branch target only used in setlccords",src/bankC5_4000.asm
+$0676,passwait,,94S+purpose,"RAM: 94S passwait: dopass_count stores the receiver's wait, asspassrec counts it down (dec here, minus the time step in 94S)",src/ram95s.asm
+$068E,lastshotspeed,,94S+code,"RAM: 94S lastshotspeed: doshot stores passspeed there, the same code",src/ram95s.asm
+$0692,GoalieUnused,,94S+code,"RAM: 94S GoalieUnused: stz in assgoalietopuck, the same code; no reader in 95S either",src/ram95s.asm
+$079C,textdirtylo,,94S+code,"RAM: 94S textdirtylo: StartPer sets $FFFF, Pausemode clears it, as in 94S; the uncalled ExtendTextDirtyLo lowers it",src/ram95s.asm
+$079E,textdirtyhi,,94S+code,"RAM: 94S textdirtyhi: StartPer clears it, ProcessReplayPlayback sets it, as in 94S; the uncalled ExtendTextDirtyHi raises it",src/ram95s.asm
+$17D1,pregamepause,,94S+code,"RAM: 94S pregamepause: set in StartGame_go, read by StartPer and Pausemode (cleared there), the same use",src/ram95s.asm
+$C50D03,ExtendTextDirtyLo,CODE_C50D03,code,"from the code: cmp / bcs / sta textdirtylo / rtl; no reference in the traced code",src/bankC5_0000.asm
+$C50D0C,ExtendTextDirtyHi,CODE_C50D0C,code,"from the code: cmp / bcc / sta textdirtyhi / rtl; no reference in the traced code",src/bankC5_0000.asm

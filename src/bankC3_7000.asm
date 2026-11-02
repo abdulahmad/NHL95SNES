@@ -1101,9 +1101,9 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	lda.w #$0800
 	trb.w sflags
 	jsl.l SetHor
-	stz.w $079C
+	stz.w textdirtylo
 	lda.w #$03FF
-	sta.w $079E
+	sta.w textdirtyhi
 	jsl.l FadeOut
 	jsl.l forceblack
 	lda.w shootoutmode

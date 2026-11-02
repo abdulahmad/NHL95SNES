@@ -130,7 +130,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	dex
 	bpl .2
 	jsl.l setupice
-	stz.w $17D1
+	stz.w pregamepause
 	ldx.w #$0008
 .loop3:								; loop: if cont1team,x is not 0 go to .5, X - 1, X - 1, ...
 	lda.w cont1team,x
@@ -140,9 +140,9 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	bpl .loop3
 	jsl.l LoadTeamSongs
 	bra .6
-.5:									; $17D1 = $0001
+.5:									; pregamepause = $0001
 	lda.w #$0001
-	sta.w $17D1
+	sta.w pregamepause
 .6:									; BA_Sktr_SCnum = $FFFF, if shootoutmode = 0 go to StartPer, return
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
@@ -173,8 +173,8 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	ora.w cont5team
 	bne .2
 	jsl.l SoundVolumeUp
-.2:									; if $17D1 = 0 go to .3, Y = $5800, call ClearVRAM, call startpause
-	lda.w $17D1
+.2:									; if pregamepause = 0 go to .3, Y = $5800, call ClearVRAM, call startpause
+	lda.w pregamepause
 	beq .3
 	ldy.w #$5800
 	jsl.l ClearVRAM
@@ -205,10 +205,10 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	bra .5
 .4:									; percue = 0
 	stz.w percue
-.5:									; $079C = $FFFF, $079E = 0, Vcount = 0, $5F = 0, ...
+.5:									; textdirtylo = $FFFF, textdirtyhi = 0, Vcount = 0, $5F = 0, ...
 	lda.w #$FFFF
-	sta.w $079C
-	stz.w $079E
+	sta.w textdirtylo
+	stz.w textdirtyhi
 	stz.b Vcount
 	stz.b $5F
 	stz.w lastframevc
@@ -1473,16 +1473,16 @@ SeasonGameOver:						; after the user's season game: its game record (the first 
 	jsl.l AddGamePlayerStats
 .rts:								; return
 	rts
-CODE_C50D03:						; no caller found (not traced)
-	cmp.w $079C
+ExtendTextDirtyLo:					; textdirtylo = A when A is lower; no caller found
+	cmp.w textdirtylo
 	bcs .rtl
-	sta.w $079C
+	sta.w textdirtylo
 .rtl:								; return
 	rtl
-CODE_C50D0C:						; no caller found (not traced)
-	cmp.w $079E
+ExtendTextDirtyHi:					; textdirtyhi = A when A is higher; no caller found
+	cmp.w textdirtyhi
 	bcc .rtl
-	sta.w $079E
+	sta.w textdirtyhi
 .rtl:								; return
 	rtl
 startpause1:						; pause from pad 1: pausepad = 0, then startpause
@@ -1606,14 +1606,14 @@ Pausemode:							; the game loop's pause (the sflags pause bit): the game state 
 	stz.w pausemenuon
 	stz.w $1857
 	jsl.l forceblack
-	stz.w $079C
+	stz.w textdirtylo
 	lda.w #$0001
 	trb.w sflags
-	lda.w $17D1
+	lda.w pregamepause
 	bne .2
 	jsl.l ScreenOn
-.2:									; $17D1 = 0, A = $0006, call StartSound, call StartCrowdSound, ...
-	stz.w $17D1
+.2:									; pregamepause = 0, A = $0006, call StartSound, call StartCrowdSound, ...
+	stz.w pregamepause
 	lda.w #$0006
 	jsl.l StartSound
 	jsl.l StartCrowdSound

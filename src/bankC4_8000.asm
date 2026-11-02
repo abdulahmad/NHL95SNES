@@ -1170,7 +1170,7 @@ assgoalietopuck:					; called from other segments
 	and.w #$FFFD
 	sta.w pflags,x
 	stz.w temp1,x
-	stz.w $0692
+	stz.w GoalieUnused
 .5:									; A = temp1,x, A - d7, temp1,x = A, if plus go to .10, ...
 	lda.w temp1,x
 	sec
