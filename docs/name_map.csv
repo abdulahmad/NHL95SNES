@@ -4877,9 +4877,9 @@ $C51211,.3,CODE_C51211,new,"branch target only used in SetScore",src/bankC5_1000
 $C51222,.4,CODE_C51222,new,"branch target only used in SetScore",src/bankC5_1000.asm
 $C51257,.5,CODE_C51257,new,"branch target only used in SetScore",src/bankC5_1000.asm
 $C5126F,.6,CODE_C5126F,new,"branch target only used in SetScore",src/bankC5_1000.asm
-$C5135D,.loop,CODE_C5135D,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
-$C51368,.1,CODE_C51368,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
-$C51374,.loop2,CODE_C51374,new,"branch target only used in CODE_C512B1",src/bankC5_1000.asm
+$C5135D,.loop,CODE_C5135D,new,"branch target only used in SimPeriodGoals",src/bankC5_1000.asm
+$C51368,.1,CODE_C51368,new,"branch target only used in SimPeriodGoals",src/bankC5_1000.asm
+$C51374,.loop2,CODE_C51374,new,"branch target only used in SimPeriodGoals",src/bankC5_1000.asm
 $C513C4,.1,CODE_C513C4,new,"branch target only used in showclockdma",src/bankC5_1000.asm
 $C51485,.1,CODE_C51485,new,"branch target only used in DispPen",src/bankC5_1000.asm
 $C51487,.loop,CODE_C51487,new,"branch target only used in DispPen",src/bankC5_1000.asm
@@ -4943,8 +4943,8 @@ $C51BF2,.7,CODE_C51BF2,new,"branch target only used in Endfaceoff",src/bankC5_10
 $C51BFF,.8,CODE_C51BFF,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
 $C51C04,.9,CODE_C51C04,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
 $C51C0C,.10,CODE_C51C0C,new,"branch target only used in Endfaceoff",src/bankC5_1000.asm
-$C51C40,.loop,CODE_C51C40,new,"branch target only used in CODE_C51C39",src/bankC5_1000.asm
-$C51C4E,.1,CODE_C51C4E,new,"branch target only used in CODE_C51C39",src/bankC5_1000.asm
+$C51C40,.loop,CODE_C51C40,new,"branch target only used in FindPositionSlot",src/bankC5_1000.asm
+$C51C4E,.1,CODE_C51C4E,new,"branch target only used in FindPositionSlot",src/bankC5_1000.asm
 $C51C86,.1,CODE_C51C86,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
 $C51C8F,.rtl,CODE_C51C8F,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
 $C51C90,.2,CODE_C51C90,new,"branch target only used in faceoffinput",src/bankC5_1000.asm
@@ -4980,10 +4980,10 @@ $C51F4B,.loop,CODE_C51F4B,new,"branch target only used in FirstTeamPad",src/bank
 $C51F5E,.1,CODE_C51F5E,new,"branch target only used in FirstTeamPad",src/bankC5_1000.asm
 $C51F5F,.rtl,CODE_C51F5F,new,"branch target only used in FirstTeamPad",src/bankC5_1000.asm
 $C51F93,.loop,CODE_C51F93,new,"branch target only used in limitfo",src/bankC5_1000.asm
-$C51FE6,.1,CODE_C51FE6,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
-$C51FF3,.2,CODE_C51FF3,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
-$C52002,.3,CODE_C52002,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
-$C52007,.rtl,CODE_C52007,new,"branch target only used in CODE_C51FBA",src/bankC5_1000.asm
+$C51FE6,.1,CODE_C51FE6,new,"branch target only used in LimitPenaltyFaceoff",src/bankC5_1000.asm
+$C51FF3,.2,CODE_C51FF3,new,"branch target only used in LimitPenaltyFaceoff",src/bankC5_1000.asm
+$C52002,.3,CODE_C52002,new,"branch target only used in LimitPenaltyFaceoff",src/bankC5_1000.asm
+$C52007,.rtl,CODE_C52007,new,"branch target only used in LimitPenaltyFaceoff",src/bankC5_1000.asm
 $C52053,.loop,CODE_C52053,new,"branch target only used in setupice",src/bankC5_2000.asm
 $C52195,.loop2,CODE_C52195,new,"branch target only used in setupice",src/bankC5_2000.asm
 $C52251,.loop,CODE_C52251,new,"branch target only used in setupice_reset",src/bankC5_2000.asm
@@ -5178,8 +5178,8 @@ $C53516,.loop2,CODE_C53516,new,"branch target only used in CODE_C534E8",src/bank
 $C5354B,.1,CODE_C5354B,new,"branch target only used in ResetClock",src/bankC5_3000.asm
 $C53568,.2,CODE_C53568,new,"branch target only used in ResetClock",src/bankC5_3000.asm
 $C5357F,.loop,CODE_C5357F,new,"branch target only used in clearTeamStats",src/bankC5_3000.asm
-$C535D7,.loop,CODE_C535D7,new,"branch target only used in CODE_C535CA",src/bankC5_3000.asm
-$C535DE,.1,CODE_C535DE,new,"branch target only used in CODE_C535CA",src/bankC5_3000.asm
+$C535D7,.loop,CODE_C535D7,new,"branch target only used in BenchTeamRoster",src/bankC5_3000.asm
+$C535DE,.1,CODE_C535DE,new,"branch target only used in BenchTeamRoster",src/bankC5_3000.asm
 $C53623,.1,CODE_C53623,new,"branch target only used in loadTeamStruct",src/bankC5_3000.asm
 $C53638,.1,CODE_C53638,new,"branch target only used in CODE_C5362E",src/bankC5_3000.asm
 $C53647,.1,CODE_C53647,new,"branch target only used in ChkShotStat_add",src/bankC5_3000.asm
@@ -5234,10 +5234,10 @@ $C53AA9,.1,CODE_C53AA9,new,"branch target only used in CODE_C53A90",src/bankC5_3
 $C53ACB,.loop,CODE_C53ACB,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
 $C53AD5,.1,CODE_C53AD5,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
 $C53ADF,.rtl,CODE_C53ADF,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
-$C53AFD,.1,CODE_C53AFD,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
-$C53B0D,.2,CODE_C53B0D,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
-$C53B2E,.3,CODE_C53B2E,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
-$C53B4A,.4,CODE_C53B4A,new,"branch target only used in CODE_C53AF8",src/bankC5_3000.asm
+$C53AFD,.1,CODE_C53AFD,new,"branch target only used in ResetTeamBench",src/bankC5_3000.asm
+$C53B0D,.2,CODE_C53B0D,new,"branch target only used in ResetTeamBench",src/bankC5_3000.asm
+$C53B2E,.3,CODE_C53B2E,new,"branch target only used in ResetTeamBench",src/bankC5_3000.asm
+$C53B4A,.4,CODE_C53B4A,new,"branch target only used in ResetTeamBench",src/bankC5_3000.asm
 $C53B81,.loop,CODE_C53B81,new,"branch target only used in forcepldata",src/bankC5_3000.asm
 $C53B91,.1,CODE_C53B91,new,"branch target only used in forcepldata",src/bankC5_3000.asm
 $C53BB2,.2,CODE_C53BB2,new,"branch target only used in forcepldata",src/bankC5_3000.asm
@@ -5369,9 +5369,9 @@ $C54ABA,.2,CODE_C54ABA,new,"branch target only used in AvgCline",src/bankC5_4000
 $C54AD6,.3,CODE_C54AD6,new,"branch target only used in AvgCline",src/bankC5_4000.asm
 $C54AFC,.loop,CODE_C54AFC,new,"branch target only used in reenergizeteam",src/bankC5_4000.asm
 $C54B15,.1,CODE_C54B15,new,"branch target only used in reenergizeteam",src/bankC5_4000.asm
-$C54B30,.loop,CODE_C54B30,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
-$C54B37,.1,CODE_C54B37,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
-$C54B59,.2,CODE_C54B59,new,"branch target only used in CODE_C54B2B",src/bankC5_4000.asm
+$C54B30,.loop,CODE_C54B30,new,"branch target only used in RestoreTeamBenchEnergy",src/bankC5_4000.asm
+$C54B37,.1,CODE_C54B37,new,"branch target only used in RestoreTeamBenchEnergy",src/bankC5_4000.asm
+$C54B59,.2,CODE_C54B59,new,"branch target only used in RestoreTeamBenchEnergy",src/bankC5_4000.asm
 $C54B74,.loop,CODE_C54B74,new,"branch target only used in lcfound_close",src/bankC5_4000.asm
 $C54BA3,.1,CODE_C54BA3,new,"branch target only used in lcfound_close",src/bankC5_4000.asm
 $C54BCA,.1,CODE_C54BCA,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
@@ -5388,7 +5388,7 @@ $C54CEA,.2,CODE_C54CEA,new,"branch target only used in CODE_C54CB9",src/bankC5_4
 $C54D0E,.1,CODE_C54D0E,new,"branch target only used in CODE_C54D03",src/bankC5_4000.asm
 $C54D16,.2,CODE_C54D16,new,"branch target only used in CODE_C54D03",src/bankC5_4000.asm
 $C54DDE,.rtl,CODE_C54DDE,new,"branch target only used in lcfound",src/bankC5_4000.asm
-$C54E26,.rtl,CODE_C54E26,new,"branch target only used in CODE_C54DFB",src/bankC5_4000.asm
+$C54E26,.rtl,CODE_C54E26,new,"branch target only used in SetupTeamLine",src/bankC5_4000.asm
 $C54E2A,.1,CODE_C54E2A,new,"branch target only used in Create_HotCold_Table",src/bankC5_4000.asm
 $C54E39,.2,CODE_C54E39,new,"branch target only used in Create_HotCold_Table",src/bankC5_4000.asm
 $C54E4D,.3,CODE_C54E4D,new,"branch target only used in Create_HotCold_Table",src/bankC5_4000.asm
@@ -7994,3 +7994,11 @@ $C531C7,LoadSeasonRoster,CODE_C531C7,code,"from the code: the loop over the $27E
 $C531BC,LoadSeasonHomeRoster,CODE_C531BC,code,"from the code; the award scanners call it for each team",src/bankC5_3000.asm
 $C530EB,AddRosterPlayer,CODE_C530EB,code,"from the code",src/bankC5_3000.asm
 $C530CE,SwapRosterPlayers,CODE_C530CE,code,"from the code",src/bankC5_3000.asm
+$C54DFB,SetupTeamLine,CODE_C54DFB,genesis+purpose,"95 Genesis SetupTeamLine's job; the same code as 94S SetupTeamForIntermission's local .team (0.944), called where it is",src/bankC5_4000.asm
+$C54B2B,RestoreTeamBenchEnergy,CODE_C54B2B,code,"the same code as 94S RestoreBenchEnergy's local .1, called where it is",src/bankC5_4000.asm
+$C54734,TakeNewPosition,CODE_C54734,code,"the same code as 94S assbench's local .8, called where it is",src/bankC5_4000.asm
+$C53AF8,ResetTeamBench,CODE_C53AF8,code,"the same code as 94S ResetBench's local .rb, called where it is",src/bankC5_3000.asm
+$C535CA,BenchTeamRoster,CODE_C535CA,code,"the same code as 94S restoreteams's local .r, called where it is",src/bankC5_3000.asm
+$C51C39,FindPositionSlot,CODE_C51C39,code,"the same code as 94S Endfaceoff's local .13, called twice from Endfaceoff as there",src/bankC5_1000.asm
+$C51FBA,LimitPenaltyFaceoff,CODE_C51FBA,code,"94S limitfo's local .t2 (0.818, the same steps with 95 values); limitfo calls it for each PenBuf entry",src/bankC5_1000.asm
+$C512B1,SimPeriodGoals,CODE_C512B1,code,"94S SetScore's local .4 (.getscore: both teams' rows as weights, goals 0-3), the same structure (0.713); SetScore calls it for each team",src/bankC5_1000.asm

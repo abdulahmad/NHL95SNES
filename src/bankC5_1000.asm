@@ -100,8 +100,8 @@ Mod100:								; from CODE_C5111D and other segments
 DATA8_C511B7:						; not traced: data between routines
 	db $6B
 SetScore:							; the score of the other game a0 for the ticker: its period stepped and
-									; both scores raised from the teams' strengths (CODE_C512B1), or the game
-									; ended
+									; both scores raised from the teams' strengths (SimPeriodGoals), or the
+									; game ended
 	phx
 	ldx.b a0
 	lda.w gsper,x
@@ -149,13 +149,13 @@ SetScore:							; the score of the other game a0 for the ticker: its period step
 	ora.w #$0002
 	sta.w gsflags,x
 	bra .5
-.4:									; gsper,x + 1, d0 = gst1,x, d1 = gst2,x, call CODE_C512B1, ...
+.4:									; gsper,x + 1, d0 = gst1,x, d1 = gst2,x, call SimPeriodGoals, ...
 	inc.w gsper,x
 	lda.w gst1,x
 	sta.b d0
 	lda.w gst2,x
 	sta.b d1
-	jsl.l CODE_C512B1
+	jsl.l SimPeriodGoals
 	ldx.b a0
 	lda.w gss1,x
 	clc
@@ -165,7 +165,7 @@ SetScore:							; the score of the other game a0 for the ticker: its period step
 	sta.b d0
 	lda.w gst1,x
 	sta.b d1
-	jsl.l CODE_C512B1
+	jsl.l SimPeriodGoals
 	ldx.b a0
 	lda.w gss2,x
 	clc
@@ -196,7 +196,8 @@ DATA8_C51271:						; not traced: data between routines
 	db $23,$00,$21,$00,$1A,$00,$06,$00,$1E,$00,$22,$00,$1E,$00,$06,$00
 	db $1A,$00,$24,$00,$1E,$00,$08,$00,$16,$00,$25,$00,$1F,$00,$0A,$00
 	db $13,$00,$26,$00,$1F,$00,$0C,$00,$0F,$00,$26,$00,$20,$00,$0F,$00
-CODE_C512B1:						; from SetScore and other segments
+SimPeriodGoals:						; d0 = the goals team d0 scores against team d1 in a period of another
+									; game, from both teams' weight rows (DATA8_C51271 by their ratings)
 	asl.b d0
 	lda.w #$00C3
 	sta.b $69
@@ -1248,7 +1249,7 @@ Endfaceoff:							; drops the puck: the face off sound, sflags $0100 / $0400 cle
 	lda.w #$0010
 	sta.b d2
 	ldx.w fofdata2
-	lda.l $C51C51,x
+	lda.l DATA8_C51C52-1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .1
@@ -1260,7 +1261,7 @@ Endfaceoff:							; drops the puck: the face off sound, sflags $0100 / $0400 cle
 	adc.b d2
 	sta.b d2
 	ldx.w fofdata2+4
-	lda.l $C51C51,x
+	lda.l DATA8_C51C52-1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .2
@@ -1331,16 +1332,16 @@ Endfaceoff:							; drops the puck: the face off sound, sflags $0100 / $0400 cle
 	sta.w Yvel,x
 	lda.w #$0004
 	ldy.w #$0000
-	jsr.w CODE_C51C39
+	jsr.w FindPositionSlot
 	bmi .10
 	lda.w puckvy
 	bpl .8
 	lda.w pfgoal,y
 	bne .9
-.7:									; A = $0004, Y = $000C, call CODE_C51C39, if minus go to .10, ...
+.7:									; A = $0004, Y = $000C, call FindPositionSlot, if minus go to .10, ...
 	lda.w #$0004
 	ldy.w #$000C
-	jsr.w CODE_C51C39
+	jsr.w FindPositionSlot
 	bmi .10
 	bra .9
 .8:									; if pfgoal,y is not 0 go to .7
@@ -1366,7 +1367,8 @@ Endfaceoff:							; drops the puck: the face off sound, sflags $0100 / $0400 cle
 	lda.w #$0018
 	sta.b d0
 	jml.l assreplace
-CODE_C51C39:						; from Endfaceoff
+FindPositionSlot:					; Y = the slot (from Y, six of them) of the player in position A, or
+									; $FFFF; the flags from cpy #0
 	pha
 	lda.w #$0006
 	sta.b d0
@@ -1768,7 +1770,7 @@ AwayPadPlayer:						; A = the player of the away team's first pad (c1playernum)
 	lda.w c1playernum,y
 	rtl
 limitfo:							; keeps the face off spot away from the blue line for every called
-									; penalty: CODE_C51FBA for each PenBuf entry
+									; penalty: LimitPenaltyFaceoff for each PenBuf entry
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1780,9 +1782,9 @@ limitfo:							; keeps the face off spot away from the blue line for every calle
 	stz.b $65
 	lda.w #PenBuf
 	sta.b a0
-.loop:								; loop: A = [a0], call CODE_C51FBA, a0 + 1, a0 + 1, ...
+.loop:								; loop: A = [a0], call LimitPenaltyFaceoff, a0 + 1, a0 + 1, ...
 	lda.b [a0]
-	jsl.l CODE_C51FBA
+	jsl.l LimitPenaltyFaceoff
 	inc.b a0
 	inc.b a0
 	lda.b [a0]
@@ -1804,7 +1806,9 @@ limitfo:							; keeps the face off spot away from the blue line for every calle
 	pla
 	sta.b d0
 	rtl
-CODE_C51FBA:						; from limitfo and other segments
+LimitPenaltyFaceoff:				; for called penalty A (not $34): when foy is past $5C toward the end the
+									; penalized player defends (pfgoal), the spot moves to that end's dot (foy
+									; +-$45, fox +-$50 by its side)
 	and.w #$00FF
 	cmp.w #$0034
 	beq .rtl

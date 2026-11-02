@@ -877,7 +877,7 @@ assbench:							; asstab entry 12: an assignment routine
 	sta.w tmpdst,y
 	lda.w newpnum,x
 	sta.b d3
-	jsl.l CODE_C54734
+	jsl.l TakeNewPosition
 	jmp.w setplayer
 .17:								; if pfnc,x is not 0 go to .rtl, A = pflags,x, ...
 	lda.w pfnc,x
@@ -898,7 +898,8 @@ assbench:							; asstab entry 12: an assignment routine
 	lda.w pflags,x
 	and.w #$EFFF
 	sta.w pflags,x
-CODE_C54734:						; from assbench and other segments
+TakeNewPosition:					; player X takes his requested position (newpos into position, Setplass);
+									; newpnum and newpos cleared
 	lda.w newpos,x
 	sta.b d0
 	sta.w position,x
@@ -1372,10 +1373,11 @@ RestoreBenchEnergy:					; called from other segments
 	lda.w OptLine
 	beq CODE_C54B5F
 	stz.b a2
-	jsl.l CODE_C54B2B
+	jsl.l RestoreTeamBenchEnergy
 	lda.w #$0002
 	sta.b a2
-CODE_C54B2B:						; from RestoreBenchEnergy and other segments
+RestoreTeamBenchEnergy:				; team a2's players on the bench (tmpdst $FFFE) get 10 energy (tmpde), up
+									; to $1000
 	lda.w #$0032
 	sta.b d0
 .loop:								; loop: if a2 = 0 go to .1, A = $0034
@@ -1737,11 +1739,12 @@ SetupTeamForIntermission:			; called from other segments
 	stz.b a2
 	lda.w #$0002
 	sta.b a3
-	jsl.l CODE_C54DFB
+	jsl.l SetupTeamLine
 	stz.b a3
 	lda.w #$0002
 	sta.b a2
-CODE_C54DFB:						; from SetupTeamForIntermission and other segments
+SetupTeamLine:						; team a3 (a2 the other): reenergizeteam, line 0, and with line changes on
+									; line 3 with more players on the ice (tmap), line 5 with fewer
 	jsl.l reenergizeteam
 	ldx.b a3
 	ldy.b a2

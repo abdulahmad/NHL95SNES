@@ -273,5 +273,4 @@
 - CODE_C535EF sits where 94S PlayerShortName calls GetPlayerRecord but reads an offset table, then a word through it;
   what the result points at in the bank $C3 database is not checked: not named.
 - CODE_C54114 has setlccords's job (the line change box position by team and direction, then getlchoice 2), but bytes
-  inside it ($C54120) decode as data; not named until that decode is checked. CODE_C51FBA is limitfo's per-penalty part
-  (94S's local .t2). $18AA: CloseLCBoxes and the face off code count it up; not named.
+  inside it ($C54120) decode as data; not named until that decode is checked. $18AA: CloseLCBoxes and the face off code count it up; not named.

@@ -708,10 +708,10 @@ clearTeamStats:						; clears the team stats (keeping both goalies), the penalty
 	rtl
 restoreteams:						; called from other segments
 	stz.b a2
-	jsl.l CODE_C535CA
+	jsl.l BenchTeamRoster
 	lda.w #$0002
 	sta.b a2
-CODE_C535CA:						; from restoreteams and other segments
+BenchTeamRoster:					; team a2: tmap 6 and every roster entry on the bench (tmpdst $FFFE)
 	ldy.b a2
 	lda.w #$0006
 	sta.w tmap,y
@@ -1371,12 +1371,13 @@ ResetBench:							; called from other segments
 	lda.w #$0010
 	sta.b d1
 	stz.b a0
-	jsl.l CODE_C53AF8
+	jsl.l ResetTeamBench
 	lda.w #$0001
 	sta.b d1
 	lda.w #$0002
 	sta.b a0
-CODE_C53AF8:						; from ResetBench and other segments
+ResetTeamBench:						; team a0's players: each still in the box counted into PBnum by d1, the
+									; others back on the bench (tmpdst) unless out
 	lda.w #$0032
 	sta.b d0
 .1:									; A = PBnum, A + d1, PBnum = A, if a0 = 0 go to .2, ...
