@@ -1296,12 +1296,12 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	jsl.l FadeOutWait
 	jsr.w DrawTradePage
 	stz.w fadestep
-.1:									; TransfersReady + 1, call ReadMenuPads, $26 + 1, call CODE_C5DA09, ...
+.1:									; TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
 	wai
 	jsl.l ReadMenuPads
 	inc.b $26
-	jsr.w CODE_C5DA09
+	jsr.w PlaceTradeCursors
 	ldx.b a0
 	lda.b $85
 	asl a
@@ -1340,8 +1340,8 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	dec a
 	sta.b $85
 	bra .1
-.6:									; call CODE_C5DAF3, go to .1
-	jsr.w CODE_C5DAF3
+.6:									; call TradeCursorUp, go to .1
+	jsr.w TradeCursorUp
 	bra .1
 .7:									; if $0400 bits clear go to .9, if $85 >= $0004 go to .8, X = a2, ...
 	bit.w #$0400
@@ -1356,8 +1356,8 @@ TradePlayers:						; the Trade Players screen: both rosters (Y switches the team
 	beq .1
 	inc.b $85
 	bra .1
-.8:									; call CODE_C5DB9F, go to .1
-	jsr.w CODE_C5DB9F
+.8:									; call TradeCursorDown, go to .1
+	jsr.w TradeCursorDown
 	jmp.w .1
 .9:									; if $4000 bits clear go to .10, A = a2, A xor $0002, a2 = A, ...
 	bit.w #$4000

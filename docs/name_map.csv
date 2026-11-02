@@ -6368,19 +6368,19 @@ $C5D7FB,.loop,CODE_C5D7FB,new,"branch target only used in NextSaveBits3",src/ban
 $C5D818,.loop,CODE_C5D818,new,"branch target only used in NextSaveBits5",src/bankC5_D000.asm
 $C5D836,.loop,CODE_C5D836,new,"branch target only used in NextSaveBits7",src/bankC5_D000.asm
 $C5D854,.loop,CODE_C5D854,new,"branch target only used in NextSaveBits8",src/bankC5_D000.asm
-$C5DA25,.1,CODE_C5DA25,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
-$C5DA2A,.2,CODE_C5DA2A,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
-$C5DA50,.3,CODE_C5DA50,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
-$C5DA55,.4,CODE_C5DA55,new,"branch target only used in CODE_C5DA09",src/bankC5_D000.asm
+$C5DA25,.1,CODE_C5DA25,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
+$C5DA2A,.2,CODE_C5DA2A,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
+$C5DA50,.3,CODE_C5DA50,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
+$C5DA55,.4,CODE_C5DA55,new,"branch target only used in PlaceTradeCursors",src/bankC5_D000.asm
 $C5DACC,.loop,CODE_C5DACC,new,"branch target only used in CODE_C5DAC2",src/bankC5_D000.asm
 $C5DAD4,.1,CODE_C5DAD4,new,"branch target only used in CODE_C5DAC2",src/bankC5_D000.asm
-$C5DB1A,.loop,CODE_C5DB1A,new,"branch target only used in CODE_C5DAF3",src/bankC5_D000.asm
-$C5DB22,.1,CODE_C5DB22,new,"branch target only used in CODE_C5DAF3",src/bankC5_D000.asm
+$C5DB1A,.loop,CODE_C5DB1A,new,"branch target only used in TradeCursorUp",src/bankC5_D000.asm
+$C5DB22,.1,CODE_C5DB22,new,"branch target only used in TradeCursorUp",src/bankC5_D000.asm
 $C5DB3B,.1,CODE_C5DB3B,new,"branch target only used in CODE_C5DB38",src/bankC5_D000.asm
 $C5DB6D,.2,CODE_C5DB6D,new,"branch target only used in CODE_C5DB38",src/bankC5_D000.asm
 $C5DB92,.3,CODE_C5DB92,new,"branch target only used in CODE_C5DB38",src/bankC5_D000.asm
-$C5DBCA,.loop,CODE_C5DBCA,new,"branch target only used in CODE_C5DB9F",src/bankC5_D000.asm
-$C5DBD2,.1,CODE_C5DBD2,new,"branch target only used in CODE_C5DB9F",src/bankC5_D000.asm
+$C5DBCA,.loop,CODE_C5DBCA,new,"branch target only used in TradeCursorDown",src/bankC5_D000.asm
+$C5DBD2,.1,CODE_C5DBD2,new,"branch target only used in TradeCursorDown",src/bankC5_D000.asm
 $C5DBF0,.1,CODE_C5DBF0,new,"branch target only used in CODE_C5DBE8",src/bankC5_D000.asm
 $C5DC22,.2,CODE_C5DC22,new,"branch target only used in CODE_C5DBE8",src/bankC5_D000.asm
 $C5DC47,.3,CODE_C5DC47,new,"branch target only used in CODE_C5DBE8",src/bankC5_D000.asm
@@ -8055,3 +8055,6 @@ $C5D649,WriteUserRecord,CODE_C5D649,code,"from the code: the fields ReadUserReco
 $C5D85D,PrintPositionCounts,CODE_C5D85D,code,"from the code: four BCD prints; the free agent and release pages label the rows Goalies, Defensemen, Forwards, Total",src/bankC5_D000.asm
 $1904,OptUserRec,,genesis+purpose,"RAM: 95 Genesis OptUserRec's option (0 on there); LoadSavedGameOptions loads it, StartDemo clears it, UpdateRecords needs it set",src/ram95s.asm
 $306040,SROptUserRec,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0 into OptUserRec",src/ram95s.asm
+$C5DAF3,TradeCursorUp,CODE_C5DAF3,code,"from the code; TradePlayers calls it on up",src/bankC5_D000.asm
+$C5DB9F,TradeCursorDown,CODE_C5DB9F,code,"from the code; TradePlayers calls it on down",src/bankC5_D000.asm
+$C5DA09,PlaceTradeCursors,CODE_C5DA09,code,"from the code: Y positions from $6F / $77 / $67, bit 0 of $22,x; TradePlayers calls it every frame",src/bankC5_D000.asm

@@ -1294,7 +1294,8 @@ CODE_C5D8E7:						; called from other segments
 	ldx.b $7D
 	lda.b $69
 	jsr.w CODE_C5DAAF
-CODE_C5DA09:						; called from other segments
+PlaceTradeCursors:					; each frame, places the two trade list cursor sprites (d3, $8D) at their
+									; rows and hides the one past its list's end
 	ldy.b a2
 	ldx.b d3
 	lda.w $006F,y
@@ -1424,7 +1425,9 @@ CODE_C5DAEF:						; from CODE_C5DAC2
 	pla
 	pla
 	rts
-CODE_C5DAF3:						; called from other segments
+TradeCursorUp:						; moves the cursor of team a2's trade list up a row; when it leaves the
+									; shown rows the list scrolls (the new row drawn by the row routine at
+									; $8F, then a 7-frame scroll through the HDMA table at $3F4E)
 	ldx.b a2
 	lda.b $73,x
 	sta.b d2
@@ -1462,13 +1465,13 @@ CODE_C5DAF3:						; called from other segments
 	jsr.w ClearTextRow
 	pea.w CODE_C5DB30-1
 	jmp ($008F)
-CODE_C5DB30:						; from CODE_C5DAF3
+CODE_C5DB30:						; from TradeCursorUp
 	jsl.l SendTextMap
 	bra CODE_C5DB38
-CODE_C5DB36:						; from CODE_C5DAF3
+CODE_C5DB36:						; from TradeCursorUp
 	pla
 	rts
-CODE_C5DB38:						; from CODE_C5DAF3, CODE_C5DB30
+CODE_C5DB38:						; from TradeCursorUp, CODE_C5DB30
 	lda.w #$0007
 .1:									; push A, Y = $0003, if $03,s is not 0 go to .2, call CODE_C5DCEE, ...
 	pha
@@ -1520,7 +1523,8 @@ CODE_C5DB38:						; from CODE_C5DAF3, CODE_C5DB30
 	stz.w padlast
 	stz.w repeatdelayframes
 	rts
-CODE_C5DB9F:						; called from other segments
+TradeCursorDown:					; moves the cursor of team a2's trade list down a row (not past its count,
+									; $7B), scrolling the list as TradeCursorUp does
 	ldx.b a2
 	lda.b $73,x
 	sta.b d2
@@ -1560,13 +1564,13 @@ CODE_C5DB9F:						; called from other segments
 	jsr.w ClearTextRow
 	pea.w CODE_C5DBE0-1
 	jmp ($008F)
-CODE_C5DBE0:						; from CODE_C5DB9F
+CODE_C5DBE0:						; from TradeCursorDown
 	jsl.l SendTextMap
 	bra CODE_C5DBE8
-CODE_C5DBE6:						; from CODE_C5DB9F
+CODE_C5DBE6:						; from TradeCursorDown
 	pla
 	rts
-CODE_C5DBE8:						; from CODE_C5DB9F, CODE_C5DBE0
+CODE_C5DBE8:						; from TradeCursorDown, CODE_C5DBE0
 	lda.b $01,s
 	tax
 	inc.b $77,x
