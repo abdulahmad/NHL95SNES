@@ -6407,14 +6407,14 @@ $C5DEB4,.2,CODE_C5DEB4,new,"branch target only used in SimDayGameStats",src/bank
 $C5DEBC,.3,CODE_C5DEBC,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
 $C5DF50,.4,CODE_C5DF50,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
 $C5DF5D,.5,CODE_C5DF5D,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
-$C5DFB1,.loop,CODE_C5DFB1,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5DFC1,.loop2,CODE_C5DFC1,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5DFD8,.1,CODE_C5DFD8,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5DFDF,.2,CODE_C5DFDF,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5E00C,.3,CODE_C5E00C,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5E01D,.4,CODE_C5E01D,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5E04E,.5,CODE_C5E04E,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
-$C5E05F,.6,CODE_C5E05F,new,"branch target only used in CODE_C5DF5F",src/bankC5_E000.asm
+$C5DFB1,.loop,CODE_C5DFB1,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5DFC1,.loop2,CODE_C5DFC1,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5DFD8,.1,CODE_C5DFD8,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5DFDF,.2,CODE_C5DFDF,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5E00C,.3,CODE_C5E00C,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5E01D,.4,CODE_C5E01D,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5E04E,.5,CODE_C5E04E,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
+$C5E05F,.6,CODE_C5E05F,new,"branch target only used in SimPlayerStats",src/bankC5_E000.asm
 $C5E08B,.1,CODE_C5E08B,new,"branch target only used in CODE_C5E083",src/bankC5_E000.asm
 $C5E094,.loop,CODE_C5E094,new,"branch target only used in CODE_C5E083",src/bankC5_E000.asm
 $C5E0A1,.2,CODE_C5E0A1,new,"branch target only used in CODE_C5E083",src/bankC5_E000.asm
@@ -8082,3 +8082,4 @@ $C5E41D,ClampRosterTeams,CODE_C5E41D,code,"from the code: the $1A tests, SRHomeT
 $1872,OptRosters,,code,"RAM: from the code: the Rosters row of the setup option table; with it set LoadTeamRoster takes the season data and SaveOptRosters keeps the teams below $1A",src/ram95s.asm
 $190A,OptPlayoffs,,code,"RAM: from the code: the Playoffs row of the setup option table; SaveOptPlayoffs stores it in SRBestOfSeven, LoadSavedGameOptions loads it",src/ram95s.asm
 $30604F,SROptRosters,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0 into OptRosters, SaveOptRosters stores it",src/ram95s.asm
+$C5DF5F,SimPlayerStats,CODE_C5DF5F,code,"from the code: RandomBelowA7E over the lineup in [p0], the goal loop, the assist parts after it; SimDayGameStats calls it for both teams (95 Genesis splits this into SimScorers / SimAssists / SimShots)",src/bankC5_E000.asm

@@ -1,7 +1,9 @@
 ; Segment bankC5_E000: game code, then the sprite object routines (docs/sprite_objects.md): CreateSprite,
 ; UploadSpriteFrame, AnimateSprites, CreateSpriteSharePal. Untraced routines keep their address as a name.
 org $C5DF5F
-CODE_C5DF5F:						; called from other segments
+SimPlayerStats:						; spreads a simulated team's game totals over its players: the shots
+									; shared out, each goal to a random skater (+$3A goals, +$A2 shots), then
+									; the assists
 	lda.w $000C,y
 	sta.b $A5
 	lda.w $0020,y
@@ -133,7 +135,7 @@ CODE_C5DF5F:						; called from other segments
 	sta.w $DBE2
 	lda.w $DBE4
 	sta.w $DBE6
-CODE_C5E083:						; from CODE_C5DF5F
+CODE_C5E083:						; from SimPlayerStats
 	lda.w $DBE6
 	beq CODE_C5E0B0
 	jsr.w CODE_C5E0DF
@@ -158,9 +160,9 @@ CODE_C5E083:						; from CODE_C5DF5F
 	inc.w $006E,x
 	dec.w $DBE6
 	bne .1
-CODE_C5E0B0:						; from CODE_C5DF5F, CODE_C5E083
+CODE_C5E0B0:						; from SimPlayerStats, CODE_C5E083
 	rts
-CODE_C5E0B1:						; from CODE_C5DF5F
+CODE_C5E0B1:						; from SimPlayerStats
 	lda.w $DBE6
 	beq .rts
 	jsr.w CODE_C5E0DF

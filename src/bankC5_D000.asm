@@ -2018,7 +2018,7 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	tay
 	adc.w #$001A
 	tax
-	jsr.w CODE_C5DF5F
+	jsr.w SimPlayerStats
 	lda.w #$2DC9
 	sta.b p0
 	lda.b $01,s
@@ -2026,7 +2026,7 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	tax
 	adc.w #$0016
 	tay
-	jsr.w CODE_C5DF5F
+	jsr.w SimPlayerStats
 	ply
 .4:									; A = Y, A + $010A, Y = A, tmp0 - 1, ...
 	clc
