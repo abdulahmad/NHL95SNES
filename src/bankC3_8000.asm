@@ -836,7 +836,7 @@ BackupPauseBuffers:					; allocate and copy the buffers saved for the pause scre
 	ldx.w #$1912
 	mvn $7E,$7E
 	lda.w #$020F
-	ldx.w #$46A8
+	ldx.w #PalSlotList
 	mvn $7E,$7E
 	rtl
 FillPlayerAssignments:				; fill the player assignment ring with d0 and advance X

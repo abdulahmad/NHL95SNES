@@ -166,9 +166,9 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	ldx.w #$0001
 	jsr.w StartIntroScaleTask
 	stz.w fadestep
-.loop:								; loop: call RunTasks, if $2D9D = 0 go to .loop, go to ClearNMIHook
+.loop:								; loop: call RunTasks, if TasksDone = 0 go to .loop, go to ClearNMIHook
 	jsl.l RunTasks
-	lda.w $2D9D
+	lda.w TasksDone
 	beq .loop
 	jml.l ClearNMIHook
 CheckIntroMirrorButtons:			; sets the intro mirror flag when all masked controller buttons are held
@@ -813,7 +813,7 @@ InitTasks:							; empties the task list: 10 free task slots, the list head and 
 	cpx.w #$0014
 	bne .loop
 	stz.w $2D6F,x
-	stz.w $2D83
+	stz.w TaskFreeList
 	lda.w #TaskFrameEnd
 	sta.w $2D87
 	sta.w $2D93
@@ -822,15 +822,15 @@ InitTasks:							; empties the task list: 10 free task slots, the list head and 
 	sta.w $2D95
 	stz.w $2D8B
 	lda.w #$2D91
-	sta.w $2D85
+	sta.w TaskListHead
 	lda.w #$FFFF
 	sta.w $2D97
 	stz.w $2D91
 	lda.w #$8002
 	sta.b $85
-	lda.w $2D9D
+	lda.w TasksDone
 	sta.w $2D9F
-	stz.w $2D9D
+	stz.w TasksDone
 	rtl
 AddStartKeyTask:					; adds TaskStartKey to the task list (priority $F000)
 	lda.w #TaskStartKey
@@ -860,7 +860,7 @@ AddTask:							; adds the task routine X:A with priority Y to the task list, bef
 									; first task of a higher priority
 	phx
 	pha
-	ldx.w #$2D85
+	ldx.w #TaskListHead
 	phy
 	tya
 .loop:								; loop: if A < $0006,x go to .1, Y = X, if $0000,y is not 0 go to .loop
@@ -869,12 +869,12 @@ AddTask:							; adds the task routine X:A with priority Y to the task list, bef
 	txy
 	ldx.w $0000,y
 	bne .loop
-.1:									; X = $2D83, A = $2D6F,x, X + 1, X + 1, ...
-	ldx.w $2D83
+.1:									; X = TaskFreeList, A = $2D6F,x, X + 1, X + 1, ...
+	ldx.w TaskFreeList
 	lda.w $2D6F,x
 	inx
 	inx
-	stx.w $2D83
+	stx.w TaskFreeList
 	tax
 	pla
 	sta.w $0006,x
@@ -895,7 +895,7 @@ RemoveTask:							; takes the running task (d1) out of the task list and frees i
 	ldx.w $0004,y
 	sta.b d2
 	stx.b $89
-	ldx.w #$2D85
+	ldx.w #TaskListHead
 .loop:								; loop: if A is not $0002,x go to .1, if $89 = $0004,x go to .2, A = d2
 	cmp.w $0002,x
 	bne .1
@@ -907,19 +907,19 @@ RemoveTask:							; takes the running task (d1) out of the task list and frees i
 	txy
 	ldx.w $0000,y
 	bne .loop
-.2:									; $0000,y = $0000,x, A = X, X = $2D83, X - 1, ...
+.2:									; $0000,y = $0000,x, A = X, X = TaskFreeList, X - 1, ...
 	lda.w $0000,x
 	sta.w $0000,y
 	txa
-	ldx.w $2D83
+	ldx.w TaskFreeList
 	dex
 	dex
 	sta.w $2D6F,x
-	stx.w $2D83
+	stx.w TaskFreeList
 	rtl
 RunTasks:							; runs each task of the task list once, in order (its frame count + 1),
 									; through jmlvector
-	ldx.w $2D85
+	ldx.w TaskListHead
 .loop:								; loop: d1 = X, $0008,x + 1, jmlvector+3 = $0004,x, ...
 	stx.b d1
 	inc.w $0008,x
@@ -940,7 +940,7 @@ TaskEndCheck:						; a task: once task flag bit 15 is cleared, fades out and set
 	lda.w $2D9F
 	tax
 	inc a
-	sta.w $2D9D
+	sta.w TasksDone
 .rtl:								; return
 	rtl
 TaskFrameEnd:						; the last task of the list: the sprites to OAM (when task flag bit 1 is
@@ -975,7 +975,7 @@ TaskStartKey:						; a task: start clears task flag bit 15 (so TaskEndCheck ends
 .rtl:								; return
 	rtl
 CODE_C4B844:						; no caller found (not traced)
-	sta.w $2D9D
+	sta.w TasksDone
 	lda.w #$1FFC
 	tcs
 	rtl
@@ -1258,9 +1258,9 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	sec
 	jsl.l StartTasks
 	jsl.l AddStartKeyTask
-.loop:								; loop: call RunTasks, if $2D9D = 0 go to .loop, $002130 = $0000, ...
+.loop:								; loop: call RunTasks, if TasksDone = 0 go to .loop, $002130 = $0000, ...
 	jsl.l RunTasks
-	lda.w $2D9D
+	lda.w TasksDone
 	beq .loop
 	lda.w #$0000
 	sta.l $002130

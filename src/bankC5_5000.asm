@@ -1189,13 +1189,13 @@ FreePauseBuffers:					; frees the pause screen's work buffers (FreeWorkBuf $040E
 	jsl.l FreeWorkBuf
 	jsl.l MarkWorkBuf
 RestorePauseBuffers:				; copies BackupPauseBuffers' two buffers back (the sprite objects at
-									; $1912, the palette slots from $46A8) and re-uploads the frames of the
-									; objects in use
+									; $1912, the palette slots from PalSlotList) and re-uploads the frames of
+									; the objects in use
 	ldx.w $3648
 	ldy.w #$1912
 	lda.w #$01FD
 	mvn $7E,$7E
-	ldy.w #$46A8
+	ldy.w #PalSlotList
 	lda.w #$020F
 	mvn $7E,$7E
 	lda.w SpriteCount

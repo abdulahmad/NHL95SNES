@@ -761,8 +761,8 @@ ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A b
 	sta.b $D9
 	stz.w SpriteCount
 	stz.w SpriteFreeCount
-	stz.w $1B06
-	stz.w $1B08
+	stz.w PalSlotNext
+	stz.w PalSlotsUsed
 	stz.w SmallTileNext
 	stz.w LargeSlotNext
 	lda.w #$0000
@@ -774,7 +774,7 @@ ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A b
 	dex
 	dex
 	bpl .loop
-	sta.w $1B0E
+	sta.w SpriteChainTail
 	ldx.w #$0000
 	ldy.w #$0007
 .loop2:								; loop: SpriteList,x = A, X + 1, X + 1, Y - 1, ...
@@ -797,8 +797,8 @@ ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A b
 	clc
 	lda.w #$0007
 	ldx.w #$000E
-.loop4:								; loop: $46A8,x = A, X - 1, X - 1, A - 1, ...
-	sta.w $46A8,x
+.loop4:								; loop: PalSlotList,x = A, X - 1, X - 1, A - 1, ...
+	sta.w PalSlotList,x
 	dex
 	dex
 	dec a
@@ -838,12 +838,12 @@ DeleteSprite:						; removes the sprite object X: out of the active list, its pa
 	ora.w #$FF00
 	sta.w SpritePalUse,x
 	and.w #$00FF
-	ldx.w $1B06
+	ldx.w PalSlotNext
 	dex
 	dex
-	sta.w $46A8,x
-	stx.w $1B06
-	dec.w $1B08
+	sta.w PalSlotList,x
+	stx.w PalSlotNext
+	dec.w PalSlotsUsed
 	bra .4
 .3:									; A - 1, SpritePalUse,x = A
 	dec a
@@ -859,7 +859,7 @@ DeleteSprite:						; removes the sprite object X: out of the active list, its pa
 	lda.b $00,x
 	bpl .6
 	lda.b $02,x
-	sta.w $1B0E
+	sta.w SpriteChainTail
 	bmi .5
 	tay
 	lda.w #$FFFF
@@ -987,19 +987,19 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	tax
 	lda.w SpritePalUse,x
 	bpl .4
-	lda.w $1B08
+	lda.w PalSlotsUsed
 	cmp.w #$0008
 	bcc .2
 	brk #$00						; a brk in the ROM, between routines
-.2:									; A + 1, $1B08 = A, push X, X = $1B06, ...
+.2:									; A + 1, PalSlotsUsed = A, push X, X = PalSlotNext, ...
 	inc a
-	sta.w $1B08
+	sta.w PalSlotsUsed
 	phx
-	ldx.w $1B06
-	lda.w $46A8,x
+	ldx.w PalSlotNext
+	lda.w PalSlotList,x
 	inx
 	inx
-	stx.w $1B06
+	stx.w PalSlotNext
 	plx
 	xba
 	sta.w SpritePalUse,x
@@ -1065,14 +1065,14 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	sta.w $001C,y
 	jsr.w AllocLargeSpriteTiles
 	bcs .8
-	ldx.w $1B0E
+	ldx.w SpriteChainTail
 	bmi .6
 	sty.b $00,x
-.6:									; A = X, X = Y, $02,x = A, $1B0E = X, ...
+.6:									; A = X, X = Y, $02,x = A, SpriteChainTail = X, ...
 	txa
 	tyx
 	sta.b $02,x
-	stx.w $1B0E
+	stx.w SpriteChainTail
 	rtl
 .7:									; A = $10, A and $00FF, A + $20, $001C,y = A
 	lda.b $10
@@ -1081,8 +1081,8 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	clc
 	adc.b $20
 	sta.w $001C,y
-.8:									; if $1B0E >= 0 go to .loop
-	ldx.w $1B0E
+.8:									; if SpriteChainTail >= 0 go to .loop
+	ldx.w SpriteChainTail
 	bpl .loop
 	brk #$00						; a brk in the ROM, between routines
 .9:									; A / 2, A / 2, A / 2, A / 2, ...
@@ -1160,11 +1160,11 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	bne .12
 	lda.w #$FFFF
 	sta.w SpritePalUse,x
-	lda.w $1B06
+	lda.w PalSlotNext
 	dec a
 	dec a
-	sta.w $1B06
-	dec.w $1B08
+	sta.w PalSlotNext
+	dec.w PalSlotsUsed
 	bra .13
 .12:								; A - 1, SpritePalUse,x = A
 	dec a
@@ -2039,12 +2039,12 @@ CODE_C5EE3C:						; no caller found (not traced)
 	ora.w #$FF00
 	sta.w SpritePalUse,x
 	and.w #$00FF
-	ldx.w $1B06
+	ldx.w PalSlotNext
 	dex
 	dex
-	sta.w $46A8,x
-	stx.w $1B06
-	dec.w $1B08
+	sta.w PalSlotList,x
+	stx.w PalSlotNext
+	dec.w PalSlotsUsed
 	plx
 	rts
 .1:									; A - 1, SpritePalUse,x = A, pull X, return
@@ -2053,27 +2053,27 @@ CODE_C5EE3C:						; no caller found (not traced)
 	plx
 	rts
 UseSpritePalette:					; gives object X sprite palette A: a palette already loaded is reused
-									; (ReuseSpritePalette), else one of the 8 free CGRAM slots ($46A8 list,
-									; $1B08 count) is taken and the colours queued (QueueSpritePalette)
+									; (ReuseSpritePalette), else one of the 8 free CGRAM slots (PalSlotList,
+									; PalSlotsUsed) is taken and the colours queued (QueueSpritePalette)
 	sta.b $34,x
 	txy
 	asl a
 	tax
 	lda.w SpritePalUse,x
 	bpl ReuseSpritePalette
-	lda.w $1B08
+	lda.w PalSlotsUsed
 	cmp.w #$0008
 	bcc .1
 	brk #$00						; a brk in the ROM, between routines
-.1:									; A + 1, $1B08 = A, push X, X = $1B06, ...
+.1:									; A + 1, PalSlotsUsed = A, push X, X = PalSlotNext, ...
 	inc a
-	sta.w $1B08
+	sta.w PalSlotsUsed
 	phx
-	ldx.w $1B06
-	lda.w $46A8,x
+	ldx.w PalSlotNext
+	lda.w PalSlotList,x
 	inx
 	inx
-	stx.w $1B06
+	stx.w PalSlotNext
 	plx
 	xba
 	sta.w SpritePalUse,x
@@ -2223,14 +2223,14 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	sta.w $001C,y
 	jsr.w AllocLargeSpriteTiles
 	bcs .4
-	ldx.w $1B0E
+	ldx.w SpriteChainTail
 	bmi .2
 	sty.b $00,x
-.2:									; A = X, X = Y, $02,x = A, $1B0E = X, ...
+.2:									; A = X, X = Y, $02,x = A, SpriteChainTail = X, ...
 	txa
 	tyx
 	sta.b $02,x
-	stx.w $1B0E
+	stx.w SpriteChainTail
 	rtl
 .3:									; A = $10, A and $00FF, A + $20, $001C,y = A
 	lda.b $10
@@ -2239,8 +2239,8 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	clc
 	adc.b $20
 	sta.w $001C,y
-.4:									; if $1B0E >= 0 go to .loop
-	ldx.w $1B0E
+.4:									; if SpriteChainTail >= 0 go to .loop
+	ldx.w SpriteChainTail
 	bpl .loop
 	brk #$00						; a brk in the ROM, between routines
 .5:									; A / 2, A / 2, A / 2, A / 2, ...
@@ -2318,11 +2318,11 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	bne .8
 	lda.w #$FFFF
 	sta.w SpritePalUse,x
-	lda.w $1B06
+	lda.w PalSlotNext
 	dec a
 	dec a
-	sta.w $1B06
-	dec.w $1B08
+	sta.w PalSlotNext
+	dec.w PalSlotsUsed
 	bra .9
 .8:									; A - 1, SpritePalUse,x = A
 	dec a

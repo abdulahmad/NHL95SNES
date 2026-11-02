@@ -307,7 +307,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 .loop:								; loop: call RunTasks, call AnimateSprites, ...
 	jsl.l RunTasks
 	jsl.l AnimateSprites
-	lda.w $2D9D
+	lda.w TasksDone
 	beq .loop
 	lda.w #$0058
 	sta.l BG1SC

@@ -8754,3 +8754,10 @@ $18DE,TextSpaceWidth,,code,"RAM: from the code: InitTextMap sets 9, DrawNextText
 $18E0,WorkBufMark,,code,"RAM: from the code: MarkWorkBuf stores the pointer, RestoreWorkBuf goes back to it, ResetWorkBuf resets it; LoadTeamRoster, updatefaceoff and the pause menu set it",src/ram95s.asm
 $1EA1,SoundQueueHead,,code,"RAM: from the code: QueueSoundCmd stores the next entry at it and moves it on (4 bytes an entry); the senders stop when the tail reaches it",src/ram95s.asm
 $1EA3,SoundQueueTail,,code,"RAM: from the code: SendQueuedSoundCmd / SendSoundCmdAtTail send from it and move it on; LoadSounds and WaitSoundQueueEmpty wait for it to meet the head",src/ram95s.asm
+$2D83,TaskFreeList,,code,"RAM: from the code: InitTasks builds the free slots, AddTask takes the head and stores the next, RemoveTask puts the slot back as the head",src/ram95s.asm
+$2D85,TaskListHead,,code,"RAM: from the code: InitTasks sets the list, RunTasks walks from it",src/ram95s.asm
+$2D9D,TasksDone,,code,"RAM: from the code: TaskEndCheck and CODE_C4B844 set it, IntroSequence / TitleScreen / DeveloperCredits loop until it is set, InitTasks clears it",src/ram95s.asm
+$1B06,PalSlotNext,,code,"RAM: from the code: UseSpritePalette takes PalSlotList,x at it and moves it on, DeleteSprite puts a slot back there",src/ram95s.asm
+$1B08,PalSlotsUsed,,code,"RAM: from the code: UseSpritePalette counts up (stops at 8), DeleteSprite / CreateSprite count down; ResetSpritesAt clears it",src/ram95s.asm
+$1B0E,SpriteChainTail,,code,"RAM: from the code: CreateSprite links the new object after it and makes it the tail, DeleteSprite unlinks and moves it back",src/ram95s.asm
+$46A8,PalSlotList,,code,"RAM: from the code: ResetSpritesAt fills it, UseSpritePalette takes from it, DeleteSprite gives back; docs/sprite_objects.md: free palette slots",src/ram95s.asm
