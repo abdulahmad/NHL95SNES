@@ -1866,23 +1866,23 @@ PrintWinRecords:					; Record Holders page 0: name, win %, wins, losses, ties of
 	lda.w #$0060
 	sta.b $D1
 	ldx.w #$4DA4
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$0088
 	sta.b $D1
 	ldx.w #$4DA8
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$00A8
 	sta.b $D1
 	ldx.w #$4DAD
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$00C8
 	sta.b $D1
 	ldx.w #$4DB1
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$00E8
 	sta.b $D1
 	ldx.w #$4DB5
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$0008
 	sta.b $6D
 	lda.w #$0000
@@ -1941,11 +1941,11 @@ PrintGoalRecords:					; Record Holders page 1: the users' goal records (name, Go
 	lda.w #$0060
 	sta.b $D1
 	ldx.w #$4DA4
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$00F0
 	sta.b $D1
 	ldx.w #$4B6A
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$0008
 	sta.b $6D
 	lda.w #$0000
@@ -2043,11 +2043,11 @@ PrintSaveRecords:					; Record Holders page 2: the users' save records (name, Sa
 	lda.w #$0060
 	sta.b $D1
 	ldx.w #$4DA4
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$00F0
 	sta.b $D1
 	ldx.w #$4B7A
-	jsr.w CODE_C580AB
+	jsr.w PrintHeadRow6
 	lda.w #$0008
 	sta.b $6D
 	lda.w #$0000

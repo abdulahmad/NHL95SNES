@@ -817,31 +817,31 @@ WriteUserRecord:					; writes d0, $81, d1 and $85 back as user a3's record in sa
 	sta.b $79
 	ldx.w #$7112
 	lda.b d0
-	jsr.w CODE_C5D6AA
+	jsr.w WriteUserField12
 	ldx.w #$711E
 	lda.b $81
-	jsr.w CODE_C5D6D0
+	jsr.w WriteUserField5
 	ldx.w #$7123
 	lda.b d1
-	jsr.w CODE_C5D6D0
+	jsr.w WriteUserField5
 	ldx.w #$7128
 	lda.b $85
-	jsr.w CODE_C5D6AA
+	jsr.w WriteUserField12
 	ldx.w #$7134
 	lda.b d2
-	jsr.w CODE_C5D6D0
+	jsr.w WriteUserField5
 	ldx.w #$7139
 	lda.b $89
-	jsr.w CODE_C5D6D0
+	jsr.w WriteUserField5
 	ldx.w #$713E
 	lda.b d3
-	jsr.w CODE_C5D6AA
+	jsr.w WriteUserField12
 	ldx.w #$714A
 	lda.b d4
-	jsr.w CODE_C5D6AA
+	jsr.w WriteUserField12
 	ldx.w #$7156
 	lda.b $8D
-CODE_C5D6AA:						; from WriteUserRecord
+WriteUserField12:					; writes A as the 12-bit field of the user record at X ($71 half-bytes in)
 	stx.b $77
 	tax
 	lda.b $71
@@ -866,7 +866,7 @@ CODE_C5D6AA:						; from WriteUserRecord
 	ora.b $7D
 	sta.b [$77],y
 	rts
-CODE_C5D6D0:						; from WriteUserRecord
+WriteUserField5:					; writes A as the 5-bit field of the user record at X (byte a4, bit $75)
 	stx.b $77
 	ldx.w #$001F
 	stx.b $7B
@@ -909,35 +909,35 @@ ReadUserRecord:						; reads user A's record from save RAM ($307112 on, $30 bits
 	lda.w #$0030
 	sta.b $6D
 	ldx.w #$7112
-	jsr.w CODE_C5D75C
+	jsr.w ReadUserField12
 	sta.b d0
 	ldx.w #$711E
-	jsr.w CODE_C5D76E
+	jsr.w ReadUserField5
 	sta.b $81
 	ldx.w #$7123
-	jsr.w CODE_C5D76E
+	jsr.w ReadUserField5
 	sta.b d1
 	ldx.w #$7128
-	jsr.w CODE_C5D75C
+	jsr.w ReadUserField12
 	sta.b $85
 	ldx.w #$7134
-	jsr.w CODE_C5D76E
+	jsr.w ReadUserField5
 	sta.b d2
 	ldx.w #$7139
-	jsr.w CODE_C5D76E
+	jsr.w ReadUserField5
 	sta.b $89
 	ldx.w #$713E
-	jsr.w CODE_C5D75C
+	jsr.w ReadUserField12
 	sta.b d3
 	ldx.w #$714A
-	jsr.w CODE_C5D75C
+	jsr.w ReadUserField12
 	sta.b d4
 	ldx.w #$7156
-	jsr.w CODE_C5D75C
+	jsr.w ReadUserField12
 	sta.b $8D
 	plx
 	rts
-CODE_C5D75C:						; from ReadUserRecord
+ReadUserField12:					; A = the 12-bit field of the user record at X ($65 half-bytes in)
 	stx.b a2
 	lda.b $65
 	lsr a
@@ -951,7 +951,7 @@ CODE_C5D75C:						; from ReadUserRecord
 .1:									; A and $0FFF, return
 	and.w #$0FFF
 	rts
-CODE_C5D76E:						; from ReadUserRecord
+ReadUserField5:						; A = the 5-bit field of the user record at X (byte a1, bit $69)
 	stx.b a2
 	ldy.b a1
 	ldx.b $69

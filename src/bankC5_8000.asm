@@ -79,7 +79,7 @@ CODE_C5809A:						; from CODE_C5800C
 .1:									; A 16-bit, return
 	rep #$20
 	rts
-CODE_C580AB:						; called from other segments
+PrintHeadRow6:						; prints text X bold, centred between $CF and $D1 on row 6, then $CF = $D1
 	ldy.w #$0006
 	jsl.l PrintBoldCentred
 	lda.b $D1

@@ -6356,10 +6356,10 @@ $C5D614,.1,CODE_C5D614,new,"branch target only used in UpdateUserRecord",src/ban
 $C5D618,.2,CODE_C5D618,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
 $C5D633,.3,CODE_C5D633,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
 $C5D648,.4,CODE_C5D648,new,"branch target only used in UpdateUserRecord",src/bankC5_D000.asm
-$C5D6C4,.1,CODE_C5D6C4,new,"branch target only used in CODE_C5D6AA",src/bankC5_D000.asm
-$C5D6DB,.loop,CODE_C5D6DB,new,"branch target only used in CODE_C5D6D0",src/bankC5_D000.asm
-$C5D76A,.1,CODE_C5D76A,new,"branch target only used in CODE_C5D75C",src/bankC5_D000.asm
-$C5D776,.loop,CODE_C5D776,new,"branch target only used in CODE_C5D76E",src/bankC5_D000.asm
+$C5D6C4,.1,CODE_C5D6C4,new,"branch target only used in WriteUserField12",src/bankC5_D000.asm
+$C5D6DB,.loop,CODE_C5D6DB,new,"branch target only used in WriteUserField5",src/bankC5_D000.asm
+$C5D76A,.1,CODE_C5D76A,new,"branch target only used in ReadUserField12",src/bankC5_D000.asm
+$C5D776,.loop,CODE_C5D776,new,"branch target only used in ReadUserField5",src/bankC5_D000.asm
 $C5D798,.loop,CODE_C5D798,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
 $C5D7A8,.1,CODE_C5D7A8,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
 $C5D7C2,.2,CODE_C5D7C2,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
@@ -8132,3 +8132,10 @@ $C54F37,PauseMenuReturn,CODE_C54F37,code,"from the code: a bare rts after PauseM
 $C5DB36,TradeCursorUpReturn,CODE_C5DB36,code,"from the code: pla / rts, branched to only from TradeCursorUp",src/bankC5_D000.asm
 $C5DBE6,TradeCursorDownReturn,CODE_C5DBE6,code,"from the code: pla / rts, branched to only from TradeCursorDown",src/bankC5_D000.asm
 $CF04B4,PlayTeamSongReturn,CODE_CF04B4,code,"from the code: plx / rtl, branched to only from PlayTeamSong",src/bankCF_0000.asm
+$C5D75C,ReadUserField12,CODE_C5D75C,code,"from the code: the word at [X + $65 / 2], shifted down a nibble on an odd offset, and #$0FFF; ReadUserRecord uses it",src/bankC5_D000.asm
+$C5D76E,ReadUserField5,CODE_C5D76E,code,"from the code; ReadUserRecord uses it",src/bankC5_D000.asm
+$C5D6AA,WriteUserField12,CODE_C5D6AA,code,"from the code: the other bits kept (and #$000F / #$F000); WriteUserRecord uses it",src/bankC5_D000.asm
+$C5D6D0,WriteUserField5,CODE_C5D6D0,code,"from the code: the 5-bit mask shifted to the bit, the other bits kept; WriteUserRecord uses it",src/bankC5_D000.asm
+$C56A6B,PrintPenaltyHead,CODE_C56A6B,code,"from the code; ShowPenaltySummary prints its column titles with it",src/bankC5_6000.asm
+$C56D37,PrintScoringHead,CODE_C56D37,code,"from the code: PrintBoldLeft with Y 15; ShowScoringSummary prints its column titles with it",src/bankC5_6000.asm
+$C580AB,PrintHeadRow6,CODE_C580AB,code,"from the code: PrintBoldCentred with Y 6",src/bankC5_8000.asm

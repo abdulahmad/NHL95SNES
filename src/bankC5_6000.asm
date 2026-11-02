@@ -1167,23 +1167,23 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	lda.w #$0030
 	sta.b $D1
 	ldx.w #$4F83
-	jsr.w CODE_C56A6B
+	jsr.w PrintPenaltyHead
 	lda.w #$0060
 	sta.b $D1
 	ldx.w #$4F87
-	jsr.w CODE_C56A6B
+	jsr.w PrintPenaltyHead
 	lda.w #$0080
 	sta.b $D1
 	ldx.w #$4F8B
-	jsr.w CODE_C56A6B
+	jsr.w PrintPenaltyHead
 	lda.w #$00E0
 	sta.b $D1
 	ldx.w #$4F6C
-	jsr.w CODE_C56A6B
+	jsr.w PrintPenaltyHead
 	lda.w #$00F8
 	sta.b $D1
 	ldx.w #$4F7B
-	jsr.w CODE_C56A6B
+	jsr.w PrintPenaltyHead
 	lda.w $1159
 	asl a
 	adc.w $1159
@@ -1249,7 +1249,8 @@ ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, 
 	bra .loop
 .6:									; go to ExitToPauseMenu
 	jmp.w ExitToPauseMenu
-CODE_C56A6B:						; from ShowPenaltySummary
+PrintPenaltyHead:					; prints column title X bold, centred between $CF and $D1 on row 15, then
+									; $CF = $D1
 	ldy.w #$000F
 	jsl.l PrintBoldCentred
 	lda.b $D1
@@ -1497,23 +1498,23 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	lda.w #$0010
 	sta.b $CF
 	ldx.w #$4F83
-	jsr.w CODE_C56D37
+	jsr.w PrintScoringHead
 	lda.w #$002E
 	sta.b $CF
 	ldx.w #$4F87
-	jsr.w CODE_C56D37
+	jsr.w PrintScoringHead
 	lda.w #$0054
 	sta.b $CF
 	ldx.w #$4F8B
-	jsr.w CODE_C56D37
+	jsr.w PrintScoringHead
 	lda.w #$0080
 	sta.b $CF
 	ldx.w #$4F91
-	jsr.w CODE_C56D37
+	jsr.w PrintScoringHead
 	lda.w #$00E0
 	sta.b $CF
 	ldx.w #$4F8E
-	jsr.w CODE_C56D37
+	jsr.w PrintScoringHead
 	lda.w ScoreSumbytes
 	lsr a
 	sta.b a1
@@ -1576,7 +1577,7 @@ ShowScoringSummary:					; pause menu Score Summry: the goals of the game (Per, T
 	bra .loop
 .6:									; go to ExitToPauseMenu
 	jmp.w ExitToPauseMenu
-CODE_C56D37:						; from ShowScoringSummary
+PrintScoringHead:					; prints column title X bold from $CF on row 15
 	ldy.w #$000F
 	jsl.l PrintBoldLeft
 	rts
