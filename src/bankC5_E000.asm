@@ -741,9 +741,9 @@ ResetSprites:						; ResetSpritesAt with the menu screens' tile area (tile $A0, 
 	sta.b $DD
 	jsr.w ResetSpritesAt
 	rtl
-ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A bytes each), the
-									; palette uses (SpritePalUse) to $FFFF, OAMADDR 0, the sprite tile area
-									; from tile $E1 ($DD tiles)
+ResetSpritesAt:						; resets the sprite objects: the slot list (SpriteObjRAM on, $3A bytes
+									; each), the palette uses (SpritePalUse) to $FFFF, OAMADDR 0, the sprite
+									; tile area from tile $E1 ($DD tiles)
 	lda.b $E1
 	asl a
 	asl a
@@ -784,7 +784,7 @@ ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A b
 	dey
 	bpl .loop2
 	clc
-	lda.w #$1912
+	lda.w #SpriteObjRAM
 	ldx.w #SpriteFreeList
 	ldy.w #$0007
 .loop3:								; loop: $00,x = A, X + 1, X + 1, A + $003A, ...

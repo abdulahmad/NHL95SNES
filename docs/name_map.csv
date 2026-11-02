@@ -8761,3 +8761,4 @@ $1B06,PalSlotNext,,code,"RAM: from the code: UseSpritePalette takes PalSlotList,
 $1B08,PalSlotsUsed,,code,"RAM: from the code: UseSpritePalette counts up (stops at 8), DeleteSprite / CreateSprite count down; ResetSpritesAt clears it",src/ram95s.asm
 $1B0E,SpriteChainTail,,code,"RAM: from the code: CreateSprite links the new object after it and makes it the tail, DeleteSprite unlinks and moves it back",src/ram95s.asm
 $46A8,PalSlotList,,code,"RAM: from the code: ResetSpritesAt fills it, UseSpritePalette takes from it, DeleteSprite gives back; docs/sprite_objects.md: free palette slots",src/ram95s.asm
+$1912,SpriteObjRAM,,code,"RAM: from the code: ResetSpritesAt builds the free list from $1912 in $3A steps, BackupPauseBuffers / RestorePauseBuffers copy $1FE bytes from it; docs/sprite_objects.md lists the fields",src/ram95s.asm

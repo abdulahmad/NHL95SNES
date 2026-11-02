@@ -833,7 +833,7 @@ BackupPauseBuffers:					; allocate and copy the buffers saved for the pause scre
 	lda.w #$0210
 	jsl.l AllocWorkBuf
 	lda.w #$01FD
-	ldx.w #$1912
+	ldx.w #SpriteObjRAM
 	mvn $7E,$7E
 	lda.w #$020F
 	ldx.w #PalSlotList
