@@ -28,7 +28,8 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	jsl.l CODE_C36C2C
 	jsl.l GetMenuPadButtons
 	jsl.l LoadSavedGameOptions
-CODE_C5004E:						; called from other segments
+QuitGame:							; the quit prompt's Quit Game: the pad read (GetMenuPadButtons),
+									; FadeOutWait, then Restart (the setup screen)
 	jsl.l GetMenuPadButtons
 	jsl.l FadeOutWait
 Restart:							; starts over at the setup screen: the stack reset, StartMenuMusic,

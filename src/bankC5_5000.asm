@@ -1,40 +1,43 @@
 ; Segment bankC5_5000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C54F05
-CODE_C54F05:						; called from other segments
+PauseMenuInput:						; the pause menu's pad: left / right the tab (pausetab 0-2), up / down the
+									; item (pauseitem), B runs the item through the tab's table (the shorter
+									; ones in play mode 1)
 	lda.w padchangeany
 	bit.w #$0200
 	beq .1
-	ldx.w $18F2
+	ldx.w pausetab
 	beq .1
 	cpx.w #$0003
 	bcs .1
 	dex
-	bra CODE_C54F94
-.1:									; if $0100 bits clear go to .2, X = $18F2, X + 1, ...
+	bra SetPauseTab
+.1:									; if $0100 bits clear go to .2, X = pausetab, X + 1, ...
 	bit.w #$0100
 	beq .2
-	ldx.w $18F2
+	ldx.w pausetab
 	inx
 	cpx.w #$0003
-	bcc CODE_C54F94
-.2:									; if a $0800 bit set go to CODE_C54F78, ...
+	bcc SetPauseTab
+.2:									; if a $0800 bit set go to PauseItemUp, ...
 	bit.w #$0800
-	bne CODE_C54F78
+	bne PauseItemUp
 	bit.w #$0400
-	bne CODE_C54F86
+	bne PauseItemDown
 	bit.w #$8000
-	bne CODE_C54F38
-CODE_C54F37:						; from CODE_C54F94, CODE_C54F78, CODE_C54F86
+	bne RunPauseItem
+CODE_C54F37:						; from SetPauseTab, PauseItemUp, PauseItemDown
 	rts
-CODE_C54F38:						; from CODE_C54F05
+RunPauseItem:						; runs item pauseitem of tab pausetab through its table: Info, Stats,
+									; Options or the quit prompt (DATA8_C55012 / 18 in play mode 1)
 	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .4
-	lda.w $18F6
+	lda.w pauseitem
 	asl a
 	tax
-	lda.w $18F2
+	lda.w pausetab
 	beq .3
 	dec a
 	beq .2
@@ -47,11 +50,11 @@ CODE_C54F38:						; from CODE_C54F05
 	jmp (DATA8_C55026,x)
 .3:									; jump through DATA8_C55012,x
 	jmp (DATA8_C55012,x)
-.4:									; A = $18F6, A * 2, X = A, if $18F2 = 0 go to .7, ...
-	lda.w $18F6
+.4:									; A = pauseitem, A * 2, X = A, if pausetab = 0 go to .7, ...
+	lda.w pauseitem
 	asl a
 	tax
-	lda.w $18F2
+	lda.w pausetab
 	beq .7
 	dec a
 	beq .6
@@ -64,33 +67,36 @@ CODE_C54F38:						; from CODE_C54F05
 	jmp (DATA8_C55026,x)
 .7:									; jump through DATA8_C5501C,x
 	jmp (DATA8_C5501C,x)
-CODE_C54F78:						; from CODE_C54F05
-	lda.w $18F6
+PauseItemUp:						; the pause menu item one up (pauseitem - 1, not below 0), the tab redrawn
+	lda.w pauseitem
 	beq CODE_C54F37
 	dec a
-	sta.w $18F6
-CODE_C54F81:						; from CODE_C54F86
-	lda.w $18F2
-	bra CODE_C54FA9
-CODE_C54F86:						; from CODE_C54F05
-	lda.w $18F6
+	sta.w pauseitem
+RedrawPauseTab:						; DrawPauseTab for the current tab
+	lda.w pausetab
+	bra DrawPauseTab
+PauseItemDown:						; the pause menu item one down (below pauseitems), the tab redrawn
+	lda.w pauseitem
 	inc a
-	cmp.w $18F4
+	cmp.w pauseitems
 	bcs CODE_C54F37
-	sta.w $18F6
-	bra CODE_C54F81
-CODE_C54F94:						; from CODE_C54F05 and other segments
-	cpx.w $18F2
+	sta.w pauseitem
+	bra RedrawPauseTab
+SetPauseTab:						; switches the pause menu to tab X when it is another: the old one erased
+									; (CODE_C5524B), item 0, DrawPauseTab
+	cpx.w pausetab
 	beq CODE_C54F37
 	phx
-	bit.w $18F2
+	bit.w pausetab
 	bmi .1
 	jsr.w CODE_C5524B
-.1:									; pull A, $18F2 = A, $18F6 = 0
+.1:									; pull A, pausetab = A, pauseitem = 0
 	pla
-	sta.w $18F2
-	stz.w $18F6
-CODE_C54FA9:						; from CODE_C54F81
+	sta.w pausetab
+	stz.w pauseitem
+DrawPauseTab:						; draws tab A's item list (its text in bank $C3 from DATA8_C55002, or
+									; DATA8_C5500A in play mode 1), the current item's row highlighted
+									; (palette $3200), queued to VRAM
 	asl a
 	tax
 	lda.w OptPlayMode
@@ -100,10 +106,10 @@ CODE_C54FA9:						; from CODE_C54F81
 	bra .2
 .1:									; A = DATA8_C55002,x
 	lda.l DATA8_C55002,x
-.2:									; call CODE_C552A4, call CODE_C55256, A = $18F6, A / 2, ...
+.2:									; call CODE_C552A4, call CODE_C55256, A = pauseitem, A / 2, ...
 	jsr.w CODE_C552A4
 	jsr.w CODE_C55256
-	lda.w $18F6
+	lda.w pauseitem
 	xba
 	lsr a
 	adc.w $18EE
@@ -135,17 +141,17 @@ CODE_C54FA9:						; from CODE_C54F81
 	stz.b QueueBusy
 	jmp.w CODE_C55367
 DATA8_C55002:						; the item list (bank $C3) of each pause menu tab: Info, Stats, Options,
-									; the quit prompt; CODE_C54FA9
+									; the quit prompt; DrawPauseTab
 	db $CB,$5C,$EF,$5C,$07,$5D,$21,$5D
-DATA8_C5500A:						; the same in game mode 1: shorter Info and Options lists; CODE_C54FA9
+DATA8_C5500A:						; the same in game mode 1: shorter Info and Options lists; DrawPauseTab
 	db $E1,$5C,$EF,$5C,$FD,$5C,$21,$5D
-DATA8_C55012:						; game mode 1, Info tab: Team Roster, Score Summry, Records (CODE_C54F38
+DATA8_C55012:						; game mode 1, Info tab: Team Roster, Score Summry, Records (RunPauseItem
 									; jumps through it)
 	dw TeamRoster,ShowScoringSummary,RecordHoldersScreen
 DATA8_C55018:						; game mode 1, Options tab: Inst Replay, Quit Game
-	dw PauseReplay,CODE_C56B80
+	dw PauseReplay,ShowQuitPrompt
 DATA8_C5501C:						; pause menu Info tab: Team Roster, Score Summry, Penalties, Records,
-									; Other Scores (CODE_C54F38)
+									; Other Scores (RunPauseItem)
 	dw TeamRoster,ShowScoringSummary,ShowPenaltySummary,RecordHoldersScreen
 	dw ShowOtherScores
 DATA8_C55026:						; pause menu Stats tab: Game Stats, Period Stats, Player Stats
@@ -153,16 +159,16 @@ DATA8_C55026:						; pause menu Stats tab: Game Stats, Period Stats, Player Stat
 DATA8_C5502C:						; pause menu Options tab: Inst Replay, Edit Lines, Chnge Goalie, the
 									; goalie mode, Time Out, Quit Game
 	dw PauseReplay,EditLinesScreen,PauseGoalie,PauseGoalieMode
-	dw PauseTimeout,CODE_C56B80
+	dw PauseTimeout,ShowQuitPrompt
 DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Quit Game
-	dw CODE_C56B7B,CODE_C56B8C
+	dw ResumeFromQuit,CODE_C56B8C
 CODE_C5503C:						; called from other segments
 	jsl.l forceblack
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.w #$FFFF
 	sta.w pausemenuon
-	sta.w $18F2
+	sta.w pausetab
 	lda.w #$0802
 	jsl.l AllocWorkBuf
 	sta.l $7E364A
@@ -381,14 +387,14 @@ CODE_C5522E:						; from CODE_C5503C
 	rts
 DATA8_C55245:						; not traced: a table read by CODE_C550E2
 	db $62,$01,$7D,$01,$97,$01
-CODE_C5524B:						; from CODE_C54F94
-	lda.w $18F2
+CODE_C5524B:						; from SetPauseTab
+	lda.w pausetab
 	asl a
 	tax
 	lda.l DATA8_C5529C,x
 	bra CODE_C5525F
-CODE_C55256:						; from CODE_C54FA9
-	lda.w $18F2
+CODE_C55256:						; from DrawPauseTab
+	lda.w pausetab
 	asl a
 	tax
 	lda.l DATA8_C55294,x
@@ -424,7 +430,7 @@ DATA8_C55294:						; not traced: a table read by CODE_C55256
 	db $C0,$07,$D0,$07,$E0,$07,$E0,$07
 DATA8_C5529C:						; not traced: a table read by CODE_C5524B
 	db $40,$08,$50,$08,$60,$08,$60,$08
-CODE_C552A4:						; from CODE_C54FA9
+CODE_C552A4:						; from DrawPauseTab
 	pha
 	ldx.w #$5D41
 	jsr.w CODE_C552AC
@@ -434,7 +440,7 @@ CODE_C552AC:						; from CODE_C552A4
 	sta.b $2E
 	ldy.w #$0314
 	lda.l $C30000,x
-	sta.w $18F4
+	sta.w pauseitems
 	sta.b tmp0
 CODE_C552BD:						; from CODE_C552CE
 	phx
@@ -500,11 +506,11 @@ CODE_C55320:						; no caller found (not traced)
 	ldx.b a2
 	ldy.w tmtimeouts,x
 	bne .2
-	dec.w $18F4
-	ldy.w $18F6
-	cpy.w $18F4
+	dec.w pauseitems
+	ldy.w pauseitem
+	cpy.w pauseitems
 	bcc .1
-	dec.w $18F6
+	dec.w pauseitem
 .1:									; A = $0000
 	lda.w #$0000
 .2:									; pull X, pull Y, go to CODE_C552CE
@@ -517,17 +523,17 @@ CODE_C55346:						; no caller found (not traced)
 	ldx.w OptPlayMode
 	cpx.w #$0002
 	beq .2
-	dec.w $18F4
-	ldy.w $18F6
-	cpy.w $18F4
+	dec.w pauseitems
+	ldy.w pauseitem
+	cpy.w pauseitems
 	bcc .1
-	dec.w $18F6
+	dec.w pauseitem
 .1:									; A = $0000
 	lda.w #$0000
 .2:									; pull X, go to CODE_C552CE
 	plx
 	jmp.w CODE_C552CE
-CODE_C55367:						; from CODE_C550E2, CODE_C54FA9
+CODE_C55367:						; from CODE_C550E2, DrawPauseTab
 	lda.w #$0017
 	sta.b tmp1
 	lda.w #$01A0

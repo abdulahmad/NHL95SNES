@@ -1373,23 +1373,23 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C56B7B:						; called from other segments
+ResumeFromQuit:						; the quit prompt's Resume Game: back to the Options tab (2)
 	lda.w #$0002
-	bra CODE_C56B83
-CODE_C56B80:						; from PauseTimeout and other segments
+	bra ShowPauseTab
+ShowQuitPrompt:						; shows the quit prompt (tab 3: Resume Game, Quit Game)
 	lda.w #$0003
-CODE_C56B83:						; from CODE_C56B7B
-	stz.w $18F6
-	sta.w $18F2
-	jmp.w CODE_C54FA9
+ShowPauseTab:						; shows tab A of the pause menu at item 0 (DrawPauseTab)
+	stz.w pauseitem
+	sta.w pausetab
+	jmp.w DrawPauseTab
 CODE_C56B8C:						; called from other segments
-	jml.l CODE_C5004E
+	jml.l QuitGame
 PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, gives the team
 									; full energy (reenergizeteam) and prints Time Out by and the team's name
 	jsl.l GetPadTeam
 	ldx.b a2
 	lda.w tmtimeouts,x
-	beq CODE_C56B80
+	beq ShowQuitPrompt
 	dec a
 	sta.w tmtimeouts,x
 	jsl.l reenergizeteam
@@ -1469,8 +1469,8 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	ldx.w #$0096
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc
-	lda.w $18F2
-	jmp.w CODE_C54FA9
+	lda.w pausetab
+	jmp.w DrawPauseTab
 CODE_C56C4C:						; from PauseTimeout
 	clc
 	adc.w $18EE
@@ -1718,8 +1718,8 @@ PauseGoalieMode:					; pause menu Mnual Goalie / Auto Goalie: switches the goali
 	lda.w goaliemode1,x
 	eor.w #$0001
 	sta.w goaliemode1,x
-	lda.w $18F2
-	jmp.w CODE_C54FA9
+	lda.w pausetab
+	jmp.w DrawPauseTab
 TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C prints its
 									; page: Goalies, Line, Stat); the pad pages through it, start returns
 	lda.w #$0001

@@ -1821,10 +1821,10 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	jsl.l StartSound
 	jsl.l SoundVolumeUp
 	dec.w $18F8
-.2:									; call CODE_C5503C, X = $0002, call CODE_C54F94, $059E = $0001
+.2:									; call CODE_C5503C, X = $0002, call SetPauseTab, $059E = $0001
 	jsr.w CODE_C5503C
 	ldx.w #$0002
-	jsr.w CODE_C54F94
+	jsr.w SetPauseTab
 	lda.w #$0001
 	sta.w $059E
 .3:									; TransfersReady + 1
@@ -1852,7 +1852,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	jsl.l PackOAMHigh
 	lda.w repeatdelayframes
 	bne .3
-	jsr.w CODE_C54F05
+	jsr.w PauseMenuInput
 	lda.w padchangeany
 	bit.w #$3000
 	beq .3

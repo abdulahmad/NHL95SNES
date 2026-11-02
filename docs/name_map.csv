@@ -5401,19 +5401,19 @@ $C54EA9,.3,CODE_C54EA9,new,"branch target only used in Pausemode_menu",src/bankC
 $C54EAC,.loop,CODE_C54EAC,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
 $C54EC5,.4,CODE_C54EC5,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
 $C54EC9,.5,CODE_C54EC9,new,"branch target only used in Pausemode_menu",src/bankC5_4000.asm
-$C54F1A,.1,CODE_C54F1A,new,"branch target only used in CODE_C54F05",src/bankC5_5000.asm
-$C54F28,.2,CODE_C54F28,new,"branch target only used in CODE_C54F05",src/bankC5_5000.asm
-$C54F53,.1,CODE_C54F53,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54F56,.2,CODE_C54F56,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54F59,.3,CODE_C54F59,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54F5C,.4,CODE_C54F5C,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54F6F,.5,CODE_C54F6F,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54F72,.6,CODE_C54F72,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54F75,.7,CODE_C54F75,new,"branch target only used in CODE_C54F38",src/bankC5_5000.asm
-$C54FA2,.1,CODE_C54FA2,new,"branch target only used in CODE_C54F94",src/bankC5_5000.asm
-$C54FB9,.1,CODE_C54FB9,new,"branch target only used in CODE_C54FA9",src/bankC5_5000.asm
-$C54FBD,.2,CODE_C54FBD,new,"branch target only used in CODE_C54FA9",src/bankC5_5000.asm
-$C54FCF,.loop,CODE_C54FCF,new,"branch target only used in CODE_C54FA9",src/bankC5_5000.asm
+$C54F1A,.1,CODE_C54F1A,new,"branch target only used in PauseMenuInput",src/bankC5_5000.asm
+$C54F28,.2,CODE_C54F28,new,"branch target only used in PauseMenuInput",src/bankC5_5000.asm
+$C54F53,.1,CODE_C54F53,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54F56,.2,CODE_C54F56,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54F59,.3,CODE_C54F59,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54F5C,.4,CODE_C54F5C,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54F6F,.5,CODE_C54F6F,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54F72,.6,CODE_C54F72,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54F75,.7,CODE_C54F75,new,"branch target only used in RunPauseItem",src/bankC5_5000.asm
+$C54FA2,.1,CODE_C54FA2,new,"branch target only used in SetPauseTab",src/bankC5_5000.asm
+$C54FB9,.1,CODE_C54FB9,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
+$C54FBD,.2,CODE_C54FBD,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
+$C54FCF,.loop,CODE_C54FCF,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
 $C550D2,.loop,CODE_C550D2,new,"branch target only used in CODE_C5503C",src/bankC5_5000.asm
 $C55153,.loop,CODE_C55153,new,"branch target only used in CODE_C550E2",src/bankC5_5000.asm
 $C55237,.loop,CODE_C55237,new,"branch target only used in CODE_C5522E",src/bankC5_5000.asm
@@ -8110,3 +8110,17 @@ $C56938,PrintGoalieStatHeads,CODE_C56938,code,"from the code: the text at $47F8 
 $C5691F,PrintStatHead,CODE_C5691F,code,"from the code",src/bankC5_6000.asm
 $C5680B,PrintStatCell,CODE_C5680B,code,"from the code: BCDTable, BCDText, PrintBoldCentredStr; DrawPlayerStatRow uses it",src/bankC5_6000.asm
 $C5683C,PrintGoalieShotsPct,CODE_C5683C,code,"from the code: tmpshots and tmgoals of the goalie at $65, PrintStatCell twice; DrawPlayerStatRow calls it for goalies",src/bankC5_6000.asm
+$18F2,pausetab,,code,"RAM: from the code: PauseMenuInput / RunPauseItem / DrawPauseTab select by it",src/ram95s.asm
+$18F4,pauseitems,,code,"RAM: from the code: PauseItemDown stops below it",src/ram95s.asm
+$18F6,pauseitem,,code,"RAM: from the code: PauseItemUp / PauseItemDown, RunPauseItem, DrawPauseTab's highlight",src/ram95s.asm
+$C54F05,PauseMenuInput,CODE_C54F05,code,"from the code; Pausemode_menu calls it each frame",src/bankC5_5000.asm
+$C54F38,RunPauseItem,CODE_C54F38,code,"from the code: the four jump tables by tab",src/bankC5_5000.asm
+$C54F78,PauseItemUp,CODE_C54F78,code,"from the code",src/bankC5_5000.asm
+$C54F86,PauseItemDown,CODE_C54F86,code,"from the code",src/bankC5_5000.asm
+$C54F81,RedrawPauseTab,CODE_C54F81,code,"from the code: lda pausetab, then DrawPauseTab",src/bankC5_5000.asm
+$C54F94,SetPauseTab,CODE_C54F94,code,"from the code; Pausemode_menu starts on tab 2 with it",src/bankC5_5000.asm
+$C54FA9,DrawPauseTab,CODE_C54FA9,code,"from the code",src/bankC5_5000.asm
+$C56B83,ShowPauseTab,CODE_C56B83,code,"from the code",src/bankC5_6000.asm
+$C56B80,ShowQuitPrompt,CODE_C56B80,code,"from the code; the Quit Game item of the Options tab; PauseTimeout goes there too when the team has no timeout left",src/bankC5_6000.asm
+$C56B7B,ResumeFromQuit,CODE_C56B7B,code,"from the code; DATA8_C55038's first item",src/bankC5_6000.asm
+$C5004E,QuitGame,CODE_C5004E,code,"from the code: it falls into Restart; DATA8_C55038's second item",src/bankC5_0000.asm
