@@ -4535,17 +4535,17 @@ $C4D0DE,.1,CODE_C4D0DE,new,"branch target only used in CODE_C4D0D5",src/bankC4_D
 $C4D0ED,.2,CODE_C4D0ED,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
 $C4D0F0,.3,CODE_C4D0F0,new,"branch target only used in CODE_C4D0D5",src/bankC4_D000.asm
 $C4D33F,.loop,CODE_C4D33F,new,"branch target only used in TitleScreen",src/bankC4_D000.asm
-$C4D45E,.1,CODE_C4D45E,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
-$C4D465,.2,CODE_C4D465,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
-$C4D46D,.3,CODE_C4D46D,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
-$C4D473,.4,CODE_C4D473,new,"branch target only used in CODE_C4D435",src/bankC4_D000.asm
-$C4D514,.1,CODE_C4D514,new,"branch target only used in CODE_C4D4F5",src/bankC4_D000.asm
-$C4D5F6,.loop,CODE_C4D5F6,new,"branch target only used in CODE_C4D5AC",src/bankC4_D000.asm
-$C4D610,.1,CODE_C4D610,new,"branch target only used in CODE_C4D5AC",src/bankC4_D000.asm
-$C4D641,.1,CODE_C4D641,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
-$C4D648,.2,CODE_C4D648,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
-$C4D650,.3,CODE_C4D650,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
-$C4D656,.rts,CODE_C4D656,new,"branch target only used in CODE_C4D636",src/bankC4_D000.asm
+$C4D45E,.1,CODE_C4D45E,new,"branch target only used in TitleStartWhiteFade",src/bankC4_D000.asm
+$C4D465,.2,CODE_C4D465,new,"branch target only used in TitleStartWhiteFade",src/bankC4_D000.asm
+$C4D46D,.3,CODE_C4D46D,new,"branch target only used in TitleStartWhiteFade",src/bankC4_D000.asm
+$C4D473,.4,CODE_C4D473,new,"branch target only used in TitleStartWhiteFade",src/bankC4_D000.asm
+$C4D514,.1,CODE_C4D514,new,"branch target only used in TitleFadeTextOut",src/bankC4_D000.asm
+$C4D5F6,.loop,CODE_C4D5F6,new,"branch target only used in DrawTitleTextPage",src/bankC4_D000.asm
+$C4D610,.1,CODE_C4D610,new,"branch target only used in DrawTitleTextPage",src/bankC4_D000.asm
+$C4D641,.1,CODE_C4D641,new,"branch target only used in GetMapSetPalettePointer",src/bankC4_D000.asm
+$C4D648,.2,CODE_C4D648,new,"branch target only used in GetMapSetPalettePointer",src/bankC4_D000.asm
+$C4D650,.3,CODE_C4D650,new,"branch target only used in GetMapSetPalettePointer",src/bankC4_D000.asm
+$C4D656,.rts,CODE_C4D656,new,"branch target only used in GetMapSetPalettePointer",src/bankC4_D000.asm
 $C4D73A,.loop,CODE_C4D73A,new,"branch target only used in CopyrightScreen",src/bankC4_D000.asm
 $C4D75D,.1,CODE_C4D75D,new,"branch target only used in CopyrightScreen",src/bankC4_D000.asm
 $C4D76B,.2,CODE_C4D76B,new,"branch target only used in CopyrightScreen",src/bankC4_D000.asm
@@ -8176,3 +8176,21 @@ $C4F1F8,MarkLineDefencemanUsed,CODE_C4F1F8,code,"stores A at 384E plus the count
 $C4F201,InsertRankedLineForward,CODE_C4F201,code,"compares 364E,x against 370E,y; shifts rating and index tails with MVP; stores roster index plus one at 36CE,y",src/bankC4_F000.asm
 $C4F240,InsertRankedLineDefenceman,CODE_C4F240,code,"compares 364E,x against 378E,y; shifts rating and index tails with MVP; stores roster index plus one at 374E,y",src/bankC4_F000.asm
 $C4EFD8,BuildTeamLinesPreserveTemps,CODE_C4EFD8,code,"twelve PEI saves around JSR BuildTeamLines with matching PLA stores followed by RTL; more than a simple long wrapper",src/bankC4_E000.asm
+$C4D377,TitleWaitForSlide,CODE_C4D377,code,"StartTasks entry from TitleScreen; compares task +8 to 003C and installs C4D388 at task +2",src/bankC4_D000.asm
+$C4D388,TitleFadeAndSlide,CODE_C4D388,code,"QueueFadeStep at colour 0020 then falls through C4D398; installs that continuation when fade count reaches zero",src/bankC4_D000.asm
+$C4D398,TitleSlideBG2,CODE_C4D398,code,"increments BG2HScroll twice and switches task at 0080",src/bankC4_D000.asm
+$C4D3AE,TitleSlideBothBGs,CODE_C4D3AE,code,"subtracts four from BG1HScroll and adds two to BG2HScroll until 0100; creates sprite 28",src/bankC4_D000.asm
+$C4D3DD,TitleFadeFirstLogo,CODE_C4D3DD,code,"derives CGRAM slot from sprite 34 high byte plus eight; QueueFadeStep then installs C4D3FC",src/bankC4_D000.asm
+$C4D3FC,TitleCreateSecondLogo,CODE_C4D3FC,code,"calls C4D52B with sprite 27 and coordinates 000A / 0090; installs C4D414",src/bankC4_D000.asm
+$C4D414,TitleFadeSecondLogo,CODE_C4D414,code,"QueueFadeStep uses current sprite palette; completion clears task counter and installs C4D435",src/bankC4_D000.asm
+$C4D435,TitleStartWhiteFade,CODE_C4D435,code,"at counter 003C fills d4 with 7FFF and starts colour fade using the map palette; installs C4D48A",src/bankC4_D000.asm
+$C4D48A,TitleFinishWhiteFade,CODE_C4D48A,code,"QueueFadeStep at 0020; completion clears text page offset and calls AddStartKeyTask",src/bankC4_D000.asm
+$C4D4A1,TitleStartTextPage,CODE_C4D4A1,code,"calls C4D5AC then installs C4D4AC",src/bankC4_D000.asm
+$C4D4AC,TitleFadeTextIn,CODE_C4D4AC,code,"QueueFadeStep at zero; completion clears task +8 and installs C4D4BF",src/bankC4_D000.asm
+$C4D4BF,TitleHoldTextPage,CODE_C4D4BF,code,"waits for counter 00F0; fills d4 with zero and starts eight-step colour fade",src/bankC4_D000.asm
+$C4D4F5,TitleFadeTextOut,CODE_C4D4F5,code,"QueueFadeStep at zero; reads next page count from DATA8_C4D10A and selects C4D4A1 or C4D51D",src/bankC4_D000.asm
+$C4D51D,TitleEndDelay,CODE_C4D51D,code,"at task counter 01E0 clears bit 8000 of direct page 85, the TitleScreen task-loop flag",src/bankC4_D000.asm
+$C4D52B,CreateTitleFadingSprite,CODE_C4D52B,code,"CreateSprite stores index at 91; clears d4, starts fade to sprite palette and queues black colours to its CGRAM slot",src/bankC4_D000.asm
+$C4D5AC,DrawTitleTextPage,CODE_C4D5AC,code,"reads count and packed text pointers from DATA8_C4D10A; prints centered bold lines and queues map at 56C0",src/bankC4_D000.asm
+$C4D636,GetMapSetPalettePointer,CODE_C4D636,code,"skips two length-prefixed chunks and nine bytes; TitleScreen passes result directly as palette source in transfer queue",src/bankC4_D000.asm
+$C4D773,InitAwardScreen,CODE_C4D773,code,"used by SeasonAwards and StanleyCupScreen; resets queues and sprites, loads TiledBackMap and installs BlueColoursHook",src/bankC4_D000.asm

@@ -6,7 +6,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 									; A's logo sprite; returns on start
 	sta.b a0
 	stx.b $65
-	jsr.w CODE_C4D773
+	jsr.w InitAwardScreen
 	lda.w #$000F
 	sta.b $18
 	lda.w #$0057

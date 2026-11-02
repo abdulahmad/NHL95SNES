@@ -136,7 +136,7 @@ CODE_C4D0D5:						; from CODE_C4CFF5 and other segments
 	rts
 DATA8_C4D101:						; not traced: data between routines
 	db $4A,$01,$78,$22,$38,$22,$01,$33,$00
-DATA8_C4D10A:						; not traced: a table read by CODE_C4D4F5, CODE_C4D5AC, CODE_C4D5AC
+DATA8_C4D10A:						; not traced: a table read by TitleFadeTextOut, DrawTitleTextPage, ...
 	db $03,$E4,$50,$F2,$50,$FE,$50,$03,$08,$51,$11,$51,$1B,$51,$03,$26
 	db $51,$2D,$51,$34,$51,$03,$26,$51,$41,$51,$4A,$51,$03,$26,$51,$55
 	db $51,$62,$51,$03,$26,$51,$6C,$51,$75,$51,$02,$26,$51,$80,$51,$03
@@ -211,7 +211,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	pea.w $0010
 	ldx.w #TitleLogoMap>>16
 	lda.w #TitleLogoMap&$FFFF
-	jsr.w CODE_C4D636
+	jsr.w GetMapSetPalettePointer
 	phx
 	pha
 	lda.b $04
@@ -276,7 +276,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	jsl.l FillWords7E
 	ldx.w #TitlePlayersMap>>16
 	lda.w #TitlePlayersMap&$FFFF
-	jsr.w CODE_C4D636
+	jsr.w GetMapSetPalettePointer
 	ldy.b d5
 	jsl.l StartColourFade
 	ldx.w #$007E
@@ -286,8 +286,8 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	lda.w #$0100
 	sta.w BG1HScroll
 	stz.w BG2HScroll
-	ldx.w #CODE_C4D377>>16
-	lda.w #CODE_C4D377
+	ldx.w #TitleWaitForSlide>>16
+	lda.w #TitleWaitForSlide
 	ldy.w #$0001
 	clc
 	jsl.l StartTasks
@@ -318,21 +318,22 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	lda.w #$0043
 	sta.l BG34NBA
 	rtl
-CODE_C4D377:						; passed as a long pointer (lda # of its bank and address) to StartTasks
+TitleWaitForSlide:					; waits for the task counter to reach 60 before starting the title fade
+									; and slide
 	lda.w $0008,x
 	cmp.w #$003C
 	bne CODE_C4D3AD
 	stz.w $0008,x
-	lda.w #CODE_C4D388
+	lda.w #TitleFadeAndSlide
 	sta.w $0002,x
-CODE_C4D388:						; a task routine: stored as the next routine of a task
+TitleFadeAndSlide:					; steps the title palette fade and continues into the background slide
 	lda.w #$0020
 	jsr.w QueueFadeStep
-	bne CODE_C4D398
+	bne TitleSlideBG2
 	ldx.b d1
-	lda.w #CODE_C4D398
+	lda.w #TitleSlideBG2
 	sta.w $0002,x
-CODE_C4D398:						; a task routine: stored as the next routine of a task
+TitleSlideBG2:						; advances BG2 horizontal scroll by two until the next title slide phase
 	lda.w BG2HScroll
 	inc a
 	inc a
@@ -340,11 +341,11 @@ CODE_C4D398:						; a task routine: stored as the next routine of a task
 	cmp.w #$0080
 	bcc CODE_C4D3AD
 	ldx.b d1
-	lda.w #CODE_C4D3AE
+	lda.w #TitleSlideBothBGs
 	sta.w $0002,x
-CODE_C4D3AD:						; from CODE_C4D377, CODE_C4D398, CODE_C4D3AE
+CODE_C4D3AD:						; from TitleWaitForSlide, TitleSlideBG2, TitleSlideBothBGs
 	rtl
-CODE_C4D3AE:						; a task routine: stored as the next routine of a task
+TitleSlideBothBGs:					; scrolls BG1 and BG2 apart, then creates the first fading logo sprite
 	lda.w BG1HScroll
 	dec a
 	dec a
@@ -362,11 +363,11 @@ CODE_C4D3AE:						; a task routine: stored as the next routine of a task
 	lda.w #$0093
 	sta.b $1A
 	lda.w #$0028
-	jsr.w CODE_C4D52B
+	jsr.w CreateTitleFadingSprite
 	ldx.b d1
-	lda.w #CODE_C4D3DD
+	lda.w #TitleFadeFirstLogo
 	sta.w $0002,x
-CODE_C4D3DD:						; a task routine: stored as the next routine of a task
+TitleFadeFirstLogo:					; fades the first title logo palette before creating the second logo
 	ldx.b $91
 	lda.w $0034,x
 	and.w #$FF00
@@ -380,21 +381,21 @@ CODE_C4D3DD:						; a task routine: stored as the next routine of a task
 	jsr.w QueueFadeStep
 	bne CODE_C4D3FB
 	ldx.b d1
-	lda.w #CODE_C4D3FC
+	lda.w #TitleCreateSecondLogo
 	sta.w $0002,x
-CODE_C4D3FB:						; from CODE_C4D3DD, CODE_C4D414, CODE_C4D435
+CODE_C4D3FB:						; from TitleFadeFirstLogo, TitleFadeSecondLogo, TitleStartWhiteFade
 	rtl
-CODE_C4D3FC:						; a task routine: stored as the next routine of a task
+TitleCreateSecondLogo:				; creates the second title logo sprite and starts its palette fade
 	lda.w #$000A
 	sta.b $18
 	lda.w #$0090
 	sta.b $1A
 	lda.w #$0027
-	jsr.w CODE_C4D52B
+	jsr.w CreateTitleFadingSprite
 	ldx.b d1
-	lda.w #CODE_C4D414
+	lda.w #TitleFadeSecondLogo
 	sta.w $0002,x
-CODE_C4D414:						; a task routine: stored as the next routine of a task
+TitleFadeSecondLogo:				; fades the second title logo palette, then resets the task delay
 	ldx.b $91
 	lda.w $0034,x
 	and.w #$FF00
@@ -409,9 +410,9 @@ CODE_C4D414:						; a task routine: stored as the next routine of a task
 	bne CODE_C4D3FB
 	ldx.b d1
 	stz.w $0008,x
-	lda.w #CODE_C4D435
+	lda.w #TitleStartWhiteFade
 	sta.w $0002,x
-CODE_C4D435:						; a task routine: stored as the next routine of a task
+TitleStartWhiteFade:				; waits for the task delay, then starts a white fade for the title palette
 	lda.w $0008,x
 	cmp.w #$003C
 	bne CODE_C4D3FB
@@ -453,33 +454,33 @@ CODE_C4D435:						; a task routine: stored as the next routine of a task
 	ldy.b d5
 	jsl.l StartColourFade
 	ldx.b d1
-	lda.w #CODE_C4D48A
+	lda.w #TitleFinishWhiteFade
 	sta.w $0002,x
-CODE_C4D48A:						; a task routine: stored as the next routine of a task
+TitleFinishWhiteFade:				; completes the title palette fade and enables the start key task
 	lda.w #$0020
 	jsr.w QueueFadeStep
 	bne CODE_C4D4A0
 	stz.b $95
 	jsl.l AddStartKeyTask
 	ldx.b d1
-	lda.w #CODE_C4D4A1
+	lda.w #TitleStartTextPage
 	sta.w $0002,x
-CODE_C4D4A0:						; from CODE_C4D48A, CODE_C4D4AC
+CODE_C4D4A0:						; from TitleFinishWhiteFade, TitleFadeTextIn
 	rtl
-CODE_C4D4A1:						; a task routine: stored as the next routine of a task
-	jsr.w CODE_C4D5AC
+TitleStartTextPage:					; draws the next title text page and starts its fade task
+	jsr.w DrawTitleTextPage
 	ldx.b d1
-	lda.w #CODE_C4D4AC
+	lda.w #TitleFadeTextIn
 	sta.w $0002,x
-CODE_C4D4AC:						; a task routine: stored as the next routine of a task
+TitleFadeTextIn:					; fades in the title text palette and resets the page hold timer
 	lda.w #$0000
 	jsr.w QueueFadeStep
 	bne CODE_C4D4A0
 	ldx.b d1
 	stz.w $0008,x
-	lda.w #CODE_C4D4BF
+	lda.w #TitleHoldTextPage
 	sta.w $0002,x
-CODE_C4D4BF:						; a task routine: stored as the next routine of a task
+TitleHoldTextPage:					; holds the title text page, then starts its fade to black
 	lda.w $0008,x
 	cmp.w #$00F0
 	bne CODE_C4D52A
@@ -499,9 +500,9 @@ CODE_C4D4BF:						; a task routine: stored as the next routine of a task
 	ldy.b d5
 	jsl.l StartColourFade
 	ldx.b d1
-	lda.w #CODE_C4D4F5
+	lda.w #TitleFadeTextOut
 	sta.w $0002,x
-CODE_C4D4F5:						; a task routine: stored as the next routine of a task
+TitleFadeTextOut:					; fades out the text and selects the next page or the final title delay
 	lda.w #$0000
 	jsr.w QueueFadeStep
 	bne CODE_C4D52A
@@ -511,23 +512,23 @@ CODE_C4D4F5:						; a task routine: stored as the next routine of a task
 	bne .1
 	ldx.b d1
 	stz.w $0008,x
-	lda.w #CODE_C4D51D
+	lda.w #TitleEndDelay
 	sta.w $0002,x
 	rtl
-.1:									; X = d1, $0002,x = CODE_C4D4A1, return
+.1:									; X = d1, $0002,x = TitleStartTextPage, return
 	ldx.b d1
-	lda.w #CODE_C4D4A1
+	lda.w #TitleStartTextPage
 	sta.w $0002,x
 	rtl
-CODE_C4D51D:						; a task routine: stored as the next routine of a task
+TitleEndDelay:						; ends the title task sequence after the final delay
 	lda.w $0008,x
 	cmp.w #$01E0
 	bne CODE_C4D52A
 	lda.w #$8000
 	trb.b $85
-CODE_C4D52A:						; from CODE_C4D4BF, CODE_C4D4F5, CODE_C4D51D
+CODE_C4D52A:						; from TitleHoldTextPage, TitleFadeTextOut, TitleEndDelay
 	rtl
-CODE_C4D52B:						; from CODE_C4D3AE, CODE_C4D3FC
+CreateTitleFadingSprite:			; creates a title sprite with a black palette and starts its colour fade
 	jsl.l CreateSprite
 	stx.b $91
 	lda.w #$0010
@@ -587,7 +588,7 @@ QueueFadeStep:						; one step of a 16-colour fade: StepColourFade, PackFadeColo
 	jsl.l QueueColours16
 	dec.b $7D
 	rts
-CODE_C4D5AC:						; from CODE_C4D4A1
+DrawTitleTextPage:					; draws the next centred title text page and starts its palette fade
 	lda.w #$0020
 	sta.b $7D
 	lsr a
@@ -651,7 +652,7 @@ CODE_C4D5AC:						; from CODE_C4D4A1
 	stx.b $00
 	stz.b QueueBusy
 	rts
-CODE_C4D636:						; from TitleScreen
+GetMapSetPalettePointer:			; returns the map set palette data pointer in X:A
 	stx.b tmp1
 	sta.b tmp0
 	clc
@@ -779,7 +780,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 .2:									; call FadeOutWait, go to ClearNMIHook
 	jsl.l FadeOutWait
 	jml.l ClearNMIHook
-CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
+InitAwardScreen:					; prepares the shared awards background, sprites, text map and colour hook
 	jsl.l ResetTransferQueues
 	jsl.l ResetSprites
 	jsl.l ResetWorkBuf
@@ -844,7 +845,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 	lda.w #$00A7
 	jsl.l StartSound
 	jsl.l SoundVolumeUp
-	jsr.w CODE_C4D773
+	jsr.w InitAwardScreen
 	lda.w #$003D
 	sta.b $1A
 	lda.w #$0030
