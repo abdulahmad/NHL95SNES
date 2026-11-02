@@ -1890,11 +1890,11 @@ CODE_C4CEF5:						; called from other segments
 	jsr.w CODE_C4CF5A
 	jsl.l CODE_C4CF75
 	lda.w #$0101
-	sta.l $306049
+	sta.l SROptperlen
 	lda.w #$000E
-	sta.l $306041
+	sta.l SRHomeTeam
 	lda.w #$0017
-	sta.l $306043
+	sta.l SRVisTeam
 	ldx.w #$003A
 	lda.w #$FFFF
 .loop:								; loop: $3070D6,x = A, X - 1, X - 1, if the result >= 0 go to .loop
@@ -1985,9 +1985,9 @@ CODE_C4CFBE:						; from CODE_C4CF7B, CODE_C4CFBE
 	bmi .1
 	asl a
 	bra .loop
-.1:									; A or $30628F,x, $30628F,x = A, $0A + 1, pull A, ...
-	ora.l $30628F,x
-	sta.l $30628F,x
+.1:									; A or SRGoals,x, SRGoals,x = A, $0A + 1, pull A, ...
+	ora.l SRGoals,x
+	sta.l SRGoals,x
 	inc.b $0A
 	pla
 	inc a

@@ -345,17 +345,17 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	stz.b $69
 	ldx.w #$0000
 	txy
-.loop:								; loop: A = $306A56,x, A and $001F, if A is not $001A go to .1, a1 + 1
-	lda.l $306A56,x
+.loop:								; loop: A = SRPlayerTeams,x, A and $001F, ...
+	lda.l SRPlayerTeams,x
 	and.w #$001F
 	cmp.w #$001A
 	bne .1
 	inc.b a1
-.1:									; Y + 1, if Y >= $027E go to .3, A = $306A57,x, A / 2, ...
+.1:									; Y + 1, if Y >= $027E go to .3, A = SRPlayerTeams+1,x, A / 2, ...
 	iny
 	cpy.w #$027E
 	bcs .3
-	lda.l $306A57,x
+	lda.l SRPlayerTeams+1,x
 	lsr a
 	lsr a
 	lsr a
@@ -710,20 +710,20 @@ CODE_C5C58A:						; from SignFreeAgents
 	clc
 	adc.b tmp0
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$000F
 	ora.w #$FE00
 	ora.b tmp1
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	bra .4
-.3:									; A + tmp0, X = A, A = $306A56,x, A and $F000, ...
+.3:									; A + tmp0, X = A, A = SRPlayerTeams,x, A and $F000, ...
 	adc.b tmp0
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$F000
 	ora.w #$0FE0
 	ora.w VisTeam
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 .4:									; if tmp0 < $026A go to .5, call CreatedPlayerBits, A = Y, A + $005D, ...
 	lda.b tmp0
 	cmp.w #$026A
@@ -765,10 +765,10 @@ CODE_C5C58A:						; from SignFreeAgents
 	xba
 	asl a
 	sta.b tmp2
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$01FF
 	ora.b tmp2
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	ldx.b a1
 	jmp.w .1
 .7:									; A + tmp0, X = A, A = tmp2, A * 2, ...
@@ -781,10 +781,10 @@ CODE_C5C58A:						; from SignFreeAgents
 	asl a
 	asl a
 	sta.b tmp2
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$F01F
 	ora.b tmp2
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	ldx.b a1
 	jmp.w .1
 DATA8_C5C655:						; not traced: data between routines
@@ -792,12 +792,12 @@ DATA8_C5C655:						; not traced: data between routines
 CODE_C5C658:						; from CODE_C5C58A
 	ldx.w #$0000
 	txy
-.loop:								; loop: A = $306A56,x, A and $001F, if A is not VisTeam go to .1, ...
-	lda.l $306A56,x
+.loop:								; loop: A = SRPlayerTeams,x, A and $001F, ...
+	lda.l SRPlayerTeams,x
 	and.w #$001F
 	cmp.w VisTeam
 	bne .1
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	lsr a
 	lsr a
 	lsr a
@@ -806,15 +806,15 @@ CODE_C5C658:						; from CODE_C5C58A
 	and.w #$007F
 	cmp.b tmp2
 	beq .4
-.1:									; Y + 1, if Y >= $027E go to .3, A = $306A57,x, A and $01F0, ...
+.1:									; Y + 1, if Y >= $027E go to .3, A = SRPlayerTeams+1,x, A and $01F0, ...
 	iny
 	cpy.w #$027E
 	bcs .3
-	lda.l $306A57,x
+	lda.l SRPlayerTeams+1,x
 	and.w #$01F0
 	cmp.b tmp1
 	bne .2
-	lda.l $306A58,x
+	lda.l SRPlayerTeams+2,x
 	lsr a
 	and.w #$007F
 	cmp.b tmp2
@@ -1189,13 +1189,13 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	clc
 	adc.b tmp0
 	tax
-	lda.l $306A57,x
+	lda.l SRPlayerTeams+1,x
 	lsr a
 	bra .7
-.6:									; A + tmp0, X = A, A = $306A56,x, A / 2, ...
+.6:									; A + tmp0, X = A, A = SRPlayerTeams,x, A / 2, ...
 	adc.b tmp0
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	lsr a
 	lsr a
 	lsr a
@@ -1275,18 +1275,18 @@ CODE_C5CA27:						; from ReleasePlayers
 	clc
 	adc.b tmp0
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$FE0F
 	ora.w #$01A0
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	bra .1
-.3:									; A + tmp0, X = A, A = $306A56,x, A and $FFE0, ...
+.3:									; A + tmp0, X = A, A = SRPlayerTeams,x, A and $FFE0, ...
 	adc.b tmp0
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$FFE0
 	ora.w #$001A
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	bra .1
 TradePlayers:						; the Trade Players screen: both rosters (Y switches the team, up / down
 									; move, B marks a player); start goes on to GMDecisionScreen, X leaves
@@ -1536,13 +1536,13 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	clc
 	adc.b tmp0
 	tax
-	lda.l $306A57,x
+	lda.l SRPlayerTeams+1,x
 	lsr a
 	bra .5
-.4:									; A + tmp0, X = A, A = $306A56,x, A / 2, ...
+.4:									; A + tmp0, X = A, A = SRPlayerTeams,x, A / 2, ...
 	adc.b tmp0
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	lsr a
 	lsr a
 	lsr a

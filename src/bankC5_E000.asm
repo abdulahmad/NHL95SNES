@@ -266,12 +266,12 @@ CODE_C5E172:						; from CODE_C5DF5F, SimTeamTotals, CODE_C5E0B1, ...
 	plb
 	rts
 SaveDayGameStats:					; for each of the day's games not played by a user: AddTeamSeasonStats for
-									; both teams, the score to $306053, AddGamePlayerStats; then $306051
-									; rebuilt
+									; both teams, the score to SRDayScores, AddGamePlayerStats; then
+									; SRDayPlayed rebuilt
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
-	lda.l $306051
+	lda.l SRDayPlayed
 	sta.b $0A
 	stz.b $0C
 	stz.b $0E
@@ -297,7 +297,7 @@ SaveDayGameStats:					; for each of the day's games not played by a user: AddTea
 	lda.w $0008,y
 	xba
 	ora.w $000A,y
-	sta.l $306053,x
+	sta.l SRDayScores,x
 	phx
 	phy
 	pei ($9F)
@@ -343,7 +343,7 @@ SaveDayGameStats:					; for each of the day's games not played by a user: AddTea
 	dec a
 	bpl .loop2
 	lda.b $0C
-	sta.l $306051
+	sta.l SRDayPlayed
 	rts
 AddTeamSeasonStats:					; adds team A's game totals (the table at Y) to its season record in save
 									; RAM: the record read (BuildTeamSeasonRecord), each field plus the game
@@ -449,8 +449,8 @@ WriteTeamStatBits11:				; writes the low 11 bits of tmp1 from bit r2 on (WriteTe
 	jsr.w WriteTeamStatBit
 	jsr.w WriteTeamStatBit
 	jsr.w WriteTeamStatBit
-WriteTeamStatBit:					; writes bit 0 of tmp1 to bit r2 of the team stats bit stream at $306E43;
-									; tmp1 / 2, r2 + 1
+WriteTeamStatBit:					; writes bit 0 of tmp1 to bit r2 of the team stats bit stream at
+									; SRTeamStats; tmp1 / 2, r2 + 1
 	lsr.b tmp1
 	bcs .1
 	lda.b r2
@@ -465,9 +465,9 @@ WriteTeamStatBit:					; writes bit 0 of tmp1 to bit r2 of the team stats bit str
 	lsr a
 	lsr a
 	tax
-	lda.l $306E43,x
+	lda.l SRTeamStats,x
 	and.b $A5
-	sta.l $306E43,x
+	sta.l SRTeamStats,x
 	inc.b r2
 	rts
 .1:									; A = r2, A and $0007, X = A, A = DATA8_C4C4A6,x, ...
@@ -482,16 +482,16 @@ WriteTeamStatBit:					; writes bit 0 of tmp1 to bit r2 of the team stats bit str
 	lsr a
 	lsr a
 	tax
-	lda.l $306E43,x
+	lda.l SRTeamStats,x
 	ora.b $A5
-	sta.l $306E43,x
+	sta.l SRTeamStats,x
 	inc.b r2
 	rts
 CODE_C5E336:						; called from other segments
 	phb
 	lda.l $7E2C42
 	sta.b tmp0
-	lda.l $306051
+	lda.l SRDayPlayed
 	sta.b tmp1
 	pea.w $7E7F
 	plb
@@ -504,10 +504,10 @@ CODE_C5E336:						; called from other segments
 	sta.w $0000,y
 	dec a
 	sta.w $0006,y
-	lda.l $306053,x
+	lda.l SRDayScores,x
 	and.w #$00FF
 	sta.w $000A,y
-	lda.l $306054,x
+	lda.l SRDayScores+1,x
 	and.w #$00FF
 	sta.w $0008,y
 .1:									; X + 1, X + 1, A = Y, A + $010A, ...
@@ -547,42 +547,42 @@ CODE_C5E37E:						; called from other segments
 	jml.l MarkWorkBuf
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3AE:						; no caller found (not traced)
-	lda.l $3075B4
+	lda.l SRPODay
 	and.w #$00FF
 	beq .1
 	rts
-.1:									; A 8-bit, $30604D = $190A, A 16-bit, return
+.1:									; A 8-bit, SRBestOfSeven = $190A, A 16-bit, return
 	sep #$20
 	lda.w $190A
-	sta.l $30604D
+	sta.l SRBestOfSeven
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3C6:						; no caller found (not traced)
 	sep #$20
 	lda.w OptLine
-	sta.l $30604C
+	sta.l SROptLine
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3D4:						; no caller found (not traced)
 	sep #$20
 	lda.w OptPen
-	sta.l $30604B
+	sta.l SROptPen
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3E2:						; no caller found (not traced)
 	sep #$20
 	lda.w Optperlen
-	sta.l $306049
+	sta.l SROptperlen
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
 CODE_C5E3F0:						; no caller found (not traced)
 	sep #$20
 	lda.w OptGoalie
-	sta.l $30604A
+	sta.l SROptGoalie
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
@@ -608,15 +608,15 @@ CODE_C5E41D:						; from CODE_C5E40C and other segments
 	bcc .1
 	lda.w #$000E
 	sta.w HomeTeam
-	sta.l $306041
+	sta.l SRHomeTeam
 	jsr.w CODE_C5A46A
-.1:									; if VisTeam < $001A go to CODE_C5E41C, VisTeam = $0017, $306043 = A, ...
+.1:									; if VisTeam < $001A go to CODE_C5E41C, VisTeam = $0017, ...
 	lda.w VisTeam
 	cmp.w #$001A
 	bcc CODE_C5E41C
 	lda.w #$0017
 	sta.w VisTeam
-	sta.l $306043
+	sta.l SRVisTeam
 	jmp.w CODE_C5A3C1
 CODE_C5E447:						; from CODE_C5E474 and other segments
 	sta.b tmp0
@@ -640,11 +640,11 @@ CODE_C5E447:						; from CODE_C5E474 and other segments
 	sec
 	rol a
 	bra .loop
-.1:									; tmp0 = A, A = $30628F,x, A and tmp0, $30628F,x = A, ...
+.1:									; tmp0 = A, A = SRGoals,x, A and tmp0, SRGoals,x = A, ...
 	sta.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 	and.b tmp0
-	sta.l $30628F,x
+	sta.l SRGoals,x
 	rts
 CODE_C5E474:						; called from other segments
 	lda.w #$026A
@@ -694,7 +694,7 @@ CODE_C5E4D2:						; called from other segments
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
-	lda.l $306051
+	lda.l SRDayPlayed
 	sta.b $0A
 	stz.b $0C
 	plb
@@ -720,7 +720,7 @@ CODE_C5E4D2:						; called from other segments
 	dec a
 	bpl .loop2
 	lda.b $0C
-	sta.l $306051
+	sta.l SRDayPlayed
 	rts
 CODE_C5E50E:						; from ShowPleaseWait and other segments
 	lda.w #$00A0

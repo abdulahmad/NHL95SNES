@@ -1333,13 +1333,13 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	bra .9
 .8:									; call CODE_C5E4D2
 	jsr.w CODE_C5E4D2
-.9:									; X = $2C42, A = $306051
+.9:									; X = $2C42, A = SRDayPlayed
 	pea.w $C57E
 	plb
 	pea.w $007B
 	pea.w $9677
 	ldx.w $2C42
-	lda.l $306051
+	lda.l SRDayPlayed
 .loop2:								; loop: A / 2, if carry clear go to .11, X - 1, ...
 	lsr a
 	bcc .11
@@ -1349,12 +1349,12 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	cmp.w #$0003
 	bne .10
 	jml.l RecordPlayoffDay
-.10:								; A = $306050, A + 1, $306050 = A, $306051 = $0000, ...
-	lda.l $306050
+.10:								; A = SeasonDay, A + 1, SeasonDay = A, SRDayPlayed = $0000, ...
+	lda.l SeasonDay
 	inc a
-	sta.l $306050
+	sta.l SeasonDay
 	lda.w #$0000
-	sta.l $306051
+	sta.l SRDayPlayed
 	dec a
 	sta.b tmp0
 	jsl.l StartMenuMusic
@@ -1364,8 +1364,8 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	plb
 	jmp.w FinishSeasonDay
 SeasonGameOver:						; after the user's season game: its game record (the first one in use at
-									; $7F8EF8) marked played in $306051, the scores and team stats copied in,
-									; then the result and the season stats (outside play mode 3)
+									; $7F8EF8) marked played in SRDayPlayed, the scores and team stats copied
+									; in, then the result and the season stats (outside play mode 3)
 	ldy.w #$0000
 	tyx
 	clc
@@ -1382,9 +1382,9 @@ SeasonGameOver:						; after the user's season game: its game record (the first 
 	tya
 	asl a
 	tax
-	lda.l $306051
+	lda.l SRDayPlayed
 	ora.l BitMaskTable,x
-	sta.l $306051
+	sta.l SRDayPlayed
 	ldx.b tmp1
 	lda.w tmscore
 	sta.l $7F8F02,x
@@ -1439,7 +1439,7 @@ SeasonGameOver:						; after the user's season game: its game record (the first 
 	asl a
 	tax
 	lda.b tmp0
-	sta.l $306053,x
+	sta.l SRDayScores,x
 	clc
 	lda.b tmp1
 	adc.w #$8F32

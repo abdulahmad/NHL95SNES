@@ -469,7 +469,7 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	lsr a
 	lsr a
 	tax
-	lda.l $306050
+	lda.l SeasonDay
 	and.w #$00FF
 	cmp.w d0
 	beq .3
@@ -497,10 +497,10 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	jsr.w CODE_C5B4AE
 	pld
 	rts
-.3:									; push X, X = $0085, A = $306051
+.3:									; push X, X = $0085, A = SRDayPlayed
 	phx
 	ldx.w $0085
-	lda.l $306051
+	lda.l SRDayPlayed
 .loop:								; loop: A / 2, X - 1, if the result >= 0 go to .loop, pull X, ...
 	lsr a
 	dex
@@ -726,13 +726,13 @@ PlayerNumberTeamLong:				; PlayerNumberTeam for long calls
 	jsr.w PlayerNumberTeam
 	rtl
 PlayerNumberTeam:					; A = player A's number in BCD (high byte) and team (low byte) from its
-									; 12-bit entry at $306A56
+									; 12-bit entry at SRPlayerTeams
 	sta.b tmp1
 	asl a
 	adc.b tmp1
 	lsr a
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	sta.b tmp1
 	bcc .1
 	xba
@@ -1176,7 +1176,7 @@ BuildTeamSeasonRecordLong:			; BuildTeamSeasonRecord for long calls
 	rtl
 BuildTeamSeasonRecord:				; team A's season record in a new $32-byte work buffer entry (Y): stat
 									; fields from save RAM (ReadTeamStatBits), wins / losses / ties from the
-									; 2-bit results at $30606D, points, percentages
+									; 2-bit results at SRTeamResults, points, percentages
 	tax
 	lda.w #$0032
 	jsl.l AllocWorkBuf
@@ -1384,17 +1384,17 @@ BuildTeamSeasonRecord:				; team A's season record in a new $32-byte work buffer
 	stz.w $0000,x
 	stz.w $0002,x
 	rts
-ReadTeamStatBits:					; A = the next A bits of the team stats bit stream at $306E43 (bit pointer
-									; r2, advanced)
+ReadTeamStatBits:					; A = the next A bits of the team stats bit stream at SRTeamStats (bit
+									; pointer r2, advanced)
 	sta.b r1
 	lda.b r2
 	lsr a
 	lsr a
 	lsr a
 	tax
-	lda.l $306E43,x
+	lda.l SRTeamStats,x
 	sta.b r0
-	lda.l $306E45,x
+	lda.l SRTeamStats+2,x
 	sta.b $2E
 	lda.b r2
 	and.w #$0007
@@ -1616,13 +1616,13 @@ CODE_C5BCE3:						; from DrawSeasonTeamStats
 	jsl.l WaitTransfers
 	rts
 PlayerNumberBCD:					; A = player A's sweater number in BCD (the 7-bit field of its 12-bit
-									; entry at $306A56)
+									; entry at SRPlayerTeams)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
 	lsr a
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	bcc .1
 	lsr a
 	bra .2
@@ -1642,7 +1642,7 @@ SeasonGoalsLong:					; SeasonGoals for long calls
 	jsr.w SeasonGoals
 	rtl
 SeasonGoals:						; A = player A's season goals in BCD, X binary (9 bits a player in the
-									; save RAM array at $30628F)
+									; save RAM array at SRGoals)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1656,7 +1656,7 @@ SeasonGoals:						; A = player A's season goals in BCD, X binary (9 bits a playe
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $01FF, ...
 	lsr a
 	dec.b tmp0
@@ -1669,7 +1669,7 @@ SeasonAssistsLong:					; SeasonAssists for long calls
 	jsr.w SeasonAssists
 	rtl
 SeasonAssists:						; A = player A's season assists in BCD, X binary (9 bits a player in the
-									; save RAM array at $306724)
+									; save RAM array at SRAssists)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1683,7 +1683,7 @@ SeasonAssists:						; A = player A's season assists in BCD, X binary (9 bits a p
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $306724,x
+	lda.l SRAssists,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $01FF, ...
 	lsr a
 	dec.b tmp0
@@ -1696,7 +1696,7 @@ SeasonSavesLong:					; SeasonSaves for long calls
 	jsr.w SeasonSaves
 	rtl
 SeasonSaves:						; A = goalie A's season saves in BCD, X binary: its goalie index (7 bits
-									; at $30628F), then 12 bits a goalie at $306FED
+									; at SRGoals), then 12 bits a goalie at SRGoalieSaves
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1710,7 +1710,7 @@ SeasonSaves:						; A = goalie A's season saves in BCD, X binary: its goalie ind
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dec.b tmp0
@@ -1722,7 +1722,7 @@ SeasonSaves:						; A = goalie A's season saves in BCD, X binary: its goalie ind
 	adc.b tmp0
 	lsr a
 	tax
-	lda.l $306FED,x
+	lda.l SRGoalieSaves,x
 	bcc .1
 	lsr a
 	lsr a
@@ -1736,7 +1736,7 @@ SeasonGoalieGamesLong:				; SeasonGoalieGames for long calls
 	jsr.w SeasonGoalieGames
 	rtl
 SeasonGoalieGames:					; A = goalie A's season games in BCD, X binary: its goalie index (7 bits
-									; at $30628F), then 7 bits a goalie at $307080
+									; at SRGoals), then 7 bits a goalie at SRGoalieGames
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1750,7 +1750,7 @@ SeasonGoalieGames:					; A = goalie A's season games in BCD, X binary: its goali
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dec.b tmp0
@@ -1769,7 +1769,7 @@ SeasonGoalieGames:					; A = goalie A's season games in BCD, X binary: its goali
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $307080,x
+	lda.l SRGoalieGames,x
 	ldx.b tmp0
 .loop2:								; loop: A / 2, X - 1, if the result >= 0 go to .loop2, A and $007F, ...
 	lsr a
@@ -1782,8 +1782,8 @@ SeasonGoalieGames:					; A = goalie A's season games in BCD, X binary: its goali
 SeasonGoalsAgainstLong:				; SeasonGoalsAgainst for long calls
 	jsr.w SeasonGoalsAgainst
 	rtl
-SeasonGoalsAgainst:					; A = goalie A's season goals against in BCD, X binary (9 bits at $306724
-									; and two more at $30628F)
+SeasonGoalsAgainst:					; A = goalie A's season goals against in BCD, X binary (9 bits at
+									; SRAssists and two more at SRGoals)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1797,9 +1797,9 @@ SeasonGoalsAgainst:					; A = goalie A's season goals against in BCD, X binary (
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 	sta.b tmp1
-	lda.l $306724,x
+	lda.l SRAssists,x
 .loop:								; loop: tmp1 / 2, A / 2, tmp0 - 1, if the result >= 0 go to .loop, ...
 	lsr.b tmp1
 	lsr a

@@ -182,8 +182,8 @@ LoadSeasonHomeRoster:				; LoadSeasonRoster of team A into the home roster table
 	jsr.w LoadSeasonRoster
 	rtl
 LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season data: each
-									; player whose entry at $306A56 has team tmp0 (AddRosterPlayer), then the
-									; entries ordered
+									; player whose entry at SRPlayerTeams has team tmp0 (AddRosterPlayer),
+									; then the entries ordered
 	asl a
 	tax
 	lda.l $C30000,x
@@ -199,8 +199,8 @@ LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season 
 	stz.b tmp2
 	ldx.w #$0000
 	ldy.b tmp1
-.loop:								; loop: A = $306A56,x, A and $001F, if A is not tmp0 go to .1, ...
-	lda.l $306A56,x
+.loop:								; loop: A = SRPlayerTeams,x, A and $001F, if A is not tmp0 go to .1, ...
+	lda.l SRPlayerTeams,x
 	and.w #$001F
 	cmp.b tmp0
 	bne .1
@@ -211,7 +211,7 @@ LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season 
 	cmp.w #$027E
 	bcs .3
 	sta.b tmp2
-	lda.l $306A57,x
+	lda.l SRPlayerTeams+1,x
 	lsr a
 	lsr a
 	lsr a

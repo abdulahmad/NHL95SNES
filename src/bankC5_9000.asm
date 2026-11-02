@@ -301,9 +301,9 @@ CODE_C592A9:						; from setoptions
 	cmp.w #$001A
 	bcc .2
 	lda.w #$0000
-.2:									; VisTeam = A, $306043 = A, call CODE_C5A3C1
+.2:									; VisTeam = A, SRVisTeam = A, call CODE_C5A3C1
 	sta.w VisTeam
-	sta.l $306043
+	sta.l SRVisTeam
 	jsr.w CODE_C5A3C1
 .3:									; A = $0480, A + $D3, Y = $0200, call ClearRAM7E, ...
 	clc
@@ -635,8 +635,8 @@ ControllerSetupScreen:				; builds the controller setup screen: a sprite for eac
 StartSeason:						; play mode Season: with a season saved, WARNING A Season is in progress
 									; ... Continue Old / Start New (screen state 13); else straight to the
 									; League Menu (SeasonOptions)
-	lda.l $306050
-	ora.l $306051
+	lda.l SeasonDay
+	ora.l SRDayPlayed
 	bne .1
 	jmp.w CODE_C5963A
 .1:									; Y = $0280, A = $D3, A + $0400, call ClearRAM7E, ...
@@ -1289,8 +1289,8 @@ CODE_C59ADD:						; from CODE_C59938
 	sta.b d6
 	rts
 SaveCreatedPlayer:					; saves the created player in the first free one of 20 save RAM slots ($9C
-									; bits each, free when the first letter is 0): its entry at $306A56, both
-									; names at 5 bits a letter, the ratings, then GameSetUp
+									; bits each, free when the first letter is 0): its entry at SRPlayerTeams,
+									; both names at 5 bits a letter, the ratings, then GameSetUp
 	lda.w #$026A
 	sta.b $A5
 	ldy.w #$0003
@@ -1337,17 +1337,17 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	xba
 	asl a
 	sta.b tmp0
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$000F
 	ora.w #$01A0
 	bra .3
-.2:									; A = $306A56,x, A and $F000, A or $001A
-	lda.l $306A56,x
+.2:									; A = SRPlayerTeams,x, A and $F000, A or $001A
+	lda.l SRPlayerTeams,x
 	and.w #$F000
 	ora.w #$001A
-.3:									; A or tmp0, $306A56,x = A, Y = tmp1, tmp2 = d0, ...
+.3:									; A or tmp0, SRPlayerTeams,x = A, Y = tmp1, tmp2 = d0, ...
 	ora.b tmp0
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	ldy.b tmp1
 	lda.b d0
 	sta.b tmp2
@@ -1535,8 +1535,8 @@ WriteSaveBits4:						; writes the low 4 bits of tmp2 from bit Y on (WriteSaveBit
 WriteSaveBits3:						; writes the low 3 bits of tmp2 from bit Y on (WriteSaveBit three times)
 	jsr.w WriteSaveBit
 	jsr.w WriteSaveBit
-WriteSaveBit:						; writes bit 0 of tmp2 to bit Y of the save RAM bit array at $307162
-									; (masks DATA8_C4C4A6); tmp2 / 2, Y + 1
+WriteSaveBit:						; writes bit 0 of tmp2 to bit Y of the save RAM bit array at
+									; SRCreatedPlayers (masks DATA8_C4C4A6); tmp2 / 2, Y + 1
 	lsr.b tmp2
 	bcs .1
 	tya
@@ -1551,9 +1551,9 @@ WriteSaveBit:						; writes bit 0 of tmp2 to bit Y of the save RAM bit array at 
 	lsr a
 	lsr a
 	tax
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 	and.b tmp0
-	sta.l $307162,x
+	sta.l SRCreatedPlayers,x
 	iny
 	rts
 .1:									; A = Y, A and $0007, X = A, A = DATA8_C4C4A6,x, ...
@@ -1568,12 +1568,12 @@ WriteSaveBit:						; writes bit 0 of tmp2 to bit Y of the save RAM bit array at 
 	lsr a
 	lsr a
 	tax
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 	ora.b tmp0
-	sta.l $307162,x
+	sta.l SRCreatedPlayers,x
 	iny
 	rts
-ReadSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $307162
+ReadSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at SRCreatedPlayers
 	tya
 	lsr a
 	lsr a
@@ -1582,7 +1582,7 @@ ReadSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $3071
 	tya
 	and.w #$0007
 	sta.b tmp0
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $001F, ...
 	lsr a
 	dec.b tmp0

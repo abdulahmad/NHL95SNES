@@ -4,7 +4,7 @@ org $C4CFF5
 CODE_C4CFF5:						; called from other segments
 	phb
 	lda.w #$0000
-	sta.l $306050
+	sta.l SeasonDay
 	ldx.w #$6050
 	ldy.w #$6052
 	lda.w #$09C3
@@ -1376,10 +1376,10 @@ ScanConnSmythe:						; Conn Smythe Trophy: of the skaters of the 16 playoff team
 									; the highest playoff goals + assists
 	lda.w #$0000
 	sta.b a2
-.1:									; $6D = A, X = A, A = $3075A4,x, A and $00FF, ...
+.1:									; $6D = A, X = A, A = SRPOTeams,x, A and $00FF, ...
 	sta.b $6D
 	tax
-	lda.l $3075A4,x
+	lda.l SRPOTeams,x
 	and.w #$00FF
 	sta.w HomeTeam
 	jsl.l LoadSeasonHomeRoster
@@ -1590,7 +1590,7 @@ ScanArtRoss:						; Art Ross Trophy: of all players, goalies skipped, the one wi
 	adc.b a3
 	lsr a
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	bcc .1
 	lsr a
 	lsr a

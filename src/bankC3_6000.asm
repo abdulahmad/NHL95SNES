@@ -189,43 +189,43 @@ DATA8_C360D4:						; not traced: a table read by CODE_C5B22D, CODE_C5AE8D, CODE_
 	db $0D,$15,$0B,$06,$07,$13,$03,$0A,$17,$00,$0A,$09,$01,$18,$02,$10
 	db $0E,$0F,$0C,$12,$15,$0D,$08,$16,$04,$19,$14,$06,$05,$07,$0A
 LoadSavedGameOptions:				; load and clamp the saved game options
-	lda.l $306041
+	lda.l SRHomeTeam
 	cmp.w #$001C
 	bcc .1
 	lda.w #$001B
-.1:									; HomeTeam = A, if $306043 < $001C go to .2, A = $001B
+.1:									; HomeTeam = A, if SRVisTeam < $001C go to .2, A = $001B
 	sta.w HomeTeam
-	lda.l $306043
+	lda.l SRVisTeam
 	cmp.w #$001C
 	bcc .2
 	lda.w #$001B
-.2:									; VisTeam = A, A = $30604D, A and $0001, $190A = A, ...
+.2:									; VisTeam = A, A = SRBestOfSeven, A and $0001, $190A = A, ...
 	sta.w VisTeam
-	lda.l $30604D
+	lda.l SRBestOfSeven
 	and.w #$0001
 	sta.w $190A
-	lda.l $306049
+	lda.l SROptperlen
 	and.w #$00FF
 	cmp.w #$0003
 	bcc .3
 	lda.w #$0002
-.3:									; Optperlen = A, A = $30604C, A and $00FF, if A < $0003 go to .4, ...
+.3:									; Optperlen = A, A = SROptLine, A and $00FF, if A < $0003 go to .4, ...
 	sta.w Optperlen
-	lda.l $30604C
+	lda.l SROptLine
 	and.w #$00FF
 	cmp.w #$0003
 	bcc .4
 	lda.w #$0002
-.4:									; OptLine = A, A = $30604B, A and $00FF, if A < $0003 go to .5, ...
+.4:									; OptLine = A, A = SROptPen, A and $00FF, if A < $0003 go to .5, ...
 	sta.w OptLine
-	lda.l $30604B
+	lda.l SROptPen
 	and.w #$00FF
 	cmp.w #$0003
 	bcc .5
 	lda.w #$0002
-.5:									; OptPen = A, A = $30604A, A and $0001, OptGoalie = A, ...
+.5:									; OptPen = A, A = SROptGoalie, A and $0001, OptGoalie = A, ...
 	sta.w OptPen
-	lda.l $30604A
+	lda.l SROptGoalie
 	and.w #$0001
 	sta.w OptGoalie
 	lda.l $306040

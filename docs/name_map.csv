@@ -8002,3 +8002,25 @@ $C535CA,BenchTeamRoster,CODE_C535CA,code,"the same code as 94S restoreteams's lo
 $C51C39,FindPositionSlot,CODE_C51C39,code,"the same code as 94S Endfaceoff's local .13, called twice from Endfaceoff as there",src/bankC5_1000.asm
 $C51FBA,LimitPenaltyFaceoff,CODE_C51FBA,code,"94S limitfo's local .t2 (0.818, the same steps with 95 values); limitfo calls it for each PenBuf entry",src/bankC5_1000.asm
 $C512B1,SimPeriodGoals,CODE_C512B1,code,"94S SetScore's local .4 (.getscore: both teams' rows as weights, goals 0-3), the same structure (0.713); SetScore calls it for each team",src/bankC5_1000.asm
+$306041,SRHomeTeam,,code,"RAM: from the code: LoadSavedGameOptions clamps it below $1C into HomeTeam; the set-up screens store it",src/ram95s.asm
+$306043,SRVisTeam,,code,"RAM: from the code: as SRHomeTeam into VisTeam",src/ram95s.asm
+$306049,SROptperlen,,code,"RAM: from the code: LoadSavedGameOptions clamps it below 3 into Optperlen",src/ram95s.asm
+$30604A,SROptGoalie,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0 into OptGoalie; CODE_C5E3F0 writes it back",src/ram95s.asm
+$30604B,SROptPen,,code,"RAM: from the code: LoadSavedGameOptions clamps it below 3 into OptPen",src/ram95s.asm
+$30604C,SROptLine,,code,"RAM: from the code: LoadSavedGameOptions clamps it below 3 into OptLine",src/ram95s.asm
+$30604D,SRBestOfSeven,,code,"RAM: from the code: RecordPlayoffDay sets a series to 3-3 before the result when it is 0; LoadSavedGameOptions copies bit 0 to $190A",src/ram95s.asm
+$306050,SeasonDay,,genesis+purpose,"RAM: 95 Genesis SeasonDay's job (days played): FinishSeasonDay and PeriodOver count it up, GamesToday and MenuPlayGames read the day's games by it",src/ram95s.asm
+$306051,SRDayPlayed,,code,"RAM: from the code: SeasonGameOver sets the game's bit (BitMaskTable), RecordDayResults and SaveDayGameStats skip those games, FinishSeasonDay clears it",src/ram95s.asm
+$306053,SRDayScores,,code,"RAM: from the code: SeasonGameOver and SaveDayGameStats store each game's two scores",src/ram95s.asm
+$30606D,SRTeamResults,,code,"RAM: from the code: RecordTeamResult writes the next free slot, BuildTeamSeasonRecord counts them",src/ram95s.asm
+$30628F,SRGoals,,genesis+purpose,"RAM: 95 Genesis SRGoals's job (player season goals, AddPlayerSeasonStats); bit-packed here (SeasonGoals / SetSeasonGoals)",src/ram95s.asm
+$306724,SRAssists,,genesis+purpose,"RAM: 95 Genesis SRAssists's job; bit-packed here (SeasonAssists / SetSeasonAssists)",src/ram95s.asm
+$306A56,SRPlayerTeams,,code,"RAM: from the code: PlayerNumberBCD / PlayerNumberTeam read it, LoadSeasonRoster selects by its team field, SaveCreatedPlayer writes team $1A",src/ram95s.asm
+$306E43,SRTeamStats,,genesis+purpose,"RAM: 95 Genesis SRTeamStats's job (AddTeamSeasonStats writes it, the team record reads it); bit-packed here (ReadTeamStatBits / WriteTeamStatBit)",src/ram95s.asm
+$306FED,SRGoalieSaves,,code,"RAM: from the code: SeasonSaves / SetSeasonSaves by the goalie index",src/ram95s.asm
+$307080,SRGoalieGames,,code,"RAM: from the code: SeasonGoalieGames / SetSeasonGoalieGames by the goalie index",src/ram95s.asm
+$307162,SRCreatedPlayers,,genesis+purpose,"RAM: 95 Genesis SRCreatedPlayers's job (the created player records); bit-packed here (SaveCreatedPlayer, WriteSaveBit, NextSaveBits*)",src/ram95s.asm
+$3075A4,SRPOTeams,,code,"RAM: from the code: SetupPlayoffs fills it once, PlayoffTeamAtRound and AdvancePlayoffTeam search it",src/ram95s.asm
+$3075B4,SRPODay,,genesis+purpose,"RAM: 95 Genesis SRPODay's job (the playoff day); RecordPlayoffDay counts it up",src/ram95s.asm
+$307865,SRPOWins,,code,"RAM: from the code: RecordPlayoffDay adds +1 / +$10, BuildPlayoffDay and BracketMarkSeries test 4 wins",src/ram95s.asm
+$307874,SRPOTeamRounds,,code,"RAM: from the code: AdvancePlayoffTeam adds 1, PlayoffTeamAtRound finds the team of a round",src/ram95s.asm

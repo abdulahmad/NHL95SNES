@@ -365,3 +365,27 @@ sfhormode			=	$2CF5		; SetHor adds 1, ClrHor clears it; startpause does nothing 
 ; work RAM, long addresses
 Crowdlevel			=	$7E24CA		; crowd noise level: the play raises it, updatecrowdf lets it fade
 unpackbuf			=	$7E50DC		; Decompress output buffer (DecompressUnpackbuf)
+
+; save RAM (bank $30), long addresses
+SRHomeTeam			=	$306041		; saved home team: LoadSavedGameOptions puts it in HomeTeam
+SRVisTeam			=	$306043		; saved visiting team: LoadSavedGameOptions puts it in VisTeam
+SROptperlen			=	$306049		; saved period length option (Optperlen)
+SROptGoalie			=	$30604A		; saved goalie option (OptGoalie)
+SROptPen			=	$30604B		; saved penalties option (OptPen)
+SROptLine			=	$30604C		; saved line changes option (OptLine)
+SRBestOfSeven		=	$30604D		; playoff series length: 0 one game (series start at 3-3)
+SeasonDay			=	$306050		; the season day: games of DATA8_C35F60 by it; + 1 a day
+SRDayPlayed			=	$306051		; a bit per game of the day: set when the user's game is over
+SRDayScores			=	$306053		; the day's scores, a word per game (home low byte, away high)
+SRTeamResults		=	$30606D		; per team 21 bytes: a 2-bit result a game (1 win, 2 loss, 3 tie)
+SRGoals				=	$30628F		; per player 9 bits: season goals (goalies: goalie index, GA bits)
+SRAssists			=	$306724		; per player 9 bits: season assists (goalies: goals against)
+SRPlayerTeams		=	$306A56		; per player 12 bits: team (5 bits) and sweater number (7 bits)
+SRTeamStats			=	$306E43		; team stats bit stream, $83 bits a team
+SRGoalieSaves		=	$306FED		; per goalie 12 bits: season saves
+SRGoalieGames		=	$307080		; per goalie 7 bits: season games
+SRCreatedPlayers	=	$307162		; created players: 20 records of $9C bits
+SRPOTeams			=	$3075A4		; the 16 playoff teams (SetupPlayoffs fills it)
+SRPODay				=	$3075B4		; the playoff day: + 1 after each playoff day
+SRPOWins			=	$307865		; per series the wins: home low nibble, away high (4 decides)
+SRPOTeamRounds		=	$307874		; per playoff team slot: the round it reached

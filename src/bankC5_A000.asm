@@ -416,7 +416,7 @@ DATA8_C5A3BF:						; a pointer to CODE_C5A397 (its reader is not traced)
 	dw CODE_C5A397
 CODE_C5A3C1:						; from CODE_C5A356 and other segments
 	lda.w VisTeam
-	sta.l $306043
+	sta.l SRVisTeam
 	jsl.l WaitTransfers
 	pei ($CF)
 	pei ($D1)
@@ -502,7 +502,7 @@ DATA8_C5A468:						; a pointer to CODE_C5A440 (its reader is not traced)
 	dw CODE_C5A440
 CODE_C5A46A:						; from CODE_C5A3FF and other segments
 	lda.w HomeTeam
-	sta.l $306041
+	sta.l SRHomeTeam
 	jsl.l WaitTransfers
 	pei ($CF)
 	pei ($D1)
@@ -610,7 +610,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	jsl.l WaitTransfers
 	lda.w #$0002
 	sta.w OptPlayMode
-	lda.l $306050
+	lda.l SeasonDay
 	and.w #$00FF
 	asl a
 	tax
@@ -988,16 +988,16 @@ CODE_C5A821:						; from DATA8_C5A81B
 	jmp.w SeasonOptions
 .rts:								; return
 	rts
-.3:									; A = $306050, A and $00FF, if A = d0 go to .4, if carry set go to .rts
-	lda.l $306050
+.3:									; A = SeasonDay, A and $00FF, if A = d0 go to .4, if carry set go to .rts
+	lda.l SeasonDay
 	and.w #$00FF
 	cmp.b d0
 	beq .4
 	bcs .rts
-.4:									; if not zero go to .5, X = $85, A = $306051
+.4:									; if not zero go to .5, X = $85, A = SRDayPlayed
 	bne .5
 	ldx.b $85
-	lda.l $306051
+	lda.l SRDayPlayed
 .loop:								; loop: A / 2, X - 1, if the result >= 0 go to .loop, ...
 	lsr a
 	dex
@@ -1022,8 +1022,8 @@ CODE_C5A821:						; from DATA8_C5A81B
 	eor.b tmp0
 	sta.l $307884,x
 	jmp.w CODE_C5B38F
-.6:									; A = $306050, A and $00FF, if A >= d0 go to .rts, d0 - 1, ...
-	lda.l $306050
+.6:									; A = SeasonDay, A and $00FF, if A >= d0 go to .rts, d0 - 1, ...
+	lda.l SeasonDay
 	and.w #$00FF
 	cmp.b d0
 	bcs .rts
@@ -1614,7 +1614,7 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	lda.w #$568E
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
-	lda.l $306050
+	lda.l SeasonDay
 	and.w #$00FF
 	sta.b d0
 	lda.w #$0002
@@ -1676,8 +1676,8 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	cmp.w #$0003
 	bne .1
 	jml.l BuildPlayoffDay
-.1:									; A = $306050, A and $00FF, d0 = A, call CODE_C5B20E, ...
-	lda.l $306050
+.1:									; A = SeasonDay, A and $00FF, d0 = A, call CODE_C5B20E, ...
+	lda.l SeasonDay
 	and.w #$00FF
 	sta.b d0
 	jsr.w CODE_C5B20E
@@ -1691,7 +1691,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	tay
 	lda.w #$0002
 	sta.w OptPlayMode
-	lda.l $306050
+	lda.l SeasonDay
 	and.w #$00FF
 	asl a
 	tax
@@ -1754,7 +1754,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	tay
 	dec.b tmp0
 	bne .loop
-	lda.l $306051
+	lda.l SRDayPlayed
 	beq FinishSeasonDay
 	jsr.w CODE_C5E336
 FinishSeasonDay:					; once no user game of the day is left: Please Wait, the computer games
@@ -1788,14 +1788,14 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	cmp.w #$0003
 	bne .1
 	jml.l RecordPlayoffDay
-.1:									; call RecordDayResults, call SaveDayGameStats, A = $306050, A + 1, ...
+.1:									; call RecordDayResults, call SaveDayGameStats, A = SeasonDay, A + 1, ...
 	jsr.w RecordDayResults
 	jsr.w SaveDayGameStats
-	lda.l $306050
+	lda.l SeasonDay
 	inc a
-	sta.l $306050
+	sta.l SeasonDay
 	lda.w #$0000
-	sta.l $306051
+	sta.l SRDayPlayed
 	bit.w $1910
 	bpl .2
 	jmp.w CODE_C5ADDC

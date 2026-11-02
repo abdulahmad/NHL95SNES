@@ -98,7 +98,7 @@ BracketMarkSeries:					; toggles the mark of the series under the bracket cursor
 	ora.w $3D7C,x
 	bmi .rts
 	tyx
-	lda.l $307865,x
+	lda.l SRPOWins,x
 	and.w #$00FF
 	cmp.w #$0040
 	bcs .rts
@@ -227,7 +227,7 @@ BuildPlayoffDay:					; the day's playoff game records from the series still runn
 									; ones for the user), then FinishSeasonDay; with none left
 									; StanleyCupScreen, SeasonAwards and Reset
 	lda.w #$0000
-	sta.l $306051
+	sta.l SRDayPlayed
 	jsl.l ResetWorkBuf
 	jsr.w CODE_C409E3
 	pea.w $7E7F
@@ -245,7 +245,7 @@ BuildPlayoffDay:					; the day's playoff game records from the series still runn
 	lsr a
 	tax
 	sta.w $0038,y
-	lda.l $307865,x
+	lda.l SRPOWins,x
 	ldx.b tmp1
 	and.w #$00FF
 	cmp.w #$0040
@@ -290,33 +290,33 @@ BuildPlayoffDay:					; the day's playoff game records from the series still runn
 	jsl.l StanleyCupScreen
 	jsl.l SeasonAwards
 	jml.l Reset
-PlayoffTeamAtRound:					; A = the playoff team whose round ($307874) is A, from the team list at
-									; $3075A4
+PlayoffTeamAtRound:					; A = the playoff team whose round (SRPOTeamRounds) is A, from the team
+									; list at SRPOTeams
 	sep #$20
 	ldx.w #$0010
-.loop:								; loop: X - 1, if A is not $307874,x go to .loop, A = $3075A4,x, ...
+.loop:								; loop: X - 1, if A is not SRPOTeamRounds,x go to .loop, ...
 	dex
-	cmp.l $307874,x
+	cmp.l SRPOTeamRounds,x
 	bne .loop
-	lda.l $3075A4,x
+	lda.l SRPOTeams,x
 	rep #$20
 	and.w #$00FF
 	rts
-RecordPlayoffDay:					; adds each of the day's playoff results to its series wins at $307865 (+1
-									; home, +$10 away; a series starts at 3-3 when $30604D is 0) and moves a
-									; team that reaches 4 wins on a round, then the playoff day + 1
+RecordPlayoffDay:					; adds each of the day's playoff results to its series wins at SRPOWins
+									; (+1 home, +$10 away; a series starts at 3-3 when SRBestOfSeven is 0) and
+									; moves a team that reaches 4 wins on a round, then the playoff day + 1
 	lda.w $2C42
 	sta.b tmp0
 	pea.w $7E7F
 	plb
 	ldy.w #$8EF8
-.1:									; X = $0038,y, A 8-bit, if $30604D is not 0 go to .2, $307865,x = $33
+.1:									; X = $0038,y, A 8-bit, ...
 	ldx.w $0038,y
 	sep #$20
-	lda.l $30604D
+	lda.l SRBestOfSeven
 	bne .2
 	lda.b #$33
-	sta.l $307865,x
+	sta.l SRPOWins,x
 .2:									; A 16-bit, if carry clear go to .3, A = $0001
 	rep #$20
 	lda.w $000A,y
@@ -325,10 +325,10 @@ RecordPlayoffDay:					; adds each of the day's playoff results to its series win
 	bcc .3
 	lda.w #$0001
 	clc
-.3:									; A 8-bit, A + $307865,x, $307865,x = A, if A < $0040 go to .4, ...
+.3:									; A 8-bit, A + SRPOWins,x, SRPOWins,x = A, if A < $0040 go to .4, ...
 	sep #$20
-	adc.l $307865,x
-	sta.l $307865,x
+	adc.l SRPOWins,x
+	sta.l SRPOWins,x
 	rep #$21
 	cmp.w #$0040
 	bcc .4
@@ -349,25 +349,25 @@ RecordPlayoffDay:					; adds each of the day's playoff results to its series win
 	bne .1
 	plb
 	jsr.w CODE_C40CB3
-	lda.l $3075B4
+	lda.l SRPODay
 	inc a
-	sta.l $3075B4
+	sta.l SRPODay
 	jml.l CODE_C5ADDC
-AdvancePlayoffTeam:					; the playoff team A one round on ($307874 + 1 in its slot of the list at
-									; $3075A4)
+AdvancePlayoffTeam:					; the playoff team A one round on (SRPOTeamRounds + 1 in its slot of the
+									; list at SRPOTeams)
 	sep #$20
 	ldx.w #$000F
-.loop:								; loop: if A = $3075A4,x go to .1, X - 1, ...
-	cmp.l $3075A4,x
+.loop:								; loop: if A = SRPOTeams,x go to .1, X - 1, ...
+	cmp.l SRPOTeams,x
 	beq .1
 	dex
 	bpl .loop
 	rep #$21
 	rts
-.1:									; A = $307874,x, A + 1, $307874,x = A, return
-	lda.l $307874,x
+.1:									; A = SRPOTeamRounds,x, A + 1, SRPOTeamRounds,x = A, return
+	lda.l SRPOTeamRounds,x
 	inc a
-	sta.l $307874,x
+	sta.l SRPOTeamRounds,x
 	rep #$21
 	rts
 CODE_C40322:						; from PlayoffBracketScreen, SetupPlayoffBracket
@@ -381,7 +381,7 @@ CODE_C40322:						; from PlayoffBracketScreen, SetupPlayoffBracket
 	tax
 	lda.l DATA8_C41166,x
 	tax
-	lda.l $307865,x
+	lda.l SRPOWins,x
 	tay
 	and.w #$000F
 	xba
@@ -673,7 +673,7 @@ SetupPlayoffBracket:				; sets up the playoff bracket screen: the bracket and th
 	jsl.l PrintBoldCentred
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
-	lda.l $30604D
+	lda.l SRBestOfSeven
 	and.w #$00FF
 	beq .2
 	lda.w #$001A
@@ -834,7 +834,7 @@ CODE_C406C4:						; from CheckCreateSlots
 	tya
 	and.w #$0007
 	sta.b tmp0
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $001F, ...
 	lsr a
 	dec.b tmp0
@@ -845,7 +845,7 @@ CODE_C406C4:						; from CheckCreateSlots
 CheckTradesFrozen:					; returns when trading is open; when its save RAM flag is set: the Alert
 									; All player trading has been frozen until the new season begins
 									; (ShowAlert)
-	lda.l $3075B4
+	lda.l SRPODay
 	and.w #$00FF
 	bne .1
 	rtl
@@ -1189,11 +1189,11 @@ ToggleTeamBarRow:					; toggles palette bit $0400 of 12 tiles at X in the map bu
 	rts
 CODE_C40999:						; from CODE_C409E3
 	ldx.w #$000F
-.loop:								; loop: A = $3075A4,x, A and $00FF, tmp2 = A, A = $307874,x, ...
-	lda.l $3075A4,x
+.loop:								; loop: A = SRPOTeams,x, A and $00FF, tmp2 = A, A = SRPOTeamRounds,x, ...
+	lda.l SRPOTeams,x
 	and.w #$00FF
 	sta.b tmp2
-	lda.l $307874,x
+	lda.l SRPOTeamRounds,x
 	and.w #$00FF
 	cmp.w #$0004
 	bcc .1
@@ -1400,7 +1400,7 @@ AddPlayerSeasonStats:				; adds one team's game player stats to the season total
 .4:									; return
 	plb
 	rts
-SetSeasonGoals:						; stores X as player A's season goals (9 bits at $30628F)
+SetSeasonGoals:						; stores X as player A's season goals (9 bits at SRGoals)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1426,14 +1426,14 @@ SetSeasonGoals:						; stores X as player A's season goals (9 bits at $30628F)
 	rol a
 	dey
 	bpl .loop
-.1:									; $16 = A, A = $30628F,x, A and $16, A or tmp0, ...
+.1:									; $16 = A, A = SRGoals,x, A and $16, A or tmp0, ...
 	sta.b $16
-	lda.l $30628F,x
+	lda.l SRGoals,x
 	and.b $16
 	ora.b tmp0
-	sta.l $30628F,x
+	sta.l SRGoals,x
 	rts
-SetSeasonAssists:					; stores X as player A's season assists (9 bits at $306724)
+SetSeasonAssists:					; stores X as player A's season assists (9 bits at SRAssists)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1459,15 +1459,15 @@ SetSeasonAssists:					; stores X as player A's season assists (9 bits at $306724
 	rol a
 	dey
 	bpl .loop
-.1:									; $16 = A, A = $306724,x, A and $16, A or tmp0, ...
+.1:									; $16 = A, A = SRAssists,x, A and $16, A or tmp0, ...
 	sta.b $16
-	lda.l $306724,x
+	lda.l SRAssists,x
 	and.b $16
 	ora.b tmp0
-	sta.l $306724,x
+	sta.l SRAssists,x
 	rts
-SetSeasonGoalieGames:				; stores X as goalie A's season games (7 bits at $307080 by its goalie
-									; index)
+SetSeasonGoalieGames:				; stores X as goalie A's season games (7 bits at SRGoalieGames by its
+									; goalie index)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1482,7 +1482,7 @@ SetSeasonGoalieGames:				; stores X as goalie A's season games (7 bits at $30708
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dec.b tmp0
@@ -1511,14 +1511,14 @@ SetSeasonGoalieGames:				; stores X as goalie A's season games (7 bits at $30708
 	rol a
 	dey
 	bpl .loop2
-.1:									; tmp0 = A, A = $307080,x, A and tmp0, A or $16, ...
+.1:									; tmp0 = A, A = SRGoalieGames,x, A and tmp0, A or $16, ...
 	sta.b tmp0
-	lda.l $307080,x
+	lda.l SRGoalieGames,x
 	and.b tmp0
 	ora.b $16
-	sta.l $307080,x
+	sta.l SRGoalieGames,x
 	rts
-SetSeasonGoalsAgainst:				; stores X as goalie A's season goals against ($306724 and $30628F)
+SetSeasonGoalsAgainst:				; stores X as goalie A's season goals against (SRAssists and SRGoals)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1556,18 +1556,18 @@ SetSeasonGoalsAgainst:				; stores X as goalie A's season goals against ($306724
 	rol.b $2E
 	dey
 	bpl .loop
-.1:									; A = $30628F,x, A and $2E, A or $16, $30628F,x = A, ...
-	lda.l $30628F,x
+.1:									; A = SRGoals,x, A and $2E, A or $16, SRGoals,x = A, ...
+	lda.l SRGoals,x
 	and.b $2E
 	ora.b $16
-	sta.l $30628F,x
-	lda.l $306724,x
+	sta.l SRGoals,x
+	lda.l SRAssists,x
 	and.b r0
 	ora.b $14
-	sta.l $306724,x
+	sta.l SRAssists,x
 	rts
-SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at $306FED by its goalie
-									; index)
+SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at SRGoalieSaves by its
+									; goalie index)
 	sta.b tmp0
 	asl a
 	adc.b tmp0
@@ -1582,7 +1582,7 @@ SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at $306FED b
 	tax
 	lda.w #$FFF8
 	trb.b tmp0
-	lda.l $30628F,x
+	lda.l SRGoals,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dec.b tmp0
@@ -1601,17 +1601,17 @@ SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at $306FED b
 	asl a
 	asl a
 	sta.b tmp0
-	lda.l $306FED,x
+	lda.l SRGoalieSaves,x
 	and.w #$000F
 	ora.b tmp0
-	sta.l $306FED,x
+	sta.l SRGoalieSaves,x
 	rts
-.1:									; tmp0 = Y, A = $306FED,x, A and $F000, A or tmp0, ...
+.1:									; tmp0 = Y, A = SRGoalieSaves,x, A and $F000, A or tmp0, ...
 	sty.b tmp0
-	lda.l $306FED,x
+	lda.l SRGoalieSaves,x
 	and.w #$F000
 	ora.b tmp0
-	sta.l $306FED,x
+	sta.l SRGoalieSaves,x
 	rts
 CODE_C40CB3:						; from RecordPlayoffDay
 	lda.w $2C42
@@ -1645,8 +1645,8 @@ CODE_C40CB3:						; from RecordPlayoffDay
 CODE_C40CE3:						; from CODE_C40CB3
 	ldx.w #$000F
 	sep #$20
-.loop:								; loop: if A = $3075A4,x go to .1, X - 1, ...
-	cmp.l $3075A4,x
+.loop:								; loop: if A = SRPOTeams,x go to .1, X - 1, ...
+	cmp.l SRPOTeams,x
 	beq .1
 	dex
 	bpl .loop
@@ -1720,9 +1720,9 @@ DATA8_C40D76:						; not traced: a table read by CODE_C40CE3
 	db $00,$00,$AF,$00,$5E,$01,$0D,$02,$BC,$02,$6B,$03,$1A,$04,$C9,$04
 	db $78,$05,$27,$06,$D6,$06,$85,$07,$34,$08,$E3,$08,$92,$09,$41,$0A
 SetupPlayoffs:						; starts the playoffs once the schedule has no more games: the marks
-									; cleared and the 16 playoff teams chosen into the list at $3075A4 (once,
-									; while it is empty)
-	lda.l $3075A4
+									; cleared and the 16 playoff teams chosen into the list at SRPOTeams
+									; (once, while it is empty)
+	lda.l SRPOTeams
 	bne .rtl
 	lda.w #$2C46
 	ldy.w #$0078

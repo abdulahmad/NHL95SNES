@@ -109,18 +109,18 @@ CODE_C5D0A9:						; from ExecuteTrade
 	clc
 	adc.b $0C
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$FE0F
 	ora.b $0A
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 	bra .3
-.2:									; A + $0C, X = A, A = $306A56,x, A and $FFE0, ...
+.2:									; A + $0C, X = A, A = SRPlayerTeams,x, A and $FFE0, ...
 	adc.b $0C
 	tax
-	lda.l $306A56,x
+	lda.l SRPlayerTeams,x
 	and.w #$FFE0
 	ora.b $A5
-	sta.l $306A56,x
+	sta.l SRPlayerTeams,x
 .3:									; Y + 1, if Y is not tmp0 go to .1, return
 	iny
 	cpy.b tmp0
@@ -967,18 +967,18 @@ CODE_C5D77F:						; from EditUserName
 CODE_C5D794:						; called from other segments
 	ldx.w #$0000
 	txy
-.loop:								; loop: A = $306A56,x, A and $001F, if A is not $001A go to .1, ...
-	lda.l $306A56,x
+.loop:								; loop: A = SRPlayerTeams,x, A and $001F, if A is not $001A go to .1, ...
+	lda.l SRPlayerTeams,x
 	and.w #$001F
 	cmp.w #$001A
 	bne .1
 	dec.b $65
 	bmi .3
-.1:									; Y + 1, if Y >= $027E go to .3, A = $306A57,x, A / 2, ...
+.1:									; Y + 1, if Y >= $027E go to .3, A = SRPlayerTeams+1,x, A / 2, ...
 	iny
 	cpy.w #$027E
 	bcs .3
-	lda.l $306A57,x
+	lda.l SRPlayerTeams+1,x
 	lsr a
 	lsr a
 	lsr a
@@ -1021,7 +1021,8 @@ CreatedPlayerBits:					; Y = A = the bit offset of created player A's record ($9
 	ply
 	tay
 	rts
-NextSaveBits3:						; A = the 3 bits at bit Y of the save RAM bit array at $307162; Y + 3
+NextSaveBits3:						; A = the 3 bits at bit Y of the save RAM bit array at SRCreatedPlayers; Y
+									; + 3
 	tya
 	lsr a
 	lsr a
@@ -1033,7 +1034,7 @@ NextSaveBits3:						; A = the 3 bits at bit Y of the save RAM bit array at $3071
 	iny
 	iny
 	iny
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 	plx
 .loop:								; loop: A / 2, X - 1, if the result >= 0 go to .loop, A and $0007, ...
 	lsr a
@@ -1042,7 +1043,8 @@ NextSaveBits3:						; A = the 3 bits at bit Y of the save RAM bit array at $3071
 	rol a
 	and.w #$0007
 	rts
-NextSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $307162; Y + 5
+NextSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at SRCreatedPlayers; Y
+									; + 5
 	tya
 	lsr a
 	lsr a
@@ -1056,7 +1058,7 @@ NextSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $3071
 	iny
 	iny
 	iny
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 	plx
 .loop:								; loop: A / 2, X - 1, if the result >= 0 go to .loop, A and $001F, ...
 	lsr a
@@ -1065,7 +1067,8 @@ NextSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at $3071
 	rol a
 	and.w #$001F
 	rts
-NextSaveBits7:						; A = the 7 bits at bit Y of the save RAM bit array at $307162; Y + 7
+NextSaveBits7:						; A = the 7 bits at bit Y of the save RAM bit array at SRCreatedPlayers; Y
+									; + 7
 	tya
 	lsr a
 	lsr a
@@ -1078,7 +1081,7 @@ NextSaveBits7:						; A = the 7 bits at bit Y of the save RAM bit array at $3071
 	clc
 	adc.w #$0007
 	tay
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 	plx
 .loop:								; loop: A / 2, X - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
@@ -1087,7 +1090,8 @@ NextSaveBits7:						; A = the 7 bits at bit Y of the save RAM bit array at $3071
 	rol a
 	and.w #$007F
 	rts
-NextSaveBits8:						; A = the 8 bits at bit Y of the save RAM bit array at $307162; Y + 8
+NextSaveBits8:						; A = the 8 bits at bit Y of the save RAM bit array at SRCreatedPlayers; Y
+									; + 8
 	tya
 	lsr a
 	lsr a
@@ -1100,7 +1104,7 @@ NextSaveBits8:						; A = the 8 bits at bit Y of the save RAM bit array at $3071
 	clc
 	adc.w #$0008
 	tay
-	lda.l $307162,x
+	lda.l SRCreatedPlayers,x
 	plx
 .loop:								; loop: A / 2, X - 1, if the result >= 0 go to .loop, A and $00FF, ...
 	lsr a
@@ -1828,11 +1832,11 @@ CODE_C5DDC0:						; from SimDayScores
 	adc.w #$0004
 	rts
 RecordDayResults:					; RecordGameResult for each of the day's game records ($2C42 of them at
-									; $7F8EF8) whose bit in $306051 is clear
+									; $7F8EF8) whose bit in SRDayPlayed is clear
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
-	lda.l $306051
+	lda.l SRDayPlayed
 	sta.b tmp2
 	plb
 	ldy.w #$8EF8
@@ -1869,8 +1873,8 @@ RecordGameResult:					; records game Y's result for both teams (RecordTeamResult
 	lda.w $0004,y
 	plp
 RecordTeamResult:					; adds a win (1), loss (2) or tie (3) for team A by the flags of the score
-									; compare to its 2-bit results at $30606D (21 bytes a team), in the first
-									; free slot
+									; compare to its 2-bit results at SRTeamResults (21 bytes a team), in the
+									; first free slot
 	bcc CODE_C5DE15
 	beq CODE_C5DE1A
 	ldx.w #$0001
@@ -1882,12 +1886,12 @@ CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
 	ply
 	tax
 	sep #$20
-.1:									; A = $30606D,x, if a $03 bit set go to .2, A or tmp1, $30606D,x = A, ...
-	lda.l $30606D,x
+.1:									; A = SRTeamResults,x, if a $03 bit set go to .2, A or tmp1, ...
+	lda.l SRTeamResults,x
 	bit.b #$03
 	bne .2
 	ora.b tmp1
-	sta.l $30606D,x
+	sta.l SRTeamResults,x
 	bra .6
 .2:									; if a $0C bit set go to .3, tmp1 * 2, tmp1 * 2, A or tmp1, ...
 	bit.b #$0C
@@ -1895,7 +1899,7 @@ CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
 	asl.b tmp1
 	asl.b tmp1
 	ora.b tmp1
-	sta.l $30606D,x
+	sta.l SRTeamResults,x
 	bra .6
 .3:									; if a $30 bit set go to .4, A = tmp1, A * 2, A * 2, ...
 	bit.b #$30
@@ -1905,10 +1909,10 @@ CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
 	asl a
 	asl a
 	asl a
-	ora.l $30606D,x
-	sta.l $30606D,x
+	ora.l SRTeamResults,x
+	sta.l SRTeamResults,x
 	bra .6
-.4:									; if a $C0 bit set go to .5, A = tmp1, A or $30606D,x, $30606D,x = A, ...
+.4:									; if a $C0 bit set go to .5, A = tmp1, A or SRTeamResults,x, ...
 	bit.b #$C0
 	bne .5
 	lda.b tmp1
@@ -1916,8 +1920,8 @@ CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
 	ror a
 	ror a
 	ror a
-	ora.l $30606D,x
-	sta.l $30606D,x
+	ora.l SRTeamResults,x
+	sta.l SRTeamResults,x
 	bra .6
 .5:									; X + 1, go to .1
 	inx
@@ -1930,7 +1934,7 @@ SimDayGameStats:					; fills the stats of each of the day's computer games: both
 	pea.w $7E7F
 	lda.w $2C42
 	sta.b tmp0
-	lda.l $306051
+	lda.l SRDayPlayed
 	sta.b tmp2
 	plb
 	ldy.w #$8EF8

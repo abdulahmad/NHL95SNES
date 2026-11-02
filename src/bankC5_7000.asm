@@ -1398,7 +1398,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	ldx.w #$4C95
 	ldy.w #$0002
 	jsl.l PrintTitle
-	lda.l $306050
+	lda.l SeasonDay
 	and.w #$00FF
 	tay
 	asl a
@@ -1413,7 +1413,7 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	sec
 	sbc.w #mesarea
 	pha
-	lda.l $3075B4
+	lda.l SRPODay
 	inc a
 	and.w #$00FF
 	jsr.w BinToBCD
