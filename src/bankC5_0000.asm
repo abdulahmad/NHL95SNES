@@ -382,7 +382,7 @@ periodicevents:						; from DoGameFrame and other segments
 	sta.w lldisp
 	jsl.l ChkGoalies
 	jsl.l RestoreBenchEnergy
-	jsl.l CODE_C48241
+	jsl.l CheckInjury
 	jsl.l updatepwrplay
 .rtl:								; return
 	rtl

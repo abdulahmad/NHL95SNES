@@ -227,6 +227,7 @@ PenBuf				=	$10F9		; penalty buffer: 32 words, cleared by ClearPenaltyBuffer
 PenCntDwn			=	$113B		; penalty/fight count down (negative = fight over)
 Penaltytimer		=	$113D		; frames to the next penalty clock second (updatepentime)
 PBnum				=	$113F		; players in the penalty boxes: home*16 + visitors
+InjCntDown			=	$1141		; counts down to the next injury box (CheckInjury)
 RefCnt				=	$1145		; ref graphics control (negative = idle)
 RefStep				=	$1147		; step in the ref animation (SetPA / SetPA2; chkprogress)
 RefPen				=	$1149		; penalty number of the ref animation (SetPA)

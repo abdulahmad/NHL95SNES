@@ -320,7 +320,7 @@ FallDown:							; player a2 falls or stumbles from a hit: the crowd excitement +
 	sta.w Yvel,x
 	jsl.l setInjuryType
 	lda.w #$0004
-	sta.w $1141
+	sta.w InjCntDown
 	lda.w #$0016
 	sta.b d0
 	lda.w CwdExciteLvl

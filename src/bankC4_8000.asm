@@ -332,10 +332,10 @@ prefmes:							; the message for penalty d0 (negative: none): penmsgbox cleared,
 	sta.w penmsgbox
 .rtl:								; return
 	rtl
-CODE_C48241:						; called from other segments
-	dec.w $1141
+CheckInjury:						; counts InjCntDown down; at 0, ShowInjuryBox
+	dec.w InjCntDown
 	bne .rtl
-	jmp.w CODE_C482D9
+	jmp.w ShowInjuryBox
 .rtl:								; return
 	rtl
 setInjuryType:						; called from other segments
@@ -397,7 +397,8 @@ setInjuryType:						; called from other segments
 	sta.w TempPlOffset
 .rtl:								; return
 	rtl
-CODE_C482D9:						; from CODE_C48241
+ShowInjuryBox:						; the injury box: a frame, its two texts (a third one when TempPlOffset
+									; has bit $4000) and the injured player's short name
 	pei ($7F)
 	pei ($81)
 	pei ($83)

@@ -4044,12 +4044,12 @@ $C481E2,.2,CODE_C481E2,new,"branch target only used in prefmes",src/bankC4_8000.
 $C48218,.3,CODE_C48218,new,"branch target only used in prefmes",src/bankC4_8000.asm
 $C4822E,.4,CODE_C4822E,new,"branch target only used in prefmes",src/bankC4_8000.asm
 $C48240,.rtl,CODE_C48240,new,"branch target only used in prefmes",src/bankC4_8000.asm
-$C48249,.rtl,CODE_C48249,new,"branch target only used in CODE_C48241",src/bankC4_8000.asm
+$C48249,.rtl,CODE_C48249,new,"branch target only used in CheckInjury",src/bankC4_8000.asm
 $C48294,.1,CODE_C48294,new,"branch target only used in setInjuryType",src/bankC4_8000.asm
 $C482AA,.2,CODE_C482AA,new,"branch target only used in setInjuryType",src/bankC4_8000.asm
 $C482B4,.3,CODE_C482B4,new,"branch target only used in setInjuryType",src/bankC4_8000.asm
 $C482D8,.rtl,CODE_C482D8,new,"branch target only used in setInjuryType",src/bankC4_8000.asm
-$C4833E,.1,CODE_C4833E,new,"branch target only used in CODE_C482D9",src/bankC4_8000.asm
+$C4833E,.1,CODE_C4833E,new,"branch target only used in ShowInjuryBox",src/bankC4_8000.asm
 $C48387,.1,CODE_C48387,new,"branch target only used in checkob",src/bankC4_8000.asm
 $C483A3,.2,CODE_C483A3,new,"branch target only used in checkob",src/bankC4_8000.asm
 $C483B2,.3,CODE_C483B2,new,"branch target only used in checkob",src/bankC4_8000.asm
@@ -8630,3 +8630,6 @@ $C4CFBE,SetGoalieIndexRun,CODE_C4CFBE,code,"from the code: A * 9 bits, $0A shift
 $C481D5,prefmes,CODE_C481D5,94S+purpose,"94S prefmes (print penalty message d0, negative just clears) side by side: called where 94S SetPA calls it, the penmsgbox test and clear, the bpl on d0, the penalty name table, the frame and penmsgbox = 1; 95S drops the eraser and the per-penalty exceptions",src/bankC4_8000.asm
 $1149,RefPen,,94S+code,"RAM: 94S RefPen: SetPA stores d0 there and clears RefStep, the same code",src/ram95s.asm
 $234A,penmsgbox,,94S+purpose,"RAM: 94S penmsgbox: prefmes sets 1 after framing the message and clears it; the face off set-up clears it, ClearRefereeMessage runs while it is set",src/ram95s.asm
+$C48241,CheckInjury,CODE_C48241,94S+code,"94S CheckInjury side by side: dec InjCntDown / bne / jmp ShowInjuryBox / rtl; called where 94S periodicevents calls it (after RestoreBenchEnergy, before updatepwrplay)",src/bankC4_8000.asm
+$C482D9,ShowInjuryBox,CODE_C482D9,94S+purpose,"94S ShowInjuryBox (the injured player and whether he is out for the period or the game); here Framer, the bank $C3 texts by QueueVRAMDMALen, RosterPlayerShortName of TempPlOffset; CheckInjury jumps to it",src/bankC4_8000.asm
+$1141,InjCntDown,,94S+code,"RAM: 94S InjCntDown: CheckInjury decrements it and shows the box at 0, the same code; the injury code sets it",src/ram95s.asm
