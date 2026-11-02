@@ -263,7 +263,7 @@ PhotoPaletteTable:					; per team (team order) a long pointer to its photo set: 
 	db $F2,$E9,$EF,$E4,$08,$F4,$E8,$E5,$A0,$E7,$E1,$ED,$E5,$09,$D0,$E5
 	db $EE,$AE,$A0,$D3,$E8,$EF,$F4,$07,$D0,$E5,$EE,$E1,$EC,$F4,$F9,$50
 	db $6C,$61,$79,$6F,$66,$66,$73,$40,$20,$44,$61,$79,$20
-DATA8_C35F60:						; not traced: read by CODE_C56168, ShowOtherScores, SeasonOptions, ...
+DATA8_C35F60:						; not traced: read by MakeDateString, ShowOtherScores, SeasonOptions, ...
 	db $25,$09
 DATA8_C35F62:						; not traced: read by CODE_C5A8B0
 	db $46,$09,$67,$09,$88,$09,$A9,$09,$CA,$09,$0B,$09,$2C,$09,$4D,$09

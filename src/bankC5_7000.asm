@@ -1432,9 +1432,9 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	jsr.w BCDTextAt
 	stz.w mesarea,x
 	bra .2
-.1:									; A = Y, call CODE_C56168
+.1:									; A = Y, call MakeDateString
 	tya
-	jsr.w CODE_C56168
+	jsr.w MakeDateString
 .2:									; X = mesarea, Y = $0007, call PrintItalicCentredStr, Y = $0009, ...
 	ldx.w #mesarea
 	ldy.w #$0007

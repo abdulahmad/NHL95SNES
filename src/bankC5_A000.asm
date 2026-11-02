@@ -1325,7 +1325,7 @@ CODE_C5AAF0:						; from CODE_C5A821, GamesToday
 	ldy.w #$0080
 	jsl.l ClearRAM7E
 	lda.b d0
-	jsr.w CODE_C56168
+	jsr.w MakeDateString
 	lda.w #$0030
 	sta.b $CF
 	ldx.w #mesarea

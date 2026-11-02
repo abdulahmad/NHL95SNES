@@ -564,7 +564,7 @@ ShootoutWonBy:						; jumps to its end at once: the shootout check after it is n
 	lda.l $C30002,x
 	tax
 	jsl.l UnpackText
-	jsl.l CODE_C099F4
+	jsl.l CopyLenString2
 	phx
 	ldx.w #$0010
 	ldy.w #$0004
@@ -613,10 +613,10 @@ ShootoutShooters:					; pick the shootout shooters of a pad's team: up / down mo
 	sta.w $2350
 	jsl.l ShootersSetup
 	jsl.l ShootersBackground
-	stz.w $1878
+	stz.w curitem
 	lda.w #$0001
-	sta.w $0802
-	stz.w $0806
+	sta.w SelectedPlayerIdx
+	stz.w DispAttribCtr
 	jsl.l PrintShooterNames
 	lda.w #$0005
 	ldx.w #$0050
@@ -653,17 +653,17 @@ ShootoutShooters:					; pick the shootout shooters of a pad's team: up / down mo
 	dec a
 	sta.w tmgoalie,y
 	rtl
-.13:								; if $1878 = 0 go to .9, $1878 - 1, call PrintShooterNames, go to .9
-	lda.w $1878
+.13:								; if curitem = 0 go to .9, curitem - 1, call PrintShooterNames, go to .9
+	lda.w curitem
 	beq .9
-	dec.w $1878
+	dec.w curitem
 	jsl.l PrintShooterNames
 	bra .9
-.14:								; if $1878 - $0005 >= 0 go to .9, $1878 + 1, call PrintShooterNames, ...
-	lda.w $1878
+.14:								; if curitem - $0005 >= 0 go to .9, curitem + 1, ...
+	lda.w curitem
 	cmp.w #$0005
 	bpl .9
-	inc.w $1878
+	inc.w curitem
 	jsl.l PrintShooterNames
 	bra .9
 .15:								; call PickShooterRow, call PrintShooterNames, go to .9
@@ -757,7 +757,7 @@ PrintShooterNames:					; redraws the shooter rows: the eraser box ($20 x $13), t
 	sta.b $71
 	lda.w #$967D
 	sta.b a3
-	lda.w $0802
+	lda.w SelectedPlayerIdx
 	dec a
 	sta.b d0
 	bmi .loop
@@ -782,13 +782,13 @@ PrintShooterNames:					; redraws the shooter rows: the eraser box ($20 x $13), t
 	sta.b $77
 	lda.w #$0005
 	sta.b d1
-.loop:								; loop: printa = $3800, A = $0005, A - d1, if A is not $1878 go to .3, ...
+.loop:								; loop: printa = $3800, A = $0005, A - d1, ...
 	lda.w #$3800
 	sta.w printa
 	lda.w #$0005
 	sec
 	sbc.b d1
-	cmp.w $1878
+	cmp.w curitem
 	bne .3
 	lda.w #$2000
 	sta.w printa
@@ -859,7 +859,7 @@ InitShooters:						; the 8 shooters of team a2 (0 home, 2 visitors) into its sho
 PickShooterRow:						; the pick on a shooter row: the goalie row cycles the goalie
 									; (GoalieCount), a shooter row opens the shooter list (the code after its
 									; rtl, 94S ShooterSelectList)
-	lda.w $1878
+	lda.w curitem
 	bne .3
 	jsl.l GoalieCount
 	lda.w #$0000
@@ -903,16 +903,16 @@ PickShooterRow:						; the pick on a shooter row: the goalie row cycles the goal
 	sta.w irqline2
 	jsl.l CODE_C5362E
 	lda.b d0
-	sta.w $187C
+	sta.w listcount
 	jsl.l GoalieCount
-	lda.w $187C
+	lda.w listcount
 	sec
 	sbc.b d0
-	sta.w $187C
+	sta.w listcount
 	lda.b d0
-	sta.w $1880
+	sta.w pickfirst
 	lda.b d0
-	sta.w $1884
+	sta.w picktop
 	lda.w #$0000
 	sta.b $71
 	lda.w #homeshooters
@@ -923,42 +923,42 @@ PickShooterRow:						; the pick on a shooter row: the goalie row cycles the goal
 	sta.b $71
 	lda.w #awayshooters
 	sta.b a3
-.4:									; A = a3, A + $1878, a3 = A, A = [a3], ...
+.4:									; A = a3, A + curitem, a3 = A, A = [a3], ...
 	lda.b a3
 	clc
-	adc.w $1878
+	adc.w curitem
 	sta.b a3
 	lda.b [a3]
 	and.w #$00FF
 	dec a
-	sta.w $1888
+	sta.w curplayer
 	lda.w #$0008
 	clc
-	adc.w $1884
+	adc.w picktop
 	sec
-	sbc.w $1888
+	sbc.w curplayer
 	bpl .6
-	lda.w $1888
+	lda.w curplayer
 	sec
 	sbc.w #$0008
 	sec
-	sbc.w $1884
+	sbc.w picktop
 	bmi .5
 	clc
-	adc.w $1884
-	sta.w $1884
+	adc.w picktop
+	sta.w picktop
 .5:									; A = $0000, go to .7
 	lda.w #$0000
 	bra .7
-.6:									; A = $1884, A + $0008, A - $1888
-	lda.w $1884
+.6:									; A = picktop, A + $0008, A - curplayer
+	lda.w picktop
 	clc
 	adc.w #$0008
 	sec
-	sbc.w $1888
-.7:									; $1888 = A, call CODE_C09855
-	sta.w $1888
-	jsl.l CODE_C09855
+	sbc.w curplayer
+.7:									; curplayer = A, call PrintShooterList
+	sta.w curplayer
+	jsl.l PrintShooterList
 .loop:								; loop: call WaitFrame, call ReadPads, call ReadPausePad, ...
 	jsl.l WaitFrame
 	jsl.l ReadPads
@@ -977,65 +977,66 @@ PickShooterRow:						; the pick on a shooter row: the goalie row cycles the goal
 	bne .10
 	bit.w #$8080
 	beq .loop
-	jsl.l CODE_C0998F
+	jsl.l SetShooter
 .8:									; $2364 = $0001, return
 	lda.w #$0001
 	sta.w $2364
 	rtl
-.9:									; A = $0806, A + 1, if A - $0010 >= 0 go to .loop, $0806 = A, ...
-	lda.w $0806
+.9:									; A = DispAttribCtr, A + 1, if A - $0010 >= 0 go to .loop, ...
+	lda.w DispAttribCtr
 	inc a
 	cmp.w #$0010
 	bpl .loop
-	sta.w $0806
-	jsl.l CODE_C09855
+	sta.w DispAttribCtr
+	jsl.l PrintShooterList
 	bra .loop
-.10:								; A = $0806, A - 1, if the result < 0 go to .loop, $0806 = A, ...
-	lda.w $0806
+.10:								; A = DispAttribCtr, A - 1, if the result < 0 go to .loop, ...
+	lda.w DispAttribCtr
 	dec a
 	bmi .loop
-	sta.w $0806
-	jsl.l CODE_C09855
+	sta.w DispAttribCtr
+	jsl.l PrintShooterList
 	jmp.w .loop
-.11:								; A = $1888, A - 1, if the result < 0 go to .13, $1888 = A, ...
-	lda.w $1888
+.11:								; A = curplayer, A - 1, if the result < 0 go to .13, curplayer = A, ...
+	lda.w curplayer
 	dec a
 	bmi .13
-	sta.w $1888
-	jsl.l CODE_C09855
+	sta.w curplayer
+	jsl.l PrintShooterList
 	jmp.w .loop
-.12:								; A = $1888, A + 1, if A - $0009 >= 0 go to .15, $1888 = A, ...
-	lda.w $1888
+.12:								; A = curplayer, A + 1, if A - $0009 >= 0 go to .15, curplayer = A, ...
+	lda.w curplayer
 	inc a
 	cmp.w #$0009
 	bpl .15
-	sta.w $1888
-	jsl.l CODE_C09855
+	sta.w curplayer
+	jsl.l PrintShooterList
 	jmp.w .loop
-.13:								; A = $1884, A - $1880, A + $0009, if A - $187C < 0 go to .14, ...
-	lda.w $1884
+.13:								; A = picktop, A - pickfirst, A + $0009, ...
+	lda.w picktop
 	sec
-	sbc.w $1880
+	sbc.w pickfirst
 	clc
 	adc.w #$0009
-	cmp.w $187C
+	cmp.w listcount
 	bmi .14
 	jmp.w .loop
-.14:								; $1884 + 1, call CODE_C09855, go to .loop
-	inc.w $1884
-	jsl.l CODE_C09855
+.14:								; picktop + 1, call PrintShooterList, go to .loop
+	inc.w picktop
+	jsl.l PrintShooterList
 	jmp.w .loop
-.15:								; A = $1884, A - 1, if A - $1880 >= 0 go to .16, go to .loop
-	lda.w $1884
+.15:								; A = picktop, A - 1, if A - pickfirst >= 0 go to .16, go to .loop
+	lda.w picktop
 	dec a
-	cmp.w $1880
+	cmp.w pickfirst
 	bpl .16
 	jmp.w .loop
-.16:								; $1884 - 1, call CODE_C09855, go to .loop
-	dec.w $1884
-	jsl.l CODE_C09855
+.16:								; picktop - 1, call PrintShooterList, go to .loop
+	dec.w picktop
+	jsl.l PrintShooterList
 	jmp.w .loop
-CODE_C09855:						; called from PickShooterRow, PickShooterRow, ...
+PrintShooterList:					; the shooter list: area cleared, the rating page DispAttribCtr found in
+									; ShooterAttribColumns (stepping back past the end), then PrintShooterRows
 	lda.w #$0020
 	sta.b d0
 	lda.w #$000D
@@ -1047,12 +1048,12 @@ CODE_C09855:						; called from PickShooterRow, PickShooterRow, ...
 	sta.w printx
 	lda.w #$0002
 	sta.w printy
-.1:									; $69 = DATA8_C098CE>>16, a1 = DATA8_C098CE, d0 = $0806, go to .2
-	lda.w #DATA8_C098CE>>16
+.1:									; $69 = ShooterAttribColumns>>16, a1 = ShooterAttribColumns, ...
+	lda.w #ShooterAttribColumns>>16
 	sta.b $69
-	lda.w #DATA8_C098CE
+	lda.w #ShooterAttribColumns
 	sta.b a1
-	lda.w $0806
+	lda.w DispAttribCtr
 	sta.b d0
 	bra .2
 .loop:								; loop: A = a1, A + [a1], A + $0004, a1 = A
@@ -1069,7 +1070,7 @@ CODE_C09855:						; called from PickShooterRow, PickShooterRow, ...
 .3:									; if [a1] >= 0 go to .4, $0806 - 1, go to .1
 	lda.b [a1]
 	bpl .4
-	dec.w $0806
+	dec.w DispAttribCtr
 	bra .1
 .4:									; printa = $3800, $91 = [a1], Y = $0002, d4 = [a1],y, ...
 	lda.w #$3800
@@ -1079,31 +1080,33 @@ CODE_C09855:						; called from PickShooterRow, PickShooterRow, ...
 	ldy.w #$0002
 	lda.b [a1],y
 	sta.b d4
-	lda.w $1884
-	cmp.w $1880
+	lda.w picktop
+	cmp.w pickfirst
 	beq .5
 .5:									; A = $1884, A - $1880, A + $0009, if A - $187C >= 0 go to .6
-	lda.w $1884
+	lda.w picktop
 	sec
-	sbc.w $1880
+	sbc.w pickfirst
 	clc
 	adc.w #$0009
-	cmp.w $187C
+	cmp.w listcount
 	bpl .6
-.6:									; call CODE_C09910, return
-	jsl.l CODE_C09910
+.6:									; call PrintShooterRows, return
+	jsl.l PrintShooterRows
 	rtl
-DATA8_C098CE:						; not traced: records CODE_C09855 walks, $FFFF ends them
+ShooterAttribColumns:				; the shooter list's rating pages: a length, the title, then a mask and
+									; value word each; $FFFF ends them
 	incbin "../Extracted/segments/bankC0_9000.bin":$8CE..$910
-CODE_C09910:						; called from CODE_C09855
-	lda.w $0802
+PrintShooterRows:					; the shooter list's rows from picktop + 1, the row at curplayer
+									; highlighted (printa $2000), each through GetNameandAttrib
+	lda.w SelectedPlayerIdx
 	dec a
 	asl a
 	asl a
 	asl a
 	sta.b d0
 	ldy.b a2
-	lda.w $1884
+	lda.w picktop
 	inc a
 	sta.b a3
 	lda.w #DATA8_C09BC4>>16
@@ -1112,7 +1115,7 @@ CODE_C09910:						; called from CODE_C09855
 	sta.b $77
 	lda.w #$0008
 	sta.b d1
-	lda.w $0802
+	lda.w SelectedPlayerIdx
 	sec
 	sbc.w #$0005
 	beq .loop
@@ -1127,7 +1130,7 @@ CODE_C09910:						; called from CODE_C09855
 	lda.w #$3800
 	sta.w printa
 	lda.b d1
-	cmp.w $1888
+	cmp.w curplayer
 	bne .3
 	lda.w #$2000
 	sta.w printa
@@ -1146,10 +1149,10 @@ CODE_C09910:						; called from CODE_C09855
 	bpl .4
 	lda.w #$0010
 	sta.b r2
-.4:									; d0 = r1, call CODE_C50F08, a3 + 1, printy + 1, ...
+.4:									; d0 = r1, call GetNameandAttrib, a3 + 1, printy + 1, ...
 	lda.b r1
 	sta.b d0
-	jsl.l CODE_C50F08
+	jsl.l GetNameandAttrib
 	inc.b a3
 	inc.w printy
 	dec.b d1
@@ -1157,14 +1160,15 @@ CODE_C09910:						; called from CODE_C09855
 	lda.w #$2000
 	sta.w printa
 	rtl
-CODE_C0998F:						; called from PickShooterRow
+SetShooter:							; puts the list player at row curplayer into shooter slot curitem
+									; (homeshooters / awayshooters by a2), swapping him out of any other slot
 	ldy.b d1
 	phy
 	lda.w #$0009
 	sec
-	sbc.w $1888
+	sbc.w curplayer
 	clc
-	adc.w $1884
+	adc.w picktop
 	and.w #$00FF
 	sta.b d0
 	lda.w #$0000
@@ -1178,7 +1182,7 @@ CODE_C0998F:						; called from PickShooterRow
 	lda.w #awayshooters
 	sta.b a1
 .1:									; Y = $1878, A 8-bit, A = [a1],y, A 16-bit, ...
-	ldy.w $1878
+	ldy.w curitem
 	sep #$20
 	lda.b [a1],y
 	rep #$20
@@ -1201,7 +1205,7 @@ CODE_C0998F:						; called from PickShooterRow
 	sta.b [a1],y
 	rep #$20
 .3:									; Y = $1878, A = d0, A 8-bit, [a1],y = A, ...
-	ldy.w $1878
+	ldy.w curitem
 	lda.b d0
 	sep #$20
 	sta.b [a1],y
@@ -1209,7 +1213,8 @@ CODE_C0998F:						; called from PickShooterRow
 	pla
 	sta.b d1
 	rtl
-CODE_C099F4:						; called from ShootoutWonBy
+CopyLenString2:						; copies the zero ended string at X into a new second work buffer
+									; (AllocWorkBuf2) behind a length
 	phy
 	phx
 	sep #$20

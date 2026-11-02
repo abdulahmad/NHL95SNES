@@ -161,7 +161,7 @@ DATA8_C5502C:						; pause menu Options tab: Inst Replay, Edit Lines, Chnge Goal
 	dw PauseReplay,EditLinesScreen,PauseGoalie,PauseGoalieMode
 	dw PauseTimeout,ShowQuitPrompt
 DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Quit Game
-	dw ResumeFromQuit,CODE_C56B8C
+	dw ResumeFromQuit,QuitGameJump
 CODE_C5503C:						; called from other segments
 	jsl.l forceblack
 	jsl.l WaitTransfers

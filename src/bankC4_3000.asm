@@ -1640,12 +1640,12 @@ TickFaceoffCountdown:				; counts the face off time (temp1) down by d7: updatefa
 	sta.w temp1,x
 	bmi .2
 	jml.l updatefaceoff
-.2:									; if OptPlayMode is not $0001 go to .3, call Endfaceoff, go to CODE_C51A13
+.2:									; if OptPlayMode is not $0001 go to .3, call Endfaceoff, ...
 	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .3
 	jsl.l Endfaceoff
-	jml.l CODE_C51A13
+	jml.l PracticeFaceoffDrop
 .3:									; if penshot = 0 go to .4, call Endfaceoff, go to SetupPenaltyShot
 	lda.w penshot
 	beq .4

@@ -1735,7 +1735,7 @@ UpdateScores:						; no caller found (not traced)
 	dec.b d1
 	bpl .loop
 	rtl
-CODE_C50F08:						; called from other segments
+GetNameandAttrib:					; an rtl: called where 94S prints the player name and one rating
 	rtl
 CalcAttrib:							; no caller found (not traced)
 	lda.b d0

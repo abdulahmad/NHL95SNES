@@ -209,7 +209,7 @@ $C091F5,Div16U_Go,,94S,"entry inside the routine before it, as in 94S",src/bankC
 $C09210,Div32U_ByteDivisor,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
 $C09259,Div16x8U_Go,,94S,"entry inside the routine before it, as in 94S",src/bankC0_9000.asm
 $C0967D,DATA8_C0967D,,new,"not traced: 4 bytes after CODE_C09678",src/bankC0_9000.asm
-$C098CE,DATA8_C098CE,,new,"not traced: records CODE_C09855 walks through a long pointer ($FFFF ends)",src/bankC0_9000.asm
+$C098CE,ShooterAttribColumns,DATA8_C098CE,94S+purpose,"94S ShooterAttribColumns: the records PrintShooterList walks by DispAttribCtr (length + 4 per entry, minus ends)",src/bankC0_9000.asm
 $2C,r0,,94S,"RAM; math result as 94S r0 (the divides' quotient)",src/ram95s.asm
 $30,r1,,94S,"RAM; math operand as 94S r1 (the divisor)",src/ram95s.asm
 $C09A24,asstab,,93S,"29 long pointers by assignment number as 94S asstab (first entry an rtl); $C5085C reads ($0644,x * 4), patches $1851-$1853 and calls $001850",src/bankC0_A000.asm
@@ -629,8 +629,8 @@ $C522E9,DATA8_C522E9,,new,"not traced: data between routines (in bankC5_2000)",s
 $C52301,DATA8_C52301,,new,"not traced: data between routines (in bankC5_2000)",src/bankC5_2000.asm
 $C52319,DATA8_C52319,,new,"not traced: data between routines (in bankC5_2000)",src/bankC5_2000.asm
 $C52331,DATA8_C52331,,new,"not traced: data between routines (in bankC5_2000)",src/bankC5_2000.asm
-$C52880,DATA8_C52880,,new,"not traced: a table read by CODE_C527B5 (in bankC5_2000)",src/bankC5_2000.asm
-$C5288A,DATA8_C5288A,,new,"not traced: a table read by CODE_C5277A (in bankC5_2000)",src/bankC5_2000.asm
+$C52880,PadMarkerTiles,DATA8_C52880,code,"from the code: TagPadMarker reads it by pad * 2",src/bankC5_2000.asm
+$C5288A,PositionMarkTiles,DATA8_C5288A,code,"from the code: TagPositionMark reads it by position * 2 (none for position 0)",src/bankC5_2000.asm
 $C5362B,DATA8_C5362B,,new,"not traced: data between routines (in bankC5_3000)",src/bankC5_3000.asm
 $C5362D,DATA8_C5362D,,new,"not traced: data between routines (in bankC5_3000)",src/bankC5_3000.asm
 $C53A61,DATA8_C53A61,,new,"not traced: data between routines (in bankC5_3000)",src/bankC5_3000.asm
@@ -653,8 +653,8 @@ $C5528C,DATA8_C5528C,,new,"not traced: a table read by CODE_C5525F (in bankC5_50
 $C55294,DATA8_C55294,,new,"not traced: a table read by CODE_C55256 (in bankC5_5000)",src/bankC5_5000.asm
 $C5529C,DATA8_C5529C,,new,"not traced: a table read by CODE_C5524B (in bankC5_5000)",src/bankC5_5000.asm
 $C55D6B,DATA8_C55D6B,,new,"jump table: the routine for each index (code in bankC5_6000 uses it) (in bankC5_5000)",src/bankC5_5000.asm
-$C561DB,DATA8_C561DB,,new,"the day names, 3 letters each, read by CODE_C56168 (in bankC5_6000)",src/bankC5_6000.asm
-$C561F0,DATA8_C561F0,,new,"a word per month: its name (bank $C5), read by CODE_C56168 (in bankC5_6000)",src/bankC5_6000.asm
+$C561DB,DayNames,DATA8_C561DB,code,"from the code: MakeDateString copies 3 letters by bits 5-7 of the day's word",src/bankC5_6000.asm
+$C561F0,MonthNames,DATA8_C561F0,genesis+purpose,"95 Genesis MonthNames (the month names MakeDateString uses); here pointers to all twelve",src/bankC5_6000.asm
 $C566DE,DATA8_C566DE,,new,"jump table: the routine for each index (in bankC5_6000)",src/bankC5_6000.asm
 $C56989,DATA8_C56989,,new,"not traced: a table read by CODE_C568B3 (in bankC5_6000)",src/bankC5_6000.asm
 $C56208,MonthJanuary,,new,"the month name January, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
@@ -2947,25 +2947,25 @@ $C09822,.13,CODE_C09822,new,"branch target only used in PickShooterRow",src/bank
 $C09835,.14,CODE_C09835,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
 $C0983F,.15,CODE_C0983F,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
 $C0984B,.16,CODE_C0984B,new,"branch target only used in PickShooterRow",src/bankC0_9000.asm
-$C09874,.1,CODE_C09874,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C09885,.loop,CODE_C09885,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C0988F,.2,CODE_C0988F,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C09897,.3,CODE_C09897,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C098A0,.4,CODE_C098A0,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C098B9,.5,CODE_C098B9,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C098C9,.6,CODE_C098C9,new,"branch target only used in CODE_C09855",src/bankC0_9000.asm
-$C0993F,.1,CODE_C0993F,new,"branch target only used in CODE_C09910",src/bankC0_9000.asm
-$C09941,.2,CODE_C09941,new,"branch target only used in CODE_C09910",src/bankC0_9000.asm
-$C09943,.loop,CODE_C09943,new,"branch target only used in CODE_C09910",src/bankC0_9000.asm
-$C09956,.3,CODE_C09956,new,"branch target only used in CODE_C09910",src/bankC0_9000.asm
-$C09977,.4,CODE_C09977,new,"branch target only used in CODE_C09910",src/bankC0_9000.asm
-$C099BA,.1,CODE_C099BA,new,"branch target only used in CODE_C0998F",src/bankC0_9000.asm
-$C099CD,.loop,CODE_C099CD,new,"branch target only used in CODE_C0998F",src/bankC0_9000.asm
-$C099DD,.2,CODE_C099DD,new,"branch target only used in CODE_C0998F",src/bankC0_9000.asm
-$C099E5,.3,CODE_C099E5,new,"branch target only used in CODE_C0998F",src/bankC0_9000.asm
-$C099FC,.loop,CODE_C099FC,new,"branch target only used in CODE_C099F4",src/bankC0_9000.asm
-$C09A13,.loop2,CODE_C09A13,new,"branch target only used in CODE_C099F4",src/bankC0_9000.asm
-$C09A1F,.1,CODE_C09A1F,new,"branch target only used in CODE_C099F4",src/bankC0_9000.asm
+$C09874,.1,CODE_C09874,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C09885,.loop,CODE_C09885,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C0988F,.2,CODE_C0988F,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C09897,.3,CODE_C09897,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C098A0,.4,CODE_C098A0,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C098B9,.5,CODE_C098B9,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C098C9,.6,CODE_C098C9,new,"branch target only used in PrintShooterList",src/bankC0_9000.asm
+$C0993F,.1,CODE_C0993F,new,"branch target only used in PrintShooterRows",src/bankC0_9000.asm
+$C09941,.2,CODE_C09941,new,"branch target only used in PrintShooterRows",src/bankC0_9000.asm
+$C09943,.loop,CODE_C09943,new,"branch target only used in PrintShooterRows",src/bankC0_9000.asm
+$C09956,.3,CODE_C09956,new,"branch target only used in PrintShooterRows",src/bankC0_9000.asm
+$C09977,.4,CODE_C09977,new,"branch target only used in PrintShooterRows",src/bankC0_9000.asm
+$C099BA,.1,CODE_C099BA,new,"branch target only used in SetShooter",src/bankC0_9000.asm
+$C099CD,.loop,CODE_C099CD,new,"branch target only used in SetShooter",src/bankC0_9000.asm
+$C099DD,.2,CODE_C099DD,new,"branch target only used in SetShooter",src/bankC0_9000.asm
+$C099E5,.3,CODE_C099E5,new,"branch target only used in SetShooter",src/bankC0_9000.asm
+$C099FC,.loop,CODE_C099FC,new,"branch target only used in CopyLenString2",src/bankC0_9000.asm
+$C09A13,.loop2,CODE_C09A13,new,"branch target only used in CopyLenString2",src/bankC0_9000.asm
+$C09A1F,.1,CODE_C09A1F,new,"branch target only used in CopyLenString2",src/bankC0_9000.asm
 $C36B8F,.1,CODE_C36B8F,new,"branch target only used in CODE_C36B83",src/bankC3_6000.asm
 $C36B9E,.2,CODE_C36B9E,new,"branch target only used in CODE_C36B83",src/bankC3_6000.asm
 $C36BBA,.3,CODE_C36BBA,new,"branch target only used in CODE_C36B83",src/bankC3_6000.asm
@@ -4922,10 +4922,10 @@ $C519D2,.2,CODE_C519D2,new,"branch target only used in updatefaceoff",src/bankC5
 $C519E1,.rtl,CODE_C519E1,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
 $C519E2,.3,CODE_C519E2,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
 $C51A0A,.4,CODE_C51A0A,new,"branch target only used in updatefaceoff",src/bankC5_1000.asm
-$C51A33,.loop,CODE_C51A33,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
-$C51A3C,.1,CODE_C51A3C,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
-$C51A42,.2,CODE_C51A42,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
-$C51A4D,.rts,CODE_C51A4D,new,"branch target only used in CODE_C51A30",src/bankC5_1000.asm
+$C51A33,.loop,CODE_C51A33,new,"branch target only used in PracticePadGoalie",src/bankC5_1000.asm
+$C51A3C,.1,CODE_C51A3C,new,"branch target only used in PracticePadGoalie",src/bankC5_1000.asm
+$C51A42,.2,CODE_C51A42,new,"branch target only used in PracticePadGoalie",src/bankC5_1000.asm
+$C51A4D,.rts,CODE_C51A4D,new,"branch target only used in PracticePadGoalie",src/bankC5_1000.asm
 $C51A7A,.1,CODE_C51A7A,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
 $C51AA6,.loop,CODE_C51AA6,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
 $C51AAF,.2,CODE_C51AAF,new,"branch target only used in SetupPenaltyShot",src/bankC5_1000.asm
@@ -5019,22 +5019,22 @@ $C525AC,.28,CODE_C525AC,new,"branch target only used in DrawPadArrow",src/bankC5
 $C525C0,.29,CODE_C525C0,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
 $C525ED,.30,CODE_C525ED,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
 $C52601,.31,CODE_C52601,new,"branch target only used in DrawPadArrow",src/bankC5_2000.asm
-$C52713,.1,CODE_C52713,new,"branch target only used in CODE_C52706",src/bankC5_2000.asm
-$C52733,.2,CODE_C52733,new,"branch target only used in CODE_C52706",src/bankC5_2000.asm
-$C52745,.3,CODE_C52745,new,"branch target only used in CODE_C52706",src/bankC5_2000.asm
-$C527A9,.1,CODE_C527A9,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C527B5,.2,CODE_C527B5,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C527D3,.3,CODE_C527D3,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C527E6,.4,CODE_C527E6,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C527E9,.5,CODE_C527E9,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C527EE,.6,CODE_C527EE,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C527F5,.7,CODE_C527F5,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C5280C,.8,CODE_C5280C,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C5281F,.9,CODE_C5281F,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C52822,.10,CODE_C52822,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C52827,.11,CODE_C52827,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C5282E,.12,CODE_C5282E,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
-$C52839,.1,CODE_C52839,new,"branch target only used in CODE_C52832",src/bankC5_2000.asm
+$C52713,.1,CODE_C52713,new,"branch target only used in DrawPadTag",src/bankC5_2000.asm
+$C52733,.2,CODE_C52733,new,"branch target only used in DrawPadTag",src/bankC5_2000.asm
+$C52745,.3,CODE_C52745,new,"branch target only used in DrawPadTag",src/bankC5_2000.asm
+$C527A9,.1,CODE_C527A9,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C527B5,.2,CODE_C527B5,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C527D3,.3,CODE_C527D3,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C527E6,.4,CODE_C527E6,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C527E9,.5,CODE_C527E9,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C527EE,.6,CODE_C527EE,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C527F5,.7,CODE_C527F5,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C5280C,.8,CODE_C5280C,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C5281F,.9,CODE_C5281F,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C52822,.10,CODE_C52822,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C52827,.11,CODE_C52827,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C5282E,.12,CODE_C5282E,new,"branch target only used in TagPadMarker",src/bankC5_2000.asm
+$C52839,.1,CODE_C52839,new,"branch target only used in NextPadTag",src/bankC5_2000.asm
 $C528AC,.1,CODE_C528AC,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
 $C528BF,.2,CODE_C528BF,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
 $C528C2,.3,CODE_C528C2,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
@@ -5496,13 +5496,13 @@ $C56137,.rts,CODE_C56137,new,"branch target only used in SkipPackedText",src/ban
 $C56155,.1,CODE_C56155,new,"branch target only used in AdvanceSkipBits",src/bankC5_6000.asm
 $C56162,.loop,CODE_C56162,new,"branch target only used in PeekSkipBits",src/bankC5_6000.asm
 $C56167,.rts,CODE_C56167,new,"branch target only used in PeekSkipBits",src/bankC5_6000.asm
-$C561B7,.loop,CODE_C561B7,new,"branch target only used in CODE_C56168",src/bankC5_6000.asm
-$C561D0,.1,CODE_C561D0,new,"branch target only used in CODE_C56168",src/bankC5_6000.asm
-$C56265,.1,CODE_C56265,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
-$C56272,.2,CODE_C56272,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
-$C56274,.3,CODE_C56274,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
-$C5627A,.4,CODE_C5627A,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
-$C5628A,.5,CODE_C5628A,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
+$C561B7,.loop,CODE_C561B7,new,"branch target only used in MakeDateString",src/bankC5_6000.asm
+$C561D0,.1,CODE_C561D0,new,"branch target only used in MakeDateString",src/bankC5_6000.asm
+$C56265,.1,CODE_C56265,new,"branch target only used in StringToBoxTiles",src/bankC5_6000.asm
+$C56272,.2,CODE_C56272,new,"branch target only used in StringToBoxTiles",src/bankC5_6000.asm
+$C56274,.3,CODE_C56274,new,"branch target only used in StringToBoxTiles",src/bankC5_6000.asm
+$C5627A,.4,CODE_C5627A,new,"branch target only used in StringToBoxTiles",src/bankC5_6000.asm
+$C5628A,.5,CODE_C5628A,new,"branch target only used in StringToBoxTiles",src/bankC5_6000.asm
 $C562A4,.1,CODE_C562A4,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
 $C562C3,.loop,CODE_C562C3,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
 $C562C6,.loop2,CODE_C562C6,new,"branch target only used in ShowGameStats",src/bankC5_6000.asm
@@ -5515,8 +5515,8 @@ $C563C8,.1,CODE_C563C8,new,"branch target only used in ShowPeriodStats",src/bank
 $C563E0,.loop,CODE_C563E0,new,"branch target only used in DrawPeriodStats",src/bankC5_6000.asm
 $C563F8,.1,CODE_C563F8,new,"branch target only used in DrawPeriodStats",src/bankC5_6000.asm
 $C5641C,.2,CODE_C5641C,new,"branch target only used in DrawPeriodStats",src/bankC5_6000.asm
-$C5645B,.loop,CODE_C5645B,new,"branch target only used in CODE_C56453",src/bankC5_6000.asm
-$C56488,.1,CODE_C56488,new,"branch target only used in CODE_C56453",src/bankC5_6000.asm
+$C5645B,.loop,CODE_C5645B,new,"branch target only used in PrintPeriodRow",src/bankC5_6000.asm
+$C56488,.1,CODE_C56488,new,"branch target only used in PrintPeriodRow",src/bankC5_6000.asm
 $C564C4,.1,CODE_C564C4,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
 $C564FE,.2,CODE_C564FE,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
 $C5650B,.3,CODE_C5650B,new,"branch target only used in ShowPlayerStats",src/bankC5_6000.asm
@@ -5571,7 +5571,7 @@ $C56BCE,.1,CODE_C56BCE,new,"branch target only used in PauseTimeout",src/bankC5_
 $C56BE5,.loop,CODE_C56BE5,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
 $C56BEE,.loop2,CODE_C56BEE,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
 $C56BF8,.2,CODE_C56BF8,new,"branch target only used in PauseTimeout",src/bankC5_6000.asm
-$C56C57,.loop,CODE_C56C57,new,"branch target only used in CODE_C56C4C",src/bankC5_6000.asm
+$C56C57,.loop,CODE_C56C57,new,"branch target only used in PutPauseText",src/bankC5_6000.asm
 $C56CCF,.1,CODE_C56CCF,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
 $C56CDB,.2,CODE_C56CDB,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
 $C56CE2,.loop,CODE_C56CE2,new,"branch target only used in ShowScoringSummary",src/bankC5_6000.asm
@@ -8290,3 +8290,30 @@ $2DC5,ScoutTextCol,,code,"RAM: from the code: PrintNextScoutWord adds each word'
 $2DC7,ScoutTextRow,,code,"RAM: from the code: PrintNextScoutWord prints on it; NextScoutTextLine advances it",src/ram95s.asm
 $3072E8,SRPOGoals,,code,"RAM: from the code: AddPlayoffTeamPlayerStats adds each game's goals, ReadPlayoffPlayerGoals reads them for ScanConnSmythe",src/ram95s.asm
 $307446,SRPOAssists,,code,"RAM: from the code: AddPlayoffTeamPlayerStats adds each game's assists, ReadPlayoffPlayerAssists reads them for ScanConnSmythe",src/ram95s.asm
+$C09855,PrintShooterList,CODE_C09855,94S+purpose,"94S PrintShooterList side by side: eraser $20 x $0D, printx $11 / printy 2, the page walk with dec DispAttribCtr at the end, picktop / pickfirst / listcount arrow tests, then the rows; 95S drops the header and arrow prints",src/bankC0_9000.asm
+$C09910,PrintShooterRows,CODE_C09910,94S+code,"94S PrintShooterRows side by side: SelectedPlayerIdx - 1 times 8, picktop + 1, 8 or 7 rows by SelectedPlayerIdx - 5, curplayer highlight, GoalieCount, then the name and rating call",src/bankC0_9000.asm
+$C50F08,GetNameandAttrib,CODE_C50F08,code,"bare rtl called from PrintShooterRows exactly where 94S PrintShooterRows calls GetNameandAttrib; keeps the 94S name of the call it replaces",src/bankC5_0000.asm
+$C0998F,SetShooter,CODE_C0998F,94S+code,"94S SetShooter side by side: 9 - curplayer + picktop, homeshooters / awayshooters by a2, ldy curitem, the search over slots 1-6, the swap",src/bankC0_9000.asm
+$C099F4,CopyLenString2,CODE_C099F4,code,"from the code: counts to the zero, AllocWorkBuf2, the count stored first, the bytes copied after it; ShootoutWonBy uses it for the winning team's name",src/bankC0_9000.asm
+$C51A13,PracticeFaceoffDrop,CODE_C51A13,code,"from the code: TickFaceoffCountdown jumps here after Endfaceoff in play mode 1 (Practice, by the mode strings); CentrePuck, puckx / pucky from fox / foy, PracticePadGoalie for d4 0 and 2",src/bankC5_1000.asm
+$C51A30,PracticePadGoalie,CODE_C51A30,code,"from the code: the padside / c1playernum scan from pad 4 down, PadTakeGoalie with d4 = the pad",src/bankC5_1000.asm
+$C51DEA,SetFaceoffPersonnel,CODE_C51DEA,code,"from the code: the shared tail of SetFaceoffComputerLine, HomeFaceoffLineChange and AwayFaceoffLineChange; in 94S a local tail of puckfaceoff",src/bankC5_1000.asm
+$C51911,GoalBoxPlayer,CODE_C51911,code,"from the code: ShowGoalBox calls it for the scorer and the assists; BinToBCD / BCDText of byte + 0, FitName of + 8, StringToBoxTiles, QueueVRAMDMALen at a3, a3 + $20",src/bankC5_1000.asm
+$C56262,StringToBoxTiles,CODE_C56262,code,"from the code: the eor $80 loop with the $3D test, then mvp moves it up a byte and the length goes first; the goal box, scoring leader and line change box texts use it",src/bankC5_6000.asm
+$C5625E,StringToBoxTilesLong,CODE_C5625E,code,"jsr StringToBoxTiles / rtl; PrintScoringLeader calls it",src/bankC5_6000.asm
+$C56453,PrintPeriodRow,CODE_C56453,code,"from the code: the BCDTable / BCDText / PrintBoldCentredStr loop to lastperiod with the sum in tmp0; DrawPeriodStats calls it per row",src/bankC5_6000.asm
+$C56168,MakeDateString,CODE_C56168,genesis+purpose,"95 Genesis MakeDateString does the same job (Month day for SeasonDay); here from DATA8_C35F60's word for the day: bits 0-4 the date, 5-7 DayNames, the high byte MonthNames",src/bankC5_6000.asm
+$C56C4C,PutPauseText,CODE_C56C4C,code,"from the code: the count byte then each byte or $3A00 stored at $18EE + A; PauseTimeout calls it for its two lines",src/bankC5_6000.asm
+$C56B8C,QuitGameJump,CODE_C56B8C,code,"jml QuitGame; listed in the pause menu item table DATA8_C55038",src/bankC5_6000.asm
+$C52706,DrawPadTag,CODE_C52706,code,"from the code: PadControlObj,y, Xpos / Ypos against Hpos / Vpos, position and rostnum nibbles, PutTagChar with TagSecondDigit next",src/bankC5_2000.asm
+$C52766,TagSecondDigit,CODE_C52766,code,"from the code: $0A + 8, tmp2 to tmp1, PutTagChar with TagPositionMark next",src/bankC5_2000.asm
+$C5277A,TagPositionMark,CODE_C5277A,code,"from the code: $0A + 8, the tile by $0E (position * 2) from DATA8_C5288A, PutTagChar with TagPadMarker next",src/bankC5_2000.asm
+$C52794,TagPadMarker,CODE_C52794,code,"from the code: $0C - $14, two large sprites (size bit) with tmp2 and tmp2 + $4000; the last pad goes to CODE_C52852",src/bankC5_2000.asm
+$C52832,NextPadTag,CODE_C52832,code,"from the code: Y - 2, jmp DrawPadTag while not minus, then the saved stack and stz QueueBusy, rtl",src/bankC5_2000.asm
+$0802,SelectedPlayerIdx,,94S+code,"RAM: 94S SelectedPlayerIdx: ShootoutShooters sets it to 1, PrintShooterRows reads it, the same code",src/ram95s.asm
+$0806,DispAttribCtr,,94S+code,"RAM: 94S DispAttribCtr: PrintShooterList's page search and its step back at the end, the same code",src/ram95s.asm
+$1878,curitem,,94S+code,"RAM: 94S curitem: ShootoutShooters' up / down over rows 0-5, SetShooter's slot index, the same code",src/ram95s.asm
+$187C,listcount,,94S+code,"RAM: 94S listcount: PrintShooterList's right arrow test; set to the roster count less GoalieCount",src/ram95s.asm
+$1880,pickfirst,,94S+code,"RAM: 94S pickfirst: set from GoalieCount, PrintShooterList's tests",src/ram95s.asm
+$1884,picktop,,94S+code,"RAM: 94S picktop: PrintShooterRows from picktop + 1, SetShooter, the paging tests",src/ram95s.asm
+$1888,curplayer,,94S+code,"RAM: 94S curplayer: PrintShooterRows' highlight test, SetShooter's 9 - curplayer + picktop",src/ram95s.asm

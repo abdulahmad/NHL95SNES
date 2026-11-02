@@ -217,7 +217,8 @@ PeekSkipBits:						; A = the packed text word at X shifted right by Y
 	ply
 .rts:								; return
 	rts
-CODE_C56168:						; called from other segments
+MakeDateString:						; the date of season day A as text in mesarea: the day name, the month,
+									; the day of the month
 	asl a
 	tax
 	lda.l DATA8_C35F60,x
@@ -238,9 +239,9 @@ CODE_C56168:						; called from other segments
 	asl a
 	adc.b tmp0
 	tax
-	lda.l DATA8_C561DB,x
+	lda.l DayNames,x
 	sta.w mesarea
-	lda.l DATA8_C561DB+2,x
+	lda.l DayNames+2,x
 	sta.w mesarea+2
 	lda.w #$403D
 	sta.w mesarea+3
@@ -251,7 +252,7 @@ CODE_C56168:						; called from other segments
 	and.w #$00FF
 	asl a
 	tax
-	lda.l DATA8_C561F0,x
+	lda.l MonthNames,x
 	tax
 	ldy.w #$FFFF
 	sep #$20
@@ -275,9 +276,9 @@ CODE_C56168:						; called from other segments
 	stz.w mesarea+8,x
 	rep #$20
 	rts
-DATA8_C561DB:						; the day names, 3 letters each, read by CODE_C56168
+DayNames:							; the day names, 3 letters each
 	db "MonTueWedThrFriSatSun"
-DATA8_C561F0:						; a word per month: its name (bank $C5), read by CODE_C56168
+MonthNames:							; a word per month: its name
 	dw MonthJanuary,MonthFebruary,MonthMarch,MonthApril
 	dw MonthMay,MonthJune,MonthJuly,MonthAugust
 	dw MonthSeptember,MonthOctober,MonthNovember,MonthDecember
@@ -305,10 +306,11 @@ MonthNovember:						; November
 	db "November",0
 MonthDecember:						; December
 	db "December",0
-CODE_C5625E:						; called from other segments
-	jsr.w CODE_C56262
+StringToBoxTilesLong:				; StringToBoxTiles for long callers
+	jsr.w StringToBoxTiles
 	rtl
-CODE_C56262:						; from CODE_C5625E and other segments
+StringToBoxTiles:					; readies the zero ended string at X in place for QueueVRAMDMALen: bit 7
+									; of each character flipped ('=' becomes $AE), a length byte in front
 	phx
 	sep #$20
 .1:									; if $0000,x = 0 go to .4, if $0000,x is not $3D go to .2, A = $AE, ...
@@ -528,15 +530,16 @@ DrawPeriodStats:					; the period stats: the periods played and Total, the headi
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	jsr.w CODE_C56453
+	jsr.w PrintPeriodRow
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0070
 	sta.b $D1
 	inc.b a0
 	inc.b a0
-	jmp.w CODE_C56453
-CODE_C56453:						; from DrawPeriodStats
+	jmp.w PrintPeriodRow
+PrintPeriodRow:						; prints a stat's value for each period (the words at (a0), 4 bytes apart,
+									; to lastperiod) from column $13, then their total at column $18
 	stz.b tmp0
 	lda.w #$0000
 	ldy.w #$0013
@@ -1383,7 +1386,7 @@ ShowPauseTab:						; shows tab A of the pause menu at item 0 (DrawPauseTab)
 	stz.w pauseitem
 	sta.w pausetab
 	jmp.w DrawPauseTab
-CODE_C56B8C:						; called from other segments
+QuitGameJump:						; jumps to QuitGame (the pause menu's quit item)
 	jml.l QuitGame
 PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, gives the team
 									; full energy (reenergizeteam) and prints Time Out by and the team's name
@@ -1401,11 +1404,11 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	lda.w #$5A08
 	sta.b r0
 	lda.w #$0318
-	jsr.w CODE_C56C4C
+	jsr.w PutPauseText
 	lda.w #$5A11
 	sta.b r0
 	lda.w #$039E
-	jsr.w CODE_C56C4C
+	jsr.w PutPauseText
 	lda.w HomeTeam
 	ldx.b a2
 	beq .1
@@ -1450,7 +1453,7 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	adc.w #$0000
 	asl a
 	adc.w #$0414
-	jsr.w CODE_C56C4C
+	jsr.w PutPauseText
 	dec.b QueueBusy
 	lda.b $00
 	tsx
@@ -1472,7 +1475,8 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	jsl.l WaitFrames_Inc
 	lda.w pausetab
 	jmp.w DrawPauseTab
-CODE_C56C4C:						; from PauseTimeout
+PutPauseText:						; puts the length-led string at [r0] into the pause screen text map at
+									; offset A, as tiles with attribute $3A00
 	clc
 	adc.w $18EE
 	tax

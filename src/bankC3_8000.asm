@@ -201,10 +201,10 @@ PrintScoringLeader:					; queue the team and player name of one scoring leader
 	cpx.w #$001A
 	bcc .1
 	inc a
-.1:									; call TeamSecondTextLong, call UnpackText2, call CODE_C5625E, A = X, ...
+.1:									; call TeamSecondTextLong, call UnpackText2, ...
 	jsl.l TeamSecondTextLong
 	jsl.l UnpackText2
-	jsl.l CODE_C5625E
+	jsl.l StringToBoxTilesLong
 	txa
 	ldx.w #$007E
 	ldy.b a0
@@ -221,11 +221,11 @@ PrintScoringLeader:					; queue the team and player name of one scoring leader
 	bra .3
 .2:									; A + $2EE1
 	adc.w #$2EE1
-.3:									; X = A, A = $000D, call FitNameToWorkBuf, call CODE_C5625E, ...
+.3:									; X = A, A = $000D, call FitNameToWorkBuf, call StringToBoxTilesLong, ...
 	tax
 	lda.w #$000D
 	jsl.l FitNameToWorkBuf
-	jsl.l CODE_C5625E
+	jsl.l StringToBoxTilesLong
 	txa
 	ldx.w #$007E
 	ldy.b a0

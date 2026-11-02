@@ -977,7 +977,7 @@ ShowGoalBox:						; the goal box after a goal: both line change boxes closed (Cl
 	ldx.b $6D
 	lda.w ScoreSum+3,x
 	and.w #$00FF
-	jsr.w CODE_C51911
+	jsr.w GoalBoxPlayer
 	ldx.b $6D
 	lda.w ScoreSum+4,x
 	bit.w #$0080
@@ -993,13 +993,13 @@ ShowGoalBox:						; the goal box after a goal: both line change boxes closed (Cl
 	jsl.l QueueVRAMDMALen
 	pla
 	and.w #$00FF
-	jsr.w CODE_C51911
+	jsr.w GoalBoxPlayer
 	ldx.b $6D
 	lda.w ScoreSum+5,x
 	bit.w #$0080
 	bne .6
 	and.w #$00FF
-	jsr.w CODE_C51911
+	jsr.w GoalBoxPlayer
 .6:									; pull A, a3 = A, X = A, pull A, ...
 	pla
 	sta.b a3
@@ -1011,7 +1011,8 @@ ShowGoalBox:						; the goal box after a goal: both line change boxes closed (Cl
 	pla
 	sta.b $6D
 	rtl
-CODE_C51911:						; from ShowGoalBox
+GoalBoxPlayer:						; a goal box row: the number of player A of the roster at a2 (32 bytes a
+									; player), his name fitted to 13 letters, queued at a3; a3 to the next row
 	asl a
 	asl a
 	asl a
@@ -1037,7 +1038,7 @@ CODE_C51911:						; from ShowGoalBox
 	lda.w #$000D
 	jsr.w FitName
 	ldx.w #mesarea
-	jsr.w CODE_C56262
+	jsr.w StringToBoxTiles
 	jsl.l CopyString2
 	txa
 	ldx.w #$007E
@@ -1117,19 +1118,21 @@ updatefaceoff:						; the face off countdown (temp1): the ref's drop frame from 
 	stz.w FrameCount
 	stz.b $48
 	rtl
-CODE_C51A13:						; called from other segments
+PracticeFaceoffDrop:				; practice mode's drop (OptPlayMode 1): the puck still at the face off
+									; spot (fox / foy), then each team's first free pad takes its goalie
 	jsr.w CentrePuck
 	lda.w fox
 	sta.w puckx
 	lda.w foy
 	sta.w pucky
 	stz.b d4
-	jsr.w CODE_C51A30
+	jsr.w PracticePadGoalie
 	lda.w #$0002
 	sta.b d4
-	jsr.w CODE_C51A30
+	jsr.w PracticePadGoalie
 	rtl
-CODE_C51A30:						; from CODE_C51A13
+PracticePadGoalie:					; the first pad on side d4 (padside) controlling no player (c1playernum
+									; minus) takes the goalie
 	ldy.w #$0008
 .loop:								; loop: if padside,y < 0 go to .1, if padside,y = d4 go to .2
 	lda.w padside,y
@@ -1555,11 +1558,12 @@ SetFaceoffComputerLine:				; line changes on and team d0 not on a pad: CompLine,
 	cmp.w cont4team
 	bne .5
 	jmp.w rtsfaceoff
-.5:									; if A is not cont5team go to CODE_C51DEA, go to rtsfaceoff
+.5:									; if A is not cont5team go to SetFaceoffPersonnel, go to rtsfaceoff
 	cmp.w cont5team
-	bne CODE_C51DEA
+	bne SetFaceoffPersonnel
 	jmp.w rtsfaceoff
-CODE_C51DEA:						; from HomeFaceoffLineChange, AwayFaceoffLineChange, ...
+SetFaceoffPersonnel:				; the computer team's line (CompLine), the players set on the ice
+									; (setpersonel), then printscores1
 	jsl.l CompLine
 	jsl.l setpersonel
 	jml.l printscores1
@@ -1574,7 +1578,7 @@ HomeFaceoffLineChange:				; home's face off line change: with automatic line cha
 	sta.b a1
 	lda.w #$0001
 	sta.b d0
-	bra CODE_C51DEA
+	bra SetFaceoffPersonnel
 AwayFaceoffLineChange:				; the away team's face off line change, as HomeFaceoffLineChange
 	lda.w OptLine
 	cmp.w #$0002
@@ -1583,7 +1587,7 @@ AwayFaceoffLineChange:				; the away team's face off line change, as HomeFaceoff
 	lda.w #$0002
 	sta.b a2
 	sta.b d0
-	bra CODE_C51DEA
+	bra SetFaceoffPersonnel
 StartFaceoffLineChange:				; player d0 opens its team's line change box; when the box is open its
 									; timer starts in temp1 (home, $258) or temp2 (away, $168) of the puck,
 									; the player's object number in temp3 / temp4

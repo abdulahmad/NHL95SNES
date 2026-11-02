@@ -841,12 +841,13 @@ DrawPlayerTags:						; for each pad's controlled player (PadControlObj), sprite 
 	lda.b $28
 	tcs
 	ldy.w #$000C
-CODE_C52706:						; from CODE_C52832
+DrawPadTag:							; pad Y's tag ($0F: none): the player's screen spot, then his roster
+									; number digits through PutTagChar
 	sty.b $10
 	lda.w PadControlObj,y
 	cmp.w #$000F
 	bne .1
-	jmp.w CODE_C52832
+	jmp.w NextPadTag
 .1:									; A * 2, X = A, A = Xpos,x, A + $0074, ...
 	php
 	asl a
@@ -888,32 +889,34 @@ CODE_C52706:						; from CODE_C52832
 	and.w #$000F
 	adc.w #$2436
 	sta.b tmp2
-	lda.w #CODE_C52766
+	lda.w #TagSecondDigit
 	sta.b $A5
 	jmp.w PutTagChar
-CODE_C52766:						; a continuation: PutTagChar jumps back here through a pointer
+TagSecondDigit:						; a tag continuation: the second roster number digit, 8 pixels right
 	clc
 	lda.b $0A
 	adc.w #$0008
 	sta.b $0A
 	lda.b tmp2
 	sta.b tmp1
-	lda.w #CODE_C5277A
+	lda.w #TagPositionMark
 	sta.b $A5
 	jmp.w PutTagChar
-CODE_C5277A:						; a continuation: PutTagChar jumps back here through a pointer
+TagPositionMark:					; a tag continuation: the position mark (PositionMarkTiles), none for
+									; position 0
 	clc
 	lda.b $0A
 	adc.w #$0008
 	sta.b $0A
 	ldx.b $0E
-	beq CODE_C52794
-	lda.l DATA8_C5288A,x
+	beq TagPadMarker
+	lda.l PositionMarkTiles,x
 	sta.b tmp1
-	lda.w #CODE_C52794
+	lda.w #TagPadMarker
 	sta.b $A5
 	jmp.w PutTagChar
-CODE_C52794:						; a continuation: PutTagChar jumps back here through a pointer
+TagPadMarker:						; a tag continuation: the pad's marker 20 pixels up, its tile
+									; (PadMarkerTiles) and its mirror, 16 x 16 each
 	sec
 	lda.b $0C
 	sbc.w #$0014
@@ -930,8 +933,8 @@ CODE_C52794:						; a continuation: PutTagChar jumps back here through a pointer
 	cpx.w #$000C
 	bne .2
 	jmp.w CODE_C52852
-.2:									; tmp2 = DATA8_C52880,x, Y = $2A, X = $0002, A = $FFF0, ...
-	lda.l DATA8_C52880,x
+.2:									; tmp2 = PadMarkerTiles,x, Y = $2A, X = $0002, A = $FFF0, ...
+	lda.l PadMarkerTiles,x
 	sta.b tmp2
 	ldy.b $2A
 	pei ($A3)
@@ -1001,11 +1004,11 @@ CODE_C52794:						; a continuation: PutTagChar jumps back here through a pointer
 .12:								; $2A = Y, Y = $10
 	sty.b $2A
 	ldy.b $10
-CODE_C52832:						; from CODE_C52706, CODE_C5287A
+NextPadTag:							; the next pad's tag; after pad 0, the stack and QueueBusy restored
 	dey
 	dey
 	bmi .1
-	jmp.w CODE_C52706
+	jmp.w DrawPadTag
 .1:									; $28 = A, A = $1C, QueueBusy = 0, return
 	tsc
 	sta.b $28
@@ -1013,7 +1016,7 @@ CODE_C52832:						; from CODE_C52706, CODE_C5287A
 	tcs
 	stz.b QueueBusy
 	rtl
-CODE_C52842:						; from CODE_C52706
+CODE_C52842:						; from DrawPadTag
 	lda.b $0A
 	clc
 	adc.w #$000C
@@ -1022,7 +1025,7 @@ CODE_C52842:						; from CODE_C52706
 	sec
 	sbc.w #$0014
 	sta.b $0C
-CODE_C52852:						; from CODE_C52794
+CODE_C52852:						; from TagPadMarker
 	lda.w #$2454
 	sta.b tmp1
 	lda.w #$25E0
@@ -1043,10 +1046,10 @@ CODE_C52852:						; from CODE_C52794
 CODE_C5287A:						; called from other segments
 	sty.b $2A
 	ldy.b $10
-	bra CODE_C52832
-DATA8_C52880:						; not traced: a table read by CODE_C52794
+	bra NextPadTag
+PadMarkerTiles:						; the marker tile of each pad
 	db $88,$25,$8C,$25,$8E,$25,$8A,$25,$8C,$27
-DATA8_C5288A:						; not traced: a table read by CODE_C5277A
+PositionMarkTiles:					; the position mark tile of each position
 	db $8E,$27,$40,$24,$40,$24,$41,$24,$42,$24,$43,$24,$44,$24
 PutTagChar:							; writes one 8 x 8 tag sprite (tile tmp1) at screen x $0A, y $0C into the
 									; OAM buffer (skipped off screen), then on to the continuation in $A5
