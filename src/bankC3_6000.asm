@@ -377,8 +377,8 @@ Multi5Bios:							; called from other segments
 	php
 	sep #$20
 	rep #$10
-	stz.w $0598
-	stz.w $0599
+	stz.w mp5padsig+3
+	stz.w mp5padsig+4
 .loop:								; loop: A = $4212, if the result is not 0 go to .loop, ...
 	lda.w $4212
 	and.b #$01
@@ -395,21 +395,21 @@ Multi5Bios:							; called from other segments
 	stx.b PadRaw2
 	txa
 	and.b #$0F
-	sta.w $0596
+	sta.w mp5padsig+1
 	lda.w mp5present
 	bne .1
 	jmp.w .4
-.1:									; $C5 = $421E, A = X, A and $0F, $0597 = A, ...
+.1:									; $C5 = $421E, A = X, A and $0F, mp5padsig+2 = A, ...
 	ldx.w $421E
 	stx.b $C5
 	txa
 	and.b #$0F
-	sta.w $0597
+	sta.w mp5padsig+2
 	lda.w $4017
 	lsr a
-	rol.w $0596
+	rol.w mp5padsig+1
 	lsr a
-	rol.w $0597
+	rol.w mp5padsig+2
 	stz.w $4201
 	lda.w $059E
 	ora.w mp5warning
@@ -508,20 +508,20 @@ Multi5Bios:							; called from other segments
 	rol.b $C9
 	lda.b $C7
 	and.b #$0F
-	sta.w $0598
+	sta.w mp5padsig+3
 	lda.b $C9
 	and.b #$0F
-	sta.w $0599
+	sta.w mp5padsig+4
 	lda.w $4017
 	lsr a
-	rol.w $0598
+	rol.w mp5padsig+3
 	lsr a
-	rol.w $0599
+	rol.w mp5padsig+4
 	bra .5
 .4:									; A = $4017, A / 2
 	lda.w $4017
 	lsr a
-	rol.w $0596
+	rol.w mp5padsig+1
 .5:									; $4201 = $80, A = mp5warning, A and $01, mp5warning = A, ...
 	lda.b #$80
 	sta.w $4201
@@ -590,30 +590,30 @@ Multi5Bios:							; called from other segments
 	stx.b PadRaw1
 	ldx.w mp5present
 	beq .14
-.14:								; if $0596 = $01 go to .15, PadRaw2 = $000F, if mp5present = 0 go to .18
-	lda.w $0596
+.14:								; if mp5padsig+1 = $01 go to .15, PadRaw2 = $000F, ...
+	lda.w mp5padsig+1
 	cmp.b #$01
 	beq .15
 	ldx.w #$000F
 	stx.b PadRaw2
 	ldx.w mp5present
 	beq .18
-.15:								; if mp5present = 0 go to .18, if $0597 = $01 go to .16, $C5 = $000F
+.15:								; if mp5present = 0 go to .18, if mp5padsig+2 = $01 go to .16, $C5 = $000F
 	lda.w mp5present
 	beq .18
-	lda.w $0597
+	lda.w mp5padsig+2
 	cmp.b #$01
 	beq .16
 	ldx.w #$000F
 	stx.b $C5
-.16:								; if $0598 = $01 go to .17, $C7 = $000F
-	lda.w $0598
+.16:								; if mp5padsig+3 = $01 go to .17, $C7 = $000F
+	lda.w mp5padsig+3
 	cmp.b #$01
 	beq .17
 	ldx.w #$000F
 	stx.b $C7
-.17:								; if $0599 = $01 go to .18, $C9 = $000F
-	lda.w $0599
+.17:								; if mp5padsig+4 = $01 go to .18, $C9 = $000F
+	lda.w mp5padsig+4
 	cmp.b #$01
 	beq .18
 	ldx.w #$000F

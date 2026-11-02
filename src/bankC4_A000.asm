@@ -493,7 +493,7 @@ dopass_count:						; from dopass and other segments
 	asl a
 	sta.w puckvz
 	lda.w #$000A
-	sta.w $0CFC
+	sta.w nopuck+28
 	ldy.b a0
 	lda.b d6
 	clc
@@ -754,7 +754,7 @@ puckshadow:							; assignment (asstab entry 25): the puck shadow (object 15): u
 									; puck when the puck frame is $01B3, else at a fixed spot flipped by the
 									; puck's end
 	lda.w frame+$1E
-	cmp.w $0894
+	cmp.w frame+$3E
 	beq .1
 	phx
 .loop:								; loop: if TransfersReady is not 0 go to .loop, tmp2 = $2580, ...
@@ -764,7 +764,7 @@ puckshadow:							; assignment (asstab entry 25): the puck shadow (object 15): u
 	stx.b tmp2
 	ldx.w #$2035
 	stx.b tmp1
-	sta.w $0894
+	sta.w frame+$3E
 	jsl.l QueueFrameTiles
 	plx
 	lda.w frame+$1E

@@ -905,19 +905,19 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	dex
 	bmi .53
 	jmp.w .1
-.53:								; if $08AE - $012E < 0 go to .54, A = $012E
-	lda.w $08AE
+.53:								; if Ypos+24 - $012E < 0 go to .54, A = $012E
+	lda.w Ypos+24
 	cmp.w #$012E
 	bmi .54
 	lda.w #$012E
-.54:								; $08AE = A, if $08B0 - $FED2 >= 0 go to .55, A = $FED2
-	sta.w $08AE
-	lda.w $08B0
+.54:								; Ypos+24 = A, if Ypos+26 - $FED2 >= 0 go to .55, A = $FED2
+	sta.w Ypos+24
+	lda.w Ypos+26
 	cmp.w #$FED2
 	bpl .55
 	lda.w #$FED2
-.55:								; $08B0 = A, PadControlObj = $000F, PadControlObj+2 = A, ...
-	sta.w $08B0
+.55:								; Ypos+26 = A, PadControlObj = $000F, PadControlObj+2 = A, ...
+	sta.w Ypos+26
 	lda.w #$000F
 	sta.w PadControlObj
 	sta.w PadControlObj+2

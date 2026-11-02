@@ -840,80 +840,80 @@ RestoreGameScreen:					; leaves the pause screen: the team songs back when the p
 	stx.b tmp2
 	ldx.w #$2000
 	stx.b tmp1
-	lda.w $0876
+	lda.w frame+$20
 	jsl.l QueueFrameTiles
 	ldx.w #$20A8
 	stx.b tmp2
 	ldx.w #$2004
 	stx.b tmp1
-	lda.w $0878
+	lda.w frame+$22
 	jsl.l QueueFrameTiles
 	ldx.w #$20C0
 	stx.b tmp2
 	ldx.w #$2008
 	stx.b tmp1
-	lda.w $087A
+	lda.w frame+$24
 	jsl.l QueueFrameTiles
 	ldx.w #$20C8
 	stx.b tmp2
 	ldx.w #$200C
 	stx.b tmp1
-	lda.w $087C
+	lda.w frame+$26
 	jsl.l QueueFrameTiles
 	ldx.w #$20E0
 	stx.b tmp2
 	ldx.w #$2010
 	stx.b tmp1
-	lda.w $087E
+	lda.w frame+$28
 	jsl.l QueueFrameTiles
 	ldx.w #$20E8
 	stx.b tmp2
 	ldx.w #$2014
 	stx.b tmp1
-	lda.w $0880
+	lda.w frame+$2A
 	jsl.l QueueFrameTiles
 	ldx.w #$2100
 	stx.b tmp2
 	ldx.w #$2018
 	stx.b tmp1
-	lda.w $0882
+	lda.w frame+$2C
 	jsl.l QueueFrameTiles
 	ldx.w #$2108
 	stx.b tmp2
 	ldx.w #$201C
 	stx.b tmp1
-	lda.w $0884
+	lda.w frame+$2E
 	jsl.l QueueFrameTiles
 	ldx.w #$2120
 	stx.b tmp2
 	ldx.w #$2020
 	stx.b tmp1
-	lda.w $0886
+	lda.w frame+$30
 	jsl.l QueueFrameTiles
 	ldx.w #$2128
 	stx.b tmp2
 	ldx.w #$2024
 	stx.b tmp1
-	lda.w $0888
+	lda.w frame+$32
 	jsl.l QueueFrameTiles
 	ldx.w #$2140
 	stx.b tmp2
 	ldx.w #$2028
 	stx.b tmp1
-	lda.w $088A
+	lda.w frame+$34
 	jsl.l QueueFrameTiles
 	ldx.w #$2148
 	stx.b tmp2
 	ldx.w #$202C
 	stx.b tmp1
-	lda.w $088C
+	lda.w frame+$36
 	jsl.l QueueFrameTiles
 	jsl.l WaitTransfers
 	ldx.w #$2180
 	stx.b tmp2
 	ldx.w #$2034
 	stx.b tmp1
-	sta.w $0892
+	sta.w frame+$3C
 	jsl.l QueueFrameTiles
 	lda.w #$2030
 	sta.b tmp1

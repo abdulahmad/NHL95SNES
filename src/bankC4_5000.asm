@@ -657,7 +657,7 @@ CheckPlayerContact:					; resolve player X checking player a2 from their animati
 	lda.w gmode
 	bit.w #$0010
 	bne .rtl
-	lda.w $04B1
+	lda.w seed+1
 	and.w #$0002
 	clc
 	adc.w #$0018
@@ -673,7 +673,7 @@ CheckPlayerContact:					; resolve player X checking player a2 from their animati
 	lda.w gmode
 	bit.w #$0010
 	bne .7
-	lda.w $04B1
+	lda.w seed+1
 	and.w #$0002
 	clc
 	adc.w #$001C
@@ -778,8 +778,8 @@ check4check:						; called from other segments
 	bcc .7
 	cmp.w #$2345
 	bcc .11
-.7:									; A = $04B1, if the result = 0 go to .11
-	lda.w $04B1
+.7:									; A = seed+1, if the result = 0 go to .11
+	lda.w seed+1
 	and.w #$0007
 	beq .11
 .8:									; go to Acheck
@@ -790,8 +790,8 @@ check4check:						; called from other segments
 	bpl .10
 	cmp.w #$FEF2
 	bpl .6
-.10:								; A = $04B1, if the result is not 0 go to .11, go to .8
-	lda.w $04B1
+.10:								; A = seed+1, if the result is not 0 go to .11, go to .8
+	lda.w seed+1
 	and.w #$0007
 	bne .11
 	jmp.w .8

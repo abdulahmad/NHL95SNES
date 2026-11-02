@@ -344,7 +344,7 @@ updatereplay:						; called from other segments
 	sta.b WMDATA&$FF
 	lda.w frame,x
 	sta.b WMDATA&$FF
-	lda.w $0857,x
+	lda.w frame+$1,x
 	and.b #$3F
 	sta.w r3
 	lda.w attribute+1,x
@@ -1255,7 +1255,7 @@ adda43:								; from adda4 and other segments
 	lda.b $80
 	sta.w r3
 	and.w #$003F
-	sta.w $0857,x
+	sta.w frame+$1,x
 	lda.w attribute+1,x
 	and.w #$00E7
 	sta.w attribute+1,x
@@ -1290,24 +1290,24 @@ adda43:								; from adda4 and other segments
 	bit.w #$0008
 	beq .5
 	ora.w #$00F0
-.5:									; $089B,x = A, $085A,x = $80, r3 = $80, A and $003F, ...
+.5:									; $089B,x = A, frame+$4,x = $80, r3 = $80, A and $003F, ...
 	sta.w $089B,x
 	lda.b $80
-	sta.w $085A,x
+	sta.w frame+$4,x
 	lda.b $80
 	sta.w r3
 	and.w #$003F
-	sta.w $085B,x
-	lda.w $08E5,x
+	sta.w frame+$5,x
+	lda.w attribute+5,x
 	and.w #$00E7
-	sta.w $08E5,x
+	sta.w attribute+5,x
 	lda.w r3
 	lsr a
 	lsr a
 	lsr a
 	and.w #$0018
-	ora.w $08E5,x
-	sta.w $08E5,x
+	ora.w attribute+5,x
+	sta.w attribute+5,x
 	ldx.w #$0000
 .loop2:								; loop: $082C,x = $80, r3 = $80, A and $000F, ...
 	lda.b $80
@@ -1318,10 +1318,10 @@ adda43:								; from adda4 and other segments
 	bit.w #$0008
 	beq .6
 	ora.w #$00F0
-.6:									; $082D,x = A, $08AE,x = $80, A = r3, A / 2, ...
+.6:									; $082D,x = A, Ypos+24,x = $80, A = r3, A / 2, ...
 	sta.w $082D,x
 	lda.b $80
-	sta.w $08AE,x
+	sta.w Ypos+24,x
 	lda.w r3
 	lsr a
 	lsr a
@@ -1330,24 +1330,24 @@ adda43:								; from adda4 and other segments
 	bit.w #$0008
 	beq .7
 	ora.w #$00F0
-.7:									; $08AF,x = A, $086E,x = $80, r3 = $80, A and $003F, ...
+.7:									; $08AF,x = A, frame+$18,x = $80, r3 = $80, A and $003F, ...
 	sta.w $08AF,x
 	lda.b $80
-	sta.w $086E,x
+	sta.w frame+$18,x
 	lda.b $80
 	sta.w r3
 	and.w #$003F
-	sta.w $086F,x
-	lda.w $08F9,x
+	sta.w frame+$19,x
+	lda.w attribute+25,x
 	and.w #$00E7
-	sta.w $08F9,x
+	sta.w attribute+25,x
 	lda.w r3
 	lsr a
 	lsr a
 	lsr a
 	and.w #$0018
-	ora.w $08F9,x
-	sta.w $08F9,x
+	ora.w attribute+25,x
+	sta.w attribute+25,x
 	inx
 	inx
 	cpx.w #$0004
@@ -1531,7 +1531,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.l WMDATA
 	sta.b r3
 	and.b #$3F
-	sta.w $0857,x
+	sta.w frame+$1,x
 	lda.w attribute+1,x
 	and.b #$E7
 	sta.w attribute+1,x
@@ -1713,13 +1713,13 @@ RenderReplayFrame:					; build the replay frame sprites and queue display update
 	jsl.l updatescroll
 	jsl.l DrawPlayerTags
 	lda.w frame+$1E
-	cmp.w $0894
+	cmp.w frame+$3E
 	beq .1
 	ldx.w #$2580
 	stx.b tmp2
 	ldx.w #$2035
 	stx.b tmp1
-	sta.w $0894
+	sta.w frame+$3E
 	jsl.l QueueFrameTiles
 .1:									; call UpdateGameObjectSprites, call PackOAMHigh, TransfersReady + 1, ...
 	jsl.l UpdateGameObjectSprites

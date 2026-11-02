@@ -614,8 +614,8 @@ checkgoal:							; from checkwallcoll and other segments
 	jmp.w .18
 .rtl:								; return
 	rtl
-.3:									; $0FFC = 0, if puckc < 0 go to .5, Y = A, puckc = $FFFF, ...
-	stz.w $0FFC
+.3:									; pfgoal+28 = 0, if puckc < 0 go to .5, Y = A, puckc = $FFFF, ...
+	stz.w pfgoal+28
 	lda.w puckc
 	bmi .5
 	tay
@@ -631,11 +631,11 @@ checkgoal:							; from checkwallcoll and other segments
 	sec
 	sbc.b d1
 	sta.b d1
-.4:									; if d1 >= 0 go to .5, $0FFC = $0001
+.4:									; if d1 >= 0 go to .5, pfgoal+28 = $0001
 	lda.b d1
 	bpl .5
 	lda.w #$0001
-	sta.w $0FFC
+	sta.w pfgoal+28
 .5:									; d0 = $FF01, p0 = $FF01, A = Yfrac,x, A - OldYfrac,x, ...
 	lda.w #$FF01
 	sta.b d0
@@ -746,7 +746,7 @@ checkgoal:							; from checkwallcoll and other segments
 	sec
 	sbc.b d0
 	sta.b d0
-	lda.w $0FFC
+	lda.w pfgoal+28
 	bne .10
 	lda.w puckz
 	cmp.w #$000D
@@ -1530,7 +1530,7 @@ checkpuckcoll_ccx:					; puck collision with player Y: the stick (puckstick) whe
 	ldx.b curobj
 	lda.w #$00C4
 	sta.b d1
-	lda.w $0CFC
+	lda.w nopuck+28
 	bmi .6
 	beq .6
 	lsr.b d1
@@ -1733,7 +1733,7 @@ PuckCollisionStickRange:			; test the frame hotspot reach and puck height for st
 	lda.l SquareTable,x
 	ldx.b curobj
 	sta.b d1
-	lda.w $0CFC
+	lda.w nopuck+28
 	bmi .8
 	beq .8
 	lsr.b d1

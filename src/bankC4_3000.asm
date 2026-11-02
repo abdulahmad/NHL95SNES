@@ -994,12 +994,12 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	stz.w $09D8
 	stz.w $082C
 	lda.w #$0117
-	sta.w $08AE
+	sta.w Ypos+24
 	stz.w $09BA
 	stz.w $09DA
 	stz.w $082E
 	lda.w #$FEE8
-	sta.w $08B0
+	sta.w Ypos+26
 	lda.w #$01B3
 	sta.w frame+$1E
 	stz.w $0C9E
