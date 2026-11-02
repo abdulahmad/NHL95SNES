@@ -672,7 +672,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	lda.w #$0006
 	sta.b $99
 	stz.w fadestep
-CODE_C5A599:						; from SeasonOptionsInput
+PlaceLeagueCursor:					; the cursor sprite (a0) to League Menu item d6: x $30, y d6 * 24 + $3E
 	ldx.b a0
 	lda.w #$0030
 	sta.b $05,x
@@ -986,8 +986,10 @@ GamesTodayInput:					; the Games Today screen each frame (screen state 7): its c
 	ldx.b $89
 	jmp (DATA8_C5A81B,x)
 DATA8_C5A81B:						; jump table: the routine for each index
-	dw CODE_C5A821,CODE_C5A95A,CODE_C5A9FB
-CODE_C5A821:						; from DATA8_C5A81B
+	dw GamesTodayKeys,ScrollGamesUp,ScrollGamesDown
+GamesTodayKeys:						; Games Today step 0: left / right change the day d0, up / down the game
+									; $85 (a scroll at the list's ends), B flips the game between user and
+									; computer, start / select leave
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -1047,15 +1049,15 @@ CODE_C5A821:						; from DATA8_C5A81B
 	lda.l $307884,x
 	eor.b tmp0
 	sta.l $307884,x
-	jmp.w CODE_C5B38F
+	jmp.w DrawGameMarks
 .6:									; A = SeasonDay, A and $00FF, if A >= d0 go to .rts, d0 - 1, ...
 	lda.l SeasonDay
 	and.w #$00FF
 	cmp.b d0
 	bcs .rts
 	dec.b d0
-	jsr.w CODE_C5B22D
-	jmp.w CODE_C5AAF0
+	jsr.w DrawDayGames
+	jmp.w PrintGamesTodayDate
 .7:									; A = d0, A * 2, X = A, if DATA8_C35F62,x = 0 go to .rts, ...
 	lda.b d0
 	asl a
@@ -1063,8 +1065,8 @@ CODE_C5A821:						; from DATA8_C5A81B
 	lda.l DATA8_C35F62,x
 	beq .rts
 	inc.b d0
-	jsr.w CODE_C5B22D
-	jmp.w CODE_C5AAF0
+	jsr.w DrawDayGames
+	jmp.w PrintGamesTodayDate
 .8:									; if $85 = 0 go to .rts, A - 1, $85 = A, if not zero go to .9, ...
 	lda.b $85
 	beq .rts
@@ -1093,7 +1095,7 @@ CODE_C5A821:						; from DATA8_C5A81B
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
-	jsr.w CODE_C5AA94
+	jsr.w DrawGameInSlot
 	lda.b $81
 	dec a
 	bpl .11
@@ -1135,7 +1137,7 @@ CODE_C5A821:						; from DATA8_C5A81B
 	lda.b $22,x
 	ora.w #$0001
 	sta.b $22,x
-	jsr.w CODE_C5AA94
+	jsr.w DrawGameInSlot
 	lda.b $81
 	inc a
 	cmp.w #$0003
@@ -1146,9 +1148,11 @@ CODE_C5A821:						; from DATA8_C5A81B
 	lda.w #$0004
 	sta.b $89
 	rts
-CODE_C5A95A:						; from DATA8_C5A81B
-	jsr.w CODE_C5A95D
-CODE_C5A95D:						; from CODE_C5A95A
+ScrollGamesUp:						; Games Today step 1: ScrollGamesUpLine twice a frame
+	jsr.w ScrollGamesUpLine
+ScrollGamesUpLine:					; one line of the scroll to the game above: BG2 scroll - 1, the scroll
+									; HDMA counts and values moved, the entering game's colours queued; step 0
+									; again at the end
 	dec.w BG2VScroll
 	lda.w $468F
 	and.w #$00FF
@@ -1185,10 +1189,10 @@ CODE_C5A95D:						; from CODE_C5A95A
 	ldx.w #$0020
 	bcc .2
 	ldx.w #$0040
-.2:									; A = $8D, A and $00FF, call CODE_C5B369, pull A
+.2:									; A = $8D, A and $00FF, call QueueTeamPalette, pull A
 	lda.b $8D
 	and.w #$00FF
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	pla
 .3:									; if A is not $0010 go to .5, push A, A = $85, A / 2, ...
 	cmp.w #$0010
@@ -1199,10 +1203,10 @@ CODE_C5A95D:						; from CODE_C5A95A
 	ldx.w #$0030
 	bcc .4
 	ldx.w #$0050
-.4:									; A = $8E, A and $00FF, call CODE_C5B369, pull A
+.4:									; A = $8E, A and $00FF, call QueueTeamPalette, pull A
 	lda.b $8E
 	and.w #$00FF
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	pla
 .5:									; A 8-bit, A + 1, $468F = A, A = $4695, ...
 	sep #$20
@@ -1224,9 +1228,11 @@ CODE_C5A95D:						; from CODE_C5A95A
 	sta.w $4695
 	rep #$20
 	rts
-CODE_C5A9FB:						; from DATA8_C5A81B
-	jsr.w CODE_C5A9FE
-CODE_C5A9FE:						; from CODE_C5A9FB
+ScrollGamesDown:					; Games Today step 2: ScrollGamesDownLine twice a frame
+	jsr.w ScrollGamesDownLine
+ScrollGamesDownLine:				; one line of the scroll to the game below: BG2 scroll + 1, the scroll
+									; HDMA counts and values moved, the entering game's colours queued; step 0
+									; again at the end
 	inc.w BG2VScroll
 	sep #$20
 	lda.w $468F
@@ -1241,10 +1247,10 @@ CODE_C5A9FE:						; from CODE_C5A9FB
 	ldx.w #$0020
 	bcc .1
 	ldx.w #$0040
-.1:									; A = $8D, A and $00FF, call CODE_C5B369, A 8-bit, ...
+.1:									; A = $8D, A and $00FF, call QueueTeamPalette, A 8-bit, ...
 	lda.b $8D
 	and.w #$00FF
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	sep #$20
 	bra .4
 .2:									; if A is not $10 go to .4, A 16-bit, A = $85, A / 2, ...
@@ -1256,10 +1262,10 @@ CODE_C5A9FE:						; from CODE_C5A9FB
 	ldx.w #$0030
 	bcc .3
 	ldx.w #$0050
-.3:									; A = $8E, A and $00FF, call CODE_C5B369, A 8-bit
+.3:									; A = $8E, A and $00FF, call QueueTeamPalette, A 8-bit
 	lda.b $8E
 	and.w #$00FF
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	sep #$20
 .4:									; if $38 = $4692 go to .5, $4692 = A, go to .6
 	lda.b #$38
@@ -1299,8 +1305,9 @@ CODE_C5A9FE:						; from CODE_C5A9FB
 	sta.w $0104
 	stz.b $89
 	rts
-CODE_C5AA94:						; from CODE_C5A821
-	jsr.w CODE_C5B38F
+DrawGameInSlot:						; draws game $85 for a scroll: its marks (DrawGameMarks), $8D / $8E its
+									; two teams, the text of slot $81 cleared and both names printed
+	jsr.w DrawGameMarks
 	ldx.w #$0058
 	stx.b $CF
 	ldx.w #$00A0
@@ -1342,7 +1349,8 @@ CODE_C5AA94:						; from CODE_C5A821
 	jsl.l PrintThinCentred
 	jsl.l SendTextMap
 	rts
-CODE_C5AAF0:						; from CODE_C5A821, GamesToday
+PrintGamesTodayDate:				; prints day d0's date (CODE_C56168) in italics on row 5, the row cleared
+									; first
 	lda.b $D3
 	clc
 	adc.w #$0140
@@ -1497,36 +1505,37 @@ SeasonOptionsInput:					; the League Menu each frame (screen state 6): up / down
 	lda.w #$0002
 	sta.w OptPlayMode
 	jmp.w Restart
-.4:									; call CODE_C5AC7F, d6 - 1, if the result >= 0 go to .5, d6 = $0005
-	jsr.w CODE_C5AC7F
+.4:									; call LeagueItemPalette3, d6 - 1, if the result >= 0 go to .5, d6 = $0005
+	jsr.w LeagueItemPalette3
 	dec.b d6
 	bpl .5
 	lda.w #$0005
 	sta.b d6
-.5:									; call CODE_C5ACA3, call SendTextMap, go to CODE_C5A599
-	jsr.w CODE_C5ACA3
+.5:									; call LeagueItemPalette0, call SendTextMap, go to PlaceLeagueCursor
+	jsr.w LeagueItemPalette0
 	jsl.l SendTextMap
-	jmp.w CODE_C5A599
-.6:									; call CODE_C5AC7F, A = d6, A + 1, if A < $0006 go to .7, ...
-	jsr.w CODE_C5AC7F
+	jmp.w PlaceLeagueCursor
+.6:									; call LeagueItemPalette3, A = d6, A + 1, if A < $0006 go to .7, ...
+	jsr.w LeagueItemPalette3
 	lda.b d6
 	inc a
 	cmp.w #$0006
 	bcc .7
 	lda.w #$0000
-.7:									; d6 = A, call CODE_C5ACA3, call SendTextMap, go to CODE_C5A599
+.7:									; d6 = A, call LeagueItemPalette0, call SendTextMap, ...
 	sta.b d6
-	jsr.w CODE_C5ACA3
+	jsr.w LeagueItemPalette0
 	jsl.l SendTextMap
-	jmp.w CODE_C5A599
+	jmp.w PlaceLeagueCursor
 SeasonMenuJumps:					; the routine of each League Menu item: Play Games, NHL Standings, Games
 									; Today, League Leaders, Team Stats, Player Stats
 	dw MenuPlayGames,StandingsScreen,GamesToday,LeagueLeadersScreen
 	dw SeasonTeamStats,SeasonPlayerStats
-CODE_C5AC7F:						; from SeasonOptionsInput
+LeagueItemPalette3:					; palette 3 on League Menu item d6 (LeagueItemPalette with $0C00)
 	lda.w #$0C00
 	sta.b tmp0
-CODE_C5AC84:						; from CODE_C5ACA3
+LeagueItemPalette:					; puts palette bits tmp0 on the 64 tiles of League Menu item d6 (from row
+									; d6 * 3 + 6)
 	lda.b d6
 	asl a
 	adc.b d6
@@ -1546,10 +1555,10 @@ CODE_C5AC84:						; from CODE_C5ACA3
 	dey
 	bpl .loop
 	rts
-CODE_C5ACA3:						; from SeasonOptionsInput
+LeagueItemPalette0:					; palette 0 on League Menu item d6 (LeagueItemPalette with 0)
 	lda.w #$0000
 	sta.b tmp0
-	bra CODE_C5AC84
+	bra LeagueItemPalette
 GamesToday:							; League Menu Games Today: the day's games (B marks a game, the pad
 									; changes the day, start goes back to the League Menu)
 	jsl.l FadeOutWait
@@ -1651,8 +1660,8 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 	lda.w #$0002
 	sta.b $81
 	stz.b $89
-	jsr.w CODE_C5B22D
-	jsr.w CODE_C5AAF0
+	jsr.w DrawDayGames
+	jsr.w PrintGamesTodayDate
 	lda.w #$0007
 	sta.b $99
 	stz.w fadestep
@@ -1708,11 +1717,11 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	cmp.w #$0003
 	bne .1
 	jml.l BuildPlayoffDay
-.1:									; A = SeasonDay, A and $00FF, d0 = A, call CODE_C5B20E, ...
+.1:									; A = SeasonDay, A and $00FF, d0 = A, call DayFirstGame, ...
 	lda.l SeasonDay
 	and.w #$00FF
 	sta.b d0
-	jsr.w CODE_C5B20E
+	jsr.w DayFirstGame
 	lda.b d4
 	and.w #$0007
 	tax

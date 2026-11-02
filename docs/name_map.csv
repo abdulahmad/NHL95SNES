@@ -6043,37 +6043,37 @@ $C5A7E1,.7,CODE_C5A7E1,new,"branch target only used in StandingsInput",src/bankC
 $C5A7EC,.8,CODE_C5A7EC,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
 $C5A7EE,.9,CODE_C5A7EE,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
 $C5A7F4,.10,CODE_C5A7F4,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
-$C5A831,.1,CODE_C5A831,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A84B,.2,CODE_C5A84B,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A85C,.rts,CODE_C5A85C,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A85D,.3,CODE_C5A85D,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A86A,.4,CODE_C5A86A,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A872,.loop,CODE_C5A872,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A878,.5,CODE_C5A878,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A89D,.6,CODE_C5A89D,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A8B0,.7,CODE_C5A8B0,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A8C2,.8,CODE_C5A8C2,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A8D4,.9,CODE_C5A8D4,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A8EE,.10,CODE_C5A8EE,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A902,.11,CODE_C5A902,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A909,.rts2,CODE_C5A909,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A90A,.12,CODE_C5A90A,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A922,.13,CODE_C5A922,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A93B,.14,CODE_C5A93B,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A952,.15,CODE_C5A952,new,"branch target only used in CODE_C5A821",src/bankC5_A000.asm
-$C5A996,.1,CODE_C5A996,new,"branch target only used in CODE_C5A95D",src/bankC5_A000.asm
-$C5A9B0,.2,CODE_C5A9B0,new,"branch target only used in CODE_C5A95D",src/bankC5_A000.asm
-$C5A9B9,.3,CODE_C5A9B9,new,"branch target only used in CODE_C5A95D",src/bankC5_A000.asm
-$C5A9CA,.4,CODE_C5A9CA,new,"branch target only used in CODE_C5A95D",src/bankC5_A000.asm
-$C5A9D3,.5,CODE_C5A9D3,new,"branch target only used in CODE_C5A95D",src/bankC5_A000.asm
-$C5A9F5,.6,CODE_C5A9F5,new,"branch target only used in CODE_C5A95D",src/bankC5_A000.asm
-$C5AA1D,.1,CODE_C5AA1D,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AA29,.2,CODE_C5AA29,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AA3A,.3,CODE_C5AA3A,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AA44,.4,CODE_C5AA44,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AA50,.5,CODE_C5AA50,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AA53,.6,CODE_C5AA53,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
-$C5AA66,.7,CODE_C5AA66,new,"branch target only used in CODE_C5A9FE",src/bankC5_A000.asm
+$C5A831,.1,CODE_C5A831,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A84B,.2,CODE_C5A84B,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A85C,.rts,CODE_C5A85C,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A85D,.3,CODE_C5A85D,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A86A,.4,CODE_C5A86A,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A872,.loop,CODE_C5A872,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A878,.5,CODE_C5A878,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A89D,.6,CODE_C5A89D,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A8B0,.7,CODE_C5A8B0,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A8C2,.8,CODE_C5A8C2,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A8D4,.9,CODE_C5A8D4,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A8EE,.10,CODE_C5A8EE,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A902,.11,CODE_C5A902,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A909,.rts2,CODE_C5A909,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A90A,.12,CODE_C5A90A,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A922,.13,CODE_C5A922,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A93B,.14,CODE_C5A93B,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A952,.15,CODE_C5A952,new,"branch target only used in GamesTodayKeys",src/bankC5_A000.asm
+$C5A996,.1,CODE_C5A996,new,"branch target only used in ScrollGamesUpLine",src/bankC5_A000.asm
+$C5A9B0,.2,CODE_C5A9B0,new,"branch target only used in ScrollGamesUpLine",src/bankC5_A000.asm
+$C5A9B9,.3,CODE_C5A9B9,new,"branch target only used in ScrollGamesUpLine",src/bankC5_A000.asm
+$C5A9CA,.4,CODE_C5A9CA,new,"branch target only used in ScrollGamesUpLine",src/bankC5_A000.asm
+$C5A9D3,.5,CODE_C5A9D3,new,"branch target only used in ScrollGamesUpLine",src/bankC5_A000.asm
+$C5A9F5,.6,CODE_C5A9F5,new,"branch target only used in ScrollGamesUpLine",src/bankC5_A000.asm
+$C5AA1D,.1,CODE_C5AA1D,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
+$C5AA29,.2,CODE_C5AA29,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
+$C5AA3A,.3,CODE_C5AA3A,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
+$C5AA44,.4,CODE_C5AA44,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
+$C5AA50,.5,CODE_C5AA50,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
+$C5AA53,.6,CODE_C5AA53,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
+$C5AA66,.7,CODE_C5AA66,new,"branch target only used in ScrollGamesDownLine",src/bankC5_A000.asm
 $C5AB1B,.rts,CODE_C5AB1B,new,"branch target only used in NoGameSelectedInput",src/bankC5_A000.asm
 $C5AB1C,.1,CODE_C5AB1C,new,"branch target only used in NoGameSelectedInput",src/bankC5_A000.asm
 $C5AB2D,.1,CODE_C5AB2D,new,"branch target only used in StartSeasonInput",src/bankC5_A000.asm
@@ -6090,7 +6090,7 @@ $C5AC43,.4,CODE_C5AC43,new,"branch target only used in SeasonOptionsInput",src/b
 $C5AC4F,.5,CODE_C5AC4F,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
 $C5AC59,.6,CODE_C5AC59,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
 $C5AC67,.7,CODE_C5AC67,new,"branch target only used in SeasonOptionsInput",src/bankC5_A000.asm
-$C5AC92,.loop,CODE_C5AC92,new,"branch target only used in CODE_C5AC84",src/bankC5_A000.asm
+$C5AC92,.loop,CODE_C5AC92,new,"branch target only used in LeagueItemPalette",src/bankC5_A000.asm
 $C5ACBE,.1,CODE_C5ACBE,new,"branch target only used in GamesToday",src/bankC5_A000.asm
 $C5AE56,.1,CODE_C5AE56,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
 $C5AE8D,.2,CODE_C5AE8D,new,"branch target only used in MenuPlayGames",src/bankC5_A000.asm
@@ -6105,17 +6105,17 @@ $C5B008,.loop,CODE_C5B008,new,"branch target only used in DrawLeagueLeaders",src
 $C5B02B,.loop2,CODE_C5B02B,new,"branch target only used in DrawLeagueLeaders",src/bankC5_B000.asm
 $C5B03B,.loop3,CODE_C5B03B,new,"branch target only used in DrawLeagueLeaders",src/bankC5_B000.asm
 $C5B049,.2,CODE_C5B049,new,"branch target only used in DrawLeagueLeaders",src/bankC5_B000.asm
-$C5B216,.loop,CODE_C5B216,new,"branch target only used in CODE_C5B20E",src/bankC5_B000.asm
-$C5B228,.1,CODE_C5B228,new,"branch target only used in CODE_C5B20E",src/bankC5_B000.asm
-$C5B315,.1,CODE_C5B315,new,"branch target only used in CODE_C5B22D",src/bankC5_B000.asm
-$C5B339,.2,CODE_C5B339,new,"branch target only used in CODE_C5B22D",src/bankC5_B000.asm
-$C5B346,.1,CODE_C5B346,new,"branch target only used in CODE_C5B33C",src/bankC5_B000.asm
-$C5B39F,.1,CODE_C5B39F,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
-$C5B427,.2,CODE_C5B427,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
-$C5B43E,.3,CODE_C5B43E,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
-$C5B446,.loop,CODE_C5B446,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
-$C5B464,.4,CODE_C5B464,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
-$C5B473,.5,CODE_C5B473,new,"branch target only used in CODE_C5B38F",src/bankC5_B000.asm
+$C5B216,.loop,CODE_C5B216,new,"branch target only used in DayFirstGame",src/bankC5_B000.asm
+$C5B228,.1,CODE_C5B228,new,"branch target only used in DayFirstGame",src/bankC5_B000.asm
+$C5B315,.1,CODE_C5B315,new,"branch target only used in DrawDayGames",src/bankC5_B000.asm
+$C5B339,.2,CODE_C5B339,new,"branch target only used in DrawDayGames",src/bankC5_B000.asm
+$C5B346,.1,CODE_C5B346,new,"branch target only used in ClearGameSlot",src/bankC5_B000.asm
+$C5B39F,.1,CODE_C5B39F,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
+$C5B427,.2,CODE_C5B427,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
+$C5B43E,.3,CODE_C5B43E,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
+$C5B446,.loop,CODE_C5B446,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
+$C5B464,.4,CODE_C5B464,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
+$C5B473,.5,CODE_C5B473,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
 $C5B4F7,.1,CODE_C5B4F7,new,"branch target only used in FillLeaderEntry",src/bankC5_B000.asm
 $C5B533,.2,CODE_C5B533,new,"branch target only used in FillLeaderEntry",src/bankC5_B000.asm
 $C5B54E,.1,CODE_C5B54E,new,"branch target only used in CODE_C5B53D",src/bankC5_B000.asm
@@ -8426,3 +8426,24 @@ $C5A2D3,FieldJersey,CODE_C5A2D3,genesis+purpose,"same job as 95G FieldJersey (pr
 $C5A2EC,FieldHand,CODE_C5A2EC,genesis+purpose,"same job as 95G FieldHand (print the hand field, R / L); AnswerNameOk and EditHand call it",src/bankC5_A000.asm
 $C5A304,ClearFieldValue,CODE_C5A304,code,"from the code: two ClearRAM7E of $20 bytes at row * 64 + $D3 + $20; the Field routines call it first",src/bankC5_A000.asm
 $C5A321,BCDDigits4,CODE_C5A321,code,"from the code: four '0' + nibble bytes from the high nibble down; the Field routines, DrawLeaderRow, DrawSeasonPlayerRow and the date text (CODE_C56168) use it",src/bankC5_A000.asm
+$C5A599,PlaceLeagueCursor,CODE_C5A599,code,"from the code; SeasonOptions falls into it, SeasonOptionsInput jumps to it after a move",src/bankC5_A000.asm
+$C5AC7F,LeagueItemPalette3,CODE_C5AC7F,code,"from the code; SeasonOptionsInput calls it before d6 moves",src/bankC5_A000.asm
+$C5AC84,LeagueItemPalette,CODE_C5AC84,code,"from the code: and #$E3FF / ora tmp0 from $0180 + d6 * 3 rows of the text map",src/bankC5_A000.asm
+$C5ACA3,LeagueItemPalette0,CODE_C5ACA3,code,"from the code; SeasonOptionsInput calls it after d6 moves",src/bankC5_A000.asm
+$C5A821,GamesTodayKeys,CODE_C5A821,code,"from the code: d0 from SeasonDay to the last day with a date (DATA8_C35F62); B flips the bit d4 + $85 at $307884 unless the day is past or the game played (SRDayPlayed); $89 = 2 / 4 start the scrolls; DATA8_C5A81B entry 0",src/bankC5_A000.asm
+$C5A95A,ScrollGamesUp,CODE_C5A95A,code,"from the code: jsr, then falls into ScrollGamesUpLine; DATA8_C5A81B entry 1 ($89 = 2, set by up)",src/bankC5_A000.asm
+$C5A95D,ScrollGamesUpLine,CODE_C5A95D,code,"from the code: BG2VScroll - 1, $468F / $4692 / $4695 (counts in the BG3ScrollHDMA2 copy at $468C) and $0100-$0104, QueueTeamPalette for $8D / $8E at counts $28 / $10, $89 = 0",src/bankC5_A000.asm
+$C5A9FB,ScrollGamesDown,CODE_C5A9FB,code,"from the code: jsr, then falls into ScrollGamesDownLine; DATA8_C5A81B entry 2 ($89 = 4, set by down)",src/bankC5_A000.asm
+$C5A9FE,ScrollGamesDownLine,CODE_C5A9FE,code,"from the code: as ScrollGamesUpLine the other way",src/bankC5_A000.asm
+$C5AA94,DrawGameInSlot,CODE_C5AA94,code,"from the code: the schedule entry d1 + $85 * 2 + 1, DATA8_C5B35D / DATA8_C5B363 by $81, DATA8_C3585C, PrintThinCentred; GamesTodayKeys calls it before a scroll",src/bankC5_A000.asm
+$C5AAF0,PrintGamesTodayDate,CODE_C5AAF0,code,"from the code: ClearRAM7E at $D3 + $140, CODE_C56168 builds mesarea from DATA8_C35F60; GamesToday and GamesTodayKeys call it",src/bankC5_A000.asm
+$C5B20E,DayFirstGame,CODE_C5B20E,code,"from the code: the count bytes of the DATA8_C360D4 entries summed; MenuPlayGames and DrawDayGames take d4 + n as the bit of game n at $307884",src/bankC5_B000.asm
+$C5B22D,DrawDayGames,CODE_C5B22D,code,"from the code: DayFirstGame, ClearGameSlot, QueueTeamPalette, PrintThinCentred, DrawGameMarks for $85 = 0 and 1, the arrows a4 / $75; GamesToday and GamesTodayKeys call it",src/bankC5_B000.asm
+$C5B33C,ClearGameSlot,CODE_C5B33C,code,"from the code: DATA8_C5B35D offsets ($1C0 bytes cleared), DATA8_C5B363 rows 9 / $10 / $17; DrawDayGames calls it for the first two games",src/bankC5_B000.asm
+$C5B369,QueueTeamPalette,CODE_C5B369,code,"from the code: a CGRAM queue record as QueueHomePalette with the destination in X; Games Today's slots use $20-$50",src/bankC5_B000.asm
+$C5B38F,DrawGameMarks,CODE_C5B38F,code,"from the code: D = $2100, tiles $2801 / $2C01 ($3001 / $3401 for odd $85), marks $3C13 / $3C23 (bit set / clear), $3C33 on a past day, none once played today; GamesToday puts WonCheckTiles at VRAM $0130",src/bankC5_B000.asm
+$C5B48A,SetVRAMRow,CODE_C5B48A,code,"from the code: sty $16 (VMADDL with D = $2100); the DrawGameMarks row writers call it",src/bankC5_B000.asm
+$C5B499,WriteTiles4,CODE_C5B499,code,"from the code: stx $18 (VMDATA) 4 times, inx; DrawGameMarks' marks",src/bankC5_B000.asm
+$C5B4A1,WriteTiles9,CODE_C5B4A1,code,"from the code: stx $18 (VMDATA) 9 times, inx; DrawGameMarks' team bars",src/bankC5_B000.asm
+$C5B4AE,WriteBlanks4,CODE_C5B4AE,code,"from the code: stz $18 (VMDATA) 4 times; DrawGameMarks",src/bankC5_B000.asm
+$C5B4B6,WriteBlanks9,CODE_C5B4B6,code,"from the code: stz $18 (VMDATA) 9 times; DrawGameMarks",src/bankC5_B000.asm

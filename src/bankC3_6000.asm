@@ -16,7 +16,7 @@ DATA8_C36000:						; not traced: data between routines
 	db $3D,$02,$5E,$02,$7F,$02,$81,$03,$A2,$03,$C3,$03,$04,$03,$25,$03
 	db $46,$03,$67,$03,$88,$03,$A9,$03,$CA,$03,$0B,$03,$2C,$03,$4D,$03
 	db $6E,$03,$00,$00
-DATA8_C360D4:						; not traced: a table read by CODE_C5B22D, CODE_C5AE8D, CODE_C5B216
+DATA8_C360D4:						; not traced: a table read by DrawDayGames, CODE_C5AE8D, CODE_C5B216
 	db $46,$62,$4F,$62,$5E,$62,$6B,$62,$72,$62,$89,$62,$96,$62,$9D,$62
 	db $A8,$62,$B3,$62,$BE,$62,$C7,$62,$E0,$62,$E5,$62,$EE,$62,$FB,$62
 	db $06,$63,$15,$63,$1E,$63,$35,$63,$3C,$63,$43,$63,$50,$63,$5D,$63

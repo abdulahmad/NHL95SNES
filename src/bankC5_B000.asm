@@ -236,7 +236,8 @@ StandingsStatTitles:				; the packed text of each standings stat title: Wins / L
 									; Points, Goals Scored Avg., Goals Allowed Avg., Save %, Shooting Pct.,
 									; Shots Per Game, Shots Allowed
 	db $2E,$56,$75,$4B,$3D,$56,$4C,$56,$5C,$56,$6B,$56,$76,$56,$83,$56
-CODE_C5B20E:						; from CODE_C5B22D and other segments
+DayFirstGame:						; d4 = the number of games on the days before d0 (DATA8_C360D4), the
+									; season index of day d0's first game
 	stz.b d4
 	lda.b d0
 	asl a
@@ -256,8 +257,10 @@ CODE_C5B20E:						; from CODE_C5B22D and other segments
 	dex
 	bpl .loop
 	rts
-CODE_C5B22D:						; called from other segments
-	jsr.w CODE_C5B20E
+DrawDayGames:						; draws day d0's games on Games Today: d1 its schedule entry, d2 its game
+									; count, the first two games' names, colours and marks, the down arrow
+									; when there are 3 or more
+	jsr.w DayFirstGame
 	lda.w #$FFFA
 	sta.w BG2VScroll
 	lda.w #$00EB
@@ -289,14 +292,14 @@ CODE_C5B22D:						; called from other segments
 	lda.l $C30000,x
 	and.w #$00FF
 	sta.b d2
-	jsr.w CODE_C5B33C
+	jsr.w ClearGameSlot
 	pha
 	ldx.b d1
 	lda.l $C30001,x
 	pha
 	and.w #$00FF
 	ldx.w #$0020
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -306,7 +309,7 @@ CODE_C5B22D:						; called from other segments
 	xba
 	and.w #$00FF
 	ldx.w #$0030
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -315,9 +318,9 @@ CODE_C5B22D:						; called from other segments
 	adc.w #$0003
 	tay
 	jsl.l PrintThinCentred
-	jsr.w CODE_C5B38F
+	jsr.w DrawGameMarks
 	sec
-	jsr.w CODE_C5B33C
+	jsr.w ClearGameSlot
 	ldx.b d2
 	dex
 	beq .1
@@ -327,7 +330,7 @@ CODE_C5B22D:						; called from other segments
 	pha
 	and.w #$00FF
 	ldx.w #$0040
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -340,7 +343,7 @@ CODE_C5B22D:						; called from other segments
 	and.w #$03FF
 	sta.b d3
 	inc.b $85
-	jsr.w CODE_C5B38F
+	jsr.w DrawGameMarks
 	dec.b $85
 	pla
 	sta.b d3
@@ -348,7 +351,7 @@ CODE_C5B22D:						; called from other segments
 	xba
 	and.w #$00FF
 	ldx.w #$0050
-	jsr.w CODE_C5B369
+	jsr.w QueueTeamPalette
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -375,7 +378,8 @@ CODE_C5B22D:						; called from other segments
 .2:									; $22,x = A, return
 	sta.b $22,x
 	rts
-CODE_C5B33C:						; from CODE_C5B22D
+ClearGameSlot:						; clears the text rows of game slot $81 - 1 (- 2 with carry clear on
+									; entry, wrapping in 0-2), Y = its first row
 	lda.b $81
 	sbc.w #$0001
 	bcs .1
@@ -392,11 +396,12 @@ CODE_C5B33C:						; from CODE_C5B22D
 	lda.l DATA8_C5B363,x
 	tay
 	rts
-DATA8_C5B35D:						; not traced: a table read by CODE_C5B33C
+DATA8_C5B35D:						; not traced: a table read by ClearGameSlot
 	db $00,$02,$C0,$03,$80,$05
-DATA8_C5B363:						; not traced: a table read by CODE_C5B33C
+DATA8_C5B363:						; not traced: a table read by ClearGameSlot
 	db $09,$00,$10,$00,$17,$00
-CODE_C5B369:						; from CODE_C5B22D and other segments
+QueueTeamPalette:					; queues team A's 16 colours (TeamPalettes as unpacked at $7F:D80A) for
+									; CGRAM X; A kept
 	sta.b tmp1
 	dec.b QueueBusy
 	tsc
@@ -420,7 +425,9 @@ CODE_C5B369:						; from CODE_C5B22D and other segments
 	stz.b QueueBusy
 	lda.b tmp1
 	rts
-CODE_C5B38F:						; from CODE_C5B22D and other segments
+DrawGameMarks:						; draws game $85 on the BG2 map at d3: a 9 x 2 tile bar in each team's
+									; palette and a mark from WonCheckTiles picked by the day, SRDayPlayed and
+									; the game's bit at $307884
 	jsl.l WaitTransfers
 	phd
 	lda.b $85
@@ -436,19 +443,19 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	tcd
 	lda.w #$0080
 	sta.b VMAIN&$FF
-	jsr.w CODE_C5B4B6
-	jsr.w CODE_C5B4A1
-	jsr.w CODE_C5B4A1
-	jsr.w CODE_C5B4B6
+	jsr.w WriteBlanks9
+	jsr.w WriteTiles9
+	jsr.w WriteTiles9
+	jsr.w WriteBlanks9
 	txa
 	clc
 	adc.w #$0400
 	and.w #$FC00
 	ora.w #$0001
 	tax
-	jsr.w CODE_C5B4A1
-	jsr.w CODE_C5B4A1
-	jsr.w CODE_C5B4B6
+	jsr.w WriteTiles9
+	jsr.w WriteTiles9
+	jsr.w WriteBlanks9
 	tya
 	sec
 	sbc.w #$00E4
@@ -478,23 +485,23 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	ldx.w #$3C33
 	and.w tmp0
 	beq .2
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B4AE
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteTiles4
+	jsr.w WriteTiles4
+	jsr.w WriteBlanks4
 	pld
 	rts
-.2:									; call CODE_C5B4AE, call CODE_C5B499, call CODE_C5B499, ...
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
+.2:									; call WriteBlanks4, call WriteTiles4, call WriteTiles4, ...
+	jsr.w WriteBlanks4
+	jsr.w WriteTiles4
+	jsr.w WriteTiles4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
 	pld
 	rts
 .3:									; push X, X = $0085, A = SRDayPlayed
@@ -507,13 +514,13 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	bpl .loop
 	plx
 	bcc .4
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
 	pld
 	rts
 .4:									; A = $307884,x, X = $3C13, if the result is not 0 go to .5, X = $3C23
@@ -522,17 +529,18 @@ CODE_C5B38F:						; from CODE_C5B22D and other segments
 	and.w tmp0
 	bne .5
 	ldx.w #$3C23
-.5:									; call CODE_C5B4AE, call CODE_C5B499, call CODE_C5B499, ...
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B499
-	jsr.w CODE_C5B4AE
-	jsr.w CODE_C5B4AE
+.5:									; call WriteBlanks4, call WriteTiles4, call WriteTiles4, ...
+	jsr.w WriteBlanks4
+	jsr.w WriteTiles4
+	jsr.w WriteTiles4
+	jsr.w WriteTiles4
+	jsr.w WriteTiles4
+	jsr.w WriteBlanks4
+	jsr.w WriteBlanks4
 	pld
 	rts
-CODE_C5B48A:						; from CODE_C5B4B6, CODE_C5B4A1, CODE_C5B4AE, CODE_C5B499
+SetVRAMRow:							; with D = $2100: VMADD = Y, then Y one map row on (+ $20, wrapping in
+									; $5000-$53FF)
 	sty.b $16
 	tya
 	clc
@@ -541,27 +549,29 @@ CODE_C5B48A:						; from CODE_C5B4B6, CODE_C5B4A1, CODE_C5B4AE, CODE_C5B499
 	ora.w #$5000
 	tay
 	rts
-CODE_C5B499:						; from CODE_C5B38F
-	jsr.w CODE_C5B48A
+WriteTiles4:						; with D = $2100: a new map row (SetVRAMRow) of 4 tiles X, X + 1, ... (X
+									; advanced)
+	jsr.w SetVRAMRow
 	lda.w #$0003
 	bra CODE_C5B4A7
-CODE_C5B4A1:						; from CODE_C5B38F
-	jsr.w CODE_C5B48A
+WriteTiles9:						; with D = $2100: a new map row (SetVRAMRow) of 9 tiles X, X + 1, ... (X
+									; advanced)
+	jsr.w SetVRAMRow
 	lda.w #$0008
-CODE_C5B4A7:						; from CODE_C5B4A7, CODE_C5B499
+CODE_C5B4A7:						; from CODE_C5B4A7, WriteTiles4
 	stx.b $18
 	inx
 	dec a
 	bpl CODE_C5B4A7
 	rts
-CODE_C5B4AE:						; from CODE_C5B38F
-	jsr.w CODE_C5B48A
+WriteBlanks4:						; with D = $2100: a new map row (SetVRAMRow) of 4 zero tiles
+	jsr.w SetVRAMRow
 	lda.w #$0003
 	bra CODE_C5B4BC
-CODE_C5B4B6:						; from CODE_C5B38F
-	jsr.w CODE_C5B48A
+WriteBlanks9:						; with D = $2100: a new map row (SetVRAMRow) of 9 zero tiles
+	jsr.w SetVRAMRow
 	lda.w #$0008
-CODE_C5B4BC:						; from CODE_C5B4BC, CODE_C5B4AE
+CODE_C5B4BC:						; from CODE_C5B4BC, WriteBlanks4
 	stz.b $18
 	dec a
 	bpl CODE_C5B4BC
