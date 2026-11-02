@@ -1651,7 +1651,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	pla
 	and.w #$000F
 	sta.w $0006,y
-	jsr.w CODE_C53167
+	jsr.w UnpackTeamBonuses
 	plx
 	lda.l $C30000,x
 	sta.b $0E
@@ -1786,11 +1786,11 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	jmp.w .10
 .5:									; X = $0038
 	ldx.w #$0038
-.6:									; push X, A = $C2FFFE,x, push A, call CODE_C53106, ...
+.6:									; push X, A = $C2FFFE,x, push A, call TeamGoalieRange, ...
 	phx
 	lda.l $C2FFFE,x
 	pha
-	jsr.w CODE_C53106
+	jsr.w TeamGoalieRange
 	lda.b $01,s
 	tax
 	clc

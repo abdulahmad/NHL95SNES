@@ -5146,7 +5146,7 @@ $C530A8,.1,CODE_C530A8,new,"branch target only used in FixLineDefence",src/bankC
 $C530AA,.loop,CODE_C530AA,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
 $C530B2,.rts,CODE_C530B2,new,"branch target only used in FixLineDefence",src/bankC5_3000.asm
 $C530CD,.rts,CODE_C530CD,new,"branch target only used in PlayerInLine",src/bankC5_3000.asm
-$C5312D,.loop,CODE_C5312D,new,"branch target only used in CODE_C5311F",src/bankC5_3000.asm
+$C5312D,.loop,CODE_C5312D,new,"branch target only used in RecordGoalieCount",src/bankC5_3000.asm
 $C531EA,.loop,CODE_C531EA,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
 $C531F8,.1,CODE_C531F8,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
 $C53214,.2,CODE_C53214,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
@@ -5159,7 +5159,7 @@ $C5326D,.8,CODE_C5326D,new,"branch target only used in LoadSeasonRoster",src/ban
 $C53284,.9,CODE_C53284,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
 $C5328C,.10,CODE_C5328C,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
 $C5329F,.11,CODE_C5329F,new,"branch target only used in LoadSeasonRoster",src/bankC5_3000.asm
-$C532BF,.1,CODE_C532BF,new,"branch target only used in CODE_C532B5",src/bankC5_3000.asm
+$C532BF,.1,CODE_C532BF,new,"branch target only used in GetForwardCount",src/bankC5_3000.asm
 $C532DB,.1,CODE_C532DB,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
 $C532E5,.loop,CODE_C532E5,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
 $C53316,.2,CODE_C53316,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
@@ -5172,9 +5172,9 @@ $C53449,.loop2,CODE_C53449,new,"branch target only used in FormatRosterShortName
 $C53454,.2,CODE_C53454,new,"branch target only used in FormatRosterShortName",src/bankC5_3000.asm
 $C534A1,.1,CODE_C534A1,new,"branch target only used in PutDigits2",src/bankC5_3000.asm
 $C534BF,.loop,CODE_C534BF,new,"branch target only used in PushNumber",src/bankC5_3000.asm
-$C534F2,.loop,CODE_C534F2,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
-$C534FC,.1,CODE_C534FC,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
-$C53516,.loop2,CODE_C53516,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
+$C534F2,.loop,CODE_C534F2,new,"branch target only used in PushNumberWrap",src/bankC5_3000.asm
+$C534FC,.1,CODE_C534FC,new,"branch target only used in PushNumberWrap",src/bankC5_3000.asm
+$C53516,.loop2,CODE_C53516,new,"branch target only used in PushNumberWrap",src/bankC5_3000.asm
 $C5354B,.1,CODE_C5354B,new,"branch target only used in ResetClock",src/bankC5_3000.asm
 $C53568,.2,CODE_C53568,new,"branch target only used in ResetClock",src/bankC5_3000.asm
 $C5357F,.loop,CODE_C5357F,new,"branch target only used in clearTeamStats",src/bankC5_3000.asm
@@ -5228,7 +5228,7 @@ $C53955,.loop,CODE_C53955,new,"branch target only used in PadTakePosition",src/b
 $C53964,.2,CODE_C53964,new,"branch target only used in PadTakePosition",src/bankC5_3000.asm
 $C5397E,.3,CODE_C5397E,new,"branch target only used in PadTakePosition",src/bankC5_3000.asm
 $C53A54,.1,CODE_C53A54,new,"branch target only used in CODE_C53A29",src/bankC5_3000.asm
-$C53A8C,.1,CODE_C53A8C,new,"branch target only used in CODE_C53A75",src/bankC5_3000.asm
+$C53A8C,.1,CODE_C53A8C,new,"branch target only used in PackTeamSecondText",src/bankC5_3000.asm
 $C53A9B,.loop,CODE_C53A9B,new,"branch target only used in PackShortText",src/bankC5_3000.asm
 $C53AA9,.1,CODE_C53AA9,new,"branch target only used in PackShortText",src/bankC5_3000.asm
 $C53ACB,.loop,CODE_C53ACB,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
@@ -8542,3 +8542,14 @@ $C5DCEE,TradeScrollStepUp,CODE_C5DCEE,code,"from the code: the entry at $3F4E,y 
 $C52628,QueuePadArrowVert,CODE_C52628,code,"from the code: three transfers ($40, $40, $60 bytes) pushed on the queue from the record at X (+2 source, +8 / +A / +C VRAM); DrawPadArrow calls it for a player above or below the screen with x on screen, when the record's image word was not 0",src/bankC5_2000.asm
 $C52666,QueuePadArrowCorner,CODE_C52666,code,"from the code: QueuePadArrowVert's transfers from + $E0; DrawPadArrow calls it for a player off a corner of the screen, when the image word was not 1",src/bankC5_2000.asm
 $C526A7,QueuePadArrowSide,CODE_C526A7,code,"from the code: QueuePadArrowVert's transfers from + $1C0; DrawPadArrow calls it for a player off the left or right edge with y on screen, when the image word was not 2",src/bankC5_2000.asm
+$C5311F,RecordGoalieCount,CODE_C5311F,code,"from the code: record + [record+8], xba, the nibble count loop; the same count as GoalieCount (team a2, d0) for a team record in X; TeamGoalieRange and TeamForwardRange call it",src/bankC5_3000.asm
+$C53106,TeamGoalieRange,CODE_C53106,code,"from the code: (record word 0 and $07FF) / 2 - $1C is the index LoadTeamRoster stores at +$3A for that PlayerList entry; LoadTeamRoster's photo search calls it per team, then adds the forward and defence nibbles",src/bankC5_3000.asm
+$C53136,TeamForwardRange,CODE_C53136,code,"from the code: as TeamGoalieRange, then the high nibble of byte 3 of the block at record + [record+6] (94S GetForwardCount reads the forward count from the high nibble of that byte; PlayerList groups 2 goalies, 14 $8000 forwards, 7 $4000 defence per team); no caller found",src/bankC5_3000.asm
+$C53167,UnpackTeamBonuses,CODE_C53167,code,"from the code; setplayer takes PPBonus from +$436 (byte 1 low), PKBonus from +$434 (byte 1 high, negated) and HmAwBonus from +$43A (byte 2 low, negated) or +$430, the nibbles 94S setplayer reads from the team's bonus bytes; LoadTeamRoster and LoadSeasonRoster call it",src/bankC5_3000.asm
+$C532B5,GetForwardCount,CODE_C532B5,94S+purpose,"94S stats/GetForwardCount: d0 = forwards on team a2 (high nibble of the bonus block's byte 3); 95 reads the count LoadTeamRoster stores from that nibble (or LoadSeasonRoster counts from the $8000 PlayerList flag) at +4, as GetPlayerCount reads +0; no caller found",src/bankC5_3000.asm
+$C53475,EraseScoutName,CODE_C53475,94S+code,"94S hockey/EraseScoutName after its first call: lda #$000B / sta d0, lda #$0002 / sta d1, blankchar to d2, jml eraser; 95 has no ScoutNamePos call; it sits where 94S has it, between the short name routines and PutDigits2 / PushNumber; no caller in either game",src/bankC5_3000.asm
+$C534E8,PushNumberWrap,CODE_C534E8,94S+purpose,"94S middle/PushNumberWrap / PushNumberWidth: the cmp #2 width test, the mod 100 loop, the length word d1 + 2, the four $2020 words, the divide by 10 loop backward; 95 writes digit values (no +$30), keeps no d0; it follows PushNumber and precedes ResetClock as in 94S; the pause score digits call it",src/bankC5_3000.asm
+$C53984,InitGameSprites,CODE_C53984,code,"from the code: ResetSprites, CreateSpriteSharePal $1D, UseSpritePalette HomeTeam * 2 + $81 and VisTeam * 2 + $80, ResetWorkBuf; the game start runs it before StartGame_go (falls into it) and PlayShootout calls it (InitGameSpritesLong)",src/bankC5_3000.asm
+$C53980,InitGameSpritesLong,CODE_C53980,code,"jsr InitGameSprites, rtl",src/bankC5_3000.asm
+$C53A75,PackTeamSecondText,CODE_C53A75,code,"from the code: TeamList, the record's +2 word, UnpackText of the first string, the next byte when bits remain ($0A), UnpackText of the second, then falls into PackShortText; the score box code queues it to VRAM",src/bankC5_3000.asm
+$C53A71,PackTeamSecondTextLong,CODE_C53A71,code,"jsr PackTeamSecondText, rtl",src/bankC5_3000.asm

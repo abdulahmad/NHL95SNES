@@ -984,9 +984,9 @@ updatepwrplay:						; called from other segments
 	bit.w #$4000
 	beq .8
 	ldx.w VisTeam
-.8:									; A = X, call CODE_C53A71, Y = $5AE1, go to QueueVRAMDMALen
+.8:									; A = X, call PackTeamSecondTextLong, Y = $5AE1, go to QueueVRAMDMALen
 	txa
-	jsl.l CODE_C53A71
+	jsl.l PackTeamSecondTextLong
 	ldy.w #$5AE1
 	jml.l QueueVRAMDMALen
 updatepwrplay_clr:					; from updatepwrplay and other segments

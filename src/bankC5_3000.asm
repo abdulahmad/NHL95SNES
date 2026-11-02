@@ -77,7 +77,8 @@ AddRosterPlayer:					; adds player tmp2 to the roster table at tmp1: the count +
 	iny
 	plx
 	rts
-CODE_C53106:						; called from other segments
+TeamGoalieRange:					; team record A: $A5 = the PlayerList index of its first player, $0A = the
+									; index after its goalies (RecordGoalieCount)
 	tax
 	lda.l $C30000,x
 	and.w #$07FF
@@ -86,12 +87,13 @@ CODE_C53106:						; called from other segments
 	sbc.w #$001C
 	sta.b $A5
 	txa
-	jsr.w CODE_C5311F
+	jsr.w RecordGoalieCount
 	clc
 	adc.b $A5
 	sta.b $0A
 	rts
-CODE_C5311F:						; from CODE_C53106, CODE_C53136
+RecordGoalieCount:					; A = the goalie count of the team record at X (A = X on entry): the used
+									; nibbles of the word its +8 offset points at
 	clc
 	adc.l $C30008,x
 	tax
@@ -107,10 +109,12 @@ CODE_C5311F:						; from CODE_C53106, CODE_C53136
 	bne .loop
 	txa
 	rts
-CODE_C53136:						; no caller found (not traced)
+TeamForwardRange:					; team record A: $A5 = the PlayerList index of its first forward (after
+									; the goalies), $0A = the index after its forwards (high nibble); no
+									; caller found
 	pha
 	tax
-	jsr.w CODE_C5311F
+	jsr.w RecordGoalieCount
 	sta.b $A5
 	pla
 	tax
@@ -135,7 +139,9 @@ CODE_C53136:						; no caller found (not traced)
 	adc.b $A5
 	sta.b $0A
 	rts
-CODE_C53167:						; from LoadSeasonRoster and other segments
+UnpackTeamBonuses:					; unpacks the team bonus bytes at X into roster table Y: the nibbles of
+									; bytes 0-2 at +$430 to +$43A (the high one of byte 1 and the low one of
+									; byte 2 negated), byte 4 at +$43C
 	lda.l $C30000,x
 	pha
 	and.w #$000F
@@ -193,7 +199,7 @@ LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season 
 	tax
 	adc.l $C30006,x
 	tax
-	jsr.w CODE_C53167
+	jsr.w UnpackTeamBonuses
 	tyx
 	stz.w $0000,x
 	stz.w $0002,x
@@ -311,7 +317,8 @@ LoadSeasonRoster:					; builds team tmp0's roster table at tmp1 from the season 
 	sbc.w $0004,x
 	sta.w $0006,x
 	rts
-CODE_C532B5:						; no caller found (not traced)
+GetForwardCount:					; d0 = the forward count of team a2 (+4 of its roster table); no caller
+									; found
 	ldx.w #$2DC9
 	lda.b a2
 	beq .1
@@ -548,7 +555,7 @@ FormatRosterShortName:				; builds packed number, first initial and surname text
 	tya
 	ldx.w #$007E
 	rtl
-CODE_C53475:						; no caller found (not traced)
+EraseScoutName:						; an 11 x 2 area of blankchar through eraser (d0, d1, d2); no caller found
 	lda.w #$000B
 	sta.b d0
 	lda.w #$0002
@@ -608,7 +615,8 @@ PushNumber:							; a1 = d0 as a decimal string ending at mesareaEnd: the digits
 	sta.b [a1]
 	plx
 	rtl
-CODE_C534E8:						; called from other segments
+PushNumberWrap:						; a1 = d0 as d1 digits right-aligned after spaces in a buffer behind a
+									; length word d1 + 2 (d0 mod 100 when d1 is 2); the digits are values 0-9
 	phx
 	ldy.b d1
 	lda.b d0
@@ -1222,10 +1230,12 @@ PadTakePosition:					; from PadTakeGoalie, PassPadToTeammate, PadTakeRightDefens
 .3:									; pull X, return
 	plx
 	rtl
-CODE_C53980:						; called from other segments
-	jsr.w CODE_C53984
+InitGameSpritesLong:				; InitGameSprites for long calls
+	jsr.w InitGameSprites
 	rtl
-CODE_C53984:						; from CODE_C53980 and other segments
+InitGameSprites:					; resets the sprites, creates sprite record $1D (with the allocators at
+									; $56 / $45), then the home and away team palettes ($17CD / $17CF) and
+									; palettes $B8 / $B9 (UseSpritePalette)
 	jsl.l ResetSprites
 	stz.b $20
 	stz.b $1E
@@ -1261,11 +1271,11 @@ CODE_C539D7:						; called from other segments
 	lda.w #$5AF7
 	jsl.l Framer
 	lda.w VisTeam
-	jsr.w CODE_C53A75
+	jsr.w PackTeamSecondText
 	ldy.w #$5B18
 	jsl.l QueueVRAMDMALen
 	lda.w HomeTeam
-	jsr.w CODE_C53A75
+	jsr.w PackTeamSecondText
 	ldy.w #$5B1C
 	jsl.l QueueVRAMDMALen
 	lda.w tmscore+2
@@ -1305,10 +1315,11 @@ CODE_C53A29:						; called from other segments
 	jml.l Framer
 DATA8_C53A61:						; not traced: data between routines
 	db $03,$B1,$F3,$F4,$03,$B2,$EE,$E4,$03,$B3,$F2,$E4,$03,$CF,$D4,$A0
-CODE_C53A71:						; called from other segments
-	jsr.w CODE_C53A75
+PackTeamSecondTextLong:				; PackTeamSecondText for long calls
+	jsr.w PackTeamSecondText
 	rtl
-CODE_C53A75:						; from CODE_C539D7, CODE_C53A71
+PackTeamSecondText:					; A = a work buffer with team A's second packed string (A a team number)
+									; as a length-prefixed text (PackShortText), X = its bank
 	asl a
 	tax
 	lda.l $C30000,x

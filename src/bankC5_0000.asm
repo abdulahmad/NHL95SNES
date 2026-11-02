@@ -58,7 +58,7 @@ Restart:							; starts over at the setup screen: the stack reset, StartMenuMusi
 	jsl.l Create_HotCold_Table
 	jsr.w LoadGameRosters
 	jsl.l ScoutingReport
-	jsr.w CODE_C53984
+	jsr.w InitGameSprites
 StartGame_go:						; starts a game: fade out, the game RAM cleared, the games started count +
 									; 1, the penalties flag from the option
 	jsl.l FadeOutWait
