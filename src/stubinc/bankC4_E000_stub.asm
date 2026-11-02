@@ -1,7 +1,68 @@
-;	Segment build for bankC4_E000.asm: sets the mapping and the outside labels it uses, then includes the file on its own for
-;	checking against the ROM (tools/verify_segment.sh bankC4_E000). The org is in the segment file.
+;	Segment build for bankC4_E000.asm: sets the mapping and the outside labels it uses, then includes the file
+;	on its own for checking against the ROM (tools/verify_segment.sh bankC4_E000). The org is in the segment
+;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+LoadSounds = $CF0134
+SoundVolumeDown = $CF039E
+SoundVolumeUp = $CF03D0
+StartSound = $CF040B
+StanleyCupMap = $CEF3E9				; the Stanley Cup map set
+MapTileBlock = $C387D8
+DATA8_C3585C = $C3585C
+DATA8_C35E51 = $C35E51
+ReadMenuPads = $C36C2D
+BuildTeamLines = $C4F01E
+RebuildChangedLines = $C4F2AE
+AnimateSprites = $C5E9C7
+BlueColoursHook = $C04A65
+BuildSpriteOAM = $C5F0D1
+InitTextMap = $C4BAF6
+PrintBoldCentred = $C4BBE5
+PrintBoldCentredStr = $C4BBF1
+PrintBoldLeftStr = $C4BC08
+PrintBoldRightStr = $C4BC1A
+PrintItalicCentred = $C4BCA4
+PrintThinCentred = $C4BCAA
+PrintTitle = $C4BDAE
+SendTextMap = $C4C2AA
+UnpackText = $C4C3BA
+ResetWorkBuf = $C4C530
+RestoreWorkBuf = $C4C536
+MarkWorkBuf = $C4C541
+AllocClearWorkBuf = $C4C547
+AllocWorkBuf = $C4C558
+WaitTransfers = $C4CEDB
+InitAwardScreen = $C4D773
+StartScrollListLong = $C55AB8
+ScrollListDownLong = $C55C54
+BCDTextLong = $C55EC3
+FitNameToWorkBuf = $C55F8A
+ConcatStringsLong = $C56005
+SkipPackedTextLong = $C560A8
+CalcRosterAttribLong = $C571C7
+MapSetToWRAM = $C5881C
+ClearVRAM = $C589B0
+QueueClearVRAM = $C589E4
+ClearRAM7E = $C58B11
+QueueHomePaletteLong = $C5A4B5
+QueueVisPaletteLong = $C5A4DE
+BinToBCDLong = $C5B676
+RefreshSpritesLong = $C5BBBC
+ResetSprites = $C5E50E
+DeleteSprite = $C5E596
+PackOAMHigh = $C5F3DB
+ClearNMIHook = $C08D64
+CreateSprite = $C5E665
+Decompress = $C581E1
+FadeOutWait = $C58A99
+MapSetToVRAM = $C58527
+SetNMIHook = $C08D73
+SetupHDMA = $C58AA5
+DATA8_CF05D4 = $CF05D4
+TiledBackMap = $C087F2
 
 incsrc "../bankC4_E000.asm"

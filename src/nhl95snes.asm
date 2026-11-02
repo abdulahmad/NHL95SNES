@@ -1,8 +1,12 @@
-; NHL '95 for the SNES.
-; The whole cartridge (HiROM, 1 MB), one 4 KB segment after another. A segment starts as an incbin of its ROM bytes and
-; becomes source as it is disassembled; the build checks every byte against the retail ROM.
+; NHL '95 for the SNES. The whole cartridge (HiROM, 1 MB), one 4 KB segment after another. A segment starts as
+; an incbin of its ROM bytes and becomes source as it is disassembled; the build checks every byte against the
+; retail ROM.
 
 hirom
+
+incsrc "inc/snes_regs.asm"
+incsrc "inc/spc_regs.asm"
+incsrc "ram95s.asm"
 
 incsrc "bankC0_0000.asm"
 incsrc "bankC0_1000.asm"

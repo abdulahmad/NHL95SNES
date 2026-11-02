@@ -1,7 +1,110 @@
-;	Segment build for bankC5_0000.asm: sets the mapping and the outside labels it uses, then includes the file on its own for
-;	checking against the ROM (tools/verify_segment.sh bankC5_0000). The org is in the segment file.
+;	Segment build for bankC5_0000.asm: sets the mapping and the outside labels it uses, then includes the file
+;	on its own for checking against the ROM (tools/verify_segment.sh bankC5_0000). The org is in the segment
+;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+InitSoundSystem = $CF0000			; sound routine in bankCF_0000
+StartCrowdSound = $CF038E
+SoundVolumeUp = $CF03D0
+StartSound = $CF040B
+StartSoundVolume = $CF0418			; sound routine in bankCF_0000
+LoadTeamSongs = $CF0427
+PlayTeamSong = $CF048A
+StartMenuMusic = $CF04B6
+setpads = $C38043
+ShowScoringLeaders = $C380D1		; display the three leading scorers with their team and player names
+UpdateBenchCheer = $C382B7
+ReadjoyA = $C3704D
+ReadJoy1 = $C3707D
+GetMenuPadButtons = $C370AC			; copy the menu button word to d1
+InitCrowdExcite = $C3718D			; initialize crowd excitement at a period start except overtime
+updatecrowdf = $C371AB				; decay the crowd hold and sound level
+updatereplay = $C371F9
+vtoa = $C37F6D
+LoadSavedGameOptions = $C36B83		; load and clamp the saved game options
+CheckPAL = $C36C2C
+ReadPads = $C36CBF
+Multi5Init = $C36F3D				; detect the multitap and initialize its pads and status
+ScoutingReport = $C4E12C
+TitleScreen = $C4D193
+CopyrightScreen = $C4D657
+WaitTransfers = $C4CEDB
+IntroSequence = $C4B09F
+DeveloperCredits = $C4B97E
+ClearPenaltyBuffer = $C4818C
+CheckInjury = $C48241
+EndPenaltyShot = $C486C7
+ChkGoalies = $C487EB
+PenaltyManager = $C471F0			; update penalty clocks, new penalties, referee progress and announcements
+updatepwrplay = $C47787
+AddPenalty2 = $C478C3
+updateanim = $C457DD
+checkcoll = $C43FC8
+assinsert = $C43734
+assreplace = $C4373E
+RecordPlayoffDay = $C40296
+GetShifter = $C4075F
+AddGamePlayerStats = $C40A6D
+QueueSavedTextMap = $C5589E
+FreePauseBuffers = $C558CC
+reenergizeteam = $C54AEF
+RestoreBenchEnergy = $C54B1B
+Create_HotCold_Table = $C54E27
+Pausemode_menu = $C54E6D
+LoadTeamLines = $C532C5
+ResetClock = $C53535
+clearTeamStats = $C53574
+restoreteams = $C535BF
+loadTeamStruct = $C53616
+InitScores = $C5362C
+InitGameSprites = $C53984
+setupice = $C52037
+setupice_reset = $C52227
+ClrHor = $C52264
+SetHor = $C5226A
+setvideo = $C52295
+checkwindow = $C529D7
+doinput = $C52AF8
+LoadGameRosters = $C52CC1
+SetScore = $C511B8
+showclockdma = $C51397
+Intermission = $C51523
+PushTime = $C516C2
+clockcont = $C51801
+BitMaskTable = $C04CC7
+BitMaskTable2 = $C09C24
+PlayShootout = $C092B3
+ShootoutWonBy = $C093DD
+ClearTextMap = $C5897B
+ClearVRAM = $C589B0
+GameSetUp = $C58D32
+ReturnToLeagueMenu = $C5ADDC
+FinishSeasonDay = $C5AF07
+UpdateRecords = $C5D5CD
+SimDayScores = $C5DD47
+RecordDayResults = $C5DDF0
+RecordGameResult = $C5DE1F
+SimDayGameStats = $C5DE9B
+SaveDayGameStats = $C5E17C
+AddTeamSeasonStats = $C5E20B
+ShowPleaseWait = $C5E49A
+UpdateDayPlayed = $C5E4D2
+Div16x8U = $C09257
+Div32U = $C09188
+DivX8U = $C0927A
+FadeOutWait = $C58A99
+InitHooks = $C08B37
+Mul16x8HiXS = $C09005
+Mul16x8U = $C08F5E
+Mul16x8XS = $C08F95
+Mul8U = $C08ED9
+QueueVRAMDMALen = $C58A15
+RandomWord = $C08E48
+ScreenOn = $C08E99
+asstab = $C09A24
+forceblack = $C08E93
 
 incsrc "../bankC5_0000.asm"

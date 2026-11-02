@@ -1,7 +1,54 @@
-;	Segment build for bankC5_4000.asm: sets the mapping and the outside labels it uses, then includes the file on its own for
-;	checking against the ROM (tools/verify_segment.sh bankC5_4000). The org is in the segment file.
+;	Segment build for bankC5_4000.asm: sets the mapping and the outside labels it uses, then includes the file
+;	on its own for checking against the ROM (tools/verify_segment.sh bankC5_4000). The org is in the segment
+;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+LoadSounds = $CF0134
+SoundVolumeDown = $CF039E
+SoundVolumeUp = $CF03D0
+StartSound = $CF040B
+randoma8 = $C37EAA
+ReadActiveMenuPad = $C36C49			; select the first enabled pad with held buttons for the menu
+UnpackText2 = $C4C3AE
+AllocWorkBuf2 = $C4C561
+WaitTransfers = $C4CEDB
+CompShoot = $C4981D
+doplayeracc = $C4694F
+SetSPAFromA = $C457B5
+SetSPAUpdate = $C457C7
+skateto = $C45950
+assexit = $C4370C
+assreplace = $C4373E
+TeamSecondText = $C56104
+StringToBoxTiles = $C56262
+PauseMenuInput = $C54F05
+SetPauseTab = $C54F94
+InitPauseScreen = $C5503C
+RestoreGameScreen = $C55513
+AnimateSprites = $C5E9C7
+BuildSpriteOAM = $C5F0D1
+printscores1 = $C5111A
+showclockdma = $C51397
+loadTeamStruct = $C53616
+GetPlayerCount = $C5362E
+CODE_C539D7 = $C539D7
+ResetBench = $C53AE0
+Setplass = $C53C20
+setplayer = $C53C46
+Framer = $C58C36
+TextMapFill = $C58942
+DeleteSprite = $C5E596
+PackOAMHigh = $C5F3DB
+DATA8_C09B3F = $C09B3F
+Div16U = $C091F3
+Div16x8U = $C09257
+FadeOutWait = $C58A99
+Mul16S = $C09035
+Mul16x8XS = $C08F95
+QueueVRAMDMALen = $C58A15
+DATA8_CF05D4 = $CF05D4
 
 incsrc "../bankC5_4000.asm"

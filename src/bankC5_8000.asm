@@ -1,3 +1,2023 @@
-; Segment bankC5_8000: not yet disassembled.
-org $C58000
-	incbin "../Extracted/segments/bankC5_8000.bin"
+; Segment bankC5_8000: the rest of the reset, Decompress and its formats, the LZSS and map set unpackers,
+; the transfer queue helpers, HDMA set-up, then game code. Routines not traced to a job keep their address as
+; a name.
+org $C5800C
+PrintSaveRecordRow:					; save record A on row $6D: the holder's name, then the saves 'by' the
+									; team 'vs' the other team, through PrintRecordCell
+	asl a
+	tax
+	lda.w ListBuf+$20,x
+	sta.b a3
+	tax
+	ldy.w ScratchBuf+$6,x
+	beq PrintSaveRecordRow-3
+	ldx.w #$0010
+	stx.b $CF
+	ldx.w #$0060
+	stx.b $D1
+	adc.w #ScratchBuf+$12
+	tax
+	ldy.b $6D
+	jsr.w PrintRecordCell
+	lda.w #$00F0
+	sta.b $D1
+	ldx.b a3
+	lda.w ScratchBuf+$6,x
+	jsr.w BinToBCD
+	jsr.w BCDText
+	lda.w #$6220
+	sta.w mesarea,x
+	inx
+	inx
+	lda.w #$2079
+	sta.w mesarea,x
+	inx
+	inx
+	phx
+	ldy.b a3
+	lda.w ScratchBuf+$8,y
+	and.w #$00FF
+	tax
+	jsr.w TeamNumSecondText
+	jsl.l UnpackText
+	ply
+	jsr.w AppendMesarea
+	lda.w #$7620
+	sta.w mesarea,y
+	iny
+	iny
+	lda.w #$2073
+	sta.w mesarea,y
+	iny
+	iny
+	phy
+	ldy.b a3
+	lda.w ScratchBuf+$9,y
+	and.w #$00FF
+	tax
+	jsr.w TeamNumSecondText
+	jsl.l UnpackText
+	ply
+	jsr.w AppendMesarea
+	lda.w #$0000
+	sta.w mesarea,y
+	ldx.w #mesarea
+	ldy.b $6D
+PrintRecordCell:					; PrintBoldCentredStr, then the next column ($D1) becomes the current one
+									; ($CF)
+	jsl.l PrintBoldCentredStr
+	lda.b $D1
+	sta.b $CF
+	rts
+AppendMesarea:						; copies the zero ended string at X to mesarea + Y (no zero after it); Y =
+									; its end
+	sep #$20
+.loop:								; loop: if $0000,x = 0 go to .1, mesarea,y = A, X + 1, Y + 1, ...
+	lda.w $0000,x
+	beq .1
+	sta.w mesarea,y
+	inx
+	iny
+	bra .loop
+.1:									; A 16-bit, return
+	rep #$20
+	rts
+PrintHeadRow6:						; prints text X bold, centred between $CF and $D1 on row 6, then $CF = $D1
+	ldy.w #$0006
+	jsl.l PrintBoldCentred
+	lda.b $D1
+	sta.b $CF
+	rts
+TeamNumSecondText:					; X = the second packed string of team A's text list (A a team number;
+									; TeamSecondText takes home / away)
+	asl a
+	tax
+	lda.l $C30000,x
+	tax
+	lda.l $C30002,x
+	tax
+	jmp.w SkipPackedText
+Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks, ...
+	lda.w #$0000
+	sta.l MDMAEN
+	lda.w #$1FFF
+	tcs
+	lda.w #$2100
+	tcd
+	sep #$30
+	lda.b #$80
+	pha
+	plb
+	stz.w NMITIMEN
+	stz.w HTIMEL
+	stz.w $4208
+	stz.w VTIMEL
+	stz.w VTIMEH
+	stz.w MEMSEL
+	sta.b INIDISP&$FF
+	sta.w brightness
+	stz.b TM&$FF
+	stz.b TS&$FF
+	stz.b SETINI&$FF
+	lda.b #$01
+	sta.b BGMODE&$FF
+	stz.b MOSAIC&$FF
+	ldx.b #$03
+	stx.b OBSEL&$FF
+	sta.b VMAIN&$FF
+	stz.b CGWSEL&$FF
+	stz.b CGADSUB&$FF
+	stz.b COLDATA&$FF
+	stz.b W12SEL&$FF
+	stz.b W34SEL&$FF
+	stz.b WOBJSEL&$FF
+	ldx.b #$FF
+	stx.b WH0&$FF
+	stz.b WH1&$FF
+	stx.b WH2&$FF
+	stz.b WH3&$FF
+	stz.b OAMADDL&$FF
+	stz.b OAMADDH&$FF
+	stz.b M7A&$FF
+	stz.b M7A&$FF
+	stz.b M7B&$FF
+	stz.b OAMDATA&$FF
+	stz.b BGMODE&$FF
+	stz.b MOSAIC&$FF
+	ldx.b #$01
+	stx.w JOYSER0
+	stz.w JOYSER0
+	rep #$20
+	lda.w #$8008
+	sta.w DMAP0
+	lda.w #ZeroFillWord
+	sta.w A1T0L
+	ldx.b #ZeroFillWord>>16
+	stx.w A1B0
+	stz.w DAS0L
+	ldx.b #$7F
+	stx.b WMADDH&$FF
+	stz.b WMADDL&$FF
+	ldx.b #$01
+	stx.w MDMAEN
+	stz.b WMADDL&$FF
+	stz.b WMADDM&$FF
+	lda.w #$2000
+	sta.w DAS0L
+	stx.w MDMAEN
+	rep #$10
+	lda.w #$DFC0
+	sta.w DAS0L
+	lda.w #$0001
+	sta.w MDMAEN
+	lda.w #$003F
+	ldx.w #$FFC0
+	txy
+	mvn $7E,$C0
+	jsr.w SetBGMapRegs
+	db $58,$51,$5C,$5C,$02,$43		; inline parameters
+	lda.w #$0000
+	tcd
+	jsl.l InitSaveRAM
+	lda.w #$548B
+	sta.w BlockMove
+	lda.w #$6BAB
+	sta.w BlockMove+4
+	inc.w homepracplayers
+	jml.l Opening
+SetBGMapRegs:						; BG1SC, BG2SC, BG3SC, BG4SC, BG12NBA, ...
+	phb
+	phk
+	plb
+	sep #$30
+	ldy.b #$01
+	lda.b ($02,s),y
+	sta.l BG1SC
+	iny
+	lda.b ($02,s),y
+	sta.l BG2SC
+	iny
+	lda.b ($02,s),y
+	sta.l BG3SC
+	iny
+	lda.b ($02,s),y
+	sta.l BG4SC
+	iny
+	lda.b ($02,s),y
+	sta.l BG12NBA
+	iny
+	lda.b ($02,s),y
+	sta.l BG34NBA
+	rep #$31
+	lda.b $02,s
+	adc.w #$0006
+	sta.b $02,s
+	plb
+	rts
+DecompressUnpackbuf:				; Decompress X:A into unpackbuf
+	ldy.w #unpackbuf
+	sty.b r0
+	ldy.w #unpackbuf>>16
+	sty.b $2E
+Decompress:							; unpack the set at X:A (size word, format word, stream) to [$2C]
+	phb
+	sta.b r1
+	stx.b $32
+	sep #$30
+	lda.b #$54
+	sta.b tmp0
+	sta.b tmp2
+	lda.b #$6B
+	sta.b $A2
+	sta.b $A6
+	lda.b $2E
+	sta.b $A4
+	sta.b $A5
+	sta.b $A0
+	stx.b tmp1
+	rep #$31
+	lda.b r0
+	sta.b $0C
+	ldy.w #$0002
+	lda.b [r1],y
+	tax
+	lda.b r1
+	adc.w #$0003
+	sta.b r1
+	bcc .1
+	inc.b $32
+	clc
+.1:									; jump through DecompressFormats,x
+	jmp (DecompressFormats,x)
+DecompressFormats:					; the format routines, by format word (0, 2, 4, 6, 8)
+	dw UnpackFormat0,UnpackFormat2,UnpackFormat4,UnpackFormat6
+	dw UnpackFormat8
+UnpackFormat0:						; format 0: literal runs and copies from an absolute output offset
+	lda.b [r1]
+	bpl .1
+	xba
+	and.w #$007F
+	beq .2
+	sta.b $0A
+	ldy.w #$0002
+	lda.b [r1],y
+	adc.b $0C
+	tax
+	lda.b r1
+	adc.w #$0003
+	sta.b r1
+	ldy.b r0
+	lda.b $0A
+	jsl.l $0000A3
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	bra UnpackFormat0
+.1:									; A and $007F, $0A = A, A = r1, A + $0002, ...
+	xba
+	and.w #$007F
+	sta.b $0A
+	lda.b r1
+	adc.w #$0002
+	tax
+	adc.b $0A
+	sta.b r1
+	lda.b $0A
+	ldy.b r0
+	jsl.l $00009F
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	bra UnpackFormat0
+.2:									; return
+	plb
+	rtl
+UnpackFormat2:						; format 2: literal runs and copies from up to 10 bits back
+	lda.b [r1]
+	bpl .1
+	xba
+	and.w #$007F
+	beq .2
+	lsr a
+	lsr a
+	sta.b $0A
+	ldy.w #$0001
+	lda.b [r1],y
+	xba
+	and.w #$03FF
+	sta.b $0C
+	sec
+	lda.b r0
+	sbc.b $0C
+	tax
+	clc
+	lda.b r1
+	adc.w #$0002
+	sta.b r1
+	ldy.b r0
+	lda.b $0A
+	jsl.l $0000A3
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	bra UnpackFormat2
+.1:									; A and $007F, $0A = A, A = r1, A + $0002, ...
+	xba
+	and.w #$007F
+	sta.b $0A
+	lda.b r1
+	adc.w #$0002
+	tax
+	adc.b $0A
+	sta.b r1
+	lda.b $0A
+	ldy.b r0
+	jsl.l $00009F
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	bra UnpackFormat2
+.2:									; return
+	plb
+	rtl
+UnpackFormat4:						; format 4: literal runs and copies from up to 11 bits back
+	lda.b [r1]
+	bpl .1
+	xba
+	and.w #$007F
+	lsr a
+	lsr a
+	lsr a
+	beq .2
+	sta.b $0A
+	ldy.w #$0001
+	lda.b [r1],y
+	xba
+	and.w #$07FF
+	sta.b $0C
+	sec
+	lda.b r0
+	sbc.b $0C
+	tax
+	clc
+	lda.b r1
+	adc.w #$0002
+	sta.b r1
+	ldy.b r0
+	lda.b $0A
+	jsl.l $0000A3
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	bra UnpackFormat4
+.1:									; A and $007F, $0A = A, A = r1, A + $0002, ...
+	xba
+	and.w #$007F
+	sta.b $0A
+	lda.b r1
+	adc.w #$0002
+	tax
+	adc.b $0A
+	sta.b r1
+	lda.b $0A
+	ldy.b r0
+	jsl.l $00009F
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	bra UnpackFormat4
+.2:									; return
+	plb
+	rtl
+UnpackFormat6:						; format 6: a flag byte per 8 runs or copies, up to 11 bits back
+	inc.b r1
+	bne .1
+	inc.b $32
+.1:									; A = [r1], A / 2, $0E = A, call UnpackFormat6Step, ...
+	lda.b [r1]
+	lsr a
+	sta.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	lsr.b $0E
+	jsr.w UnpackFormat6Step
+	bra UnpackFormat6
+UnpackFormat6Step:					; one token of unpack format 6 by the flag bit in carry: set, a back
+									; reference (length from the top 5 bits, 11-bit distance); clear, a
+									; literal run (a count byte)
+	bcc .1
+	ldy.w #$0001
+	lda.b [r1],y
+	and.w #$00FF
+	lsr a
+	lsr a
+	lsr a
+	sta.b $0A
+	lda.b [r1],y
+	xba
+	and.w #$07FF
+	sta.b $0C
+	sec
+	lda.b r0
+	sbc.b $0C
+	tax
+	clc
+	lda.b r1
+	adc.w #$0002
+	sta.b r1
+	ldy.b r0
+	lda.b $0A
+	adc.w #$0002
+	jsl.l $0000A3
+	lda.b r0
+	adc.b $0A
+	adc.w #$0003
+	sta.b r0
+	rts
+.1:									; Y = $0001, A = [r1],y, if the result = 0 go to .2, A - 1, ...
+	ldy.w #$0001
+	lda.b [r1],y
+	and.w #$00FF
+	beq .2
+	dec a
+	sta.b $0A
+	lda.b r1
+	adc.w #$0002
+	tax
+	adc.b $0A
+	sta.b r1
+	lda.b $0A
+	ldy.b r0
+	jsl.l $00009F
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	rts
+.2:									; pull A, return
+	pla
+	plb
+	rtl
+UnpackFormat8:						; format 8: a flag byte per 8 runs or copies, up to 12 bits back
+	inc.b r1
+	bne .1
+	inc.b $32
+.1:									; A = [r1], A / 2, $0E = A, call UnpackFormat8Step, ...
+	lda.b [r1]
+	lsr a
+	sta.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	lsr.b $0E
+	jsr.w UnpackFormat8Step
+	bra UnpackFormat8
+UnpackFormat8Step:					; one token of unpack format 8 by the flag bit in carry: set, a back
+									; reference (length from the high nibble, 12-bit distance); clear, a
+									; literal run (a count byte)
+	bcc .1
+	ldy.w #$0001
+	lda.b [r1],y
+	and.w #$00FF
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	sta.b $0A
+	lda.b [r1],y
+	xba
+	and.w #$0FFF
+	sta.b $0C
+	sec
+	lda.b r0
+	sbc.b $0C
+	tax
+	clc
+	lda.b r1
+	adc.w #$0002
+	sta.b r1
+	ldy.b r0
+	lda.b $0A
+	adc.w #$0002
+	jsl.l $0000A3
+	lda.b r0
+	adc.b $0A
+	adc.w #$0003
+	sta.b r0
+	rts
+.1:									; Y = $0001, A = [r1],y, if the result = 0 go to .2, A - 1, ...
+	ldy.w #$0001
+	lda.b [r1],y
+	and.w #$00FF
+	beq .2
+	dec a
+	sta.b $0A
+	lda.b r1
+	adc.w #$0002
+	tax
+	adc.b $0A
+	sta.b r1
+	lda.b $0A
+	ldy.b r0
+	jsl.l $00009F
+	lda.b r0
+	adc.b $0A
+	inc a
+	sta.b r0
+	rts
+.2:									; pull A, return
+	pla
+	plb
+	rtl
+DecompressLZSS:						; LZSS (4 KB ring) from [$2C] to the WRAM port at X:A; a count word first
+	sta.l WMADDL
+	sep #$20
+	txa
+	and.b #$01
+	sta.l WMADDH
+	rep #$20
+DecompressLZSSHere:					; DecompressLZSS's decoder without setting the WRAM address: the stream at
+									; [$2C] continues at the current WMADD
+	ldx.w #$01FE
+.loop:								; loop: ScratchBuf,x = 0, ScratchBuf+$200,x = 0, ...
+	stz.w ScratchBuf,x
+	stz.w ScratchBuf+$200,x
+	stz.w ScratchBuf+$400,x
+	stz.w ScratchBuf+$600,x
+	stz.w ListBuf,x
+	stz.w $404E,x
+	stz.w $4266,x
+	stz.w $4466,x
+	dex
+	dex
+	bpl .loop
+	lda.b [r0]
+	sta.b p1
+	lda.b r0
+	clc
+	adc.w #$0002
+	bcc .1
+	inc.b $2E
+.1:									; r0 = A, $42 = 0, Y = $0FEE
+	sta.b r0
+	stz.b $42
+	ldy.w #$0FEE
+.loop2:								; loop: $42 / 2, A = $42, if the result is not 0 go to .3, A = [r0], ...
+	lsr.b $42
+	lda.b $42
+	and.w #$0100
+	bne .3
+	lda.b [r0]
+	inc.b r0
+	bne .2
+	inc.b $2E
+.2:									; A or $FF00, $42 = A
+	ora.w #$FF00
+	sta.b $42
+.3:									; A = $42, if the result = 0 go to .5, A = [r0], r0 + 1, ...
+	lda.b $42
+	and.w #$0001
+	beq .5
+	lda.b [r0]
+	inc.b r0
+	bne .4
+	inc.b $2E
+.4:									; A 8-bit, WMDATA = A, ScratchBuf,y = A, A 16-bit, ...
+	sep #$20
+	sta.l WMDATA
+	sta.w ScratchBuf,y
+	rep #$20
+	iny
+	tya
+	and.w #$0FFF
+	tay
+	dec.b p1
+	bne .loop2
+	bra .rts
+.5:									; A = [r0], A and $00FF, r0 + 1, if the result is not 0 go to .6, ...
+	lda.b [r0]
+	and.w #$00FF
+	inc.b r0
+	bne .6
+	inc.b $2E
+.6:									; $3E = A, A = [r0], r0 + 1, if the result is not 0 go to .7, ...
+	sta.b $3E
+	lda.b [r0]
+	inc.b r0
+	bne .7
+	inc.b $2E
+.7:									; X = A, A and $00F0, A * 2, A * 2, ...
+	tax
+	and.w #$00F0
+	asl a
+	asl a
+	asl a
+	asl a
+	tsb.b $3E
+	txa
+	and.w #$000F
+	adc.w #$0003
+	sta.b r3
+.loop3:								; loop: A = $3E, A and $0FFF, X = A, A 8-bit, ...
+	lda.b $3E
+	and.w #$0FFF
+	tax
+	sep #$20
+	lda.w ScratchBuf,x
+	sta.l WMDATA
+	sta.w ScratchBuf,y
+	rep #$20
+	iny
+	tya
+	and.w #$0FFF
+	tay
+	dec.b p1
+	beq .rts
+	inc.b $3E
+	dec.b r3
+	bne .loop3
+	jmp.w .loop2
+.rts:								; return
+	rts
+MapSetToVRAM:						; the map set at X:A to VRAM at $9F (map words + $A1), ...
+	jsr.w MapSetToVRAMBody
+	rtl
+MapSetToVRAMBody:					; the work of MapSetToVRAM: the map chunk (packed or not, 32 or 64 wide)
+									; to VRAM at tmp0 with tmp1 added to each word, then the tile and colour
+									; chunks
+	sta.b r1
+	stx.b $32
+	sty.b tmp2
+	sep #$20
+	lda.b #$80
+	sta.l VMAIN
+	rep #$21
+	lda.b r1
+	adc.w #$0005
+	sta.b r0
+	lda.b $32
+	adc.w #$0000
+	sta.b $2E
+	pea.w $0000
+	ldy.w #$0004
+	lda.b [r1],y
+	bit.w #$0001
+	bne .1
+	bit.w #$0002
+	beq .2
+.1:									; continue
+	brk #$00						; a trap: this header form is not handled
+.2:									; if a $0004 bit set go to .3, go to CODE_C586CA
+	bit.w #$0004
+	bne .3
+	jmp.w CODE_C586CA
+.3:									; if $0080 bits clear go to .4, pull X, Y = $0005, A = [r1],y, ...
+	bit.w #$0080
+	beq .4
+	plx
+	ldy.w #$0005
+	lda.b [r1],y
+	inc a
+	inc a
+	pha
+	jsl.l AllocWorkBuf
+	pha
+	inc a
+	inc a
+	ldx.w #$007E
+	jsr.w DecompressLZSS
+	pla
+	sta.b r0
+	lda.w #$007E
+	sta.b $2E
+.4:									; Y = $0005, A = [r1],y, A / 2, X = A, ...
+	ldy.w #$0005
+	lda.b [r1],y
+	lsr a
+	tax
+	ldy.w #$0002
+	lda.b [r1],y
+	and.w #$00FF
+	cmp.w #$0020
+	beq .5
+	cmp.w #$0040
+	beq .6
+	brk #$00						; a trap: this header form is not handled
+.5:									; Y = $0002, VMADDL = tmp0
+	ldy.w #$0002
+	lda.b tmp0
+	sta.l VMADDL
+	clc
+.loop:								; loop: A = [r0],y, A + tmp1, VMDATAL = A, Y + 1, ...
+	lda.b [r0],y
+	adc.b tmp1
+	sta.l VMDATAL
+	iny
+	iny
+	dex
+	bne .loop
+	bra .7
+.6:									; Y = $0003, A = [r1],y, A and $00FF, $A5 = A, ...
+	ldy.w #$0003
+	lda.b [r1],y
+	and.w #$00FF
+	sta.b $A5
+	ldy.w #$0002
+	lda.b tmp0
+.loop2:								; loop: VMADDL = A, X = $001F
+	sta.l VMADDL
+	ldx.w #$001F
+	clc
+.loop3:								; loop: A = [r0],y, A + tmp1, VMDATAL = A, Y + 1, ...
+	lda.b [r0],y
+	adc.b tmp1
+	sta.l VMDATAL
+	iny
+	iny
+	dex
+	bpl .loop3
+	lda.b tmp0
+	adc.w #$0400
+	sta.l VMADDL
+	ldx.w #$001F
+.loop4:								; loop: A = [r0],y, A + tmp1, VMDATAL = A, Y + 1, ...
+	lda.b [r0],y
+	adc.b tmp1
+	sta.l VMDATAL
+	iny
+	iny
+	dex
+	bpl .loop4
+	lda.b tmp0
+	adc.w #$0020
+	sta.b tmp0
+	dec.b $A5
+	bne .loop2
+.7:									; pull A, call FreeWorkBuf, call NextMapSetChunk, Y = $0004, ...
+	pla
+	jsl.l FreeWorkBuf
+	jsr.w NextMapSetChunk
+	ldy.w #$0004
+	lda.b [r1],y
+	bit.w #$0080
+	beq .8
+	ldy.w #$0005
+	lda.b [r1],y
+	and.w #$00FF
+	sta.b $A5
+	ldy.w #$0006
+	lda.b [r1],y
+	and.w #$00FF
+	cmp.b $A5
+	bne .8
+	ldy.w #$0007
+	lda.b [r1],y
+	and.w #$00FF
+	beq .9
+.8:									; continue
+	brk #$00						; a trap: this header form is not handled
+.9:									; A = $0008, Y = A, A + r1, r0 = A, ...
+	clc
+	lda.w #$0008
+	tay
+	adc.b r1
+	sta.b r0
+	lda.b $32
+	adc.w #$0000
+	sta.b $2E
+	lda.b [r1],y
+	sta.b $A5
+	sta.b $0A
+	lsr.b $0A
+	pha
+	jsl.l AllocWorkBuf
+	pha
+	ldx.w #$007E
+	jsr.w DecompressLZSS
+	pla
+	sta.b r0
+	lda.w #$007E
+	sta.b $2E
+	lda.b tmp2
+	sta.l VMADDL
+	ldy.w #$0000
+.loop5:								; loop: VMDATAL = [r0],y, Y + 1, Y + 1, if Y < $A5 go to .loop5, ...
+	lda.b [r0],y
+	sta.l VMDATAL
+	iny
+	iny
+	cpy.b $A5
+	bcc .loop5
+	pla
+	jsl.l FreeWorkBuf
+	jsr.w NextMapSetChunk
+	ldy.w #$0005
+	lda.b [r1],y
+	asl a
+	tax
+	ldy.w #$0003
+	lda.b [r1],y
+	tay
+	lda.b tmp1
+	and.w #$1C00
+	lsr a
+	lsr a
+	xba
+	sta.b tmp1
+	lda.w #$0000
+.loop6:								; loop: A + tmp1, Y - 1, if the result is not 0 go to .loop6, A 8-bit, ...
+	adc.b tmp1
+	dey
+	bne .loop6
+	sep #$20
+	sta.l CGADD
+	ldy.w #$0007
+.loop7:								; loop: CGDATA = [r1],y, Y + 1, X - 1, ...
+	lda.b [r1],y
+	sta.l CGDATA
+	iny
+	dex
+	bne .loop7
+	rep #$31
+	rts
+NextMapSetChunk:					; r1 (bank $32) to the next chunk of the map set: + its length word + 2
+	clc
+	lda.b [r1]
+	adc.b r1
+	bcc .1
+	inc.b $32
+	clc
+.1:									; A + $0002, r1 = A, if carry clear go to .rts, $32 + 1
+	adc.w #$0002
+	sta.b r1
+	bcc .rts
+	inc.b $32
+.rts:								; return
+	rts
+CODE_C586CA:						; from MapSetToVRAMBody
+	bit.w #$0080
+	bne .1
+	brk #$00						; a trap: this header form is not handled
+.1:									; A = $0005, Y = A, A + r1, r0 = A, ...
+	clc
+	lda.w #$0005
+	tay
+	adc.b r1
+	sta.b r0
+	lda.b $32
+	adc.w #$0000
+	sta.b $2E
+	lda.b [r1],y
+	pha
+	jsl.l AllocWorkBuf
+	pha
+	ldx.w #$007E
+	jsr.w DecompressLZSS
+	pla
+	sta.b r0
+	lda.w #$007E
+	sta.b $2E
+	stz.b tmp2
+	lda.w #$0000
+	sta.l VMADDL
+	sep #$20
+	sta.l VMAIN
+	ldy.w #$0003
+	lda.b [r1],y
+	sta.b $A5
+	stz.b $A6
+	ldy.w #$0002
+	lda.b [r1],y
+	sta.b tmp0
+	stz.b $A0
+	ldy.w #$0000
+.loop:								; loop: X = tmp0
+	ldx.b tmp0
+.loop2:								; loop: VMDATAL = [r0],y, Y + 1, X - 1, ...
+	lda.b [r0],y
+	sta.l VMDATAL
+	iny
+	dex
+	bne .loop2
+	rep #$21
+	lda.b tmp2
+	adc.w #$0080
+	sta.b tmp2
+	sta.l VMADDL
+	sep #$20
+	dec.b $A5
+	bne .loop
+	rep #$20
+	pla
+	jsl.l FreeWorkBuf
+	jsr.w NextMapSetChunk
+	ldy.w #$0004
+	lda.b [r1],y
+	bit.w #$0001
+	bne .2
+	bit.w #$0080
+	beq .2
+	ldy.w #$0005
+	lda.b [r1],y
+	and.w #$00FF
+	cmp.w #$0008
+	bne .2
+	ldy.w #$0006
+	lda.b [r1],y
+	and.w #$00FF
+	cmp.w #$0008
+	bne .2
+	ldy.w #$0007
+	lda.b [r1],y
+	and.w #$00FF
+	cmp.w #$0003
+	beq .3
+.2:									; continue
+	brk #$00						; a trap: this header form is not handled
+.3:									; A = $0008, Y = A, A + r1, r0 = A, ...
+	clc
+	lda.w #$0008
+	tay
+	adc.b r1
+	sta.b r0
+	lda.b $32
+	adc.w #$0000
+	sta.b $2E
+	lda.b [r1],y
+	sta.b $A5
+	pha
+	jsl.l AllocWorkBuf
+	pha
+	ldx.w #$007E
+	stx.b $2E
+	jsr.w DecompressLZSS
+	pla
+	sta.b r0
+	lda.w #$007E
+	sta.b $2E
+	lda.w #$0000
+	sta.l VMADDL
+	sep #$20
+	lda.b #$80
+	sta.l VMAIN
+	ldy.w #$0000
+.loop3:								; loop: VMDATAH = [r0],y, Y + 1, if Y < $A5 go to .loop3, A 16-bit, ...
+	lda.b [r0],y
+	sta.l VMDATAH
+	iny
+	cpy.b $A5
+	bcc .loop3
+	rep #$20
+	pla
+	jsl.l FreeWorkBuf
+	jsr.w NextMapSetChunk
+	ldy.w #$0002
+	lda.b [r1],y
+	and.w #$00FF
+	cmp.w #$0001
+	bne .4
+	ldy.w #$0003
+	lda.b [r1],y
+	cmp.w #$0100
+	bne .4
+	ldy.w #$0005
+	lda.b [r1],y
+	cmp.w #$0100
+	beq .5
+.4:									; continue
+	brk #$00						; a trap: this header form is not handled
+.5:									; A 8-bit, CGADD = $00, Y = $0007, X = $00FF
+	sep #$20
+	lda.b #$00
+	sta.l CGADD
+	ldy.w #$0007
+	ldx.w #$00FF
+.loop4:								; loop: CGDATA = [r1],y, Y + 1, CGDATA = [r1],y, Y + 1, ...
+	lda.b [r1],y
+	sta.l CGDATA
+	iny
+	lda.b [r1],y
+	sta.l CGDATA
+	iny
+	dex
+	bpl .loop4
+	rep #$20
+	rts
+MapSetToUnpackbuf:					; MapSetToWRAM with the buffer unpackbuf
+	ldy.w #unpackbuf
+	sty.b r1
+	ldy.w #unpackbuf>>16
+	sty.b $32
+MapSetToWRAM:						; unpacks the map set at X:A into the WRAM buffer at r1 (bank in $32): the
+									; map, the tiles and the colours
+	sta.b r2
+	stx.b $36
+	clc
+	lda.b r2
+	adc.w #$0005
+	sta.b r0
+	bcc .1
+	inx
+.1:									; $2E = X, A = r1, X = $32, call DecompressLZSS, ...
+	stx.b $2E
+	lda.b r1
+	ldx.b $32
+	jsr.w DecompressLZSS
+	jsr.w NextMapSetChunkWRAM
+	clc
+	lda.b r2
+	adc.w #$0008
+	sta.b r0
+	lda.b $36
+	adc.w #$0000
+	sta.b $2E
+	jsr.w DecompressLZSSHere
+	jsr.w NextMapSetChunkWRAM
+	clc
+	lda.b r2
+	adc.w #$0007
+	sta.b r0
+	lda.b $36
+	adc.w #$0000
+	sta.b $2E
+	sec
+	lda.b [r2]
+	sbc.w #$0005
+	tax
+	ldy.w #$0000
+	sep #$20
+.loop:								; loop: WMDATA = [r0],y, Y + 1, X - 1, ...
+	lda.b [r0],y
+	sta.l WMDATA
+	iny
+	dex
+	bne .loop
+	rep #$20
+	rtl
+NextMapSetChunkWRAM:				; r2 (bank $36) to the next chunk of the map set: + its length word + 2
+	clc
+	lda.b [r2]
+	adc.b r2
+	sta.b r2
+	lda.b $36
+	adc.w #$0000
+	sta.b $36
+	clc
+	lda.b r2
+	adc.w #$0002
+	sta.b r2
+	bcc .rts
+	inc.b $36
+.rts:								; return
+	rts
+CODE_C5888F:						; called from other segments
+	sep #$20
+	sta.l WRMPYA
+	rep #$20
+	txa
+	bmi .1
+	sta.l WRMPYB
+	xba
+	tax
+	nop
+	lda.l RDMPYL
+	sta.b $14
+	txa
+	sta.l WRMPYB
+	clc
+	lda.b $15
+	and.w #$00FF
+	adc.l RDMPYL
+	sta.b $15
+	rts
+.1:									; A xor $FFFF, A + 1, WRMPYB = A, X = A, ...
+	eor.w #$FFFF
+	inc a
+	sta.l WRMPYB
+	xba
+	tax
+	nop
+	lda.l RDMPYL
+	sta.b $14
+	txa
+	sta.l WRMPYB
+	clc
+	lda.b $15
+	and.w #$00FF
+	adc.l RDMPYL
+	eor.w #$FF00
+	sta.b $15
+	lda.b $14
+	eor.w #$FFFF
+	inc a
+	bne .2
+	inc.b $16
+.2:									; $14 = A, return
+	sta.b $14
+	rts
+CODE_C588EB:						; called from other segments
+	stx.b $2E
+	sta.b r0
+	stz.b r1
+	sty.b $32
+	stz.b r2
+	stz.b $36
+	ldy.w #$0010
+	lda.b $32
+.loop:								; loop: A * 2, Y + 1, if carry clear go to .loop, $32 = A
+	asl a
+	iny
+	bcc .loop
+	ror a
+	sta.b $32
+.loop2:								; loop: r2 * 2, if $2E < $32 go to .3, if not zero go to .1, ...
+	asl.b r2
+	rol.b $36
+	lda.b $2E
+	cmp.b $32
+	bcc .3
+	bne .1
+	lda.b r0
+	cmp.b r1
+	bcs .2
+	lsr.b $32
+	ror.b r1
+	dey
+	bne .loop2
+	lda.b r2
+	ldx.b $36
+	ldy.b r0
+	rts
+.1:									; A = r0
+	lda.b r0
+.2:									; A - r1, r0 = A, A = $2E, A - $32, ...
+	sbc.b r1
+	sta.b r0
+	lda.b $2E
+	sbc.b $32
+	sta.b $2E
+	lda.w #$0001
+	tsb.b r2
+.3:									; $32 / 2, Y - 1, if the result is not 0 go to .loop2, A = r2, ...
+	lsr.b $32
+	ror.b r1
+	dey
+	bne .loop2
+	lda.b r2
+	ldx.b $36
+	ldy.b r0
+	rts
+TextMapFill:						; the blank text map entry (tile $DF, attribute byte $22): ClearTextMap's
+									; DMA source
+	db $DF,$22
+ClearTextMapTop:					; ClearTextMap for the map's top half ($200 words)
+	phx
+	dec.b QueueBusy
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	pea.w $0200
+	pea.w $0000
+	pea.w $5800
+	pea.w $1808
+	pea.w TextMapFill>>16
+	pea.w TextMapFill&$FFFF
+	pea.w $0200
+	pea.w $0080
+	pea.w $5800
+	pea.w $1908
+	pea.w TextMapFill>>16
+	pea.w (TextMapFill+1)&$FFFF
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	stz.b QueueBusy
+	plx
+	rtl
+ClearTextMap:						; fills the text map (VRAM $5800, $400 words) with the blank entry
+									; TextMapFill, two queued fixed-source DMAs
+	dec.b QueueBusy
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	pea.w $0400
+	pea.w $0000
+	pea.w $5800
+	pea.w $1808
+	pea.w TextMapFill>>16
+	pea.w TextMapFill&$FFFF
+	pea.w $0400
+	pea.w $0080
+	pea.w $5800
+	pea.w $1908
+	pea.w TextMapFill>>16
+	pea.w (TextMapFill+1)&$FFFF
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	stz.b QueueBusy
+	rtl
+ClearVRAM:							; QueueClearVRAM, then WaitTransfers
+	dec.b QueueBusy
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	pea.w $0400
+	pea.w $0000
+	phy
+	pea.w $1808
+	pea.w ZeroFillWord>>16
+	pea.w ZeroFillWord
+	pea.w $0400
+	pea.w $0080
+	phy
+	pea.w $1908
+	pea.w ZeroFillWord>>16
+	pea.w ZeroFillWord
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	stz.b QueueBusy
+	jml.l WaitTransfers
+QueueClearVRAM:						; queues a clear of $400 words of VRAM at Y (two DMAs from ZeroFillWord:
+									; the low bytes, then the high)
+	dec.b QueueBusy
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	pea.w $0400
+	pea.w $0000
+	phy
+	pea.w $1808
+	pea.w ZeroFillWord>>16
+	pea.w ZeroFillWord
+	pea.w $0400
+	pea.w $0080
+	phy
+	pea.w $1908
+	pea.w ZeroFillWord>>16
+	pea.w ZeroFillWord
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	stz.b QueueBusy
+	rtl
+QueueVRAMDMALen:					; queue a DMA to VRAM at Y of the bytes at X:A after their length byte
+	sta.w r0
+	stx.w $002E
+	dec.b QueueBusy
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	lda.b [r0]
+	and.w #$00FF
+	pha
+	pea.w $0000
+	phy
+	pea.w $1800
+	pei ($2E)
+	lda.b r0
+	inc a
+	pha
+	lda.b $02
+	tsx
+	tcs
+	stx.b $02
+	stz.b QueueBusy
+	rtl
+CODE_C58A3F:						; called from other segments
+	lda.w #$0003
+	sta.l BGMODE
+	lda.w #$0011
+	sta.l TM
+	jsr.w SetBGMapRegs
+	db $58,$50,$5C,$5C,$30,$00		; inline parameters
+	ldy.w #$5800
+	jsr.w ClearVRAM
+	ldy.w #$0000
+	jsr.w ClearVRAM
+	rtl
+ZeroFillWord:						; the zero word the VRAM clears DMA from (fixed source)
+	db $00,$00
+DecompressToVRAM:					; Decompress A:X into a $1000 byte heap block and queue it to VRAM at Y
+	phy
+	tay
+	lda.w #$1000
+	jsl.l AllocWorkBuf
+	pha
+	sta.b r0
+	lda.w #$007E
+	sta.b $2E
+	tya
+	jsl.l Decompress
+	ply
+	plx
+	stx.b tmp0
+	dec.b QueueBusy
+	lda.b $00
+	tsx
+	tcs
+	stx.b $00
+	pea.w $1000
+	pei ($9F)
+	pea.w $007E
+	phy
+	lda.b $00
+	tsx
+	tcs
+	stx.b $00
+	stz.b QueueBusy
+	rtl
+FadeOutWait:						; fadestep = $FFFF, then wait until the screen is black (94S FadeOut, ...
+	lda.w #$FFFF
+	sta.w fadestep
+.loop:								; loop: if brightness-1 >= 0 go to .loop, return
+	lda.w brightness-1
+	bpl .loop
+	rtl
+SetupHDMA:							; HDMA channel X from the 6 bytes after the jsl: DMAP, BBAD, source, ...
+	phb
+	sep #$20
+	lda.b $04,s
+	pha
+	plb
+	ldy.w #$0001
+	rep #$21
+	lda.b ($02,s),y
+	sta.l DMAP0,x
+	iny
+	iny
+	lda.b ($02,s),y
+	sta.l A1T0L,x
+	iny
+	iny
+	lda.b ($02,s),y
+	sta.l A1B0,x
+	ldy.w #$0006
+	lda.b ($02,s),y
+	sta.l $004307,x
+	lda.b $02,s
+	adc.w #$0006
+	sta.b $02,s
+	plb
+	rtl
+DivAByX:							; A = A / X (X 8-bit) by the divider registers, X = the remainder
+	sta.l WRDIVL
+	sep #$20
+	txa
+	sta.l WRDIVB
+	rep #$20
+	pha
+	xba
+	pla
+	lda.l RDMPYL
+	tax
+	lda.l RDDIVL
+	rtl
+CopyToRAM7E:						; copies Y bytes from bank X, address A, to the bank $7E address pushed
+									; before the call (BlockMove)
+	pha
+	txa
+	xba
+	ora.w #$007E
+	sta.w BlockMove+2
+	tyx
+	lda.b $06,s
+	tay
+	txa
+	dec a
+	plx
+	jsl.l BlockMove
+	lda.b $02,s
+	sta.b $04,s
+	lda.b $01,s
+	sta.b $03,s
+	pla
+	rtl
+ClearRAM7E:							; clears Y bytes at A in bank $7E: a zero, then a block move through the
+									; RAM routine
+	phy
+	tax
+	inc a
+	tay
+	sep #$20
+	lda.b #$00
+	sta.l $7E0000,x
+	rep #$20
+	lda.w #$7E7E
+	sta.w BlockMove+2
+	pla
+	dec a
+	jml.l BlockMove
+BlackBackdrop:						; SetBackdropColour with colour 0 (black)
+	lda.w #$0000
+SetBackdropColour:					; writes colour A to CGRAM entry 0 (the backdrop), with QueueBusy set
+									; around it
+	inc.b QueueBusy
+	pha
+	sep #$20
+	lda.b #$00
+	sta.l CGADD
+	pla
+	sta.l CGDATA
+	pla
+	sta.l CGDATA
+	rep #$20
+	dec.b QueueBusy
+	rtl
+SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE 7, M7SEL, the
+									; mode 7 scroll and matrix registers, OBSEL, TM
+	jsl.l FadeOutWait
+	jsl.l WaitTransfers
+	jsl.l ResetWorkBuf
+	jsl.l ResetSprites
+	pea.w $7E80
+	plb
+	sep #$20
+	lda.b #$07
+	sta.w BGMODE
+	lda.b #$80
+	sta.w M7SEL
+	sta.l introM7SEL
+	lda.b #$03
+	sta.w OBSEL
+	lda.b #$17
+	sta.w TM
+	stz.w $210D
+	stz.w $210D
+	lda.b #$FF
+	sta.w $210E
+	sta.w $210E
+	stz.w M7B
+	stz.w M7B
+	stz.w M7C
+	stz.w M7C
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$09
+	sta.w DMAP0
+	lda.b #$18
+	sta.w $4301
+	lda.b #$00
+	sta.w A1B0
+	ldx.w #$1900
+	stx.w A1T0L
+	lda.b #$01
+	sta.w MDMAEN
+	rep #$20
+	plb
+	lda.w #$0100
+	sta.w introM7Scale
+	rtl
+CopyFlipString2:					; copies the length-led string at X:A into a new second work buffer
+									; (AllocWorkBuf2), bit 7 of each byte flipped and a zero after; X = the
+									; copy
+	sta.b r0
+	stx.b $2E
+	lda.b [r0]
+	and.w #$00FF
+	sta.b tmp0
+	inc a
+	jsl.l AllocWorkBuf2
+	pha
+	tax
+	ldy.w #$0001
+	sep #$20
+.loop:								; loop: A = [r0],y, A xor $80, $0000,x = A, Y + 1, ...
+	lda.b [r0],y
+	eor.b #$80
+	sta.w $0000,x
+	iny
+	inx
+	dec.b tmp0
+	bne .loop
+	stz.w $0000,x
+	rep #$20
+	plx
+	rtl
+SetupMode1Screen:					; a mode 1 screen: the work buffer reset, the BG map registers
+									; (SetBGMapRegs), BGMODE 1, TM, the BG scrolls
+	jsl.l WaitTransfers
+	jsl.l ResetWorkBuf
+	jsl.l ResetSprites
+	jsr.w SetBGMapRegs
+	db $58,$51,$5C,$5C,$02,$43		; inline parameters
+	pea.w $7E80
+	plb
+	sep #$20
+	lda.b #$01
+	sta.w BGMODE
+	lda.b #$03
+	sta.w TM
+	stz.w $210D
+	stz.w $210D
+	stz.w $210F
+	stz.w $210F
+	lda.b #$FF
+	sta.w $210E
+	sta.w $210E
+	sta.w $2110
+	sta.w $2110
+	rep #$20
+	plb
+	stz.w BG1HScroll
+	stz.w BG2HScroll
+	lda.w #$FFFF
+	sta.w BG1VScroll
+	sta.w BG2VScroll
+	rtl
+Framer:								; draws a frame X tiles wide and Y high (its corners, edges and inside) to
+									; the VRAM map at A, queued row by row
+	sty.b tmp2
+	stx.b tmp1
+	sta.b tmp0
+	txa
+	dec a
+	dec a
+	asl a
+	tax
+	lda.w #$22FC
+	sta.w ScratchBuf+$2,x
+	lda.w #$22DE
+.loop:								; loop: ScratchBuf,x = A, X - 1, X - 1, ...
+	sta.w ScratchBuf,x
+	dex
+	dex
+	bne .loop
+	lda.w #$22FB
+	sta.w ScratchBuf,x
+	lda.b tmp1
+	asl a
+	tax
+	lda.w #$22FD
+	sta.w ScratchBuf,x
+	lda.w #$22A0
+	ldy.b tmp1
+	dey
+.loop2:								; loop: ScratchBuf+$2,x = A, X + 1, X + 1, Y - 1, ...
+	sta.w ScratchBuf+$2,x
+	inx
+	inx
+	dey
+	bne .loop2
+	lda.w #$22FE
+	sta.w ScratchBuf,x
+	lda.w #$22FF
+	sta.w ScratchBuf+$2,x
+	lda.w #$22E0
+	ldy.b tmp1
+	dey
+.loop3:								; loop: ScratchBuf+$4,x = A, X + 1, X + 1, Y - 1, ...
+	sta.w ScratchBuf+$4,x
+	inx
+	inx
+	dey
+	bne .loop3
+	lda.w #$229F
+	sta.w ScratchBuf+$2,x
+	dec.b QueueBusy
+	lda.b $00
+	tsx
+	tcs
+	stx.b $00
+	lda.b tmp1
+	asl a
+	sta.b tmp1
+	pha
+	lda.b tmp0
+	pha
+	adc.w #$0020
+	tay
+	pea.w $007E
+	lda.w #ScratchBuf
+	pha
+	adc.b tmp1
+	tax
+	tya
+.loop4:								; loop: push A, A + $0020, push X, tmp2 - 1, ...
+	pei ($A1)
+	pha
+	adc.w #$0020
+	pea.w $007E
+	phx
+	dec.b tmp2
+	bne .loop4
+	pla
+	adc.b tmp1
+	pha
+	lda.b $00
+	tsx
+	tcs
+	stx.b $00
+	stz.b QueueBusy
+	jml.l WaitTransfers
+RandomBelowA:						; A = a random number below A: the next byte of its generator divided by
+									; A, the remainder
+	sep #$20
+	pha
+	lda.w RandomState+3
+	adc.b #$12
+	asl a
+	asl a
+	asl a
+	eor.w RandomState+3
+	asl a
+	asl a
+	rol.w RandomState
+	rol.w RandomState+1
+	rol.w RandomState+2
+	rol.w RandomState+3
+	rep #$20
+	lda.w RandomState+1
+	and.w #$00FF
+	sta.l WRDIVL
+	sep #$20
+	pla
+	sta.l WRDIVB
+	rep #$20
+	pha
+	pla
+	lda.l RDMPYL
+	rtl
+SeedRandom:							; seeds RandomBelowA's generator (RandomState) from the latched H / V
+									; counters, until it is not zero
+	lda.l SLHV
+	sep #$20
+	lda.l OPHCT
+	sta.w RandomState
+	lda.l OPHCT
+	sta.w RandomState+1
+	lda.l OPVCT
+	sta.w RandomState+2
+	lda.l OPVCT
+	sta.w RandomState+3
+	rep #$20
+	lda.w RandomState
+	ora.w RandomState+2
+	beq SeedRandom
+	rtl
+GameSetUp:							; the game setup screen (setoptions builds it): up / down pick a line,
+									; left / right change it, start / select run the play mode (DATA8_C58DD0);
+									; 360 frames with no key start the demo (StartDemo)
+	jsr.w setoptions
+	lda.w DemoMode
+	beq .1
+	jsl.l LoadSavedGameOptions
+.1:									; fadestep = 0, DemoMode = 0
+	stz.w fadestep
+	stz.w DemoMode
+.reenter:							; the idle count cleared, ...
+									; after Start New
+	stz.w SetupIdleTime
+.loop:								; loop: TransfersReady + 1
+	inc.w TransfersReady
+.loop2:								; loop: if TransfersReady is not 0 go to .loop2, call ReadMenuPads, ...
+	lda.w TransfersReady
+	bne .loop2
+	jsl.l ReadMenuPads
+	inc.b $26
+	ldx.b $99
+	jsr (DATA8_C58DF0,x)
+	jsl.l AnimateSprites
+	lda.w #$1D8F
+	sta.b $28
+	lda.w #$1E00
+	sta.b $2A
+	jsl.l BuildSpriteOAM
+	jsl.l PackOAMHigh
+	lda.b $99
+	bne .loop
+	lda.w repeatdelayframes
+	beq .2
+	cmp.w #$0014
+	bcc .loop
+	lda.w #$000F
+	sta.w repeatdelayframes
+	bra .3
+.2:									; SetupIdleTime = 0
+	stz.w SetupIdleTime
+.3:									; A = padchangeany, if $0800 bits clear go to .4, call SetupLineUp, ...
+	lda.w padchangeany
+	bit.w #$0800
+	beq .4
+	jsr.w SetupLineUp
+	bra .8
+.4:									; if $0400 bits clear go to .5, call SetupLineDown, go to .8
+	bit.w #$0400
+	beq .5
+	jsr.w SetupLineDown
+	bra .8
+.5:									; if $0200 bits clear go to .6, call PrevOptionValue, go to .8
+	bit.w #$0200
+	beq .6
+	jsr.w PrevOptionValue
+	bra .8
+.6:									; if $0100 bits clear go to .7, call NextOptionValue, go to .8
+	bit.w #$0100
+	beq .7
+	jsr.w NextOptionValue
+	bra .8
+.7:									; if $3000 bits clear go to .8, A = OptPlayMode, A * 2, X = A, ...
+	bit.w #$3000
+	beq .8
+	lda.w OptPlayMode
+	asl a
+	tax
+	jmp (DATA8_C58DD0,x)
+.8:									; A = SetupIdleTime, A + 1, if A >= $0168 go to StartDemo, ...
+	lda.w SetupIdleTime
+	inc a
+	cmp.w #$0168
+	bcs StartDemo
+	sta.w SetupIdleTime
+	jmp.w .loop
+DATA8_C58DD0:						; the routine of each play mode, run on start in the setup screen:
+									; Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player,
+									; then an eighth
+	dw StartExhibition,StartPractice,StartSeason,TradePlayers
+	dw SignFreeAgents,ReleasePlayers,CreatePlayer,StartNewSeason
+StartDemo:							; starts the demo: the demo flag set, user records off, play mode
+									; Exhibition, then the controller setup (StartExhibition)
+	lda.w #$0001
+	sta.l $7E23BA
+	stz.w OptUserRec
+	stz.w OptPlayMode
+	jmp.w StartExhibition
+DATA8_C58DF0:						; jump table: the routine for each index
+	dw UpdateTeamLogos,SetupScrollUp,SetupScrollDown
+SetupScrollUp:						; a frame of the setup list's scroll after SetupLineUp ($99 = 2): the band
+									; scroll words move a line over 16 frames, then $99 = 0
+	lda.w BG3ScrollHDMA+$6
+	and.w #$00FF
+	cmp.w #$0010
+	bne .1
+	lda.w BandScroll+$6
+	dec a
+	sta.w BandScroll+$8
+	lda.w BandScroll+$4
+	dec a
+	sta.w BandScroll+$6
+	lda.w BandScroll+$2
+	dec a
+	sta.w BandScroll+$4
+	lda.w BandScroll
+	dec a
+	sta.w BandScroll+$2
+	clc
+	lda.w BandScroll+$10
+	adc.w #$004F
+	sta.w BandScroll
+	sep #$20
+	lda.b #$01
+	sta.w BG3ScrollHDMA+$6
+	lda.b #$10
+	sta.w BG3ScrollHDMA+$F
+	dec a
+	sta.w BG3ScrollHDMA+$12
+	rep #$20
+	rts
+.1:									; BandScroll - 1, BandScroll+$2 - 1, BandScroll+$4 - 1, ...
+	dec.w BandScroll
+	dec.w BandScroll+$2
+	dec.w BandScroll+$4
+	dec.w BandScroll+$6
+	dec.w BandScroll+$8
+	sep #$20
+	inc a
+	sta.w BG3ScrollHDMA+$6
+	lda.w BG3ScrollHDMA+$12
+	dec a
+	bne .2
+	lda.b #$0F
+	sta.w BG3ScrollHDMA+$F
+	rep #$20
+	lda.w BandScroll+$8
+	sta.w BandScroll+$10
+	lda.w BandScroll+$6
+	sta.w BandScroll+$8
+	stz.b $99
+	rts
+.2:									; BG3ScrollHDMA+$12 = A, A 16-bit, return
+	sta.w BG3ScrollHDMA+$12
+	rep #$20
+	rts
+SetupScrollDown:					; a frame of the setup list's scroll after SetupLineDown ($99 = 4): the
+									; band scroll words move a line over 16 frames, then $99 = 0
+	sep #$20
+	lda.w BG3ScrollHDMA+$6
+	dec a
+	beq .3
+	sta.w BG3ScrollHDMA+$6
+	lda.b #$10
+	cmp.w BG3ScrollHDMA+$F
+	beq .1
+	sta.w BG3ScrollHDMA+$F
+	bra .2
+.1:									; BG3ScrollHDMA+$12 + 1
+	inc.w BG3ScrollHDMA+$12
+.2:									; A 16-bit, A = BandScroll+$10, A + 1, BandScroll+$8 = A, ...
+	rep #$20
+	lda.w BandScroll+$10
+	inc a
+	sta.w BandScroll+$8
+	sta.w BandScroll+$10
+	inc.w BandScroll
+	inc.w BandScroll+$2
+	inc.w BandScroll+$4
+	inc.w BandScroll+$6
+	rts
+.3:									; BG3ScrollHDMA+$6 = $10, A - 1, BG3ScrollHDMA+$F = A, ...
+	lda.b #$10
+	sta.w BG3ScrollHDMA+$6
+	dec a
+	sta.w BG3ScrollHDMA+$F
+	lda.b #$01
+	sta.w BG3ScrollHDMA+$12
+	rep #$20
+	sec
+	lda.w BandScroll
+	sbc.w #$004F
+	sta.w BandScroll+$10
+	lda.w BandScroll+$2
+	inc a
+	sta.w BandScroll
+	lda.w BandScroll+$4
+	inc a
+	sta.w BandScroll+$2
+	lda.w BandScroll+$6
+	inc a
+	sta.w BandScroll+$4
+	lda.w BandScroll+$8
+	inc a
+	sta.w BandScroll+$6
+	sta.w BandScroll+$8
+	stz.b $99
+	rts
+SetupLineUp:						; setup screen up: the line above (d6 - 1); at the top row the list
+									; scrolls (SetupScrollUp) and the new line is drawn, else the cursor moves
+									; up a row
+	lda.b d6
+	beq .rts
+	dec a
+	sta.b d6
+	bne .1
+	ldx.b a4
+	lda.b $22,x
+	and.w #$FFFE
+	sta.b $22,x
+.1:									; call SetupLinePalette3, A = SetupLineRow, A - 1, A - 1, ...
+	jsr.w SetupLinePalette3
+	lda.w SetupLineRow
+	dec a
+	dec a
+	cmp.w #$0010
+	bcs .2
+	lda.w #$0018
+.2:									; SetupLineRow = A, X = a0, A = $08,x, A - $0010, ...
+	sta.w SetupLineRow
+	sec
+	ldx.b a0
+	lda.b $08,x
+	sbc.w #$0010
+	cmp.w #$008C
+	bcs .3
+	ldx.b $75
+	lda.b $22,x
+	ora.w #$0001
+	sta.b $22,x
+	lda.w #$0002
+	sta.b $99
+	bra DrawSetupLine
+.3:									; $08,x = A, call SetupLinePalette0
+	sta.b $08,x
+	jsr.w SetupLinePalette0
+.rts:								; return
+	rts
+SetupLineDown:						; setup screen down: the line below (d6 + 1, below the line count $69); at
+									; the bottom row the list scrolls (SetupScrollDown) and the new line is
+									; drawn, else the cursor moves down a row
+	lda.b d6
+	inc a
+	cmp.b $69
+	bcc .1
+	jmp.w SetupLineDownReturn
+.1:									; d6 = A, A + 1, if A < $69 go to .2, if A < $0005 go to .2, ...
+	sta.b d6
+	inc a
+	cmp.b $69
+	bcc .2
+	cmp.w #$0005
+	bcc .2
+	ldx.b $75
+	lda.b $22,x
+	and.w #$FFFE
+	sta.b $22,x
+.2:									; call SetupLinePalette3, A = SetupLineRow, A + 1, A + 1, ...
+	jsr.w SetupLinePalette3
+	lda.w SetupLineRow
+	inc a
+	inc a
+	cmp.w #$001A
+	bcc .3
+	lda.w #$0010
+.3:									; SetupLineRow = A, X = a0, A = $08,x, A + $0010, ...
+	sta.w SetupLineRow
+	clc
+	ldx.b a0
+	lda.b $08,x
+	adc.w #$0010
+	cmp.w #$00CC
+	bcc CODE_C58FD2
+	ldx.b a4
+	lda.b $22,x
+	ora.w #$0001
+	sta.b $22,x
+	lda.w #$0004
+	sta.b $99
+DrawSetupLine:						; draws setup line d6 on its text row (SetupLineRow): the title at the
+									; left and the setting centred (right aligned in play mode 7), then
+									; SendTextMap
+	lda.w SetupLineRow
+	xba
+	lsr a
+	lsr a
+	adc.b $D3
+	ldy.w #$0080
+	jsl.l ClearRAM7E
+	lda.w #$0010
+	sta.b $CF
+	lda.b d6
+	asl a
+	asl a
+	asl a
+	adc.b a3
+	tax
+	phx
+	lda.l $C30002,x
+	tax
+	ldy.w SetupLineRow
+	jsl.l PrintItalicLeft
+	plx
+	lda.w #$0094
+	sta.b $CF
+	lda.l $C30006,x
+	tay
+	lda.w $0000,y
+	inc a
+	asl a
+	adc.l $C30004,x
+	tax
+	lda.l $C30000,x
+	tax
+	ldy.w SetupLineRow
+	lda.w OptPlayMode
+	cmp.w #$0007
+	bne .1
+	jsl.l PrintItalicRight
+	bra .2
+.1:									; call PrintItalicCentred
+	jsl.l PrintItalicCentred
+.2:									; call SendTextMap, return
+	jsl.l SendTextMap
+	rts
+CODE_C58FD2:						; from SetupLineDown
+	sta.b $08,x
+	jsr.w SetupLinePalette0
+SetupLineDownReturn:				; the shared rts of SetupLineDown
+	rts

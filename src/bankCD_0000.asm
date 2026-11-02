@@ -1,3 +1,3 @@
-; Segment bankCD_0000: not yet disassembled.
+; Segment bankCD_0000: the rest of the IceRinkTiles stream.
 org $CD0000
-	incbin "../Extracted/segments/bankCD_0000.bin"
+	incbin "../Extracted/segments/bankCD_0000.bin":$0..$1000

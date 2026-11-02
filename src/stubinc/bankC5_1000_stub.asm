@@ -1,7 +1,58 @@
-;	Segment build for bankC5_1000.asm: sets the mapping and the outside labels it uses, then includes the file on its own for
-;	checking against the ROM (tools/verify_segment.sh bankC5_1000). The org is in the segment file.
+;	Segment build for bankC5_1000.asm: sets the mapping and the outside labels it uses, then includes the file
+;	on its own for checking against the ROM (tools/verify_segment.sh bankC5_1000). The org is in the segment
+;	file.
 hirom
+incsrc "../inc/snes_regs.asm"
+incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
+SoundVolumeUp = $CF03D0
+StartSound = $CF040B
+FillPlayerAssignments = $C38824		; fill the player assignment ring with d0 and advance X
+ReadjoyA = $C3704D
+randoma8 = $C37EAA
+randomd0 = $C37EBF					; replace d0 with a random number below its current value
+ReadPads = $C36CBF
+CopyString2 = $C4C47E
+AllocWorkBuf2 = $C4C561
+pucknorm_move = $C493E1
+ClearPenaltyBuffer = $C4818C
+a2touchpuck = $C4843B
+ReturnGoalies = $C48840
+Stop4Pen = $C47323
+SetSPAFromA = $C457B5
+assreplace = $C4373E
+GetShifter = $C4075F
+AddIntermissionGoals = $C40A02
+StringToBoxTiles = $C56262
+QueueSavedTextMap = $C5589E
+FreePauseBuffers = $C558CC
+BCDText = $C55EC7
+FitName = $C55F22
+SetLCmode = $C5404A
+SetLCmode2 = $C54070
+setpersonel = $C541D3
+CompLine = $C547CB
+CloseLCBoxes = $C54BAF
+lcfound = $C54DA4
+SetupTeamForIntermission = $C54DDF
+Pausemode_menu = $C54E6D
+PadTakeGoalie = $C538FE
+QueueFaceoffBox = $C52008
+ClrHor = $C52264
+freezewindow = $C52284
+setvideo = $C52295
+CODE_C528D3 = $C528D3
+eraser = $C528D4
+clockcont_0 = $C50A14
+PeriodOver = $C50ADD
+ClearTextMapTop = $C58944
+Framer = $C58C36
+BinToBCD = $C5B67A
+DeleteSprite = $C5E596
+DATA8_C09C04 = $C09C04
+Div16x8U = $C09257
+QueueVRAMDMALen = $C58A15
+RandomWord = $C08E48
 
 incsrc "../bankC5_1000.asm"

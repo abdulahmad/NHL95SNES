@@ -1,0 +1,178 @@
+#!/usr/bin/env python3
+"""Quick recursive-descent 65816 disassembler for NHL '95 SNES (HiROM, FastROM, banks $C0-$CF, 1 MB).
+Ported from NHL94SNES tools/disasm65816.py (LoROM). HiROM mapping: file offset = (bank & $3F) * $10000 + address, for
+banks $C0-$FF and $40-$7D (whole bank) and banks $00-$3F / $80-$BF (upper half $8000-$FFFF only; the lower half is RAM and I/O).
+Decoding starts at the native and emulation vectors (COP, BRK, NMI, IRQ, RESET; they run in bank $00) and follows branches,
+jsr/jmp (in the bank the code runs in), jsl/jml and brl. Every instruction keeps the bank it runs in, so a jsr from code that
+runs in the $80 mirror only follows targets at $8000-$FFFF. Labels and comments show that run address; the org is the $C0-$CF one.
+Tracks M/X through REP/SEP (and PLP heuristically: state after PLP = state at the matching PHP if known).
+Unreached bytes become db (TODO for segment agents).
+--entry ADDR:M:X (M and X are 8 or 16) adds a decode start, e.g. for unreached code after an rtl; repeat it as needed.
+  ADDR is the run address (for example 80A123 for code that runs in the FastROM mirror, C01234 for code in the lower half).
+--continue: after rtl/rts/rti/jmp/jml/bra/brl, also decode the following bytes (same M/X) when they look like code: a trial decode
+reaches a return or jump within 64 bytes without brk/cop/stp/wdm or bytes already decoded. Check the result: it is a heuristic.
+--codemap FILE: also decode the instruction starts listed in FILE (lines "ADDR LEN", SNES address in hex, byte count) where the
+ROM bytes agree. Instructions seeded only from FILE have unknown M/X (shown as M=? X=?); their operand sizes come from the lengths.
+Also writes xref.txt to outdir: every long (24-bit) operand of a decoded instruction that points into the ROM, with the
+instruction that uses it, sorted by ROM offset (to find who reads a data segment).
+Usage: python3 tools/disasm65816.py <the ROM> output/quickpass [--entry 80A123:16:16 ...] [--continue] [--codemap FILE]
+Writes one starting-text file per 4 KB segment (bankXX_YYYY.asm) to outdir. Never point outdir at src/: copy the lines of your
+segment from outdir into src/bankXX_YYYY.asm by hand, replacing its incbin.
+"""
+import sys, os, collections
+M = {}
+# mode names: imp, immM, immX, imm8, dp, dpx, dpy, idp, idx, idy, idl, idly, sr, sry, abs, abx, aby, abl, alx, ind, iax, ial, rel, rell, bm, acc
+grp = {'ora':0x00,'and':0x20,'eor':0x40,'adc':0x60,'sta':0x80,'lda':0xA0,'cmp':0xC0,'sbc':0xE0}
+for mn,b in grp.items():
+    for off_,mode in [(1,'idx'),(3,'sr'),(5,'dp'),(7,'idl'),(9,'immM'),(0xD,'abs'),(0xF,'abl'),(0x11,'idy'),(0x12,'idp'),(0x13,'sry'),(0x15,'dpx'),(0x17,'idly'),(0x19,'aby'),(0x1D,'abx'),(0x1F,'alx')]:
+        if mn=='sta' and off_==9: continue
+        M[b+off_]=(mn,mode)
+for mn,b in {'asl':0x00,'rol':0x20,'lsr':0x40,'ror':0x60}.items():
+    M[b+6]=(mn,'dp');M[b+0xA]=(mn,'acc');M[b+0xE]=(mn,'abs');M[b+0x16]=(mn,'dpx');M[b+0x1E]=(mn,'abx')
+T=[(0x00,'brk','imm8'),(0x02,'cop','imm8'),(0x04,'tsb','dp'),(0x0C,'tsb','abs'),(0x08,'php','imp'),(0x0B,'phd','imp'),
+(0x10,'bpl','rel'),(0x14,'trb','dp'),(0x1C,'trb','abs'),(0x18,'clc','imp'),(0x1A,'inc','acc'),(0x1B,'tcs','imp'),
+(0x20,'jsr','abs'),(0x22,'jsl','abl'),(0x24,'bit','dp'),(0x2C,'bit','abs'),(0x28,'plp','imp'),(0x2B,'pld','imp'),
+(0x30,'bmi','rel'),(0x34,'bit','dpx'),(0x3C,'bit','abx'),(0x38,'sec','imp'),(0x3A,'dec','acc'),(0x3B,'tsc','imp'),
+(0x40,'rti','imp'),(0x42,'wdm','imm8'),(0x44,'mvp','bm'),(0x48,'pha','imp'),(0x4B,'phk','imp'),(0x4C,'jmp','abs'),
+(0x50,'bvc','rel'),(0x54,'mvn','bm'),(0x58,'cli','imp'),(0x5A,'phy','imp'),(0x5B,'tcd','imp'),(0x5C,'jml','abl'),
+(0x60,'rts','imp'),(0x62,'per','rell'),(0x64,'stz','dp'),(0x68,'pla','imp'),(0x6B,'rtl','imp'),(0x6C,'jmp','ind'),
+(0x70,'bvs','rel'),(0x74,'stz','dpx'),(0x78,'sei','imp'),(0x7A,'ply','imp'),(0x7B,'tdc','imp'),(0x7C,'jmp','iax'),
+(0x80,'bra','rel'),(0x82,'brl','rell'),(0x84,'sty','dp'),(0x86,'stx','dp'),(0x88,'dey','imp'),(0x89,'bit','immM'),(0x8A,'txa','imp'),(0x8B,'phb','imp'),
+(0x8C,'sty','abs'),(0x8E,'stx','abs'),(0x90,'bcc','rel'),(0x94,'sty','dpx'),(0x96,'stx','dpy'),(0x98,'tya','imp'),(0x9A,'txs','imp'),(0x9B,'txy','imp'),
+(0x9C,'stz','abs'),(0x9E,'stz','abx'),(0xA0,'ldy','immX'),(0xA2,'ldx','immX'),(0xA4,'ldy','dp'),(0xA6,'ldx','dp'),(0xA8,'tay','imp'),(0xAA,'tax','imp'),(0xAB,'plb','imp'),
+(0xAC,'ldy','abs'),(0xAE,'ldx','abs'),(0xB0,'bcs','rel'),(0xB4,'ldy','dpx'),(0xB6,'ldx','dpy'),(0xB8,'clv','imp'),(0xBA,'tsx','imp'),(0xBB,'tyx','imp'),
+(0xBC,'ldy','abx'),(0xBE,'ldx','aby'),(0xC0,'cpy','immX'),(0xC2,'rep','imm8'),(0xC4,'cpy','dp'),(0xC6,'dec','dp'),(0xC8,'iny','imp'),(0xCA,'dex','imp'),(0xCB,'wai','imp'),
+(0xCC,'cpy','abs'),(0xCE,'dec','abs'),(0xD0,'bne','rel'),(0xD4,'pei','dp'),(0xD6,'dec','dpx'),(0xD8,'cld','imp'),(0xDA,'phx','imp'),(0xDB,'stp','imp'),(0xDC,'jml','ial'),(0xDE,'dec','abx'),
+(0xE0,'cpx','immX'),(0xE2,'sep','imm8'),(0xE4,'cpx','dp'),(0xE6,'inc','dp'),(0xE8,'inx','imp'),(0xEA,'nop','imp'),(0xEB,'xba','imp'),(0xEC,'cpx','abs'),(0xEE,'inc','abs'),
+(0xF0,'beq','rel'),(0xF4,'pea','abs'),(0xF6,'inc','dpx'),(0xF8,'sed','imp'),(0xFA,'plx','imp'),(0xFB,'xce','imp'),(0xFC,'jsr','iax'),(0xFE,'inc','abx')]
+for c,mn,mode in T: M[c]=(mn,mode)
+assert len(M)==256, len(M)
+SZ={'imp':0,'acc':0,'imm8':1,'dp':1,'dpx':1,'dpy':1,'idp':1,'idx':1,'idy':1,'idl':1,'idly':1,'sr':1,'sry':1,'rel':1,
+    'abs':2,'abx':2,'aby':2,'ind':2,'iax':2,'ial':2,'rell':2,'bm':2,'abl':3,'alx':3}
+FMT={'imp':'{m}','acc':'{m} a','imm8':'{m} #${v:02X}','dp':'{m}.b ${v:02X}','dpx':'{m}.b ${v:02X},x','dpy':'{m}.b ${v:02X},y',
+ 'idp':'{m}.b (${v:02X})','idx':'{m}.b (${v:02X},x)','idy':'{m}.b (${v:02X}),y','idl':'{m}.b [${v:02X}]','idly':'{m}.b [${v:02X}],y',
+ 'sr':'{m}.b ${v:02X},s','sry':'{m}.b (${v:02X},s),y','abs':'{m}.w ${v:04X}','abx':'{m}.w ${v:04X},x','aby':'{m}.w ${v:04X},y',
+ 'ind':'{m} (${v:04X})','iax':'{m} (${v:04X},x)','ial':'{m} [${v:04X}]','abl':'{m}.l ${v:06X}','alx':'{m}.l ${v:06X},x'}
+STOP={'rts','rtl','rti','jmp','jml','bra','brl','stp','brk','cop'}
+BANK=0x10000; SEG=0x1000; HDR=0xFFB0         # HiROM bank size, segment size, start of the extended header in bank $C0
+args=sys.argv[1:]
+rom=open(args[0],'rb').read(); out=args[1]
+CONT='--continue' in args
+EXTRA=[a.split(':') for i,a in enumerate(args) if i>0 and args[i-1]=='--entry']
+CODEMAP=next((args[i+1] for i,a in enumerate(args) if a=='--codemap' and i+1<len(args)),None)
+NB=len(rom)//BANK
+def off(addr):  # HiROM: SNES address -> file offset, None when it is not ROM
+    b=(addr>>16)&0xFF; a=addr&0xFFFF
+    if b in(0x7E,0x7F): return None                     # WRAM
+    if b<0x40 or 0x80<=b<0xC0:                          # system banks: ROM only at $8000-$FFFF
+        if a<0x8000: return None
+    o=(b&0x3F)*BANK+a
+    return o if (b&0x3F)<NB else None
+def canon(o): return 0xC00000|o                         # data address of a file offset (the $C0-$CF org)
+ins={}; cov=set(); seeded=set(); entries=set(); run={}; xref=[]; q=collections.deque()
+def at(o): return run.get(o, canon(o))                 # run address of a decoded instruction (bank it runs in)
+def push(a,m,x):
+    o=off(a)
+    if o is None: return
+    entries.add(o)
+    if o in ins: return
+    q.append((o,m,x,(a>>16)&0xFF))
+def size(c,m,x):
+    mn,mode=M[c]
+    return 1+(SZ[mode] if mode not in('immM','immX') else (1 if (m if mode=='immM' else x) else 2))
+def looks_code(o,m,x):
+    s=o
+    while o<len(rom) and o-s<64:
+        c=rom[o]
+        if c in(0x00,0x02,0xDB,0x42) or o in cov: return False
+        mn,mode=M[c]; n=size(c,m,x)
+        if mn in STOP: return o>s
+        if mn=='rep': v=rom[o+1]; m=m and not v&0x20; x=x and not v&0x10
+        elif mn=='sep': v=rom[o+1]; m=m or bool(v&0x20); x=x or bool(v&0x10)
+        o+=n
+    return False
+def target(o,a,mn,mode,val,n):  # branch/jump target of the instruction at offset o running at a, or None
+    if mode=='rel': return (a&0xFF0000)|((a+2+(val-256 if val>127 else val))&0xFFFF)
+    if mode=='rell' and mn=='brl': return (a&0xFF0000)|((a+3+(val-65536 if val>32767 else val))&0xFFFF)
+    if mn in('jsr','jmp') and mode=='abs': return (a&0xFF0000)|val
+    if mn in('jsl','jml') and mode=='abl': return val
+    return None
+w=lambda o:rom[o]|rom[o+1]<<8
+for v in (0xFFE4,0xFFE6,0xFFE8,0xFFEA,0xFFEE,0xFFF4,0xFFF8,0xFFFA,0xFFFC,0xFFFE):  # native COP BRK ABORT NMI IRQ, emulation COP ABORT NMI RESET IRQ
+    a=w(v)
+    if a>=0x8000: push(a,1,1)                           # bank $00; a vector below $8000 points into RAM
+for e,mm,xx in EXTRA: push(int(e,16),mm=='8',xx=='8')
+while q:
+    o,m,x,pb=q.popleft(); phps=[]
+    while True:
+        if o in ins or o in cov or o>=len(rom): break
+        c=rom[o]; mn,mode=M[c]; n=size(c,m,x)
+        if (o%BANK)+n>BANK: break
+        if any(p in cov for p in range(o,o+n)): break
+        if c in (0x00,0x02,0xDB,0x42) : break  # brk/cop/stp/wdm: treat as data
+        a=(pb<<16)|(o%BANK)
+        if off(a)!=o: break                                 # ran off the ROM half of a system bank
+        ins[o]=(n,m,x); run[o]=a; cov.update(range(o,o+n))
+        val=int.from_bytes(rom[o+1:o+n],'little') if n>1 else 0
+        if mn=='rep': m=m and not(val&0x20); x=x and not(val&0x10)
+        elif mn=='sep': m=m or bool(val&0x20); x=x or bool(val&0x10)
+        elif mn=='php': phps.append((m,x))
+        elif mn=='plp' and phps: m,x=phps.pop()
+        t=target(o,a,mn,mode,val,n)
+        if t is not None: push(t,m,x)
+        if mn in STOP:
+            if CONT and mn not in('stp','brk','cop') and looks_code(o+n,m,x): push(a+n,m,x)
+            break
+        o+=n
+# seed the instruction starts of --codemap that decode the same way in this ROM
+if CODEMAP:
+    for line in open(CODEMAP):
+        if line.startswith('#') or not line.strip(): continue
+        a,n=line.split()[:2]; a=int(a,16); o=off(a); n=int(n)
+        if o is None or o in ins or any(p in cov for p in range(o,o+n)) or (o%BANK)+n>BANK: continue
+        mn,mode=M[rom[o]]
+        if mode in('immM','immX'):
+            if n not in(2,3): continue
+            m=x=(n==2)
+        else:
+            if n!=1+SZ[mode]: continue
+            m=x=True
+        ins[o]=(n,m,x); run[o]=a; cov.update(range(o,o+n)); seeded.add(o)
+for o,(n,m,x) in list(ins.items()):
+    mn,mode=M[rom[o]]; a=at(o); val=int.from_bytes(rom[o+1:o+n],'little')
+    t=target(o,a,mn,mode,val,n)
+    if t is not None and off(t) in ins: entries.add(off(t))
+    if mode in('abl','alx') and off(val) is not None: xref.append((off(val),val,a,mn))
+# emit
+os.makedirs(out,exist_ok=True); stats=[0,0]
+for sg in range(NB*BANK//SEG):
+    b=sg//(BANK//SEG); base=sg*SEG; name=f'bank{0xC0+b:02X}_{base%BANK:04X}'
+    L=[f'; Segment {name} quick pass (starting text; refine and name by hand)',f'org ${canon(base):06X}','']
+    o=base; end=base+SEG; data=[]
+    def flush():
+        global data
+        for i in range(0,len(data),16):
+            ch=data[i:i+16]; L.append('\tdb '+','.join(f'${c:02X}' for c,_ in ch)+f'\t; ${canon(ch[0][1]):06X}')
+        data=[]
+    while o<end:
+        if o==HDR and b==0:
+            flush(); L.append('; Extended and internal cartridge header, then the vectors, follow as data')
+        if o in ins and not(b==0 and HDR<=o):
+            flush(); n,m,x=ins[o]; c=rom[o]; mn,mode=M[c]; a=at(o); val=int.from_bytes(rom[o+1:o+n],'little')
+            if o in entries: L.append(f'CODE_{a:06X}:\t\t; '+('M=? X=?' if o in seeded else f'M={8 if m else 16} X={8 if x else 16}'))
+            if mode in('immM','immX'): s=f'{mn}.{"b" if n==2 else "w"} #${val:0{2*(n-1)}X}'
+            elif mode in('rel','rell'):
+                t=(a&0xFF0000)|((a+n+(val-(256 if n==2 else 65536) if val>(127 if n==2 else 32767) else val))&0xFFFF)
+                to=off(t)
+                s=f'{mn} CODE_{at(to):06X}' if to in ins and to in entries and not(to//BANK==0 and to>=HDR) else 'db '+','.join(f'${c:02X}' for c in rom[o:o+n])+f' ; {mn} ${t:06X}'
+            elif mode=='bm': s=f'{mn} ${rom[o+1]:02X},${rom[o+2]:02X}'  # asar writes the operands in this order
+            else: s=FMT[mode].format(m=mn,v=val)
+            L.append(f'\t{s}\t\t; ${a:06X}: '+' '.join(f'{c:02X}' for c in rom[o:o+n])+(' ; crosses into the next segment: move its org past this instruction' if o+n>end else '')); o+=n; stats[0]+=n
+        else:
+            data.append((rom[o],o)); o+=1; stats[1]+=1
+    flush()
+    open(f'{out}/{name}.asm','w').write('\n'.join(L)+'\n')
+with open(f'{out}/xref.txt','w') as f:
+    f.write('# long operand target (data address), the run address of the instruction that uses it, and its mnemonic\n')
+    for o,val,a,mn in sorted(xref): f.write(f'{canon(o):06X} {a:06X} {mn} ${val:06X}\n')
+print(f'code bytes {stats[0]} ({100*stats[0]/len(rom):.1f}%), data/unresolved {stats[1]}; entries {len(entries)}')
