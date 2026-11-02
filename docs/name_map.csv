@@ -5274,7 +5274,7 @@ $C540A7,.loop,CODE_C540A7,new,"branch target only used in SetLCmode2",src/bankC5
 $C540C3,.1,CODE_C540C3,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
 $C540FF,.2,CODE_C540FF,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
 $C54107,.3,CODE_C54107,new,"branch target only used in SetLCmode2",src/bankC5_4000.asm
-$C54150,.1,CODE_C54150,new,"branch target only used in CODE_C54140",src/bankC5_4000.asm
+$C54150,.5,CODE_C54150,new,"branch target only used in setlccords",src/bankC5_4000.asm
 $C5416E,.1,CODE_C5416E,new,"branch target only used in getlchoice",src/bankC5_4000.asm
 $C54171,.2,CODE_C54171,new,"branch target only used in getlchoice",src/bankC5_4000.asm
 $C54193,.rts,CODE_C54193,new,"branch target only used in getlchoice",src/bankC5_4000.asm
@@ -8697,3 +8697,7 @@ $C570CC,RosterSlotRowDone,CODE_C570CC,code,"from the code: the return point Rost
 $C57773,LinePlayerRowDone,CODE_C57773,code,"from the code: the return point DrawLinePlayerRow pushes before jmp (RosterColumnTable,x)",src/bankC5_7000.asm
 $C579F4,GoalieListRowNext,CODE_C579F4,code,"from the code: ClearTextRow, $D5 $2000 or $2400 for the cursor row, the pea and jmp (RosterColumnTable,x)",src/bankC5_7000.asm
 $C57A4D,GoalieListRowDone,CODE_C57A4D,code,"from the code: the return point GoalieListRowNext pushes; inc $6D / a3 against a1",src/bankC5_7000.asm
+$C54120,.1,CODE_C54120,new,"branch target only used in setlccords",src/bankC5_4000.asm
+$C54130,.2,CODE_C54130,new,"branch target only used in setlccords",src/bankC5_4000.asm
+$C54135,.3,CODE_C54135,new,"branch target only used in setlccords",src/bankC5_4000.asm
+$C54140,.4,CODE_C54140,new,"branch target only used in setlccords",src/bankC5_4000.asm

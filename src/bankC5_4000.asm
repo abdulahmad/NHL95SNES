@@ -150,34 +150,33 @@ setlccords:							; team a2's line change box: A = its map address (the side by 
 									; getlchoice 2 has no line
 	lda.w gmode
 	ldx.b a2
-	beq CODE_C54130
+	beq .2
 	bit.w #$0002
-	beq CODE_C54135
-CODE_C54120:						; the lower box: Y = $5AB5, or $5AD5 (a row down) when tmap and tmap+2
-									; differ
+	beq .3
+.1:									; Y = $5AB5, if tmap = $12C9 go to .4, Y = $5AD5, go to .4
 	ldy.w #$5AB5
 	lda.w tmap
 	cmp.w $12C9
-	beq CODE_C54140
+	beq .4
 	ldy.w #$5AD5
-	bra CODE_C54140
-CODE_C54130:						; from setlccords
+	bra .4
+.2:									; if $0002 bits clear go to .1
 	bit.w #$0002
-	beq CODE_C54120
-CODE_C54135:						; from setlccords
+	beq .1
+.3:									; Y = $5855, if $18AA = 0 go to .4, Y = $5995
 	ldy.w #$5855
 	lda.w $18AA
-	beq CODE_C54140
+	beq .4
 	ldy.w #$5995
-CODE_C54140:						; from CODE_C54120, CODE_C54135
+.4:									; push Y, A = $0002, call getlchoice, Y = $0005, ...
 	phy
 	lda.w #$0002
 	jsr.w getlchoice
 	ldy.w #$0005
 	cmp.w #$FFFF
-	bne .1
+	bne .5
 	dey
-.1:									; X = $000B, pull A, return
+.5:									; X = $000B, pull A, return
 	ldx.w #$000B
 	pla
 	rts
