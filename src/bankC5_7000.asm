@@ -3,7 +3,7 @@
 org $C56F5C
 ShowRosterLine:						; TeamRoster's page of team a2: the line title ($79, 0 the goalies) and
 									; the title of stat column $7D, then a row per player of the line: its
-									; position, name and stat (DATA8_C570E8)
+									; position, name and stat (RosterColumnTable)
 	lda.w #$02C0
 	clc
 	adc.b $D3
@@ -65,13 +65,14 @@ ShowRosterLine:						; TeamRoster's page of team a2: the line title ($79, 0 the 
 	lda.b a2
 	beq .5
 	ldx.w #$3207
-.5:									; a0 = X, if $79 is not 0 go to CODE_C5705C, $91 = $0010
+.5:									; a0 = X, if $79 is not 0 go to ShowRosterLineSlots, $91 = $0010
 	stx.b a0
 	lda.b $79
-	bne CODE_C5705C
+	bne ShowRosterLineSlots
 	lda.w #$0010
 	sta.b $91
-CODE_C56FF5:						; from CODE_C5704D
+RosterGoalieRowNext:				; ShowRosterLine's goalie rows (line 0): goalie a3's name, then his stat
+									; column (RosterColumnTable), returning to RosterGoalieRowDone
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0028
@@ -112,20 +113,22 @@ CODE_C56FF5:						; from CODE_C5704D
 	sta.b d4
 	lda.l DATA8_C09B94+2,x
 	tax
-	pea.w CODE_C5704D-1
-	jmp (DATA8_C570E8,x)
-CODE_C5704D:						; from CODE_C56FF5
+	pea.w RosterGoalieRowDone-1
+	jmp (RosterColumnTable,x)
+RosterGoalieRowDone:				; a goalie row drawn: the next row while goalies remain
 	inc.b $6D
 	lda.b a3
 	inc a
 	sta.b a3
 	ldx.b a0
 	cmp.w $0002,x
-	bne CODE_C56FF5
+	bne RosterGoalieRowNext
 	rts
-CODE_C5705C:						; from ShowRosterLine
+ShowRosterLineSlots:				; ShowRosterLine for lines 1 up: the line's five players by slot
+									; (positions from DATA8_C35E47)
 	stz.b $91
-CODE_C5705E:						; from CODE_C570CC
+RosterSlotRowNext:					; a line slot's row: its position text, the player's name, then his stat
+									; column (RosterColumnTable), returning to RosterSlotRowDone
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0028
@@ -180,9 +183,9 @@ CODE_C5705E:						; from CODE_C570CC
 	sta.b d4
 	lda.l DATA8_C09B54+2,x
 	tax
-	pea.w CODE_C570CC-1
-	jmp (DATA8_C570E8,x)
-CODE_C570CC:						; from CODE_C5705E
+	pea.w RosterSlotRowDone-1
+	jmp (RosterColumnTable,x)
+RosterSlotRowDone:					; a slot row drawn: the next slot while a3 is below 5
 	inc.b $6D
 	lda.b a3
 	inc a
@@ -196,9 +199,10 @@ CODE_C570CC:						; from CODE_C5705E
 	bcc .1
 .rts:								; return
 	rts
-.1:									; go to CODE_C5705E
-	jmp.w CODE_C5705E
-DATA8_C570E8:						; jump table: the routine for each index
+.1:									; go to RosterSlotRowNext
+	jmp.w RosterSlotRowNext
+RosterColumnTable:					; the stat column routines by column ($7D * 2): RosterColStatus,
+									; AttribEnergy, RosterColHand, RosterColWeight, none, RosterColRating
 	dw RosterColStatus,AttribEnergy,RosterColHand,RosterColWeight
 	dw $0000,RosterColRating
 RosterColStatus:					; TeamRoster's status column for player d0: Ice, Bench, Inj= P / Inj= G
@@ -1025,9 +1029,10 @@ DrawLinePlayerRow:					; draws row a3 of SelectLinePlayer's list: a player and t
 	sta.b d4
 	lda.l DATA8_C09B54+2,x
 	tax
-	pea.w CODE_C57773-1
-	jmp (DATA8_C570E8,x)
-CODE_C57773:						; from DrawLinePlayerRow
+	pea.w LinePlayerRowDone-1
+	jmp (RosterColumnTable,x)
+LinePlayerRowDone:					; DrawLinePlayerRow's column drawn: the text palette back to normal ($D5 =
+									; $2000)
 	lda.w #$2000
 	sta.b $D5
 	rts
@@ -1344,7 +1349,9 @@ Pausemode_gnum:						; PauseGoalie's goalie list: 'Player' and the title of stat
 	sta.b $91
 	lda.w #$0001
 	sta.w $24DC
-CODE_C579F4:						; from CODE_C57A4D
+GoalieListRowNext:					; Pausemode_gnum's row loop: goalie a3's row (the cursor row $69 in
+									; palette 1) and his stat column (RosterColumnTable), returning to
+									; GoalieListRowDone
 	jsr.w ClearTextRow
 	lda.b a3
 	ldx.w #$2000
@@ -1387,15 +1394,15 @@ CODE_C579F4:						; from CODE_C57A4D
 	sta.b d4
 	lda.l DATA8_C09B94+2,x
 	tax
-	pea.w CODE_C57A4D-1
-	jmp (DATA8_C570E8,x)
-CODE_C57A4D:						; from CODE_C579F4
+	pea.w GoalieListRowDone-1
+	jmp (RosterColumnTable,x)
+GoalieListRowDone:					; a goalie row drawn: the next one while below a1, then the None row
 	inc.b $6D
 	lda.b a3
 	inc a
 	sta.b a3
 	cmp.b a1
-	bne CODE_C579F4
+	bne GoalieListRowNext
 	ldx.w #$2000
 	cmp.b $69
 	bne .1

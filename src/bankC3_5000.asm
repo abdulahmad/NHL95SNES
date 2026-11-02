@@ -235,7 +235,7 @@ DATA8_C35E2D:						; not traced: read by DrawScoringRow
 	db $9A,$4F,$78,$4F,$FF,$FF,$9D,$4F,$9F,$4F
 DATA8_C35E37:						; not traced: read by ShowRosterLine, PrintLineNames
 	db $74,$4C,$83,$4E,$8B,$4E,$4D,$4A,$93,$4E,$9E,$4E,$A9,$4E,$B5,$4E
-DATA8_C35E47:						; not traced: read by CODE_C5705E, PrintLineSlot
+DATA8_C35E47:						; not traced: read by RosterSlotRowNext, PrintLineSlot
 	db $A2,$4F,$A4,$4F,$A6,$4F,$A8,$4F,$AA,$4F
 DATA8_C35E51:						; not traced: read by ShowMatchups
 	db $BD,$49,$C7,$49,$D7,$49,$D2,$49,$E0,$49

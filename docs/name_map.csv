@@ -669,7 +669,7 @@ $C5623A,MonthSeptember,,new,"the month name September, 0-terminated; DATA8_C561F
 $C56244,MonthOctober,,new,"the month name October, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
 $C5624C,MonthNovember,,new,"the month name November, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
 $C56255,MonthDecember,,new,"the month name December, 0-terminated; DATA8_C561F0 points at it",src/bankC5_6000.asm
-$C570E8,DATA8_C570E8,,new,"jump table: the routine for each index (in bankC5_7000)",src/bankC5_7000.asm
+$C570E8,RosterColumnTable,DATA8_C570E8,code,"from the code: ShowRosterLine, DrawLinePlayerRow and Pausemode_gnum jmp (table,x) with a pushed return point",src/bankC5_7000.asm
 $C57309,DATA8_C57309,,new,"not traced: a table read by CODE_C5729E (in bankC5_7000)",src/bankC5_7000.asm
 $C57810,DATA8_C57810,,new,"the routines CODE_C577F7 jumps to through a pointer, by index (in bankC5_7000)",src/bankC5_7000.asm
 $C57DCD,DATA8_C57DCD,,new,"jump table: the routine for each index (in bankC5_7000)",src/bankC5_7000.asm
@@ -5605,8 +5605,8 @@ $C56F98,.2,CODE_C56F98,new,"branch target only used in ShowRosterLine",src/bankC
 $C56FBD,.3,CODE_C56FBD,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
 $C56FC1,.4,CODE_C56FC1,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
 $C56FEA,.5,CODE_C56FEA,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
-$C570E4,.rts,CODE_C570E4,new,"branch target only used in CODE_C570CC",src/bankC5_7000.asm
-$C570E5,.1,CODE_C570E5,new,"branch target only used in CODE_C570CC",src/bankC5_7000.asm
+$C570E4,.rts,CODE_C570E4,new,"branch target only used in RosterSlotRowDone",src/bankC5_7000.asm
+$C570E5,.1,CODE_C570E5,new,"branch target only used in RosterSlotRowDone",src/bankC5_7000.asm
 $C570FE,.1,CODE_C570FE,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
 $C57111,.2,CODE_C57111,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
 $C5711B,.3,CODE_C5711B,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
@@ -5704,8 +5704,8 @@ $C5796C,.5,CODE_C5796C,new,"branch target only used in PauseGoalie",src/bankC5_7
 $C5797D,.6,CODE_C5797D,new,"branch target only used in PauseGoalie",src/bankC5_7000.asm
 $C5798B,.7,CODE_C5798B,new,"branch target only used in PauseGoalie",src/bankC5_7000.asm
 $C57994,.8,CODE_C57994,new,"branch target only used in PauseGoalie",src/bankC5_7000.asm
-$C57A05,.1,CODE_C57A05,new,"branch target only used in CODE_C579F4",src/bankC5_7000.asm
-$C57A62,.1,CODE_C57A62,new,"branch target only used in CODE_C57A4D",src/bankC5_7000.asm
+$C57A05,.1,CODE_C57A05,new,"branch target only used in GoalieListRowNext",src/bankC5_7000.asm
+$C57A62,.1,CODE_C57A62,new,"branch target only used in GoalieListRowDone",src/bankC5_7000.asm
 $C57AD2,.1,CODE_C57AD2,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
 $C57AD6,.2,CODE_C57AD6,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
 $C57AF6,.3,CODE_C57AF6,new,"branch target only used in ShowOtherScores",src/bankC5_7000.asm
@@ -8689,3 +8689,11 @@ $C55C93,ScrollListDownAnim,CODE_C55C93,code,"from the code: inc $69, 8 wai frame
 $C55C8C,ScrollListDownDone,CODE_C55C8C,code,"from the code: stz padlast / padchangeany, falls into the rts",src/bankC5_5000.asm
 $C55D10,ScrollUpRowDrawn,CODE_C55D10,code,"from the code: the return address ScrollListUp pushes before its row routine",src/bankC5_5000.asm
 $C55D14,ScrollListUpAnim,CODE_C55D14,code,"from the code: 8 wai frames stepping the scroll entries the other way, the split entry when the window is full",src/bankC5_5000.asm
+$C56FF5,RosterGoalieRowNext,CODE_C56FF5,code,"from the code: the loop up to the roster's goalie count (+2), PrintBoldCentred, the pea and jmp (RosterColumnTable,x)",src/bankC5_7000.asm
+$C5704D,RosterGoalieRowDone,CODE_C5704D,code,"from the code: the return point RosterGoalieRowNext pushes; inc $6D / a3 against the goalie count",src/bankC5_7000.asm
+$C5705C,ShowRosterLineSlots,CODE_C5705C,code,"from the code: ShowRosterLine branches here when $79 is not 0; $91 = 0, then the slot loop",src/bankC5_7000.asm
+$C5705E,RosterSlotRowNext,CODE_C5705E,code,"from the code: DATA8_C35E47 by a3, the pea and jmp (RosterColumnTable,x)",src/bankC5_7000.asm
+$C570CC,RosterSlotRowDone,CODE_C570CC,code,"from the code: the return point RosterSlotRowNext pushes; inc $6D / a3, cmp #5",src/bankC5_7000.asm
+$C57773,LinePlayerRowDone,CODE_C57773,code,"from the code: the return point DrawLinePlayerRow pushes before jmp (RosterColumnTable,x)",src/bankC5_7000.asm
+$C579F4,GoalieListRowNext,CODE_C579F4,code,"from the code: ClearTextRow, $D5 $2000 or $2400 for the cursor row, the pea and jmp (RosterColumnTable,x)",src/bankC5_7000.asm
+$C57A4D,GoalieListRowDone,CODE_C57A4D,code,"from the code: the return point GoalieListRowNext pushes; inc $6D / a3 against a1",src/bankC5_7000.asm
