@@ -207,6 +207,20 @@
   change box); bare rtl stubs sit where 94S calls StartBenchCheer, UpdateBenchCheer, InitScores and DoHiLights, and
   SetHor / ClrHor keep only the puck speed halving and the sfhormode count. Hand-checked RAM names go in with
   ../work/ramhand.py (fixoff.py writes $XXXX as NAME+K; relabel.py and movename.py correct a name already given).
+- RAM names, second pass (515 names now, 33 of them save RAM; 517 raw operands left at 320 addresses):
+  - ../work/ramsurvey.py lists the raw absolute operands by use, with the routines using them. It leaves out pea,
+    hardware registers, and indexed operands below $0200 (record fields with a base pointer in X / Y).
+  - neigh94.py gives the 94S symbol at the offset of the named neighbours on each side. Take it only when both sides
+    agree and the uses do the 94S job (puckdist, PenSum, tmPenalties ...).
+  - spell94.py writes a raw operand as NAME+K where 94S code writes that NAME+K at the matching address (Xpos+1,
+    PadControlObj+2, tmap+2 ...).
+  - rangefix.py NAME FROM TO writes every operand inside a named block as NAME+$K. resum2.py takes RESUM_ADDR for the
+    summaries after fixoff.py / rangefix.py.
+  - Before renaming a low address, check its indexed uses: $0100,y ... $0110,x were player record fields (roster
+    table base in Y / X), not BandScroll, and had to be put back.
+  - Code running with the data bank at $30 writes save RAM as NAME&$FFFF (InitSaveRAM, ClearSeasonData ...).
+  - Shared areas have neutral names: ScratchBuf ($364E, 2 KB: DecompressLZSS's window and the screens' lists) and
+    ListBuf ($3E4E). HomeRoster / VisRoster are the two LoadTeamRoster tables; their fields are written +K.
 - Parallel work: the repo is the T3 project "NHL95SNES"; a Codex thread on its own worktree branch (codex/<topic>)
   works beside the main checkout and is merged by cherry-pick (name_map.csv conflicts: keep both sides,
   ../work/resolve_namemap.py). Brief it with the rules and the tools that are safe to run (side.py only reads).
