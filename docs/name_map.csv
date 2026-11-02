@@ -5481,21 +5481,21 @@ $C55FB7,.loop2,CODE_C55FB7,new,"branch target only used in UnpackFitName",src/ba
 $C55FC7,.loop3,CODE_C55FC7,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
 $C55FF8,.2,CODE_C55FF8,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
 $C56000,.3,CODE_C56000,new,"branch target only used in UnpackFitName",src/bankC5_5000.asm
-$C56010,.loop,CODE_C56010,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C56019,.1,CODE_C56019,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C56020,.loop2,CODE_C56020,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C56029,.2,CODE_C56029,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C56038,.loop3,CODE_C56038,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C56044,.3,CODE_C56044,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C5604B,.loop4,CODE_C5604B,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C56057,.4,CODE_C56057,new,"branch target only used in CODE_C56009",src/bankC5_6000.asm
-$C5610F,.1,CODE_C5610F,new,"branch target only used in CODE_C56104",src/bankC5_6000.asm
-$C5611F,.loop,CODE_C5611F,new,"branch target only used in CODE_C5611C",src/bankC5_6000.asm
-$C5612C,.1,CODE_C5612C,new,"branch target only used in CODE_C5611C",src/bankC5_6000.asm
-$C56137,.rts,CODE_C56137,new,"branch target only used in CODE_C5611C",src/bankC5_6000.asm
-$C56155,.1,CODE_C56155,new,"branch target only used in CODE_C5614C",src/bankC5_6000.asm
-$C56162,.loop,CODE_C56162,new,"branch target only used in CODE_C56158",src/bankC5_6000.asm
-$C56167,.rts,CODE_C56167,new,"branch target only used in CODE_C56158",src/bankC5_6000.asm
+$C56010,.loop,CODE_C56010,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C56019,.1,CODE_C56019,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C56020,.loop2,CODE_C56020,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C56029,.2,CODE_C56029,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C56038,.loop3,CODE_C56038,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C56044,.3,CODE_C56044,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C5604B,.loop4,CODE_C5604B,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C56057,.4,CODE_C56057,new,"branch target only used in ConcatStrings",src/bankC5_6000.asm
+$C5610F,.1,CODE_C5610F,new,"branch target only used in TeamSecondText",src/bankC5_6000.asm
+$C5611F,.loop,CODE_C5611F,new,"branch target only used in SkipPackedText",src/bankC5_6000.asm
+$C5612C,.1,CODE_C5612C,new,"branch target only used in SkipPackedText",src/bankC5_6000.asm
+$C56137,.rts,CODE_C56137,new,"branch target only used in SkipPackedText",src/bankC5_6000.asm
+$C56155,.1,CODE_C56155,new,"branch target only used in AdvanceSkipBits",src/bankC5_6000.asm
+$C56162,.loop,CODE_C56162,new,"branch target only used in PeekSkipBits",src/bankC5_6000.asm
+$C56167,.rts,CODE_C56167,new,"branch target only used in PeekSkipBits",src/bankC5_6000.asm
 $C561B7,.loop,CODE_C561B7,new,"branch target only used in CODE_C56168",src/bankC5_6000.asm
 $C561D0,.1,CODE_C561D0,new,"branch target only used in CODE_C56168",src/bankC5_6000.asm
 $C56265,.1,CODE_C56265,new,"branch target only used in CODE_C56262",src/bankC5_6000.asm
@@ -8093,3 +8093,15 @@ $C566CE,StatColShots,CODE_C566CE,code,"from the code",src/bankC5_6000.asm
 $C566D6,StatColPenMin,CODE_C566D6,code,"from the code",src/bankC5_6000.asm
 $C5660A,ClearPlayerStatsList,CODE_C5660A,code,"from the code: the three ClearRAM7E calls",src/bankC5_6000.asm
 $14AF,ppenmin,,94S+code,"RAM: 94S ppenmin: + $34 after tmpshots as in 94S; chkprogress adds the minutes where 94S InProgress does; the player stats penalty minutes column reads it",src/ram95s.asm
+$C56009,ConcatStrings,CODE_C56009,code,"from the code: both lengths, AllocWorkBuf, the two copies",src/bankC5_6000.asm
+$C56005,ConcatStringsLong,CODE_C56005,code,"jsr ConcatStrings, rtl",src/bankC5_6000.asm
+$C5605D,TimeTextMSS,CODE_C5605D,code,"from the code: Div16x8U by 60, BCDTextAt for the minutes, two digits for the seconds; the penalty and scoring rows use it",src/bankC5_6000.asm
+$C560AC,TimeTextMMSS,CODE_C560AC,code,"from the code: as TimeTextMSS with both minute digits",src/bankC5_6000.asm
+$C5611C,SkipPackedText,CODE_C5611C,code,"from the code: SkipNextSymbol, SkipThreeBits; the same coding as the bank $C4 text decoder",src/bankC5_6000.asm
+$C560A8,SkipPackedTextLong,CODE_C560A8,code,"jsr SkipPackedText, rtl",src/bankC5_6000.asm
+$C56140,SkipNextSymbol,CODE_C56140,code,"from the code: PeekSkipBits, and #$1F, AdvanceSkipBits by 5",src/bankC5_6000.asm
+$C56138,SkipThreeBits,CODE_C56138,code,"from the code: AdvanceSkipBits by 3",src/bankC5_6000.asm
+$C5614C,AdvanceSkipBits,CODE_C5614C,code,"from the code",src/bankC5_6000.asm
+$C56158,PeekSkipBits,CODE_C56158,code,"from the code",src/bankC5_6000.asm
+$C56104,TeamSecondText,CODE_C56104,code,"from the code: HomeTeam / VisTeam, the team data pointer and its +2 word, SkipPackedText",src/bankC5_6000.asm
+$C56100,TeamSecondTextLong,CODE_C56100,code,"jsr TeamSecondText, rtl",src/bankC5_6000.asm

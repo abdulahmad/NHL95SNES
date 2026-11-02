@@ -72,7 +72,7 @@ SetLCmode2:							; draws the line change box of team a2: the frame, then a row 
 	sty.b $81
 	jsl.l Framer
 	lda.b a2
-	jsr.w CODE_C56104
+	jsr.w TeamSecondText
 	jsl.l UnpackText2
 	jsr.w CODE_C56262
 	lda.b d0

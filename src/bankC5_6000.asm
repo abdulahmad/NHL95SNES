@@ -1,10 +1,11 @@
 ; Segment bankC5_6000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C56005
-CODE_C56005:						; called from other segments
-	jsr.w CODE_C56009
+ConcatStringsLong:					; ConcatStrings for long calls
+	jsr.w ConcatStrings
 	rtl
-CODE_C56009:						; from CODE_C56005, CODE_C56F98, CODE_C56FC1
+ConcatStrings:						; X = a new work buffer string: the zero-ended string at X followed by the
+									; one at Y
 	phy
 	phx
 	ldy.w #$0000
@@ -61,7 +62,8 @@ CODE_C56009:						; from CODE_C56005, CODE_C56F98, CODE_C56FC1
 	pla
 	pla
 	rts
-CODE_C5605D:						; from DrawPenaltyRow, DrawScoringRow, CODE_C5711B and other segments
+TimeTextMSS:						; appends time A (seconds) to mesarea at X as M:SS (the minutes without a
+									; leading 0, $3F the colon)
 	ldx.w #$0000
 	phy
 	txy
@@ -99,10 +101,10 @@ CODE_C5605D:						; from DrawPenaltyRow, DrawScoringRow, CODE_C5711B and other s
 	inx
 	ply
 	rts
-CODE_C560A8:						; called from other segments
-	jsr.w CODE_C5611C
+SkipPackedTextLong:					; SkipPackedText for long calls
+	jsr.w SkipPackedText
 	rtl
-CODE_C560AC:						; called from other segments
+TimeTextMMSS:						; appends time A (seconds) to mesarea at X as MM:SS (two minute digits)
 	phy
 	txy
 	sta.b r2
@@ -147,10 +149,11 @@ CODE_C560AC:						; called from other segments
 	inx
 	ply
 	rts
-CODE_C56100:						; called from other segments
-	jsr.w CODE_C56104
+TeamSecondTextLong:					; TeamSecondText for long calls
+	jsr.w TeamSecondText
 	rtl
-CODE_C56104:						; from CODE_C56100, DrawPenaltyRow, DrawScoringRow and other segments
+TeamSecondText:						; X = the second packed string of team A's text list (A 0 home, else away;
+									; team data +2, the first string skipped)
 	ldx.w HomeTeam
 	cmp.w #$0000
 	beq .1
@@ -163,13 +166,14 @@ CODE_C56104:						; from CODE_C56100, DrawPenaltyRow, DrawScoringRow and other s
 	tax
 	lda.l $C30002,x
 	tax
-CODE_C5611C:						; from CODE_C560A8 and other segments
+SkipPackedText:						; X past the packed (5-bit) text string at X: symbols read until the end
+									; code $1A, the punctuation escapes ($1D on) with their 3 extra bits
 	ldy.w #$0000
-.loop:								; loop: call CODE_C56140, if A < $001D go to .1, call CODE_C56138, ...
-	jsr.w CODE_C56140
+.loop:								; loop: call SkipNextSymbol, if A < $001D go to .1, ...
+	jsr.w SkipNextSymbol
 	cmp.w #$001D
 	bcc .1
-	jsr.w CODE_C56138
+	jsr.w SkipThreeBits
 	bra .loop
 .1:									; if A is not $001A go to .loop, if Y = $0000 go to .rts, X + 1
 	cmp.w #$001A
@@ -179,20 +183,20 @@ CODE_C5611C:						; from CODE_C560A8 and other segments
 	inx
 .rts:								; return
 	rts
-CODE_C56138:						; from CODE_C5611C
+SkipThreeBits:						; 3 bits on in the packed text (an escape's extra bits)
 	pha
 	tya
 	clc
 	adc.w #$0003
-	bra CODE_C5614C
-CODE_C56140:						; from CODE_C5611C
-	jsr.w CODE_C56158
+	bra AdvanceSkipBits
+SkipNextSymbol:						; A = the next 5-bit symbol at X (bit Y), then 5 bits on
+	jsr.w PeekSkipBits
 	and.w #$001F
 	pha
 	tya
 	clc
 	adc.w #$0005
-CODE_C5614C:						; from CODE_C56138
+AdvanceSkipBits:					; Y = A, past 8 bits X + 1 and Y - 8
 	cmp.w #$0008
 	bcc .1
 	inx
@@ -201,7 +205,7 @@ CODE_C5614C:						; from CODE_C56138
 	tay
 	pla
 	rts
-CODE_C56158:						; from CODE_C56140
+PeekSkipBits:						; A = the packed text word at X shifted right by Y
 	lda.l $C30000,x
 	cpy.w #$0000
 	beq .rts
@@ -1305,7 +1309,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	ldx.b $65
 	lda.w $115B,x
 	and.w #$0FFF
-	jsr.w CODE_C5605D
+	jsr.w TimeTextMSS
 	ldy.b $6D
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
@@ -1321,8 +1325,8 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	bra .4
 .3:									; continue
 	pea.w $2DC9
-.4:									; call CODE_C56104, Y = $6D, call PrintBoldCentred, $CF = $D1, ...
-	jsr.w CODE_C56104
+.4:									; call TeamSecondText, Y = $6D, call PrintBoldCentred, $CF = $D1, ...
+	jsr.w TeamSecondText
 	ldy.b $6D
 	jsl.l PrintBoldCentred
 	lda.b $D1
@@ -1649,7 +1653,7 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	ldx.b $65
 	lda.l $7E203A,x
 	and.w #$0FFF
-	jsr.w CODE_C5605D
+	jsr.w TimeTextMSS
 	ldy.b $6D
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr
@@ -1660,7 +1664,7 @@ DrawScoringRow:						; draws row a3 of ShowScoringSummary's scrolling list: a go
 	ldx.b $65
 	lda.l $7E203C,x
 	and.w #$0080
-	jsr.w CODE_C56104
+	jsr.w TeamSecondText
 	ldy.b $6D
 	jsl.l PrintBoldCentred
 	lda.w #$0072

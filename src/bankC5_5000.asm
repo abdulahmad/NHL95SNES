@@ -622,7 +622,7 @@ CODE_C553D6:						; from CODE_C553CC
 	pla
 	and.w #$07FF
 	phx
-	jsr.w CODE_C560AC
+	jsr.w TimeTextMMSS
 	plx
 	sep #$20
 .loop:								; loop: A = mesarea,x, X + 1, if mesarea,x is not $3F go to .loop, ...
@@ -1793,7 +1793,7 @@ CODE_C55E3D:						; from DATA8_C55D6B
 	adc.b a2
 	sta.b tmp0
 	lda.b (tmp0)
-	jsr.w CODE_C5605D
+	jsr.w TimeTextMSS
 	ldy.b $6D
 	ldx.w #mesarea
 	jsl.l PrintBoldCentredStr

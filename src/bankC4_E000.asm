@@ -97,7 +97,7 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	jsl.l UnpackText
 	txy
 	plx
-	jsl.l CODE_C56005
+	jsl.l ConcatStringsLong
 	ldy.w #$0015
 	jsl.l PrintBoldCentredStr
 	ldx.w #$50C4
@@ -113,13 +113,13 @@ StanleyCupScreen:					; the Stanley Cup screen: the cup, CONGRATULATIONS, team A
 	jsl.l UnpackText
 	txy
 	plx
-	jsl.l CODE_C56005
+	jsl.l ConcatStringsLong
 	phx
 	ldx.w #$50CC
 	jsl.l UnpackText
 	txy
 	plx
-	jsl.l CODE_C56005
+	jsl.l ConcatStringsLong
 	ldy.w #$0016
 	jsl.l PrintBoldCentredStr
 	ldx.w #$50D6
@@ -1099,10 +1099,10 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	lda.l $C30002,x
 	tax
 	phx
-	jsl.l CODE_C560A8
-	jsl.l CODE_C560A8
+	jsl.l SkipPackedTextLong
+	jsl.l SkipPackedTextLong
 	stx.b d0
-	jsl.l CODE_C560A8
+	jsl.l SkipPackedTextLong
 	jsr.w AppendScoutText
 	ldx.w #$4DC8
 	jsr.w AppendScoutText
@@ -1137,8 +1137,8 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	lda.l $C30002,x
 	tax
 	phx
-	jsl.l CODE_C560A8
-	jsl.l CODE_C560A8
+	jsl.l SkipPackedTextLong
+	jsl.l SkipPackedTextLong
 	stx.b d0
 	plx
 	lda.w VisTeam

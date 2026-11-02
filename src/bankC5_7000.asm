@@ -34,7 +34,7 @@ CODE_C56F5C:						; called from other segments
 	ldx.w #$4E7D
 	jsl.l UnpackText
 	ply
-	jsr.w CODE_C56009
+	jsr.w ConcatStrings
 	ldy.w #$000A
 	jsl.l PrintBoldLeftStr
 	lda.b $7D
@@ -53,7 +53,7 @@ CODE_C56F5C:						; called from other segments
 	ldx.w #$4EC1
 	jsl.l UnpackText
 	ply
-	jsr.w CODE_C56009
+	jsr.w ConcatStrings
 	ldy.w #$000B
 	jsl.l PrintBoldLeftStr
 	lda.w #$000D
@@ -219,10 +219,10 @@ CODE_C570F4:						; from DATA8_C570E8
 	beq .3
 	lda.w #$0003
 	bra .5
-.3:									; push A, A and $0FFF, call CODE_C5605D, pull A, ...
+.3:									; push A, A and $0FFF, call TimeTextMSS, pull A, ...
 	pha
 	and.w #$0FFF
-	jsr.w CODE_C5605D
+	jsr.w TimeTextMSS
 	pla
 	bit.w #$4000
 	beq .4

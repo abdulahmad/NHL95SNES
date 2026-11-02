@@ -201,8 +201,8 @@ PrintScoringLeader:					; queue the team and player name of one scoring leader
 	cpx.w #$001A
 	bcc .1
 	inc a
-.1:									; call CODE_C56100, call UnpackText2, call CODE_C5625E, A = X, ...
-	jsl.l CODE_C56100
+.1:									; call TeamSecondTextLong, call UnpackText2, call CODE_C5625E, A = X, ...
+	jsl.l TeamSecondTextLong
 	jsl.l UnpackText2
 	jsl.l CODE_C5625E
 	txa

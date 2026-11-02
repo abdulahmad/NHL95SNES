@@ -92,7 +92,7 @@ CODE_C580B7:						; from CODE_C5800C
 	tax
 	lda.l $C30002,x
 	tax
-	jmp.w CODE_C5611C
+	jmp.w SkipPackedText
 Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks, ...
 	lda.w #$0000
 	sta.l MDMAEN
