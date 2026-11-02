@@ -1198,12 +1198,12 @@ RestorePauseBuffers:				; copies BackupPauseBuffers' two buffers back (the sprit
 	ldy.w #$46A8
 	lda.w #$020F
 	mvn $7E,$7E
-	lda.w $1B02
+	lda.w SpriteCount
 	dec a
 	asl a
 	tay
-.loop:								; loop: X = $1AE2,y, if $0A,x = $FFFF go to .1, push Y, ...
-	ldx.w $1AE2,y
+.loop:								; loop: X = SpriteList,y, if $0A,x = $FFFF go to .1, push Y, ...
+	ldx.w SpriteList,y
 	lda.b $0A,x
 	cmp.w #$FFFF
 	beq .1
@@ -1219,14 +1219,14 @@ RestorePauseBuffers:				; copies BackupPauseBuffers' two buffers back (the sprit
 	lda.w HomeSpritePal
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	and.w #$FF00
 	ora.w HomeSpritePal
 	jsl.l QueueSpritePalette
 	lda.w VisSpritePal
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	and.w #$FF00
 	ora.w VisSpritePal
 	jsl.l QueueSpritePalette

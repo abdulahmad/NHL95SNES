@@ -605,7 +605,7 @@ $C5BEDD,DATA8_C5BEDD,,new,"jump table: the routine for each index (in bankC5_B00
 $C5C0AE,DATA8_C5C0AE,,new,"the compare routines of the sort in CODE_C5C029 (one per sort key) (in bankC5_C000)",src/bankC5_C000.asm
 $C5C655,DATA8_C5C655,,new,"not traced: data between routines (in bankC5_C000)",src/bankC5_C000.asm
 $C5E499,DATA8_C5E499,,new,"not traced: data between routines (in bankC5_E000)",src/bankC5_E000.asm
-$C5E655,DATA8_C5E655,,new,"jump table: the routine for each index (in bankC5_E000)",src/bankC5_E000.asm
+$C5E655,RemoveSpriteSlotTable,DATA8_C5E655,code,"from the code: DeleteSprite's jsr (table,x) with X = the slot * 2",src/bankC5_E000.asm
 $C5EABA,DATA8_C5EABA,,new,"jump table: the routine for each index (in bankC5_E000)",src/bankC5_E000.asm
 $C5E665,CreateSprite,,trace,"create a sprite object from record A (docs/sprite_objects.md): record pointer from SpriteRecordList, carry clear on success, X = the object; about 45 jsl callers",src/bankC5_E000.asm
 $C5E8A5,UploadSpriteFrame,,trace,"queue the current frame's tiles of object X for VRAM, unpacking them (UnpackStream0) if the frame header says packed",src/bankC5_E000.asm
@@ -6488,7 +6488,7 @@ $C5E80F,.11,CODE_C5E80F,new,"branch target only used in CreateSprite",src/bankC5
 $C5E837,.12,CODE_C5E837,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
 $C5E83B,.13,CODE_C5E83B,new,"branch target only used in CreateSprite",src/bankC5_E000.asm
 $C5E85A,.1,CODE_C5E85A,new,"branch target only used in AllocSpriteTiles",src/bankC5_E000.asm
-$C5E888,.1,CODE_C5E888,new,"branch target only used in CODE_C5E86F",src/bankC5_E000.asm
+$C5E888,.1,CODE_C5E888,new,"branch target only used in AllocLargeSpriteTiles",src/bankC5_E000.asm
 $C5E8F9,.1,CODE_C5E8F9,new,"branch target only used in UploadSpriteFrame",src/bankC5_E000.asm
 $C5E904,.2,CODE_C5E904,new,"branch target only used in UploadSpriteFrame",src/bankC5_E000.asm
 $C5E911,.3,CODE_C5E911,new,"branch target only used in UploadSpriteFrame",src/bankC5_E000.asm
@@ -8655,3 +8655,19 @@ $C59F25,StoreWeightField,CODE_C59F25,code,"from the code: sta $81 / jmp FieldWei
 $C59F3F,StoreJerseyField,CODE_C59F3F,code,"from the code: sta d1 / jmp FieldJersey; EditJerseyLeft and EditJerseyRight branch here with the new value",src/bankC5_9000.asm
 $C5904D,DrawSetupLineJump,CODE_C5904D,code,"from the code: jmp DrawSetupLine; the push of the line's routine address falls into it and NextOptionValue branches here",src/bankC5_9000.asm
 $C596BD,PlaceYesNoCursorJump,CODE_C596BD,code,"from the code: jmp PlaceYesNoCursor; SelectNameYes falls into it and SelectNameNo branches here",src/bankC5_9000.asm
+$C5E86F,AllocLargeSpriteTiles,CODE_C5E86F,code,"from the code: the AllocSpriteTiles pattern on $1B0C / $DF, the slot mapped through DATA8_C04AA9 * 16 + $DB; the failure path takes $10 and $1E off $1B0A; CreateSprite and CreateSpriteSharePal call it after AllocSpriteTiles",src/bankC5_E000.asm
+$C5E62A,RemoveSpriteSlot0,CODE_C5E62A,code,"from the code: the unrolled lda / sta from $1AE4 to $1AE2 on; DeleteSprite jumps in through RemoveSpriteSlotTable by the object's slot",src/bankC5_E000.asm
+$C5E630,RemoveSpriteSlot1,CODE_C5E630,code,"from the code: the unrolled move from $1AE6; entry 1 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$C5E636,RemoveSpriteSlot2,CODE_C5E636,code,"from the code: entry 2 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$C5E63C,RemoveSpriteSlot3,CODE_C5E63C,code,"from the code: entry 3 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$C5E642,RemoveSpriteSlot4,CODE_C5E642,code,"from the code: entry 4 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$C5E648,RemoveSpriteSlot5,CODE_C5E648,code,"from the code: entry 5 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$C5E64E,RemoveSpriteSlot6,CODE_C5E64E,code,"from the code: entry 6 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$C5E654,RemoveSpriteSlot7,CODE_C5E654,code,"from the code: a lone rts, entry 7 of RemoveSpriteSlotTable",src/bankC5_E000.asm
+$1AE2,SpriteList,,code,"RAM: from the code: CreateSprite adds, DeleteSprite removes (RemoveSpriteSlot0-7), BuildSpriteOAM / AnimateSprites walk it (docs/sprite_objects.md)",src/ram95s.asm
+$1AF2,SpriteFreeList,,code,"RAM: from the code: CreateSprite takes from it, DeleteSprite gives back (docs/sprite_objects.md)",src/ram95s.asm
+$1B02,SpriteCount,,code,"RAM: from the code: CreateSprite stops at 8, DeleteSprite decreases it (docs/sprite_objects.md)",src/ram95s.asm
+$1B04,SpriteFreeCount,,code,"RAM: from the code: CreateSprite / DeleteSprite (docs/sprite_objects.md)",src/ram95s.asm
+$1B0A,SmallTileNext,,code,"RAM: from the code: AllocSpriteTiles takes from it, DeleteSprite and InitGameSprites set it",src/ram95s.asm
+$1B0C,LargeSlotNext,,code,"RAM: from the code: AllocLargeSpriteTiles takes from it, DeleteSprite and InitGameSprites set it",src/ram95s.asm
+$46B8,SpritePalUse,,code,"RAM: from the code: UseSpritePalette takes a slot when it is minus, ReuseSpritePalette adds a use, DeleteSprite takes one off; docs/sprite_objects.md: palette use per index",src/ram95s.asm

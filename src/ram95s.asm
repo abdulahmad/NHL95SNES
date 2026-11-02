@@ -361,6 +361,12 @@ OptUserRec			=	$1904		; user records option: nonzero on (UpdateRecords)
 homepracplayers		=	$1906		; practice mode: the home team's player count (Home Players)
 awaypracplayers		=	$1908		; practice mode: the visitors' player count (Visitor Players)
 OptPlayoffs			=	$190A		; the Playoffs setup option; SRBestOfSeven (0: one game decides)
+SpriteList			=	$1AE2		; the active sprite objects, a word each (SpriteCount of them, 8 at most)
+SpriteFreeList		=	$1AF2		; the free sprite objects (SpriteFreeCount of them)
+SpriteCount			=	$1B02		; the number of active sprite objects (SpriteList)
+SpriteFreeCount		=	$1B04		; the number of free sprite objects (SpriteFreeList)
+SmallTileNext		=	$1B0A		; the next free small sprite tile (AllocSpriteTiles, below $E3)
+LargeSlotNext		=	$1B0C		; the next free large sprite slot (AllocLargeSpriteTiles, below $DF)
 CrowdSoundOn		=	$1EA5		; set while the crowd sound plays (StartCrowdSound; LoadSounds clears it)
 ltplayer			=	$2002		; a2touchpuck: the last player to touch the puck (index / 2)
 ltx					=	$2004		; a2touchpuck: that player's Xpos; Stop4Pen's face off x
@@ -402,6 +408,7 @@ VisHotCold			=	$2DB7		; scouting report, visitors: as HomeHotCold
 ScoutTextCol		=	$2DC5		; scouting report: the commentary text column (characters, from 2)
 ScoutTextRow		=	$2DC7		; scouting report: the commentary text row ($11-$1A, then it scrolls)
 RandomState			=	$466E		; RandomBelowA's 32 bit generator (SeedRandom seeds it)
+SpritePalUse		=	$46B8		; per palette: minus if not loaded, else CGRAM slot (high) and uses (low)
 
 ; work RAM, long addresses
 Crowdlevel			=	$7E24CA		; crowd noise level: the play raises it, updatecrowdf lets it fade

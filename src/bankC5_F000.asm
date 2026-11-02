@@ -51,7 +51,7 @@ CODE_C5F099:						; the command loop, run through the bank $85 mirror
 .rts:								; return
 	rts
 BuildSpriteOAM:						; build the OAM entries of all sprite objects (frames, SpritePieces)
-	lda.w $1B02
+	lda.w SpriteCount
 	bne .1
 	rtl
 .1:									; QueueBusy - 1, $16 = X, X = $28, A - 1, ...
@@ -63,8 +63,8 @@ BuildSpriteOAM:						; build the OAM entries of all sprite objects (frames, Spri
 	dec a
 	asl a
 	tay
-.loop:								; loop: X = $1AE2,y, A = $22,x, A / 2, if carry set go to .3, ...
-	ldx.w $1AE2,y
+.loop:								; loop: X = SpriteList,y, A = $22,x, A / 2, if carry set go to .3, ...
+	ldx.w SpriteList,y
 	lda.b $22,x
 	lsr a
 	bcs .3

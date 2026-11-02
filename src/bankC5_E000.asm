@@ -742,8 +742,8 @@ ResetSprites:						; ResetSpritesAt with the menu screens' tile area (tile $A0, 
 	jsr.w ResetSpritesAt
 	rtl
 ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A bytes each), the
-									; OAM buffer at $46B8 to $FFFF, OAMADDR 0, the sprite tile area from tile
-									; $E1 ($DD tiles)
+									; palette uses (SpritePalUse) to $FFFF, OAMADDR 0, the sprite tile area
+									; from tile $E1 ($DD tiles)
 	lda.b $E1
 	asl a
 	asl a
@@ -759,33 +759,33 @@ ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A b
 	sta.b $DF
 	lda.w #$3000
 	sta.b $D9
-	stz.w $1B02
-	stz.w $1B04
+	stz.w SpriteCount
+	stz.w SpriteFreeCount
 	stz.w $1B06
 	stz.w $1B08
-	stz.w $1B0A
-	stz.w $1B0C
+	stz.w SmallTileNext
+	stz.w LargeSlotNext
 	lda.w #$0000
 	sta.l $002102
 	lda.w #$FFFF
 	ldx.w #$01FE
-.loop:								; loop: $46B8,x = A, X - 1, X - 1, if the result >= 0 go to .loop, ...
-	sta.w $46B8,x
+.loop:								; loop: SpritePalUse,x = A, X - 1, X - 1, ...
+	sta.w SpritePalUse,x
 	dex
 	dex
 	bpl .loop
 	sta.w $1B0E
 	ldx.w #$0000
 	ldy.w #$0007
-.loop2:								; loop: $1AE2,x = A, X + 1, X + 1, Y - 1, ...
-	sta.w $1AE2,x
+.loop2:								; loop: SpriteList,x = A, X + 1, X + 1, Y - 1, ...
+	sta.w SpriteList,x
 	inx
 	inx
 	dey
 	bpl .loop2
 	clc
 	lda.w #$1912
-	ldx.w #$1AF2
+	ldx.w #SpriteFreeList
 	ldy.w #$0007
 .loop3:								; loop: $00,x = A, X + 1, X + 1, A + $003A, ...
 	sta.b $00,x
@@ -808,7 +808,7 @@ ResetSpritesAt:						; resets the sprite objects: the slot list ($1912 on, $3A b
 	rts
 DeleteSprite:						; removes the sprite object X: out of the active list, its palette slot
 									; released, onto the free list
-	lda.w $1B02
+	lda.w SpriteCount
 	bne .1
 	rtl
 .1:									; A - 1, A * 2, Y = A, A = X
@@ -816,27 +816,27 @@ DeleteSprite:						; removes the sprite object X: out of the active list, its pa
 	asl a
 	tay
 	txa
-.loop:								; loop: if A = $1AE2,y go to .2, Y - 1, Y - 1, ...
-	cmp.w $1AE2,y
+.loop:								; loop: if A = SpriteList,y go to .2, Y - 1, Y - 1, ...
+	cmp.w SpriteList,y
 	beq .2
 	dey
 	dey
 	bpl .loop
 	rtl
-.2:									; X = Y, Y = A, call (DATA8_C5E655,x), A = $0034,y, ...
+.2:									; X = Y, Y = A, call (RemoveSpriteSlotTable,x), A = $0034,y, ...
 	tyx
 	tay
-	jsr (DATA8_C5E655,x)
+	jsr (RemoveSpriteSlotTable,x)
 	lda.w $0034,y
 	and.w #$00FF
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	bit.w #$00FF
 	bne .3
 	xba
 	ora.w #$FF00
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	and.w #$00FF
 	ldx.w $1B06
 	dex
@@ -845,16 +845,16 @@ DeleteSprite:						; removes the sprite object X: out of the active list, its pa
 	stx.w $1B06
 	dec.w $1B08
 	bra .4
-.3:									; A - 1, $46B8,x = A
+.3:									; A - 1, SpritePalUse,x = A
 	dec a
-	sta.w $46B8,x
-.4:									; X = $1B04, X - 1, X - 1, $1B04 = X, ...
-	ldx.w $1B04
+	sta.w SpritePalUse,x
+.4:									; X = SpriteFreeCount, X - 1, X - 1, SpriteFreeCount = X, ...
+	ldx.w SpriteFreeCount
 	dex
 	dex
-	stx.w $1B04
+	stx.w SpriteFreeCount
 	tya
-	sta.w $1AF2,x
+	sta.w SpriteFreeList,x
 	tax
 	lda.b $00,x
 	bpl .6
@@ -871,10 +871,10 @@ DeleteSprite:						; removes the sprite object X: out of the active list, its pa
 	lsr a
 	lsr a
 	and.w #$01FF
-	sta.w $1B0A
+	sta.w SmallTileNext
 	lda.b $18,x
-	sta.w $1B0C
-	dec.w $1B02
+	sta.w LargeSlotNext
+	dec.w SpriteCount
 	rtl
 .6:									; Y = A, $0018,y = $18,x, $0012,y = $12,x, $0002,y = $02,x, ...
 	tay
@@ -887,53 +887,54 @@ DeleteSprite:						; removes the sprite object X: out of the active list, its pa
 	tax
 	bmi .7
 	sty.b $00,x
-.7:									; $1B02 - 1, return
-	dec.w $1B02
+.7:									; SpriteCount - 1, return
+	dec.w SpriteCount
 	rtl
-CODE_C5E62A:						; from DATA8_C5E655
+RemoveSpriteSlot0:					; DeleteSprite's list close from slot 0: each later SpriteList word moves
+									; down one
 	lda.w $1AE4
-	sta.w $1AE2
-CODE_C5E630:						; from DATA8_C5E655
+	sta.w SpriteList
+RemoveSpriteSlot1:					; the list close from slot 1
 	lda.w $1AE6
 	sta.w $1AE4
-CODE_C5E636:						; from DATA8_C5E655
+RemoveSpriteSlot2:					; the list close from slot 2
 	lda.w $1AE8
 	sta.w $1AE6
-CODE_C5E63C:						; from DATA8_C5E655
+RemoveSpriteSlot3:					; the list close from slot 3
 	lda.w $1AEA
 	sta.w $1AE8
-CODE_C5E642:						; from DATA8_C5E655
+RemoveSpriteSlot4:					; the list close from slot 4
 	lda.w $1AEC
 	sta.w $1AEA
-CODE_C5E648:						; from DATA8_C5E655
+RemoveSpriteSlot5:					; the list close from slot 5
 	lda.w $1AEE
 	sta.w $1AEC
-CODE_C5E64E:						; from DATA8_C5E655
+RemoveSpriteSlot6:					; the list close from slot 6
 	lda.w $1AF0
 	sta.w $1AEE
-CODE_C5E654:						; from DATA8_C5E655
+RemoveSpriteSlot7:					; the list close from slot 7: nothing to move
 	rts
-DATA8_C5E655:						; jump table: the routine for each index
-	dw CODE_C5E62A,CODE_C5E630,CODE_C5E636,CODE_C5E63C
-	dw CODE_C5E642,CODE_C5E648,CODE_C5E64E,CODE_C5E654
+RemoveSpriteSlotTable:				; RemoveSpriteSlot0-7 by slot (DeleteSprite)
+	dw RemoveSpriteSlot0,RemoveSpriteSlot1,RemoveSpriteSlot2,RemoveSpriteSlot3
+	dw RemoveSpriteSlot4,RemoveSpriteSlot5,RemoveSpriteSlot6,RemoveSpriteSlot7
 CreateSprite:						; make a sprite object from record A (carry clear: made, X = the object)
 	sta.b $10
-	lda.w $1B02
+	lda.w SpriteCount
 	inc a
 	cmp.w #$0009
 	bcc .1
 	rtl
-.1:									; $1B02 = A, A - 1, A * 2, Y = A, ...
-	sta.w $1B02
+.1:									; SpriteCount = A, A - 1, A * 2, Y = A, ...
+	sta.w SpriteCount
 	dec a
 	asl a
 	tay
-	ldx.w $1B04
-	lda.w $1AF2,x
+	ldx.w SpriteFreeCount
+	lda.w SpriteFreeList,x
 	inx
 	inx
-	stx.w $1B04
-	sta.w $1AE2,y
+	stx.w SpriteFreeCount
+	sta.w SpriteList,y
 	tax
 	lda.b $18
 	sta.b $05,x
@@ -984,7 +985,7 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	sta.w $0034,y
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	bpl .4
 	lda.w $1B08
 	cmp.w #$0008
@@ -1001,7 +1002,7 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	stx.w $1B06
 	plx
 	xba
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	ora.w $0034,y
 	sta.w $0034,y
 	sty.b $12
@@ -1043,9 +1044,9 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	stz.b QueueBusy
 	ldy.b $12
 	bra .5
-.4:									; A + 1, $46B8,x = A, A and $FF00, A or $0034,y, ...
+.4:									; A + 1, SpritePalUse,x = A, A and $FF00, A or $0034,y, ...
 	inc a
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	and.w #$FF00
 	ora.w $0034,y
 	sta.w $0034,y
@@ -1062,7 +1063,7 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	and.w #$00FF
 	adc.b $20
 	sta.w $001C,y
-	jsr.w CODE_C5E86F
+	jsr.w AllocLargeSpriteTiles
 	bcs .8
 	ldx.w $1B0E
 	bmi .6
@@ -1154,42 +1155,42 @@ CreateSprite:						; make a sprite object from record A (carry clear: made, X = 
 	and.w #$00FF
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	bit.w #$00FF
 	bne .12
 	lda.w #$FFFF
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	lda.w $1B06
 	dec a
 	dec a
 	sta.w $1B06
 	dec.w $1B08
 	bra .13
-.12:								; A - 1, $46B8,x = A
+.12:								; A - 1, SpritePalUse,x = A
 	dec a
-	sta.w $46B8,x
-.13:								; $1B04 - 1, $1B04 - 1, $1B02 - 1, A = $1B02, ...
-	dec.w $1B04
-	dec.w $1B04
-	dec.w $1B02
-	lda.w $1B02
+	sta.w SpritePalUse,x
+.13:								; SpriteFreeCount - 1, SpriteFreeCount - 1, SpriteCount - 1, ...
+	dec.w SpriteFreeCount
+	dec.w SpriteFreeCount
+	dec.w SpriteCount
+	lda.w SpriteCount
 	asl a
 	tax
 	lda.w #$FFFF
-	sta.w $1AE2,x
+	sta.w SpriteList,x
 	sec
 	rtl
-AllocSpriteTiles:					; takes A sprite tiles from the allocator ($1B0A, below $E3) and sets the
-									; object's tile base (+$10 / +$12, $6000 + 16 x the first); with no room
-									; returns unchanged
+AllocSpriteTiles:					; takes A sprite tiles from the allocator (SmallTileNext, below $E3) and
+									; sets the object's tile base (+$10 / +$12, $6000 + 16 x the first); with
+									; no room returns unchanged
 	clc
-	adc.w $1B0A
+	adc.w SmallTileNext
 	cmp.b $E3
 	bcc .1
 	rts
-.1:									; X = $1B0A, $1B0A = A, A = X, A * 2, ...
-	ldx.w $1B0A
-	sta.w $1B0A
+.1:									; X = SmallTileNext, SmallTileNext = A, A = X, A * 2, ...
+	ldx.w SmallTileNext
+	sta.w SmallTileNext
 	txa
 	asl a
 	asl a
@@ -1199,22 +1200,24 @@ AllocSpriteTiles:					; takes A sprite tiles from the allocator ($1B0A, below $E
 	sta.w $0010,y
 	sta.w $0012,y
 	rts
-CODE_C5E86F:						; from CreateSpriteSharePal, CreateSprite
+AllocLargeSpriteTiles:				; takes A large sprite slots from LargeSlotNext (below $DF), sets the
+									; object's slot (+$16 / +$18) and VRAM address (+$14, by DATA8_C04AA9);
+									; with no room the small tiles just taken go back
 	clc
-	adc.w $1B0C
+	adc.w LargeSlotNext
 	cmp.b $DF
 	bcc .1
 	lda.w #$FF00
 	trb.b $10
-	lda.w $1B0A
+	lda.w SmallTileNext
 	sec
 	sbc.b $10
 	sbc.b $1E
-	sta.w $1B0A
+	sta.w SmallTileNext
 	rts
-.1:									; X = $1B0C, $1B0C = A, A = X, $0016,y = A, ...
-	ldx.w $1B0C
-	sta.w $1B0C
+.1:									; X = LargeSlotNext, LargeSlotNext = A, A = X, $0016,y = A, ...
+	ldx.w LargeSlotNext
+	sta.w LargeSlotNext
 	txa
 	sta.w $0016,y
 	sta.w $0018,y
@@ -1393,7 +1396,7 @@ UploadSpriteFrame:					; queue object X's current frame tiles for VRAM (unpacked
 	tyx
 	rts
 AnimateSprites:						; the animation tick: step the script of each sprite object
-	lda.w $1B02
+	lda.w SpriteCount
 	bne .1
 	rtl
 .1:									; A - 1, A * 2, Y = A, $08 = $18E0
@@ -1403,7 +1406,7 @@ AnimateSprites:						; the animation tick: step the script of each sprite object
 	lda.w $18E0
 	sta.b $08
 AnimateSpriteObject:				; step the timer when the object's update selector matches
-	ldx.w $1AE2,y
+	ldx.w SpriteList,y
 	lda.b $26
 	eor.b $38,x
 	bit.w #$0001
@@ -1477,10 +1480,10 @@ UploadSpriteAnimFrame:				; update sprite VRAM placement and upload the selected
 	lsr a
 	and.w #$01FF
 	adc.b $1A,x
-	sta.w $1B0A
+	sta.w SmallTileNext
 	lda.b $16,x
 	adc.b $1C,x
-	sta.w $1B0C
+	sta.w LargeSlotNext
 	bra .4
 .3:									; Y = A, A = $1A,x, A * 2, A * 2, ...
 	tay
@@ -2029,12 +2032,12 @@ CODE_C5EE3C:						; no caller found (not traced)
 	and.w #$00FF
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	bit.w #$00FF
 	bne .1
 	xba
 	ora.w #$FF00
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	and.w #$00FF
 	ldx.w $1B06
 	dex
@@ -2044,9 +2047,9 @@ CODE_C5EE3C:						; no caller found (not traced)
 	dec.w $1B08
 	plx
 	rts
-.1:									; A - 1, $46B8,x = A, pull X, return
+.1:									; A - 1, SpritePalUse,x = A, pull X, return
 	dec a
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	plx
 	rts
 UseSpritePalette:					; gives object X sprite palette A: a palette already loaded is reused
@@ -2056,7 +2059,7 @@ UseSpritePalette:					; gives object X sprite palette A: a palette already loade
 	txy
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	bpl ReuseSpritePalette
 	lda.w $1B08
 	cmp.w #$0008
@@ -2073,7 +2076,7 @@ UseSpritePalette:					; gives object X sprite palette A: a palette already loade
 	stx.w $1B06
 	plx
 	xba
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	ora.w $0034,y
 	sta.w $0034,y
 QueueSpritePalette:					; queues the 16 colours of sprite palette A (low byte) to CGRAM slot (high
@@ -2128,7 +2131,7 @@ QueueSpritePalette:					; queues the 16 colours of sprite palette A (low byte) t
 ReuseSpritePalette:					; a sprite palette already loaded: its use count + 1 and its slot into
 									; +$34 of the object
 	inc a
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	and.w #$FF00
 	tyx
 	ora.b $34,x
@@ -2136,23 +2139,23 @@ ReuseSpritePalette:					; a sprite palette already loaded: its use count + 1 and
 	rtl
 CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object in Y
 	sta.b $10
-	lda.w $1B02
+	lda.w SpriteCount
 	inc a
 	cmp.w #$0009
 	bcc .1
 	rtl
-.1:									; $1C = Y, $1B02 = A, A - 1, A * 2, ...
+.1:									; $1C = Y, SpriteCount = A, A - 1, A * 2, ...
 	sty.b $1C
-	sta.w $1B02
+	sta.w SpriteCount
 	dec a
 	asl a
 	tay
-	ldx.w $1B04
-	lda.w $1AF2,x
+	ldx.w SpriteFreeCount
+	lda.w SpriteFreeList,x
 	inx
 	inx
-	stx.w $1B04
-	sta.w $1AE2,y
+	stx.w SpriteFreeCount
+	sta.w SpriteList,y
 	tax
 	lda.b $18
 	sta.b $05,x
@@ -2205,7 +2208,7 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	and.w #$00FF
 	asl a
 	tax
-	inc.w $46B8,x
+	inc.w SpritePalUse,x
 	lda.b $10
 	and.w #$00FF
 	clc
@@ -2218,7 +2221,7 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	and.w #$00FF
 	adc.b $20
 	sta.w $001C,y
-	jsr.w CODE_C5E86F
+	jsr.w AllocLargeSpriteTiles
 	bcs .4
 	ldx.w $1B0E
 	bmi .2
@@ -2310,28 +2313,28 @@ CreateSpriteSharePal:				; CreateSprite, sharing the palette slot of the object 
 	and.w #$00FF
 	asl a
 	tax
-	lda.w $46B8,x
+	lda.w SpritePalUse,x
 	bit.w #$00FF
 	bne .8
 	lda.w #$FFFF
-	sta.w $46B8,x
+	sta.w SpritePalUse,x
 	lda.w $1B06
 	dec a
 	dec a
 	sta.w $1B06
 	dec.w $1B08
 	bra .9
-.8:									; A - 1, $46B8,x = A
+.8:									; A - 1, SpritePalUse,x = A
 	dec a
-	sta.w $46B8,x
-.9:									; $1B04 - 1, $1B04 - 1, $1B02 - 1, A = $1B02, ...
-	dec.w $1B04
-	dec.w $1B04
-	dec.w $1B02
-	lda.w $1B02
+	sta.w SpritePalUse,x
+.9:									; SpriteFreeCount - 1, SpriteFreeCount - 1, SpriteCount - 1, ...
+	dec.w SpriteFreeCount
+	dec.w SpriteFreeCount
+	dec.w SpriteCount
+	lda.w SpriteCount
 	asl a
 	tax
 	lda.w #$FFFF
-	sta.w $1AE2,x
+	sta.w SpriteList,x
 	sec
 	rtl

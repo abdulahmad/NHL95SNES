@@ -1247,10 +1247,10 @@ InitGameSprites:					; resets the sprites, creates sprite record $1D (with the a
 	sta.b $0A,x
 	lda.w #$0056
 	sta.b $1A,x
-	sta.w $1B0A
+	sta.w SmallTileNext
 	lda.w #$0045
 	sta.b $1C,x
-	sta.w $1B0C
+	sta.w LargeSlotNext
 	lda.w HomeTeam
 	asl a
 	adc.w #$0081
