@@ -1822,13 +1822,13 @@ CalcAttrib:							; no caller found (not traced)
 	cmp.w #$0006
 	bcc .7
 	dec a
-.7:									; A + r0, X = A, if $7E24DC = 0 go to .8, A = $1543,x, ...
+.7:									; A + r0, X = A, if $7E24DC = 0 go to .8, A = HotColdTable,x, ...
 	clc
 	adc.b r0
 	tax
 	lda.l $7E24DC
 	beq .8
-	lda.w $1543,x
+	lda.w HotColdTable,x
 	and.w #$00FF
 .8:									; $42 = A, if A < $0080 go to .9, A = $0100, A - $42
 	sta.b $42

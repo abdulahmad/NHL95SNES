@@ -800,7 +800,7 @@ DATA8_C5B66A:						; not traced: a table read by PrintPlayerCategory
 	db $6A,$4B,$6F,$4B,$75,$4B
 DATA8_C5B670:						; not traced: a table read by PrintPlayerCategory
 	db $7A,$4B,$9E,$4B,$5C,$56
-CODE_C5B676:						; called from other segments
+BinToBCDLong:						; BinToBCD for long calls
 	jsr.w BinToBCD
 	rtl
 BinToBCD:							; A (binary, below 10000) as BCD

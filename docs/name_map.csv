@@ -5261,9 +5261,9 @@ $C53D3C,.14,CODE_C53D3C,new,"branch target only used in setplayer",src/bankC5_30
 $C53DF6,.15,CODE_C53DF6,new,"branch target only used in setplayer",src/bankC5_3000.asm
 $C53E02,.16,CODE_C53E02,new,"branch target only used in setplayer",src/bankC5_3000.asm
 $C53F49,.17,CODE_C53F49,new,"branch target only used in setplayer",src/bankC5_3000.asm
-$C53F7A,.1,CODE_C53F7A,new,"branch target only used in CODE_C53F66",src/bankC5_3000.asm
-$C53F81,.2,CODE_C53F81,new,"branch target only used in CODE_C53F66",src/bankC5_3000.asm
-$C53F87,.3,CODE_C53F87,new,"branch target only used in CODE_C53F66",src/bankC5_3000.asm
+$C53F7A,.1,CODE_C53F7A,new,"branch target only used in HotColdRating",src/bankC5_3000.asm
+$C53F81,.2,CODE_C53F81,new,"branch target only used in HotColdRating",src/bankC5_3000.asm
+$C53F87,.3,CODE_C53F87,new,"branch target only used in HotColdRating",src/bankC5_3000.asm
 $C53FFA,.1,CODE_C53FFA,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
 $C54008,.2,CODE_C54008,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
 $C54020,.3,CODE_C54020,new,"branch target only used in ResetTeamPlayers",src/bankC5_4000.asm
@@ -7977,3 +7977,6 @@ $C58AD9,DivAByX,CODE_C58AD9,code,"from the code: WRDIVL / WRDIVB, RDDIVL and RDM
 $C4F27F,RosterDiffers,CODE_C4F27F,code,"from the code: the compares, clc when all match",src/bankC4_F000.asm
 $C4F01E,BuildTeamLines,CODE_C4F01E,code,"from the code: the player loop into $364E / $368E, the slot fill with the pick routines after it",src/bankC4_F000.asm
 $C4F2AE,RebuildChangedLines,CODE_C4F2AE,code,"from the code: LoadDefaultRoster into $364E, RosterDiffers, BuildTeamLines; ScoutingReport calls it",src/bankC4_F000.asm
+$C53F66,HotColdRating,CODE_C53F66,code,"the same instructions as 94S setplayer .8 (a local label there): the hot / cold byte divided by 4, added, clamped to 0 and 15; setplayer calls it for each rating",src/bankC5_3000.asm
+$C5B676,BinToBCDLong,CODE_C5B676,code,"jsr BinToBCD, rtl",src/bankC5_B000.asm
+$1543,HotColdTable,,94S+code,"RAM: 2 votes; read side by side in 94S setplayer .8 (HotColdTable,y / 4 added to a rating); Create_HotCold_Table writes it, CalcAttrib reads it as in 94S",src/ram95s.asm

@@ -372,11 +372,11 @@ CODE_C571CB:						; from CODE_C571C7, CODE_C57187, CODE_C5719B, CODE_C571B4
 	cmp.w #$0006
 	bcc .7
 	dec a
-.7:									; A + $89, X = A, A = $1543,x, A and $00FF, ...
+.7:									; A + $89, X = A, A = HotColdTable,x, A and $00FF, ...
 	clc
 	adc.b $89
 	tax
-	lda.w $1543,x
+	lda.w HotColdTable,x
 	and.w #$00FF
 	tay
 	sta.b $8D

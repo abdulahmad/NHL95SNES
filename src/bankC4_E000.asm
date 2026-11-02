@@ -603,7 +603,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$0001
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
-	jsl.l CODE_C5B676
+	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
@@ -639,7 +639,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$0001
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
-	jsl.l CODE_C5B676
+	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
@@ -785,7 +785,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$0001
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
-	jsl.l CODE_C5B676
+	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
@@ -810,7 +810,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$0001
 	sta.l $7E24DC
 	jsl.l CODE_C571C7
-	jsl.l CODE_C5B676
+	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
@@ -896,7 +896,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	tax
 	lda.l $C30004,x
 	and.w #$00FF
-	jsl.l CODE_C5B676
+	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B
@@ -915,7 +915,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	tax
 	lda.l $C30004,x
 	and.w #$00FF
-	jsl.l CODE_C5B676
+	jsl.l BinToBCDLong
 	jsl.l BCDTextLong
 	ldx.w #mesarea
 	ldy.w #$000B

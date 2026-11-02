@@ -286,6 +286,7 @@ mp5portchg			=	$1539		; the port change bit (Multi5Bios)
 mp5present			=	$153B		; bit 0: multitap on port 2 (pads 3-5 are read)
 mp5warning			=	$153D		; bit 0 multitap in port 1, bit 1 Super Scope, bit 2 mouse:
 InIntermission		=	$153F		; 1 during the intermission (Intermission)
+HotColdTable		=	$1543		; per player and rating: the hot / cold bytes added to the ratings
 PerTimeTotal		=	$17B3		; length of this period (seconds): ResetClock sets it
 cont1team			=	$17B5		; Team on pad 1 (0 none, 1 home, 2 away); StartGame turns cont1team,x into
 cont2team			=	$17B7		; pad 2 team word of the cont1team array

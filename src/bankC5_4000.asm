@@ -1778,12 +1778,12 @@ Create_HotCold_Table:				; called from other segments
 	tya
 	eor.b #$FF
 	inc a
-	sta.w $1543,x
+	sta.w HotColdTable,x
 	bra .4
-.3:									; A 8-bit, A = Y, $1543,x = A
+.3:									; A 8-bit, A = Y, HotColdTable,x = A
 	sep #$20
 	tya
-	sta.w $1543,x
+	sta.w HotColdTable,x
 .4:									; A 16-bit, X - 1, if the result >= 0 go to .1, return
 	rep #$20
 	dex
