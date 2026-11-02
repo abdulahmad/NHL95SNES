@@ -131,7 +131,7 @@ SetLCmode2:							; draws the line change box of team a2: the frame, then a row 
 	ldy.b d0
 	jsl.l QueueVRAMDMALen
 	pla
-	jsr.w CODE_C54D03
+	jsr.w linebar
 .2:									; A = d0, A - $0020, d0 = A
 	lda.b d0
 	sec
@@ -981,14 +981,14 @@ CompLine:							; from chk4lc and other segments
 	bpl .1
 	inc.b d0
 	inc.b d0
-.1:									; A = d0, push A, A + 1, call CODE_C54CB9, ...
+.1:									; A = d0, push A, A + 1, call getlinee, ...
 	lda.b d0
 	pha
 	inc a
-	jsr.w CODE_C54CB9
+	jsr.w getlinee
 	sta.b d1
 	lda.b $01,s
-	jsr.w CODE_C54CB9
+	jsr.w getlinee
 	sec
 	sbc.b d0
 	bpl .2
@@ -1061,7 +1061,7 @@ CODE_C54828:						; from CompLine
 	sta.b d1
 	tay
 	lda.b [a0],y
-	jsr.w CODE_C54CB9
+	jsr.w getlinee
 	cmp.w #$0C01
 	bcc CODE_C548C1
 	ldy.b d1
@@ -1099,11 +1099,11 @@ CODE_C548C1:						; from CODE_C54828
 	sta.b $65
 	lda.w #$4928
 	sta.b a0
-.loop:								; loop: A = [a0], a0 + 1, a0 + 1, call CODE_C54CB9, ...
+.loop:								; loop: A = [a0], a0 + 1, a0 + 1, call getlinee, ...
 	lda.b [a0]
 	inc.b a0
 	inc.b a0
-	jsr.w CODE_C54CB9
+	jsr.w getlinee
 	cmp.w #$0F34
 	bcs .1
 	dec.b d1
@@ -1579,7 +1579,7 @@ CODE_C54BE8:						; no caller found (not traced)
 	pla
 	sta.b d0
 	rtl
-CODE_C54CB9:						; from CompLine, CODE_C54D03, CODE_C548C1, CODE_C54828
+getlinee:							; returns the average skater energy of line A for team a2
 	pei ($8F)
 	phx
 	inc a
@@ -1624,8 +1624,8 @@ CODE_C54CB9:						; from CompLine, CODE_C54D03, CODE_C548C1, CODE_C54828
 	ply
 	sty.b d4
 	rts
-CODE_C54D03:						; from SetLCmode2
-	jsr.w CODE_C54CB9
+linebar:							; queues an energy bar for line A at the line change row
+	jsr.w getlinee
 	cmp.w #$0100
 	bcs .1
 	lda.w #$0100
@@ -1653,8 +1653,8 @@ CODE_C54D03:						; from SetLCmode2
 	sta.w $0001,y
 	jmp (DATA8_C54D3A,x)
 DATA8_C54D3A:						; jump table: the routine for each index
-	dw CODE_C54D69,CODE_C54D55,CODE_C54D40
-CODE_C54D40:						; from DATA8_C54D3A
+	dw LineBarLow,LineBarMiddle,LineBarHigh
+LineBarHigh:						; fills two energy bar tiles and selects the third tile remainder
 	lda.w #$8888
 	sta.w $0000,y
 	lda.w #$0080
@@ -1665,7 +1665,7 @@ CODE_C54D40:						; from DATA8_C54D3A
 	iny
 	iny
 	bra CODE_C54D70
-CODE_C54D55:						; from DATA8_C54D3A
+LineBarMiddle:						; fills the first energy bar tile and selects the second tile remainder
 	lda.w #$0091
 	sta.w $0000,y
 	lda.w #$0089
@@ -1675,11 +1675,11 @@ CODE_C54D55:						; from DATA8_C54D3A
 	sbc.w #$1000
 	iny
 	bra CODE_C54D70
-CODE_C54D69:						; from DATA8_C54D3A
+LineBarLow:							; selects the first energy bar tile from the scaled energy
 	lda.w #$0092
 	sta.b d1
 	lda.b $85
-CODE_C54D70:						; from CODE_C54D55, CODE_C54D40
+CODE_C54D70:						; from LineBarMiddle, LineBarHigh
 	and.w #$FE00
 	xba
 	lsr a

@@ -5382,11 +5382,11 @@ $C54C23,.loop,CODE_C54C23,new,"branch target only used in CODE_C54BE8",src/bankC
 $C54C38,.2,CODE_C54C38,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
 $C54C45,.3,CODE_C54C45,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
 $C54C5F,.4,CODE_C54C5F,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
-$C54CCA,.1,CODE_C54CCA,new,"branch target only used in CODE_C54CB9",src/bankC5_4000.asm
-$C54CD5,.loop,CODE_C54CD5,new,"branch target only used in CODE_C54CB9",src/bankC5_4000.asm
-$C54CEA,.2,CODE_C54CEA,new,"branch target only used in CODE_C54CB9",src/bankC5_4000.asm
-$C54D0E,.1,CODE_C54D0E,new,"branch target only used in CODE_C54D03",src/bankC5_4000.asm
-$C54D16,.2,CODE_C54D16,new,"branch target only used in CODE_C54D03",src/bankC5_4000.asm
+$C54CCA,.1,CODE_C54CCA,new,"branch target only used in getlinee",src/bankC5_4000.asm
+$C54CD5,.loop,CODE_C54CD5,new,"branch target only used in getlinee",src/bankC5_4000.asm
+$C54CEA,.2,CODE_C54CEA,new,"branch target only used in getlinee",src/bankC5_4000.asm
+$C54D0E,.1,CODE_C54D0E,new,"branch target only used in linebar",src/bankC5_4000.asm
+$C54D16,.2,CODE_C54D16,new,"branch target only used in linebar",src/bankC5_4000.asm
 $C54DDE,.rtl,CODE_C54DDE,new,"branch target only used in lcfound",src/bankC5_4000.asm
 $C54E26,.rtl,CODE_C54E26,new,"branch target only used in SetupTeamLine",src/bankC5_4000.asm
 $C54E2A,.1,CODE_C54E2A,new,"branch target only used in Create_HotCold_Table",src/bankC5_4000.asm
@@ -8487,3 +8487,8 @@ $C53651,FaceoffPads,CODE_C53651,94S+purpose,"Same reset arrays and rotating fopa
 $C533E1,RosterPlayerShortName,CODE_C533E1,code,"Selects home or visitor roster from TempPlOffset sign then falls into FormatRosterShortName",src/bankC5_3000.asm
 $C533EF,FormatRosterShortName,CODE_C533EF,code,"Multiplies player index by 32; reads number at roster+110 and name at +118; allocates buffer and sets text high bits and length",src/bankC5_3000.asm
 $C53A90,PackShortText,CODE_C53A90,code,"Allocates four bytes; copies each source byte XOR 80 then writes byte count and returns buffer A with bank 7E in X",src/bankC5_3000.asm
+$C54CB9,getlinee,CODE_C54CB9,94S+purpose,"Same selected-line energy average as 94S penalty/getlinee; reads RAM roster line slots and sums tmpde-2 indexed by one-based player before division by tmap-1",src/bankC5_4000.asm
+$C54D03,linebar,CODE_C54D03,94S+purpose,"Same SetLCmode2 energy display as 94S penalty/linebar; clamps getlinee result and builds three tile bytes through fill-level dispatch",src/bankC5_4000.asm
+$C54D40,LineBarHigh,CODE_C54D40,code,"High fill dispatch writes 8888 then subtracts 2000 from scaled energy and advances destination twice",src/bankC5_4000.asm
+$C54D55,LineBarMiddle,CODE_C54D55,code,"Middle fill dispatch writes 91 then subtracts 1000 from scaled energy and advances destination once",src/bankC5_4000.asm
+$C54D69,LineBarLow,CODE_C54D69,code,"Low fill dispatch sets tile base 92 and passes the unadjusted scaled energy to the common writer",src/bankC5_4000.asm
