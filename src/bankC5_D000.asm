@@ -78,13 +78,14 @@ ExecuteTrade:						; does the trade: each chosen player's team in the player tea
 	ldx.w #$2DC9
 	ldy.w #$364E
 	lda.w VisTeam
-	jsr.w CODE_C5D0A9
+	jsr.w SetMarkedPlayersTeam
 	lda.b $7D
 	sta.b tmp0
 	ldx.w #$3207
 	ldy.w #$36B2
 	lda.w HomeTeam
-CODE_C5D0A9:						; from ExecuteTrade
+SetMarkedPlayersTeam:				; each player marked in the list at Y (bit 0; roster X) gets team A in his
+									; SRPlayerTeams entry
 	stx.b tmp2
 	sty.b tmp1
 	sta.b $A5
@@ -137,7 +138,7 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 	beq .rts
 	lda.w OptUserRec
 	beq .rts
-	jsr.w CODE_C5D1C5
+	jsr.w StartUserNameEntry
 	ldy.w #$0000
 .loop:								; loop: if cont1team,y = $0001 go to .2, Y + 1, Y + 1, ...
 	lda.w cont1team,y
@@ -228,7 +229,8 @@ NameEntryScreen:					; the Name Entry screen of a pad: the 8 user names (up / do
 	bit.w #$1000
 	beq .loop
 	rts
-CODE_C5D1C5:						; from UserNameEntry
+StartUserNameEntry:					; UserNameEntry's start: fade out, the five sprites at $73-$7B deleted,
+									; sprite 28 made (animation 3) for a0
 	jsl.l FadeOutWait
 	lda.w #$8000
 	sta.w DMAEnShadow
@@ -1790,7 +1792,7 @@ SimDayScores:						; simulates the score of each of the day's computer games not
 	bmi .3
 	lda.l $7F0002,x
 	txy
-	jsr.w CODE_C5DDC0
+	jsr.w SimGoalLimit
 	sec
 	sbc.l $7F0008,x
 	bcc .1
@@ -1799,9 +1801,9 @@ SimDayScores:						; simulates the score of each of the day's computer games not
 	clc
 	adc.l $7F0008,x
 	sta.l $7F0008,x
-.1:									; A = $7F0004,x, call CODE_C5DDC0, A + 1, A - $7F000A,x, ...
+.1:									; A = $7F0004,x, call SimGoalLimit, A + 1, A - $7F000A,x, ...
 	lda.l $7F0004,x
-	jsr.w CODE_C5DDC0
+	jsr.w SimGoalLimit
 	inc a
 	sec
 	sbc.l $7F000A,x
@@ -1830,7 +1832,8 @@ SimDayScores:						; simulates the score of each of the day's computer games not
 	dec.b tmp0
 	bne .loop
 	rts
-CODE_C5DDC0:						; from SimDayScores
+SimGoalLimit:						; a simulated game's goal limit for team A: a random number below a byte
+									; of its team data, divided by 10, plus 4
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1874,12 +1877,12 @@ RecordDayResults:					; RecordGameResult for each of the day's game records (Day
 	bne .loop
 	plb
 	rts
-CODE_C5DE15:						; from RecordTeamResult
+RecordTeamLoss:						; RecordTeamResult's loss: result 2 to StoreTeamResult
 	ldx.w #$0002
-	bra CODE_C5DE3F
-CODE_C5DE1A:						; from RecordTeamResult
+	bra StoreTeamResult
+RecordTeamTie:						; RecordTeamResult's tie: result 3 to StoreTeamResult
 	ldx.w #$0003
-	bra CODE_C5DE3F
+	bra StoreTeamResult
 RecordGameResult:					; records game Y's result for both teams (RecordTeamResult): home by +8
 									; against +$A, then away
 	lda.w $0008,y
@@ -1896,10 +1899,11 @@ RecordGameResult:					; records game Y's result for both teams (RecordTeamResult
 RecordTeamResult:					; adds a win (1), loss (2) or tie (3) for team A by the flags of the score
 									; compare to its 2-bit results at SRTeamResults (21 bytes a team), in the
 									; first free slot
-	bcc CODE_C5DE15
-	beq CODE_C5DE1A
+	bcc RecordTeamLoss
+	beq RecordTeamTie
 	ldx.w #$0001
-CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
+StoreTeamResult:					; puts result X (1 win, 2 loss, 3 tie) in the first free 2-bit slot of
+									; team A's 21 bytes of SRTeamResults
 	stx.b tmp1
 	ldx.w #$0015
 	phy

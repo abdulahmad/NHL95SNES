@@ -6319,9 +6319,9 @@ $C5D03D,.3,CODE_C5D03D,new,"branch target only used in TradeValue",src/bankC5_D0
 $C5D045,.4,CODE_C5D045,new,"branch target only used in TradeValue",src/bankC5_D000.asm
 $C5D070,.5,CODE_C5D070,new,"branch target only used in TradeValue",src/bankC5_D000.asm
 $C5D08B,.rts,CODE_C5D08B,new,"branch target only used in TradeValue",src/bankC5_D000.asm
-$C5D0B8,.1,CODE_C5D0B8,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
-$C5D0DF,.2,CODE_C5D0DF,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
-$C5D0EF,.3,CODE_C5D0EF,new,"branch target only used in CODE_C5D0A9",src/bankC5_D000.asm
+$C5D0B8,.1,CODE_C5D0B8,new,"branch target only used in SetMarkedPlayersTeam",src/bankC5_D000.asm
+$C5D0DF,.2,CODE_C5D0DF,new,"branch target only used in SetMarkedPlayersTeam",src/bankC5_D000.asm
+$C5D0EF,.3,CODE_C5D0EF,new,"branch target only used in SetMarkedPlayersTeam",src/bankC5_D000.asm
 $C5D111,.loop,CODE_C5D111,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
 $C5D120,.1,CODE_C5D120,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
 $C5D123,.loop2,CODE_C5D123,new,"branch target only used in UserNameEntry",src/bankC5_D000.asm
@@ -6333,7 +6333,7 @@ $C5D192,.1,CODE_C5D192,new,"branch target only used in NameEntryScreen",src/bank
 $C5D1A4,.2,CODE_C5D1A4,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
 $C5D1B1,.3,CODE_C5D1B1,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
 $C5D1BF,.4,CODE_C5D1BF,new,"branch target only used in NameEntryScreen",src/bankC5_D000.asm
-$C5D1D2,.loop,CODE_C5D1D2,new,"branch target only used in CODE_C5D1C5",src/bankC5_D000.asm
+$C5D1D2,.loop,CODE_C5D1D2,new,"branch target only used in StartUserNameEntry",src/bankC5_D000.asm
 $C5D21A,.1,CODE_C5D21A,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
 $C5D22F,.2,CODE_C5D22F,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
 $C5D26D,.loop,CODE_C5D26D,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
@@ -6415,12 +6415,12 @@ $C5DD97,.2,CODE_C5DD97,new,"branch target only used in SimDayScores",src/bankC5_
 $C5DDB5,.3,CODE_C5DDB5,new,"branch target only used in SimDayScores",src/bankC5_D000.asm
 $C5DE02,.loop,CODE_C5DE02,new,"branch target only used in RecordDayResults",src/bankC5_D000.asm
 $C5DE09,.1,CODE_C5DE09,new,"branch target only used in RecordDayResults",src/bankC5_D000.asm
-$C5DE4D,.1,CODE_C5DE4D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
-$C5DE5D,.2,CODE_C5DE5D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
-$C5DE6D,.3,CODE_C5DE6D,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
-$C5DE81,.4,CODE_C5DE81,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
-$C5DE95,.5,CODE_C5DE95,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
-$C5DE98,.6,CODE_C5DE98,new,"branch target only used in CODE_C5DE3F",src/bankC5_D000.asm
+$C5DE4D,.1,CODE_C5DE4D,new,"branch target only used in StoreTeamResult",src/bankC5_D000.asm
+$C5DE5D,.2,CODE_C5DE5D,new,"branch target only used in StoreTeamResult",src/bankC5_D000.asm
+$C5DE6D,.3,CODE_C5DE6D,new,"branch target only used in StoreTeamResult",src/bankC5_D000.asm
+$C5DE81,.4,CODE_C5DE81,new,"branch target only used in StoreTeamResult",src/bankC5_D000.asm
+$C5DE95,.5,CODE_C5DE95,new,"branch target only used in StoreTeamResult",src/bankC5_D000.asm
+$C5DE98,.6,CODE_C5DE98,new,"branch target only used in StoreTeamResult",src/bankC5_D000.asm
 $C5DEAD,.1,CODE_C5DEAD,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
 $C5DEB4,.2,CODE_C5DEB4,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
 $C5DEBC,.3,CODE_C5DEBC,new,"branch target only used in SimDayGameStats",src/bankC5_D000.asm
@@ -8509,3 +8509,9 @@ $2C42,DayGameCount,,code,"RAM: from the code: AddPlayoffDayPlayerStats and the s
 $306045,SRhomepracplayers,,code,"RAM: from the code: the start-up load copies it to homepracplayers with its limit; the Practice list's routines in DATA8_C59249 save it",src/ram95s.asm
 $306047,SRawaypracplayers,,code,"RAM: from the code: the start-up load copies it to awaypracplayers with its limit; the Practice list's routines in DATA8_C59249 save it",src/ram95s.asm
 $307884,SRUserGames,,code,"RAM: from the code: GamesTodayKeys flips a game's bit (eor), DrawGameMarks and MenuPlayGames read it",src/ram95s.asm
+$C5DE15,RecordTeamLoss,CODE_C5DE15,code,"from the code: RecordTeamResult branches here on carry clear (the team's score below the other's); ldx #2, bra StoreTeamResult",src/bankC5_D000.asm
+$C5DE1A,RecordTeamTie,CODE_C5DE1A,code,"from the code: RecordTeamResult branches here on equal scores; ldx #3, bra StoreTeamResult",src/bankC5_D000.asm
+$C5DE3F,StoreTeamResult,CODE_C5DE3F,code,"from the code: team * $15 (Mul8U), then the first byte and bit pair that is zero takes tmp1 shifted into place; RecordTeamResult's win falls in with X = 1",src/bankC5_D000.asm
+$C5DDC0,SimGoalLimit,CODE_C5DDC0,code,"from the code: the team data at $C30000 + 2A, its +6 offset, the byte at +4, RandomBelowA, WRDIVL / WRDIVB by 10, RDDIVL + 4; SimDayScores raises each side's score toward it",src/bankC5_D000.asm
+$C5D0A9,SetMarkedPlayersTeam,CODE_C5D0A9,code,"from the code: the (tmp1),y flag loop to tmp0, the player index at X + $3A, the 12-bit SRPlayerTeams entry (low or high 5 bits by its parity) takes A or A * 16; ExecuteTrade calls it for both sides of a trade",src/bankC5_D000.asm
+$C5D1C5,StartUserNameEntry,CODE_C5D1C5,code,"from the code: FadeOutWait, DMAEnShadow $8000, DeleteSprite of $73,y for y 8 down to 0, CreateSprite $1C, SetSpriteAnim 3",src/bankC5_D000.asm
