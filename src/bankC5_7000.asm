@@ -1999,7 +1999,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	lda.w $3652,y
 	and.w #$00FF
 	tax
-	jsr.w CODE_C580B7
+	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
 	jsr.w CODE_C57FC7
@@ -2016,7 +2016,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	lda.w $3653,y
 	and.w #$00FF
 	tax
-	jsr.w CODE_C580B7
+	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
 	jsr.w CODE_C57FC7

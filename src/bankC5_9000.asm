@@ -146,7 +146,7 @@ SetRowPalette0:						; sets palette 0 on the 64 text map tiles from row A (two r
 	rts
 setoptions:							; builds the game setup screen: its graphics and HDMA, then the Game Setup
 									; page
-	jsl.l CODE_C58D05
+	jsl.l SeedRandom
 	jsl.l FadeOutWait
 	lda.w #$0001
 	sta.w $059E

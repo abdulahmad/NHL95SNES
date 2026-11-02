@@ -1328,7 +1328,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	jsl.l CODE_C53651
 	phx
 	phy
-	jsl.l CODE_C58944
+	jsl.l ClearTextMapTop
 	inc.w TransfersReady
 	ldy.w #$0036
 	lda.w fox

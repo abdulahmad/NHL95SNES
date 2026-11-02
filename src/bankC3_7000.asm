@@ -469,7 +469,7 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	lda.w #$0800
 	tsb.w sflags
 	jsl.l ClrHor
-	jsl.l CODE_C5897B
+	jsl.l ClearTextMap
 	jsl.l WaitTransfers
 	sep #$20
 	lda.b #$13
@@ -1011,7 +1011,7 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	beq .8
 	lda.l $7E24DA
 	beq .7
-	jsl.l CODE_C5897B
+	jsl.l ClearTextMap
 	jsl.l WaitTransfers
 	lda.w #$0000
 	sta.l $7E24DA

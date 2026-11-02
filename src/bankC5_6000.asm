@@ -1288,7 +1288,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	adc.w #$4499
 	inc a
 	ldx.w #$00C3
-	jsl.l CODE_C58BB9
+	jsl.l CopyFlipString2
 	ldy.b $6D
 	jsl.l PrintBoldRightStr
 	rts

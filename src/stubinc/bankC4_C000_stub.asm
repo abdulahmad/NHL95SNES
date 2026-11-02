@@ -11,7 +11,7 @@ CODE_C4D0D5 = $C4D0D5
 DrawText = $C4BE34
 DrawNextTextCharacter = $C4BE53		; read the next character and prepare its glyph for drawing
 DrawGlyphRow = $C4BF1A				; load a glyph row and dispatch by its destination pixel column
-CODE_C58AF3 = $C58AF3
+CopyToRAM7E = $C58AF3
 ClearRAM7E = $C58B11
 
 incsrc "../bankC4_C000.asm"

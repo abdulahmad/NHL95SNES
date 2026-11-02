@@ -1537,7 +1537,7 @@ CopyString:							; copies the zero ended string at X (bank $7E) into a new work
 	pha
 	txa
 	ldx.w #$007E
-	jsl.l CODE_C58AF3
+	jsl.l CopyToRAM7E
 	plx
 	ply
 	rtl

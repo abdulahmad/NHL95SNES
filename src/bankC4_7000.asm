@@ -999,7 +999,7 @@ CODE_C4785E:						; called from other segments
 	tsx
 	tcs
 	stx.b $00
-	lda.l DATA8_C58942
+	lda.l TextMapFill
 	sta.w $3E4E
 	ldx.w #$3E4E
 	ldy.w #$3E50

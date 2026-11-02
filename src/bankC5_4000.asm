@@ -1407,7 +1407,7 @@ RestoreTeamBenchEnergy:				; team a2's players on the bench (tmpdst $FFFE) get 1
 RestoreBenchEnergyReturn:			; the rtl RestoreBenchEnergy's early branches leave through
 	rtl
 lcfound_close:						; closes team a2's line change box: its six rows overwritten from
-									; DATA8_C58942 through the transfer queue, then the score box (when the
+									; TextMapFill through the transfer queue, then the score box (when the
 									; box was over it) and the clock redrawn
 	jsr.w CODE_C54114
 	pha
@@ -1424,8 +1424,8 @@ lcfound_close:						; closes team a2's line change box: its six rows overwritten
 	pea.w $0000
 	phy
 	pea.w $1808
-	pea.w DATA8_C58942>>16
-	pea.w DATA8_C58942&$FFFF
+	pea.w TextMapFill>>16
+	pea.w TextMapFill&$FFFF
 	tya
 	clc
 	adc.w #$0020

@@ -600,7 +600,7 @@ CopyROMString:						; copy the zero-terminated ROM string at X into a new work b
 	pha
 	txa
 	ldx.w #$00C3
-	jsl.l CODE_C58AF3
+	jsl.l CopyToRAM7E
 	plx
 	ply
 	rtl
@@ -746,7 +746,7 @@ CopyString2:						; CopyString into the second work buffer (AllocWorkBuf2)
 	pha
 	txa
 	ldx.w #$007E
-	jsl.l CODE_C58AF3
+	jsl.l CopyToRAM7E
 	plx
 	ply
 	rtl

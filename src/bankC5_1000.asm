@@ -1095,9 +1095,9 @@ updatefaceoff:						; the face off countdown (temp1): the ref's drop frame from 
 	sta.w fofdata
 .rtl:								; return
 	rtl
-.3:									; push X, call CODE_C58944, push Y, push A, ...
+.3:									; push X, call ClearTextMapTop, push Y, push A, ...
 	phx
-	jsl.l CODE_C58944
+	jsl.l ClearTextMapTop
 	phy
 	pha
 	lda.w penshot

@@ -37,7 +37,7 @@ CODE_C5800C:						; called from other segments
 	lda.w $3656,y
 	and.w #$00FF
 	tax
-	jsr.w CODE_C580B7
+	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
 	jsr.w CODE_C5809A
@@ -54,7 +54,7 @@ CODE_C5800C:						; called from other segments
 	lda.w $3657,y
 	and.w #$00FF
 	tax
-	jsr.w CODE_C580B7
+	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
 	jsr.w CODE_C5809A
@@ -85,7 +85,8 @@ PrintHeadRow6:						; prints text X bold, centred between $CF and $D1 on row 6, 
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C580B7:						; from CODE_C5800C
+TeamNumSecondText:					; X = the second packed string of team A's text list (A a team number;
+									; TeamSecondText takes home / away)
 	asl a
 	tax
 	lda.l $C30000,x
@@ -1190,9 +1191,10 @@ CODE_C588EB:						; called from other segments
 	ldx.b $36
 	ldy.b r0
 	rts
-DATA8_C58942:						; not reached by the traced code (data or unused code)
+TextMapFill:						; the blank text map entry (tile $DF, attribute byte $22): ClearTextMap's
+									; DMA source
 	db $DF,$22
-CODE_C58944:						; called from other segments
+ClearTextMapTop:					; ClearTextMap for the map's top half ($200 words)
 	phx
 	dec.b QueueBusy
 	lda.b $02
@@ -1203,14 +1205,14 @@ CODE_C58944:						; called from other segments
 	pea.w $0000
 	pea.w $5800
 	pea.w $1808
-	pea.w DATA8_C58942>>16
-	pea.w DATA8_C58942&$FFFF
+	pea.w TextMapFill>>16
+	pea.w TextMapFill&$FFFF
 	pea.w $0200
 	pea.w $0080
 	pea.w $5800
 	pea.w $1908
-	pea.w DATA8_C58942>>16
-	pea.w (DATA8_C58942+1)&$FFFF
+	pea.w TextMapFill>>16
+	pea.w (TextMapFill+1)&$FFFF
 	lda.b $02
 	tsx
 	tcs
@@ -1218,7 +1220,8 @@ CODE_C58944:						; called from other segments
 	stz.b QueueBusy
 	plx
 	rtl
-CODE_C5897B:						; called from other segments
+ClearTextMap:						; fills the text map (VRAM $5800, $400 words) with the blank entry
+									; TextMapFill, two queued fixed-source DMAs
 	dec.b QueueBusy
 	lda.b $02
 	tsx
@@ -1228,14 +1231,14 @@ CODE_C5897B:						; called from other segments
 	pea.w $0000
 	pea.w $5800
 	pea.w $1808
-	pea.w DATA8_C58942>>16
-	pea.w DATA8_C58942&$FFFF
+	pea.w TextMapFill>>16
+	pea.w TextMapFill&$FFFF
 	pea.w $0400
 	pea.w $0080
 	pea.w $5800
 	pea.w $1908
-	pea.w DATA8_C58942>>16
-	pea.w (DATA8_C58942+1)&$FFFF
+	pea.w TextMapFill>>16
+	pea.w (TextMapFill+1)&$FFFF
 	lda.b $02
 	tsx
 	tcs
@@ -1404,7 +1407,8 @@ DivAByX:							; A = A / X (X 8-bit) by the divider registers, X = the remainder
 	tax
 	lda.l RDDIVL
 	rtl
-CODE_C58AF3:						; called from other segments
+CopyToRAM7E:						; copies Y bytes from bank X, address A, to the bank $7E address pushed
+									; before the call (BlockMove)
 	pha
 	txa
 	xba
@@ -1498,7 +1502,9 @@ SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE
 	lda.w #$0100
 	sta.w introM7Scale
 	rtl
-CODE_C58BB9:						; called from other segments
+CopyFlipString2:					; copies the length-led string at X:A into a new second work buffer
+									; (AllocWorkBuf2), bit 7 of each byte flipped and a zero after; X = the
+									; copy
 	sta.b r0
 	stx.b $2E
 	lda.b [r0]
@@ -1642,20 +1648,20 @@ RandomBelowA:						; A = a random number below A: the next byte of its generator
 									; A, the remainder
 	sep #$20
 	pha
-	lda.w $4671
+	lda.w RandomState+3
 	adc.b #$12
 	asl a
 	asl a
 	asl a
-	eor.w $4671
+	eor.w RandomState+3
 	asl a
 	asl a
-	rol.w $466E
-	rol.w $466F
-	rol.w $4670
-	rol.w $4671
+	rol.w RandomState
+	rol.w RandomState+1
+	rol.w RandomState+2
+	rol.w RandomState+3
 	rep #$20
-	lda.w $466F
+	lda.w RandomState+1
 	and.w #$00FF
 	sta.l WRDIVL
 	sep #$20
@@ -1666,21 +1672,22 @@ RandomBelowA:						; A = a random number below A: the next byte of its generator
 	pla
 	lda.l RDMPYL
 	rtl
-CODE_C58D05:						; from CODE_C58D05
-	lda.l $002137
+SeedRandom:							; seeds RandomBelowA's generator (RandomState) from the latched H / V
+									; counters, until it is not zero
+	lda.l SLHV
 	sep #$20
-	lda.l $00213C
-	sta.w $466E
-	lda.l $00213C
-	sta.w $466F
-	lda.l $00213D
-	sta.w $4670
-	lda.l $00213D
-	sta.w $4671
+	lda.l OPHCT
+	sta.w RandomState
+	lda.l OPHCT
+	sta.w RandomState+1
+	lda.l OPVCT
+	sta.w RandomState+2
+	lda.l OPVCT
+	sta.w RandomState+3
 	rep #$20
-	lda.w $466E
-	ora.w $4670
-	beq CODE_C58D05
+	lda.w RandomState
+	ora.w RandomState+2
+	beq SeedRandom
 	rtl
 GameSetUp:							; the game setup screen (setoptions builds it): up / down pick a line,
 									; left / right change it, start / select run the play mode (DATA8_C58DD0);

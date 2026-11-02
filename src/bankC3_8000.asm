@@ -1044,7 +1044,7 @@ DATA8_C38D43:						; not traced: a table read by PushRef
 	db $1E,$03,$2C,$03,$3A,$03,$48,$03,$56,$03,$64,$03,$20,$06,$2E,$06
 	db $3C,$06,$4A,$06,$58,$06,$66,$06,$74,$06
 ClearRefereeMessage:				; queue blank tiles over the referee message rows
-	lda.l DATA8_C58942
+	lda.l TextMapFill
 	sta.w $364E
 	lda.w #$003D
 	ldx.w #$364E

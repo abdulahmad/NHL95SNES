@@ -5819,7 +5819,7 @@ $C58923,.1,CODE_C58923,new,"branch target only used in CODE_C588EB",src/bankC5_8
 $C58925,.2,CODE_C58925,new,"branch target only used in CODE_C588EB",src/bankC5_8000.asm
 $C58934,.3,CODE_C58934,new,"branch target only used in CODE_C588EB",src/bankC5_8000.asm
 $C58A9F,.loop,CODE_C58A9F,new,"branch target only used in FadeOutWait",src/bankC5_8000.asm
-$C58BD0,.loop,CODE_C58BD0,new,"branch target only used in CODE_C58BB9",src/bankC5_8000.asm
+$C58BD0,.loop,CODE_C58BD0,new,"branch target only used in CopyFlipString2",src/bankC5_8000.asm
 $C58C4A,.loop,CODE_C58C4A,new,"branch target only used in Framer",src/bankC5_8000.asm
 $C58C67,.loop2,CODE_C58C67,new,"branch target only used in Framer",src/bankC5_8000.asm
 $C58C81,.loop3,CODE_C58C81,new,"branch target only used in Framer",src/bankC5_8000.asm
@@ -8317,3 +8317,11 @@ $187C,listcount,,94S+code,"RAM: 94S listcount: PrintShooterList's right arrow te
 $1880,pickfirst,,94S+code,"RAM: 94S pickfirst: set from GoalieCount, PrintShooterList's tests",src/ram95s.asm
 $1884,picktop,,94S+code,"RAM: 94S picktop: PrintShooterRows from picktop + 1, SetShooter, the paging tests",src/ram95s.asm
 $1888,curplayer,,94S+code,"RAM: 94S curplayer: PrintShooterRows' highlight test, SetShooter's 9 - curplayer + picktop",src/ram95s.asm
+$C5897B,ClearTextMap,CODE_C5897B,94S+purpose,"94S ClearTextMap fills the RAM text map with the blank tile; here the VRAM map is filled directly; called where 94S calls it (StartPer after assreplace), also ReplayMode, setupice",src/bankC5_8000.asm
+$C58944,ClearTextMapTop,CODE_C58944,code,"from the code: the same two DMAs with $200 bytes; puckfaceoff2, updatefaceoff and checkob call it (94S checkob erases the box there instead)",src/bankC5_8000.asm
+$C58942,TextMapFill,DATA8_C58942,code,"from the code: the fixed-source DMA reads its low byte for the tiles, the next for the attribute bytes",src/bankC5_8000.asm
+$C58AF3,CopyToRAM7E,CODE_C58AF3,code,"from the code: the banks put into BlockMove+2, the length less one, the destination from the stack, then BlockMove; CopyString, CopyString2 and CopyROMString use it",src/bankC5_8000.asm
+$C58BB9,CopyFlipString2,CODE_C58BB9,code,"from the code: the count byte, AllocWorkBuf2, the eor $80 copy loop, stz at the end, plx; DrawPenaltyRow calls it",src/bankC5_8000.asm
+$C58D05,SeedRandom,CODE_C58D05,code,"from the code: SLHV, two OPHCT and two OPVCT reads into the four bytes RandomBelowA rolls; setoptions calls it",src/bankC5_8000.asm
+$C580B7,TeamNumSecondText,CODE_C580B7,code,"from the code: the team data pointer at $C30000 + 2A, + 2, SkipPackedText, the same tail as TeamSecondText; PrintSaveRecords calls it",src/bankC5_8000.asm
+$466E,RandomState,,code,"RAM: from the code: RandomBelowA rolls its four bytes and divides by the second; SeedRandom fills them from the H / V counters",src/ram95s.asm

@@ -220,7 +220,7 @@ setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the ti
 	lda.w #MeterFontTiles&$FFFF
 	ldx.w #MeterFontTiles>>16
 	jsl.l DecompressToVRAM
-	jsl.l CODE_C5897B
+	jsl.l ClearTextMap
 	jsl.l WaitTransfers
 	lda.w #$FFFF
 	sta.w $151B

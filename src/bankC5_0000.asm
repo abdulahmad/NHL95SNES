@@ -187,7 +187,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	lda.w #$001B
 	sta.b d0
 	jsl.l assreplace
-	jsl.l CODE_C5897B
+	jsl.l ClearTextMap
 	lda.w #$0400
 	tsb.w sflags
 	lda.w #$FFFF

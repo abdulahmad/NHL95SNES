@@ -526,7 +526,7 @@ checkob:							; called from other segments
 	beq .6
 	lda.w refwindow
 	bne .6
-	jsl.l CODE_C58944
+	jsl.l ClearTextMapTop
 .6:									; pull A, $65 = A, pull A, a0 = A, ...
 	pla
 	sta.b $65
