@@ -614,18 +614,18 @@ PuckCarrierAvoidThreats:			; count opponents near the predicted puck position an
 	bit.w #$0080
 	beq .1
 	ora.w #$FF00
-.1:									; d0 = A, A = $09A1,x, A and $00FF, if $0080 bits clear go to .2, ...
+.1:									; d0 = A, A = Xvel+1,x, A and $00FF, if $0080 bits clear go to .2, ...
 	sta.b d0
-	lda.w $09A1,x
+	lda.w Xvel+1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .2
 	ora.w #$FF00
-.2:									; A + puckx, d2 = A, A = $09C1,x, A and $00FF, ...
+.2:									; A + puckx, d2 = A, A = Yvel+1,x, A and $00FF, ...
 	clc
 	adc.w puckx
 	sta.b d2
-	lda.w $09C1,x
+	lda.w Yvel+1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .3
@@ -642,9 +642,9 @@ PuckCarrierAvoidThreats:			; count opponents near the predicted puck position an
 	bcs .loop
 	lda.w #$000C
 	sta.b a0
-.loop:								; loop: Y = a0, A = $09A1,y, A and $00FF, ...
+.loop:								; loop: Y = a0, A = Xvel+1,y, A and $00FF, ...
 	ldy.b a0
-	lda.w $09A1,y
+	lda.w Xvel+1,y
 	and.w #$00FF
 	bit.w #$0080
 	beq .4
@@ -658,7 +658,7 @@ PuckCarrierAvoidThreats:			; count opponents near the predicted puck position an
 	bmi .6
 	cmp.w #$0015
 	bpl .6
-	lda.w $09C1,y
+	lda.w Yvel+1,y
 	and.w #$00FF
 	bit.w #$0080
 	beq .5

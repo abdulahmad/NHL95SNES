@@ -1260,7 +1260,7 @@ GoalieChasePuck:					; steer the goalie toward the predicted puck position
 	eor.w #$FFFF
 	inc a
 	sec
-	sbc.w $09A1,x
+	sbc.w Xvel+1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .4
@@ -1275,7 +1275,7 @@ GoalieChasePuck:					; steer the goalie toward the predicted puck position
 	eor.w #$FFFF
 	inc a
 	sec
-	sbc.w $09C1,x
+	sbc.w Yvel+1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .5

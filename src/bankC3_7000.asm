@@ -302,26 +302,26 @@ updatereplay:						; called from other segments
 	adc.w #$007A
 	sta.w recbpr
 	bcc .4
-	inc.w $07E2
-.4:									; if A is not $8EF8 go to .5, if $07E2 is not $007F go to .5, ...
+	inc.w recbpr+2
+.4:									; if A is not $8EF8 go to .5, if recbpr+2 is not $007F go to .5, ...
 	cmp.w #$8EF8
 	bne .5
-	lda.w $07E2
+	lda.w recbpr+2
 	cmp.w #$007F
 	bne .5
 	lda.w #$0010
 	tsb.w sflags
 	lda.w #$007F
-	sta.w $07E2
+	sta.w recbpr+2
 	stz.w recbpr
-.5:									; A = $2100, WMADDL&$FF = recbpr, A 8-bit, WMADDH&$FF = $07E2, ...
+.5:									; A = $2100, WMADDL&$FF = recbpr, A 8-bit, WMADDH&$FF = recbpr+2, ...
 	phd
 	lda.w #$2100
 	tcd
 	lda.w recbpr
 	sta.b WMADDL&$FF
 	sep #$20
-	lda.w $07E2
+	lda.w recbpr+2
 	sta.b WMADDH&$FF
 	lda.b #$0F
 	sta.w d2
@@ -347,7 +347,7 @@ updatereplay:						; called from other segments
 	lda.w $0857,x
 	and.b #$3F
 	sta.w r3
-	lda.w $08E1,x
+	lda.w attribute+1,x
 	and.b #$18
 	asl a
 	asl a
@@ -447,7 +447,7 @@ updatereplay:						; called from other segments
 	sta.b WMDATA&$FF
 	lda.w benchframe
 	sta.b WMDATA&$FF
-	lda.w $06F3
+	lda.w benchframe+1
 	sta.b WMDATA&$FF
 	rep #$20
 	lda.w #$FFFF
@@ -483,7 +483,7 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	sta.l CGDATA
 	rep #$20
 	lda.w #$FFFF
-	sta.w $0774
+	sta.w replaylock
 	sta.l $7E24DA
 	lda.w #$007E
 	sta.b $32
@@ -537,7 +537,7 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	stz.b QueueBusy
 	lda.w recbpr
 	pha
-	lda.w $07E2
+	lda.w recbpr+2
 	pha
 	lda.w #$0020
 	trb.w sflags
@@ -547,24 +547,24 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	pha
 	lda.w recbpr
 	cmp.w #$0000
-	lda.w $07E2
+	lda.w recbpr+2
 	sbc.w #$007F
 	bcs .2
-.loop2:								; loop: $07E2 = $007F, recbpr = 0
+.loop2:								; loop: recbpr+2 = $007F, recbpr = 0
 	lda.w #$007F
-	sta.w $07E2
+	sta.w recbpr+2
 	stz.w recbpr
-.2:									; A = $007F, A - $07E2, if carry clear go to .loop2, A = recbpr, ...
+.2:									; A = $007F, A - recbpr+2, if carry clear go to .loop2, A = recbpr, ...
 	lda.w #$8EF8
 	cmp.w recbpr
 	lda.w #$007F
-	sbc.w $07E2
+	sbc.w recbpr+2
 	bcc .loop2
 	lda.w recbpr
 	sec
 	sbc.w #$0000
 	sta.b r2
-	lda.w $07E2
+	lda.w recbpr+2
 	sbc.w #$007F
 	sta.b $36
 	lda.w #$007A
@@ -572,7 +572,7 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	jsl.l Div32U
 	lda.b $36
 	bne .loop2
-	lda.w $07E2
+	lda.w recbpr+2
 	sta.b $75
 	lda.w recbpr
 	sta.b a4
@@ -597,12 +597,12 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	dec a
 	pha
 	bra .loop4
-.3:									; pull A, $0786 = Hpos, $0788 = Vpos, fadestep = $000A, ...
+.3:									; pull A, replayHpos = Hpos, replayVpos = Vpos, fadestep = $000A, ...
 	pla
 	lda.b Hpos
-	sta.w $0786
+	sta.w replayHpos
 	lda.b Vpos
-	sta.w $0788
+	sta.w replayVpos
 	lda.w #$000A
 	sta.w fadestep
 	jsl.l ScreenOn
@@ -612,30 +612,30 @@ ReplayMode:							; open instant replay and restore the live frame on exit
 	lda.w #$0002
 	trb.w sflags3
 UpdateReplayCamera:					; track the replay camera, render the frame and continue input
-	lda.w $0774
+	lda.w replaylock
 	bpl .1
 	jmp.w .12
-.1:									; X = A, $0834 = Xpos,x, if Xpos,x - $0786 >= 0 go to .3, A = $0786, ...
+.1:									; X = A, Xpos+32 = Xpos,x, if Xpos,x - replayHpos >= 0 go to .3, ...
 	tax
 	lda.w Xpos,x
-	sta.w $0834
-	cmp.w $0786
+	sta.w Xpos+32
+	cmp.w replayHpos
 	bpl .3
-	lda.w $0786
+	lda.w replayHpos
 	sec
 	sbc.w #$0004
-	cmp.w $0834
+	cmp.w Xpos+32
 	bpl .2
-	lda.w $0834
+	lda.w Xpos+32
 .2:									; go to .4
 	bra .4
-.3:									; A = $0786, A + $0004, if A - $0834 < 0 go to .4, A = $0834
-	lda.w $0786
+.3:									; A = replayHpos, A + $0004, if A - Xpos+32 < 0 go to .4, A = Xpos+32
+	lda.w replayHpos
 	clc
 	adc.w #$0004
-	cmp.w $0834
+	cmp.w Xpos+32
 	bmi .4
-	lda.w $0834
+	lda.w Xpos+32
 .4:									; if A - $FFC8 >= 0 go to .5, A = $FFC8
 	cmp.w #$FFC8
 	bpl .5
@@ -644,28 +644,28 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0038
 	bmi .6
 	lda.w #$0038
-.6:									; Hpos = A, $0786 = A, $08B6 = Ypos,x, ...
+.6:									; Hpos = A, replayHpos = A, Ypos+32 = Ypos,x, ...
 	sta.b Hpos
-	sta.w $0786
+	sta.w replayHpos
 	lda.w Ypos,x
-	sta.w $08B6
-	cmp.w $0788
+	sta.w Ypos+32
+	cmp.w replayVpos
 	bpl .8
-	lda.w $0788
+	lda.w replayVpos
 	sec
 	sbc.w #$0004
-	cmp.w $08B6
+	cmp.w Ypos+32
 	bpl .7
-	lda.w $08B6
+	lda.w Ypos+32
 .7:									; go to .9
 	bra .9
-.8:									; A = $0788, A + $0004, if A - $08B6 < 0 go to .9, A = $08B6
-	lda.w $0788
+.8:									; A = replayVpos, A + $0004, if A - Ypos+32 < 0 go to .9, A = Ypos+32
+	lda.w replayVpos
 	clc
 	adc.w #$0004
-	cmp.w $08B6
+	cmp.w Ypos+32
 	bmi .9
-	lda.w $08B6
+	lda.w Ypos+32
 .9:									; if A - $FF39 >= 0 go to .10, A = $FF39
 	cmp.w #$FF39
 	bpl .10
@@ -674,34 +674,34 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0100
 	bmi .11
 	lda.w #$0100
-.11:								; Vpos = A, $0788 = A, A = X, A / 2, ...
+.11:								; Vpos = A, replayVpos = A, A = X, A / 2, ...
 	sta.b Vpos
-	sta.w $0788
+	sta.w replayVpos
 	txa
 	lsr a
-	sta.w $05BA
+	sta.w PadControlObj+12
 	jmp.w .24
-.12:								; if A = $FFFF go to .23, if $0834 - $0786 >= 0 go to .14, A = $0786, ...
+.12:								; if A = $FFFF go to .23, if Xpos+32 - replayHpos >= 0 go to .14, ...
 	cmp.w #$FFFF
 	beq .23
-	lda.w $0834
-	cmp.w $0786
+	lda.w Xpos+32
+	cmp.w replayHpos
 	bpl .14
-	lda.w $0786
+	lda.w replayHpos
 	sec
 	sbc.w #$0002
-	cmp.w $0834
+	cmp.w Xpos+32
 	bpl .13
-	lda.w $0834
+	lda.w Xpos+32
 .13:								; go to .15
 	bra .15
-.14:								; A = $0786, A + $0002, if A - $0834 < 0 go to .15, A = $0834
-	lda.w $0786
+.14:								; A = replayHpos, A + $0002, if A - Xpos+32 < 0 go to .15, A = Xpos+32
+	lda.w replayHpos
 	clc
 	adc.w #$0002
-	cmp.w $0834
+	cmp.w Xpos+32
 	bmi .15
-	lda.w $0834
+	lda.w Xpos+32
 .15:								; if A - $FFC8 >= 0 go to .16, A = $FFC8
 	cmp.w #$FFC8
 	bpl .16
@@ -710,27 +710,27 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0038
 	bmi .17
 	lda.w #$0038
-.17:								; Hpos = A, $0786 = A, if $08B6 - $0788 >= 0 go to .19, A = $0788, ...
+.17:								; Hpos = A, replayHpos = A, if Ypos+32 - replayVpos >= 0 go to .19, ...
 	sta.b Hpos
-	sta.w $0786
-	lda.w $08B6
-	cmp.w $0788
+	sta.w replayHpos
+	lda.w Ypos+32
+	cmp.w replayVpos
 	bpl .19
-	lda.w $0788
+	lda.w replayVpos
 	sec
 	sbc.w #$0002
-	cmp.w $08B6
+	cmp.w Ypos+32
 	bpl .18
-	lda.w $08B6
+	lda.w Ypos+32
 .18:								; go to .20
 	bra .20
-.19:								; A = $0788, A + $0002, if A - $08B6 < 0 go to .20, A = $08B6
-	lda.w $0788
+.19:								; A = replayVpos, A + $0002, if A - Ypos+32 < 0 go to .20, A = Ypos+32
+	lda.w replayVpos
 	clc
 	adc.w #$0002
-	cmp.w $08B6
+	cmp.w Ypos+32
 	bmi .20
-	lda.w $08B6
+	lda.w Ypos+32
 .20:								; if A - $FF39 >= 0 go to .21, A = $FF39
 	cmp.w #$FF39
 	bpl .21
@@ -739,15 +739,15 @@ UpdateReplayCamera:					; track the replay camera, render the frame and continue
 	cmp.w #$0100
 	bmi .22
 	lda.w #$0100
-.22:								; Vpos = A, $0788 = A, go to .24
+.22:								; Vpos = A, replayVpos = A, go to .24
 	sta.b Vpos
-	sta.w $0788
+	sta.w replayVpos
 	bra .24
-.23:								; $0786 = Hpos, $0788 = Vpos
+.23:								; replayHpos = Hpos, replayVpos = Vpos
 	lda.b Hpos
-	sta.w $0786
+	sta.w replayHpos
 	lda.b Vpos
-	sta.w $0788
+	sta.w replayVpos
 .24:								; timestep = d7, call SprSort, $28 = $1D8F, $2A = $1E00, ...
 	lda.b d7
 	sta.w timestep
@@ -769,7 +769,7 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	jsl.l ReadPausePad
 	lda.w #$0001
 	sta.b d7
-	bit.w $0774
+	bit.w replaylock
 	bmi .2
 	lda.b d2
 	bit.w #$0F00
@@ -783,26 +783,26 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	bit.w #$0008
 	beq .3
 	jmp.w ProcessReplayPlayback
-.3:									; d5 = A, d4 = $FFFF, $91 = A, $0774 = A, ...
+.3:									; d5 = A, d4 = $FFFF, $91 = A, replaylock = A, ...
 	sta.b d5
 	lda.w #$FFFF
 	sta.b d4
 	sta.b $91
-	sta.w $0774
+	sta.w replaylock
 	lda.w #$0016
 	sta.b a0
-.loop:								; loop: Y = a0, if position,y < 0 go to .5, A = Xpos,y, A - $0834, ...
+.loop:								; loop: Y = a0, if position,y < 0 go to .5, A = Xpos,y, A - Xpos+32, ...
 	ldy.b a0
 	lda.w position,y
 	bmi .5
 	lda.w Xpos,y
 	sec
-	sbc.w $0834
+	sbc.w Xpos+32
 	sta.b d0
 	sta.b d2
 	lda.w Ypos,y
 	sec
-	sbc.w $08B6
+	sbc.w Ypos+32
 	sta.b d1
 	sta.b d3
 	jsl.l vtoa
@@ -845,23 +845,23 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	cmp.w #$0002
 	bcs .6
 	lda.b d4
-	sta.w $0774
+	sta.w replaylock
 	lda.w #$001E
 	sta.b d7
 	lda.w #$0020
 	trb.w sflags
 	jmp.w UpdateReplayCamera
-.6:									; call ReadPausePad, $0774 = $FFFE, A = $0020, d0 * 2, ...
+.6:									; call ReadPausePad, replaylock = $FFFE, A = $0020, d0 * 2, ...
 	jsl.l ReadPausePad
 	lda.w #$FFFE
-	sta.w $0774
+	sta.w replaylock
 	lda.w #$0020
 	tsb.w sflags
 	asl.b d0
 	asl.b d0
 	ldx.b d0
 	lda.l DATA8_C377BB,x
-	adc.w $0834
+	adc.w Xpos+32
 	sta.b d2
 	ldy.w #$0020
 	lda.l DATA8_C377BB,x
@@ -871,7 +871,7 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	pha
 	lda.l DATA8_C377BD,x
 	clc
-	adc.w $08B6
+	adc.w Ypos+32
 	sta.b d3
 	lda.l DATA8_C377BD,x
 	xba
@@ -949,17 +949,17 @@ ReadReplayCameraInput:				; read replay input and move or lock the camera cursor
 	clc
 	adc.b d3
 	sta.b d3
-.13:								; pull A, pull A, $0834 = d2, Hpos = A, ...
+.13:								; pull A, pull A, Xpos+32 = d2, Hpos = A, ...
 	pla
 	pla
 	lda.b d2
-	sta.w $0834
+	sta.w Xpos+32
 	sta.b Hpos
 	lda.b d3
-	sta.w $08B6
+	sta.w Ypos+32
 	sta.b Vpos
 	lda.w #$0010
-	sta.w $05BA
+	sta.w PadControlObj+12
 	jmp.w UpdateReplayCamera
 DATA8_C377BB:						; not traced: a table read by ReadReplayCameraInput
 	db $00,$00
@@ -967,7 +967,7 @@ DATA8_C377BD:						; not traced: a table read by ReadReplayCameraInput
 	db $02,$00,$00,$00,$02,$00,$02,$00,$00,$00,$02,$00,$00,$00,$00,$00
 	db $FE,$FF,$00,$00,$FE,$FF,$FE,$FF,$00,$00,$FE,$FF,$00,$00
 ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
-	lda.w $0774
+	lda.w replaylock
 	cmp.w #$FFFF
 	bne .6
 	lda.w PadControlObj
@@ -976,15 +976,15 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	asl a
 	tax
 	lda.w #$000F
-	sta.w $05BA
+	sta.w PadControlObj+12
 	lda.w Xpos,x
-	sta.w $0834
+	sta.w Xpos+32
 	lda.w Ypos,x
-	sta.w $08B6
+	sta.w Ypos+32
 	bra .6
-.1:									; $05BA = $000F, if puckx - $FF65 >= 0 go to .2, A = $FF65
+.1:									; PadControlObj+12 = $000F, if puckx - $FF65 >= 0 go to .2, A = $FF65
 	lda.w #$000F
-	sta.w $05BA
+	sta.w PadControlObj+12
 	lda.w puckx
 	cmp.w #$FF65
 	bpl .2
@@ -993,8 +993,8 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	cmp.w #$009B
 	bmi .3
 	lda.w #$009B
-.3:									; $0834 = A, if pucky - $FED4 >= 0 go to .4, A = $FED4
-	sta.w $0834
+.3:									; Xpos+32 = A, if pucky - $FED4 >= 0 go to .4, A = $FED4
+	sta.w Xpos+32
 	lda.w pucky
 	cmp.w #$FED4
 	bpl .4
@@ -1003,8 +1003,8 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	cmp.w #$012C
 	bmi .5
 	lda.w #$012C
-.5:									; $08B6 = A
-	sta.w $08B6
+.5:									; Ypos+32 = A
+	sta.w Ypos+32
 .6:									; A = d1, if $8000 bits clear go to .8, if $7E24DA = 0 go to .7, ...
 	lda.b d1
 	bit.w #$8000
@@ -1044,9 +1044,9 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	bra .14
 .10:								; go to .18
 	jmp.w .18
-.11:								; $0774 = $FFFF, A = $0020, go to ReadReplayCameraInput
+.11:								; replaylock = $FFFF, A = $0020, go to ReadReplayCameraInput
 	lda.w #$FFFF
-	sta.w $0774
+	sta.w replaylock
 	lda.w #$0020
 	trb.w sflags
 	jmp.w ReadReplayCameraInput
@@ -1080,20 +1080,20 @@ ProcessReplayPlayback:				; handle replay stepping, play toggle and exit
 	lda.b d7
 	beq .15
 	jmp.w UpdateReplayCamera
-.18:								; $05BA = $000F, pull A, Hpos = A, pull A, ...
+.18:								; PadControlObj+12 = $000F, pull A, Hpos = A, pull A, ...
 	lda.w #$000F
-	sta.w $05BA
+	sta.w PadControlObj+12
 	pla
 	sta.b Hpos
 	pla
 	sta.b Vpos
 	pla
-	sta.w $07E2
+	sta.w recbpr+2
 	pla
 	sta.w recbpr
 	lda.w #$0020
 	trb.w sflags
-	lda.w $07E2
+	lda.w recbpr+2
 	sta.b $75
 	lda.w recbpr
 	sta.b a4
@@ -1148,9 +1148,9 @@ suba4:								; from ReplayMode, ProcessReplayPlayback and other segments
 	cmp.w recbpr
 	beq .2
 	jml.l RestoreReplayFrame
-.2:									; if $75 = $07E2 go to .3, go to RestoreReplayFrame
+.2:									; if $75 = recbpr+2 go to .3, go to RestoreReplayFrame
 	lda.b $75
-	cmp.w $07E2
+	cmp.w recbpr+2
 	beq .3
 	jml.l RestoreReplayFrame
 .3:									; A = a4, A + $007A, a4 = A, if carry clear go to .4, ...
@@ -1196,15 +1196,15 @@ adda4:								; from ReplayMode, ProcessReplayPlayback, ProcessReplayPlayback, .
 	cmp.w recbpr
 	bne .1
 	lda.b tmp1
-	cmp.w $07E2
+	cmp.w recbpr+2
 	bne .1
 	rtl
-.1:									; if a4 is not recbpr go to .2, if $75 is not $07E2 go to .2, return
+.1:									; if a4 is not recbpr go to .2, if $75 is not recbpr+2 go to .2, return
 	lda.b a4
 	cmp.w recbpr
 	bne .2
 	lda.b $75
-	cmp.w $07E2
+	cmp.w recbpr+2
 	bne .2
 	rtl
 .2:									; call RestoreReplayFrame
@@ -1256,16 +1256,16 @@ adda43:								; from adda4 and other segments
 	sta.w r3
 	and.w #$003F
 	sta.w $0857,x
-	lda.w $08E1,x
+	lda.w attribute+1,x
 	and.w #$00E7
-	sta.w $08E1,x
+	sta.w attribute+1,x
 	lda.w r3
 	lsr a
 	lsr a
 	lsr a
 	and.w #$0018
-	ora.w $08E1,x
-	sta.w $08E1,x
+	ora.w attribute+1,x
+	sta.w attribute+1,x
 	inx
 	inx
 	dey
@@ -1481,7 +1481,7 @@ adda43:								; from adda4 and other segments
 	lda.b $80
 	sta.w benchframe
 	lda.b $80
-	sta.w $06F3
+	sta.w benchframe+1
 	bra RestoreReplayFrame
 .16:								; A = $80, A = $80, A = $80, A = $80, ...
 	lda.b $80
@@ -1491,7 +1491,7 @@ adda43:								; from adda4 and other segments
 	lda.b $80
 	sta.w benchframe
 	lda.b $80
-	sta.w $06F3
+	sta.w benchframe+1
 RestoreReplayFrame:					; from suba4, adda4, ...
 	pei ($83)
 	inc.w replaynewframe
@@ -1532,16 +1532,16 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	sta.b r3
 	and.b #$3F
 	sta.w $0857,x
-	lda.w $08E1,x
+	lda.w attribute+1,x
 	and.b #$E7
-	sta.w $08E1,x
+	sta.w attribute+1,x
 	lda.b r3
 	lsr a
 	lsr a
 	lsr a
 	and.b #$18
-	ora.w $08E1,x
-	sta.w $08E1,x
+	ora.w attribute+1,x
+	sta.w attribute+1,x
 	inx
 	inx
 	dec.b d1
@@ -1676,7 +1676,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.l WMDATA
 	sta.w benchframe
 	lda.l WMDATA
-	sta.w $06F3
+	sta.w benchframe+1
 	bra .12
 .11:								; A = WMDATA, A = WMDATA, A = WMDATA, A = WMDATA, ...
 	lda.l WMDATA
@@ -1686,7 +1686,7 @@ RestoreReplayFrame:					; from suba4, adda4, ...
 	lda.l WMDATA
 	sta.w benchframe
 	lda.l WMDATA
-	sta.w $06F3
+	sta.w benchframe+1
 .12:								; A 16-bit, A = recsfx, A and $00FF, if A < $0080 go to .13, ...
 	rep #$20
 	lda.w recsfx

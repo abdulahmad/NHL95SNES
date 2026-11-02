@@ -1400,9 +1400,9 @@ PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneF
 	bmi .1
 	lda.w Yvel,x
 	bra .2
-.1:									; A = Yvel,x, A + $0D80,x
+.1:									; A = Yvel,x, A + AccelStraight,x
 	lda.w Yvel,x
-	adc.w $0D80,x
+	adc.w AccelStraight,x
 .2:									; d1 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d1
 	xba
@@ -1412,7 +1412,7 @@ PlayerAccDir0:						; playeracc toward direction 0 (up), one step (PlayerAccOneF
 	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
-	lda.w $09A1,x
+	lda.w Xvel+1,x
 	and.w #$00FF
 	asl a
 	tax
@@ -1498,8 +1498,8 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 	bmi .1
 	lda.w Yvel,x
 	bra .2
-.1:									; A = $0D80,x, A * 2, A + Yvel,x
-	lda.w $0D80,x
+.1:									; A = AccelStraight,x, A * 2, A + Yvel,x
+	lda.w AccelStraight,x
 	asl a
 	clc
 	adc.w Yvel,x
@@ -1512,7 +1512,7 @@ PlayerAccDir0x2:					; playeracc toward direction 0 (up), the step taken twice
 	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
-	lda.w $09A1,x
+	lda.w Xvel+1,x
 	and.w #$00FF
 	asl a
 	tax
@@ -1702,9 +1702,9 @@ PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerA
 	bmi .1
 	lda.w Yvel,x
 	bra .2
-.1:									; A = Yvel,x, A + $0DA0,x
+.1:									; A = Yvel,x, A + AccelDiagonal,x
 	lda.w Yvel,x
-	adc.w $0DA0,x
+	adc.w AccelDiagonal,x
 .2:									; d1 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d1
 	xba
@@ -1720,9 +1720,9 @@ PlayerAccDir1:						; playeracc toward direction 1 (up-right), one step (PlayerA
 	bpl .3
 	lda.w Xvel,x
 	bra .4
-.3:									; A = Xvel,x, A + $0DA0,x
+.3:									; A = Xvel,x, A + AccelDiagonal,x
 	lda.w Xvel,x
-	adc.w $0DA0,x
+	adc.w AccelDiagonal,x
 .4:									; d0 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d0
 	xba
@@ -1818,8 +1818,8 @@ PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken t
 	bmi .1
 	lda.w Yvel,x
 	bra .2
-.1:									; A = $0DA0,x, A * 2, A + Yvel,x
-	lda.w $0DA0,x
+.1:									; A = AccelDiagonal,x, A * 2, A + Yvel,x
+	lda.w AccelDiagonal,x
 	asl a
 	clc
 	adc.w Yvel,x
@@ -1838,8 +1838,8 @@ PlayerAccDir1x2:					; playeracc toward direction 1 (up-right), the step taken t
 	bpl .3
 	lda.w Xvel,x
 	bra .4
-.3:									; A = $0DA0,x, A * 2, A + Xvel,x
-	lda.w $0DA0,x
+.3:									; A = AccelDiagonal,x, A * 2, A + Xvel,x
+	lda.w AccelDiagonal,x
 	asl a
 	clc
 	adc.w Xvel,x
@@ -1935,9 +1935,9 @@ PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccO
 	bpl .1
 	lda.w Xvel,x
 	bra .2
-.1:									; A = Xvel,x, A + $0D80,x
+.1:									; A = Xvel,x, A + AccelStraight,x
 	lda.w Xvel,x
-	adc.w $0D80,x
+	adc.w AccelStraight,x
 .2:									; d0 = A, A and $00FF, A * 2, X = A, ...
 	sta.b d0
 	xba
@@ -1947,7 +1947,7 @@ PlayerAccDir2:						; playeracc toward direction 2 (right), one step (PlayerAccO
 	lda.l SignedSquareTable,x
 	tay
 	ldx.b curobj
-	lda.w $09C1,x
+	lda.w Yvel+1,x
 	and.w #$00FF
 	asl a
 	tax

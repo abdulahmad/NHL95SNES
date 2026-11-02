@@ -833,16 +833,16 @@ puckbody:							; called from other segments
 	bne .4
 	tya
 	jsl.l GetFrameHot
-.4:									; d2 = Xvel,x, d3 = Yvel,x, A 8-bit, $09A1,x = d0, ...
+.4:									; d2 = Xvel,x, d3 = Yvel,x, A 8-bit, Xvel+1,x = d0, ...
 	lda.w Xvel,x
 	sta.b d2
 	lda.w Yvel,x
 	sta.b d3
 	sep #$20
 	lda.b d0
-	sta.w $09A1,x
+	sta.w Xvel+1,x
 	lda.b d1
-	sta.w $09C1,x
+	sta.w Yvel+1,x
 	rep #$30
 	jsl.l puckflip
 	lda.w puckz
@@ -1069,12 +1069,12 @@ puckgoalie:							; called from other segments
 	sec
 	sbc.b d1
 	sta.b d1
-.19:								; A 8-bit, $09A1,x = d0, $09C1,x = d1, A 16-bit, ...
+.19:								; A 8-bit, Xvel+1,x = d0, Yvel+1,x = d1, A 16-bit, ...
 	sep #$20
 	lda.b d0
-	sta.w $09A1,x
+	sta.w Xvel+1,x
 	lda.b d1
-	sta.w $09C1,x
+	sta.w Yvel+1,x
 	rep #$20
 	jmp.w puckflip
 .rtl:								; return

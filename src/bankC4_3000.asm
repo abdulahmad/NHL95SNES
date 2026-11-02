@@ -382,7 +382,7 @@ OffensiveDefenceTargetY:			; choose the offensive defender depth and skate to th
 EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	lda.w puckc
 	bmi .rtl
-	lda.w $09A1,x
+	lda.w Xvel+1,x
 	sec
 	sbc.w $09BD
 	and.w #$00FF
@@ -398,7 +398,7 @@ EvadePC:							; passed as a long pointer (lda #bank, lda #low) to skateto
 	bmi .rtl
 	cmp.w #$0029
 	bpl .rtl
-	lda.w $09C1,x
+	lda.w Yvel+1,x
 	sec
 	sbc.w $09DD
 	and.w #$00FF

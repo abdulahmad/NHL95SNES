@@ -573,8 +573,8 @@ SprSort:							; from defaultsprites_0 and other segments
 .loop2:								; loop: d2 = 0, X = $0000
 	stz.b d2
 	ldx.w #$0000
-.loop3:								; loop: A = $10E1,x, A and $00FF, d1 = A, A = OOlist,x, ...
-	lda.w $10E1,x
+.loop3:								; loop: A = OOlist+1,x, A and $00FF, d1 = A, A = OOlist,x, ...
+	lda.w OOlist+1,x
 	and.w #$00FF
 	sta.b d1
 	lda.w OOlist,x
@@ -927,14 +927,14 @@ UpdatePA:							; advance the referee animation and penalty message timers
 	sta.w RefCnt
 	bpl .1
 	jsl.l SetPA2
-.1:									; A = $1143, A - d7, $1143 = A, if plus go to .rtl, ...
-	lda.w $1143
+.1:									; A = penmsgtimer, A - d7, penmsgtimer = A, if plus go to .rtl, ...
+	lda.w penmsgtimer
 	sec
 	sbc.b d7
-	sta.w $1143
+	sta.w penmsgtimer
 	bpl .rtl
 	lda.w #$7FFF
-	sta.w $1143
+	sta.w penmsgtimer
 .rtl:								; return
 	rtl
 SetPA:								; start the referee animation and message for penalty d0
@@ -946,13 +946,13 @@ SetPA:								; start the referee animation and message for penalty d0
 	cmp.w #$000E
 	bne .1
 	jsl.l ShowGoalBox
-.1:									; $1143 = $7FFF, if sfhormode = 0 go to SetPA2, $1143 = $003C
+.1:									; penmsgtimer = $7FFF, if sfhormode = 0 go to SetPA2, penmsgtimer = $003C
 	lda.w #$7FFF
-	sta.w $1143
+	sta.w penmsgtimer
 	lda.w sfhormode
 	beq SetPA2
 	lda.w #$003C
-	sta.w $1143
+	sta.w penmsgtimer
 SetPA2:								; step the referee animation and draw its next frame
 	phx
 	lda.w RefStep

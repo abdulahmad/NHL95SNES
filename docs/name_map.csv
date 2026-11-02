@@ -8709,3 +8709,9 @@ $079E,textdirtyhi,,94S+code,"RAM: 94S textdirtyhi: StartPer clears it, ProcessRe
 $17D1,pregamepause,,94S+code,"RAM: 94S pregamepause: set in StartGame_go, read by StartPer and Pausemode (cleared there), the same use",src/ram95s.asm
 $C50D03,ExtendTextDirtyLo,CODE_C50D03,code,"from the code: cmp / bcs / sta textdirtylo / rtl; no reference in the traced code",src/bankC5_0000.asm
 $C50D0C,ExtendTextDirtyHi,CODE_C50D0C,code,"from the code: cmp / bcc / sta textdirtyhi / rtl; no reference in the traced code",src/bankC5_0000.asm
+$0D80,AccelStraight,,code,"RAM: from the code: setplayer stores r3 * 7 * 2 (r3 from legstr and the position); PlayerAccDir0 / 2 / 4 / 6 add or take it off Yvel / Xvel",src/ram95s.asm
+$0DA0,AccelDiagonal,,code,"RAM: from the code: setplayer stores r3 * 4 * 2; PlayerAccDir1 / 3 / 5 / 7 add or take it off both velocities",src/ram95s.asm
+$0774,replaylock,,94S+purpose,"RAM: 94S replaylock (layout: replaydelay and recsfx at the same offset): UpdateReplayCamera tests it, ReadReplayCameraInput / ProcessReplayPlayback set it",src/ram95s.asm
+$0786,replayHpos,,94S+purpose,"RAM: 94S replayHpos (layout: replaynewframe and percue at the same offset): ReplayMode sets it, UpdateReplayCamera eases it",src/ram95s.asm
+$0788,replayVpos,,94S+purpose,"RAM: 94S replayVpos (layout as replayHpos): ReplayMode sets it, UpdateReplayCamera eases it",src/ram95s.asm
+$1143,penmsgtimer,,94S+purpose,"RAM: 94S penmsgtimer (layout: InjCntDown and RefCnt at the same offset): SetPA sets it ($7FFF or less in horizontal mode), UpdatePA counts it",src/ram95s.asm

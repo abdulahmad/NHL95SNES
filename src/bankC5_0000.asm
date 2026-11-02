@@ -90,7 +90,7 @@ StartGame_go:						; starts a game: fade out, the game RAM cleared, the games st
 	jsl.l restoreteams
 	jsl.l InitScores
 	lda.w #$007F
-	sta.w $07E2
+	sta.w recbpr+2
 	stz.w recbpr
 	lda.w #$0010
 	trb.w sflags
@@ -200,7 +200,7 @@ StartPer:							; starts a period: the stack reset (not in the shootout), both t
 	lda.w #$0010
 	trb.w sflags
 	lda.w #$007F
-	sta.w $07E2
+	sta.w recbpr+2
 	stz.w recbpr
 	bra .5
 .4:									; percue = 0
@@ -925,7 +925,7 @@ updateplayers:						; every object's frame: the old positions kept, the goalie a
 	sta.w $05B4
 	sta.w $05B6
 	sta.w $05B8
-	sta.w $05BA
+	sta.w PadControlObj+12
 	stz.w padinputdone
 	stz.w $05A6
 	stz.w $05A8

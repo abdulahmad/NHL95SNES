@@ -310,9 +310,9 @@ puckflip:							; called from other segments
 	lda.b d0
 	and.w #$0001
 	sta.b d0
-	eor.w $0C5C
+	eor.w facedir+28
 	and.w #$0003
-	sta.w $0C5C
+	sta.w facedir+28
 	lda.w #$FFFF
 	sta.w $0CDC
 	phx
@@ -327,12 +327,12 @@ pucknothing:						; from pucknorm_move and other segments
 	bcc .1
 	cmp.w #$0018
 	bcs .1
-	lda.w $0C5C
+	lda.w facedir+28
 	eor.w #$0002
-	sta.w $0C5C
+	sta.w facedir+28
 .1:									; A = $0004, $0CBC = 0, $0CDC = $FFFF, return
 	lda.w #$0004
-	tsb.w $0C5C
+	tsb.w facedir+28
 	stz.w $0CBC
 	lda.w #$FFFF
 	sta.w $0CDC
@@ -522,8 +522,8 @@ shotdiradj:							; from doshot and other segments
 	dec.b d1
 	bpl .loop
 	jmp.w .7
-.2:									; A = $09A1,y, A and $00FF, if $0080 bits clear go to .3, A or $FF00
-	lda.w $09A1,y
+.2:									; A = Xvel+1,y, A and $00FF, if $0080 bits clear go to .3, A or $FF00
+	lda.w Xvel+1,y
 	and.w #$00FF
 	bit.w #$0080
 	beq .3
@@ -538,7 +538,7 @@ shotdiradj:							; from doshot and other segments
 	sec
 	sbc.w puckx
 	sta.b d0
-	lda.w $09C1,y
+	lda.w Yvel+1,y
 	and.w #$00FF
 	bit.w #$0080
 	beq .4

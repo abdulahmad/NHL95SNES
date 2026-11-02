@@ -103,11 +103,14 @@ benchcheer			=	$06EC		; bench cheer: FallDown and Goal clear it; nothing reads i
 benchrounds			=	$06EE		; bench cheer rounds: FallDown sets 2
 benchframe			=	$06F2		; bench cheer frame; kept in the replay (adda43, RestoreReplayFrame)
 replaydelay			=	$0772		; Goal / Stop4Pen set 30: updatereplay keeps recording until it ...
+replaylock			=	$0774		; ReplayMode: object the replay camera locks onto ($FFFF: none)
 recsfx				=	$0776		; QueueSound: the sound queued this frame ($FFFF none) for the replay
 recsfxpitch			=	$0778		; StartSoundVoice / PuckSfx / updatepwrplay store the voice pitch
 recsfx2				=	$077C		; QueueSound moves recsfx here when a second sound comes in the same ...
 recsfxpitch2		=	$077E		; QueueSound copies recsfxpitch here with recsfx2; ReplayMode restores
 replaynewframe		=	$0782		; RestoreReplayFrame increments it, UpdateReplayCamera clears it
+replayHpos			=	$0786		; ReplayMode: the replay camera x, eased toward the locked object
+replayVpos			=	$0788		; ReplayMode: the replay camera y, eased the same way
 percue				=	$078A		; StartPer sets $FFFF (0 in mode 4); puckfaceoff2 picks the song by it
 textdirtylo			=	$079C		; lowest changed word of the text map ($FFFF: none)
 textdirtyhi			=	$079E		; highest changed word of the text map
@@ -198,6 +201,8 @@ nopuckb				=	$0D00		; per object: a count down FallDown sets to $3C
 newpos				=	$0D20		; requested next position (negative = none)
 newpnum				=	$0D40		; requested next roster player (negative = none)
 pflags				=	$0D60		; pflags (bits 0-7) and pflags2 (bit n at bit n+10); some flags have their
+AccelStraight		=	$0D80		; per player: the acceleration step straight (setplayer, by legstr)
+AccelDiagonal		=	$0DA0		; per player: the acceleration step on a diagonal (setplayer)
 pnum				=	$0DC0		; player's team location number (low byte)
 weight				=	$0DE0		; per object: the player's weight rating (setplayer; CollidePlayers)
 legstr				=	$0E00		; per object: the player's leg strength rating
@@ -233,6 +238,7 @@ PenCntDwn			=	$113B		; penalty/fight count down (negative = fight over)
 Penaltytimer		=	$113D		; frames to the next penalty clock second (updatepentime)
 PBnum				=	$113F		; players in the penalty boxes: home*16 + visitors
 InjCntDown			=	$1141		; counts down to the next injury box (CheckInjury)
+penmsgtimer			=	$1143		; count down to reprinting the penalty message (SetPA, UpdatePA)
 RefCnt				=	$1145		; ref graphics control (negative = idle)
 RefStep				=	$1147		; step in the ref animation (SetPA / SetPA2; chkprogress)
 RefPen				=	$1149		; penalty number of the ref animation (SetPA)

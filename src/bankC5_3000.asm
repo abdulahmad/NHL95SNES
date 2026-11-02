@@ -1950,12 +1950,12 @@ setplayer:							; from forcepldata and other segments
 	ldx.w #$0007
 	jsl.l Mul8U
 	asl a
-	sta.w $0D80,y
+	sta.w AccelStraight,y
 	lda.b r3
 	ldx.w #$0004
 	jsl.l Mul8U
 	asl a
-	sta.w $0DA0,y
+	sta.w AccelDiagonal,y
 	ply
 	plx
 	rtl

@@ -51,11 +51,11 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 .3:									; d1 = OOlistpos,x
 	lda.w OOlistpos,x
 	sta.b d1
-.loop:								; loop: if d1 = $000F go to .4, A = $10E1,y, A and $00FF, d4 = A, ...
+.loop:								; loop: if d1 = $000F go to .4, A = OOlist+1,y, A and $00FF, d4 = A, ...
 	ldy.b d1
 	cpy.w #$000F
 	beq .4
-	lda.w $10E1,y
+	lda.w OOlist+1,y
 	and.w #$00FF
 	sta.b d4
 	tay
@@ -73,7 +73,7 @@ checkcoll:							; collisions of object X (updateplayers): checkwallcoll at its 
 	lda.b d4
 	sta.w OOlist,y
 	txa
-	sta.w $10E1,y
+	sta.w OOlist+1,y
 	rep #$30
 	inc.b d1
 	bra .loop
@@ -1046,11 +1046,11 @@ checkplcoll:						; from checkcoll and other segments
 .1:									; d1 = OOlistpos,x
 	lda.w OOlistpos,x
 	sta.b d1
-.loop:								; loop: if d1 = $000F go to .3, A = $10E1,y, A and $00FF, Y = A, ...
+.loop:								; loop: if d1 = $000F go to .3, A = OOlist+1,y, A and $00FF, Y = A, ...
 	ldy.b d1
 	cpy.w #$000F
 	beq .3
-	lda.w $10E1,y
+	lda.w OOlist+1,y
 	and.w #$00FF
 	tay
 	lda.w Ylist,y
@@ -1405,11 +1405,11 @@ checkpuckcoll:						; called from other segments
 	sbc.w #$0010
 	bpl .rtl
 	ldy.w $10DC
-.loop:								; loop: d1 = Y, if Y = $000F go to .1, A = $10E1,y, A and $00FF, ...
+.loop:								; loop: d1 = Y, if Y = $000F go to .1, A = OOlist+1,y, A and $00FF, ...
 	sty.b d1
 	cpy.w #$000F
 	beq .1
-	lda.w $10E1,y
+	lda.w OOlist+1,y
 	and.w #$00FF
 	tay
 	lda.w Ylist,y
