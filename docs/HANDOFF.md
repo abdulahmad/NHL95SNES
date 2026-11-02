@@ -140,6 +140,11 @@
   the layout: 94S and 95 addresses of the names given so far differ by constant offsets over runs (team fields -1251 /
   -1247, per-object arrays -1315 / -1251 ...); a candidate is named when the named neighbours on both sides have its exact
   offset and its 95 uses are the routines 94S names for it.
+  ../work/local94.py compares unnamed routines with 94S local subroutines (a called .label to its return): five
+  were the same code (setplayer .8 = HotColdRating ...); they take names from the code. Save RAM (bank $30): the
+  season keeps its records there as bit fields; ram95s.asm has a save RAM section (95 Genesis SR* block names where
+  the job matches, SeasonDay ...), written by ../work/srnames.py (long operands; offsets by longfix.py). Still numbers:
+  $306040, $306045, $306047, $30604F (saved options not traced), $3070D6, $3072E8, $307446, $307884.
   Code that moves the direct page (lda #$2100 / tcd, also $0100, $0300, $0400, $1E00) reads its .b operands from
   there: no RAM name on them (../work/dpmoved.py); with D = $2100 they are the PPU registers, written NAME&$FF as
   the bank $C0 engine does.
