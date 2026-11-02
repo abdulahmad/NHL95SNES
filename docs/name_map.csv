@@ -5600,11 +5600,11 @@ $C56F32,.7,CODE_C56F32,new,"branch target only used in TeamRoster",src/bankC5_60
 $C56F4D,.8,CODE_C56F4D,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
 $C56F50,.9,CODE_C56F50,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
 $C56F59,.10,CODE_C56F59,new,"branch target only used in TeamRoster",src/bankC5_6000.asm
-$C56F91,.1,CODE_C56F91,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
-$C56F98,.2,CODE_C56F98,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
-$C56FBD,.3,CODE_C56FBD,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
-$C56FC1,.4,CODE_C56FC1,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
-$C56FEA,.5,CODE_C56FEA,new,"branch target only used in CODE_C56F5C",src/bankC5_7000.asm
+$C56F91,.1,CODE_C56F91,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
+$C56F98,.2,CODE_C56F98,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
+$C56FBD,.3,CODE_C56FBD,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
+$C56FC1,.4,CODE_C56FC1,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
+$C56FEA,.5,CODE_C56FEA,new,"branch target only used in ShowRosterLine",src/bankC5_7000.asm
 $C570E4,.rts,CODE_C570E4,new,"branch target only used in CODE_C570CC",src/bankC5_7000.asm
 $C570E5,.1,CODE_C570E5,new,"branch target only used in CODE_C570CC",src/bankC5_7000.asm
 $C570FE,.1,CODE_C570FE,new,"branch target only used in RosterColStatus",src/bankC5_7000.asm
@@ -5677,22 +5677,22 @@ $C57653,.9,CODE_C57653,new,"branch target only used in SelectLinePlayer",src/ban
 $C57660,.10,CODE_C57660,new,"branch target only used in SelectLinePlayer",src/bankC5_7000.asm
 $C5767A,.11,CODE_C5767A,new,"branch target only used in SelectLinePlayer",src/bankC5_7000.asm
 $C5767D,.12,CODE_C5767D,new,"branch target only used in SelectLinePlayer",src/bankC5_7000.asm
-$C576E2,.loop,CODE_C576E2,new,"branch target only used in CODE_C576CC",src/bankC5_7000.asm
+$C576E2,.loop,CODE_C576E2,new,"branch target only used in ClearLinePlayerStatColumn",src/bankC5_7000.asm
 $C57709,.1,CODE_C57709,new,"branch target only used in DrawLinePlayerRow",src/bankC5_7000.asm
-$C57786,.loop,CODE_C57786,new,"branch target only used in CODE_C57779",src/bankC5_7000.asm
-$C5778E,.1,CODE_C5778E,new,"branch target only used in CODE_C57779",src/bankC5_7000.asm
-$C5779B,.loop2,CODE_C5779B,new,"branch target only used in CODE_C57779",src/bankC5_7000.asm
-$C577A3,.2,CODE_C577A3,new,"branch target only used in CODE_C57779",src/bankC5_7000.asm
-$C577B9,.loop3,CODE_C577B9,new,"branch target only used in CODE_C57779",src/bankC5_7000.asm
-$C577C2,.rts,CODE_C577C2,new,"branch target only used in CODE_C57779",src/bankC5_7000.asm
-$C57827,.1,CODE_C57827,new,"branch target only used in CODE_C5781A",src/bankC5_7000.asm
-$C5783C,.1,CODE_C5783C,new,"branch target only used in CODE_C5782F",src/bankC5_7000.asm
-$C57851,.1,CODE_C57851,new,"branch target only used in CODE_C57844",src/bankC5_7000.asm
-$C57859,.2,CODE_C57859,new,"branch target only used in CODE_C57844",src/bankC5_7000.asm
-$C57875,.1,CODE_C57875,new,"branch target only used in CODE_C57868",src/bankC5_7000.asm
-$C5787D,.2,CODE_C5787D,new,"branch target only used in CODE_C57868",src/bankC5_7000.asm
-$C57899,.1,CODE_C57899,new,"branch target only used in CODE_C5788C",src/bankC5_7000.asm
-$C578A1,.2,CODE_C578A1,new,"branch target only used in CODE_C5788C",src/bankC5_7000.asm
+$C57786,.loop,CODE_C57786,new,"branch target only used in MoveLinePlayerCursor",src/bankC5_7000.asm
+$C5778E,.1,CODE_C5778E,new,"branch target only used in MoveLinePlayerCursor",src/bankC5_7000.asm
+$C5779B,.loop2,CODE_C5779B,new,"branch target only used in MoveLinePlayerCursor",src/bankC5_7000.asm
+$C577A3,.2,CODE_C577A3,new,"branch target only used in MoveLinePlayerCursor",src/bankC5_7000.asm
+$C577B9,.loop3,CODE_C577B9,new,"branch target only used in MoveLinePlayerCursor",src/bankC5_7000.asm
+$C577C2,.rts,CODE_C577C2,new,"branch target only used in MoveLinePlayerCursor",src/bankC5_7000.asm
+$C57827,.1,CODE_C57827,new,"branch target only used in SetLineSlotLD",src/bankC5_7000.asm
+$C5783C,.1,CODE_C5783C,new,"branch target only used in SetLineSlotRD",src/bankC5_7000.asm
+$C57851,.1,CODE_C57851,new,"branch target only used in SetLineSlotLW",src/bankC5_7000.asm
+$C57859,.2,CODE_C57859,new,"branch target only used in SetLineSlotLW",src/bankC5_7000.asm
+$C57875,.1,CODE_C57875,new,"branch target only used in SetLineSlotC",src/bankC5_7000.asm
+$C5787D,.2,CODE_C5787D,new,"branch target only used in SetLineSlotC",src/bankC5_7000.asm
+$C57899,.1,CODE_C57899,new,"branch target only used in SetLineSlotRW",src/bankC5_7000.asm
+$C578A1,.2,CODE_C578A1,new,"branch target only used in SetLineSlotRW",src/bankC5_7000.asm
 $C578F3,.1,CODE_C578F3,new,"branch target only used in PauseGoalie",src/bankC5_7000.asm
 $C57903,.2,CODE_C57903,new,"branch target only used in PauseGoalie",src/bankC5_7000.asm
 $C57905,.loop,CODE_C57905,new,"branch target only used in PauseGoalie",src/bankC5_7000.asm
@@ -5741,19 +5741,19 @@ $C57D70,.loop3,CODE_C57D70,new,"branch target only used in RecordHoldersScreen",
 $C57DA3,.12,CODE_C57DA3,new,"branch target only used in RecordHoldersScreen",src/bankC5_7000.asm
 $C57DB8,.13,CODE_C57DB8,new,"branch target only used in RecordHoldersScreen",src/bankC5_7000.asm
 $C57DBD,.14,CODE_C57DBD,new,"branch target only used in RecordHoldersScreen",src/bankC5_7000.asm
-$C57DD6,.loop,CODE_C57DD6,new,"branch target only used in CODE_C57DD3",src/bankC5_7000.asm
-$C57DE7,.1,CODE_C57DE7,new,"branch target only used in CODE_C57DD3",src/bankC5_7000.asm
-$C57DF8,.2,CODE_C57DF8,new,"branch target only used in CODE_C57DD3",src/bankC5_7000.asm
-$C57E02,.loop,CODE_C57E02,new,"branch target only used in CODE_C57DFF",src/bankC5_7000.asm
-$C57E13,.1,CODE_C57E13,new,"branch target only used in CODE_C57DFF",src/bankC5_7000.asm
-$C57E24,.2,CODE_C57E24,new,"branch target only used in CODE_C57DFF",src/bankC5_7000.asm
-$C57E2E,.loop,CODE_C57E2E,new,"branch target only used in CODE_C57E2B",src/bankC5_7000.asm
-$C57E3F,.1,CODE_C57E3F,new,"branch target only used in CODE_C57E2B",src/bankC5_7000.asm
-$C57E50,.2,CODE_C57E50,new,"branch target only used in CODE_C57E2B",src/bankC5_7000.asm
+$C57DD6,.loop,CODE_C57DD6,new,"branch target only used in InsertWinRecord",src/bankC5_7000.asm
+$C57DE7,.1,CODE_C57DE7,new,"branch target only used in InsertWinRecord",src/bankC5_7000.asm
+$C57DF8,.2,CODE_C57DF8,new,"branch target only used in InsertWinRecord",src/bankC5_7000.asm
+$C57E02,.loop,CODE_C57E02,new,"branch target only used in InsertGoalRecord",src/bankC5_7000.asm
+$C57E13,.1,CODE_C57E13,new,"branch target only used in InsertGoalRecord",src/bankC5_7000.asm
+$C57E24,.2,CODE_C57E24,new,"branch target only used in InsertGoalRecord",src/bankC5_7000.asm
+$C57E2E,.loop,CODE_C57E2E,new,"branch target only used in InsertSaveRecord",src/bankC5_7000.asm
+$C57E3F,.1,CODE_C57E3F,new,"branch target only used in InsertSaveRecord",src/bankC5_7000.asm
+$C57E50,.2,CODE_C57E50,new,"branch target only used in InsertSaveRecord",src/bankC5_7000.asm
 $C57E9B,.loop,CODE_C57E9B,new,"branch target only used in PrintWinRecords",src/bankC5_7000.asm
 $C57F28,.loop,CODE_C57F28,new,"branch target only used in PrintGoalRecords",src/bankC5_7000.asm
-$C57FC9,.loop,CODE_C57FC9,new,"branch target only used in CODE_C57FC7",src/bankC5_7000.asm
-$C57FD5,.1,CODE_C57FD5,new,"branch target only used in CODE_C57FC7",src/bankC5_7000.asm
+$C57FC9,.loop,CODE_C57FC9,new,"branch target only used in AppendGoalMesarea",src/bankC5_7000.asm
+$C57FD5,.1,CODE_C57FD5,new,"branch target only used in AppendGoalMesarea",src/bankC5_7000.asm
 $C57FFB,.loop,CODE_C57FFB,new,"branch target only used in PrintSaveRecords",src/bankC5_7000.asm
 $C5809C,.loop,CODE_C5809C,new,"branch target only used in AppendMesarea",src/bankC5_8000.asm
 $C580A8,.1,CODE_C580A8,new,"branch target only used in AppendMesarea",src/bankC5_8000.asm
@@ -8573,3 +8573,23 @@ $C5547C,PauseScoresClock,CODE_C5547C,code,"from the code: d1 = 3, PushNumberWrap
 $C554CA,PutPauseScore,CODE_C554CA,code,"from the code: the three digit bytes after PushNumberWrap's length word, PutClockDigit each with Y + 2 between; falls into PutClockDigit for the last; PauseScoresClock calls it per team",src/bankC5_5000.asm
 $C554DD,PutClockDigit,CODE_C554DD,genesis+purpose,"95 Genesis middle95.asm PutClockDigit: a big 2 x 3 digit d0 at printx / printy (PutScoreDigit is its copy); here map words +$700 + 4 x the digit, rows $40 apart, to the map at 2 x Y, Y kept; PauseScoresClock and PutPauseScore call it",src/bankC5_5000.asm
 $C55513,RestoreGameScreen,CODE_C55513,genesis+purpose,"95 Genesis pause95.asm RestoreGameScreen: rebuild the game screen after the pause screen (the ref tiles, the face off tiles, the rink tiles and home team graphics, then printscores1); here LoadTeamSongs when $18F8 is set, RefsMap, QueueFrameTiles, DigitFontTiles, the IceRinkMap tiles, CenterIceTiles, MeterFontTiles, FaceOffMap, CODE_C53A29; Pausemode_menu .resume jumps to it, PauseReplay calls it; 94S ReloadRink rebuilds the rink after each pause page to the rink menu, a different point",src/bankC5_5000.asm
+$C56F5C,ShowRosterLine,CODE_C56F5C,94S+purpose,"94S stats/ShowRosterLine: the line name and the attribute column title, the area below cleared, each player of the line with its position name (or the goalie marks) and the attribute; here ClearRAM7E, 'Line: ' + DATA8_C35E37 (or 'Goalies'), 'Stat: ' + DATA8_C35E67 / DATA8_C35E87, the goalies over the roster count at +2 or the line slots at +$6C (8 a line; 4 rows for lines 6 and 7, the penalty kill lines), the stat through the DATA8_C570E8 handlers; TeamRoster calls it after each change",src/bankC5_7000.asm
+$C576CC,ClearLinePlayerStatColumn,CODE_C576CC,code,"from the code: ClearRAM7E $20 bytes at $D3 + $320, then 12 rows of $14 bytes from + $36C, $40 apart, SendTextMap; SelectLinePlayer calls it when left / right changes $7D, before PrintLinePlayerHeader and RedrawScrollList",src/bankC5_7000.asm
+$C57779,MoveLinePlayerCursor,CODE_C57779,code,"from the code: the row to text row wrap by $71 + 1 / $71 + 2 plus a4, RecolourTextRow with d0 = $2000 then $2400 (DrawLinePlayerRow draws the cursor row with $2400), SendTextMap; with padlast set a dex loop, then repeatdelayframes and padchangeany cleared; SelectLinePlayer calls it after ScrollListUp / Down with the old $7B",src/bankC5_7000.asm
+$C577C3,PrintLinePlayerHeader,CODE_C577C3,code,"from the code: ClearTextRow, PrintBoldLeft of text $4F6C (decoded 'Player'), PrintBoldRight of DATA8_C35E67 by $7D; SelectLinePlayer calls it at the start and on each column change",src/bankC5_7000.asm
+$C577F7,SetLineSlot,CODE_C577F7,94S+purpose,"94S stats/SetLineSlot (and 95 Genesis SetLineSlot): put the player in the cursor slot of the line, swapping when he is already in another slot of it; here SelectLinePlayer's B passes the saved slot ($69) in A, the line ($79) in X and the block in $65, X = line * 8 + $65, then jmp ($009F) to the slot handler in 8-bit A; 94S walks the neighbouring slots inline",src/bankC5_7000.asm
+$C5781A,SetLineSlotLD,CODE_C5781A,code,"from the code: tests +2, writes +1; DATA8_C35E47 entry 0 is 'LD' (decoded); a DATA8_C57810 entry (SetLineSlot)",src/bankC5_7000.asm
+$C5782F,SetLineSlotRD,CODE_C5782F,code,"from the code: tests +1, writes +2; DATA8_C35E47 entry 1 is 'RD' (decoded); a DATA8_C57810 entry (SetLineSlot)",src/bankC5_7000.asm
+$C57844,SetLineSlotLW,CODE_C57844,code,"from the code: tests +5, then +4, writes +3; DATA8_C35E47 entry 2 is 'LW' (decoded); a DATA8_C57810 entry (SetLineSlot)",src/bankC5_7000.asm
+$C57868,SetLineSlotC,CODE_C57868,code,"from the code: tests +3, then +5, writes +4; DATA8_C35E47 entry 3 is 'C' (decoded); a DATA8_C57810 entry (SetLineSlot)",src/bankC5_7000.asm
+$C5788C,SetLineSlotRW,CODE_C5788C,code,"from the code: tests +3, then +4, writes +5; DATA8_C35E47 entry 4 is 'RW' (decoded); a DATA8_C57810 entry (SetLineSlot)",src/bankC5_7000.asm
+$C57997,Pausemode_gnum,CODE_C57997,genesis+purpose,"95 Genesis pause95.asm Pausemode_gnum: draw the goalie list, the row of menuitem in another font set, 'no goalie' and each goalie; here 'None' comes last (PauseGoalie stores it as $FFFF in tmgoalie), the stat column through DATA8_C570E8 added; 94S PauseGoalie cycles the goalie without a list",src/bankC5_7000.asm
+$C57DD3,InsertWinRecord,CODE_C57DD3,code,"from the code: the list of record offsets after the 'no record' $FFFF fill (7 words), compared with +$365E,x, mvp for the rest; RecordHoldersScreen calls it per user record with A = its win %; it does the job of 95 Genesis's winsort ordering as an insertion",src/bankC5_7000.asm
+$C57DFF,InsertGoalRecord,CODE_C57DFF,code,"from the code: as InsertWinRecord on the next list, compared with +$3650,x; RecordHoldersScreen calls it with A = the record's goals; 95 Genesis recsort1 is that order",src/bankC5_7000.asm
+$C57E2B,InsertSaveRecord,CODE_C57E2B,code,"from the code: as InsertWinRecord on the third list, compared with +$3654,x; RecordHoldersScreen calls it with A = the record's saves; 95 Genesis recsort2 is that order; PrintSaveRecordRow reads that list",src/bankC5_7000.asm
+$C57EAA,PrintWinRecordRow,CODE_C57EAA,code,"from the code: the record offset from the list by A, the name at +$3660 in the cell $10-$60, then +$365E, +$3658, +$365C, +$365A to x $88 / $A8 / $C8 / $E8 under the headers 'name', 'win%', 'win', 'lose', 'tie' (decoded); PrintWinRecords calls it per row",src/bankC5_7000.asm
+$C57EEF,PrintWinRecordNumber,CODE_C57EEF,code,"from the code: BinToBCD, BCDText, X = mesarea, Y = $6D, then falls into PrintWinRecordCell; PrintWinRecordRow calls it three times and falls into it for the last column",src/bankC5_7000.asm
+$C57EFA,PrintWinRecordCell,CODE_C57EFA,code,"from the code: PrintRecordCell's three instructions plus ldx a3; PrintWinRecordRow calls it for the name, PrintWinRecordNumber falls into it",src/bankC5_7000.asm
+$C57F39,PrintGoalRecordRow,CODE_C57F39,code,"from the code: the same code as PrintSaveRecordRow on the goal fields (the goal order list, +$3650, the team bytes +$3652 / +$3653); its zero test reads +$3658, the wins PrintWinRecordRow prints, where PrintSaveRecordRow tests the saves; PrintGoalRecords calls it per row",src/bankC5_7000.asm
+$C57FBE,PrintGoalRecordCell,CODE_C57FBE,code,"from the code: the same bytes as PrintRecordCell; PrintGoalRecordRow calls it for the name and falls into it at the end",src/bankC5_7000.asm
+$C57FC7,AppendGoalMesarea,CODE_C57FC7,code,"from the code: the same code as AppendMesarea, its copy beside PrintGoalRecordRow, which calls it for the two team texts",src/bankC5_7000.asm

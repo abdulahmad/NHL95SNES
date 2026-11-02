@@ -1,7 +1,9 @@
 ; Segment bankC5_7000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C56F5C
-CODE_C56F5C:						; called from other segments
+ShowRosterLine:						; TeamRoster's page of team a2: the line title ($79, 0 the goalies) and
+									; the title of stat column $7D, then a row per player of the line: its
+									; position, name and stat (DATA8_C570E8)
 	lda.w #$02C0
 	clc
 	adc.b $D3
@@ -121,7 +123,7 @@ CODE_C5704D:						; from CODE_C56FF5
 	cmp.w $0002,x
 	bne CODE_C56FF5
 	rts
-CODE_C5705C:						; from CODE_C56F5C
+CODE_C5705C:						; from ShowRosterLine
 	stz.b $91
 CODE_C5705E:						; from CODE_C570CC
 	lda.w #$0010
@@ -824,7 +826,7 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 	ldx.w #$000A
 	ldy.w #$000E
 	jsr.w StartScrollList
-	jsr.w CODE_C577C3
+	jsr.w PrintLinePlayerHeader
 	jsl.l SendTextMap
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
@@ -869,8 +871,8 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 .5:									; call ScrollListDown, pull A
 	jsr.w ScrollListDown
 	pla
-.6:									; call CODE_C57779, go to .loop
-	jsr.w CODE_C57779
+.6:									; call MoveLinePlayerCursor, go to .loop
+	jsr.w MoveLinePlayerCursor
 	bra .loop
 .7:									; if $0200 bits clear go to .8, if $7D = 0 go to .loop, A - 1, ...
 	bit.w #$0200
@@ -888,9 +890,9 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 	bcs .loop
 	inc a
 	sta.b $7D
-.9:									; call CODE_C576CC, call CODE_C577C3, call RedrawScrollList, ...
-	jsr.w CODE_C576CC
-	jsr.w CODE_C577C3
+.9:									; call ClearLinePlayerStatColumn, call PrintLinePlayerHeader, ...
+	jsr.w ClearLinePlayerStatColumn
+	jsr.w PrintLinePlayerHeader
 	jsr.w RedrawScrollList
 	jsl.l SendTextMap
 .10:								; if $8000 bits clear go to .11, A = $65, A + $7B, $7B = A, ...
@@ -905,7 +907,7 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 	lda.b $03,s
 	tax
 	lda.b $01,s
-	jsr.w CODE_C577F7
+	jsr.w SetLineSlot
 	bra .12
 .11:								; go to .loop
 	jmp.w .loop
@@ -941,7 +943,8 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 	sta.l $002112
 	rep #$20
 	rts
-CODE_C576CC:						; from SelectLinePlayer
+ClearLinePlayerStatColumn:			; clears the right half of text row 12 (the list header) and 10 tiles from
+									; column 22 on rows 13-24 (the stat column), then sends the map
 	lda.b $D3
 	clc
 	adc.w #$0320
@@ -1028,7 +1031,9 @@ CODE_C57773:						; from DrawLinePlayerRow
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C57779:						; from SelectLinePlayer
+MoveLinePlayerCursor:				; list row A (the old cursor) back to palette 0 and cursor row $7B in
+									; palette 1 (RecolourTextRow, rows wrapped as RedrawScrollList does), the
+									; map sent; a delay when padlast is set
 	ldx.b $71
 	inx
 	stx.b tmp1
@@ -1069,7 +1074,8 @@ CODE_C57779:						; from SelectLinePlayer
 	stz.w padchangeany
 .rts:								; return
 	rts
-CODE_C577C3:						; from SelectLinePlayer
+PrintLinePlayerHeader:				; the list header on text row 12: 'Player' from x $1E, the title of stat
+									; column $7D (DATA8_C35E67) right-aligned to x $F0
 	lda.w #$000C
 	sta.b $6D
 	jsr.w ClearTextRow
@@ -1092,7 +1098,9 @@ CODE_C577C3:						; from SelectLinePlayer
 	ldy.b $6D
 	jsl.l PrintBoldRight
 	rts
-CODE_C577F7:						; from SelectLinePlayer
+SetLineSlot:						; puts player $7B (+ 1) in slot A of line X of the line block at $65
+									; through the slot's handler (DATA8_C57810), the old player moved when the
+									; new one was in the line
 	stx.b tmp1
 	inc.b $7B
 	asl a
@@ -1107,10 +1115,11 @@ CODE_C577F7:						; from SelectLinePlayer
 	tax
 	sep #$20
 	jmp ($009F)
-DATA8_C57810:						; the routines CODE_C577F7 jumps to through a pointer, by index
-	dw CODE_C5781A,CODE_C5782F,CODE_C57844,CODE_C57868
-	dw CODE_C5788C
-CODE_C5781A:						; from DATA8_C57810
+DATA8_C57810:						; the routines SetLineSlot jumps to through a pointer, by index
+	dw SetLineSlotLD,SetLineSlotRD,SetLineSlotLW,SetLineSlotC
+	dw SetLineSlotRW
+SetLineSlotLD:						; slot 0 (LD, line byte +1) = player $7B; the old LD goes to RD when the
+									; player was there
 	lda.w $0002,x
 	cmp.b $7B
 	bne .1
@@ -1121,7 +1130,8 @@ CODE_C5781A:						; from DATA8_C57810
 	sta.w $0001,x
 	rep #$20
 	rts
-CODE_C5782F:						; from DATA8_C57810
+SetLineSlotRD:						; slot 1 (RD, line byte +2) = player $7B; the old RD goes to LD when the
+									; player was there
 	lda.w $0001,x
 	cmp.b $7B
 	bne .1
@@ -1132,7 +1142,8 @@ CODE_C5782F:						; from DATA8_C57810
 	sta.w $0002,x
 	rep #$20
 	rts
-CODE_C57844:						; from DATA8_C57810
+SetLineSlotLW:						; slot 2 (LW, line byte +3) = player $7B; the old LW goes to RW or C,
+									; wherever the player was
 	lda.w $0005,x
 	cmp.b $7B
 	bne .2
@@ -1150,7 +1161,8 @@ CODE_C57844:						; from DATA8_C57810
 	lda.w $0003,x
 	sta.w $0004,x
 	bra .1
-CODE_C57868:						; from DATA8_C57810
+SetLineSlotC:						; slot 3 (C, line byte +4) = player $7B; the old C goes to LW or RW,
+									; wherever the player was
 	lda.w $0003,x
 	cmp.b $7B
 	bne .2
@@ -1168,7 +1180,8 @@ CODE_C57868:						; from DATA8_C57810
 	lda.w $0004,x
 	sta.w $0005,x
 	bra .1
-CODE_C5788C:						; from DATA8_C57810
+SetLineSlotRW:						; slot 4 (RW, line byte +5) = player $7B; the old RW goes to LW or C,
+									; wherever the player was
 	lda.w $0003,x
 	cmp.b $7B
 	bne .2
@@ -1221,8 +1234,8 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	lda.b a1
 .2:									; $69 = A
 	sta.b $69
-.loop:								; loop: call CODE_C57997, call SendTextMap, fadestep = 0
-	jsr.w CODE_C57997
+.loop:								; loop: call Pausemode_gnum, call SendTextMap, fadestep = 0
+	jsr.w Pausemode_gnum
 	jsl.l SendTextMap
 	stz.w fadestep
 .loop2:								; loop: TransfersReady + 1
@@ -1290,7 +1303,9 @@ PauseGoalie:						; pause menu Chnge Goalie: team a2's goalies (pad up / down, l
 	jsl.l setpersonel
 .8:									; go to ExitToPauseMenu
 	jmp.w ExitToPauseMenu
-CODE_C57997:						; from PauseGoalie
+Pausemode_gnum:						; PauseGoalie's goalie list: 'Player' and the title of stat column $7D
+									; over title bars, a row per goalie with its stat, then 'None'; the cursor
+									; row ($69) in palette 1
 	lda.w #$0300
 	clc
 	adc.b $D3
@@ -1699,14 +1714,14 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	ldy.w #$3E50
 	mvn $7E,$7E
 	ldx.w #$0000
-.loop2:								; loop: tmp1 = X, A = $365E,x, call CODE_C57DD3, A = $3650,x, ...
+.loop2:								; loop: tmp1 = X, A = $365E,x, call InsertWinRecord, A = $3650,x, ...
 	stx.b tmp1
 	lda.w $365E,x
-	jsr.w CODE_C57DD3
+	jsr.w InsertWinRecord
 	lda.w $3650,x
-	jsr.w CODE_C57DFF
+	jsr.w InsertGoalRecord
 	lda.w $3654,x
-	jsr.w CODE_C57E2B
+	jsr.w InsertSaveRecord
 	txa
 	clc
 	adc.w #$0020
@@ -1789,7 +1804,8 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	bra .13
 DATA8_C57DCD:						; jump table: the routine for each index
 	dw PrintWinRecords,PrintGoalRecords,PrintSaveRecords
-CODE_C57DD3:						; from RecordHoldersScreen
+InsertWinRecord:					; puts user record tmp1 in the win page's order list before the first one
+									; whose win % is not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
 .loop:								; loop: if $3E4E,y < 0 go to .2, if A >= $365E,x go to .1, Y + 1, ...
 	ldx.w $3E4E,y
@@ -1814,7 +1830,8 @@ CODE_C57DD3:						; from RecordHoldersScreen
 	sta.w $3E4E,y
 	tax
 	rts
-CODE_C57DFF:						; from RecordHoldersScreen
+InsertGoalRecord:					; puts user record tmp1 in the goal page's order list before the first one
+									; whose goals are not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
 .loop:								; loop: if $3E5E,y < 0 go to .2, if A >= $3650,x go to .1, Y + 1, ...
 	ldx.w $3E5E,y
@@ -1839,7 +1856,8 @@ CODE_C57DFF:						; from RecordHoldersScreen
 	sta.w $3E5E,y
 	tax
 	rts
-CODE_C57E2B:						; from RecordHoldersScreen
+InsertSaveRecord:					; puts user record tmp1 in the save page's order list before the first one
+									; whose saves are not above A (the rest moved down); X = tmp1
 	ldy.w #$0000
 .loop:								; loop: if $3E6E,y < 0 go to .2, if A >= $3654,x go to .1, Y + 1, ...
 	ldx.w $3E6E,y
@@ -1890,16 +1908,17 @@ PrintWinRecords:					; Record Holders page 0: name, win %, wins, losses, ties of
 	lda.w #$0008
 	sta.b $6D
 	lda.w #$0000
-.loop:								; loop: $65 = A, call CODE_C57EAA, $6D + 1, A = $65, ...
+.loop:								; loop: $65 = A, call PrintWinRecordRow, $6D + 1, A = $65, ...
 	sta.b $65
-	jsr.w CODE_C57EAA
+	jsr.w PrintWinRecordRow
 	inc.b $6D
 	lda.b $65
 	inc a
 	cmp.b a1
 	bne .loop
 	rts
-CODE_C57EAA:						; from PrintWinRecords
+PrintWinRecordRow:					; win page row A on text row $6D: the user's name, win %, wins, losses and
+									; ties of the record the win order list gives
 	ldx.w #$0010
 	stx.b $CF
 	ldx.w #$0060
@@ -1911,29 +1930,31 @@ CODE_C57EAA:						; from PrintWinRecords
 	adc.w #$3660
 	tax
 	ldy.b $6D
-	jsr.w CODE_C57EFA
+	jsr.w PrintWinRecordCell
 	ldx.b a3
 	lda.w #$0088
 	sta.b $D1
 	lda.w $365E,x
-	jsr.w CODE_C57EEF
+	jsr.w PrintWinRecordNumber
 	lda.w #$00A8
 	sta.b $D1
 	lda.w $3658,x
-	jsr.w CODE_C57EEF
+	jsr.w PrintWinRecordNumber
 	lda.w #$00C8
 	sta.b $D1
 	lda.w $365C,x
-	jsr.w CODE_C57EEF
+	jsr.w PrintWinRecordNumber
 	lda.w #$00E8
 	sta.b $D1
 	lda.w $365A,x
-CODE_C57EEF:						; from CODE_C57EAA
+PrintWinRecordNumber:				; A as a number (BinToBCD, BCDText) centred in the cell $CF-$D1 on row
+									; $6D, then $CF = $D1 and X = a3
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldx.w #mesarea
 	ldy.b $6D
-CODE_C57EFA:						; from CODE_C57EAA
+PrintWinRecordCell:					; PrintBoldCentredStr of X on row Y, then the next column ($D1) becomes
+									; the current one ($CF) and X = a3
 	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
@@ -1953,18 +1974,20 @@ PrintGoalRecords:					; Record Holders page 1: the users' goal records (name, Go
 	lda.w #$0008
 	sta.b $6D
 	lda.w #$0000
-.loop:								; loop: $65 = A, call CODE_C57F39, $6D + 1, A = $65, ...
+.loop:								; loop: $65 = A, call PrintGoalRecordRow, $6D + 1, A = $65, ...
 	sta.b $65
-	jsr.w CODE_C57F39
+	jsr.w PrintGoalRecordRow
 	inc.b $6D
 	lda.b $65
 	inc a
 	cmp.b a1
 	bne .loop
-CODE_C57F36:						; from CODE_C57F39
+CODE_C57F36:						; from PrintGoalRecordRow
 	dec.b $6D
 	rts
-CODE_C57F39:						; from PrintGoalRecords
+PrintGoalRecordRow:					; goal record A on row $6D: the holder's name, then the goals 'by' the
+									; team 'vs' the other team; nothing (row $6D taken back) when the record's
+									; wins are 0
 	asl a
 	tax
 	lda.w $3E5E,x
@@ -1979,7 +2002,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	adc.w #$3660
 	tax
 	ldy.b $6D
-	jsr.w CODE_C57FBE
+	jsr.w PrintGoalRecordCell
 	lda.w #$00F0
 	sta.b $D1
 	ldx.b a3
@@ -2002,7 +2025,7 @@ CODE_C57F39:						; from PrintGoalRecords
 	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
-	jsr.w CODE_C57FC7
+	jsr.w AppendGoalMesarea
 	lda.w #$7620
 	sta.w mesarea,y
 	iny
@@ -2019,17 +2042,19 @@ CODE_C57F39:						; from PrintGoalRecords
 	jsr.w TeamNumSecondText
 	jsl.l UnpackText
 	ply
-	jsr.w CODE_C57FC7
+	jsr.w AppendGoalMesarea
 	lda.w #$0000
 	sta.w mesarea,y
 	ldx.w #mesarea
 	ldy.b $6D
-CODE_C57FBE:						; from CODE_C57F39
+PrintGoalRecordCell:				; PrintBoldCentredStr, then the next column ($D1) becomes the current one
+									; ($CF)
 	jsl.l PrintBoldCentredStr
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C57FC7:						; from CODE_C57F39
+AppendGoalMesarea:					; copies the zero ended string at X to mesarea + Y (no zero after it); Y =
+									; its end
 	sep #$20
 .loop:								; loop: if $0000,x = 0 go to .1, mesarea,y = A, X + 1, Y + 1, ...
 	lda.w $0000,x

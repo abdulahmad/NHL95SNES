@@ -1725,7 +1725,7 @@ PauseGoalieMode:					; pause menu Mnual Goalie / Auto Goalie: switches the goali
 	sta.w goaliemode1,x
 	lda.w pausetab
 	jmp.w DrawPauseTab
-TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C prints its
+TeamRoster:							; pause menu Team Roster: the roster of team a2 (ShowRosterLine prints its
 									; page: Goalies, Line, Stat); the pad pages through it, start returns
 	lda.w #$0001
 	sta.w $24DC
@@ -1740,8 +1740,8 @@ TeamRoster:							; pause menu Team Roster: the roster of team a2 (CODE_C56F5C p
 	ldy.w #$2801
 	ldx.w #$5135
 	jsl.l MapTileBlock
-.1:									; call CODE_C56F5C, $18 = $00D0, $1A = $0028, $CF = $00A8, ...
-	jsr.w CODE_C56F5C
+.1:									; call ShowRosterLine, $18 = $00D0, $1A = $0028, $CF = $00A8, ...
+	jsr.w ShowRosterLine
 	lda.w #$00D0
 	sta.b $18
 	lda.w #$0028

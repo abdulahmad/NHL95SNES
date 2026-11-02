@@ -241,10 +241,10 @@ DATA8_C35E51:						; not traced: read by CODE_C4E537
 	db $BD,$49,$C7,$49,$D7,$49,$D2,$49,$E0,$49
 DATA8_C35E5B:						; not traced: read by CODE_C5C367
 	db $B8,$49,$F0,$4C,$F0,$4C,$F6,$4C,$F6,$4C,$F6,$4C
-DATA8_C35E67:						; not traced: read by CODE_C56FBD, CODE_C577C3
+DATA8_C35E67:						; not traced: read by CODE_C56FBD, PrintLinePlayerHeader
 	db $C7,$4E,$CC,$4E,$D2,$4E,$F7,$49,$F2,$49,$D7,$4E,$04,$4A,$10,$4A
 	db $26,$4A,$2F,$4A,$3A,$4A,$1C,$4A,$DC,$4E,$FD,$49,$45,$4A,$4D,$4A
-DATA8_C35E87:						; not traced: read by CODE_C56F98, CODE_C57997
+DATA8_C35E87:						; not traced: read by CODE_C56F98, Pausemode_gnum
 	db $C7,$4E,$CC,$4E,$F7,$49,$F2,$49,$6B,$4C,$10,$4A,$54,$4A,$5E,$4A
 	db $68,$4A,$7A,$4A,$71,$4A,$DC,$4E
 DATA8_C35E9F:						; not traced: read by CODE_C5713B
