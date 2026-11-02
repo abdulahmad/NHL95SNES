@@ -118,15 +118,17 @@ CODE_C5C0A4:						; a compare routine of the sort (DATA8_C5C0AE), back to the so
 DATA8_C5C0AE:						; the compare routines of the sort in CODE_C5C029 (one per sort key)
 	dw CODE_C5C068,CODE_C5C068,CODE_C5C072,CODE_C5C07C
 	dw CODE_C5C086,CODE_C5C090,CODE_C5C09A,CODE_C5C0A4
-CODE_C5C0BE:						; called from other segments
+DrawSetupTeams:						; the setup screen's teams: both colour sets queued, two tile blocks, the
+									; home and visiting logo sprites (d7, $9D) and both names
+									; (PrintHomeTeamName, PrintVisTeamName)
 	stz.b $22
 	stz.b $24
 	lda.w #$00C0
 	sta.b $18
 	lda.w #$0040
 	sta.b $1A
-	jsr.w CODE_C5A4B9
-	jsr.w CODE_C5A4E2
+	jsr.w QueueHomePalette
+	jsr.w QueueVisPalette
 	jsl.l WaitTransfers
 	ldy.w #$2801
 	ldx.w #$5194
@@ -143,8 +145,8 @@ CODE_C5C0BE:						; called from other segments
 	jsl.l CreateSprite
 	stx.b $9D
 	inc.b $38,x
-	jsr.w CODE_C5A46A
-	jmp.w CODE_C5A3C1
+	jsr.w PrintHomeTeamName
+	jmp.w PrintVisTeamName
 SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, B marks one);
 									; start hires them (CODE_C5C58A), X leaves
 	jsl.l CheckTradesFrozen
@@ -1420,10 +1422,10 @@ DrawTradePage:						; draws the Trade Players page and starts the two teams' lis
 	jsl.l MapTileBlock
 	ldy.w #$0005
 	lda.w HomeTeam
-	jsr.w CODE_C5A4A5
+	jsr.w PrintTeamNameLeft
 	ldy.w #$000E
 	lda.w VisTeam
-	jsr.w CODE_C5A4A5
+	jsr.w PrintTeamNameLeft
 	lda.w #$008C
 	sta.b $CF
 	lda.w #$00C8
@@ -1682,7 +1684,7 @@ DrawGMDecision:						; draws the trade decision: both teams, their chosen player
 	jsl.l MapTileBlock
 	ldy.w #$0005
 	lda.w HomeTeam
-	jsr.w CODE_C5A4A5
+	jsr.w PrintTeamNameLeft
 	lda.w #$00A0
 	sta.b $CF
 	lda.w #$00E8

@@ -1235,7 +1235,7 @@ DrawAwardWinner:					; winner A of award a0: his team's name, his photo (the tea
 	tax
 	ldy.w #$000F
 	jsl.l PrintBoldCentredStr
-	jsl.l CODE_C5A4B5
+	jsl.l QueueHomePaletteLong
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	ldy.w #$2864
@@ -1287,7 +1287,7 @@ DrawPresidentsWinner:				; winner A of the Presidents Trophy: the team's name an
 	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b $75
-	jsl.l CODE_C5A4B5
+	jsl.l QueueHomePaletteLong
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	ldy.w #$2864

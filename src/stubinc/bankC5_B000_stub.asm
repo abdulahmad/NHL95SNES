@@ -53,7 +53,7 @@ ClearVRAM = $C589B0
 QueueClearVRAM = $C589E4
 ClearRAM7E = $C58B11
 CODE_C5A321 = $C5A321
-CODE_C5A4B9 = $C5A4B9
+QueueHomePalette = $C5A4B9
 FadeOutWait = $C58A99
 Mul8U = $C08ED9
 

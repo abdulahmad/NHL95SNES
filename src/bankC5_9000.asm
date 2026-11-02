@@ -1,7 +1,9 @@
 ; Segment bankC5_9000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and a few data tables between routines.
 org $C58FD8
-CODE_C58FD8:						; called from other segments
+PrevOptionValue:					; setup screen left: the variable of line d6 one value back (the last
+									; below 0), then the line's check routine (the word before its routine
+									; address), the redraw (DrawSetupLine) and the routine
 	lda.b d6
 	asl a
 	asl a
@@ -34,7 +36,9 @@ CODE_C58FD8:						; called from other segments
 	rts
 .2:									; go to DrawSetupLine
 	jmp.w DrawSetupLine
-CODE_C59012:						; called from other segments
+NextOptionValue:					; setup screen right: the variable of line d6 one value on (0 past the
+									; last), then the line's check routine (the word before its routine
+									; address), the redraw (DrawSetupLine) and the routine
 	lda.b d6
 	asl a
 	asl a
@@ -65,14 +69,16 @@ CODE_C59012:						; called from other segments
 	dec a
 	pha
 	rts
-CODE_C5904B:						; from CODE_C58FD8, CODE_C59012
+CODE_C5904B:						; from PrevOptionValue, NextOptionValue
 	dex
 	phx
-CODE_C5904D:						; from CODE_C59012
+CODE_C5904D:						; from NextOptionValue
 	jmp.w DrawSetupLine
 DATA8_C59050:						; not reached by the traced code (data or unused code)
 	db $68,$60
-CODE_C59052:						; called from other segments
+UpdateTeamLogos:					; setup screen state 0 (DATA8_C58DF0): replaces the home logo sprite (d7)
+									; or the visiting one ($9D) at the same place when HomeTeam or VisTeam has
+									; changed, its colours queued
 	ldx.b d7
 	lda.w HomeTeam
 	cmp.b $24,x
@@ -85,7 +91,7 @@ CODE_C59052:						; called from other segments
 	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b d7
-	jsr.w CODE_C5A4B9
+	jsr.w QueueHomePalette
 .1:									; X = $9D, if VisTeam = $24,x go to .rts, $18 = $05,x, $1A = $08,x, ...
 	ldx.b $9D
 	lda.w VisTeam
@@ -101,10 +107,11 @@ CODE_C59052:						; called from other segments
 	stx.b $9D
 	lda.w #$0001
 	sta.b $38,x
-	jsr.w CODE_C5A4E2
+	jsr.w QueueVisPalette
 .rts:								; return
 	rts
-CODE_C5909A:						; called from other segments
+SetupLinePalette3:					; SetRowPalette3 on the setup screen's current line (row $010E); GameSetUp
+									; calls it before the cursor moves
 	lda.w $010E
 SetRowPalette3:						; sets palette 3 on the 64 text map tiles from row A (two rows of 32)
 	xba
@@ -123,7 +130,8 @@ SetRowPalette3:						; sets palette 3 on the 64 text map tiles from row A (two r
 	dex
 	bpl .loop
 	rts
-CODE_C590B8:						; from CODE_C59308
+SetupLinePalette0:					; SetRowPalette0 on the setup screen's current line (row $010E), then
+									; SendTextMap
 	lda.w $010E
 SetRowPalette0:						; sets palette 0 on the 64 text map tiles from row A (two rows of 32),
 									; then SendTextMap
@@ -189,7 +197,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	ldx.w #$0060
 	jsl.l SetupHDMA
 	db $42,$12,$8C,$46,$7E,$7E		; inline parameters
-	jsr.w CODE_C5ABC4
+	jsr.w InitSetupScroll
 	lda.w #$0400
 	sta.b tmp1
 	lda.w #$5800
@@ -235,7 +243,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	ldx.w #BlueColoursHook>>16
 	jsl.l SetNMIHook
 	jsl.l ResetSprites
-	jsr.w CODE_C5C0BE
+	jsr.w DrawSetupTeams
 	lda.w #$0008
 	sta.b $18
 	lda.w #$008C
@@ -243,14 +251,14 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	lda.w #$001C
 	jsl.l CreateSprite
 	stx.b a0
-	jsr.w CODE_C59217
+	jsr.w CreateSetupArrows
 	lda.w #$00D7
 	sta.b $18
 	lda.w #$00D0
 	sta.b $1A
 	lda.w #$0020
 	jsl.l CreateSprite
-	jsr.w CODE_C592A9
+	jsr.w DrawPlayModeOptions
 	jsl.l WaitTransfers
 	lda.w #$C000
 	sta.w DMAEnShadow
@@ -259,7 +267,8 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	jsl.l ClearRAM7E
 	jsl.l UpdateMenuSpritesTwice
 	rts
-CODE_C59217:						; from setoptions
+CreateSetupArrows:					; creates the setup screen's two arrow sprites (object $1C, animations 1
+									; and 2) at x $10, y $79 / $C4, in a4 / $75
 	lda.w #$0010
 	sta.b $18
 	lda.w #$0079
@@ -285,7 +294,9 @@ DATA8_C59249:						; not reached by the traced code (data or unused code)
 	db $00,$AD,$08,$19,$8F,$47,$60,$30,$D0,$23,$AD,$06,$19,$D0,$1E,$1A
 	db $8D,$06,$19,$D4,$97,$AD,$0E,$01,$48,$3A,$3A,$8D,$0E,$01,$C6,$97
 	db $20,$75,$8F,$20,$9A,$90,$68,$8D,$0E,$01,$68,$85,$97,$60,$00,$00
-CODE_C592A9:						; from setoptions
+DrawPlayModeOptions:				; the Play Mode line's routine (setoptions calls it too): ClampRosterTeams
+									; past Practice, VisTeam moved on when Trades has it equal to HomeTeam,
+									; then the mode's option list (DATA8_C592FA, DrawOptionList)
 	lda.w OptPlayMode
 	beq .1
 	dec a
@@ -302,10 +313,10 @@ CODE_C592A9:						; from setoptions
 	cmp.w #$001A
 	bcc .2
 	lda.w #$0000
-.2:									; VisTeam = A, SRVisTeam = A, call CODE_C5A3C1
+.2:									; VisTeam = A, SRVisTeam = A, call PrintVisTeamName
 	sta.w VisTeam
 	sta.l SRVisTeam
-	jsr.w CODE_C5A3C1
+	jsr.w PrintVisTeamName
 .3:									; A = $0480, A + $D3, Y = $0200, call ClearRAM7E, ...
 	clc
 	lda.w #$0480
@@ -318,11 +329,13 @@ CODE_C592A9:						; from setoptions
 	asl a
 	tax
 	lda.l DATA8_C592FA,x
-	jsl.l CODE_C59308
+	jsl.l DrawOptionList
 	rts
 DATA8_C592FA:						; not reached by the traced code (data or unused code)
 	db $CD,$5B,$87,$5C,$17,$5C,$51,$5C,$6B,$5C,$6B,$5C,$7D,$5C
-CODE_C59308:						; from CODE_C592A9
+DrawOptionList:						; draws the option list at A in bank $C3 (a count, then lines of name,
+									; values, variable, routine) from row $10: up to 4 lines, values centred
+									; (right for play mode 7), the arrows set, line 0 palette 0
 	tax
 	sta.b a3
 	pei ($D5)
@@ -394,13 +407,15 @@ CODE_C59308:						; from CODE_C592A9
 	cpy.w #$0005
 	bcc .5
 	ora.w #$0001
-.5:									; $22,x = A, call CODE_C590B8, return
+.5:									; $22,x = A, call SetupLinePalette0, return
 	sta.b $22,x
-	jsr.w CODE_C590B8
+	jsr.w SetupLinePalette0
 	rtl
 DATA8_C5939C:						; not reached by the traced code (data or unused code)
 	db $F0
-CODE_C5939D:						; called from other segments
+StartPractice:						; play mode Practice (DATA8_C58DD0): line changes and penalties off, the
+									; pad limits from the Home Players / Visitor Players options + 1, then
+									; SetContTeams
 	stz.w OptLine
 	stz.w OptPen
 	lda.w $1906
@@ -410,7 +425,9 @@ CODE_C5939D:						; called from other segments
 	inc a
 	sta.b $81
 	bra SetContTeams
-CODE_C593B1:						; called from other segments
+StartExhibition:					; play mode Exhibition (DATA8_C58DD0): SetContTeams with up to 5 pads a
+									; team; the demo (StartDemo) and a user's season game (FinishSeasonDay)
+									; start here too
 	lda.w #$0005
 	sta.b d0
 	sta.b $81
@@ -428,8 +445,8 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	sta.b $28
 	lda.w #$1E00
 	sta.b $2A
-	jsr.w CODE_C5945E
-	jsr.w CODE_C59483
+	jsr.w ShowConnectedPads
+	jsr.w MovePadIcons
 	jsl.l BuildSpriteOAM
 	jsl.l PackOAMHigh
 	lda.l $7E23BA
@@ -481,7 +498,8 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	stz.b $20
 	stz.b $1E
 	jml.l ResetWorkBuf
-CODE_C5945E:						; from SetContTeams
+ShowConnectedPads:					; SetContTeams each frame: shows the icons of the 5 pads whose mp5padsig
+									; is 1 and hides the others (bit 0 of $22)
 	ldy.w #$0004
 .loop:								; loop: push Y, A = mp5padsig,y, A and $00FF, A - 1, ...
 	phy
@@ -504,40 +522,44 @@ CODE_C5945E:						; from SetContTeams
 	dey
 	bpl .loop
 	rts
-CODE_C59483:						; from SetContTeams
+MovePadIcons:						; SetContTeams each frame: MovePadIcon for each of the 5 pads whose
+									; buttons changed, the buttons ORed into $7D (start / select there end the
+									; setup)
 	stz.b $7D
 	lda.w PadRaw1
 	cmp.w padlast
 	beq .1
 	ldx.b a4
-	jsr.w CODE_C594C6
-.1:									; if PadRaw2 = $0567 go to .2, X = $75, call CODE_C594C6
+	jsr.w MovePadIcon
+.1:									; if PadRaw2 = $0567 go to .2, X = $75, call MovePadIcon
 	lda.w PadRaw2
 	cmp.w $0567
 	beq .2
 	ldx.b $75
-	jsr.w CODE_C594C6
-.2:									; if $00C5 = $0569 go to .3, X = $77, call CODE_C594C6
+	jsr.w MovePadIcon
+.2:									; if $00C5 = $0569 go to .3, X = $77, call MovePadIcon
 	lda.w $00C5
 	cmp.w $0569
 	beq .3
 	ldx.b $77
-	jsr.w CODE_C594C6
-.3:									; if $00C7 = $056B go to .4, X = $79, call CODE_C594C6
+	jsr.w MovePadIcon
+.3:									; if $00C7 = $056B go to .4, X = $79, call MovePadIcon
 	lda.w $00C7
 	cmp.w $056B
 	beq .4
 	ldx.b $79
-	jsr.w CODE_C594C6
-.4:									; if $00C9 = $056D go to .rts, X = $7B, go to CODE_C594C6
+	jsr.w MovePadIcon
+.4:									; if $00C9 = $056D go to .rts, X = $7B, go to MovePadIcon
 	lda.w $00C9
 	cmp.w $056D
 	beq .rts
 	ldx.b $7B
-	bra CODE_C594C6
+	bra MovePadIcon
 .rts:								; return
 	rts
-CODE_C594C6:						; from CODE_C59483, CODE_C59483, ...
+MovePadIcon:						; moves pad icon X one place right ($0100 in A) or left ($0200) among x
+									; $40, $80, $C0, keeping the pad counts d1 (right) / $85 (left) within d0
+									; / $81
 	tsb.b $7D
 	bit.w #$0100
 	beq .5
@@ -639,7 +661,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	lda.l SeasonDay
 	ora.l SRDayPlayed
 	bne .1
-	jmp.w CODE_C5963A
+	jmp.w EnterLeagueMenu
 .1:									; Y = $0280, A = $D3, A + $0400, call ClearRAM7E, ...
 	ldy.w #$0280
 	lda.b $D3
@@ -652,7 +674,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	lda.w #$FFFF
 	sta.w BG3VScroll
 	jsl.l WaitTransfers
-	jsr.w CODE_C5A50B
+	jsr.w DeleteArrowSprites
 	jsr.w RefreshSprites
 	lda.w #$0005
 	sta.w $18DE
@@ -695,18 +717,20 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	jsl.l SendTextMap
 	lda.w #$000D
 	sta.b $99
-	bra CODE_C59651
-CODE_C5963A:						; from StartSeason
+	bra ScreenStateLoop
+EnterLeagueMenu:					; FadeOutWait, the League Menu (SeasonOptions), then the front end loop
+									; (ScreenStateLoop)
 	jsl.l FadeOutWait
 	jsr.w SeasonOptions
-	bra CODE_C59651
+	bra ScreenStateLoop
 CreatePlayer:						; play mode Make Player: CheckCreateSlots, the Create Player page
 									; (DrawNameEntry), then the front end's screen states (NameEntry first)
 	jsl.l FadeOutWait
 	jsl.l CheckCreateSlots
 	jsr.w DrawNameEntry
 	stz.w fadestep
-CODE_C59651:						; from CODE_C59651, StartSeason, CODE_C5963A
+ScreenStateLoop:					; the front end loop: each frame the transfers, the pads and the sprites,
+									; then the handler of screen state $99 (DATA8_C5967A)
 	jsl.l WaitTransfers
 	jsl.l ReadMenuPads
 	inc.b $26
@@ -721,8 +745,8 @@ CODE_C59651:						; from CODE_C59651, StartSeason, CODE_C5963A
 	asl a
 	tax
 	jsr (DATA8_C5967A,x)
-	bra CODE_C59651
-DATA8_C5967A:						; the front end screen handlers, one per screen state (CODE_C59651 runs
+	bra ScreenStateLoop
+DATA8_C5967A:						; the front end screen handlers, ...
 									; the one of the current state each frame)
 	dw NameEntry,NameEntry,AskNameOk,EditPlayerInfo
 	dw ModifyRatings,CODE_C59767,SeasonOptionsInput,GamesTodayInput

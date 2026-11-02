@@ -613,7 +613,7 @@ ClampRosterTeams:					; keeps HomeTeam and VisTeam among the 26 NHL teams (else 
 	lda.w #$000E
 	sta.w HomeTeam
 	sta.l SRHomeTeam
-	jsr.w CODE_C5A46A
+	jsr.w PrintHomeTeamName
 .1:									; if VisTeam < $001A go to ClampRosterTeamsReturn, VisTeam = $0017, ...
 	lda.w VisTeam
 	cmp.w #$001A
@@ -621,7 +621,7 @@ ClampRosterTeams:					; keeps HomeTeam and VisTeam among the 26 NHL teams (else 
 	lda.w #$0017
 	sta.w VisTeam
 	sta.l SRVisTeam
-	jmp.w CODE_C5A3C1
+	jmp.w PrintVisTeamName
 CODE_C5E447:						; from CODE_C5E474 and other segments
 	sta.b tmp0
 	asl a

@@ -357,11 +357,14 @@ CODE_C5A321:						; from CODE_C5A2B4, CODE_C5A2D3
 	adc.w #$0030
 	sta.w mesarea+3
 	rts
-DATA8_C5A354:						; a pointer to CODE_C5A359 (its reader is not traced)
-	dw CODE_C5A359
-CODE_C5A356:						; after the pointer word DATA8_C5A354; no caller found (not traced)
-	jmp.w CODE_C5A3C1
-CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
+DATA8_C5A354:						; the check routine of the option line routine after it: LimitTradeTeam2
+	dw LimitTradeTeam2
+TradeTeam2Hook:						; the routine of the Trades screen's Team 2 line (the word before it is
+									; its check, LimitTradeTeam2): PrintVisTeamName
+	jmp.w PrintVisTeamName
+LimitTradeTeam2:					; the Trades screen Team 2 line's check: VisTeam kept among the 26 NHL
+									; teams (wrapping) and stepped once more when it equals HomeTeam, then
+									; LimitVisTeam
 	lda.w VisTeam
 	cmp.w #$001A
 	bcc .3
@@ -372,9 +375,9 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 	lda.w #$0000
 .2:									; VisTeam = A
 	sta.w VisTeam
-.3:									; if A is not HomeTeam go to CODE_C5A397, A = padchangeany, ...
+.3:									; if A is not HomeTeam go to LimitVisTeam, A = padchangeany, ...
 	cmp.w HomeTeam
-	bne CODE_C5A397
+	bne LimitVisTeam
 	lda.w padchangeany
 	bit.w #$0200
 	beq .5
@@ -382,9 +385,9 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 	dec a
 	bpl .4
 	lda.w #$0019
-.4:									; VisTeam = A, go to CODE_C5A397
+.4:									; VisTeam = A, go to LimitVisTeam
 	sta.w VisTeam
-	bra CODE_C5A397
+	bra LimitVisTeam
 .5:									; A = VisTeam, A + 1, if A < $001A go to .4, A = $0000, ...
 	lda.w VisTeam
 	inc a
@@ -392,7 +395,8 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 	bcc .4
 	lda.w #$0000
 	bra .4
-CODE_C5A397:						; from CODE_C5A359
+LimitVisTeam:						; the Visiting Team line's check: with OptRosters set or a play mode past
+									; Practice, VisTeam wraps past teams $1A / $1B (to 0 / $19)
 	lda.w OptRosters
 	bne .1
 	lda.w OptPlayMode
@@ -414,23 +418,24 @@ CODE_C5A397:						; from CODE_C5A359
 	bra .2
 .rts:								; return
 	rts
-DATA8_C5A3BF:						; a pointer to CODE_C5A397 (its reader is not traced)
-	dw CODE_C5A397
-CODE_C5A3C1:						; from CODE_C5A356 and other segments
+DATA8_C5A3BF:						; the check routine of the option line routine after it: LimitVisTeam
+	dw LimitVisTeam
+PrintVisTeamName:					; saves VisTeam (SRVisTeam) and prints its name, thin and centred between
+									; x $20 and $68 on row $D; the Visiting Team lines' routine
 	lda.w VisTeam
 	sta.l SRVisTeam
 	jsl.l WaitTransfers
 	pei ($CF)
 	pei ($D1)
 	lda.w #$0340
-	jsr.w CODE_C5A3E6
+	jsr.w ClearTeamNameBox
 	lda.w #$0020
 	sta.b $CF
 	lda.w #$0068
 	sta.b $D1
 	lda.w VisTeam
 	jmp.w CODE_C5A48C
-CODE_C5A3E6:						; from CODE_C5A3C1, CODE_C5A46A
+ClearTeamNameBox:					; clears 16 tiles at text map offset A and on the row below (a team name)
 	clc
 	adc.b $D3
 	ldy.w #$0020
@@ -443,11 +448,14 @@ CODE_C5A3E6:						; from CODE_C5A3C1, CODE_C5A46A
 	adc.w #$0040
 	jsl.l ClearRAM7E
 	rts
-DATA8_C5A3FD:						; a pointer to CODE_C5A402 (its reader is not traced)
-	dw CODE_C5A402
-CODE_C5A3FF:						; after the pointer word DATA8_C5A3FD; no caller found (not traced)
-	jmp.w CODE_C5A46A
-CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
+DATA8_C5A3FD:						; the check routine of the option line routine after it: LimitTradeTeam1
+	dw LimitTradeTeam1
+TradeTeam1Hook:						; the routine of the Trades screen's Team 1 line (the word before it is
+									; its check, LimitTradeTeam1): PrintHomeTeamName
+	jmp.w PrintHomeTeamName
+LimitTradeTeam1:					; the Trades screen Team 1 line's check: HomeTeam kept among the 26 NHL
+									; teams (wrapping) and stepped once more when it equals VisTeam, then
+									; LimitHomeTeam
 	lda.w HomeTeam
 	cmp.w #$001A
 	bcc .3
@@ -458,9 +466,9 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 	lda.w #$0000
 .2:									; HomeTeam = A
 	sta.w HomeTeam
-.3:									; if A is not VisTeam go to CODE_C5A440, A = padchangeany, ...
+.3:									; if A is not VisTeam go to LimitHomeTeam, A = padchangeany, ...
 	cmp.w VisTeam
-	bne CODE_C5A440
+	bne LimitHomeTeam
 	lda.w padchangeany
 	bit.w #$0200
 	beq .5
@@ -468,9 +476,9 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 	dec a
 	bpl .4
 	lda.w #$0019
-.4:									; HomeTeam = A, go to CODE_C5A440
+.4:									; HomeTeam = A, go to LimitHomeTeam
 	sta.w HomeTeam
-	bra CODE_C5A440
+	bra LimitHomeTeam
 .5:									; A = HomeTeam, A + 1, if A < $001A go to .4, A = $0000, ...
 	lda.w HomeTeam
 	inc a
@@ -478,7 +486,8 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 	bcc .4
 	lda.w #$0000
 	bra .4
-CODE_C5A440:						; from CODE_C5A402
+LimitHomeTeam:						; the Home Team line's check: with OptRosters set or a play mode past
+									; Practice, HomeTeam wraps past teams $1A / $1B (to 0 / $19)
 	lda.w OptRosters
 	bne .1
 	lda.w OptPlayMode
@@ -500,24 +509,25 @@ CODE_C5A440:						; from CODE_C5A402
 	bra .2
 .rts:								; return
 	rts
-DATA8_C5A468:						; a pointer to CODE_C5A440 (its reader is not traced)
-	dw CODE_C5A440
-CODE_C5A46A:						; from CODE_C5A3FF and other segments
+DATA8_C5A468:						; the check routine of the option line routine after it: LimitHomeTeam
+	dw LimitHomeTeam
+PrintHomeTeamName:					; saves HomeTeam (SRHomeTeam) and prints its name, thin and centred
+									; between x $A0 and $E8 on row $D; the Home Team lines' routine
 	lda.w HomeTeam
 	sta.l SRHomeTeam
 	jsl.l WaitTransfers
 	pei ($CF)
 	pei ($D1)
 	lda.w #$0360
-	jsr.w CODE_C5A3E6
+	jsr.w ClearTeamNameBox
 	lda.w #$00A0
 	sta.b $CF
 	lda.w #$00E8
 	sta.b $D1
 	lda.w HomeTeam
-CODE_C5A48C:						; from CODE_C5A3C1
+CODE_C5A48C:						; from PrintVisTeamName
 	ldy.w #$000D
-CODE_C5A48F:						; from CODE_C5A4A5
+CODE_C5A48F:						; from PrintTeamNameLeft
 	asl a
 	tax
 	lda.l DATA8_C3585C,x
@@ -529,7 +539,8 @@ CODE_C5A48F:						; from CODE_C5A4A5
 	pla
 	sta.b $CF
 	rts
-CODE_C5A4A5:						; called from other segments
+PrintTeamNameLeft:					; prints the name of team A on row Y, thin and centred between x $20 and
+									; $68 ($CF / $D1 kept)
 	pei ($CF)
 	pei ($D1)
 	ldx.w #$0020
@@ -537,10 +548,11 @@ CODE_C5A4A5:						; called from other segments
 	ldx.w #$0068
 	stx.b $D1
 	bra CODE_C5A48F
-CODE_C5A4B5:						; called from other segments
-	jsr.w CODE_C5A4B9
+QueueHomePaletteLong:				; QueueHomePalette for long calls
+	jsr.w QueueHomePalette
 	rtl
-CODE_C5A4B9:						; from CODE_C5A4B5 and other segments
+QueueHomePalette:					; queues HomeTeam's 16 colours (TeamPalettes as unpacked at $7F:D80A) for
+									; CGRAM $20
 	dec.b QueueBusy
 	lda.b $04
 	tsx
@@ -562,10 +574,11 @@ CODE_C5A4B9:						; from CODE_C5A4B5 and other segments
 	stx.b $04
 	stz.b QueueBusy
 	rts
-CODE_C5A4DE:						; called from other segments
-	jsr.w CODE_C5A4E2
+QueueVisPaletteLong:				; QueueVisPalette for long calls
+	jsr.w QueueVisPalette
 	rtl
-CODE_C5A4E2:						; from CODE_C5A4DE and other segments
+QueueVisPalette:					; queues VisTeam's 16 colours (TeamPalettes as unpacked at $7F:D80A) for
+									; CGRAM $30
 	dec.b QueueBusy
 	lda.b $04
 	tsx
@@ -587,10 +600,10 @@ CODE_C5A4E2:						; from CODE_C5A4DE and other segments
 	stx.b $04
 	stz.b QueueBusy
 	rts
-CODE_C5A507:						; called from other segments
-	jsr.w CODE_C5A50B
+DeleteArrowSpritesLong:				; DeleteArrowSprites for long calls
+	jsr.w DeleteArrowSprites
 	rtl
-CODE_C5A50B:						; from CODE_C5A507, SeasonOptions and other segments
+DeleteArrowSprites:					; deletes the two arrow sprites a4 and $75 and clears both
 	ldx.b a4
 	jsl.l DeleteSprite
 	stz.b a4
@@ -625,7 +638,7 @@ SeasonOptions:						; the League Menu (season mode): draws its page (Play Games,
 	jsl.l DeleteSprite
 	ldx.b $9D
 	jsl.l DeleteSprite
-	jsr.w CODE_C5A50B
+	jsr.w DeleteArrowSprites
 	jsl.l ResetWorkBuf
 	jsl.l InitTextMap
 	lda.w #$56A4
@@ -1377,35 +1390,38 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	jsr.w SetRowPalette0
 	lda.w #$00CD
 	bra .3
-.5:									; X = a0, pull Y, if $08,x is not $00B5 go to .6, go to CODE_C5963A
+.5:									; X = a0, pull Y, if $08,x is not $00B5 go to .6, go to EnterLeagueMenu
 	ldx.b a0
 	ply
 	lda.b $08,x
 	cmp.w #$00B5
 	bne .6
-	jmp.w CODE_C5963A
-.6:									; X = a0, $05,x = $0008, $08,x = $008C, call CODE_C5ABAE, ...
+	jmp.w EnterLeagueMenu
+.6:									; X = a0, $05,x = $0008, $08,x = $008C, call ClearSeasonWarning, ...
 	ldx.b a0
 	lda.w #$0008
 	sta.b $05,x
 	lda.w #$008C
 	sta.b $08,x
-	jsr.w CODE_C5ABAE
+	jsr.w ClearSeasonWarning
 	lda.w #$0007
 	sta.w OptPlayMode
-	jsr.w CODE_C5ABC4
+	jsr.w InitSetupScroll
 	lda.w #$C000
 	sta.w DMAEnShadow
-	jsr.w CODE_C59217
+	jsr.w CreateSetupArrows
 	lda.w #$5CC1
-	jsl.l CODE_C59308
+	jsl.l DrawOptionList
 	jmp.w GameSetUp_reenter
-CODE_C5ABA1:						; called from other segments
+StartNewSeason:						; play mode 7 (Start New's Erase Team Rosters question): play mode Season,
+									; the season data cleared (CODE_C4CFF5), then the League Menu
+									; (EnterLeagueMenu)
 	lda.w #$0002
 	sta.w OptPlayMode
 	jsl.l CODE_C4CFF5
-	jmp.w CODE_C5963A
-CODE_C5ABAE:						; from StartSeasonInput
+	jmp.w EnterLeagueMenu
+ClearSeasonWarning:					; clears the 10 text rows from row $10 (the season in progress warning),
+									; then SendTextMap and WaitTransfers
 	clc
 	lda.w #$0400
 	adc.b $D3
@@ -1414,7 +1430,9 @@ CODE_C5ABAE:						; from StartSeasonInput
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	rts
-CODE_C5ABC4:						; from StartSeasonInput and other segments
+InitSetupScroll:					; the setup screen's scrolling: BG3ScrollHDMA1 copied to $7E:468C, the
+									; scroll words from $0100 and the BG scrolls reset, the current line row
+									; $010E = $10
 	lda.w #$001B
 	ldx.w #$48E2
 	ldy.w #$468C
@@ -1631,10 +1649,11 @@ GamesToday:							; League Menu Games Today: the day's games (B marks a game, th
 CODE_C5ADD8:						; called from other segments
 	bit.b tmp0
 	bpl NoGameSelected
-CODE_C5ADDC:						; from FinishSeasonDay, MenuPlayGames and other segments
+ReturnToLeagueMenu:					; drops a return address, rebuilds the setup screen (setoptions), then
+									; EnterLeagueMenu: the end of a season or playoff day
 	pla
 	jsr.w setoptions
-	jmp.w CODE_C5963A
+	jmp.w EnterLeagueMenu
 NoGameSelected:						; the warning A game must be selected. / Okay (screen state 12)
 	lda.b $D3
 	clc
@@ -1701,7 +1720,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	bne .2
 	jsl.l SetupPlayoffs
 	inc.w OptPlayMode
-	jmp.w CODE_C5ADDC
+	jmp.w ReturnToLeagueMenu
 .2:									; A = d0, A * 2, X = A, A = DATA8_C360D4,x, ...
 	lda.b d0
 	asl a
@@ -1800,7 +1819,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	sta.l SRDayPlayed
 	bit.w $1910
 	bpl .2
-	jmp.w CODE_C5ADDC
+	jmp.w ReturnToLeagueMenu
 .2:									; go to MenuPlayGames
 	jmp.w MenuPlayGames
 .3:									; HomeTeam = $0004,x, A = $0002,x, VisTeam = A, $2C44 = X, ...
@@ -1819,7 +1838,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	jsl.l ResetSprites
 	lda.w #$FFFA
 	sta.w BG2VScroll
-	jsr.w CODE_C5C0BE
+	jsr.w DrawSetupTeams
 	sep #$20
 	lda.b #$17
 	sta.l TM
@@ -1828,4 +1847,4 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	stz.b a4
 	stz.b $75
 	pla
-	jmp.w CODE_C593B1
+	jmp.w StartExhibition

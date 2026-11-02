@@ -352,7 +352,7 @@ RecordPlayoffDay:					; adds each of the day's playoff results to its series win
 	lda.l SRPODay
 	inc a
 	sta.l SRPODay
-	jml.l CODE_C5ADDC
+	jml.l ReturnToLeagueMenu
 AdvancePlayoffTeam:					; the playoff team A one round on (SRPOTeamRounds + 1 in its slot of the
 									; list at SRPOTeams)
 	sep #$20
@@ -870,7 +870,7 @@ ShowAlert:							; prints the Alert page on the stack, waits for start / select,
 	ldx.b $9D
 	jsl.l DeleteSprite
 	stz.b $9D
-	jsl.l CODE_C5A507
+	jsl.l DeleteArrowSpritesLong
 	jsl.l ResetWorkBuf
 	jsl.l InitTextMap
 	pla

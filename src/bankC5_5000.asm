@@ -1272,8 +1272,8 @@ SetupScreen:						; common start of the stats screens: the tiled background, VRA
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jsr.w CODE_C5A4B9
-	jsr.w CODE_C5A4E2
+	jsr.w QueueHomePalette
+	jsr.w QueueVisPalette
 	jsl.l WaitTransfers
 	lda.w #$0240
 	jsl.l FreeWorkBuf

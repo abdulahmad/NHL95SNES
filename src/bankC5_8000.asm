@@ -1743,15 +1743,15 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 	beq .5
 	jsr.w SetupLineDown
 	bra .8
-.5:									; if $0200 bits clear go to .6, call CODE_C58FD8, go to .8
+.5:									; if $0200 bits clear go to .6, call PrevOptionValue, go to .8
 	bit.w #$0200
 	beq .6
-	jsr.w CODE_C58FD8
+	jsr.w PrevOptionValue
 	bra .8
-.6:									; if $0100 bits clear go to .7, call CODE_C59012, go to .8
+.6:									; if $0100 bits clear go to .7, call NextOptionValue, go to .8
 	bit.w #$0100
 	beq .7
-	jsr.w CODE_C59012
+	jsr.w NextOptionValue
 	bra .8
 .7:									; if $3000 bits clear go to .8, A = OptPlayMode, A * 2, X = A, ...
 	bit.w #$3000
@@ -1770,17 +1770,17 @@ GameSetUp:							; the game setup screen (setoptions builds it): up / down pick 
 DATA8_C58DD0:						; the routine of each play mode, run on start in the setup screen:
 									; Exhibition, Practice, Season, Trades, Free Agent, Release, Make Player,
 									; then an eighth
-	dw CODE_C593B1,CODE_C5939D,StartSeason,TradePlayers
-	dw SignFreeAgents,ReleasePlayers,CreatePlayer,CODE_C5ABA1
+	dw StartExhibition,StartPractice,StartSeason,TradePlayers
+	dw SignFreeAgents,ReleasePlayers,CreatePlayer,StartNewSeason
 StartDemo:							; starts the demo: the demo flag set, user records off, play mode
-									; Exhibition, then the controller setup (CODE_C593B1)
+									; Exhibition, then the controller setup (StartExhibition)
 	lda.w #$0001
 	sta.l $7E23BA
 	stz.w OptUserRec
 	stz.w OptPlayMode
-	jmp.w CODE_C593B1
+	jmp.w StartExhibition
 DATA8_C58DF0:						; jump table: the routine for each index
-	dw CODE_C59052,SetupScrollUp,SetupScrollDown
+	dw UpdateTeamLogos,SetupScrollUp,SetupScrollDown
 SetupScrollUp:						; a frame of the setup list's scroll after SetupLineUp ($99 = 2): the band
 									; scroll words move a line over 16 frames, then $99 = 0
 	lda.w $4692
@@ -1901,8 +1901,8 @@ SetupLineUp:						; setup screen up: the line above (d6 - 1); at the top row the
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-.1:									; call CODE_C5909A, A = $010E, A - 1, A - 1, ...
-	jsr.w CODE_C5909A
+.1:									; call SetupLinePalette3, A = $010E, A - 1, A - 1, ...
+	jsr.w SetupLinePalette3
 	lda.w $010E
 	dec a
 	dec a
@@ -1924,9 +1924,9 @@ SetupLineUp:						; setup screen up: the line above (d6 - 1); at the top row the
 	lda.w #$0002
 	sta.b $99
 	bra DrawSetupLine
-.3:									; $08,x = A, call CODE_C590B8
+.3:									; $08,x = A, call SetupLinePalette0
 	sta.b $08,x
-	jsr.w CODE_C590B8
+	jsr.w SetupLinePalette0
 .rts:								; return
 	rts
 SetupLineDown:						; setup screen down: the line below (d6 + 1, below the line count $69); at
@@ -1948,8 +1948,8 @@ SetupLineDown:						; setup screen down: the line below (d6 + 1, below the line 
 	lda.b $22,x
 	and.w #$FFFE
 	sta.b $22,x
-.2:									; call CODE_C5909A, A = $010E, A + 1, A + 1, ...
-	jsr.w CODE_C5909A
+.2:									; call SetupLinePalette3, A = $010E, A + 1, A + 1, ...
+	jsr.w SetupLinePalette3
 	lda.w $010E
 	inc a
 	inc a
@@ -2017,6 +2017,6 @@ DrawSetupLine:						; draws setup line d6 on its text row ($010E): the title at 
 	rts
 CODE_C58FD2:						; from SetupLineDown
 	sta.b $08,x
-	jsr.w CODE_C590B8
+	jsr.w SetupLinePalette0
 SetupLineDownReturn:				; the shared rts of SetupLineDown
 	rts

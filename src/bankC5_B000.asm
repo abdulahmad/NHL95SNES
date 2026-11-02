@@ -1589,7 +1589,7 @@ CODE_C5BCE3:						; from DrawSeasonTeamStats
 	ldx.b d7
 	jsl.l DeleteSprite
 	stz.b d7
-	jsr.w CODE_C5A4B9
+	jsr.w QueueHomePalette
 	lda.w HomeTeam
 	jsl.l CreateSprite
 	stx.b d7

@@ -282,8 +282,8 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	ldy.w #$2C01
 	ldx.w #$51C3
 	jsl.l MapTileBlock
-	jsl.l CODE_C5A4B5
-	jsl.l CODE_C5A4DE
+	jsl.l QueueHomePaletteLong
+	jsl.l QueueVisPaletteLong
 	jsl.l WaitTransfers
 	lda.w #$0006
 	sta.w curmatchup

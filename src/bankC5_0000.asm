@@ -1359,7 +1359,7 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	dec a
 	sta.b tmp0
 	jsl.l StartMenuMusic
-	jmp.w CODE_C5ADDC
+	jmp.w ReturnToLeagueMenu
 .11:								; go to FinishSeasonDay
 	pea.w $7E7F
 	plb

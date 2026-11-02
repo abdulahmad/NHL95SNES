@@ -5853,37 +5853,56 @@ $C5900F,.2,CODE_C5900F,new,"branch target only used in CODE_C58FD8",src/bankC5_9
 $C59032,.1,CODE_C59032,new,"branch target only used in CODE_C59012",src/bankC5_9000.asm
 $C59073,.1,CODE_C59073,new,"branch target only used in CODE_C59052",src/bankC5_9000.asm
 $C59099,.rts,CODE_C59099,new,"branch target only used in CODE_C59052",src/bankC5_9000.asm
+$C58E3A,.1,CODE_C58E3A,new,"branch target only used in CODE_C58DF6",src/bankC5_8000.asm
+$C58E6B,.2,CODE_C58E6B,new,"branch target only used in CODE_C58DF6",src/bankC5_8000.asm
+$C58E88,.1,CODE_C58E88,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
+$C58E8B,.2,CODE_C58E8B,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
+$C58EA4,.3,CODE_C58EA4,new,"branch target only used in CODE_C58E71",src/bankC5_8000.asm
+$C58EF2,.1,CODE_C58EF2,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
+$C58F02,.2,CODE_C58F02,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
+$C58F22,.3,CODE_C58F22,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
+$C58F27,.rts,CODE_C58F27,new,"branch target only used in CODE_C58EE0",src/bankC5_8000.asm
+$C58F32,.1,CODE_C58F32,new,"branch target only used in CODE_C58F28",src/bankC5_8000.asm
+$C58F47,.2,CODE_C58F47,new,"branch target only used in CODE_C58F28",src/bankC5_8000.asm
+$C58F57,.3,CODE_C58F57,new,"branch target only used in CODE_C58F28",src/bankC5_8000.asm
+$C58FC9,.1,CODE_C58FC9,new,"branch target only used in CODE_C58F75",src/bankC5_8000.asm
+$C58FCD,.2,CODE_C58FCD,new,"branch target only used in CODE_C58F75",src/bankC5_8000.asm
+$C58FF6,.1,CODE_C58FF6,new,"branch target only used in PrevOptionValue",src/bankC5_9000.asm
+$C5900F,.2,CODE_C5900F,new,"branch target only used in PrevOptionValue",src/bankC5_9000.asm
+$C59032,.1,CODE_C59032,new,"branch target only used in NextOptionValue",src/bankC5_9000.asm
+$C59073,.1,CODE_C59073,new,"branch target only used in UpdateTeamLogos",src/bankC5_9000.asm
+$C59099,.rts,CODE_C59099,new,"branch target only used in UpdateTeamLogos",src/bankC5_9000.asm
 $C590A6,.loop,CODE_C590A6,new,"branch target only used in SetRowPalette3",src/bankC5_9000.asm
 $C590C4,.loop,CODE_C590C4,new,"branch target only used in SetRowPalette0",src/bankC5_9000.asm
-$C592B4,.1,CODE_C592B4,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
-$C592CD,.2,CODE_C592CD,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
-$C592D7,.3,CODE_C592D7,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
-$C59328,.1,CODE_C59328,new,"branch target only used in CODE_C59308",src/bankC5_9000.asm
-$C5932B,.2,CODE_C5932B,new,"branch target only used in CODE_C59308",src/bankC5_9000.asm
-$C59367,.3,CODE_C59367,new,"branch target only used in CODE_C59308",src/bankC5_9000.asm
-$C5936B,.4,CODE_C5936B,new,"branch target only used in CODE_C59308",src/bankC5_9000.asm
-$C59396,.5,CODE_C59396,new,"branch target only used in CODE_C59308",src/bankC5_9000.asm
+$C592B4,.1,CODE_C592B4,new,"branch target only used in DrawPlayModeOptions",src/bankC5_9000.asm
+$C592CD,.2,CODE_C592CD,new,"branch target only used in DrawPlayModeOptions",src/bankC5_9000.asm
+$C592D7,.3,CODE_C592D7,new,"branch target only used in DrawPlayModeOptions",src/bankC5_9000.asm
+$C59328,.1,CODE_C59328,new,"branch target only used in DrawOptionList",src/bankC5_9000.asm
+$C5932B,.2,CODE_C5932B,new,"branch target only used in DrawOptionList",src/bankC5_9000.asm
+$C59367,.3,CODE_C59367,new,"branch target only used in DrawOptionList",src/bankC5_9000.asm
+$C5936B,.4,CODE_C5936B,new,"branch target only used in DrawOptionList",src/bankC5_9000.asm
+$C59396,.5,CODE_C59396,new,"branch target only used in DrawOptionList",src/bankC5_9000.asm
 $C593BF,.loop,CODE_C593BF,new,"branch target only used in SetContTeams",src/bankC5_9000.asm
 $C593F2,.1,CODE_C593F2,new,"branch target only used in SetContTeams",src/bankC5_9000.asm
 $C593F5,.loop2,CODE_C593F5,new,"branch target only used in SetContTeams",src/bankC5_9000.asm
 $C5940F,.2,CODE_C5940F,new,"branch target only used in SetContTeams",src/bankC5_9000.asm
 $C59412,.3,CODE_C59412,new,"branch target only used in SetContTeams",src/bankC5_9000.asm
-$C59461,.loop,CODE_C59461,new,"branch target only used in CODE_C5945E",src/bankC5_9000.asm
-$C5947C,.1,CODE_C5947C,new,"branch target only used in CODE_C5945E",src/bankC5_9000.asm
-$C59492,.1,CODE_C59492,new,"branch target only used in CODE_C59483",src/bankC5_9000.asm
-$C5949F,.2,CODE_C5949F,new,"branch target only used in CODE_C59483",src/bankC5_9000.asm
-$C594AC,.3,CODE_C594AC,new,"branch target only used in CODE_C59483",src/bankC5_9000.asm
-$C594B9,.4,CODE_C594B9,new,"branch target only used in CODE_C59483",src/bankC5_9000.asm
-$C594C5,.rts,CODE_C594C5,new,"branch target only used in CODE_C59483",src/bankC5_9000.asm
-$C594DE,.1,CODE_C594DE,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C594E0,.2,CODE_C594E0,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C594EA,.3,CODE_C594EA,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C594EF,.4,CODE_C594EF,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C594F2,.5,CODE_C594F2,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C59502,.6,CODE_C59502,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C5950B,.7,CODE_C5950B,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C59515,.8,CODE_C59515,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
-$C5951A,.rts,CODE_C5951A,new,"branch target only used in CODE_C594C6",src/bankC5_9000.asm
+$C59461,.loop,CODE_C59461,new,"branch target only used in ShowConnectedPads",src/bankC5_9000.asm
+$C5947C,.1,CODE_C5947C,new,"branch target only used in ShowConnectedPads",src/bankC5_9000.asm
+$C59492,.1,CODE_C59492,new,"branch target only used in MovePadIcons",src/bankC5_9000.asm
+$C5949F,.2,CODE_C5949F,new,"branch target only used in MovePadIcons",src/bankC5_9000.asm
+$C594AC,.3,CODE_C594AC,new,"branch target only used in MovePadIcons",src/bankC5_9000.asm
+$C594B9,.4,CODE_C594B9,new,"branch target only used in MovePadIcons",src/bankC5_9000.asm
+$C594C5,.rts,CODE_C594C5,new,"branch target only used in MovePadIcons",src/bankC5_9000.asm
+$C594DE,.1,CODE_C594DE,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C594E0,.2,CODE_C594E0,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C594EA,.3,CODE_C594EA,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C594EF,.4,CODE_C594EF,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C594F2,.5,CODE_C594F2,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C59502,.6,CODE_C59502,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C5950B,.7,CODE_C5950B,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C59515,.8,CODE_C59515,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
+$C5951A,.rts,CODE_C5951A,new,"branch target only used in MovePadIcon",src/bankC5_9000.asm
 $C59544,.loop,CODE_C59544,new,"branch target only used in ControllerSetupScreen",src/bankC5_9000.asm
 $C59595,.1,CODE_C59595,new,"branch target only used in StartSeason",src/bankC5_9000.asm
 $C5969C,.1,CODE_C5969C,new,"branch target only used in AskNameOk",src/bankC5_9000.asm
@@ -5964,24 +5983,24 @@ $C59FDA,.1,CODE_C59FDA,new,"branch target only used in PrintCreatedOverall",src/
 $C5A040,.2,CODE_C5A040,new,"branch target only used in PrintCreatedOverall",src/bankC5_A000.asm
 $C5A175,.1,CODE_C5A175,new,"branch target only used in CODE_C5A164",src/bankC5_A000.asm
 $C5A2FC,.1,CODE_C5A2FC,new,"branch target only used in CODE_C5A2EC",src/bankC5_A000.asm
-$C5A368,.1,CODE_C5A368,new,"branch target only used in CODE_C5A359",src/bankC5_A000.asm
-$C5A36B,.2,CODE_C5A36B,new,"branch target only used in CODE_C5A359",src/bankC5_A000.asm
-$C5A36E,.3,CODE_C5A36E,new,"branch target only used in CODE_C5A359",src/bankC5_A000.asm
-$C5A384,.4,CODE_C5A384,new,"branch target only used in CODE_C5A359",src/bankC5_A000.asm
-$C5A389,.5,CODE_C5A389,new,"branch target only used in CODE_C5A359",src/bankC5_A000.asm
-$C5A3A4,.1,CODE_C5A3A4,new,"branch target only used in CODE_C5A397",src/bankC5_A000.asm
-$C5A3AF,.2,CODE_C5A3AF,new,"branch target only used in CODE_C5A397",src/bankC5_A000.asm
-$C5A3B4,.3,CODE_C5A3B4,new,"branch target only used in CODE_C5A397",src/bankC5_A000.asm
-$C5A3BE,.rts,CODE_C5A3BE,new,"branch target only used in CODE_C5A397",src/bankC5_A000.asm
-$C5A411,.1,CODE_C5A411,new,"branch target only used in CODE_C5A402",src/bankC5_A000.asm
-$C5A414,.2,CODE_C5A414,new,"branch target only used in CODE_C5A402",src/bankC5_A000.asm
-$C5A417,.3,CODE_C5A417,new,"branch target only used in CODE_C5A402",src/bankC5_A000.asm
-$C5A42D,.4,CODE_C5A42D,new,"branch target only used in CODE_C5A402",src/bankC5_A000.asm
-$C5A432,.5,CODE_C5A432,new,"branch target only used in CODE_C5A402",src/bankC5_A000.asm
-$C5A44D,.1,CODE_C5A44D,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
-$C5A458,.2,CODE_C5A458,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
-$C5A45D,.3,CODE_C5A45D,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
-$C5A467,.rts,CODE_C5A467,new,"branch target only used in CODE_C5A440",src/bankC5_A000.asm
+$C5A368,.1,CODE_C5A368,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
+$C5A36B,.2,CODE_C5A36B,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
+$C5A36E,.3,CODE_C5A36E,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
+$C5A384,.4,CODE_C5A384,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
+$C5A389,.5,CODE_C5A389,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
+$C5A3A4,.1,CODE_C5A3A4,new,"branch target only used in LimitVisTeam",src/bankC5_A000.asm
+$C5A3AF,.2,CODE_C5A3AF,new,"branch target only used in LimitVisTeam",src/bankC5_A000.asm
+$C5A3B4,.3,CODE_C5A3B4,new,"branch target only used in LimitVisTeam",src/bankC5_A000.asm
+$C5A3BE,.rts,CODE_C5A3BE,new,"branch target only used in LimitVisTeam",src/bankC5_A000.asm
+$C5A411,.1,CODE_C5A411,new,"branch target only used in LimitTradeTeam1",src/bankC5_A000.asm
+$C5A414,.2,CODE_C5A414,new,"branch target only used in LimitTradeTeam1",src/bankC5_A000.asm
+$C5A417,.3,CODE_C5A417,new,"branch target only used in LimitTradeTeam1",src/bankC5_A000.asm
+$C5A42D,.4,CODE_C5A42D,new,"branch target only used in LimitTradeTeam1",src/bankC5_A000.asm
+$C5A432,.5,CODE_C5A432,new,"branch target only used in LimitTradeTeam1",src/bankC5_A000.asm
+$C5A44D,.1,CODE_C5A44D,new,"branch target only used in LimitHomeTeam",src/bankC5_A000.asm
+$C5A458,.2,CODE_C5A458,new,"branch target only used in LimitHomeTeam",src/bankC5_A000.asm
+$C5A45D,.3,CODE_C5A45D,new,"branch target only used in LimitHomeTeam",src/bankC5_A000.asm
+$C5A467,.rts,CODE_C5A467,new,"branch target only used in LimitHomeTeam",src/bankC5_A000.asm
 $C5A556,.1,CODE_C5A556,new,"branch target only used in SeasonOptions",src/bankC5_A000.asm
 $C5A57E,.loop,CODE_C5A57E,new,"branch target only used in SeasonOptions",src/bankC5_A000.asm
 $C5A5C3,.1,CODE_C5A5C3,new,"branch target only used in LeagueLeadersInput",src/bankC5_A000.asm
@@ -8334,3 +8353,39 @@ $C58E71,SetupScrollDown,CODE_C58E71,code,"from the code: GameSetUp runs it throu
 $C5800C,PrintSaveRecordRow,CODE_C5800C,code,"from the code: the record offset from $3E6E by A (none when its count is 0), the name at + $3660, BinToBCD of the count, ' by ' / ' vs ' with TeamNumSecondText of the two team bytes; PrintSaveRecords calls it per row",src/bankC5_8000.asm
 $C58091,PrintRecordCell,CODE_C58091,code,"from the code: jsl PrintBoldCentredStr, $CF = $D1; PrintSaveRecordRow's two cells",src/bankC5_8000.asm
 $C5809A,AppendMesarea,CODE_C5809A,code,"from the code: the byte loop into mesarea,y up to the zero; PrintSaveRecordRow adds the team names with it",src/bankC5_8000.asm
+$C58FD8,PrevOptionValue,CODE_C58FD8,code,"from the code: the bank $C3 option line at a3 + d6 * 8 (name, values, variable, routine address R); the word at R - 2 is called first, then CODE_C58F75 returns to R (pea / rts); GameSetUp calls it on left ($0200)",src/bankC5_9000.asm
+$C59012,NextOptionValue,CODE_C59012,code,"from the code: as PrevOptionValue, value + 1 against the count of the values list; GameSetUp calls it on right ($0100)",src/bankC5_9000.asm
+$C59052,UpdateTeamLogos,CODE_C59052,code,"from the code: $24,x against HomeTeam / VisTeam, DeleteSprite, CreateSprite at $05,x / $08,x, QueueHomePalette / QueueVisPalette; DATA8_C58DF0 entry 0 (GameSetUp runs it while $99 = 0)",src/bankC5_9000.asm
+$C5909A,SetupLinePalette3,CODE_C5909A,code,"from the code: lda $010E, then the SetRowPalette3 code it falls into",src/bankC5_9000.asm
+$C590B8,SetupLinePalette0,CODE_C590B8,code,"from the code: lda $010E, then the SetRowPalette0 code it falls into; GameSetUp and DrawOptionList call it for the line the cursor is on",src/bankC5_9000.asm
+$C59217,CreateSetupArrows,CODE_C59217,code,"from the code: CreateSprite $1C twice, SetSpriteAnim 1 / 2; GameSetUp and DrawOptionList clear / set their $22 bit 0 at the first / last line, as ScrollListArrows does for $77 / $79",src/bankC5_9000.asm
+$C592A9,DrawPlayModeOptions,CODE_C592A9,code,"from the code; every option list in bank $C3 gives it as the Play Mode line's routine (the word before it is 0); the list offsets by OptPlayMode in DATA8_C592FA",src/bankC5_9000.asm
+$C59308,DrawOptionList,CODE_C59308,code,"from the code: a3 = the list, $69 = the count, d6 = 0, $99 = 0, $D5 = $2C00 while printing; DrawPlayModeOptions passes a DATA8_C592FA list, StartSeasonInput the Erase Team Rosters list ($C35CC1)",src/bankC5_9000.asm
+$C5939D,StartPractice,CODE_C5939D,code,"from the code: OptLine, OptPen cleared; d0 = $1906 + 1, $81 = $1908 + 1 (the two count lines of the Practice option list); DATA8_C58DD0 entry 1",src/bankC5_9000.asm
+$C593B1,StartExhibition,CODE_C593B1,code,"from the code: d0 = $81 = 5 (the limits MovePadIcon checks); DATA8_C58DD0 entry 0",src/bankC5_9000.asm
+$C5945E,ShowConnectedPads,CODE_C5945E,code,"from the code: mp5padsig,y - 1 below 1 sets bit 0 of $22 of the icon at $73 + 2y; Multi5Bios treats a pad whose mp5padsig is not 1 as none ($000F)",src/bankC5_9000.asm
+$C59483,MovePadIcons,CODE_C59483,code,"from the code: PadRaw1 / padlast, PadRaw2 / $0567, $00C5 / $0569, $00C7 / $056B, $00C9 / $056D, the icons a4, $75, $77, $79, $7B",src/bankC5_9000.asm
+$C594C6,MovePadIcon,CODE_C594C6,code,"from the code: $05,x + / - $40; SetContTeams sets cont1team 1 for an icon at $C0, 2 for $40, 0 at $80",src/bankC5_9000.asm
+$C5A359,LimitTradeTeam2,CODE_C5A359,code,"from the code; the word before TradeTeam2Hook (the routine of the Trades list's Team 2 line, variable VisTeam) points here; PrevOptionValue / NextOptionValue call it",src/bankC5_A000.asm
+$C5A356,TradeTeam2Hook,CODE_C5A356,code,"from the code: the Trades option list ($C35C51) gives it as Team 2's routine; PrevOptionValue / NextOptionValue reach it through rts",src/bankC5_A000.asm
+$C5A397,LimitVisTeam,CODE_C5A397,code,"from the code; the word before PrintVisTeamName (the Visiting Team lines' routine) points here; LimitTradeTeam2 falls into it",src/bankC5_A000.asm
+$C5A3C1,PrintVisTeamName,CODE_C5A3C1,code,"from the code: DATA8_C3585C by team, PrintThinCentred; the option lists give it as the Visiting Team routine; DrawSetupTeams, ClampRosterTeams and DrawPlayModeOptions call it",src/bankC5_A000.asm
+$C5A3E6,ClearTeamNameBox,CODE_C5A3E6,code,"from the code: two ClearRAM7E of $20 bytes, $40 apart; PrintHomeTeamName / PrintVisTeamName call it first",src/bankC5_A000.asm
+$C5A3FF,TradeTeam1Hook,CODE_C5A3FF,code,"from the code: the Trades option list ($C35C51) gives it as Team 1's routine; PrevOptionValue / NextOptionValue reach it through rts",src/bankC5_A000.asm
+$C5A402,LimitTradeTeam1,CODE_C5A402,code,"from the code; the word before TradeTeam1Hook points here; PrevOptionValue / NextOptionValue call it",src/bankC5_A000.asm
+$C5A440,LimitHomeTeam,CODE_C5A440,code,"from the code; the word before PrintHomeTeamName (the Home Team lines' routine) points here; LimitTradeTeam1 falls into it",src/bankC5_A000.asm
+$C5A46A,PrintHomeTeamName,CODE_C5A46A,code,"from the code: DATA8_C3585C by team, PrintThinCentred; the option lists give it as the Home Team routine; DrawSetupTeams and ClampRosterTeams call it",src/bankC5_A000.asm
+$C5A4A5,PrintTeamNameLeft,CODE_C5A4A5,code,"from the code: $CF / $D1 pushed and set, then the name print shared with PrintHomeTeamName / PrintVisTeamName; the trade screens call it for both teams",src/bankC5_A000.asm
+$C5A4B9,QueueHomePalette,CODE_C5A4B9,code,"from the code: a CGRAM queue record (size $20, destination $20, bank $7F, $D80A + team * 32); setoptions unpacks TeamPalettes to $7F:D80A",src/bankC5_A000.asm
+$C5A4B5,QueueHomePaletteLong,CODE_C5A4B5,code,"jsr QueueHomePalette / rtl",src/bankC5_A000.asm
+$C5A4E2,QueueVisPalette,CODE_C5A4E2,code,"from the code: as QueueHomePalette with VisTeam and destination $30",src/bankC5_A000.asm
+$C5A4DE,QueueVisPaletteLong,CODE_C5A4DE,code,"jsr QueueVisPalette / rtl",src/bankC5_A000.asm
+$C5A50B,DeleteArrowSprites,CODE_C5A50B,code,"from the code: DeleteSprite twice; CreateSetupArrows and GamesToday create them",src/bankC5_A000.asm
+$C5A507,DeleteArrowSpritesLong,CODE_C5A507,code,"jsr DeleteArrowSprites / rtl",src/bankC5_A000.asm
+$C5ABC4,InitSetupScroll,CODE_C5ABC4,code,"from the code: mvn of $1C bytes from BG3ScrollHDMA1 to $468C (the table setoptions' HDMA reads); setoptions and StartSeasonInput call it",src/bankC5_A000.asm
+$C5C0BE,DrawSetupTeams,CODE_C5C0BE,code,"from the code: QueueHomePalette, QueueVisPalette, MapTileBlock twice, CreateSprite HomeTeam / VisTeam; setoptions and FinishSeasonDay call it",src/bankC5_C000.asm
+$C5ABA1,StartNewSeason,CODE_C5ABA1,code,"from the code: DATA8_C58DD0 entry 7; StartSeasonInput's Start New sets OptPlayMode 7 and draws the list at $C35CC1 (Erase Team Rosters, No / Yes, variable $1902); CODE_C4CFF5 zeroes SeasonDay and clears the season save RAM",src/bankC5_A000.asm
+$C5ABAE,ClearSeasonWarning,CODE_C5ABAE,code,"from the code: ClearRAM7E of $280 bytes at $D3 + $400; StartSeason prints the warning on rows $10-$18; StartSeasonInput's Start New calls it",src/bankC5_A000.asm
+$C5963A,EnterLeagueMenu,CODE_C5963A,code,"from the code; StartSeason, StartSeasonInput's Continue Old, StartNewSeason and ReturnToLeagueMenu go there",src/bankC5_9000.asm
+$C59651,ScreenStateLoop,CODE_C59651,code,"from the code: WaitTransfers, ReadMenuPads, AnimateSprites, BuildSpriteOAM, PackOAMHigh, jsr (DATA8_C5967A,x); CreatePlayer falls into it",src/bankC5_9000.asm
+$C5ADDC,ReturnToLeagueMenu,CODE_C5ADDC,code,"from the code: pla, setoptions, EnterLeagueMenu; FinishSeasonDay, MenuPlayGames (season over) and the playoff day code (bankC4_0000, bankC5_0000) go there",src/bankC5_A000.asm

@@ -42,19 +42,19 @@ IRQOff = $C08CFC
 SetIRQ = $C08D16
 RandomWord = $C08E48
 Mul8U = $C08ED9
-CODE_C58FD8 = $C58FD8
-CODE_C59012 = $C59012
-CODE_C59052 = $C59052
-CODE_C5909A = $C5909A
-CODE_C590B8 = $C590B8
+PrevOptionValue = $C58FD8
+NextOptionValue = $C59012
+UpdateTeamLogos = $C59052
+SetupLinePalette3 = $C5909A
+SetupLinePalette0 = $C590B8
 setoptions = $C590DA
-CODE_C5939D = $C5939D
-CODE_C593B1 = $C593B1
+StartPractice = $C5939D
+StartExhibition = $C593B1
 StartSeason = $C59588
 CreatePlayer = $C59643
 TradePlayers = $C5CA6C
 SignFreeAgents = $C5C109
 ReleasePlayers = $C5C722
-CODE_C5ABA1 = $C5ABA1
+StartNewSeason = $C5ABA1
 
 incsrc "../bankC5_8000.asm"
