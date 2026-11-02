@@ -226,7 +226,7 @@ MakeDateString:						; the date of season day A as text in mesarea: the day name
 	and.w #$001F
 	tax
 	lda.l BCDTable,x
-	jsr.w CODE_C5A321
+	jsr.w BCDDigits4
 	lda.w mesarea+2
 	pha
 	tya

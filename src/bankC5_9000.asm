@@ -758,24 +758,28 @@ AskNameOk:							; Is the player name ok: up / down Yes / No; start: No starts o
 	lda.w repeatdelayframes
 	beq .1
 	rts
-.1:									; A = padchangeany, if a $0400 bit set go to CODE_C596C0, ...
+.1:									; A = padchangeany, if a $0400 bit set go to SelectNameNo, ...
 	lda.w padchangeany
 	bit.w #$0400
-	bne CODE_C596C0
+	bne SelectNameNo
 	bit.w #$0800
-	bne CODE_C596AF
+	bne SelectNameYes
 	bit.w #$1000
-	bne CODE_C596D3
+	bne AnswerNameOk
 	rts
-CODE_C596AF:						; from AskNameOk, NameEntry
+SelectNameYes:						; Is the player name ok with Yes picked (d6 = 0): palette 3 on the No row
+									; ($12), palette 0 on the Yes row ($F), the cursor placed
+									; (PlaceYesNoCursor)
 	stz.b d6
 	lda.w #$0012
 	jsr.w SetRowPalette3
 	lda.w #$000F
 	jsr.w SetRowPalette0
-CODE_C596BD:						; from CODE_C596C0
-	jmp.w CODE_C5A164
-CODE_C596C0:						; from AskNameOk
+CODE_C596BD:						; from SelectNameNo
+	jmp.w PlaceYesNoCursor
+SelectNameNo:						; Is the player name ok with No picked (d6 = 1): palette 3 on the Yes row
+									; ($F), palette 0 on the No row ($12), the cursor placed
+									; (PlaceYesNoCursor)
 	lda.w #$0001
 	sta.b d6
 	lda.w #$000F
@@ -783,7 +787,9 @@ CODE_C596C0:						; from AskNameOk
 	lda.w #$0012
 	jsr.w SetRowPalette0
 	bra CODE_C596BD
-CODE_C596D3:						; from AskNameOk
+AnswerNameOk:						; start on Is the player name ok: No (d6 not 0) starts over
+									; (CreatePlayer); Yes joins the names in mesarea and draws the position,
+									; weight, number and hand page with its first values (state 3)
 	lda.b d6
 	beq .1
 	pla
@@ -826,10 +832,10 @@ CODE_C596D3:						; from AskNameOk
 	stz.b d6
 	lda.w #$0078
 	sta.b $CF
-	jsr.w CODE_C5A291
-	jsr.w CODE_C5A2B4
-	jsr.w CODE_C5A2D3
-	jsr.w CODE_C5A2EC
+	jsr.w FieldPos
+	jsr.w FieldWeight
+	jsr.w FieldJersey
+	jsr.w FieldHand
 	lda.w #$0005
 	sta.w fadestep
 	lda.w #$000B
@@ -866,14 +872,14 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	bit.w #$1000
 	beq .2
 	jmp.w .15
-.2:									; if $0040 bits clear go to .rts, go to CODE_C59D3B
+.2:									; if $0040 bits clear go to .rts, go to ExitCreatePlayer
 	bit.w #$0040
 	beq .rts
-	jmp.w CODE_C59D3B
+	jmp.w ExitCreatePlayer
 .rts:								; return
 	rts
-.3:									; call CODE_C5A17B, A = d6, A + $0009, if A < $001B go to .5, ...
-	jsr.w CODE_C5A17B
+.3:									; call LetterCellPalette3, A = d6, A + $0009, if A < $001B go to .5, ...
+	jsr.w LetterCellPalette3
 	clc
 	lda.b d6
 	adc.w #$0009
@@ -881,9 +887,9 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	bcc .5
 	sbc.w #$001B
 	sta.b d6
-	jmp.w CODE_C5A20D
-.4:									; call CODE_C5A17B, A = d6, A - $0009, if carry set go to .5, ...
-	jsr.w CODE_C5A17B
+	jmp.w MoveCreateGridCursor
+.4:									; call LetterCellPalette3, A = d6, A - $0009, if carry set go to .5, ...
+	jsr.w LetterCellPalette3
 	sec
 	lda.b d6
 	sbc.w #$0009
@@ -891,16 +897,16 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	adc.w #$001B
 .5:									; d6 = A
 	sta.b d6
-.6:									; go to CODE_C5A20D
-	jmp.w CODE_C5A20D
-.7:									; call CODE_C5A17B, d6 - 1, if the result >= 0 go to .6, A = $001A, ...
-	jsr.w CODE_C5A17B
+.6:									; go to MoveCreateGridCursor
+	jmp.w MoveCreateGridCursor
+.7:									; call LetterCellPalette3, d6 - 1, if the result >= 0 go to .6, ...
+	jsr.w LetterCellPalette3
 	dec.b d6
 	bpl .6
 	lda.w #$001A
 	bra .5
-.8:									; call CODE_C5A17B, A = d6, A + 1, if A < $001B go to .5, ...
-	jsr.w CODE_C5A17B
+.8:									; call LetterCellPalette3, A = d6, A + 1, if A < $001B go to .5, ...
+	jsr.w LetterCellPalette3
 	lda.b d6
 	inc a
 	cmp.w #$001B
@@ -949,12 +955,12 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	lda.b a3
 	bne .16
 	rts
-.16:								; if $99 is not 0 go to .17, $99 + 1, call CODE_C598C9, ...
+.16:								; if $99 is not 0 go to .17, $99 + 1, call ClearNameField, ...
 	lda.b $99
 	bne .17
 	inc.b $99
-	jsr.w CODE_C598C9
-	jsr.w CODE_C598EB
+	jsr.w ClearNameField
+	jsr.w EnteredNameLength
 	tyx
 	stz.w mesarea,x
 	tya
@@ -980,9 +986,9 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	stz.b a3
 	jsl.l WaitTransfers
 	rts
-.17:								; call CODE_C598C9, call CODE_C598EB, X = Y, mesarea,x = 0, ...
-	jsr.w CODE_C598C9
-	jsr.w CODE_C598EB
+.17:								; call ClearNameField, call EnteredNameLength, X = Y, mesarea,x = 0, ...
+	jsr.w ClearNameField
+	jsr.w EnteredNameLength
 	tyx
 	stz.w mesarea,x
 	tya
@@ -1002,8 +1008,9 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	lda.w #$56DC
 	jsl.l PrintTextPage
 	inc.b $99
-	jmp.w CODE_C596AF
-CODE_C598C9:						; from NameEntry
+	jmp.w SelectNameYes
+ClearNameField:						; clears 17 tiles from column 15 of row $71 and the row below (the name
+									; being entered), then SendTextMap
 	lda.b $71
 	xba
 	lsr a
@@ -1021,7 +1028,8 @@ CODE_C598C9:						; from NameEntry
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
 	rts
-CODE_C598EB:						; from NameEntry
+EnteredNameLength:					; Y = the length of the name entered in mesarea: the cursor a3, + 1 when
+									; the character there is not the blank mark ($3E)
 	sep #$30
 	ldy.b a3
 	lda.b #$3E
@@ -1039,13 +1047,15 @@ DATA8_C598FA:						; not reached by the traced code (data or unused code)
 ModifyRatings:						; Create Player screen state 4: the goalie or skater ratings (up / down
 									; pick, left / right change); start stores the player in save RAM
 									; (SaveCreatedPlayer), X cancels
-	jsr.w CODE_C59938
+	jsr.w RatingsInput
 	jsl.l SendTextMap
 	rts
-CODE_C59938:						; from ModifyRatings
+RatingsInput:						; ModifyRatings' keys: SkaterRatingsInput (d0 not 0), else the cursor on
+									; goalie rating d6 and GoalieRatingsInput; then palette 0 on the current
+									; rating's row
 	lda.b d0
 	beq .1
-	jsr.w CODE_C59998
+	jsr.w SkaterRatingsInput
 	lda.w #$0007
 	bra .2
 .1:									; X = a0, A = d6, A * 2, A * 2, ...
@@ -1058,7 +1068,7 @@ CODE_C59938:						; from ModifyRatings
 	sta.b $08,x
 	lda.w #$0010
 	sta.b $05,x
-	jsr.w CODE_C59ADD
+	jsr.w GoalieRatingsInput
 	lda.w #$0008
 .2:									; A + d6, A / 2, A / 2, A + $D3, ...
 	clc
@@ -1078,7 +1088,8 @@ CODE_C59938:						; from ModifyRatings
 	dey
 	bpl .loop
 	rts
-CODE_C59978:						; from CODE_C59ABF, CODE_C59ADD, CODE_C59ACC
+RatingRowPalette3:					; palette 3 on the 32 tiles of row A + d6 (the rating row the cursor
+									; leaves)
 	clc
 	adc.b d6
 	xba
@@ -1096,9 +1107,11 @@ CODE_C59978:						; from CODE_C59ABF, CODE_C59ADD, CODE_C59ACC
 	inx
 	dey
 	bpl .loop
-CODE_C59997:						; from CODE_C59998
+CODE_C59997:						; from SkaterRatingsInput
 	rts
-CODE_C59998:						; from CODE_C59938
+SkaterRatingsInput:					; the skater ratings page's keys: the cursor on rating d6, up / down among
+									; the 11 ratings, left / right EditRatingLeft / EditRatingRight, start
+									; SaveCreatedPlayer, X cancels
 	ldx.b a0
 	lda.b d6
 	asl a
@@ -1114,11 +1127,11 @@ CODE_C59998:						; from CODE_C59938
 	bcc CODE_C59997
 	lda.w #$0010
 	sta.w repeatdelayframes
-.1:									; A = padchangeany, if $0040 bits clear go to .2, go to CODE_C59D39
+.1:									; A = padchangeany, if $0040 bits clear go to .2, go to ExitCreatePlayer3
 	lda.w padchangeany
 	bit.w #$0040
 	beq .2
-	jmp.w CODE_C59D39
+	jmp.w ExitCreatePlayer3
 .2:									; if $0800 bits clear go to .3, go to CODE_C59ABF
 	bit.w #$0800
 	beq .3
@@ -1127,17 +1140,19 @@ CODE_C59998:						; from CODE_C59938
 	bit.w #$0400
 	beq .4
 	jmp.w CODE_C59ACC
-.4:									; if a $0200 bit set go to CODE_C599E7, ...
+.4:									; if a $0200 bit set go to EditRatingLeft, ...
 	bit.w #$0200
-	bne CODE_C599E7
+	bne EditRatingLeft
 	bit.w #$0100
-	bne CODE_C59A4B
+	bne EditRatingRight
 	bit.w #$1000
 	beq .rts
 	jmp.w SaveCreatedPlayer
 .rts:								; return
 	rts
-CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
+EditRatingLeft:						; rating d6 ($0527 + 2 * d6) one step down to at least 0, its 5 points
+									; back in d2, then the value printed (RatingText) and the overall
+									; (PrintCreatedOverall)
 	lda.b d6
 	xba
 	lsr a
@@ -1166,10 +1181,10 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	sbc.w #$0005
 	sta.b d2
 	lda.w #$0000
-.2:									; $0527,x = A, push A, call CODE_C59AB0, pull A, ...
+.2:									; $0527,x = A, push A, call RatingText, pull A, ...
 	sta.w $0527,x
 	pha
-	jsr.w CODE_C59AB0
+	jsr.w RatingText
 	pla
 	asl a
 	tax
@@ -1190,7 +1205,8 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	jmp.w PrintCreatedOverall
 DATA8_C59A4A:						; not reached by the traced code (data or unused code)
 	db $60
-CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
+EditRatingRight:					; rating d6 one step up while below 15 and d2 has 5 points to give, then
+									; the value printed (RatingText) and the overall (PrintCreatedOverall)
 	lda.b d6
 	xba
 	lsr a
@@ -1230,7 +1246,7 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	asl a
 	tax
 	lda.w $0527,x
-	jsr.w CODE_C59AB0
+	jsr.w RatingText
 	lda.b d6
 	clc
 	adc.w #$0007
@@ -1242,7 +1258,7 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
 	jmp.w PrintCreatedOverall
-CODE_C59AB0:						; from CODE_C599E7, CODE_C59A4B
+RatingText:							; mesarea = the text of rating A as shown: A * 5 + 25
 	sta.b tmp1
 	asl a
 	asl a
@@ -1250,36 +1266,38 @@ CODE_C59AB0:						; from CODE_C599E7, CODE_C59A4B
 	adc.w #$0019
 	jsr.w BinToBCD
 	jmp.w BCDText
-CODE_C59ABF:						; from CODE_C59998
+CODE_C59ABF:						; from SkaterRatingsInput
 	lda.w #$0007
-	jsr.w CODE_C59978
+	jsr.w RatingRowPalette3
 	dec.b d6
 	bpl CODE_C59ACB
 	stz.b d6
 CODE_C59ACB:						; from CODE_C59ABF, CODE_C59ACC
 	rts
-CODE_C59ACC:						; from CODE_C59998
+CODE_C59ACC:						; from SkaterRatingsInput
 	lda.w #$0007
-	jsr.w CODE_C59978
+	jsr.w RatingRowPalette3
 	lda.b d6
 	inc a
 	cmp.w #$000B
 	bcs CODE_C59ACB
 	sta.b d6
-CODE_C59ADC:						; from CODE_C59ADD
+CODE_C59ADC:						; from GoalieRatingsInput
 	rts
-CODE_C59ADD:						; from CODE_C59938
+GoalieRatingsInput:					; the goalie ratings page's keys: up / down among the 8 ratings, left /
+									; right EditRatingLeft / EditRatingRight, start SaveCreatedPlayer, X
+									; cancels
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
 	bcc CODE_C59ADC
 	lda.w #$0010
 	sta.w repeatdelayframes
-.1:									; A = padchangeany, if $0040 bits clear go to .2, go to CODE_C59D39
+.1:									; A = padchangeany, if $0040 bits clear go to .2, go to ExitCreatePlayer3
 	lda.w padchangeany
 	bit.w #$0040
 	beq .2
-	jmp.w CODE_C59D39
+	jmp.w ExitCreatePlayer3
 .2:									; if a $0800 bit set go to .5, if a $0400 bit set go to .6, ...
 	bit.w #$0800
 	bne .5
@@ -1287,26 +1305,26 @@ CODE_C59ADD:						; from CODE_C59938
 	bne .6
 	bit.w #$0200
 	beq .3
-	jmp.w CODE_C599E7
-.3:									; if $0100 bits clear go to .4, go to CODE_C59A4B
+	jmp.w EditRatingLeft
+.3:									; if $0100 bits clear go to .4, go to EditRatingRight
 	bit.w #$0100
 	beq .4
-	jmp.w CODE_C59A4B
+	jmp.w EditRatingRight
 .4:									; if a $1000 bit set go to SaveCreatedPlayer, return
 	bit.w #$1000
 	bne SaveCreatedPlayer
 	rts
-.5:									; A = $0008, call CODE_C59978, d6 - 1, if the result >= 0 go to .rts, ...
+.5:									; A = $0008, call RatingRowPalette3, d6 - 1, ...
 	lda.w #$0008
-	jsr.w CODE_C59978
+	jsr.w RatingRowPalette3
 	dec.b d6
 	bpl .rts
 	stz.b d6
 .rts:								; return
 	rts
-.6:									; A = $0008, call CODE_C59978, A = d6, A + 1, ...
+.6:									; A = $0008, call RatingRowPalette3, A = d6, A + 1, ...
 	lda.w #$0008
-	jsr.w CODE_C59978
+	jsr.w RatingRowPalette3
 	lda.b d6
 	inc a
 	cmp.w #$0008
@@ -1330,7 +1348,7 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	tay
 	cpy.w #$0C30
 	bcc .loop
-	jmp.w CODE_C59D39
+	jmp.w ExitCreatePlayer3
 .1:									; A = Y, A - $0003, Y = A, tmp1 = A, ...
 	tya
 	sec
@@ -1496,7 +1514,7 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	jsr.w WriteSaveBits4
 	lda.b $A5
 	jsr.w CODE_C5E447
-	jmp.w CODE_C59D39
+	jmp.w ExitCreatePlayer3
 .11:								; A = $0529, call RatingNibble, tmp2 = A, call WriteSaveBits4, ...
 	lda.w $0529
 	jsr.w RatingNibble
@@ -1543,11 +1561,13 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-CODE_C59D39:						; from CODE_C59998, CODE_C59ADD, SaveCreatedPlayer
+ExitCreatePlayer3:					; ExitCreatePlayer with two more return addresses pulled;
+									; SaveCreatedPlayer ends here
 	pla
-CODE_C59D3A:						; from CODE_C59DBE
+ExitCreatePlayer2:					; ExitCreatePlayer with one more return address pulled
 	pla
-CODE_C59D3B:						; from NameEntry
+ExitCreatePlayer:					; leaves Create Player for the setup screen: a state handler's return
+									; address pulled, then GameSetUp
 	pla
 	jmp.w GameSetUp
 WriteSaveBits7:						; writes the low 7 bits of tmp2 from bit Y on (WriteSaveBit seven times)
@@ -1618,14 +1638,16 @@ ReadSaveBits5:						; A = the 5 bits at bit Y of the save RAM bit array at SRCre
 EditPlayerInfo:						; Create Player screen state 3: position, weight, number, hand (up / down
 									; pick, left / right change); start goes on to the ratings page
 									; (ModifyRatings), X cancels
-	jsr.w CODE_C59DBE
+	jsr.w PlayerInfoInput
 	lda.b $26
 	lsr a
 	bcs .1
 	jsl.l SendTextMap
-.1:									; go to CODE_C59F62
-	jmp.w CODE_C59F62
-CODE_C59DBE:						; from EditPlayerInfo
+.1:									; go to PlaceInfoCursor
+	jmp.w PlaceInfoCursor
+PlayerInfoInput:					; EditPlayerInfo's keys: up / down pick line d6 (position, weight, number,
+									; hand), left / right its routine (DATA8_C59EF2 / DATA8_C59EFA), start the
+									; ratings page, X cancels
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
@@ -1642,7 +1664,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	bne .6
 	bit.w #$0040
 	beq .2
-	jmp.w CODE_C59D3A
+	jmp.w ExitCreatePlayer2
 .2:									; if $0200 bits clear go to .3, A = d6, A * 2, X = A, ...
 	bit.w #$0200
 	beq .3
@@ -1771,66 +1793,68 @@ CODE_C59DBE:						; from EditPlayerInfo
 	stz.w fadestep
 	rts
 DATA8_C59EF2:						; jump table: the routine for each index
-	dw CODE_C59F02,CODE_C59F1D,CODE_C59F37,CODE_C59F51
+	dw EditPosLeft,EditWeightLeft,EditJerseyLeft,EditHand
 DATA8_C59EFA:						; jump table: the routine for each index
-	dw CODE_C59F10,CODE_C59F2A,CODE_C59F44,CODE_C59F51
-CODE_C59F02:						; from DATA8_C59EF2
+	dw EditPosRight,EditWeightRight,EditJerseyRight,EditHand
+EditPosLeft:						; position line, left: d0 one back (5 after 0), then FieldPos
 	lda.b d0
 	dec a
 	bpl CODE_C59F0A
 	lda.w #$0005
-CODE_C59F0A:						; from CODE_C59F02, CODE_C59F10
+CODE_C59F0A:						; from EditPosLeft, EditPosRight
 	sta.b d0
-	jmp.w CODE_C5A291
+	jmp.w FieldPos
 DATA8_C59F0F:						; not reached by the traced code (data or unused code)
 	db $60
-CODE_C59F10:						; from DATA8_C59EFA
+EditPosRight:						; position line, right: d0 one on (0 after 5), then FieldPos
 	lda.b d0
 	inc a
 	cmp.w #$0006
 	bcc CODE_C59F0A
 	lda.w #$0000
 	bra CODE_C59F0A
-CODE_C59F1D:						; from DATA8_C59EF2
+EditWeightLeft:						; weight line, left: $81 one back (15 after 0), then FieldWeight
 	lda.b $81
 	dec a
 	bpl CODE_C59F25
 	lda.w #$000F
-CODE_C59F25:						; from CODE_C59F1D, CODE_C59F2A
+CODE_C59F25:						; from EditWeightLeft, EditWeightRight
 	sta.b $81
-	jmp.w CODE_C5A2B4
-CODE_C59F2A:						; from DATA8_C59EFA
+	jmp.w FieldWeight
+EditWeightRight:					; weight line, right: $81 one on (0 after 15), then FieldWeight
 	lda.b $81
 	inc a
 	cmp.w #$0010
 	bcc CODE_C59F25
 	lda.w #$0000
 	bra CODE_C59F25
-CODE_C59F37:						; from DATA8_C59EF2
+EditJerseyLeft:						; number line, left: d1 one back (99 after 0), then FieldJersey
 	lda.b d1
 	dec a
 	bpl CODE_C59F3F
 	lda.w #$0063
-CODE_C59F3F:						; from CODE_C59F37, CODE_C59F44
+CODE_C59F3F:						; from EditJerseyLeft, EditJerseyRight
 	sta.b d1
-	jmp.w CODE_C5A2D3
-CODE_C59F44:						; from DATA8_C59EFA
+	jmp.w FieldJersey
+EditJerseyRight:					; number line, right: d1 one on (0 after 99), then FieldJersey
 	lda.b d1
 	inc a
 	cmp.w #$0064
 	bcc CODE_C59F3F
 	lda.w #$0000
 	bra CODE_C59F3F
-CODE_C59F51:						; from DATA8_C59EF2, DATA8_C59EFA
+EditHand:							; hand line, left or right: $85 toggled between 0 (Right) and 1 (Left),
+									; then FieldHand
 	lda.b $85
 	bne .1
 	lda.w #$0001
 	sta.b $85
-	jmp.w CODE_C5A2EC
-.1:									; $85 = 0, go to CODE_C5A2EC
+	jmp.w FieldHand
+.1:									; $85 = 0, go to FieldHand
 	stz.b $85
-	jmp.w CODE_C5A2EC
-CODE_C59F62:						; from EditPlayerInfo
+	jmp.w FieldHand
+PlaceInfoCursor:					; the cursor sprite (a0) to line d6 of the position, weight, number and
+									; hand page: x $73, y d6 * 24 + $50
 	ldx.b a0
 	lda.w #$0073
 	sta.b $05,x

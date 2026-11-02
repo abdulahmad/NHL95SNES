@@ -954,7 +954,7 @@ DrawLeaderRow:						; draws row a3 of the League Leaders list: a leader, his tea
 	lda.w #$0094
 	sta.b $CF
 	lda.w $000F,x
-	jsr.w CODE_C5A321
+	jsr.w BCDDigits4
 	ldy.b $6D
 	ldx.w #mesarea+2
 	jsl.l PrintBoldLeftStr
@@ -1481,7 +1481,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	lda.w $2E03,x
 	pha
 	jsr.w PlayerNumberBCD
-	jsr.w CODE_C5A321
+	jsr.w BCDDigits4
 	lda.w #$0072
 	sta.b $CF
 	ldx.w #mesarea+2
@@ -1547,7 +1547,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	lda.w $2E03,x
 	pha
 	jsr.w PlayerNumberBCD
-	jsr.w CODE_C5A321
+	jsr.w BCDDigits4
 	lda.w #$0072
 	sta.b $CF
 	ldx.w #mesarea+2

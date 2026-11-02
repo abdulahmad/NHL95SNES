@@ -77,12 +77,13 @@ PrintCreatedOverall:				; packs the created player's ratings ($0527 on; the skat
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.w #$0015
-	jsr.w CODE_C5A05A
+	jsr.w PrintPaddedValue
 	lda.b d2
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.w #$0016
-CODE_C5A05A:						; from PrintCreatedOverall
+PrintPaddedValue:					; prints the BCDText digits in mesarea bold right-aligned at row Y with a
+									; space in front
 	lda.w mesarea+4
 	sta.w mesarea+6
 	lda.w mesarea+2
@@ -176,9 +177,10 @@ DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the l
 	stz.b $99
 	stz.b a3
 	stz.b d6
-	jsr.w CODE_C5A20D
+	jsr.w MoveCreateGridCursor
 	rts
-CODE_C5A164:						; called from other segments
+PlaceYesNoCursor:					; the cursor sprite (a0) to x $6A on the Yes (d6 = 0, y $87) or No (y $9F)
+									; line
 	lda.w #$006A
 	ldx.b a0
 	sta.b $05,x
@@ -191,62 +193,65 @@ CODE_C5A164:						; called from other segments
 	lda.w #$0087
 	sta.b $08,x
 	rts
-CODE_C5A17B:						; called from other segments
+LetterCellPalette3:					; palette 3 on the 2 x 2 tiles of Create Player letter grid cell d6
+									; (DATA8_C5A1D7)
 	lda.b d6
 	asl a
 	tax
 	lda.b $D3
 	adc.l DATA8_C5A1D7,x
 	tay
-	jsr.w CODE_C5A198
+	jsr.w SetTilePalette3
 	iny
 	iny
-	jsr.w CODE_C5A198
+	jsr.w SetTilePalette3
 	tya
 	adc.w #$003E
 	tay
-	jsr.w CODE_C5A198
+	jsr.w SetTilePalette3
 	iny
 	iny
-CODE_C5A198:						; from CODE_C5A17B
+SetTilePalette3:					; palette 3 on the text map tile at Y
 	lda.w $0000,y
 	and.w #$E3FF
 	ora.w #$0C00
 	sta.w $0000,y
 	rts
-CODE_C5A1A5:						; from CODE_C5A20D
+LetterCellPalette0:					; palette 0 on the 2 x 2 tiles of Create Player letter grid cell d6
+									; (DATA8_C5A1D7), then SendTextMap
 	lda.b d6
 	asl a
 	tax
 	lda.b $D3
 	adc.l DATA8_C5A1D7,x
 	tay
-	jsr.w CODE_C5A1CA
+	jsr.w SetTilePalette0
 	iny
 	iny
-	jsr.w CODE_C5A1CA
+	jsr.w SetTilePalette0
 	tya
 	adc.w #$003E
 	tay
-	jsr.w CODE_C5A1CA
+	jsr.w SetTilePalette0
 	iny
 	iny
-	jsr.w CODE_C5A1CA
+	jsr.w SetTilePalette0
 	jsl.l SendTextMap
 	rts
-CODE_C5A1CA:						; from CODE_C5A1A5
+SetTilePalette0:					; palette 0 on the text map tile at Y
 	lda.w $0000,y
 	and.w #$E3FF
 	ora.w #$0000
 	sta.w $0000,y
 	rts
-DATA8_C5A1D7:						; not traced: a table read by CODE_C5A17B, CODE_C5A1A5
+DATA8_C5A1D7:						; not traced: a table read by LetterCellPalette3, LetterCellPalette0
 	db $06,$03,$0C,$03,$12,$03,$18,$03,$1E,$03,$24,$03,$2A,$03,$30,$03
 	db $36,$03,$C6,$03,$CC,$03,$D2,$03,$D8,$03,$DE,$03,$E4,$03,$EA,$03
 	db $F0,$03,$F6,$03,$86,$04,$8C,$04,$92,$04,$98,$04,$9E,$04,$A4,$04
 	db $AA,$04,$B0,$04,$B6,$04
-CODE_C5A20D:						; from DrawNameEntry and other segments
-	jsr.w CODE_C5A1A5
+MoveCreateGridCursor:				; palette 0 on Create Player letter grid cell d6 and the cursor sprite
+									; (a0) onto it (x and y from DATA8_C5A225 / DATA8_C5A25B)
+	jsr.w LetterCellPalette0
 	ldy.b a0
 	lda.b d6
 	asl a
@@ -256,19 +261,21 @@ CODE_C5A20D:						; from DrawNameEntry and other segments
 	lda.l DATA8_C5A225,x
 	sta.w $0005,y
 	rts
-DATA8_C5A225:						; not traced: a table read by CODE_C5A20D
+DATA8_C5A225:						; not traced: a table read by MoveCreateGridCursor
 	db $14,$00,$2C,$00,$44,$00,$5C,$00,$74,$00,$8C,$00,$A4,$00,$BC,$00
 	db $D4,$00,$14,$00,$2C,$00,$44,$00,$5C,$00,$74,$00,$8C,$00,$A4,$00
 	db $BC,$00,$D4,$00,$14,$00,$2C,$00,$44,$00,$5C,$00,$74,$00,$8C,$00
 	db $A4,$00,$BC,$00,$D4,$00
-DATA8_C5A25B:						; not traced: a table read by CODE_C5A20D
+DATA8_C5A25B:						; not traced: a table read by MoveCreateGridCursor
 	db $70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00
 	db $70,$00,$88,$00,$88,$00,$88,$00,$88,$00,$88,$00,$88,$00,$88,$00
 	db $88,$00,$88,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00
 	db $A0,$00,$A0,$00,$A0,$00
-CODE_C5A291:						; called from other segments
+FieldPos:							; prints the created player's position (d0: Goalie, Left Defense, Right
+									; Defense, Left Wing, Center, Right Wing; DATA8_C5A2A8) on row 8, its
+									; field cleared first
 	lda.w #$0008
-	jsr.w CODE_C5A304
+	jsr.w ClearFieldValue
 	lda.b d0
 	asl a
 	tax
@@ -277,35 +284,38 @@ CODE_C5A291:						; called from other segments
 	ldy.w #$0008
 	jsl.l PrintItalicLeft
 	rts
-DATA8_C5A2A8:						; not traced: a table read by CODE_C5A291
+DATA8_C5A2A8:						; not traced: a table read by FieldPos
 	db $B8,$49,$BD,$49,$C7,$49,$D7,$49,$D2,$49,$E0,$49
-CODE_C5A2B4:						; called from other segments
+FieldWeight:						; prints the created player's weight, $81 * 8 + 140, on row $B, its field
+									; cleared first
 	lda.w #$000B
-	jsr.w CODE_C5A304
+	jsr.w ClearFieldValue
 	lda.b $81
 	asl a
 	asl a
 	asl a
 	adc.w #$008C
 	jsr.w BinToBCD
-	jsr.w CODE_C5A321
+	jsr.w BCDDigits4
 	ldx.w #mesarea+1
 	ldy.w #$000B
 	jsl.l PrintItalicLeftStr
 	rts
-CODE_C5A2D3:						; called from other segments
+FieldJersey:						; prints the created player's number (d1, two digits) on row $E, its field
+									; cleared first
 	lda.w #$000E
-	jsr.w CODE_C5A304
+	jsr.w ClearFieldValue
 	lda.b d1
 	jsr.w BinToBCD
-	jsr.w CODE_C5A321
+	jsr.w BCDDigits4
 	ldx.w #mesarea+2
 	ldy.w #$000E
 	jsl.l PrintItalicLeftStr
 	rts
-CODE_C5A2EC:						; called from other segments
+FieldHand:							; prints the created player's hand (Left when $85 is set, else Right) on
+									; row $11, its field cleared first
 	lda.w #$0011
-	jsr.w CODE_C5A304
+	jsr.w ClearFieldValue
 	ldx.w #$49ED
 	lda.b $85
 	beq .1
@@ -314,7 +324,8 @@ CODE_C5A2EC:						; called from other segments
 	ldy.w #$0011
 	jsl.l PrintItalicLeft
 	rts
-CODE_C5A304:						; from CODE_C5A291, CODE_C5A2B4, CODE_C5A2D3, CODE_C5A2EC
+ClearFieldValue:					; clears the 16 tiles from column 16 of row A and the row below (a Create
+									; Player field's value)
 	xba
 	lsr a
 	lsr a
@@ -329,7 +340,7 @@ CODE_C5A304:						; from CODE_C5A291, CODE_C5A2B4, CODE_C5A2D3, CODE_C5A2EC
 	ldy.w #$0020
 	jsl.l ClearRAM7E
 	rts
-CODE_C5A321:						; from CODE_C5A2B4, CODE_C5A2D3
+BCDDigits4:							; mesarea = the 4 BCD digits of A as text, leading zeros kept
 	tax
 	xba
 	and.w #$00F0

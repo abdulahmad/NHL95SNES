@@ -5906,7 +5906,7 @@ $C5951A,.rts,CODE_C5951A,new,"branch target only used in MovePadIcon",src/bankC5
 $C59544,.loop,CODE_C59544,new,"branch target only used in ControllerSetupScreen",src/bankC5_9000.asm
 $C59595,.1,CODE_C59595,new,"branch target only used in StartSeason",src/bankC5_9000.asm
 $C5969C,.1,CODE_C5969C,new,"branch target only used in AskNameOk",src/bankC5_9000.asm
-$C596DB,.1,CODE_C596DB,new,"branch target only used in CODE_C596D3",src/bankC5_9000.asm
+$C596DB,.1,CODE_C596DB,new,"branch target only used in AnswerNameOk",src/bankC5_9000.asm
 $C59778,.1,CODE_C59778,new,"branch target only used in NameEntry",src/bankC5_9000.asm
 $C597A1,.2,CODE_C597A1,new,"branch target only used in NameEntry",src/bankC5_9000.asm
 $C597A9,.rts,CODE_C597A9,new,"branch target only used in NameEntry",src/bankC5_9000.asm
@@ -5925,29 +5925,29 @@ $C59824,.14,CODE_C59824,new,"branch target only used in NameEntry",src/bankC5_90
 $C59837,.15,CODE_C59837,new,"branch target only used in NameEntry",src/bankC5_9000.asm
 $C5983C,.16,CODE_C5983C,new,"branch target only used in NameEntry",src/bankC5_9000.asm
 $C5988C,.17,CODE_C5988C,new,"branch target only used in NameEntry",src/bankC5_9000.asm
-$C598F7,.1,CODE_C598F7,new,"branch target only used in CODE_C598EB",src/bankC5_9000.asm
-$C59944,.1,CODE_C59944,new,"branch target only used in CODE_C59938",src/bankC5_9000.asm
-$C5995B,.2,CODE_C5995B,new,"branch target only used in CODE_C59938",src/bankC5_9000.asm
-$C59967,.loop,CODE_C59967,new,"branch target only used in CODE_C59938",src/bankC5_9000.asm
-$C59984,.loop,CODE_C59984,new,"branch target only used in CODE_C59978",src/bankC5_9000.asm
-$C599B9,.1,CODE_C599B9,new,"branch target only used in CODE_C59998",src/bankC5_9000.asm
-$C599C4,.2,CODE_C599C4,new,"branch target only used in CODE_C59998",src/bankC5_9000.asm
-$C599CC,.3,CODE_C599CC,new,"branch target only used in CODE_C59998",src/bankC5_9000.asm
-$C599D4,.4,CODE_C599D4,new,"branch target only used in CODE_C59998",src/bankC5_9000.asm
-$C599E6,.rts,CODE_C599E6,new,"branch target only used in CODE_C59998",src/bankC5_9000.asm
-$C599F8,.1,CODE_C599F8,new,"branch target only used in CODE_C599E7",src/bankC5_9000.asm
-$C59A22,.2,CODE_C59A22,new,"branch target only used in CODE_C599E7",src/bankC5_9000.asm
-$C59A40,.3,CODE_C59A40,new,"branch target only used in CODE_C599E7",src/bankC5_9000.asm
-$C59A5C,.1,CODE_C59A5C,new,"branch target only used in CODE_C59A4B",src/bankC5_9000.asm
-$C59A90,.2,CODE_C59A90,new,"branch target only used in CODE_C59A4B",src/bankC5_9000.asm
-$C59AA6,.3,CODE_C59AA6,new,"branch target only used in CODE_C59A4B",src/bankC5_9000.asm
-$C59AED,.1,CODE_C59AED,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59AF8,.2,CODE_C59AF8,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59B0A,.3,CODE_C59B0A,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59B12,.4,CODE_C59B12,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59B18,.5,CODE_C59B18,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59B24,.rts,CODE_C59B24,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
-$C59B25,.6,CODE_C59B25,new,"branch target only used in CODE_C59ADD",src/bankC5_9000.asm
+$C598F7,.1,CODE_C598F7,new,"branch target only used in EnteredNameLength",src/bankC5_9000.asm
+$C59944,.1,CODE_C59944,new,"branch target only used in RatingsInput",src/bankC5_9000.asm
+$C5995B,.2,CODE_C5995B,new,"branch target only used in RatingsInput",src/bankC5_9000.asm
+$C59967,.loop,CODE_C59967,new,"branch target only used in RatingsInput",src/bankC5_9000.asm
+$C59984,.loop,CODE_C59984,new,"branch target only used in RatingRowPalette3",src/bankC5_9000.asm
+$C599B9,.1,CODE_C599B9,new,"branch target only used in SkaterRatingsInput",src/bankC5_9000.asm
+$C599C4,.2,CODE_C599C4,new,"branch target only used in SkaterRatingsInput",src/bankC5_9000.asm
+$C599CC,.3,CODE_C599CC,new,"branch target only used in SkaterRatingsInput",src/bankC5_9000.asm
+$C599D4,.4,CODE_C599D4,new,"branch target only used in SkaterRatingsInput",src/bankC5_9000.asm
+$C599E6,.rts,CODE_C599E6,new,"branch target only used in SkaterRatingsInput",src/bankC5_9000.asm
+$C599F8,.1,CODE_C599F8,new,"branch target only used in EditRatingLeft",src/bankC5_9000.asm
+$C59A22,.2,CODE_C59A22,new,"branch target only used in EditRatingLeft",src/bankC5_9000.asm
+$C59A40,.3,CODE_C59A40,new,"branch target only used in EditRatingLeft",src/bankC5_9000.asm
+$C59A5C,.1,CODE_C59A5C,new,"branch target only used in EditRatingRight",src/bankC5_9000.asm
+$C59A90,.2,CODE_C59A90,new,"branch target only used in EditRatingRight",src/bankC5_9000.asm
+$C59AA6,.3,CODE_C59AA6,new,"branch target only used in EditRatingRight",src/bankC5_9000.asm
+$C59AED,.1,CODE_C59AED,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
+$C59AF8,.2,CODE_C59AF8,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
+$C59B0A,.3,CODE_C59B0A,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
+$C59B12,.4,CODE_C59B12,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
+$C59B18,.5,CODE_C59B18,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
+$C59B24,.rts,CODE_C59B24,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
+$C59B25,.6,CODE_C59B25,new,"branch target only used in GoalieRatingsInput",src/bankC5_9000.asm
 $C59B3E,.loop,CODE_C59B3E,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
 $C59B56,.1,CODE_C59B56,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
 $C59B96,.2,CODE_C59B96,new,"branch target only used in SaveCreatedPlayer",src/bankC5_9000.asm
@@ -5965,24 +5965,24 @@ $C59CC1,.11,CODE_C59CC1,new,"branch target only used in SaveCreatedPlayer",src/b
 $C59D77,.1,CODE_C59D77,new,"branch target only used in WriteSaveBit",src/bankC5_9000.asm
 $C59DA5,.loop,CODE_C59DA5,new,"branch target only used in ReadSaveBits5",src/bankC5_9000.asm
 $C59DBB,.1,CODE_C59DBB,new,"branch target only used in EditPlayerInfo",src/bankC5_9000.asm
-$C59DCE,.1,CODE_C59DCE,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59DE8,.2,CODE_C59DE8,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59DF7,.3,CODE_C59DF7,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E03,.rts,CODE_C59E03,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E04,.4,CODE_C59E04,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E17,.5,CODE_C59E17,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E22,.6,CODE_C59E22,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E38,.7,CODE_C59E38,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E43,.8,CODE_C59E43,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59E65,.9,CODE_C59E65,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59EAB,.10,CODE_C59EAB,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59EB0,.loop,CODE_C59EB0,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59EDA,.loop2,CODE_C59EDA,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
-$C59F5D,.1,CODE_C59F5D,new,"branch target only used in CODE_C59F51",src/bankC5_9000.asm
+$C59DCE,.1,CODE_C59DCE,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59DE8,.2,CODE_C59DE8,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59DF7,.3,CODE_C59DF7,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E03,.rts,CODE_C59E03,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E04,.4,CODE_C59E04,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E17,.5,CODE_C59E17,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E22,.6,CODE_C59E22,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E38,.7,CODE_C59E38,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E43,.8,CODE_C59E43,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59E65,.9,CODE_C59E65,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59EAB,.10,CODE_C59EAB,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59EB0,.loop,CODE_C59EB0,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59EDA,.loop2,CODE_C59EDA,new,"branch target only used in PlayerInfoInput",src/bankC5_9000.asm
+$C59F5D,.1,CODE_C59F5D,new,"branch target only used in EditHand",src/bankC5_9000.asm
 $C59FDA,.1,CODE_C59FDA,new,"branch target only used in PrintCreatedOverall",src/bankC5_A000.asm
 $C5A040,.2,CODE_C5A040,new,"branch target only used in PrintCreatedOverall",src/bankC5_A000.asm
-$C5A175,.1,CODE_C5A175,new,"branch target only used in CODE_C5A164",src/bankC5_A000.asm
-$C5A2FC,.1,CODE_C5A2FC,new,"branch target only used in CODE_C5A2EC",src/bankC5_A000.asm
+$C5A175,.1,CODE_C5A175,new,"branch target only used in PlaceYesNoCursor",src/bankC5_A000.asm
+$C5A2FC,.1,CODE_C5A2FC,new,"branch target only used in FieldHand",src/bankC5_A000.asm
 $C5A368,.1,CODE_C5A368,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
 $C5A36B,.2,CODE_C5A36B,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
 $C5A36E,.3,CODE_C5A36E,new,"branch target only used in LimitTradeTeam2",src/bankC5_A000.asm
@@ -8389,3 +8389,40 @@ $C5ABAE,ClearSeasonWarning,CODE_C5ABAE,code,"from the code: ClearRAM7E of $280 b
 $C5963A,EnterLeagueMenu,CODE_C5963A,code,"from the code; StartSeason, StartSeasonInput's Continue Old, StartNewSeason and ReturnToLeagueMenu go there",src/bankC5_9000.asm
 $C59651,ScreenStateLoop,CODE_C59651,code,"from the code: WaitTransfers, ReadMenuPads, AnimateSprites, BuildSpriteOAM, PackOAMHigh, jsr (DATA8_C5967A,x); CreatePlayer falls into it",src/bankC5_9000.asm
 $C5ADDC,ReturnToLeagueMenu,CODE_C5ADDC,code,"from the code: pla, setoptions, EnterLeagueMenu; FinishSeasonDay, MenuPlayGames (season over) and the playoff day code (bankC4_0000, bankC5_0000) go there",src/bankC5_A000.asm
+$C596AF,SelectNameYes,CODE_C596AF,code,"from the code: SetRowPalette3 / SetRowPalette0, then PlaceYesNoCursor (y $87 for d6 = 0); AskNameOk on up ($0800), NameEntry after the last name",src/bankC5_9000.asm
+$C596C0,SelectNameNo,CODE_C596C0,code,"from the code; AskNameOk on down ($0400)",src/bankC5_9000.asm
+$C596D3,AnswerNameOk,CODE_C596D3,code,"from the code: the first name ($4673) and last name ($467D) joined by a space, the page at $C35746, PrintTitleStr, d0 = 0, d1 = 50, $81 = 8, $85 = 0, FieldPos / FieldWeight / FieldJersey / FieldHand; AskNameOk on start ($1000)",src/bankC5_9000.asm
+$C598C9,ClearNameField,CODE_C598C9,code,"from the code: two ClearRAM7E of $22 bytes at $71 * 64 + $D3 + $1E; NameEntry calls it before printing the finished name",src/bankC5_9000.asm
+$C598EB,EnteredNameLength,CODE_C598EB,code,"from the code; NameEntry stores Y as the name's length ($4672 / $467C)",src/bankC5_9000.asm
+$C59938,RatingsInput,CODE_C59938,code,"from the code: d0 is the position (0 Goalie, DATA8_C5A2A8); the rows from 7 (skater) or 8 (goalie) + d6, and #$E3FF over 32 tiles",src/bankC5_9000.asm
+$C59978,RatingRowPalette3,CODE_C59978,code,"from the code: and #$E3FF / ora #$0C00; the skater and goalie rating inputs call it before d6 moves",src/bankC5_9000.asm
+$C59998,SkaterRatingsInput,CODE_C59998,code,"from the code: d6 below $B, cursor y d6 * 8 + $3E, ExitCreatePlayer3 on X ($0040); RatingsInput calls it when d0 is not 0 (not Goalie)",src/bankC5_9000.asm
+$C59ADD,GoalieRatingsInput,CODE_C59ADD,code,"from the code: d6 below 8, ExitCreatePlayer3 on X ($0040); RatingsInput calls it when d0 is 0 (Goalie)",src/bankC5_9000.asm
+$C599E7,EditRatingLeft,CODE_C599E7,code,"from the code: the value cells cleared, $0527,x - 1, d2 + 5 unless it was 0, PrintBoldRightStr on row d6 + 7 (+ 1 for a goalie); left ($0200) on both rating pages",src/bankC5_9000.asm
+$C59A4B,EditRatingRight,CODE_C59A4B,code,"from the code: $0527,x + 1 when below $F and d2 - 5 is not negative; right ($0100) on both rating pages",src/bankC5_9000.asm
+$C59AB0,RatingText,CODE_C59AB0,code,"from the code: tmp1 * 5 + $19, BinToBCD, BCDText; EditPlayerInfo prints the starting ratings the same way",src/bankC5_9000.asm
+$C59D3B,ExitCreatePlayer,CODE_C59D3B,code,"from the code: pla, jmp GameSetUp; NameEntry on X ($0040)",src/bankC5_9000.asm
+$C59D3A,ExitCreatePlayer2,CODE_C59D3A,code,"from the code: pla, then ExitCreatePlayer; PlayerInfoInput on X ($0040)",src/bankC5_9000.asm
+$C59D39,ExitCreatePlayer3,CODE_C59D39,code,"from the code: pla, then ExitCreatePlayer2; the rating inputs on X ($0040), SaveCreatedPlayer when done or with no free slot",src/bankC5_9000.asm
+$C59DBE,PlayerInfoInput,CODE_C59DBE,code,"from the code: rows d6 * 3 + 8 with SetRowPalette3 / SetRowPalette0; start draws the page at $C3576C (goalie) or $C357AE, the starting ratings (RatingText), d2 = 325, state 4; X goes to ExitCreatePlayer2",src/bankC5_9000.asm
+$C59F62,PlaceInfoCursor,CODE_C59F62,code,"from the code; EditPlayerInfo calls it every frame",src/bankC5_9000.asm
+$C59F02,EditPosLeft,CODE_C59F02,code,"from the code; DATA8_C59EF2 entry 0",src/bankC5_9000.asm
+$C59F10,EditPosRight,CODE_C59F10,code,"from the code; DATA8_C59EFA entry 0",src/bankC5_9000.asm
+$C59F1D,EditWeightLeft,CODE_C59F1D,code,"from the code; DATA8_C59EF2 entry 1",src/bankC5_9000.asm
+$C59F2A,EditWeightRight,CODE_C59F2A,code,"from the code; DATA8_C59EFA entry 1",src/bankC5_9000.asm
+$C59F37,EditJerseyLeft,CODE_C59F37,code,"from the code; DATA8_C59EF2 entry 2",src/bankC5_9000.asm
+$C59F44,EditJerseyRight,CODE_C59F44,code,"from the code; DATA8_C59EFA entry 2",src/bankC5_9000.asm
+$C59F51,EditHand,CODE_C59F51,genesis+purpose,"same job as 95G EditHand (toggle the created player's hand); DATA8_C59EF2 / DATA8_C59EFA entry 3",src/bankC5_9000.asm
+$C5A05A,PrintPaddedValue,CODE_C5A05A,code,"from the code: mesarea moved up two bytes behind $2020, PrintBoldRightStr from mesarea + 1; PrintCreatedOverall prints the overall and d2 with it",src/bankC5_A000.asm
+$C5A164,PlaceYesNoCursor,CODE_C5A164,code,"from the code; SelectNameYes / SelectNameNo end here",src/bankC5_A000.asm
+$C5A17B,LetterCellPalette3,CODE_C5A17B,code,"from the code: SetTilePalette3 on the four tiles; NameEntry calls it before d6 moves",src/bankC5_A000.asm
+$C5A198,SetTilePalette3,CODE_C5A198,code,"from the code: and #$E3FF / ora #$0C00",src/bankC5_A000.asm
+$C5A1A5,LetterCellPalette0,CODE_C5A1A5,code,"from the code: SetTilePalette0 on the four tiles; MoveCreateGridCursor calls it",src/bankC5_A000.asm
+$C5A1CA,SetTilePalette0,CODE_C5A1CA,code,"from the code: and #$E3FF / ora #$0000",src/bankC5_A000.asm
+$C5A20D,MoveCreateGridCursor,CODE_C5A20D,code,"from the code: LetterCellPalette0, then the tables MoveGridCursor also reads (without its + $18); DrawNameEntry and NameEntry call it",src/bankC5_A000.asm
+$C5A291,FieldPos,CODE_C5A291,genesis+purpose,"same job as 95G FieldPos (print the position field); AnswerNameOk and EditPosLeft / EditPosRight call it",src/bankC5_A000.asm
+$C5A2B4,FieldWeight,CODE_C5A2B4,genesis+purpose,"same job as 95G FieldWeight (print weight = value * 8 + 140); AnswerNameOk and EditWeightLeft / EditWeightRight call it",src/bankC5_A000.asm
+$C5A2D3,FieldJersey,CODE_C5A2D3,genesis+purpose,"same job as 95G FieldJersey (print the uniform number field); AnswerNameOk and EditJerseyLeft / EditJerseyRight call it",src/bankC5_A000.asm
+$C5A2EC,FieldHand,CODE_C5A2EC,genesis+purpose,"same job as 95G FieldHand (print the hand field, R / L); AnswerNameOk and EditHand call it",src/bankC5_A000.asm
+$C5A304,ClearFieldValue,CODE_C5A304,code,"from the code: two ClearRAM7E of $20 bytes at row * 64 + $D3 + $20; the Field routines call it first",src/bankC5_A000.asm
+$C5A321,BCDDigits4,CODE_C5A321,code,"from the code: four '0' + nibble bytes from the high nibble down; the Field routines, DrawLeaderRow, DrawSeasonPlayerRow and the date text (CODE_C56168) use it",src/bankC5_A000.asm
