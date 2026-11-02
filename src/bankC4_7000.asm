@@ -992,7 +992,7 @@ updatepwrplay:						; called from other segments
 updatepwrplay_clr:					; from updatepwrplay and other segments
 	lda.w #$2000
 	trb.w sflags
-	beq CODE_C4789C
+	beq updatepwrplay_clrReturn
 CODE_C4785E:						; called from other segments
 	dec.b QueueBusy
 	lda.b $00
@@ -1022,7 +1022,7 @@ CODE_C4785E:						; called from other segments
 	stx.b $00
 	stz.b QueueBusy
 	jml.l CODE_C53A29
-CODE_C4789C:						; from updatepwrplay_clr
+updatepwrplay_clrReturn:			; the rtl updatepwrplay_clr branches to
 	rtl
 AddPenalty:							; from CheckGoalieInterference, Bcheck and other segments
 	lda.w gmclock

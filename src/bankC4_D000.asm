@@ -326,7 +326,7 @@ TitleWaitForSlide:					; waits for the task counter to reach 60 before starting 
 									; and slide
 	lda.w $0008,x
 	cmp.w #$003C
-	bne CODE_C4D3AD
+	bne TitleSlideBG2Return
 	stz.w $0008,x
 	lda.w #TitleFadeAndSlide
 	sta.w $0002,x
@@ -343,11 +343,12 @@ TitleSlideBG2:						; advances BG2 horizontal scroll by two until the next title
 	inc a
 	sta.w BG2HScroll
 	cmp.w #$0080
-	bcc CODE_C4D3AD
+	bcc TitleSlideBG2Return
 	ldx.b d1
 	lda.w #TitleSlideBothBGs
 	sta.w $0002,x
-CODE_C4D3AD:						; from TitleWaitForSlide, TitleSlideBG2, TitleSlideBothBGs
+TitleSlideBG2Return:				; the rtl TitleSlideBG2 ends with, shared by TitleWaitForSlide and
+									; TitleSlideBothBGs
 	rtl
 TitleSlideBothBGs:					; scrolls BG1 and BG2 apart, then creates the first fading logo sprite
 	lda.w BG1HScroll
@@ -361,7 +362,7 @@ TitleSlideBothBGs:					; scrolls BG1 and BG2 apart, then creates the first fadin
 	inc a
 	sta.w BG2HScroll
 	cmp.w #$0100
-	bcc CODE_C4D3AD
+	bcc TitleSlideBG2Return
 	lda.w #$00CB
 	sta.b $18
 	lda.w #$0093
@@ -383,11 +384,12 @@ TitleFadeFirstLogo:					; fades the first title logo palette before creating the
 	asl a
 	asl a
 	jsr.w QueueFadeStep
-	bne CODE_C4D3FB
+	bne TitleFadeFirstLogoReturn
 	ldx.b d1
 	lda.w #TitleCreateSecondLogo
 	sta.w $0002,x
-CODE_C4D3FB:						; from TitleFadeFirstLogo, TitleFadeSecondLogo, TitleStartWhiteFade
+TitleFadeFirstLogoReturn:			; the rtl TitleFadeFirstLogo ends with, shared by TitleFadeSecondLogo and
+									; TitleStartWhiteFade
 	rtl
 TitleCreateSecondLogo:				; creates the second title logo sprite and starts its palette fade
 	lda.w #$000A
@@ -411,7 +413,7 @@ TitleFadeSecondLogo:				; fades the second title logo palette, then resets the t
 	asl a
 	asl a
 	jsr.w QueueFadeStep
-	bne CODE_C4D3FB
+	bne TitleFadeFirstLogoReturn
 	ldx.b d1
 	stz.w $0008,x
 	lda.w #TitleStartWhiteFade
@@ -419,7 +421,7 @@ TitleFadeSecondLogo:				; fades the second title logo palette, then resets the t
 TitleStartWhiteFade:				; waits for the task delay, then starts a white fade for the title palette
 	lda.w $0008,x
 	cmp.w #$003C
-	bne CODE_C4D3FB
+	bne TitleFadeFirstLogoReturn
 	lda.w #$0010
 	sta.b $7D
 	sta.b d3
@@ -463,13 +465,13 @@ TitleStartWhiteFade:				; waits for the task delay, then starts a white fade for
 TitleFinishWhiteFade:				; completes the title palette fade and enables the start key task
 	lda.w #$0020
 	jsr.w QueueFadeStep
-	bne CODE_C4D4A0
+	bne TitleFinishWhiteFadeReturn
 	stz.b $95
 	jsl.l AddStartKeyTask
 	ldx.b d1
 	lda.w #TitleStartTextPage
 	sta.w $0002,x
-CODE_C4D4A0:						; from TitleFinishWhiteFade, TitleFadeTextIn
+TitleFinishWhiteFadeReturn:			; the rtl TitleFinishWhiteFade ends with, shared by TitleFadeTextIn
 	rtl
 TitleStartTextPage:					; draws the next title text page and starts its fade task
 	jsr.w DrawTitleTextPage
@@ -479,7 +481,7 @@ TitleStartTextPage:					; draws the next title text page and starts its fade tas
 TitleFadeTextIn:					; fades in the title text palette and resets the page hold timer
 	lda.w #$0000
 	jsr.w QueueFadeStep
-	bne CODE_C4D4A0
+	bne TitleFinishWhiteFadeReturn
 	ldx.b d1
 	stz.w $0008,x
 	lda.w #TitleHoldTextPage
@@ -487,7 +489,7 @@ TitleFadeTextIn:					; fades in the title text palette and resets the page hold 
 TitleHoldTextPage:					; holds the title text page, then starts its fade to black
 	lda.w $0008,x
 	cmp.w #$00F0
-	bne CODE_C4D52A
+	bne TitleEndDelayReturn
 	lda.w #$0010
 	sta.b d3
 	lsr a
@@ -509,7 +511,7 @@ TitleHoldTextPage:					; holds the title text page, then starts its fade to blac
 TitleFadeTextOut:					; fades out the text and selects the next page or the final title delay
 	lda.w #$0000
 	jsr.w QueueFadeStep
-	bne CODE_C4D52A
+	bne TitleEndDelayReturn
 	ldx.b $95
 	lda.l DATA8_C4D10A,x
 	and.w #$00FF
@@ -527,10 +529,11 @@ TitleFadeTextOut:					; fades out the text and selects the next page or the fina
 TitleEndDelay:						; ends the title task sequence after the final delay
 	lda.w $0008,x
 	cmp.w #$01E0
-	bne CODE_C4D52A
+	bne TitleEndDelayReturn
 	lda.w #$8000
 	trb.b $85
-CODE_C4D52A:						; from TitleHoldTextPage, TitleFadeTextOut, TitleEndDelay
+TitleEndDelayReturn:				; the rtl TitleEndDelay ends with, shared by TitleHoldTextPage and
+									; TitleFadeTextOut
 	rtl
 CreateTitleFadingSprite:			; creates a title sprite with a black palette and starts its colour fade
 	jsl.l CreateSprite

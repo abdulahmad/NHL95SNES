@@ -282,12 +282,12 @@ StartIntroScaleTask:				; starts the intro scale animation for sprite A with fla
 IntroScaleToFlash:					; reduces the intro scale and starts the colour flash at its threshold
 	jsr.w StepIntroScale
 	cmp.w #$0280
-	bcs CODE_C4B2F8
+	bcs IntroScaleToFlashReturn
 	lda.w #IntroScaleToSprite
 	sta.w $0002,x
 	lda.b $81
 	lsr a
-	bcc CODE_C4B2F8
+	bcc IntroScaleToFlashReturn
 	lda.w #IntroColourFlashTask
 	ldx.w #IntroColourFlashTask>>16
 	ldy.w #$0500
@@ -295,7 +295,7 @@ IntroScaleToFlash:					; reduces the intro scale and starts the colour flash at 
 IntroScaleToSprite:					; reduces scale to unity, reveals the sprite and removes the task
 	jsr.w StepIntroScale
 	cmp.w #$0100
-	bcs CODE_C4B2F8
+	bcs IntroScaleToFlashReturn
 	lda.w #$0100
 	sta.w introM7Scale
 	lda.w #$0010
@@ -303,7 +303,7 @@ IntroScaleToSprite:					; reduces scale to unity, reveals the sprite and removes
 	ldx.b d0
 	jsr.w ShowIntroSprite
 	jmp.w RemoveTask
-CODE_C4B2F8:						; from IntroScaleToFlash, IntroScaleToSprite
+IntroScaleToFlashReturn:			; the rtl IntroScaleToFlash and IntroScaleToSprite share
 	rtl
 StepIntroScale:						; reduces the intro scale by a clamped quarter of its current value
 	lda.w introM7Scale
@@ -1268,7 +1268,7 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 CreditsWaitForFade:					; waits for the developer credits delay before fading their palettes
 	lda.w $0008,x
 	cmp.w #$00B4
-	bne CODE_C4BAD5
+	bne CreditsEndDelayReturn
 	lda.w #CreditsFadePalettes
 	sta.w $0002,x
 CreditsFadePalettes:				; steps and queues both developer credits palette fades
@@ -1297,7 +1297,7 @@ CreditsFadePalettes:				; steps and queues both developer credits palette fades
 	ldy.w #$0000
 	jsl.l QueueColours
 	dec.b $7D
-	bne CODE_C4BAD5
+	bne CreditsEndDelayReturn
 	ldx.b d1
 	stz.w $0008,x
 	lda.w #CreditsEndDelay
@@ -1305,10 +1305,10 @@ CreditsFadePalettes:				; steps and queues both developer credits palette fades
 CreditsEndDelay:					; ends the developer credits task sequence after the final delay
 	lda.w $0008,x
 	cmp.w #$00B4
-	bne CODE_C4BAD5
+	bne CreditsEndDelayReturn
 	lda.w #$8000
 	trb.b $85
-CODE_C4BAD5:						; from CreditsWaitForFade, CreditsFadePalettes, CreditsEndDelay
+CreditsEndDelayReturn:				; the rtl CreditsEndDelay ends with, shared by the other credits tasks
 	rtl
 TextPalettes:						; the 4 text palettes, 4 colours each, that InitTextMap queues to CGRAM
 									; colour 0

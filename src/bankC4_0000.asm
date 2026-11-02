@@ -66,17 +66,17 @@ BracketCursorRight:					; moves the bracket cursor one column right (a1, at most
 	lda.b a1
 	inc a
 	cmp.w #$0007
-	bcs CODE_C40099
+	bcs BracketCursorRightReturn
 	sta.b a1
 	lda.w $3D52
 	inc a
 	sta.w $3D52
 	sta.w $3D5A
-CODE_C40099:						; from BracketCursorRight, BracketCursorLeft
+BracketCursorRightReturn:			; the rts BracketCursorRight ends with, shared by BracketCursorLeft
 	rts
 BracketCursorLeft:					; moves the bracket cursor one column left (a1, not below 0)
 	lda.b a1
-	beq CODE_C40099
+	beq BracketCursorRightReturn
 	dec a
 	sta.b a1
 	lda.w $3D52
@@ -123,7 +123,7 @@ BracketMarkSeries:					; toggles the mark of the series under the bracket cursor
 BracketCursorUp:					; moves the bracket cursor up a row ($69) by its column's step
 									; (DATA8_C400FE)
 	lda.b $69
-	beq CODE_C40121
+	beq BracketCursorUpReturn
 	lda.b a1
 	asl a
 	tax
@@ -142,13 +142,13 @@ BracketRowUp:						; the bracket cursor one row up: $3D52 / $3D5A - 7, $69 - 1
 BracketRowUpToEdge:					; repeats upward row movement until the top edge
 	jsr.w BracketRowUp
 	bra BracketCursorUp
-CODE_C40121:						; from BracketCursorUp, BracketCursorDown
+BracketCursorUpReturn:				; the rts BracketCursorUp and BracketCursorDown share
 	rts
 BracketCursorDown:					; moves the bracket cursor down a row ($69, below 3) by its column's step
 									; (DATA8_C40130)
 	lda.b $69
 	cmp.w #$0003
-	bcs CODE_C40121
+	bcs BracketCursorUpReturn
 	lda.b a1
 	asl a
 	tax

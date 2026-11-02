@@ -1107,7 +1107,7 @@ RatingRowPalette3:					; palette 3 on the 32 tiles of row A + d6 (the rating row
 	inx
 	dey
 	bpl .loop
-CODE_C59997:						; from SkaterRatingsInput
+RatingRowPalette3Return:			; the rts RatingRowPalette3 ends with, shared by SkaterRatingsInput
 	rts
 SkaterRatingsInput:					; the skater ratings page's keys: the cursor on rating d6, up / down among
 									; the 11 ratings, left / right EditRatingLeft / EditRatingRight, start
@@ -1124,7 +1124,7 @@ SkaterRatingsInput:					; the skater ratings page's keys: the cursor on rating d
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
-	bcc CODE_C59997
+	bcc RatingRowPalette3Return
 	lda.w #$0010
 	sta.w repeatdelayframes
 .1:									; A = padchangeany, if $0040 bits clear go to .2, go to ExitCreatePlayer3
@@ -1282,7 +1282,7 @@ CODE_C59ACC:						; from SkaterRatingsInput
 	cmp.w #$000B
 	bcs CODE_C59ACB
 	sta.b d6
-CODE_C59ADC:						; from GoalieRatingsInput
+GoalieRatingsInputReturn:			; the rts GoalieRatingsInput branches to
 	rts
 GoalieRatingsInput:					; the goalie ratings page's keys: up / down among the 8 ratings, left /
 									; right EditRatingLeft / EditRatingRight, start SaveCreatedPlayer, X
@@ -1290,7 +1290,7 @@ GoalieRatingsInput:					; the goalie ratings page's keys: up / down among the 8 
 	lda.w repeatdelayframes
 	beq .1
 	cmp.w #$0014
-	bcc CODE_C59ADC
+	bcc GoalieRatingsInputReturn
 	lda.w #$0010
 	sta.w repeatdelayframes
 .1:									; A = padchangeany, if $0040 bits clear go to .2, go to ExitCreatePlayer3

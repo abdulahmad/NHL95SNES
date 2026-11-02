@@ -8634,3 +8634,14 @@ $C48241,CheckInjury,CODE_C48241,94S+code,"94S CheckInjury side by side: dec InjC
 $C482D9,ShowInjuryBox,CODE_C482D9,94S+purpose,"94S ShowInjuryBox (the injured player and whether he is out for the period or the game); here Framer, the bank $C3 texts by QueueVRAMDMALen, RosterPlayerShortName of TempPlOffset; CheckInjury jumps to it",src/bankC4_8000.asm
 $1141,InjCntDown,,94S+code,"RAM: 94S InjCntDown: CheckInjury decrements it and shows the box at 0, the same code; the injury code sets it",src/ram95s.asm
 $C36C2C,CheckPAL,CODE_C36C2C,code,"bare rtl called from Restart right after the jmlvector store and before GameSetUp, where 94S Restart calls CheckPAL (94S: jmlvector, CheckPAL, setoptions); keeps the 94S name of the call it stands for",src/bankC3_6000.asm
+$C40099,BracketCursorRightReturn,CODE_C40099,code,"from the code: BracketCursorRight falls into it, BracketCursorLeft branches here",src/bankC4_0000.asm
+$C40121,BracketCursorUpReturn,CODE_C40121,code,"from the code: a lone rts after BracketRowUpToEdge's bra; BracketCursorUp and BracketCursorDown branch here",src/bankC4_0000.asm
+$C4789C,updatepwrplay_clrReturn,CODE_C4789C,code,"from the code: a lone rtl after a jml; updatepwrplay_clr's beq",src/bankC4_7000.asm
+$C4B2F8,IntroScaleToFlashReturn,CODE_C4B2F8,code,"from the code: a lone rtl after IntroScaleToSprite's jmp RemoveTask; IntroScaleToFlash branches here twice, IntroScaleToSprite once",src/bankC4_B000.asm
+$C4BAD5,CreditsEndDelayReturn,CODE_C4BAD5,code,"from the code: CreditsEndDelay falls into it; CreditsWaitForFade and CreditsFadePalettes branch here",src/bankC4_B000.asm
+$C4D3AD,TitleSlideBG2Return,CODE_C4D3AD,code,"from the code: TitleSlideBG2 falls into it, the other two branch here",src/bankC4_D000.asm
+$C4D3FB,TitleFadeFirstLogoReturn,CODE_C4D3FB,code,"from the code: TitleFadeFirstLogo falls into it, the other two branch here",src/bankC4_D000.asm
+$C4D4A0,TitleFinishWhiteFadeReturn,CODE_C4D4A0,code,"from the code: TitleFinishWhiteFade falls into it, TitleFadeTextIn branches here",src/bankC4_D000.asm
+$C4D52A,TitleEndDelayReturn,CODE_C4D52A,code,"from the code: TitleEndDelay falls into it, the other two branch here",src/bankC4_D000.asm
+$C59997,RatingRowPalette3Return,CODE_C59997,code,"from the code: RatingRowPalette3's loop falls into it, SkaterRatingsInput branches here",src/bankC5_9000.asm
+$C59ADC,GoalieRatingsInputReturn,CODE_C59ADC,code,"from the code: a lone rts at the end of the goalie cursor code; GoalieRatingsInput's branch",src/bankC5_9000.asm
