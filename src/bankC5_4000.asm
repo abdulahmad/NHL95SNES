@@ -1825,8 +1825,8 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	jsl.l StartSound
 	jsl.l SoundVolumeUp
 	dec.w $18F8
-.2:									; call CODE_C5503C, X = $0002, call SetPauseTab, $059E = $0001
-	jsr.w CODE_C5503C
+.2:									; call InitPauseScreen, X = $0002, call SetPauseTab, $059E = $0001
+	jsr.w InitPauseScreen
 	ldx.w #$0002
 	jsr.w SetPauseTab
 	lda.w #$0001
@@ -1860,12 +1860,12 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	lda.w padchangeany
 	bit.w #$3000
 	beq .3
-.resume:							; start / select leave the pause screen: back to the game (CODE_C55513);
-									; PauseReplay comes here after the replay
+.resume:							; start / select leave the pause screen: back to the game
+									; (RestoreGameScreen); PauseReplay comes here after the replay
 	lda.w $18EE
 	sta.w $18E0
 	sta.b $08
 	stz.b $22
 	ldx.w $18F0
 	jsl.l DeleteSprite
-	jmp.w CODE_C55513
+	jmp.w RestoreGameScreen

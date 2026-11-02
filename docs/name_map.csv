@@ -5414,31 +5414,31 @@ $C54FA2,.1,CODE_C54FA2,new,"branch target only used in SetPauseTab",src/bankC5_5
 $C54FB9,.1,CODE_C54FB9,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
 $C54FBD,.2,CODE_C54FBD,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
 $C54FCF,.loop,CODE_C54FCF,new,"branch target only used in DrawPauseTab",src/bankC5_5000.asm
-$C550D2,.loop,CODE_C550D2,new,"branch target only used in CODE_C5503C",src/bankC5_5000.asm
-$C55153,.loop,CODE_C55153,new,"branch target only used in CODE_C550E2",src/bankC5_5000.asm
+$C550D2,.loop,CODE_C550D2,new,"branch target only used in InitPauseScreen",src/bankC5_5000.asm
+$C55153,.loop,CODE_C55153,new,"branch target only used in PauseScreenDraw",src/bankC5_5000.asm
 $C55237,.loop,CODE_C55237,new,"branch target only used in FillPauseMapTileRun",src/bankC5_5000.asm
 $C5527D,.loop,CODE_C5527D,new,"branch target only used in CopyPauseTabTileRow",src/bankC5_5000.asm
 $C552CA,.1,CODE_C552CA,new,"branch target only used in CODE_C552BD",src/bankC5_5000.asm
-$C552E1,.loop,CODE_C552E1,new,"branch target only used in CODE_C552CE",src/bankC5_5000.asm
-$C552F9,.1,CODE_C552F9,new,"branch target only used in CODE_C552CE",src/bankC5_5000.asm
-$C5531B,.1,CODE_C5531B,new,"branch target only used in CODE_C55308",src/bankC5_5000.asm
-$C5533E,.1,CODE_C5533E,new,"branch target only used in CODE_C55320",src/bankC5_5000.asm
-$C55341,.2,CODE_C55341,new,"branch target only used in CODE_C55320",src/bankC5_5000.asm
-$C55360,.1,CODE_C55360,new,"branch target only used in CODE_C55346",src/bankC5_5000.asm
-$C55363,.2,CODE_C55363,new,"branch target only used in CODE_C55346",src/bankC5_5000.asm
-$C55391,.loop,CODE_C55391,new,"branch target only used in CODE_C5538C",src/bankC5_5000.asm
-$C553AE,.1,CODE_C553AE,new,"branch target only used in CODE_C5538C",src/bankC5_5000.asm
-$C553AF,.loop2,CODE_C553AF,new,"branch target only used in CODE_C5538C",src/bankC5_5000.asm
+$C552E1,.loop,CODE_C552E1,new,"branch target only used in PrintPauseItemText",src/bankC5_5000.asm
+$C552F9,.1,CODE_C552F9,new,"branch target only used in PrintPauseItemText",src/bankC5_5000.asm
+$C5531B,.1,CODE_C5531B,new,"branch target only used in GoalieModeItemText",src/bankC5_5000.asm
+$C5533E,.1,CODE_C5533E,new,"branch target only used in TimeoutItemText",src/bankC5_5000.asm
+$C55341,.2,CODE_C55341,new,"branch target only used in TimeoutItemText",src/bankC5_5000.asm
+$C55360,.1,CODE_C55360,new,"branch target only used in OtherScoresItemText",src/bankC5_5000.asm
+$C55363,.2,CODE_C55363,new,"branch target only used in OtherScoresItemText",src/bankC5_5000.asm
+$C55391,.loop,CODE_C55391,new,"branch target only used in ShowPenaltyBox",src/bankC5_5000.asm
+$C553AE,.1,CODE_C553AE,new,"branch target only used in ShowPenaltyBox",src/bankC5_5000.asm
+$C553AF,.loop2,CODE_C553AF,new,"branch target only used in ShowPenaltyBox",src/bankC5_5000.asm
 $C553E8,.1,CODE_C553E8,new,"branch target only used in CODE_C553D6",src/bankC5_5000.asm
 $C5541C,.loop,CODE_C5541C,new,"branch target only used in CODE_C553D6",src/bankC5_5000.asm
 $C55437,.loop2,CODE_C55437,new,"branch target only used in CODE_C553D6",src/bankC5_5000.asm
 $C5544E,.2,CODE_C5544E,new,"branch target only used in CODE_C553D6",src/bankC5_5000.asm
-$C55524,.1,CODE_C55524,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
-$C556FA,.2,CODE_C556FA,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
-$C55702,.3,CODE_C55702,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
-$C55711,.4,CODE_C55711,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
-$C5571A,.5,CODE_C5571A,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
-$C55724,.6,CODE_C55724,new,"branch target only used in CODE_C55513",src/bankC5_5000.asm
+$C55524,.1,CODE_C55524,new,"branch target only used in RestoreGameScreen",src/bankC5_5000.asm
+$C556FA,.2,CODE_C556FA,new,"branch target only used in RestoreGameScreen",src/bankC5_5000.asm
+$C55702,.3,CODE_C55702,new,"branch target only used in RestoreGameScreen",src/bankC5_5000.asm
+$C55711,.4,CODE_C55711,new,"branch target only used in RestoreGameScreen",src/bankC5_5000.asm
+$C5571A,.5,CODE_C5571A,new,"branch target only used in RestoreGameScreen",src/bankC5_5000.asm
+$C55724,.6,CODE_C55724,new,"branch target only used in RestoreGameScreen",src/bankC5_5000.asm
 $C558F2,.loop,CODE_C558F2,new,"branch target only used in RestorePauseBuffers",src/bankC5_5000.asm
 $C55907,.1,CODE_C55907,new,"branch target only used in RestorePauseBuffers",src/bankC5_5000.asm
 $C55A16,.1,CODE_C55A16,new,"branch target only used in ExitToPauseMenu",src/bankC5_5000.asm
@@ -8556,3 +8556,20 @@ $C53A71,PackTeamSecondTextLong,CODE_C53A71,code,"jsr PackTeamSecondText, rtl",sr
 $C54114,setlccords,CODE_C54114,94S+purpose,"94S input/setlccords (callers SetLCmode2 and lcfound_close in both): team 0 or the gmdir bit ($0002) flips the side, getlchoice 2 sets the height (6 / 5 in 94S), the width is fixed ($C in 94S); 95 returns a map address for Framer instead of printx / printy: lower box $5AB5 ($5AD5 when tmap and tmap+2 differ, where 94S moves a row down when choice 2 has no line), upper box $5855 ($5995 when $18AA is set); the ROM bytes at $C54120 are ldy #$5AB5 (A0 B5 5A, reached by the fall-through and the beq at $C54133), so the old phy entry at $C54122 was an operand byte and its other-segment caller a raw match inside sta $22,x / jsl $C4C541 at $C4E452",src/bankC5_4000.asm
 $C54BE8,BuildMesareaBar,CODE_C54BE8,code,"the same code as the unreferenced routine after 94S lcfound_close's jml (its .t1, a local label only): printa $2000, seven lsr capped at $1F, mesarea length 6, the four cell loop with -1 / 0-7 + d1, $0C00 when d1 is set, printx - $B, the $4000 mirror bit set then cleared, mesarea+2 / +5 and +3 / +4 swapped; 95 saves d0-d7 and a1 with pei; no caller in either game",src/bankC5_4000.asm
 $C54D70,LineBarQueue,CODE_C54D70,code,"from the code: LineBarLow falls into it, LineBarMiddle and LineBarHigh bra to it; the tile byte at Y, then the transfer record (3 bytes, $1800, bank $7E, the work buffer) pushed on the VRAM queue",src/bankC5_4000.asm
+$C5503C,InitPauseScreen,CODE_C5503C,code,"from the code: the VRAM read record ($3981: VRAM data read, PPU to CPU) from $5800 into the $0802 buffer QueueSavedTextMap sends back, AllocWorkBuf $2D60 for the map, MapSetToWRAM PauseScreenMap, FillPauseMapTileRun four times, $1420 added to $460 map words; it falls into PauseScreenDraw; Pausemode_menu calls it before SetPauseTab (94S SetupPauseScreen draws menu items, a different job)",src/bankC5_5000.asm
+$C550E2,PauseScreenDraw,CODE_C550E2,genesis+purpose,"95 Genesis pause95.asm PauseScreenDraw: the background, the period, the fonts and clock digits, the team blocks of both teams, the tabs, the clock, ShowPenaltyBoxes, fade in; here the tabs are in the map buffer queued whole, the team blocks are TeamNicknameTiles rows, PauseScoresClock and ShowPenaltyBoxes, ArrowFontTiles, ScreenOn; InitPauseScreen falls into it and ExitToPauseMenu jumps to it after a sub-screen",src/bankC5_5000.asm
+$C5525F,CopyPauseTabTiles,CODE_C5525F,code,"from the code: A + the map base to Y, DATA8_C5528C,x + the map base to X, CopyPauseTabTileRow, both + $30, CopyPauseTabTileRow again (falls into it); DeselectPauseTab branches here, SelectPauseTab falls in",src/bankC5_5000.asm
+$C552A4,DrawPauseItems,CODE_C552A4,code,"from the code: push A, PrintPauseItems with the list of seven blank items (decoded: 12 spaces each), pull X, falls into PrintPauseItems; DrawPauseTab calls it with the tab's list (DATA8_C55002 / DATA8_C5500A)",src/bankC5_5000.asm
+$C552AC,PrintPauseItems,CODE_C552AC,code,"from the code: the count to pauseitems and tmp0, Y = map offset $0314, a nonzero routine word is run through jmp ($002C) (it returns to PrintPauseItemText with the text), else the text word; the item lists decoded from the ROM: Info, Stats, Options, the quit prompt and their play mode 1 forms; PauseTimeout also calls it with the blank list",src/bankC5_5000.asm
+$C552CE,PrintPauseItemText,CODE_C552CE,code,"from the code: the text characters or $3A00 into the map at Y, r0 = $80 (two rows) or 0 for no text, the X / Y PrintPauseItems pushed, +4 to the next item, until tmp0 is 0; GoalieModeItemText, TimeoutItemText and OtherScoresItemText jmp here",src/bankC5_5000.asm
+$C55308,GoalieModeItemText,CODE_C55308,code,"from the code: GetPadTeam, goaliemode1,x of a2 picks text $59EF ('Mnual Goalie') or $59FC ('Auto Goalie'), then PrintPauseItemText; the routine word of item 4 of the Options list ($C35D07, decoded), so the old no-caller note was wrong",src/bankC5_5000.asm
+$C55320,TimeoutItemText,CODE_C55320,code,"from the code: GetPadTeam, tmtimeouts,x of a2, text $5A08 ('Time Out') or 0, then PrintPauseItemText; the routine word of item 5 of the Options list ($C35D07, decoded); PauseTimeout is the item's handler in DATA8_C5502C",src/bankC5_5000.asm
+$C55346,OtherScoresItemText,CODE_C55346,code,"from the code: text $5991 ('Other Scores') in play mode 2 (Season), else 0, then PrintPauseItemText; the routine word of item 5 of the Info list ($C35CCB, decoded); ShowOtherScores is the item's handler in DATA8_C5501C",src/bankC5_5000.asm
+$C55367,ShowPenaltyBoxes,CODE_C55367,genesis+purpose,"95 Genesis pause95.asm ShowPenaltyBoxes: home on the right ($1F), away on the left (2), ShowPenaltyBox each; here tmp1 = $17 / 1, tmp2 = $1A0, the box list offsets 0 / $1A; PauseScreenDraw and DrawPauseTab call it",src/bankC5_5000.asm
+$C5538C,ShowPenaltyBox,CODE_C5538C,genesis+purpose,"95 Genesis pause95.asm ShowPenaltyBox: the players of the team's box list (-1 ends) through ShowPenaltyBoxPlayer; 95 makes two passes ordered by tmpdst bit $4000 instead of 95G's count; ShowPenaltyBoxes calls it per team",src/bankC5_5000.asm
+$C553CC,ShowPenaltyBoxPlayer,CODE_C553CC,genesis+purpose,"95 Genesis pause95.asm ShowPenaltyBoxPlayer: the jersey number and the time left (tmpdst and $7FF), one line down, a row limit; here the number from roster +$110 through BCDTable / BCDText, TimeTextMMSS with the '?' turned into ':', the text as tiles on the VRAM queue at $5800 + tmp1 + tmp2",src/bankC5_5000.asm
+$C553D5,rtsmenu,CODE_C553D5,genesis+purpose,"95 Genesis pause95.asm rtsmenu: the rts after ShowPenaltyBoxPlayer that ShowPenaltyBox branches to; here ShowPenaltyBox's second loop branches to it at the end of the list and ShowPenaltyBoxPlayer reaches it when tmp2 is $200 or more",src/bankC5_5000.asm
+$C5547C,PauseScoresClock,CODE_C5547C,code,"from the code: d1 = 3, PushNumberWrap and PutPauseScore for tmscore and tmscore+2, then four PutClockDigit of the clockbcd nibbles with a gap after the minutes; 95 Genesis splits this between PauseScores (the scores) and the clock code, so neither name fits; PauseScreenDraw calls it",src/bankC5_5000.asm
+$C554CA,PutPauseScore,CODE_C554CA,code,"from the code: the three digit bytes after PushNumberWrap's length word, PutClockDigit each with Y + 2 between; falls into PutClockDigit for the last; PauseScoresClock calls it per team",src/bankC5_5000.asm
+$C554DD,PutClockDigit,CODE_C554DD,genesis+purpose,"95 Genesis middle95.asm PutClockDigit: a big 2 x 3 digit d0 at printx / printy (PutScoreDigit is its copy); here map words +$700 + 4 x the digit, rows $40 apart, to the map at 2 x Y, Y kept; PauseScoresClock and PutPauseScore call it",src/bankC5_5000.asm
+$C55513,RestoreGameScreen,CODE_C55513,genesis+purpose,"95 Genesis pause95.asm RestoreGameScreen: rebuild the game screen after the pause screen (the ref tiles, the face off tiles, the rink tiles and home team graphics, then printscores1); here LoadTeamSongs when $18F8 is set, RefsMap, QueueFrameTiles, DigitFontTiles, the IceRinkMap tiles, CenterIceTiles, MeterFontTiles, FaceOffMap, CODE_C53A29; Pausemode_menu .resume jumps to it, PauseReplay calls it; 94S ReloadRink rebuilds the rink after each pause page to the rink menu, a different point",src/bankC5_5000.asm

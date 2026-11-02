@@ -504,7 +504,7 @@ PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcoun
 	ldx.w $18F0
 	jsl.l DeleteSprite
 	jsl.l RestorePauseBuffers
-	jsl.l CODE_C55513
+	jsl.l RestoreGameScreen
 	pei ($9B)
 	lda.b $5F
 	dec a

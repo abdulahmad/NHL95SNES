@@ -106,8 +106,8 @@ DrawPauseTab:						; draws tab A's item list (its text in bank $C3 from DATA8_C5
 	bra .2
 .1:									; A = DATA8_C55002,x
 	lda.l DATA8_C55002,x
-.2:									; call CODE_C552A4, call SelectPauseTab, A = pauseitem, A / 2, ...
-	jsr.w CODE_C552A4
+.2:									; call DrawPauseItems, call SelectPauseTab, A = pauseitem, A / 2, ...
+	jsr.w DrawPauseItems
 	jsr.w SelectPauseTab
 	lda.w pauseitem
 	xba
@@ -139,7 +139,7 @@ DrawPauseTab:						; draws tab A's item list (its text in bank $C3 from DATA8_C5
 	tcs
 	stx.b $00
 	stz.b QueueBusy
-	jmp.w CODE_C55367
+	jmp.w ShowPenaltyBoxes
 DATA8_C55002:						; the item list (bank $C3) of each pause menu tab: Info, Stats, Options,
 									; the quit prompt; DrawPauseTab
 	db $CB,$5C,$EF,$5C,$07,$5D,$21,$5D
@@ -162,7 +162,9 @@ DATA8_C5502C:						; pause menu Options tab: Inst Replay, Edit Lines, Chnge Goal
 	dw PauseTimeout,ShowQuitPrompt
 DATA8_C55038:						; the quit prompt: Resume Game (back to the Options tab), Quit Game
 	dw ResumeFromQuit,QuitGameJump
-CODE_C5503C:						; called from other segments
+InitPauseScreen:					; the pause screen's set-up: pausemenuon / pausetab $FFFF, the game's text
+									; map read from VRAM into a buffer, BackupPauseBuffers, PauseScreenMap
+									; unpacked to the pause map buffer, then PauseScreenDraw
 	jsl.l forceblack
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
@@ -224,7 +226,9 @@ CODE_C5503C:						; called from other segments
 	inx
 	dey
 	bpl .loop
-CODE_C550E2:						; from ExitToPauseMenu
+PauseScreenDraw:					; draws the pause screen from its map buffer: a sprite (record $1F, placed
+									; by gsp), the colours, the map queued, both teams' nickname tiles, the
+									; scores and clock, the penalty boxes, the arrow font, screen on
 	jsl.l ResetSprites
 	lda.w #$0039
 	sta.b $1A
@@ -358,8 +362,8 @@ CODE_C550E2:						; from ExitToPauseMenu
 	stx.b $00
 	stz.b QueueBusy
 	jsl.l WaitTransfers
-	jsr.w CODE_C5547C
-	jsr.w CODE_C55367
+	jsr.w PauseScoresClock
+	jsr.w ShowPenaltyBoxes
 	jsl.l WaitTransfers
 	lda.w #$4100
 	jsl.l FreeWorkBuf
@@ -386,20 +390,22 @@ FillPauseMapTileRun:				; writes consecutive tile words into the pause map at of
 	cpy.w #$000A
 	bne .loop
 	rts
-DATA8_C55245:						; not traced: a table read by CODE_C550E2
+DATA8_C55245:						; not traced: a table read by PauseScreenDraw
 	db $62,$01,$7D,$01,$97,$01
 DeselectPauseTab:					; copies the inactive tab tiles into the current pause tab header
 	lda.w pausetab
 	asl a
 	tax
 	lda.l DATA8_C5529C,x
-	bra CODE_C5525F
+	bra CopyPauseTabTiles
 SelectPauseTab:						; copies the active tab tiles into the current pause tab header
 	lda.w pausetab
 	asl a
 	tax
 	lda.l DATA8_C55294,x
-CODE_C5525F:						; from DeselectPauseTab
+CopyPauseTabTiles:					; copies a tab's two rows of eight tiles from pause map offset A to its
+									; place in the tab header (DATA8_C5528C by X); DeselectPauseTab and
+									; SelectPauseTab end here
 	adc.w $18EE
 	tay
 	lda.l DATA8_C5528C,x
@@ -425,25 +431,28 @@ CopyPauseTabTileRow:				; copies eight tile words from Y to X
 	dec.b tmp0
 	bne .loop
 	rts
-DATA8_C5528C:						; not traced: a table read by CODE_C5525F
+DATA8_C5528C:						; not traced: a table read by CopyPauseTabTiles
 	db $44,$00,$58,$00,$6C,$00,$6C,$00
 DATA8_C55294:						; not traced: a table read by SelectPauseTab
 	db $C0,$07,$D0,$07,$E0,$07,$E0,$07
 DATA8_C5529C:						; not traced: a table read by DeselectPauseTab
 	db $40,$08,$50,$08,$60,$08,$60,$08
-CODE_C552A4:						; from DrawPauseTab
+DrawPauseItems:						; blanks the pause item rows (the bank $C3 list of seven blank items) and
+									; prints item list A (PrintPauseItems)
 	pha
 	ldx.w #$5D41
-	jsr.w CODE_C552AC
+	jsr.w PrintPauseItems
 	plx
-CODE_C552AC:						; from CODE_C552A4
+PrintPauseItems:					; prints pause item list X (bank $C3: a count to pauseitems, then a
+									; routine and a text word an item) into the pause map, an item every two
+									; rows from row 12, attribute $3A00
 	lda.w #$00C3
 	sta.b $2E
 	ldy.w #$0314
 	lda.l $C30000,x
 	sta.w pauseitems
 	sta.b tmp0
-CODE_C552BD:						; from CODE_C552CE
+CODE_C552BD:						; from PrintPauseItemText
 	phx
 	phy
 	lda.l $C30002,x
@@ -452,7 +461,8 @@ CODE_C552BD:						; from CODE_C552CE
 	jmp ($002C)
 .1:									; A = $C30004,x
 	lda.l $C30004,x
-CODE_C552CE:						; from CODE_C55308, CODE_C55320, CODE_C55346
+PrintPauseItemText:					; prints item text A (bank $C3, length-prefixed; 0 leaves the item out) on
+									; the current item row, then the next item; the item routines go on here
 	sta.b r0
 	cmp.w #$0000
 	beq .1
@@ -486,7 +496,9 @@ CODE_C552CE:						; from CODE_C55308, CODE_C55320, CODE_C55346
 	dec.b tmp0
 	bne CODE_C552BD
 	rts
-CODE_C55308:						; no caller found (not traced)
+GoalieModeItemText:					; the Options tab's goalie mode item: the manual goalie text when
+									; goaliemode1 of the pad's team (GetPadTeam) is set, else the auto goalie
+									; text
 	phy
 	phx
 	jsl.l GetPadTeam
@@ -495,11 +507,12 @@ CODE_C55308:						; no caller found (not traced)
 	ldy.w goaliemode1,x
 	beq .1
 	lda.w #$59EF
-.1:									; pull X, pull Y, go to CODE_C552CE
+.1:									; pull X, pull Y, go to PrintPauseItemText
 	plx
 	ply
-	jmp.w CODE_C552CE
-CODE_C55320:						; no caller found (not traced)
+	jmp.w PrintPauseItemText
+TimeoutItemText:					; the Options tab's Time Out item, left out (pauseitems - 1, pauseitem
+									; kept below it) when the pad's team has no time out left (tmtimeouts)
 	phy
 	phx
 	jsl.l GetPadTeam
@@ -514,11 +527,12 @@ CODE_C55320:						; no caller found (not traced)
 	dec.w pauseitem
 .1:									; A = $0000
 	lda.w #$0000
-.2:									; pull X, pull Y, go to CODE_C552CE
+.2:									; pull X, pull Y, go to PrintPauseItemText
 	plx
 	ply
-	jmp.w CODE_C552CE
-CODE_C55346:						; no caller found (not traced)
+	jmp.w PrintPauseItemText
+OtherScoresItemText:				; the Info tab's Other Scores item, left out (pauseitems - 1, pauseitem
+									; kept below it) unless OptPlayMode is 2
 	phx
 	lda.w #$5991
 	ldx.w OptPlayMode
@@ -531,25 +545,28 @@ CODE_C55346:						; no caller found (not traced)
 	dec.w pauseitem
 .1:									; A = $0000
 	lda.w #$0000
-.2:									; pull X, go to CODE_C552CE
+.2:									; pull X, go to PrintPauseItemText
 	plx
-	jmp.w CODE_C552CE
-CODE_C55367:						; from CODE_C550E2, DrawPauseTab
+	jmp.w PrintPauseItemText
+ShowPenaltyBoxes:					; the pause screen's penalty boxes from text row 13: the home team's list
+									; (tmboxlist) at column 23, the away team's at column 1 (ShowPenaltyBox)
 	lda.w #$0017
 	sta.b tmp1
 	lda.w #$01A0
 	sta.b tmp2
 	lda.w #$0000
-	jsr.w CODE_C5538C
+	jsr.w ShowPenaltyBox
 	lda.w #$0001
 	sta.b tmp1
 	lda.w #$01A0
 	sta.b tmp2
 	lda.w #$001A
-	jsr.w CODE_C5538C
+	jsr.w ShowPenaltyBox
 	jsl.l WaitTransfers
 	rts
-CODE_C5538C:						; from CODE_C55367
+ShowPenaltyBox:						; the players in the penalty box list at tmboxlist + A (bit 7 ends it):
+									; those with tmpdst bit 14 clear first, then those with it set
+									; (ShowPenaltyBoxPlayer)
 	pha
 	tay
 	asl a
@@ -566,7 +583,7 @@ CODE_C5538C:						; from CODE_C55367
 	lda.w tmpdst,x
 	bit.w #$4000
 	bne .loop
-	jsr.w CODE_C553CC
+	jsr.w ShowPenaltyBoxPlayer
 	bra .loop
 .1:									; pull Y
 	ply
@@ -575,24 +592,27 @@ CODE_C5538C:						; from CODE_C55367
 	iny
 	and.w #$00FF
 	bit.w #$0080
-	bne CODE_C553D5
+	bne rtsmenu
 	clc
 	adc.b $A5
 	tax
 	lda.w tmpdst,x
 	bit.w #$4000
 	beq .loop2
-	jsr.w CODE_C553CC
+	jsr.w ShowPenaltyBoxPlayer
 	bra .loop2
-CODE_C553CC:						; from CODE_C5538C
+ShowPenaltyBoxPlayer:				; player X's jersey number and penalty time (tmpdst A) as tiles queued to
+									; VRAM at the box row (tmp1 + tmp2), then a row down; nothing once tmp2
+									; reaches $200
 	phy
 	ldy.b tmp2
 	cpy.w #$0200
 	bcc CODE_C553D6
 	ply
-CODE_C553D5:						; from CODE_C5538C
+rtsmenu:							; the rts ShowPenaltyBox's second pass and a full ShowPenaltyBoxPlayer
+									; leave through
 	rts
-CODE_C553D6:						; from CODE_C553CC
+CODE_C553D6:						; from ShowPenaltyBoxPlayer
 	pha
 	txa
 	asl a
@@ -687,30 +707,32 @@ CODE_C553D6:						; from CODE_C553CC
 	sta.b tmp2
 	ply
 	rts
-CODE_C5547C:						; from CODE_C550E2
+PauseScoresClock:					; the pause screen's big digits: the home score (tmscore) at map tile $D7
+									; and the away score at $C3 (three digits, PushNumberWrap), then the game
+									; clock (clockbcd) from tile $8B
 	lda.w #$0003
 	sta.b d1
 	lda.w tmscore
 	sta.b d0
 	jsl.l PushNumberWrap
 	ldy.w #$00D7
-	jsr.w CODE_C554CA
+	jsr.w PutPauseScore
 	lda.w tmscore+2
 	sta.b d0
 	jsl.l PushNumberWrap
 	ldy.w #$00C3
-	jsr.w CODE_C554CA
+	jsr.w PutPauseScore
 	ldy.w #$008B
 	lda.w clockbcd+1
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C554DD
+	jsr.w PutClockDigit
 	iny
 	iny
 	lda.w clockbcd+1
-	jsr.w CODE_C554DD
+	jsr.w PutClockDigit
 	iny
 	iny
 	iny
@@ -720,22 +742,24 @@ CODE_C5547C:						; from CODE_C550E2
 	lsr a
 	lsr a
 	lsr a
-	jsr.w CODE_C554DD
+	jsr.w PutClockDigit
 	iny
 	iny
 	lda.w clockbcd
-	jmp.w CODE_C554DD
-CODE_C554CA:						; from CODE_C5547C
+	jmp.w PutClockDigit
+PutPauseScore:						; the three big digits PushNumberWrap left (width 3) to pause map tile Y
+									; on, two tiles apart (PutClockDigit)
 	lda.w $055B
-	jsr.w CODE_C554DD
+	jsr.w PutClockDigit
 	iny
 	iny
 	lda.w $055C
-	jsr.w CODE_C554DD
+	jsr.w PutClockDigit
 	iny
 	iny
 	lda.w $055D
-CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
+PutClockDigit:						; copies big digit A (its low 4 bits: 2 x 3 tiles from the digit set in
+									; the pause map) to pause map tile Y
 	phy
 	and.w #$000F
 	asl a
@@ -760,7 +784,9 @@ CODE_C554DD:						; from CODE_C5547C, CODE_C554CA
 	sta.w $0082,y
 	ply
 	rts
-CODE_C55513:						; called from other segments
+RestoreGameScreen:					; leaves the pause screen: the team songs back when the pause loaded its
+									; music, then the game screen rebuilt (refs, frame tiles, digit font, rink
+									; tiles, centre ice, meter font, face off map, the period box)
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
 	lda.w $18F8
@@ -1282,7 +1308,7 @@ SetupScreen:						; common start of the stats screens: the tiled background, VRA
 	sta.w BG2VScroll
 	rts
 ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed, VRAM cleared,
-									; back to the pause menu (CODE_C550E2); opened from the season's Other
+									; back to the pause menu (PauseScreenDraw); opened from the season's Other
 									; Scores it only fades out and returns
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow
@@ -1301,7 +1327,7 @@ ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed,
 	jsl.l WaitTransfers
 	stz.w padchangeany
 	lda.w $190E
-	jmp.w CODE_C550E2
+	jmp.w PauseScreenDraw
 SetupStatsPage:						; SetupScreen, then the page A (PrintTextPage) and both teams' logo
 									; sprites
 	pha
