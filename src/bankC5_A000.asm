@@ -1359,9 +1359,9 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	bit.w #$0400
 	bne .4
 	rts
-.2:									; A = $0015, call CODE_C590BB, A = $0018, call SetRowPalette3, ...
+.2:									; A = $0015, call SetRowPalette0, A = $0018, call SetRowPalette3, ...
 	lda.w #$0015
-	jsr.w CODE_C590BB
+	jsr.w SetRowPalette0
 	lda.w #$0018
 	jsr.w SetRowPalette3
 	lda.w #$00B5
@@ -1370,11 +1370,11 @@ StartSeasonInput:					; the season in progress question each frame (screen state
 	sta.b $08,x
 	jsl.l SendTextMap
 	rts
-.4:									; A = $0015, call SetRowPalette3, A = $0018, call CODE_C590BB, ...
+.4:									; A = $0015, call SetRowPalette3, A = $0018, call SetRowPalette0, ...
 	lda.w #$0015
 	jsr.w SetRowPalette3
 	lda.w #$0018
-	jsr.w CODE_C590BB
+	jsr.w SetRowPalette0
 	lda.w #$00CD
 	bra .3
 .5:									; X = a0, pull Y, if $08,x is not $00B5 go to .6, go to CODE_C5963A
@@ -1785,7 +1785,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	jsl.l ResetSprites
 	jsr.w ShowOtherScores
 	stz.w $190E
-	jsl.l CODE_C4C574
+	jsl.l ResetTransferQueues
 	lda.w OptPlayMode
 	cmp.w #$0003
 	bne .1
@@ -1810,7 +1810,7 @@ FinishSeasonDay:					; once no user game of the day is left: Please Wait, the co
 	plb
 	sta.w VisTeam
 	stx.w $2C44
-	jsl.l CODE_C4C574
+	jsl.l ResetTransferQueues
 	jsl.l ResetWorkBuf
 	jsl.l FadeOutWait
 	stz.w DMAEnShadow

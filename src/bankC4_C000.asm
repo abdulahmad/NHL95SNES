@@ -815,7 +815,8 @@ FreeWorkBuf:						; gives the last A bytes back to the work buffer (AllocWorkBuf
 	inc a
 	sta.b $08
 	rtl
-CODE_C4C574:						; from TitleScreen and other segments
+ResetTransferQueues:				; empties the transfer queues: their stack pointers $00 = $03FF, $02 =
+									; $01FF, $04 = $048F, with QueueBusy set around the stores
 	lda.w #$FFFF
 	sta.b QueueBusy
 	lda.w #$03FF

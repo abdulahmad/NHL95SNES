@@ -395,27 +395,29 @@ UnpackFormat6:						; format 6: a flag byte per 8 runs or copies, up to 11 bits 
 	inc.b r1
 	bne .1
 	inc.b $32
-.1:									; A = [r1], A / 2, $0E = A, call CODE_C5835C, ...
+.1:									; A = [r1], A / 2, $0E = A, call UnpackFormat6Step, ...
 	lda.b [r1]
 	lsr a
 	sta.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	lsr.b $0E
-	jsr.w CODE_C5835C
+	jsr.w UnpackFormat6Step
 	bra UnpackFormat6
-CODE_C5835C:						; from UnpackFormat6
+UnpackFormat6Step:					; one token of unpack format 6 by the flag bit in carry: set, a back
+									; reference (length from the top 5 bits, 11-bit distance); clear, a
+									; literal run (a count byte)
 	bcc .1
 	ldy.w #$0001
 	lda.b [r1],y
@@ -473,27 +475,29 @@ UnpackFormat8:						; format 8: a flag byte per 8 runs or copies, up to 12 bits 
 	inc.b r1
 	bne .1
 	inc.b $32
-.1:									; A = [r1], A / 2, $0E = A, call CODE_C583F3, ...
+.1:									; A = [r1], A / 2, $0E = A, call UnpackFormat8Step, ...
 	lda.b [r1]
 	lsr a
 	sta.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	lsr.b $0E
-	jsr.w CODE_C583F3
+	jsr.w UnpackFormat8Step
 	bra UnpackFormat8
-CODE_C583F3:						; from UnpackFormat8
+UnpackFormat8Step:					; one token of unpack format 8 by the flag bit in carry: set, a back
+									; reference (length from the high nibble, 12-bit distance); clear, a
+									; literal run (a count byte)
 	bcc .1
 	ldy.w #$0001
 	lda.b [r1],y

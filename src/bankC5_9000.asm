@@ -125,7 +125,8 @@ SetRowPalette3:						; sets palette 3 on the 64 text map tiles from row A (two r
 	rts
 CODE_C590B8:						; from CODE_C59308
 	lda.w $010E
-CODE_C590BB:						; from CODE_C596C0, CODE_C596AF, CODE_C59DBE
+SetRowPalette0:						; sets palette 0 on the 64 text map tiles from row A (two rows of 32),
+									; then SendTextMap
 	xba
 	lsr a
 	lsr a
@@ -149,7 +150,7 @@ setoptions:							; builds the game setup screen: its graphics and HDMA, then th
 	jsl.l FadeOutWait
 	lda.w #$0001
 	sta.w $059E
-	jsl.l CODE_C4C574
+	jsl.l ResetTransferQueues
 	jsl.l ResetWorkBuf
 	lda.w #$007F
 	sta.b $2E
@@ -747,7 +748,7 @@ CODE_C596AF:						; from AskNameOk, NameEntry
 	lda.w #$0012
 	jsr.w SetRowPalette3
 	lda.w #$000F
-	jsr.w CODE_C590BB
+	jsr.w SetRowPalette0
 CODE_C596BD:						; from CODE_C596C0
 	jmp.w CODE_C5A164
 CODE_C596C0:						; from AskNameOk
@@ -756,7 +757,7 @@ CODE_C596C0:						; from AskNameOk
 	lda.w #$000F
 	jsr.w SetRowPalette3
 	lda.w #$0012
-	jsr.w CODE_C590BB
+	jsr.w SetRowPalette0
 	bra CODE_C596BD
 CODE_C596D3:						; from AskNameOk
 	lda.b d6
@@ -1650,7 +1651,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	asl a
 	adc.b d6
 	adc.w #$0008
-	jmp.w CODE_C590BB
+	jmp.w SetRowPalette0
 .6:									; A = d6, A * 2, A + d6, A + $0008, ...
 	lda.b d6
 	asl a
@@ -1667,7 +1668,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	asl a
 	adc.b d6
 	adc.w #$0008
-	jmp.w CODE_C590BB
+	jmp.w SetRowPalette0
 .8:									; call FadeOutWait, A = $D3, A + $0180, Y = $0580, ...
 	jsl.l FadeOutWait
 	clc

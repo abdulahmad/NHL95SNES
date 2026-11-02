@@ -5765,11 +5765,11 @@ $C582CB,.2,CODE_C582CB,new,"branch target only used in UnpackFormat2",src/bankC5
 $C58306,.1,CODE_C58306,new,"branch target only used in UnpackFormat4",src/bankC5_8000.asm
 $C58327,.2,CODE_C58327,new,"branch target only used in UnpackFormat4",src/bankC5_8000.asm
 $C5832F,.1,CODE_C5832F,new,"branch target only used in UnpackFormat6",src/bankC5_8000.asm
-$C58396,.1,CODE_C58396,new,"branch target only used in CODE_C5835C",src/bankC5_8000.asm
-$C583BD,.2,CODE_C583BD,new,"branch target only used in CODE_C5835C",src/bankC5_8000.asm
+$C58396,.1,CODE_C58396,new,"branch target only used in UnpackFormat6Step",src/bankC5_8000.asm
+$C583BD,.2,CODE_C583BD,new,"branch target only used in UnpackFormat6Step",src/bankC5_8000.asm
 $C583C6,.1,CODE_C583C6,new,"branch target only used in UnpackFormat8",src/bankC5_8000.asm
-$C5842E,.1,CODE_C5842E,new,"branch target only used in CODE_C583F3",src/bankC5_8000.asm
-$C58455,.2,CODE_C58455,new,"branch target only used in CODE_C583F3",src/bankC5_8000.asm
+$C5842E,.1,CODE_C5842E,new,"branch target only used in UnpackFormat8Step",src/bankC5_8000.asm
+$C58455,.2,CODE_C58455,new,"branch target only used in UnpackFormat8Step",src/bankC5_8000.asm
 $C5846A,.loop,CODE_C5846A,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
 $C58494,.1,CODE_C58494,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
 $C5849B,.loop2,CODE_C5849B,new,"branch target only used in CODE_C58467",src/bankC5_8000.asm
@@ -5854,7 +5854,7 @@ $C59032,.1,CODE_C59032,new,"branch target only used in CODE_C59012",src/bankC5_9
 $C59073,.1,CODE_C59073,new,"branch target only used in CODE_C59052",src/bankC5_9000.asm
 $C59099,.rts,CODE_C59099,new,"branch target only used in CODE_C59052",src/bankC5_9000.asm
 $C590A6,.loop,CODE_C590A6,new,"branch target only used in SetRowPalette3",src/bankC5_9000.asm
-$C590C4,.loop,CODE_C590C4,new,"branch target only used in CODE_C590BB",src/bankC5_9000.asm
+$C590C4,.loop,CODE_C590C4,new,"branch target only used in SetRowPalette0",src/bankC5_9000.asm
 $C592B4,.1,CODE_C592B4,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
 $C592CD,.2,CODE_C592CD,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
 $C592D7,.3,CODE_C592D7,new,"branch target only used in CODE_C592A9",src/bankC5_9000.asm
@@ -8033,3 +8033,7 @@ $C5E51C,ResetSpritesAt,CODE_C5E51C,code,"from the code: $DB = $6000 + $E1 * 16, 
 $C5E50E,ResetSprites,CODE_C5E50E,code,"from the code; the screen set-ups call it (15 calls)",src/bankC5_E000.asm
 $C5E172,RandomBelowA7E,CODE_C5E172,code,"from the code: pea $7F7E / plb, RandomBelowA, plb",src/bankC5_E000.asm
 $C5909D,SetRowPalette3,CODE_C5909D,code,"from the code: A * 64 + $D3, and #$E3FF / ora #$0C00 over 64 words",src/bankC5_9000.asm
+$C4C574,ResetTransferQueues,CODE_C4C574,code,"from the code; the transfer queues are stacks at $00 / $04 (HANDOFF); the title screen and the season screens call it",src/bankC4_C000.asm
+$C590BB,SetRowPalette0,CODE_C590BB,code,"from the code: as SetRowPalette3 with ora #$0000",src/bankC5_9000.asm
+$C583F3,UnpackFormat8Step,CODE_C583F3,code,"from the code: the two copies through the RAM routines at $A3 / $9F; UnpackFormat8 calls it once per flag bit",src/bankC5_8000.asm
+$C5835C,UnpackFormat6Step,CODE_C5835C,code,"from the code: as UnpackFormat8Step with the other field widths; UnpackFormat6 calls it once per flag bit",src/bankC5_8000.asm

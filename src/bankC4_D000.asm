@@ -150,7 +150,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 									; tasks
 	jsl.l ResetWorkBuf
 	jsl.l InitTextMap
-	jsl.l CODE_C4C574
+	jsl.l ResetTransferQueues
 	jsl.l ResetSprites
 	lda.w #$FFFF
 	sta.w BG1VScroll
@@ -678,7 +678,7 @@ CODE_C4D636:						; from TitleScreen
 	rts
 CopyrightScreen:					; the copyright and licence page at start, with logo sprites: a sound at
 									; frame 60; from frame 195 a key pressed leaves, else frame 1200 does
-	jsl.l CODE_C4C574
+	jsl.l ResetTransferQueues
 	jsl.l ResetWorkBuf
 	stz.w DMAEnShadow
 	wai
@@ -780,7 +780,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	jsl.l FadeOutWait
 	jml.l ClearNMIHook
 CODE_C4D773:						; from SeasonAwards, StanleyCupScreen
-	jsl.l CODE_C4C574
+	jsl.l ResetTransferQueues
 	jsl.l ResetSprites
 	jsl.l ResetWorkBuf
 	lda.w #$007F
