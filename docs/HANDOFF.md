@@ -114,8 +114,8 @@
   Sample23, Sample06, and code again from $CFEE1D. ../work/sndseg.py J writes the data segments and keeps the sound table
   and SampleList entries current. For bank $CF the whole-bank decode drops the raw jsl search of bank $C3 (all source now;
   it seeded sample bytes) and a seed with the wrong M/X at $CF0204; $CF0000,x / $CF0001,x are bank bases (3-byte records).
-  The end of the bank: two jml stubs with no caller ($CFEE1D, $CFEE21), the frame code CODE_CFEE25 / CODE_CFEE6C (mirrored /
-  normal; layout from DATA8_C60848+1, the record through DATA8_CFF3A2 / DATA8_CFF3A0 and the handler table DATA8_CFEEAE),
+  The end of the bank: the continuations NextSortedGameObjectJump / PadTagFrameDoneJump (their addresses go in $A5), the frame code DrawFrameLayoutFlip / DrawFrameLayout (mirrored /
+  normal; layout from DATA8_C60848+1, the record through DATA8_CFF3A2 / DATA8_CFF3A0 and the handler table LayoutBigPieces),
   DATA8_CFF27C (the size words QueueFrameTiles reads), the 141 layout records, CODE_CFFD9E / CODE_CFFF88 (the top layouts jump
   there through the pointer table) and zeros. The records are read as $CF0000-$CF0008,x (bank bases; numbers).
 - Naming pass (94S by code): ../work/match94.py compares every call target in the bank $C3/$C4/$C5/$CF pickles (body
@@ -181,8 +181,13 @@
   checkpuckcoll_ccx, SetScore were found that way; a size difference keeps the score low). Bank $C4's engine code
   is named (a Codex run, reviewed and cherry-picked: the assignment, collision, goal avoidance, penalty clock,
   goalie and text rendering helpers). A second Codex run named the front-end tasks (title, intro, credits), the
-  bracket, playoff seeding, scouting text and line selection. 38 labels are left in bank $C4: shared tails, uncalled
-  fragments, and the save reset / saved roster packing (CODE_C4CF75-C4D0D5), which still need a full trace.
+  bracket, playoff seeding, scouting text and line selection. The save reset and the saved rosters are named since
+  (ClearSeasonData, InitSavedRosters, InitPlayerTeams, SetGoalieIndexes ...), as are prefmes, CheckInjury and
+  ShowInjuryBox (each where 94S calls it). What is left in bank $C4 is shared tails and uncalled fragments.
+  ../work/callalign.py aligns the call lists of same-named 95 / 94S routines and lists the CODE_ calls standing where
+  94S calls a named routine (CheckPAL was found that way); the rest of its list is on the Unsure list.
+  Layout records: a count byte, then 1-4 x / y pairs for 16 x 16 pieces; then the same for 8 x 8 pieces
+  (LayoutBigPieces / LayoutSmallPieces).
   Code that follows an exit (rtl, jml) with no label and no pointer to it can be a leftover 94S routine that the
   trace never reached: ShootoutShooters (after ShootoutWonBy, labelled now) and 94S ShooterSelectList, still inline
   after PickShooterRow's rtl. Several 94S calls became bare rtl stubs that keep the 94S name (eraser, StartBenchCheer,
@@ -225,7 +230,7 @@
 
 - Banks $C6-$CC: individual frame poses and placement-table axes are not traced. Raw planar tile inspection shows player
   parts and small indicators; labels remain DATA8_ names. The null-bank frame slots are not assumed unused. The bank $CF
-  frame code (CODE_CFEE25 / CODE_CFEE6C) reads them by label now, the layout through DATA8_C60848+1.
+  frame code (DrawFrameLayoutFlip / DrawFrameLayout) reads them by label now, the layout through DATA8_C60848+1.
 
 - ArrowFontTiles and MeterFontTiles are named from their rendered tiles; the screens that load them (VRAM $4A00 from $C5521E,
   VRAM $4800 from $C521EB / $C55826) are not traced, so neither is matched to a 94S font (SmallFontTiles, BigFontTiles) yet.
@@ -283,7 +288,7 @@
   Remaining auto labels inside SoundDriver are control-flow joins, loops, patched instruction sites and helpers
   without a separately documented contract. Sound RAM buffers stay numbers.
   CPU continuations CODE_CF0069/008B/0098/00FD/0239/04A8/04B4 keep auto labels; they are not independent APIs.
-  CODE_CF038E starts sample 2 once after LoadSounds, but its game-level trigger is not established; StartMenuMusic
+  StartCrowdSound starts sound 2 (the crowd) unless CrowdSoundOn is set; puckfaceoff2 and Pausemode call it; StartMenuMusic
   reloads and starts sequence $A4 under two flags whose game-level meanings are not established.
   DATA8_CF0661 has no reader found. SampleVolumeOverrideLists writes sample stereo-volume overrides, but LoadSequence indexes
   it from r2 (the sequence pointer), not the flag byte in SoundSequenceTable; the intended selection is unresolved.
@@ -292,7 +297,7 @@
 - CODE_C535EF sits where 94S PlayerShortName calls GetPlayerRecord but reads an offset table, then a word through it.
   The third Claude thread followed its reads for all 662 roster players. It doubles the PlayerList pointer before
   reading, so it never reaches a real player record: not named.
-- setlccords (was CODE_C54114) is resolved: the bytes at $C54120 are `ldy.w #$5AB5`. The old `phy` entry at $C54122 was
+- setlccords (was setlccords) is resolved: the bytes at $C54120 are `ldy.w #$5AB5`. The old `phy` entry at $C54122 was
   its operand's last byte, and that entry's caller was a false match. $18AA: CloseLCBoxes and the face off code count it up; not named.
 - FixLineForward / FixLineDefence were first named the wrong way round. The range right after the goalies is the
   forwards (roster +4 is the forward count, GetForwardCount). Line bytes +1 / +2 are LD / RD (the slot texts), so the
