@@ -1,35 +1,38 @@
 ; Segment bankC5_3000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5308D
-CODE_C5308D:						; called from other segments
+FixLineForward:						; A = line slot player A if he is a forward (roster index $0C up to $A5),
+									; else the first forward from $0C not in the line (PlayerInLine)
 	cmp.b $0C
 	bcc .1
 	cmp.b $A5
 	bcc .rts
 .1:									; A = $0C
 	lda.b $0C
-.loop:								; loop: call CODE_C530B3, if carry clear go to .rts, A + 1, go to .loop
-	jsr.w CODE_C530B3
+.loop:								; loop: call PlayerInLine, if carry clear go to .rts, A + 1, go to .loop
+	jsr.w PlayerInLine
 	bcc .rts
 	inc a
 	bra .loop
 .rts:								; return
 	rts
-CODE_C530A0:						; called from other segments
+FixLineDefence:						; A = line slot player A if he is a defenceman (roster index $0A up to
+									; $0C), else the first one from $0A not in the line (PlayerInLine)
 	cmp.b $0A
 	bcc .1
 	cmp.b $0C
 	bcc .rts
 .1:									; A = $0A
 	lda.b $0A
-.loop:								; loop: call CODE_C530B3, if carry clear go to .rts, A + 1, go to .loop
-	jsr.w CODE_C530B3
+.loop:								; loop: call PlayerInLine, if carry clear go to .rts, A + 1, go to .loop
+	jsr.w PlayerInLine
 	bcc .rts
 	inc a
 	bra .loop
 .rts:								; return
 	rts
-CODE_C530B3:						; from CODE_C5308D, CODE_C530A0
+PlayerInLine:						; carry set (and Z) when player A is in one of the five line slots at +$6D
+									; .. +$71 of the roster table at Y
 	cmp.w $006D,y
 	beq .rts
 	cmp.w $006E,y
