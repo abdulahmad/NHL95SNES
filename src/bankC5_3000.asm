@@ -629,10 +629,10 @@ PushNumberWrap:						; a1 = d0 as d1 digits right-aligned after spaces in a buff
 	bcc .1
 	sbc.w #$0064
 	bra .loop
-.1:									; Y + 1, Y + 1, $0559 = Y, Y - 1, ...
+.1:									; Y + 1, Y + 1, PushWidthBuf = Y, Y - 1, ...
 	iny
 	iny
-	sty.w $0559
+	sty.w PushWidthBuf
 	dey
 	ldx.w #$2020
 	stx.w $055B
@@ -647,10 +647,10 @@ PushNumberWrap:						; a1 = d0 as d1 digits right-aligned after spaces in a buff
 	lda.l RDMPYL
 	xba
 	dey
-	sta.w $0559,y
+	sta.w PushWidthBuf,y
 	lda.b r0
 	bne .loop2
-	ldx.w #$0559
+	ldx.w #PushWidthBuf
 	stx.b a1
 	ldx.w #$0000
 	stx.b $69
@@ -1236,8 +1236,8 @@ InitGameSpritesLong:				; InitGameSprites for long calls
 	jsr.w InitGameSprites
 	rtl
 InitGameSprites:					; resets the sprites, creates sprite record $1D (with the allocators at
-									; $56 / $45), then the home and away team palettes ($17CD / $17CF) and
-									; palettes $B8 / $B9 (UseSpritePalette)
+									; $56 / $45), then the home and away team palettes (HomeSpritePal /
+									; VisSpritePal) and palettes $B8 / $B9 (UseSpritePalette)
 	jsl.l ResetSprites
 	stz.b $20
 	stz.b $1E
@@ -1254,12 +1254,12 @@ InitGameSprites:					; resets the sprites, creates sprite record $1D (with the a
 	lda.w HomeTeam
 	asl a
 	adc.w #$0081
-	sta.w $17CD
+	sta.w HomeSpritePal
 	jsl.l UseSpritePalette
 	lda.w VisTeam
 	asl a
 	adc.w #$0080
-	sta.w $17CF
+	sta.w VisSpritePal
 	jsl.l UseSpritePalette
 	lda.w #$00B8
 	jsl.l UseSpritePalette

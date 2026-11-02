@@ -8593,3 +8593,8 @@ $C57EFA,PrintWinRecordCell,CODE_C57EFA,code,"from the code: PrintRecordCell's th
 $C57F39,PrintGoalRecordRow,CODE_C57F39,code,"from the code: the same code as PrintSaveRecordRow on the goal fields (the goal order list, +$3650, the team bytes +$3652 / +$3653); its zero test reads +$3658, the wins PrintWinRecordRow prints, where PrintSaveRecordRow tests the saves; PrintGoalRecords calls it per row",src/bankC5_7000.asm
 $C57FBE,PrintGoalRecordCell,CODE_C57FBE,code,"from the code: the same bytes as PrintRecordCell; PrintGoalRecordRow calls it for the name and falls into it at the end",src/bankC5_7000.asm
 $C57FC7,AppendGoalMesarea,CODE_C57FC7,code,"from the code: the same code as AppendMesarea, its copy beside PrintGoalRecordRow, which calls it for the two team texts",src/bankC5_7000.asm
+$0559,PushWidthBuf,,94S+purpose,"RAM: 94S PushWidthBuf (PushNumberWrap / PushNumberWidth: length word, then the digits); PushNumberWrap fills it, PutPauseScore reads its digits (third Claude thread)",src/ram95s.asm
+$17CD,HomeSpritePal,,code,"RAM: from the code: InitGameSprites sets it and uses it; the face off box and the pause screen pick it by the period (gsp)",src/ram95s.asm
+$17CF,VisSpritePal,,code,"RAM: from the code: InitGameSprites sets it and uses it; the face off box and the pause screen pick it by the period (gsp)",src/ram95s.asm
+$18EE,PauseMapBuf,,code,"RAM: from the code: InitPauseScreen allocates the $2D60-byte pause map there; the pause draw routines add it as their base (third Claude thread)",src/ram95s.asm
+$18F8,PauseMusicOn,,code,"RAM: from the code: Pausemode_menu sets it after loading the pause music; RestoreGameScreen reloads the team songs when it is set",src/ram95s.asm

@@ -1433,9 +1433,9 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	sta.b $18
 	lda.w gsp
 	lsr a
-	lda.w $17CD
+	lda.w HomeSpritePal
 	bcc .39
-	lda.w $17CF
+	lda.w VisSpritePal
 .39:								; call UseSpritePalette, A = $001E, call CreateSpriteSharePal, ...
 	jsl.l UseSpritePalette
 	lda.w #$001E
@@ -1449,9 +1449,9 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	jsl.l SetSpriteAnim
 	lda.w gsp
 	lsr a
-	lda.w $17CF
+	lda.w VisSpritePal
 	bcc .40
-	lda.w $17CD
+	lda.w HomeSpritePal
 .40:								; call UseSpritePalette, call CODE_C53A29
 	jsl.l UseSpritePalette
 	jsl.l CODE_C53A29

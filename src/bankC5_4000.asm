@@ -1812,7 +1812,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 									; start / select (.resume)
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
-	stz.w $18F8
+	stz.w PauseMusicOn
 	lda.w $17D1
 	bne .1
 	lda.w InIntermission
@@ -1824,7 +1824,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	lda.w #$00A5
 	jsl.l StartSound
 	jsl.l SoundVolumeUp
-	dec.w $18F8
+	dec.w PauseMusicOn
 .2:									; call InitPauseScreen, X = $0002, call SetPauseTab, $059E = $0001
 	jsr.w InitPauseScreen
 	ldx.w #$0002
@@ -1862,7 +1862,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 	beq .3
 .resume:							; start / select leave the pause screen: back to the game
 									; (RestoreGameScreen); PauseReplay comes here after the replay
-	lda.w $18EE
+	lda.w PauseMapBuf
 	sta.w $18E0
 	sta.b $08
 	stz.b $22

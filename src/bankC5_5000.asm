@@ -112,7 +112,7 @@ DrawPauseTab:						; draws tab A's item list (its text in bank $C3 from DATA8_C5
 	lda.w pauseitem
 	xba
 	lsr a
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tax
 	ldy.w #$000B
 .loop:								; loop: A = $7E0314,x, A and $E3FF, A or $3200, $7E0314,x = A, ...
@@ -132,7 +132,7 @@ DrawPauseTab:						; draws tab A's item list (its text in bank $C3 from DATA8_C5
 	pea.w $0700
 	pea.w $5800
 	pea.w $007E
-	lda.w $18EE
+	lda.w PauseMapBuf
 	pha
 	lda.b $00
 	tsx
@@ -195,7 +195,7 @@ InitPauseScreen:					; the pause screen's set-up: pausemenuon / pausetab $FFFF, 
 	jsl.l BackupPauseBuffers
 	lda.w #$2D60
 	jsl.l AllocWorkBuf
-	sta.w $18EE
+	sta.w PauseMapBuf
 	sta.b r1
 	jsl.l MarkWorkBuf
 	lda.w #$007E
@@ -216,7 +216,7 @@ InitPauseScreen:					; the pause screen's set-up: pausemenuon / pausetab $FFFF, 
 	ldy.w #$0541
 	jsr.w FillPauseMapTileRun
 	ldy.w #$045F
-	ldx.w $18EE
+	ldx.w PauseMapBuf
 	clc
 .loop:								; loop: A = $7E0000,x, A + $1420, $7E0000,x = A, X + 1, ...
 	lda.l $7E0000,x
@@ -282,7 +282,7 @@ PauseScreenDraw:					; draws the pause screen from its map buffer: a sprite (rec
 	pea.w $0700
 	pea.w $5800
 	pea.w $007E
-	lda.w $18EE
+	lda.w PauseMapBuf
 	pha
 	pea.w $2200
 	pea.w $2200
@@ -377,7 +377,7 @@ PauseScreenDraw:					; draws the pause screen from its map buffer: a sprite (rec
 FillPauseMapTileRun:				; writes consecutive tile words into the pause map at offset A starting
 									; with tile Y
 	clc
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tax
 	tya
 	ldy.w #$0000
@@ -406,10 +406,10 @@ SelectPauseTab:						; copies the active tab tiles into the current pause tab he
 CopyPauseTabTiles:					; copies a tab's two rows of eight tiles from pause map offset A to its
 									; place in the tab header (DATA8_C5528C by X); DeselectPauseTab and
 									; SelectPauseTab end here
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tay
 	lda.l DATA8_C5528C,x
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tax
 	jsr.w CopyPauseTabTileRow
 	txa
@@ -468,7 +468,7 @@ PrintPauseItemText:					; prints item text A (bank $C3, length-prefixed; 0 leave
 	beq .1
 	tya
 	clc
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tax
 	lda.b [r0]
 	and.w #$00FF
@@ -764,11 +764,11 @@ PutClockDigit:						; copies big digit A (its low 4 bits: 2 x 3 tiles from the d
 	and.w #$000F
 	asl a
 	asl a
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tax
 	tya
 	asl a
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tay
 	lda.w $0700,x
 	sta.w $0000,y
@@ -789,7 +789,7 @@ RestoreGameScreen:					; leaves the pause screen: the team songs back when the p
 									; tiles, centre ice, meter font, face off map, the period box)
 	jsl.l SoundVolumeDown
 	jsl.l FadeOutWait
-	lda.w $18F8
+	lda.w PauseMusicOn
 	beq .1
 	jsl.l LoadTeamSongs
 .1:									; DMAEnShadow = 0, call WaitTransfers, $32 = $007E, A = $21F0, ...
@@ -1212,23 +1212,23 @@ RestorePauseBuffers:				; copies BackupPauseBuffers' two buffers back (the sprit
 	lda.b $34,x
 	jsl.l QueueSpritePalette
 	ply
-.1:									; Y - 1, Y - 1, if the result >= 0 go to .loop, A = $17CD, ...
+.1:									; Y - 1, Y - 1, if the result >= 0 go to .loop, A = HomeSpritePal, ...
 	dey
 	dey
 	bpl .loop
-	lda.w $17CD
+	lda.w HomeSpritePal
 	asl a
 	tax
 	lda.w $46B8,x
 	and.w #$FF00
-	ora.w $17CD
+	ora.w HomeSpritePal
 	jsl.l QueueSpritePalette
-	lda.w $17CF
+	lda.w VisSpritePal
 	asl a
 	tax
 	lda.w $46B8,x
 	and.w #$FF00
-	ora.w $17CF
+	ora.w VisSpritePal
 	jsl.l QueueSpritePalette
 	lda.w $4828
 	and.w #$FF00

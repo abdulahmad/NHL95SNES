@@ -499,7 +499,7 @@ DATA8_C57309:						; not traced: a table read by CalcRosterAttrib
 PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcountmark+2 set
 									; back two, ReplayMode, then back to the pause screen's exit
 	jsl.l FadeOutWait
-	lda.w $18EE
+	lda.w PauseMapBuf
 	sta.w $18E0
 	sta.b $08
 	stz.b $22

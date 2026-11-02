@@ -1462,7 +1462,7 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 	pea.w $0700
 	pea.w $5800
 	pea.w $007E
-	lda.w $18EE
+	lda.w PauseMapBuf
 	pha
 	lda.b $00
 	tsx
@@ -1478,7 +1478,7 @@ PauseTimeout:						; pause menu Time Out: when team a2 has one left, takes it, g
 PutPauseText:						; puts the length-led string at [r0] into the pause screen text map at
 									; offset A, as tiles with attribute $3A00
 	clc
-	adc.w $18EE
+	adc.w PauseMapBuf
 	tax
 	lda.b [r0]
 	and.w #$00FF

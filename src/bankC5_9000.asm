@@ -488,10 +488,10 @@ SetContTeams:						; the controller setup: each pad's icon is moved to a team; o
 	lda.w #$001D
 	jsl.l CreateSpriteSharePal
 	lda.w #$0081
-	sta.w $17CD
+	sta.w HomeSpritePal
 	jsl.l UseSpritePalette
 	lda.w #$0080
-	sta.w $17CF
+	sta.w VisSpritePal
 	jsl.l UseSpritePalette
 	lda.w #$FFFF
 	sta.b $0A,x
