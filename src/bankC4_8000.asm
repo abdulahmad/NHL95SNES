@@ -303,7 +303,7 @@ CODE_C481D5:						; called from other segments
 	ldy.w #$0003
 	lda.w #$584A
 	jsl.l Framer
-	jsl.l CODE_C533E1
+	jsl.l RosterPlayerShortName
 	ldy.w #$588B
 	jsl.l QueueVRAMDMALen
 	ldy.w #$586B
@@ -434,8 +434,8 @@ CODE_C482D9:						; from CODE_C48241
 	ldx.w #$00C3
 	ldy.w #$58F3
 	jsl.l QueueVRAMDMALen
-.1:									; call CODE_C533E1, Y = $592B, call QueueVRAMDMALen, pull A, ...
-	jsl.l CODE_C533E1
+.1:									; call RosterPlayerShortName, Y = $592B, call QueueVRAMDMALen, pull A, ...
+	jsl.l RosterPlayerShortName
 	ldy.w #$592B
 	jsl.l QueueVRAMDMALen
 	pla

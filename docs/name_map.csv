@@ -5163,13 +5163,13 @@ $C532BF,.1,CODE_C532BF,new,"branch target only used in CODE_C532B5",src/bankC5_3
 $C532DB,.1,CODE_C532DB,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
 $C532E5,.loop,CODE_C532E5,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
 $C53316,.2,CODE_C53316,new,"branch target only used in LoadTeamLines",src/bankC5_3000.asm
-$C53339,.1,CODE_C53339,new,"branch target only used in CODE_C5331F",src/bankC5_3000.asm
+$C53339,.1,CODE_C53339,new,"branch target only used in GetPlayerNumInitial",src/bankC5_3000.asm
 $C533B4,.loop,CODE_C533B4,new,"branch target only used in PlayerShortName",src/bankC5_3000.asm
 $C533C0,.loop2,CODE_C533C0,new,"branch target only used in PlayerShortName",src/bankC5_3000.asm
-$C53432,.1,CODE_C53432,new,"branch target only used in CODE_C533EF",src/bankC5_3000.asm
-$C53441,.loop,CODE_C53441,new,"branch target only used in CODE_C533EF",src/bankC5_3000.asm
-$C53449,.loop2,CODE_C53449,new,"branch target only used in CODE_C533EF",src/bankC5_3000.asm
-$C53454,.2,CODE_C53454,new,"branch target only used in CODE_C533EF",src/bankC5_3000.asm
+$C53432,.1,CODE_C53432,new,"branch target only used in FormatRosterShortName",src/bankC5_3000.asm
+$C53441,.loop,CODE_C53441,new,"branch target only used in FormatRosterShortName",src/bankC5_3000.asm
+$C53449,.loop2,CODE_C53449,new,"branch target only used in FormatRosterShortName",src/bankC5_3000.asm
+$C53454,.2,CODE_C53454,new,"branch target only used in FormatRosterShortName",src/bankC5_3000.asm
 $C534A1,.1,CODE_C534A1,new,"branch target only used in PutDigits2",src/bankC5_3000.asm
 $C534BF,.loop,CODE_C534BF,new,"branch target only used in PushNumber",src/bankC5_3000.asm
 $C534F2,.loop,CODE_C534F2,new,"branch target only used in CODE_C534E8",src/bankC5_3000.asm
@@ -5181,23 +5181,23 @@ $C5357F,.loop,CODE_C5357F,new,"branch target only used in clearTeamStats",src/ba
 $C535D7,.loop,CODE_C535D7,new,"branch target only used in BenchTeamRoster",src/bankC5_3000.asm
 $C535DE,.1,CODE_C535DE,new,"branch target only used in BenchTeamRoster",src/bankC5_3000.asm
 $C53623,.1,CODE_C53623,new,"branch target only used in loadTeamStruct",src/bankC5_3000.asm
-$C53638,.1,CODE_C53638,new,"branch target only used in CODE_C5362E",src/bankC5_3000.asm
+$C53638,.1,CODE_C53638,new,"branch target only used in GetPlayerCount",src/bankC5_3000.asm
 $C53647,.1,CODE_C53647,new,"branch target only used in ChkShotStat_add",src/bankC5_3000.asm
-$C53665,.loop,CODE_C53665,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C5367F,.1,CODE_C5367F,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C53683,.2,CODE_C53683,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C5368C,.loop2,CODE_C5368C,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C536A5,.loop3,CODE_C536A5,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C536C6,.loop4,CODE_C536C6,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C536D6,.3,CODE_C536D6,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C536DB,.4,CODE_C536DB,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C536E2,.5,CODE_C536E2,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C536E6,.6,CODE_C536E6,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C53700,.loop5,CODE_C53700,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C53713,.7,CODE_C53713,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C53718,.8,CODE_C53718,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C5371F,.9,CODE_C5371F,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
-$C53723,.rtl,CODE_C53723,new,"branch target only used in CODE_C53651",src/bankC5_3000.asm
+$C53665,.loop,CODE_C53665,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C5367F,.1,CODE_C5367F,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C53683,.2,CODE_C53683,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C5368C,.loop2,CODE_C5368C,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C536A5,.loop3,CODE_C536A5,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C536C6,.loop4,CODE_C536C6,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C536D6,.3,CODE_C536D6,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C536DB,.4,CODE_C536DB,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C536E2,.5,CODE_C536E2,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C536E6,.6,CODE_C536E6,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C53700,.loop5,CODE_C53700,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C53713,.7,CODE_C53713,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C53718,.8,CODE_C53718,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C5371F,.9,CODE_C5371F,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
+$C53723,.rtl,CODE_C53723,new,"branch target only used in FaceoffPads",src/bankC5_3000.asm
 $C53737,.1,CODE_C53737,new,"branch target only used in PuckCarrierPad",src/bankC5_3000.asm
 $C53746,.2,CODE_C53746,new,"branch target only used in PuckCarrierPad",src/bankC5_3000.asm
 $C5374C,.3,CODE_C5374C,new,"branch target only used in PuckCarrierPad",src/bankC5_3000.asm
@@ -5229,8 +5229,8 @@ $C53964,.2,CODE_C53964,new,"branch target only used in PadTakePosition",src/bank
 $C5397E,.3,CODE_C5397E,new,"branch target only used in PadTakePosition",src/bankC5_3000.asm
 $C53A54,.1,CODE_C53A54,new,"branch target only used in CODE_C53A29",src/bankC5_3000.asm
 $C53A8C,.1,CODE_C53A8C,new,"branch target only used in CODE_C53A75",src/bankC5_3000.asm
-$C53A9B,.loop,CODE_C53A9B,new,"branch target only used in CODE_C53A90",src/bankC5_3000.asm
-$C53AA9,.1,CODE_C53AA9,new,"branch target only used in CODE_C53A90",src/bankC5_3000.asm
+$C53A9B,.loop,CODE_C53A9B,new,"branch target only used in PackShortText",src/bankC5_3000.asm
+$C53AA9,.1,CODE_C53AA9,new,"branch target only used in PackShortText",src/bankC5_3000.asm
 $C53ACB,.loop,CODE_C53ACB,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
 $C53AD5,.1,CODE_C53AD5,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
 $C53ADF,.rtl,CODE_C53ADF,new,"branch target only used in GetPadTeam",src/bankC5_3000.asm
@@ -8481,3 +8481,9 @@ $C5C4FC,MarkFreeAgentLimits,CODE_C5C4FC,code,"from the code: the position (0 goa
 $C5C58A,SignMarkedAgents,CODE_C5C58A,code,"from the code: the 12-bit entries at SRPlayerTeams (team 5 bits, number 7 bits), the number from the player record or a created player's save bits (+$5D), stepped up (99 wraps to 0) while JerseyNumberTaken",src/bankC5_C000.asm
 $C5C658,JerseyNumberTaken,CODE_C5C658,code,"from the code: the $27E 12-bit entries, team 5 bits and number 7 bits each; SignMarkedAgents steps the number on while it is set",src/bankC5_C000.asm
 $C5CA27,ReleaseMarkedPlayers,CODE_C5CA27,code,"from the code: the player numbers at $3241 + 2 * row, and #$FE0F / ora #$01A0 or and #$FFE0 / ora #$001A; DrawLeaderRow prints free for team $1A and above",src/bankC5_C000.asm
+$C5331F,GetPlayerNumInitial,CODE_C5331F,94S+purpose,"Same TempPlOffset sign selection and PlayerShortName call as 94S data/GetPlayerNumInitial; PEI replaces paired loads and pushes",src/bankC5_3000.asm
+$C5362E,GetPlayerCount,CODE_C5362E,94S+purpose,"Same contract as 94S stats/GetPlayerCount; reads the count built by LoadSeasonRoster instead of walking ROM records",src/bankC5_3000.asm
+$C53651,FaceoffPads,CODE_C53651,94S+purpose,"Same reset arrays and rotating fopadfirst assignment loops as 94S logic/FaceoffPads; practice bypass added and pad sit-out selection removed",src/bankC5_3000.asm
+$C533E1,RosterPlayerShortName,CODE_C533E1,code,"Selects home or visitor roster from TempPlOffset sign then falls into FormatRosterShortName",src/bankC5_3000.asm
+$C533EF,FormatRosterShortName,CODE_C533EF,code,"Multiplies player index by 32; reads number at roster+110 and name at +118; allocates buffer and sets text high bits and length",src/bankC5_3000.asm
+$C53A90,PackShortText,CODE_C53A90,code,"Allocates four bytes; copies each source byte XOR 80 then writes byte count and returns buffer A with bank 7E in X",src/bankC5_3000.asm

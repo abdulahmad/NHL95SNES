@@ -368,7 +368,7 @@ LoadTeamLines:						; copies team a2's lines into RAM through GetTeamLines; OptL
 	pla
 	sta.b a3
 	rtl
-CODE_C5331F:						; no caller found (not traced)
+GetPlayerNumInitial:				; formats TempPlOffset through PlayerShortName while preserving d0 and a2
 	pei ($7F)
 	pei ($81)
 	pei ($6B)
@@ -392,7 +392,7 @@ CODE_C5331F:						; no caller found (not traced)
 	pla
 	sta.b d0
 	rtl
-PlayerShortName:					; from CODE_C5331F and other segments
+PlayerShortName:					; from GetPlayerNumInitial and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($6B)
@@ -470,13 +470,14 @@ PlayerShortName:					; from CODE_C5331F and other segments
 	pla
 	sta.b d0
 	rtl
-CODE_C533E1:						; called from other segments
+RosterPlayerShortName:				; selects the roster and player from TempPlOffset and formats a short name
 	ldx.w #$2DC9
 	lda.w TempPlOffset
-	bpl CODE_C533EF
+	bpl FormatRosterShortName
 	and.w #$00FF
 	ldx.w #$3207
-CODE_C533EF:						; from CODE_C533E1 and other segments
+FormatRosterShortName:				; builds packed number, first initial and surname text from roster X and
+									; player A
 	stx.b tmp0
 	xba
 	lsr a
@@ -772,7 +773,7 @@ InitScores:							; an rtl: called where 94S sets random scores for the round's 
 	rtl
 DATA8_C5362D:						; not traced: data between routines
 	db $6B
-CODE_C5362E:						; called from other segments
+GetPlayerCount:						; returns team a2 roster count in d0
 	ldy.w #$2DC9
 	lda.b a2
 	beq .1
@@ -793,7 +794,8 @@ ChkShotStat_add:					; no caller found (not traced)
 	adc.b d0
 	sta.w $0000,y
 	rtl
-CODE_C53651:						; called from other segments
+FaceoffPads:						; restores pad sides and resets player control before assigning each team
+									; pad through findpc
 	jsl.l CalcPuckDistances
 	lda.w OptPlayMode
 	cmp.w #$0001
@@ -985,7 +987,7 @@ AssignPadPlayer:					; from PuckCarrierPad, AssignPadIfFree, PadTakePosition, ..
 	sta.w c1playernum,y
 .rtl:								; return
 	rtl
-findpc:								; from CODE_C53651 and other segments
+findpc:								; from FaceoffPads and other segments
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1270,14 +1272,14 @@ CODE_C539D7:						; called from other segments
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldx.w #mesarea
-	jsr.w CODE_C53A90
+	jsr.w PackShortText
 	ldy.w #$5B38
 	jsl.l QueueVRAMDMALen
 	lda.w tmscore
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldx.w #mesarea
-	jsr.w CODE_C53A90
+	jsr.w PackShortText
 	ldy.w #$5B3C
 	jmp.w QueueVRAMDMALen
 CODE_C53A29:						; called from other segments
@@ -1320,7 +1322,8 @@ CODE_C53A75:						; from CODE_C539D7, CODE_C53A71
 	inx
 .1:									; call UnpackText
 	jsl.l UnpackText
-CODE_C53A90:						; from CODE_C539D7
+PackShortText:						; copies zero-ended text X into a length-prefixed work buffer with bit 7
+									; toggled
 	lda.w #$0004
 	jsl.l AllocWorkBuf2
 	pha

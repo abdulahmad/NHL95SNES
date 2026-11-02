@@ -901,7 +901,7 @@ PickShooterRow:						; the pick on a shooter row: the goalie row cycles the goal
 	jsl.l WaitFrame
 	lda.w #$0007
 	sta.w irqline2
-	jsl.l CODE_C5362E
+	jsl.l GetPlayerCount
 	lda.b d0
 	sta.w listcount
 	jsl.l GoalieCount

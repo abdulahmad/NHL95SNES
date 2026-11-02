@@ -1323,9 +1323,9 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	dex
 	dex
 	bpl .loop4
-.35:								; X = a3, call CODE_C53651, push X, push Y, ...
+.35:								; X = a3, call FaceoffPads, push X, push Y, ...
 	ldx.b a3
-	jsl.l CODE_C53651
+	jsl.l FaceoffPads
 	phx
 	phy
 	jsl.l ClearTextMapTop
@@ -1667,9 +1667,9 @@ DrawPenaltyShotMatchup:				; draws the penalty shot box: the shooter's and the o
 	ldy.w BA_Team
 	beq .1
 	ldx.w #$3207
-.1:									; A = BA_Skater_Offset, call CODE_C533EF, call CentreNameX, A + $58A6, ...
+.1:									; A = BA_Skater_Offset, call FormatRosterShortName, call CentreNameX, ...
 	lda.w BA_Skater_Offset
-	jsl.l CODE_C533EF
+	jsl.l FormatRosterShortName
 	jsr.w CentreNameX
 	adc.w #$58A6
 	tay
@@ -1688,7 +1688,7 @@ DrawPenaltyShotMatchup:				; draws the penalty shot box: the shooter's and the o
 	eor.w #$0002
 	tay
 	lda.w tmgoalie,y
-	jsl.l CODE_C533EF
+	jsl.l FormatRosterShortName
 	jsr.w CentreNameX
 	adc.w #$5926
 	tay

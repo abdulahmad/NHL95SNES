@@ -621,8 +621,8 @@ SetPlList:							; from setpersonel and other segments
 	jmp.w .8
 .rtl:								; return
 	rtl
-.14:								; call CODE_C5362E, d3 = d0
-	jsl.l CODE_C5362E
+.14:								; call GetPlayerCount, d3 = d0
+	jsl.l GetPlayerCount
 	lda.b d0
 	sta.b d3
 .loop3:								; loop: d0 = d3, d3 - 1, if the result < 0 go to .13, ...
