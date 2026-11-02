@@ -234,24 +234,24 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	lda.l SROptRosters
 	and.w #$0001
 	sta.w OptRosters
-	lda.l $306045
+	lda.l SRhomepracplayers
 	cmp.w #$0006
 	bcc .6
 	lda.w #$0005
-.6:									; $1906 = A, if $306047 < $0006 go to .7, A = $0005
-	sta.w $1906
-	lda.l $306047
+.6:									; homepracplayers = A, if SRawaypracplayers < $0006 go to .7, A = $0005
+	sta.w homepracplayers
+	lda.l SRawaypracplayers
 	cmp.w #$0006
 	bcc .7
 	lda.w #$0005
-.7:									; $1908 = A, if A is not $0000 go to .rtl, ...
-	sta.w $1908
+.7:									; awaypracplayers = A, if A is not $0000 go to .rtl, ...
+	sta.w awaypracplayers
 	cmp.w #$0000
 	bne .rtl
-	cmp.w $1906
+	cmp.w homepracplayers
 	bne .rtl
 	inc a
-	sta.w $1906
+	sta.w homepracplayers
 .rtl:								; return
 	rtl
 CODE_C36C2C:						; called from other segments

@@ -305,7 +305,7 @@ PlayoffTeamAtRound:					; A = the playoff team whose round (SRPOTeamRounds) is A
 RecordPlayoffDay:					; adds each of the day's playoff results to its series wins at SRPOWins
 									; (+1 home, +$10 away; a series starts at 3-3 when SRBestOfSeven is 0) and
 									; moves a team that reaches 4 wins on a round, then the playoff day + 1
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	pea.w $7E7F
 	plb
@@ -1250,8 +1250,8 @@ AddIntermissionGoals:				; in season and playoff play (OptPlayMode 2 / 3), adds 
 	cmp.w #$0003
 	beq .1
 	rtl
-.1:									; tmp0 = $2C42, Y = $8EF8
-	lda.w $2C42
+.1:									; tmp0 = DayGameCount, Y = $8EF8
+	lda.w DayGameCount
 	sta.b tmp0
 	pea.w $7E7F
 	plb
@@ -1619,7 +1619,7 @@ SetSeasonSaves:						; stores X as goalie A's season saves (12 bits at SRGoalieS
 	rts
 AddPlayoffDayPlayerStats:			; adds both teams' player goals and assists from each playoff game to save
 									; RAM
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	pea.w $7E7F
 	plb

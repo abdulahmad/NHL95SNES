@@ -1018,10 +1018,10 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w OptPlayMode
 	cmp.w #$0001
 	bne .8
-	lda.w $1906
+	lda.w homepracplayers
 	inc a
 	sta.w tmap
-	lda.w $1908
+	lda.w awaypracplayers
 	inc a
 	sta.w $12C9
 .8:									; call ResetBench, a2 = 0, call setpersonel, call forcepldata, ...

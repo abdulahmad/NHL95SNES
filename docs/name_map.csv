@@ -8502,3 +8502,10 @@ $C55D8A,DrawTeamStatNumber,CODE_C55D8A,code,"Stat descriptor offset plus a2 sele
 $C55DAC,DrawTeamStatPair,CODE_C55DAC,code,"Descriptor offsets at +3 and +5 select both words; BCDTextAt appends second after character 3E",src/bankC5_5000.asm
 $C55DEF,DrawTeamStatPercent,CODE_C55DEF,code,"Denominator zero gives zero; numerator at least denominator gives 100; otherwise multiplies by 100 and divides",src/bankC5_5000.asm
 $C55E3D,DrawTeamStatTime,CODE_C55E3D,code,"Descriptor offset plus a2 selects word for TimeTextMSS then PrintBoldCentredStr",src/bankC5_5000.asm
+$1902,OptEraseRosters,,code,"RAM: from the code: the variable word of the Erase Team Rosters option line; the season reset also clears the saved rosters when it is set (bank $C5 season thread)",src/ram95s.asm
+$1906,homepracplayers,,genesis+purpose,"RAM: 95 Genesis homepracplayers (home practice player count): the Practice list's Home Players variable, loaded from save RAM with its limits, read for the pad assignment; reset makes it 1",src/ram95s.asm
+$1908,awaypracplayers,,genesis+purpose,"RAM: 95 Genesis awaypracplayers: the Practice list's Visitor Players variable, loaded from save RAM with its limits, read for the pad assignment",src/ram95s.asm
+$2C42,DayGameCount,,code,"RAM: from the code: AddPlayoffDayPlayerStats and the season day code loop over it; MenuPlayGames and FinishSeasonDay (both agent threads saw it)",src/ram95s.asm
+$306045,SRhomepracplayers,,code,"RAM: from the code: the start-up load copies it to homepracplayers with its limit; the Practice list's routines in DATA8_C59249 save it",src/ram95s.asm
+$306047,SRawaypracplayers,,code,"RAM: from the code: the start-up load copies it to awaypracplayers with its limit; the Practice list's routines in DATA8_C59249 save it",src/ram95s.asm
+$307884,SRUserGames,,code,"RAM: from the code: GamesTodayKeys flips a game's bit (eor), DrawGameMarks and MenuPlayGames read it",src/ram95s.asm

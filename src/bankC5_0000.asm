@@ -1334,12 +1334,12 @@ PeriodOver:							; end of a period (jumped to when the clock runs out): play tu
 	bra .9
 .8:									; call CODE_C5E4D2
 	jsr.w CODE_C5E4D2
-.9:									; X = $2C42, A = SRDayPlayed
+.9:									; X = DayGameCount, A = SRDayPlayed
 	pea.w $C57E
 	plb
 	pea.w $007B
 	pea.w $9677
-	ldx.w $2C42
+	ldx.w DayGameCount
 	lda.l SRDayPlayed
 .loop2:								; loop: A / 2, if carry clear go to .11, X - 1, ...
 	lsr a

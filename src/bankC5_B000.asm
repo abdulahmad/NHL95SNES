@@ -427,7 +427,7 @@ QueueTeamPalette:					; queues team A's 16 colours (TeamPalettes as unpacked at 
 	rts
 DrawGameMarks:						; draws game $85 on the BG2 map at d3: a 9 x 2 tile bar in each team's
 									; palette and a mark from WonCheckTiles picked by the day, SRDayPlayed and
-									; the game's bit at $307884
+									; the game's bit at SRUserGames
 	jsl.l WaitTransfers
 	phd
 	lda.b $85
@@ -481,7 +481,7 @@ DrawGameMarks:						; draws game $85 on the BG2 map at d3: a 9 x 2 tile bar in e
 	cmp.w d0
 	beq .3
 	bcc .4
-	lda.l $307884,x
+	lda.l SRUserGames,x
 	ldx.w #$3C33
 	and.w tmp0
 	beq .2
@@ -523,8 +523,8 @@ DrawGameMarks:						; draws game $85 on the BG2 map at d3: a 9 x 2 tile bar in e
 	jsr.w WriteBlanks4
 	pld
 	rts
-.4:									; A = $307884,x, X = $3C13, if the result is not 0 go to .5, X = $3C23
-	lda.l $307884,x
+.4:									; A = SRUserGames,x, X = $3C13, if the result is not 0 go to .5, X = $3C23
+	lda.l SRUserGames,x
 	ldx.w #$3C13
 	and.w tmp0
 	bne .5

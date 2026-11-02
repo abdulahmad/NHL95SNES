@@ -271,7 +271,7 @@ SaveDayGameStats:					; for each of the day's games not played by a user: AddTea
 									; both teams, the score to SRDayScores, AddGamePlayerStats; then
 									; SRDayPlayed rebuilt
 	pea.w $7E7F
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	lda.l SRDayPlayed
 	sta.b $0A
@@ -339,7 +339,7 @@ SaveDayGameStats:					; for each of the day's games not played by a user: AddTea
 	bne .loop
 	plb
 	lda.w #$0010
-	sbc.w $2C42
+	sbc.w DayGameCount
 .loop2:								; loop: $0C / 2, A - 1, if the result >= 0 go to .loop2, ...
 	lsr.b $0C
 	dec a
@@ -696,7 +696,7 @@ ShowPleaseWait:						; fades out and shows the Please Wait= screen, then waits f
 	rts
 CODE_C5E4D2:						; called from other segments
 	pea.w $7E7F
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	lda.l SRDayPlayed
 	sta.b $0A
@@ -718,7 +718,7 @@ CODE_C5E4D2:						; called from other segments
 	bne .loop
 	plb
 	lda.w #$0010
-	sbc.w $2C42
+	sbc.w DayGameCount
 .loop2:								; loop: $0C / 2, A - 1, if the result >= 0 go to .loop2, ...
 	lsr.b $0C
 	dec a

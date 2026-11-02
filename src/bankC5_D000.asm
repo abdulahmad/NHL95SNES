@@ -1777,7 +1777,7 @@ CODE_C5DCEE:						; from CODE_C5DB38
 SimDayScores:						; simulates the score of each of the day's computer games not yet done:
 									; goals added at random below each team's rating, the game marked done (+6
 									; = $FFFF); in play mode 3 a tie goes to the away team
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	ldx.w #$8EF8
 .loop:								; loop: if $7F0000,x is not 0 go to .3, if $7F0006,x < 0 go to .3, ...
@@ -1849,10 +1849,10 @@ CODE_C5DDC0:						; from SimDayScores
 	lda.l RDDIVL
 	adc.w #$0004
 	rts
-RecordDayResults:					; RecordGameResult for each of the day's game records ($2C42 of them at
-									; $7F8EF8) whose bit in SRDayPlayed is clear
+RecordDayResults:					; RecordGameResult for each of the day's game records (DayGameCount of
+									; them at $7F8EF8) whose bit in SRDayPlayed is clear
 	pea.w $7E7F
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	lda.l SRDayPlayed
 	sta.b tmp2
@@ -1950,7 +1950,7 @@ CODE_C5DE3F:						; from CODE_C5DE15, CODE_C5DE1A
 SimDayGameStats:					; fills the stats of each of the day's computer games: both teams' totals
 									; from their goals (SimTeamTotals), then the players' stats
 	pea.w $7E7F
-	lda.w $2C42
+	lda.w DayGameCount
 	sta.b tmp0
 	lda.l SRDayPlayed
 	sta.b tmp2

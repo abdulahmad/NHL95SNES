@@ -1047,9 +1047,9 @@ GamesTodayKeys:						; Games Today step 0: left / right change the day d0, up / 
 	lsr a
 	lsr a
 	tax
-	lda.l $307884,x
+	lda.l SRUserGames,x
 	eor.b tmp0
-	sta.l $307884,x
+	sta.l SRUserGames,x
 	jmp.w DrawGameMarks
 .6:									; A = SeasonDay, A and $00FF, if A >= d0 go to .rts, d0 - 1, ...
 	lda.l SeasonDay
@@ -1750,7 +1750,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	tax
 	lda.l $C30000,x
 	and.w #$00FF
-	sta.w $2C42
+	sta.w DayGameCount
 	sta.b tmp0
 	pea.w $7E7F
 	plb
@@ -1778,7 +1778,7 @@ MenuPlayGames:						; League Menu Play Games: when the season is over (play mode
 	lsr a
 	lsr a
 	tax
-	lda.l $307884,x
+	lda.l SRUserGames,x
 	ldx.w #$0000
 	and.b tmp1
 	beq .3

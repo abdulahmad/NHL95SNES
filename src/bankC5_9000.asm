@@ -418,10 +418,10 @@ StartPractice:						; play mode Practice (DATA8_C58DD0): line changes and penalt
 									; SetContTeams
 	stz.w OptLine
 	stz.w OptPen
-	lda.w $1906
+	lda.w homepracplayers
 	inc a
 	sta.b d0
-	lda.w $1908
+	lda.w awaypracplayers
 	inc a
 	sta.b $81
 	bra SetContTeams

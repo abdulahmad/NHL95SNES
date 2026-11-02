@@ -1446,8 +1446,8 @@ ShowOtherScores:					; Other Scores: the date and the other games (DrawOtherScor
 	ldx.w #$4717
 	ldy.w #$0019
 	jsl.l PrintBoldLeft
-.3:									; d0 = $2C42, X = $0000, Y = X
-	lda.w $2C42
+.3:									; d0 = DayGameCount, X = $0000, Y = X
+	lda.w DayGameCount
 	sta.b d0
 	ldx.w #$0000
 	txy

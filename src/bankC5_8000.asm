@@ -183,7 +183,7 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	sta.w BlockMove
 	lda.w #$6BAB
 	sta.w BlockMove+4
-	inc.w $1906
+	inc.w homepracplayers
 	jml.l Opening
 SetBGMapRegs:						; BG1SC, BG2SC, BG3SC, BG4SC, BG12NBA, ...
 	phb
