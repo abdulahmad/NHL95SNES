@@ -5548,13 +5548,13 @@ $C56749,.3,CODE_C56749,new,"branch target only used in SortGoalieStats",src/bank
 $C5674B,.loop3,CODE_C5674B,new,"branch target only used in SortGoalieStats",src/bankC5_6000.asm
 $C56771,.1,CODE_C56771,new,"branch target only used in DrawPlayerStatRow",src/bankC5_6000.asm
 $C56798,.2,CODE_C56798,new,"branch target only used in DrawPlayerStatRow",src/bankC5_6000.asm
-$C56814,.1,CODE_C56814,new,"branch target only used in CODE_C5680B",src/bankC5_6000.asm
-$C5681E,.2,CODE_C5681E,new,"branch target only used in CODE_C5680B",src/bankC5_6000.asm
-$C56826,.3,CODE_C56826,new,"branch target only used in CODE_C5680B",src/bankC5_6000.asm
-$C56870,.1,CODE_C56870,new,"branch target only used in CODE_C5683C",src/bankC5_6000.asm
-$C56873,.2,CODE_C56873,new,"branch target only used in CODE_C5683C",src/bankC5_6000.asm
-$C568B3,.1,CODE_C568B3,new,"branch target only used in CODE_C56880",src/bankC5_6000.asm
-$C56928,.1,CODE_C56928,new,"branch target only used in CODE_C5691F",src/bankC5_6000.asm
+$C56814,.1,CODE_C56814,new,"branch target only used in PrintStatCell",src/bankC5_6000.asm
+$C5681E,.2,CODE_C5681E,new,"branch target only used in PrintStatCell",src/bankC5_6000.asm
+$C56826,.3,CODE_C56826,new,"branch target only used in PrintStatCell",src/bankC5_6000.asm
+$C56870,.1,CODE_C56870,new,"branch target only used in PrintGoalieShotsPct",src/bankC5_6000.asm
+$C56873,.2,CODE_C56873,new,"branch target only used in PrintGoalieShotsPct",src/bankC5_6000.asm
+$C568B3,.1,CODE_C568B3,new,"branch target only used in PrintPlayerStatHeads",src/bankC5_6000.asm
+$C56928,.1,CODE_C56928,new,"branch target only used in PrintStatHead",src/bankC5_6000.asm
 $C56A00,.1,CODE_C56A00,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
 $C56A0F,.2,CODE_C56A0F,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
 $C56A16,.loop,CODE_C56A16,new,"branch target only used in ShowPenaltySummary",src/bankC5_6000.asm
@@ -8105,3 +8105,8 @@ $C5614C,AdvanceSkipBits,CODE_C5614C,code,"from the code",src/bankC5_6000.asm
 $C56158,PeekSkipBits,CODE_C56158,code,"from the code",src/bankC5_6000.asm
 $C56104,TeamSecondText,CODE_C56104,code,"from the code: HomeTeam / VisTeam, the team data pointer and its +2 word, SkipPackedText",src/bankC5_6000.asm
 $C56100,TeamSecondTextLong,CODE_C56100,code,"jsr TeamSecondText, rtl",src/bankC5_6000.asm
+$C56880,PrintPlayerStatHeads,CODE_C56880,code,"from the code: the two rows cleared, PrintItalicLeft / PrintBoldLeft, PrintStatHead for each column; ShowPlayerStats calls it",src/bankC5_6000.asm
+$C56938,PrintGoalieStatHeads,CODE_C56938,code,"from the code: the text at $47F8 (Goalies), PrintStatHead for each column",src/bankC5_6000.asm
+$C5691F,PrintStatHead,CODE_C5691F,code,"from the code",src/bankC5_6000.asm
+$C5680B,PrintStatCell,CODE_C5680B,code,"from the code: BCDTable, BCDText, PrintBoldCentredStr; DrawPlayerStatRow uses it",src/bankC5_6000.asm
+$C5683C,PrintGoalieShotsPct,CODE_C5683C,code,"from the code: tmpshots and tmgoals of the goalie at $65, PrintStatCell twice; DrawPlayerStatRow calls it for goalies",src/bankC5_6000.asm

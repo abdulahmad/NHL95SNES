@@ -637,7 +637,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	ldx.w #$000B
 	ldy.w #$000D
 	jsr.w StartScrollList
-	jsr.w CODE_C56880
+	jsr.w PrintPlayerStatHeads
 	jsl.l SendTextMap
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1
@@ -696,7 +696,7 @@ ShowPlayerStats:					; pause menu Player Stats: the skaters of team a2 sorted by
 	jsr.w ClearPlayerStatsList
 	jsr.w SortPlayerStats
 	jsr.w CODE_C55C12
-	jsr.w CODE_C56880
+	jsr.w PrintPlayerStatHeads
 	jsl.l SendTextMap
 .11:								; if $4000 bits clear go to .13, A = a2, A xor $0002, a2 = A
 	bit.w #$4000
@@ -960,17 +960,17 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	lda.w tmgoals,x
 	and.w #$00FF
 	ldx.w #$0000
-	jsr.w CODE_C5680B
+	jsr.w PrintStatCell
 	lda.w #$00A8
 	sta.b $D1
 	ldx.b $65
 	lda.b $7D
 	cmp.w #$FFFF
-	beq CODE_C5683C
+	beq PrintGoalieShotsPct
 	lda.w tmassists,x
 	and.w #$00FF
 	ldx.w #$0002
-	jsr.w CODE_C5680B
+	jsr.w PrintStatCell
 	lda.w #$00C0
 	sta.b $D1
 	ldx.b $65
@@ -983,21 +983,22 @@ DrawPlayerStatRow:					; draws row a3 of ShowPlayerStats' scrolling list: a play
 	adc.b $01,s
 	ply
 	ldx.w #$0004
-	jsr.w CODE_C5680B
+	jsr.w PrintStatCell
 	lda.w #$00D8
 	sta.b $D1
 	ldx.b $65
 	lda.w tmpshots,x
 	and.w #$00FF
 	ldx.w #$0006
-	jsr.w CODE_C5680B
+	jsr.w PrintStatCell
 	lda.w #$00F0
 	sta.b $D1
 	ldx.b $65
 	lda.w ppenmin,x
 	and.w #$00FF
 	ldx.w #$0008
-CODE_C5680B:						; from DrawPlayerStatRow, CODE_C5683C
+PrintStatCell:						; prints value A (100 as 100) centred on row $6D, highlighted when X is
+									; the sort column $7D; $CF to the next column
 	cpx.b $7D
 	bne .1
 	ldx.w #$2400
@@ -1021,11 +1022,12 @@ CODE_C5680B:						; from DrawPlayerStatRow, CODE_C5683C
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C5683C:						; from DrawPlayerStatRow
+PrintGoalieShotsPct:				; prints a goalie row's shots against and save percentage (100 - goals *
+									; 100 / shots)
 	lda.w tmpshots,x
 	and.w #$00FF
 	ldx.w #$8000
-	jsr.w CODE_C5680B
+	jsr.w PrintStatCell
 	lda.w #$00E0
 	sta.b $D1
 	ldx.b $65
@@ -1043,13 +1045,15 @@ CODE_C5683C:						; from DrawPlayerStatRow
 	bra .2
 .1:									; A = $0064
 	lda.w #$0064
-.2:									; A xor $FFFF, A + $0064, X = $8000, go to CODE_C5680B
+.2:									; A xor $FFFF, A + $0064, X = $8000, go to PrintStatCell
 	eor.w #$FFFF
 	sec
 	adc.w #$0064
 	ldx.w #$8000
-	jmp.w CODE_C5680B
-CODE_C56880:						; from ShowPlayerStats
+	jmp.w PrintStatCell
+PrintPlayerStatHeads:				; prints the player stats headings (the sort column's name from
+									; DATA8_C56989, the column titles, the sort column highlighted); with $7D
+									; $FFFF the goalie ones (PrintGoalieStatHeads)
 	lda.w #$0010
 	sta.b $CF
 	lda.w #$0078
@@ -1069,7 +1073,7 @@ CODE_C56880:						; from ShowPlayerStats
 	ldx.b $7D
 	cpx.w #$FFFF
 	bne .1
-	jmp.w CODE_C56938
+	jmp.w PrintGoalieStatHeads
 .1:									; A = DATA8_C56989,x, X = A, Y = $0008, call PrintItalicLeft, ...
 	lda.l DATA8_C56989,x
 	tax
@@ -1084,32 +1088,33 @@ CODE_C56880:						; from ShowPlayerStats
 	sta.b $CF
 	ldx.w #$4F6C
 	lda.w #$8000
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$0090
 	sta.b $D1
 	ldx.w #$4F71
 	lda.w #$0000
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$00A8
 	sta.b $D1
 	ldx.w #$4F73
 	lda.w #$0002
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$00C0
 	sta.b $D1
 	ldx.w #$4F75
 	lda.w #$0004
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$00D8
 	sta.b $D1
 	ldx.w #$4F78
 	lda.w #$0006
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$00F0
 	sta.b $D1
 	ldx.w #$4F7B
 	lda.w #$0008
-CODE_C5691F:						; from CODE_C56880, CODE_C56938
+PrintStatHead:						; prints column title X centred on row $6D, highlighted ($2400) when A is
+									; the sort column $7D; $CF to the next column
 	cmp.b $7D
 	bne .1
 	lda.w #$2400
@@ -1122,7 +1127,7 @@ CODE_C5691F:						; from CODE_C56880, CODE_C56938
 	lda.b $D1
 	sta.b $CF
 	rts
-CODE_C56938:						; from CODE_C56880
+PrintGoalieStatHeads:				; prints the goalie stats headings (Goalies, the column titles)
 	ldx.w #$47F8
 	ldy.w #$0008
 	jsl.l PrintItalicLeft
@@ -1135,23 +1140,23 @@ CODE_C56938:						; from CODE_C56880
 	sta.b $CF
 	ldx.w #$49B8
 	lda.w #$8000
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$0090
 	sta.b $D1
 	ldx.w #$4F7D
 	lda.w #$8000
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$00A8
 	sta.b $D1
 	ldx.w #$4F78
 	lda.w #$8000
-	jsr.w CODE_C5691F
+	jsr.w PrintStatHead
 	lda.w #$00E0
 	sta.b $D1
 	ldx.w #$4F7F
 	lda.w #$8000
-	jmp.w CODE_C5691F
-DATA8_C56989:						; not traced: a table read by CODE_C56880
+	jmp.w PrintStatHead
+DATA8_C56989:						; not traced: a table read by PrintPlayerStatHeads
 	db $6A,$4B,$6F,$4B,$75,$4B,$9E,$4B,$08,$48
 ShowPenaltySummary:					; pause menu Penalties: the penalties of the game (Per, Time, Tm, Player,
 									; PM) as a scrolling list, No Penalties when there are none; start returns
