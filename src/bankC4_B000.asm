@@ -42,25 +42,25 @@ ClearOffsidesIfAllPlayers:			; called from other segments
 	rtl
 IntroMode7Hook:						; writes the intro Mode 7 scale, centre, control and main-screen shadows
 	sep #$20
-	lda.w $18D0
-	sta.w $211B
+	lda.w introM7Scale
+	sta.w M7A
 	lda.w $18D1
-	sta.w $211B
-	lda.w $18D0
-	sta.w $211E
+	sta.w M7A
+	lda.w introM7Scale
+	sta.w M7D
 	lda.w $18D1
-	sta.w $211E
-	lda.w $18D2
-	sta.w $211F
+	sta.w M7D
+	lda.w introM7X
+	sta.w M7X
 	lda.w $18D3
-	sta.w $211F
-	lda.w $18D4
-	sta.w $2120
+	sta.w M7X
+	lda.w introM7Y
+	sta.w M7Y
 	lda.w $18D5
-	sta.w $2120
-	lda.w $18D6
-	sta.w $211A
-	lda.w $18D8
+	sta.w M7Y
+	lda.w introM7SEL
+	sta.w M7SEL
+	lda.w introTM
 	sta.w TM
 	rep #$20
 	rtl
@@ -138,7 +138,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	jsr.w PositionIntroSprite
 	jsl.l MarkWorkBuf
 	lda.w #$0010
-	sta.w $18D8
+	sta.w introTM
 	jsl.l AnimateSprites
 	lda.w #$1D8F
 	sta.b $28
@@ -180,7 +180,7 @@ CheckIntroMirrorButtons:			; sets the intro mirror flag when all masked controll
 .rts:								; return
 	rts
 IntroStartALogo:					; waits for unit scale, then starts the A logo animation
-	lda.w $18D0
+	lda.w introM7Scale
 	cmp.w #$0100
 	beq .1
 	jmp.w CODE_C4B27F
@@ -195,7 +195,7 @@ IntroStartALogo:					; waits for unit scale, then starts the A logo animation
 	lda.w #IntroStartSportsWord
 	sta.w $0002,x
 IntroStartSportsWord:				; waits for unit scale, then starts the Sports word animation
-	lda.w $18D0
+	lda.w introM7Scale
 	cmp.w #$0100
 	beq .1
 	jmp.w CODE_C4B27F
@@ -210,7 +210,7 @@ IntroStartSportsWord:				; waits for unit scale, then starts the Sports word ani
 	lda.w #IntroStartElectronicWord
 	sta.w $0002,x
 IntroStartElectronicWord:			; waits for unit scale, then starts the Electronic word animation
-	lda.w $18D0
+	lda.w introM7Scale
 	cmp.w #$0100
 	bne CODE_C4B27F
 	ldx.b a3
@@ -223,7 +223,7 @@ IntroStartElectronicWord:			; waits for unit scale, then starts the Electronic w
 	lda.w #IntroWaitForUnitScale
 	sta.w $0002,x
 IntroWaitForUnitScale:				; waits for unit scale and resets the intro task delay
-	lda.w $18D0
+	lda.w introM7Scale
 	cmp.w #$0100
 	bne CODE_C4B27F
 	ldx.b d1
@@ -271,9 +271,9 @@ StartIntroScaleTask:				; starts the intro scale animation for sprite A with fla
 	txa
 	tsb.b $81
 	lda.w #$0011
-	sta.w $18D8
+	sta.w introTM
 	lda.w #$4000
-	sta.w $18D0
+	sta.w introM7Scale
 	lda.w #IntroScaleToFlash
 	ldx.w #IntroScaleToFlash>>16
 	ldy.w #$1000
@@ -297,16 +297,16 @@ IntroScaleToSprite:					; reduces scale to unity, reveals the sprite and removes
 	cmp.w #$0100
 	bcs CODE_C4B2F8
 	lda.w #$0100
-	sta.w $18D0
+	sta.w introM7Scale
 	lda.w #$0010
-	sta.w $18D8
+	sta.w introTM
 	ldx.b d0
 	jsr.w ShowIntroSprite
 	jmp.w RemoveTask
 CODE_C4B2F8:						; from IntroScaleToFlash, IntroScaleToSprite
 	rtl
 StepIntroScale:						; reduces the intro scale by a clamped quarter of its current value
-	lda.w $18D0
+	lda.w introM7Scale
 	lsr a
 	lsr a
 	cmp.w #$0280
@@ -316,12 +316,12 @@ StepIntroScale:						; reduces the intro scale by a clamped quarter of its curre
 	cmp.w #$0020
 	bcs .2
 	lda.w #$0020
-.2:									; A - $18D0, A xor $FFFF, A + 1, $18D0 = A, ...
+.2:									; A - introM7Scale, A xor $FFFF, A + 1, introM7Scale = A, ...
 	sec
-	sbc.w $18D0
+	sbc.w introM7Scale
 	eor.w #$FFFF
 	inc a
-	sta.w $18D0
+	sta.w introM7Scale
 	rts
 ShowIntroSprite:					; reveals an intro sprite and applies horizontal flip when enabled
 	lda.b $22,x
@@ -602,20 +602,20 @@ PrepareIntroMode7Sprite:			; converts the sprite pixels and builds its Mode 7 ti
 	lda.l SpritePieces,x
 	eor.w #$FFFF
 	inc a
-	sta.w $18D2
+	sta.w introM7X
 	lda.l SpritePieces+2,x
 	eor.w #$FFFF
 	inc a
-	sta.w $18D4
+	sta.w introM7Y
 	lda.w $0005,y
 	sec
-	sbc.w $18D2
+	sbc.w introM7X
 	eor.w #$FFFF
 	inc a
 	sta.w BG1HScroll
 	lda.w $0008,y
 	sec
-	sbc.w $18D4
+	sbc.w introM7Y
 	eor.w #$FFFF
 	sta.w BG1VScroll
 	bit.b $81
@@ -626,16 +626,16 @@ PrepareIntroMode7Sprite:			; converts the sprite pixels and builds its Mode 7 ti
 	eor.w #$FFFF
 	inc a
 	sec
-	sbc.w $18D2
+	sbc.w introM7X
 	eor.w #$FFFF
 	inc a
 	sta.w BG1HScroll
 	lda.w #$0001
-	tsb.w $18D6
+	tsb.w introM7SEL
 	bra .9
 .8:									; A = $0001
 	lda.w #$0001
-	trb.w $18D6
+	trb.w introM7SEL
 .9:									; a4 = $0001, push X, A = $0028,y, A * 2, ...
 	lda.w #$0001
 	sta.b a4

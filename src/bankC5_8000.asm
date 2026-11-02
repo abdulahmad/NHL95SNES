@@ -1466,8 +1466,8 @@ SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE
 	lda.b #$07
 	sta.w BGMODE
 	lda.b #$80
-	sta.w $211A
-	sta.l $0018D6
+	sta.w M7SEL
+	sta.l introM7SEL
 	lda.b #$03
 	sta.w OBSEL
 	lda.b #$17
@@ -1477,10 +1477,10 @@ SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE
 	lda.b #$FF
 	sta.w $210E
 	sta.w $210E
-	stz.w $211C
-	stz.w $211C
-	stz.w $211D
-	stz.w $211D
+	stz.w M7B
+	stz.w M7B
+	stz.w M7C
+	stz.w M7C
 	lda.b #$80
 	sta.w VMAIN
 	lda.b #$09
@@ -1496,7 +1496,7 @@ SetupMode7Screen:					; a mode 7 screen: fade out, the work buffer reset, BGMODE
 	rep #$20
 	plb
 	lda.w #$0100
-	sta.w $18D0
+	sta.w introM7Scale
 	rtl
 CODE_C58BB9:						; called from other segments
 	sta.b r0

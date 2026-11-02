@@ -1752,7 +1752,7 @@ ReadPlayoffPlayerGoals:				; returns the seven-bit playoff goals total for playe
 	tya
 	and.w #$0007
 	tay
-	lda.l $3072E8,x
+	lda.l SRPOGoals,x
 .loop:								; loop: A / 2, Y - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dey
@@ -1782,7 +1782,7 @@ ReadPlayoffPlayerAssists:			; returns the seven-bit playoff assists total for pl
 	tya
 	and.w #$0007
 	tay
-	lda.l $307446,x
+	lda.l SRPOAssists,x
 .loop:								; loop: A / 2, Y - 1, if the result >= 0 go to .loop, A and $007F, ...
 	lsr a
 	dey

@@ -1694,25 +1694,25 @@ AddPlayoffTeamPlayerStats:			; adds a team's game player goals and assists to th
 	asl.b $10
 	dec.b $0E
 	bpl .loop3
-.2:									; A = $3072E8,x, A and $10, A + $A5, $A5 = A, ...
-	lda.l $3072E8,x
+.2:									; A = SRPOGoals,x, A and $10, A + $A5, $A5 = A, ...
+	lda.l SRPOGoals,x
 	and.b $10
 	clc
 	adc.b $A5
 	sta.b $A5
-	lda.l $3072E8,x
+	lda.l SRPOGoals,x
 	and.b $0C
 	ora.b $A5
-	sta.l $3072E8,x
-	lda.l $307446,x
+	sta.l SRPOGoals,x
+	lda.l SRPOAssists,x
 	and.b $10
 	clc
 	adc.b $0A
 	sta.b $0A
-	lda.l $307446,x
+	lda.l SRPOAssists,x
 	and.b $0C
 	ora.b $0A
-	sta.l $307446,x
+	sta.l SRPOAssists,x
 	clc
 	lda.b tmp2
 	adc.w #$0007

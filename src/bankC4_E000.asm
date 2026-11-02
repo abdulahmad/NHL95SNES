@@ -286,7 +286,7 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	jsl.l CODE_C5A4DE
 	jsl.l WaitTransfers
 	lda.w #$0006
-	sta.w $2DA5
+	sta.w curmatchup
 	jsr.w ShowMatchups
 	jsr.w RankScoutingHotColdTeams
 	jsr.w BuildScoutingText
@@ -298,9 +298,9 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.l TM
 	stz.w fadestep
 	lda.w #$012C
-	sta.w $2DA1
+	sta.w matchuptimer
 	lda.w #$0019
-	sta.w $2DA3
+	sta.w ScoutingReportTimer
 	jsr.w InitScoutDisplay
 .loop:								; loop: TransfersReady + 1
 	inc.w TransfersReady
@@ -316,30 +316,30 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	sta.b $2A
 	jsl.l BuildSpriteOAM
 	jsl.l PackOAMHigh
-	lda.w $2DA1
+	lda.w matchuptimer
 	bmi .6
 	dec a
 	bne .6
 	jsr.w NextMatchup
-	lda.w $2DA3
+	lda.w ScoutingReportTimer
 	sec
 	sbc.w #$0005
 	bmi .4
 	bne .5
 .4:									; A = $0001
 	lda.w #$0001
-.5:									; $2DA3 = A, A = $012C
-	sta.w $2DA3
+.5:									; ScoutingReportTimer = A, A = $012C
+	sta.w ScoutingReportTimer
 	lda.w #$012C
-.6:									; $2DA1 = A, A = $2DA3, A - 1, if the result is not 0 go to .7, ...
-	sta.w $2DA1
-	lda.w $2DA3
+.6:									; matchuptimer = A, A = ScoutingReportTimer, A - 1, ...
+	sta.w matchuptimer
+	lda.w ScoutingReportTimer
 	dec a
 	bne .7
 	jsr.w PrintNextScoutWord
 	lda.w #$0019
-.7:									; $2DA3 = A, if repeatdelayframes is not 0 go to .loop, ...
-	sta.w $2DA3
+.7:									; ScoutingReportTimer = A, if repeatdelayframes is not 0 go to .loop, ...
+	sta.w ScoutingReportTimer
 	lda.w repeatdelayframes
 	bne .loop
 	lda.w padchangeany
@@ -348,27 +348,27 @@ ScoutingReport:						; the pregame scouting report: both teams' names and logos,
 	bit.w #$0400
 	beq .8
 	lda.w #$0001
-	sta.w $2DA3
+	sta.w ScoutingReportTimer
 	lda.w #$0400
 	trb.w padlast
-.8:									; if $0800 bits clear go to .9, $2DA3 + 1, A = $0800
+.8:									; if $0800 bits clear go to .9, ScoutingReportTimer + 1, A = $0800
 	bit.w #$0800
 	beq .9
-	inc.w $2DA3
+	inc.w ScoutingReportTimer
 	lda.w #$0800
 	trb.w padlast
 .9:									; if $0080 bits clear go to .10, A = $8000, call NextMatchup, go to .loop
 	bit.w #$0080
 	beq .10
 	lda.w #$8000
-	tsb.w $2DA1
+	tsb.w matchuptimer
 	jsr.w NextMatchup
 	jmp.w .loop
 .10:								; if $4000 bits clear go to .11, A = $8000, call PrevMatchup, go to .loop
 	bit.w #$4000
 	beq .11
 	lda.w #$8000
-	tsb.w $2DA1
+	tsb.w matchuptimer
 	jsr.w PrevMatchup
 	jmp.w .loop
 .11:								; if $0040 bits clear go to .12, call RestartScoutingText
@@ -386,22 +386,22 @@ ExitScoutingReport:					; fades out the scouting report and sound, disables HDMA
 	jsl.l ClearNMIHook
 	jml.l ResetSprites
 NextMatchup:						; the next matchup of the scouting report (after 6, 0), then ShowMatchups
-	lda.w $2DA5
+	lda.w curmatchup
 	inc a
 	cmp.w #$0007
 	bcc .1
 	lda.w #$0000
-.1:									; $2DA5 = A, go to ShowMatchups
-	sta.w $2DA5
+.1:									; curmatchup = A, go to ShowMatchups
+	sta.w curmatchup
 	jmp.w ShowMatchups
 PrevMatchup:						; the previous matchup of the scouting report (before 0, 6), then
 									; ShowMatchups
-	lda.w $2DA5
+	lda.w curmatchup
 	bne .1
 	lda.w #$0007
-.1:									; A - 1, $2DA5 = A, go to ShowMatchups
+.1:									; A - 1, curmatchup = A, go to ShowMatchups
 	dec a
-	sta.w $2DA5
+	sta.w curmatchup
 	jmp.w ShowMatchups
 RestartScoutingText:				; deletes the scroll sprites and restarts the scouting commentary
 	ldx.b $77
@@ -412,9 +412,9 @@ InitScoutDisplay:					; resets the scouting text pointer, cursor and scrolling d
 	lda.b $7B
 	sta.b $7D
 	lda.w #$0012
-	sta.w $2DC7
+	sta.w ScoutTextRow
 	lda.w #$0002
-	sta.w $2DC5
+	sta.w ScoutTextCol
 	lda.w #$0010
 	sta.b $95
 	stz.b d5
@@ -466,7 +466,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	ora.w #$0001
 	sta.b $22,x
 	jsl.l MarkWorkBuf
-	ldx.w $2DA5
+	ldx.w curmatchup
 	cpx.w #$0005
 	bcc .2
 	beq .1
@@ -528,8 +528,8 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	bra .4
 .3:									; call ScoutUseHomeTeamLogo
 	jsr.w ScoutUseHomeTeamLogo
-.4:									; X = $2DA5, A = $3274,x, A and $00FF, A - 1, ...
-	ldx.w $2DA5
+.4:									; X = curmatchup, A = $3274,x, A and $00FF, A - 1, ...
+	ldx.w curmatchup
 	lda.w $3274,x
 	and.w #$00FF
 	dec a
@@ -592,7 +592,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $D1
 	lda.w #$0002
 	sta.b a2
-	ldx.w $2DA5
+	ldx.w curmatchup
 	lda.w $3274,x
 	and.w #$00FF
 	dec a
@@ -628,7 +628,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	lda.w #$00E8
 	sta.b $D1
 	stz.b a2
-	ldx.w $2DA5
+	ldx.w curmatchup
 	lda.w $2E36,x
 	and.w #$00FF
 	dec a
@@ -663,7 +663,7 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	sta.b $CF
 	lda.w #$00F0
 	sta.b $D1
-	lda.w $2DA5
+	lda.w curmatchup
 	asl a
 	tax
 	lda.l DATA8_C35E51,x
@@ -926,24 +926,24 @@ ShowMatchups:						; draws matchup 0-6 of the scouting report (the two players, 
 	rts
 RankScoutingHotColdTeams:			; ranks both teams' hot and cold players and selects the hotter team
 	stz.b a2
-	ldy.w #$2DA9
+	ldy.w #HomeHotCold
 	ldx.w #$2DC9
 	jsr.w RankScoutingHotColdPlayers
 	lda.w #$0002
 	sta.b a2
-	ldy.w #$2DB7
+	ldy.w #VisHotCold
 	ldx.w #$3207
 	jsr.w RankScoutingHotColdPlayers
 	ldx.w HomeTeam
-	lda.w $2DB5
+	lda.w HomeHotCold+12
 	sec
-	sbc.w $2DC3
+	sbc.w VisHotCold+12
 	bpl .1
 	ldx.w VisTeam
 	eor.w #$FFFF
 	inc a
-.1:									; $2DA7 = X, X = A, A = $8000, if X >= $0008 go to .3, ...
-	stx.w $2DA7
+.1:									; hotterteam = X, X = A, A = $8000, if X >= $0008 go to .3, ...
+	stx.w hotterteam
 	tax
 	lda.w #$8000
 	cpx.w #$0008
@@ -951,11 +951,11 @@ RankScoutingHotColdTeams:			; ranks both teams' hot and cold players and selects
 	cpx.w #$0004
 	bcs .2
 	ldx.w #$FFFF
-	stx.w $2DA7
+	stx.w hotterteam
 .2:									; A * 2
 	asl a
 .3:									; return
-	tsb.w $2DA7
+	tsb.w hotterteam
 	rts
 RankScoutingHotColdPlayers:			; ranks a roster's three hottest and coldest players and sums rating
 									; changes
@@ -1161,7 +1161,7 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	iny
 	iny
 	iny
-	lda.w $2DA7
+	lda.w hotterteam
 	cmp.w #$FFFF
 	beq .4
 	sty.b $81
@@ -1174,7 +1174,7 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	jsr.w AppendScoutText
 	ldx.w #$4DED
 	jsr.w AppendScoutText
-	lda.w $2DA7
+	lda.w hotterteam
 	bpl .3
 	lda.w #$7865
 	sta.w $364E,y
@@ -1194,18 +1194,18 @@ BuildScoutingText:					; writes the scouting report's commentary into the text b
 	sty.b $81
 	ldx.w #$4DFA
 	jsr.w AppendScoutText
-.4:									; d0 = $2DC9, A = HomeTeam, X = $2DA9, ...
+.4:									; d0 = $2DC9, A = HomeTeam, X = HomeHotCold, ...
 	lda.w #$2DC9
 	sta.b d0
 	lda.w HomeTeam
-	ldx.w #$2DA9
+	ldx.w #HomeHotCold
 	jsr.w AppendScoutHotColdParagraph
 	lda.w #$3207
 	sta.b d0
 	lda.w VisTeam
 	cmp.w HomeTeam
 	beq .5
-	ldx.w #$2DB7
+	ldx.w #VisHotCold
 	jsr.w AppendScoutHotColdParagraph
 .5:									; X = $4E27, call AppendScoutText, $364E,y = $0000, Y + 1, ...
 	ldx.w #$4E27
@@ -1323,7 +1323,7 @@ AppendScoutHotColdParagraph:		; appends a team's name and its hot and cold playe
 	jmp.w AppendScoutText
 PrintNextScoutWord:					; prints the next scouting word, wrapping or advancing lines as needed
 	ldx.b $7D
-	lda.w $2DC5
+	lda.w ScoutTextCol
 	cmp.w #$0021
 	bcc .1
 .loop:								; loop: call NextScoutTextLine
@@ -1352,15 +1352,15 @@ PrintNextScoutWord:					; prints the next scouting word, wrapping or advancing l
 	beq .6
 	sta.b d0
 	clc
-	adc.w $2DC5
-	sta.w $2DC5
+	adc.w ScoutTextCol
+	sta.w ScoutTextCol
 	cmp.w #$0022
 	bcc .5
 	jsr.w NextScoutTextLine
-	lda.w $2DC5
+	lda.w ScoutTextCol
 	clc
 	adc.b d0
-	sta.w $2DC5
+	sta.w ScoutTextCol
 .5:									; X = $7D, Y = $0000, A 8-bit
 	ldx.b $7D
 	ldy.w #$0000
@@ -1377,7 +1377,7 @@ PrintNextScoutWord:					; prints the next scouting word, wrapping or advancing l
 	rep #$20
 	lda.b $95
 	sta.b $CF
-	ldy.w $2DC7
+	ldy.w ScoutTextRow
 	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	clc
@@ -1399,10 +1399,10 @@ PrintNextScoutWord:					; prints the next scouting word, wrapping or advancing l
 	jmp.w ExitScoutingReport
 NextScoutTextLine:					; resets the scouting text column and advances or scrolls the text row
 	lda.w #$0002
-	sta.w $2DC5
+	sta.w ScoutTextCol
 	lda.w #$0010
 	sta.b $95
-	lda.w $2DC7
+	lda.w ScoutTextRow
 	inc a
 	cmp.w #$001A
 	bcc .1
@@ -1411,8 +1411,8 @@ NextScoutTextLine:					; resets the scouting text column and advances or scrolls
 	cmp.w #$001B
 	bcc .2
 	lda.w #$0011
-.2:									; $2DC7 = A, if d5 = 0 go to .rts, push X, call CODE_C55C54, ...
-	sta.w $2DC7
+.2:									; ScoutTextRow = A, if d5 = 0 go to .rts, push X, call CODE_C55C54, ...
+	sta.w ScoutTextRow
 	lda.b d5
 	beq .rts
 	phx

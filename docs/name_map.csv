@@ -8275,3 +8275,18 @@ $C4C58B,ProcessQueuedTransfers,CODE_C4C58B,code,"NMI calls when TransfersReady a
 $C4CEF5,InitSaveRAM,CODE_C4CEF5,code,"reset calls it; compares three 64-byte header copies at 306000/306A16/30790D; mismatch clears 8KB and restores signatures/options/names",src/bankC4_C000.asm
 $C4CF5A,WriteSaveSignature,CODE_C4CF5A,code,"MVN 64 bytes from C0FFC0 to bank 30 destination Y; called three times by InitSaveRAM",src/bankC4_C000.asm
 $C4CF64,CompareSaveSignature,CODE_C4CF64,code,"compares words from FFC0 through FFFE against destination Y in bank 30; returns zero only when all words agree",src/bankC4_C000.asm
+$18D0,introM7Scale,,code,"RAM: from the code: IntroMode7Hook writes it to M7A and M7D, StepIntroScale cuts it to $100, SetupMode7Screen sets $100 (94S kept introM7A and introM7D apart)",src/ram95s.asm
+$18D2,introM7X,,code,"RAM: from the code: IntroMode7Hook, PrepareIntroMode7Sprite",src/ram95s.asm
+$18D4,introM7Y,,code,"RAM: from the code: IntroMode7Hook, PrepareIntroMode7Sprite",src/ram95s.asm
+$18D6,introM7SEL,,code,"RAM: from the code: IntroMode7Hook; PrepareIntroMode7Sprite sets and clears its flip bit",src/ram95s.asm
+$18D8,introTM,,code,"RAM: from the code: IntroMode7Hook; StartIntroScaleTask and IntroScaleToSprite set it",src/ram95s.asm
+$2DA1,matchuptimer,,94S+purpose,"RAM: 94S matchuptimer (counted up), with 94S matchuphold folded into bit 15: ScoutingReport, NextMatchup on time out",src/ram95s.asm
+$2DA3,ScoutingReportTimer,,94S+purpose,"RAM: 94S ScoutingReportTimer: the countdown to the next printed word; here ScoutingReport calls PrintNextScoutWord at 0, the pad speeds or slows it",src/ram95s.asm
+$2DA5,curmatchup,,code,"RAM: from the code: NextMatchup / PrevMatchup wrap it, ShowMatchups draws by it (94S used the shared curitem)",src/ram95s.asm
+$2DA7,hotterteam,,94S+purpose,"RAM: 94S hotterteam, with 94S hotextreme folded into bit 15; $FFFF when under 4 apart (RankScoutingHotColdTeams)",src/ram95s.asm
+$2DA9,HomeHotCold,,code,"RAM: from the code: RankScoutingHotColdPlayers fills it, the commentary reads it (94S hotplayer1-3, coldplayer1-3, hotcoldsum)",src/ram95s.asm
+$2DB7,VisHotCold,,code,"RAM: from the code: RankScoutingHotColdPlayers fills it, the commentary reads it",src/ram95s.asm
+$2DC5,ScoutTextCol,,code,"RAM: from the code: PrintNextScoutWord adds each word's length and wraps at $22; NextScoutTextLine resets it to 2",src/ram95s.asm
+$2DC7,ScoutTextRow,,code,"RAM: from the code: PrintNextScoutWord prints on it; NextScoutTextLine advances it",src/ram95s.asm
+$3072E8,SRPOGoals,,code,"RAM: from the code: AddPlayoffTeamPlayerStats adds each game's goals, ReadPlayoffPlayerGoals reads them for ScanConnSmythe",src/ram95s.asm
+$307446,SRPOAssists,,code,"RAM: from the code: AddPlayoffTeamPlayerStats adds each game's assists, ReadPlayoffPlayerAssists reads them for ScanConnSmythe",src/ram95s.asm
