@@ -386,7 +386,8 @@ NextNameBits5:						; A = the 5 bits at bit Y of SRUserNames; Y + 5
 	and.w #$001F
 	plx
 	rts
-CODE_C5D303:						; from EditUserName
+PutUserName:						; stores the name in mesarea as user A's name in SRUserNames: 12 letters
+									; of 5 bits (a space $1B, $3E the end $1F, else - $40)
 	asl a
 	asl a
 	sta.b tmp0
@@ -413,13 +414,13 @@ CODE_C5D303:						; from EditUserName
 	bra .4
 .3:									; A = $001F
 	lda.w #$001F
-.4:									; call CODE_C5D33A, X + 1, if X is not $000C go to .1, return
-	jsr.w CODE_C5D33A
+.4:									; call PutNameBits5, X + 1, if X is not $000C go to .1, return
+	jsr.w PutNameBits5
 	inx
 	cpx.w #$000C
 	bne .1
 	rts
-CODE_C5D33A:						; from CODE_C5D303
+PutNameBits5:						; writes the low 5 bits of A at bit Y of SRUserNames; Y + 5
 	phx
 	and.w #$001F
 	sta.b tmp0
@@ -549,11 +550,11 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.b $65
 	jsr.w GetUserName
 	bra .14
-.13:								; if $1000 bits clear go to .11, A = $65, call CODE_C5D303
+.13:								; if $1000 bits clear go to .11, A = $65, call PutUserName
 	bit.w #$1000
 	beq .11
 	lda.b $65
-	jsr.w CODE_C5D303
+	jsr.w PutUserName
 .14:								; X = $FFFF, A 8-bit
 	ldx.w #$FFFF
 	sep #$20

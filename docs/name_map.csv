@@ -6324,11 +6324,11 @@ $C5D2D0,.2,CODE_C5D2D0,new,"branch target only used in GetUserName",src/bankC5_D
 $C5D2D8,.3,CODE_C5D2D8,new,"branch target only used in GetUserName",src/bankC5_D000.asm
 $C5D2E1,.rts,CODE_C5D2E1,new,"branch target only used in GetUserName",src/bankC5_D000.asm
 $C5D2F8,.loop,CODE_C5D2F8,new,"branch target only used in NextNameBits5",src/bankC5_D000.asm
-$C5D312,.1,CODE_C5D312,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
-$C5D322,.2,CODE_C5D322,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
-$C5D32D,.3,CODE_C5D32D,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
-$C5D330,.4,CODE_C5D330,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
-$C5D34E,.loop,CODE_C5D34E,new,"branch target only used in CODE_C5D33A",src/bankC5_D000.asm
+$C5D312,.1,CODE_C5D312,new,"branch target only used in PutUserName",src/bankC5_D000.asm
+$C5D322,.2,CODE_C5D322,new,"branch target only used in PutUserName",src/bankC5_D000.asm
+$C5D32D,.3,CODE_C5D32D,new,"branch target only used in PutUserName",src/bankC5_D000.asm
+$C5D330,.4,CODE_C5D330,new,"branch target only used in PutUserName",src/bankC5_D000.asm
+$C5D34E,.loop,CODE_C5D34E,new,"branch target only used in PutNameBits5",src/bankC5_D000.asm
 $C5D372,.loop,CODE_C5D372,new,"branch target only used in EditUserName",src/bankC5_D000.asm
 $C5D3AB,.1,CODE_C5D3AB,new,"branch target only used in EditUserName",src/bankC5_D000.asm
 $C5D3BF,.2,CODE_C5D3BF,new,"branch target only used in EditUserName",src/bankC5_D000.asm
@@ -8064,3 +8064,5 @@ $C5D2B4,GetUserName,CODE_C5D2B4,code,"from the code: the bit offset A * 60, Next
 $C5D2E2,NextNameBits5,CODE_C5D2E2,code,"from the code: as NextSaveBits5 on the user name array",src/bankC5_D000.asm
 $C5D5A5,PrintEditedName,CODE_C5D5A5,code,"from the code: ClearRAM7E, PrintBoldFixedLeftStr with A = 10",src/bankC5_D000.asm
 $3070D6,SRUserNames,,code,"RAM: from the code: GetUserName / NextNameBits5 read it, EditUserName writes it",src/ram95s.asm
+$C5D303,PutUserName,CODE_C5D303,code,"from the code: the bit offset A * 60, PutNameBits5 for each letter; the reverse of GetUserName; EditUserName calls it",src/bankC5_D000.asm
+$C5D33A,PutNameBits5,CODE_C5D33A,code,"from the code: the 5-bit mask shifted to Y and 7, the and / ora into the array; the write side of NextNameBits5",src/bankC5_D000.asm
