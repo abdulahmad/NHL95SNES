@@ -55,11 +55,11 @@ NextOptionValue:					; setup screen right: the variable of line d6 one value on 
 	cmp.l $C30000,x
 	bcc .1
 	lda.w #$0000
-.1:									; $0000,y = A, pull X, if $C30008,x = 0 go to CODE_C5904D, X = A, ...
+.1:									; $0000,y = A, pull X, if $C30008,x = 0 go to DrawSetupLineJump, ...
 	sta.w $0000,y
 	plx
 	lda.l $C30008,x
-	beq CODE_C5904D
+	beq DrawSetupLineJump
 	tax
 	lda.l $C4FFFE,x
 	beq CODE_C5904B
@@ -72,7 +72,7 @@ NextOptionValue:					; setup screen right: the variable of line d6 one value on 
 CODE_C5904B:						; from PrevOptionValue, NextOptionValue
 	dex
 	phx
-CODE_C5904D:						; from NextOptionValue
+DrawSetupLineJump:					; jumps to DrawSetupLine: the option value routines' shared tail
 	jmp.w DrawSetupLine
 DATA8_C59050:						; not reached by the traced code (data or unused code)
 	db $68,$60
@@ -775,7 +775,7 @@ SelectNameYes:						; Is the player name ok with Yes picked (d6 = 0): palette 3 
 	jsr.w SetRowPalette3
 	lda.w #$000F
 	jsr.w SetRowPalette0
-CODE_C596BD:						; from SelectNameNo
+PlaceYesNoCursorJump:				; jumps to PlaceYesNoCursor: the name question's shared tail
 	jmp.w PlaceYesNoCursor
 SelectNameNo:						; Is the player name ok with No picked (d6 = 1): palette 3 on the Yes row
 									; ($F), palette 0 on the No row ($12), the cursor placed
@@ -786,7 +786,7 @@ SelectNameNo:						; Is the player name ok with No picked (d6 = 1): palette 3 on
 	jsr.w SetRowPalette3
 	lda.w #$0012
 	jsr.w SetRowPalette0
-	bra CODE_C596BD
+	bra PlaceYesNoCursorJump
 AnswerNameOk:						; start on Is the player name ok: No (d6 not 0) starts over
 									; (CreatePlayer); Yes joins the names in mesarea and draws the position,
 									; weight, number and hand page with its first values (state 3)
@@ -1799,9 +1799,9 @@ DATA8_C59EFA:						; jump table: the routine for each index
 EditPosLeft:						; position line, left: d0 one back (5 after 0), then FieldPos
 	lda.b d0
 	dec a
-	bpl CODE_C59F0A
+	bpl StorePosField
 	lda.w #$0005
-CODE_C59F0A:						; from EditPosLeft, EditPosRight
+StorePosField:						; d0 = the position (0-5), then FieldPos
 	sta.b d0
 	jmp.w FieldPos
 DATA8_C59F0F:						; not reached by the traced code (data or unused code)
@@ -1810,39 +1810,39 @@ EditPosRight:						; position line, right: d0 one on (0 after 5), then FieldPos
 	lda.b d0
 	inc a
 	cmp.w #$0006
-	bcc CODE_C59F0A
+	bcc StorePosField
 	lda.w #$0000
-	bra CODE_C59F0A
+	bra StorePosField
 EditWeightLeft:						; weight line, left: $81 one back (15 after 0), then FieldWeight
 	lda.b $81
 	dec a
-	bpl CODE_C59F25
+	bpl StoreWeightField
 	lda.w #$000F
-CODE_C59F25:						; from EditWeightLeft, EditWeightRight
+StoreWeightField:					; $81 = the weight step (0-15), then FieldWeight
 	sta.b $81
 	jmp.w FieldWeight
 EditWeightRight:					; weight line, right: $81 one on (0 after 15), then FieldWeight
 	lda.b $81
 	inc a
 	cmp.w #$0010
-	bcc CODE_C59F25
+	bcc StoreWeightField
 	lda.w #$0000
-	bra CODE_C59F25
+	bra StoreWeightField
 EditJerseyLeft:						; number line, left: d1 one back (99 after 0), then FieldJersey
 	lda.b d1
 	dec a
-	bpl CODE_C59F3F
+	bpl StoreJerseyField
 	lda.w #$0063
-CODE_C59F3F:						; from EditJerseyLeft, EditJerseyRight
+StoreJerseyField:					; d1 = the sweater number (0-99), then FieldJersey
 	sta.b d1
 	jmp.w FieldJersey
 EditJerseyRight:					; number line, right: d1 one on (0 after 99), then FieldJersey
 	lda.b d1
 	inc a
 	cmp.w #$0064
-	bcc CODE_C59F3F
+	bcc StoreJerseyField
 	lda.w #$0000
-	bra CODE_C59F3F
+	bra StoreJerseyField
 EditHand:							; hand line, left or right: $85 toggled between 0 (Right) and 1 (Left),
 									; then FieldHand
 	lda.b $85

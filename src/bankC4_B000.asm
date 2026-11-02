@@ -756,7 +756,7 @@ IntroSoundCue1:						; starts the first pair of intro sounds after 30 ticks
 	lda.w #$0014
 	jsl.l StartSound
 	lda.w #$0011
-	bra CODE_C4B6CE
+	bra StartSoundJump
 CODE_C4B688:						; a task routine: stored as the next routine of a task
 	rtl
 IntroSoundCue2:						; starts the second pair of intro sounds after 60 ticks
@@ -768,7 +768,7 @@ IntroSoundCue2:						; starts the second pair of intro sounds after 60 ticks
 	lda.w #$0013
 	jsl.l StartSound
 	lda.w #$0010
-	bra CODE_C4B6CE
+	bra StartSoundJump
 IntroSoundCue3:						; starts the third pair of intro sounds after 90 ticks
 	lda.w $0008,x
 	cmp.w #$005A
@@ -778,7 +778,7 @@ IntroSoundCue3:						; starts the third pair of intro sounds after 90 ticks
 	lda.w #$0016
 	jsl.l StartSound
 	lda.w #$0009
-	bra CODE_C4B6CE
+	bra StartSoundJump
 IntroSoundCue4:						; starts the last intro sound after 150 ticks and disables this task
 	lda.w $0008,x
 	cmp.w #$0096
@@ -786,7 +786,7 @@ IntroSoundCue4:						; starts the last intro sound after 150 ticks and disables 
 	lda.w #CODE_C4B688
 	sta.w $0002,x
 	lda.w #$0015
-CODE_C4B6CE:						; from IntroSoundCue1, IntroSoundCue2, IntroSoundCue3
+StartSoundJump:						; jumps to StartSound: the intro sound cues' shared tail
 	jml.l StartSound
 TitleStartMusicTask:				; starts the title music after the task delay and disables this task
 	lda.w $0008,x

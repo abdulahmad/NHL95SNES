@@ -163,7 +163,8 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	lda.w #$003F
 	mvn $7E,$7E
 	rts
-CODE_C4F191:						; from PickUnusedLineDefenceman
+NoLineDefenceman:					; PickUnusedLineDefenceman's end of list: the used count ($2E) back to 0,
+									; X restored, carry set
 	stz.b $2E
 	ldx.b $14
 	sec
@@ -173,7 +174,7 @@ PickUnusedLineDefenceman:			; selects the next ranked defenceman not in the used
 	rep #$20
 	lda.b tmp2
 	cmp.b $0A
-	beq CODE_C4F191
+	beq NoLineDefenceman
 	asl a
 	tay
 	sep #$20
@@ -182,7 +183,8 @@ PickUnusedLineDefenceman:			; selects the next ranked defenceman not in the used
 	bcs PickUnusedLineDefenceman
 	ldx.b $14
 	rts
-CODE_C4F1AE:						; from PickUnusedLineForward
+NoLineForward:						; PickUnusedLineForward's end of list: the used count (r0) back to 0, X
+									; restored, carry set
 	stz.b r0
 	ldx.b $14
 	sec
@@ -192,7 +194,7 @@ PickUnusedLineForward:				; selects the next ranked forward not in the used list
 	rep #$20
 	lda.b tmp2
 	cmp.b $A5
-	beq CODE_C4F1AE
+	beq NoLineForward
 	asl a
 	tay
 	sep #$20
@@ -206,16 +208,18 @@ IsLineDefencemanUsed:				; advances the candidate index and returns carry set if
 	inc.b tmp2
 	ldx.b $2E
 	dex
-	bmi CODE_C4F1DA
-.loop:								; loop: if A = $384E,x go to CODE_C4F1DC, X - 1, ...
+	bmi LinePlayerNotUsed
+.loop:								; loop: if A = $384E,x go to LinePlayerUsed, X - 1, ...
 	cmp.w $384E,x
-	beq CODE_C4F1DC
+	beq LinePlayerUsed
 	dex
 	bpl .loop
-CODE_C4F1DA:						; from IsLineDefencemanUsed, IsLineForwardUsed
+LinePlayerNotUsed:					; carry clear: the player is not in the used list (IsLineDefencemanUsed /
+									; IsLineForwardUsed)
 	clc
 	rts
-CODE_C4F1DC:						; from IsLineDefencemanUsed, IsLineForwardUsed
+LinePlayerUsed:						; carry set: the player is in the used list (IsLineDefencemanUsed /
+									; IsLineForwardUsed)
 	sec
 	rts
 IsLineForwardUsed:					; advances the candidate index and returns carry set if the forward is
@@ -223,10 +227,10 @@ IsLineForwardUsed:					; advances the candidate index and returns carry set if t
 	inc.b tmp2
 	ldx.b r0
 	dex
-	bmi CODE_C4F1DA
-.loop:								; loop: if A = $380E,x go to CODE_C4F1DC, X - 1, ...
+	bmi LinePlayerNotUsed
+.loop:								; loop: if A = $380E,x go to LinePlayerUsed, X - 1, ...
 	cmp.w $380E,x
-	beq CODE_C4F1DC
+	beq LinePlayerUsed
 	dex
 	bpl .loop
 	clc

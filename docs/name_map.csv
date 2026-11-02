@@ -8645,3 +8645,13 @@ $C4D4A0,TitleFinishWhiteFadeReturn,CODE_C4D4A0,code,"from the code: TitleFinishW
 $C4D52A,TitleEndDelayReturn,CODE_C4D52A,code,"from the code: TitleEndDelay falls into it, the other two branch here",src/bankC4_D000.asm
 $C59997,RatingRowPalette3Return,CODE_C59997,code,"from the code: RatingRowPalette3's loop falls into it, SkaterRatingsInput branches here",src/bankC5_9000.asm
 $C59ADC,GoalieRatingsInputReturn,CODE_C59ADC,code,"from the code: a lone rts at the end of the goalie cursor code; GoalieRatingsInput's branch",src/bankC5_9000.asm
+$C4F191,NoLineDefenceman,CODE_C4F191,code,"from the code: stz $2E, ldx $14, sec, rts; PickUnusedLineDefenceman branches here when its index reaches the count",src/bankC4_F000.asm
+$C4F1AE,NoLineForward,CODE_C4F1AE,code,"from the code: stz r0, ldx $14, sec, rts; PickUnusedLineForward branches here when its index reaches the count",src/bankC4_F000.asm
+$C4F1DA,LinePlayerNotUsed,CODE_C4F1DA,code,"from the code: clc / rts, reached when the backward search ends without a match",src/bankC4_F000.asm
+$C4F1DC,LinePlayerUsed,CODE_C4F1DC,code,"from the code: sec / rts, reached on a match",src/bankC4_F000.asm
+$C4B6CE,StartSoundJump,CODE_C4B6CE,code,"from the code: jml StartSound; IntroSoundCue1-3 branch here with the next sound in A",src/bankC4_B000.asm
+$C59F0A,StorePosField,CODE_C59F0A,code,"from the code: sta d0 / jmp FieldPos; EditPosLeft and EditPosRight branch here with the new value",src/bankC5_9000.asm
+$C59F25,StoreWeightField,CODE_C59F25,code,"from the code: sta $81 / jmp FieldWeight; EditWeightLeft and EditWeightRight branch here with the new value",src/bankC5_9000.asm
+$C59F3F,StoreJerseyField,CODE_C59F3F,code,"from the code: sta d1 / jmp FieldJersey; EditJerseyLeft and EditJerseyRight branch here with the new value",src/bankC5_9000.asm
+$C5904D,DrawSetupLineJump,CODE_C5904D,code,"from the code: jmp DrawSetupLine; the push of the line's routine address falls into it and NextOptionValue branches here",src/bankC5_9000.asm
+$C596BD,PlaceYesNoCursorJump,CODE_C596BD,code,"from the code: jmp PlaceYesNoCursor; SelectNameYes falls into it and SelectNameNo branches here",src/bankC5_9000.asm
