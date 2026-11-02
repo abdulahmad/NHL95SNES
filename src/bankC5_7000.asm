@@ -504,7 +504,7 @@ PauseReplay:						; pause menu Inst Replay: fade out, the game state kept, vcoun
 									; back two, ReplayMode, then back to the pause screen's exit
 	jsl.l FadeOutWait
 	lda.w PauseMapBuf
-	sta.w $18E0
+	sta.w WorkBufMark
 	sta.b $08
 	stz.b $22
 	ldx.w $18F0

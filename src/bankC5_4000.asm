@@ -1862,7 +1862,7 @@ Pausemode_menu:						; the pause menu screen: its music, the Options tab first, 
 .resume:							; start / select leave the pause screen: back to the game
 									; (RestoreGameScreen); PauseReplay comes here after the replay
 	lda.w PauseMapBuf
-	sta.w $18E0
+	sta.w WorkBufMark
 	sta.b $08
 	stz.b $22
 	ldx.w $18F0

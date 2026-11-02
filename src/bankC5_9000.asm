@@ -677,7 +677,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	jsr.w DeleteArrowSprites
 	jsr.w RefreshSprites
 	lda.w #$0005
-	sta.w $18DE
+	sta.w TextSpaceWidth
 	lda.w #$0008
 	sta.b $CF
 	ldy.w #$0010
@@ -698,7 +698,7 @@ StartSeason:						; play mode Season: with a season saved, WARNING A Season is i
 	ldx.w #$4753
 	jsl.l PrintBoldLeft
 	lda.w #$0009
-	sta.w $18DE
+	sta.w TextSpaceWidth
 	lda.w #$0032
 	sta.b $CF
 	ldy.w #$0015

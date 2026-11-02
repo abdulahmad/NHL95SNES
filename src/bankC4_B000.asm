@@ -1344,15 +1344,15 @@ InitTextMap:						; a new text map: $800 bytes cleared from the work buffer, the
 	tcs
 	stx.b $04
 	stz.b QueueBusy
-.1:									; $CF = 0, $D1 = $0100, $18DE = $0009, $18DA = $FFFF, ...
+.1:									; $CF = 0, $D1 = $0100, TextSpaceWidth = $0009, TextColLow = $FFFF, ...
 	stz.b $CF
 	lda.w #$0100
 	sta.b $D1
 	lda.w #$0009
-	sta.w $18DE
+	sta.w TextSpaceWidth
 	lda.w #$FFFF
-	sta.w $18DA
-	stz.w $18DC
+	sta.w TextColLow
+	stz.w TextColHigh
 	rtl
 CODE_C4BB43:						; no caller found (not traced)
 	tax
@@ -1766,9 +1766,9 @@ DrawText:							; draws the text at X (zero ended) from pixel column A into new 
 									; buffer tiles, in the font of $0C (bank $C0) with the flags of $0E
 	sta.b $12
 	sta.b $0A
-	cmp.w $18DA
+	cmp.w TextColLow
 	bcs .1
-	sta.w $18DA
+	sta.w TextColLow
 .1:									; Y = $0400, A = $0E, A / 2, if carry set go to .2, ...
 	ldy.w #$0400
 	lda.b $0E
@@ -1796,8 +1796,8 @@ DrawNextTextCharacter:				; read the next character and prepare its glyph for dr
 	beq .2
 	lda.w #$0004
 	jmp.w AdvanceTextCursor
-.2:									; A = $18DE, go to AdvanceTextCursor
-	lda.w $18DE
+.2:									; A = TextSpaceWidth, go to AdvanceTextCursor
+	lda.w TextSpaceWidth
 	jmp.w AdvanceTextCursor
 .3:									; A - $0030, X = A, if A < $0031 go to .4, A - $0020, ...
 	sec
@@ -1864,11 +1864,11 @@ DrawNextTextCharacter:				; read the next character and prepare its glyph for dr
 	bcc .11
 	inc.b $0A
 	bra .11
-.10:								; if p0 is not $007F go to .11, A = $18DE, go to AdvanceTextCursor
+.10:								; if p0 is not $007F go to .11, A = TextSpaceWidth, ...
 	lda.b p0
 	cmp.w #$007F
 	bne .11
-	lda.w $18DE
+	lda.w TextSpaceWidth
 	jmp.w AdvanceTextCursor
 .11:								; A = $8000, A = $10, A + $0C, X = A, ...
 	lda.w #$8000

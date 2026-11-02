@@ -464,12 +464,12 @@ SendTextMap:						; queues the text map ($800 bytes) for VRAM at $5C00
 CODE_C4C2C6:						; no caller found (not traced)
 	sty.b $A5
 	tay
-	lda.w $18DA
+	lda.w TextColLow
 	lsr a
 	lsr a
 	lsr a
 	sta.b $16
-	lda.w $18DC
+	lda.w TextColHigh
 	clc
 	adc.w #$0007
 	lsr a
@@ -556,10 +556,10 @@ TextWidth:							; the width in pixels of the text at X in the font of $0E (per 
 	lda.b $0A
 	plx
 	rtl
-.6:									; A = $18DA, push A, A = $18DC, push A, ...
-	lda.w $18DA
+.6:									; A = TextColLow, push A, A = TextColHigh, push A, ...
+	lda.w TextColLow
 	pha
-	lda.w $18DC
+	lda.w TextColHigh
 	pha
 	lda.w #$0000
 	jsl.l DrawText
@@ -573,9 +573,9 @@ TextWidth:							; the width in pixels of the text at X in the font of $0E (per 
 	jsl.l FreeWorkBuf
 	lda.b $0A
 	pla
-	sta.w $18DC
+	sta.w TextColHigh
 	pla
-	sta.w $18DA
+	sta.w TextColLow
 	plx
 	rtl
 CopyROMString:						; copy the zero-terminated ROM string at X into a new work buffer
@@ -768,17 +768,17 @@ DATA8_C4C502:						; not traced: a table read by DrawNextTextCharacter
 	db $87,$88,$88,$87,$87,$87,$88,$88,$87,$87,$87,$02,$03,$01
 ResetWorkBuf:						; both work buffer pointers back to their starts, the saved mark too
 	lda.w #$50DC
-	sta.w $18E0
+	sta.w WorkBufMark
 RestoreWorkBuf:						; the work buffer pointer back to the saved mark (MarkWorkBuf), the second
 									; one to its start
-	lda.w $18E0
+	lda.w WorkBufMark
 	sta.b $08
 	lda.w #$E000
 	sta.b $D7
 	rtl
 MarkWorkBuf:						; saves the work buffer pointer as the mark RestoreWorkBuf goes back to
 	lda.b $08
-	sta.w $18E0
+	sta.w WorkBufMark
 	rtl
 AllocClearWorkBuf:					; takes A bytes from the work buffer (AllocWorkBuf) and clears them
 									; (ClearRAM7E); returns A = their start

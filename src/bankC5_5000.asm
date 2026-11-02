@@ -1315,11 +1315,11 @@ ExitToPauseMenu:					; leaves a pause menu screen: fade out, the text map freed,
 	lda.w $190E
 	beq .1
 	rts
-.1:									; call ClearNMIHook, A = $0800, call FreeWorkBuf, $18E0 = A, ...
+.1:									; call ClearNMIHook, A = $0800, call FreeWorkBuf, WorkBufMark = A, ...
 	jsl.l ClearNMIHook
 	lda.w #$0800
 	jsl.l FreeWorkBuf
-	sta.w $18E0
+	sta.w WorkBufMark
 	jsl.l WaitTransfers
 	jsl.l RestorePauseBuffers
 	ldy.w #$5000

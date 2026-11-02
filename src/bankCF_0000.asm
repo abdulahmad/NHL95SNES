@@ -10,7 +10,7 @@ InitSoundSystem:					; uploads the sound driver and initializes the CPU sound st
 	lda.w #$FFFF
 	sta.w $4ABE
 	lda.w #$007F
-	sta.w $059C
+	sta.w SoundVolume
 	rtl
 UploadSoundDriver:					; uploads SoundRAMClear and SoundDriver, acknowledges driver readiness and
 									; clears the CPU command queue
@@ -29,8 +29,8 @@ UploadSoundDriver:					; uploads SoundRAMClear and SoundDriver, acknowledges dri
 	rep #$20
 	lda.w #$FFFF
 	sta.w $4BC0
-	stz.w $1EA1
-	stz.w $1EA3
+	stz.w SoundQueueHead
+	stz.w SoundQueueTail
 	rtl
 SPCUpload:							; upload the blocks at X:A to the sound CPU boot loader (94S SPCUpload)
 	pea.w $7E80
@@ -123,7 +123,7 @@ ReadSPCUploadWord:					; reads the next upload word through r0 and advances the 
 QueueSoundCmd:						; queues sound driver command A with the arguments X and Y (the command
 									; queue, 4 bytes an entry)
 	phy
-	ldy.w $1EA1
+	ldy.w SoundQueueHead
 	sta.w $4AC0,y
 	txa
 	sta.w $4AC1,y
@@ -133,23 +133,23 @@ QueueSoundCmd:						; queues sound driver command A with the arguments X and Y (
 	clc
 	adc.w #$0004
 	and.w #$00FF
-	sta.w $1EA1
+	sta.w SoundQueueHead
 CODE_CF00FD:						; called from other segments
 	rtl
 SendQueuedSoundCmd:					; loads the queue tail and sends one command if the CPU sound queue is not
 									; empty
-	ldx.w $1EA3
+	ldx.w SoundQueueTail
 SendSoundCmdAtTail:					; sends the queued command at X unless X equals the queue head; advances
 									; the tail
-	cpx.w $1EA1
+	cpx.w SoundQueueHead
 	bne .1
 	rtl
-.1:									; A = X, A + $0004, A and $00FF, $1EA3 = A, ...
+.1:									; A = X, A + $0004, A and $00FF, SoundQueueTail = A, ...
 	txa
 	clc
 	adc.w #$0004
 	and.w #$00FF
-	sta.w $1EA3
+	sta.w SoundQueueTail
 	lda.l $7E4AC2,x
 	tay
 	lda.l $7E4AC1,x
@@ -170,8 +170,8 @@ SendSoundCmdAtTail:					; sends the queued command at X unless X equals the queu
 LoadSounds:							; loads the samples and sounds of the list at X:A into the sound CPU:
 									; bytes below $80 samples (LoadSample), from $80 sounds (LoadSequence),
 									; $FF ends it
-	ldy.w $1EA3
-	cpy.w $1EA1
+	ldy.w SoundQueueTail
+	cpy.w SoundQueueHead
 	bne LoadSounds
 	wai
 	stz.w CrowdSoundOn
@@ -487,7 +487,7 @@ StartCrowdSound:					; starts the crowd sound (sound 2) unless it is on (CrowdSo
 	rtl
 SoundVolumeDown:					; the sound volume down to 0 in 16 steps (sound driver command 8)
 	jsr.w WaitSoundQueueEmpty
-	lda.w $059C
+	lda.w SoundVolume
 	beq .rtl
 	xba
 	sta.b tmp0
@@ -511,12 +511,12 @@ SoundVolumeDown:					; the sound volume down to 0 in 16 steps (sound driver comm
 	jsl.l QueueSoundCmd
 	dex
 	bpl .loop
-	stz.w $059C
+	stz.w SoundVolume
 .rtl:								; return
 	rtl
 SoundVolumeUp:						; the sound volume up to $7F7F in 16 steps (sound driver command 8)
 	jsr.w WaitSoundQueueEmpty
-	lda.w $059C
+	lda.w SoundVolume
 	cmp.w #$007F
 	beq .rtl
 	stz.b tmp0
@@ -536,12 +536,12 @@ SoundVolumeUp:						; the sound volume up to $7F7F in 16 steps (sound driver com
 	dex
 	bpl .loop
 	lda.w #$007F
-	sta.w $059C
+	sta.w SoundVolume
 .rtl:								; return
 	rtl
 WaitSoundQueueEmpty:				; waits for the CPU sound command queue head and tail to match
-	ldy.w $1EA3
-	cpy.w $1EA1
+	ldy.w SoundQueueTail
+	cpy.w SoundQueueHead
 	bne WaitSoundQueueEmpty
 	rts
 StartSound:							; starts sound A: sound driver command 1 with X = A (the effects $01-$16,

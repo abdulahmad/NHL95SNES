@@ -754,7 +754,7 @@ CopyrightScreen:					; the copyright and licence page at start, with logo sprite
 	jsl.l SetSpriteAnim
 	jsl.l InitTextMap
 	lda.w #$0004
-	sta.w $18DE
+	sta.w TextSpaceWidth
 	lda.w #$54F9
 	jsl.l PrintTextPage
 	jsl.l WaitTransfers
@@ -962,7 +962,7 @@ SeasonAwards:						; the end of season awards: the awards music, then award a0 (
 DrawAward:							; award a0: prints its name (AwardNames) and description (AwardDescs) and
 									; unpacks its picture (AwardPictures)
 	lda.w #$0005
-	sta.w $18DE
+	sta.w TextSpaceWidth
 	ldy.w #$5000
 	jsl.l ClearVRAM
 	jsl.l SendTextMap
@@ -1089,7 +1089,7 @@ DrawAward:							; award a0: prints its name (AwardNames) and description (Award
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	lda.w #$0009
-	sta.w $18DE
+	sta.w TextSpaceWidth
 	rts
 AwardPictures:						; the picture (map set) of each award, a long pointer; read by DrawAward
 	dw VezinaPicMap&$FFFF,VezinaPicMap>>16	; 0: Vezina Trophy

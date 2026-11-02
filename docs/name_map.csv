@@ -8747,3 +8747,10 @@ $010E,SetupLineRow,,code,"RAM: from the code: InitSetupScroll sets $10, SetupLin
 $3E4E,ListBuf,,code,"RAM: from the code: KeepDivisionTeams and the record holders' Insert*Record build their order lists here, SetupTradeLists its TM band table (SetupHDMA $2C)",src/ram95s.asm
 $3F4E,TradeScrollHDMA,,code,"RAM: from the code: SetupTradeLists (SetupHDMA $12 at $3F4E), TradeListScrollEntries and the scroll steps rebuild it",src/ram95s.asm
 $468C,BG3ScrollHDMA,,code,"RAM: from the code: InitSetupScroll / GamesToday copy the ROM table here (indirect HDMA on $0100 ...); StartScrollList builds a direct one at +0 or +3 and its TM table at +$11",src/ram95s.asm
+$059C,SoundVolume,,code,"RAM: from the code: InitSoundSystem sets it, SoundVolumeDown takes it to 0, SoundVolumeUp back up, each sent with sound driver command 8",src/ram95s.asm
+$18DA,TextColLow,,code,"RAM: from the code: InitTextMap sets $FFFF, DrawText lowers it to its start column; TextWidth saves and restores it with TextColHigh around a trial draw",src/ram95s.asm
+$18DC,TextColHigh,,code,"RAM: from the code: InitTextMap clears it; TextWidth and CODE_C4C2C6 read it with TextColLow, TextWidth saves and restores both",src/ram95s.asm
+$18DE,TextSpaceWidth,,code,"RAM: from the code: InitTextMap sets 9, DrawNextTextCharacter advances a space by it; DrawAward, StartSeason and CopyrightScreen change it",src/ram95s.asm
+$18E0,WorkBufMark,,code,"RAM: from the code: MarkWorkBuf stores the pointer, RestoreWorkBuf goes back to it, ResetWorkBuf resets it; LoadTeamRoster, updatefaceoff and the pause menu set it",src/ram95s.asm
+$1EA1,SoundQueueHead,,code,"RAM: from the code: QueueSoundCmd stores the next entry at it and moves it on (4 bytes an entry); the senders stop when the tail reaches it",src/ram95s.asm
+$1EA3,SoundQueueTail,,code,"RAM: from the code: SendQueuedSoundCmd / SendSoundCmdAtTail send from it and move it on; LoadSounds and WaitSoundQueueEmpty wait for it to meet the head",src/ram95s.asm

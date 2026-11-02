@@ -1399,11 +1399,11 @@ AnimateSprites:						; the animation tick: step the script of each sprite object
 	lda.w SpriteCount
 	bne .1
 	rtl
-.1:									; A - 1, A * 2, Y = A, $08 = $18E0
+.1:									; A - 1, A * 2, Y = A, $08 = WorkBufMark
 	dec a
 	asl a
 	tay
-	lda.w $18E0
+	lda.w WorkBufMark
 	sta.b $08
 AnimateSpriteObject:				; step the timer when the object's update selector matches
 	ldx.w SpriteList,y

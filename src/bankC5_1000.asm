@@ -1110,7 +1110,7 @@ updatefaceoff:						; the face off countdown (temp1): the ref's drop frame from 
 	ldx.w $2022
 	jsl.l DeleteSprite
 	lda.w $2024
-	sta.w $18E0
+	sta.w WorkBufMark
 .4:									; pull A, pull Y, pull X, FrameCount = 0, ...
 	pla
 	ply

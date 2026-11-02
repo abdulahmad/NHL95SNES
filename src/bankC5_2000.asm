@@ -1618,7 +1618,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 									; goalie counts, the player ids, then the line data at +$6C
 	sta.b tmp0
 	sty.b tmp1
-	ldx.w $18E0
+	ldx.w WorkBufMark
 	phx
 	tax
 	jsl.l MarkWorkBuf
@@ -2114,8 +2114,8 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	inc a
 	cmp.b (tmp1)
 	bcc .loop10
-.34:								; call RestoreWorkBuf, pull A, $18E0 = A, return
+.34:								; call RestoreWorkBuf, pull A, WorkBufMark = A, return
 	jsl.l RestoreWorkBuf
 	pla
-	sta.w $18E0
+	sta.w WorkBufMark
 	rts
