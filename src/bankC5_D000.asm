@@ -315,7 +315,7 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	ldx.w #mesarea
 	jsl.l PrintBoldLeftStr
 	lda.b $01,s
-	jsr.w CODE_C5D2B4
+	jsr.w GetUserName
 	cpx.w #$0000
 	beq .3
 	lda.w #$0020
@@ -333,7 +333,8 @@ DrawNameLog:						; draws the Name Entry page: the team's name, then the 8 user 
 	bne .loop
 	jsl.l SendTextMap
 	rts
-CODE_C5D2B4:						; from DrawNameLog, EditUserName
+GetUserName:						; user A's name into mesarea: 12 letters of 5 bits from SRUserNames (+ $40
+									; a letter, $1B a space, $1F the end)
 	asl a
 	asl a
 	sta.b tmp0
@@ -345,8 +346,8 @@ CODE_C5D2B4:						; from DrawNameLog, EditUserName
 	sbc.b tmp0
 	tay
 	ldx.w #$0000
-.1:									; call CODE_C5D2E2, if A is not $001B go to .2, A = $0020, go to .3
-	jsr.w CODE_C5D2E2
+.1:									; call NextNameBits5, if A is not $001B go to .2, A = $0020, go to .3
+	jsr.w NextNameBits5
 	cmp.w #$001B
 	bne .2
 	lda.w #$0020
@@ -362,7 +363,7 @@ CODE_C5D2B4:						; from DrawNameLog, EditUserName
 	bne .1
 .rts:								; return
 	rts
-CODE_C5D2E2:						; from CODE_C5D2B4
+NextNameBits5:						; A = the 5 bits at bit Y of SRUserNames; Y + 5
 	phx
 	tya
 	lsr a
@@ -376,7 +377,7 @@ CODE_C5D2E2:						; from CODE_C5D2B4
 	clc
 	adc.w #$0005
 	tay
-	lda.l $3070D6,x
+	lda.l SRUserNames,x
 .loop:								; loop: A / 2, tmp0 - 1, if the result >= 0 go to .loop, A and $001F, ...
 	lsr a
 	dec.b tmp0
@@ -440,9 +441,9 @@ CODE_C5D33A:						; from CODE_C5D303
 	lda.b tmp1
 	lsr a
 	eor.w #$FFFF
-	and.l $3070D6,x
+	and.l SRUserNames,x
 	ora.b tmp0
-	sta.l $3070D6,x
+	sta.l SRUserNames,x
 	tya
 	clc
 	adc.w #$0005
@@ -537,16 +538,16 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.w #$3E3E
 	sta.w mesarea,x
 	stx.b $69
-.10:								; call CODE_C5D5A5, call SendTextMap
-	jsr.w CODE_C5D5A5
+.10:								; call PrintEditedName, call SendTextMap
+	jsr.w PrintEditedName
 	jsl.l SendTextMap
 .11:								; go to .loop
 	jmp.w .loop
-.12:								; if $0040 bits clear go to .13, A = $65, call CODE_C5D2B4, go to .14
+.12:								; if $0040 bits clear go to .13, A = $65, call GetUserName, go to .14
 	bit.w #$0040
 	beq .13
 	lda.b $65
-	jsr.w CODE_C5D2B4
+	jsr.w GetUserName
 	bra .14
 .13:								; if $1000 bits clear go to .11, A = $65, call CODE_C5D303
 	bit.w #$1000
@@ -612,7 +613,7 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	bit.w #$0040
 	bne .rts
 	lda.b $65
-	jsr.w CODE_C5D77F
+	jsr.w ClearUserRecord
 .rts:								; return
 	rts
 DrawNameGrid:						; draws the letter grid and its keys for EditUserName
@@ -654,8 +655,8 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	sta.w mesarea,x
 	inx
 	bra .loop
-.2:									; call CODE_C5D5A5, X = a0, A = $0000, call SetSpriteAnim, ...
-	jsr.w CODE_C5D5A5
+.2:									; call PrintEditedName, X = a0, A = $0000, call SetSpriteAnim, ...
+	jsr.w PrintEditedName
 	ldx.b a0
 	lda.w #$0000
 	jsl.l SetSpriteAnim
@@ -708,7 +709,8 @@ CODE_C5D599:						; from CODE_C5D56F
 	ora.b tmp0
 	sta.w $0000,y
 	rts
-CODE_C5D5A5:						; from DrawNameGrid, EditUserName
+PrintEditedName:					; prints the name being edited (mesarea) on row $65 + 6 in the fixed-width
+									; bold font (width 10), the row cleared first
 	lda.b $65
 	xba
 	lsr a
@@ -957,7 +959,7 @@ CODE_C5D76E:						; from ReadUserRecord
 	rol a
 	and.w #$001F
 	rts
-CODE_C5D77F:						; from EditUserName
+ClearUserRecord:					; clears user a3's record (every field 0, WriteUserRecord)
 	stz.b d0
 	stz.b $81
 	stz.b d1
@@ -968,7 +970,8 @@ CODE_C5D77F:						; from EditUserName
 	stz.b d4
 	stz.b $8D
 	jmp.w WriteUserRecord
-CODE_C5D794:						; called from other segments
+FindFreeAgent:						; A = the player index of free agent $65 (counting the players whose team
+									; in SRPlayerTeams is $1A)
 	ldx.w #$0000
 	txy
 .loop:								; loop: A = SRPlayerTeams,x, A and $001F, if A is not $001A go to .1, ...

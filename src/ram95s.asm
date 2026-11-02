@@ -386,6 +386,7 @@ SRPlayerTeams		=	$306A56		; per player 12 bits: team (5 bits) and sweater number
 SRTeamStats			=	$306E43		; team stats bit stream, $83 bits a team
 SRGoalieSaves		=	$306FED		; per goalie 12 bits: season saves
 SRGoalieGames		=	$307080		; per goalie 7 bits: season games
+SRUserNames			=	$3070D6		; the user names: 12 letters of 5 bits a user (GetUserName)
 SRCreatedPlayers	=	$307162		; created players: 20 records of $9C bits
 SRPOTeams			=	$3075A4		; the 16 playoff teams (SetupPlayoffs fills it)
 SRPODay				=	$3075B4		; the playoff day: + 1 after each playoff day

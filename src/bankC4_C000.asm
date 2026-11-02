@@ -1898,8 +1898,8 @@ CODE_C4CEF5:						; called from other segments
 	sta.l SRVisTeam
 	ldx.w #$003A
 	lda.w #$FFFF
-.loop:								; loop: $3070D6,x = A, X - 1, X - 1, if the result >= 0 go to .loop
-	sta.l $3070D6,x
+.loop:								; loop: SRUserNames,x = A, X - 1, X - 1, if the result >= 0 go to .loop
+	sta.l SRUserNames,x
 	dex
 	dex
 	bpl .loop

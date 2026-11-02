@@ -6319,11 +6319,11 @@ $C5D21A,.1,CODE_C5D21A,new,"branch target only used in DrawNameLog",src/bankC5_D
 $C5D22F,.2,CODE_C5D22F,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
 $C5D26D,.loop,CODE_C5D26D,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
 $C5D2A8,.3,CODE_C5D2A8,new,"branch target only used in DrawNameLog",src/bankC5_D000.asm
-$C5D2C3,.1,CODE_C5D2C3,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
-$C5D2D0,.2,CODE_C5D2D0,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
-$C5D2D8,.3,CODE_C5D2D8,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
-$C5D2E1,.rts,CODE_C5D2E1,new,"branch target only used in CODE_C5D2B4",src/bankC5_D000.asm
-$C5D2F8,.loop,CODE_C5D2F8,new,"branch target only used in CODE_C5D2E2",src/bankC5_D000.asm
+$C5D2C3,.1,CODE_C5D2C3,new,"branch target only used in GetUserName",src/bankC5_D000.asm
+$C5D2D0,.2,CODE_C5D2D0,new,"branch target only used in GetUserName",src/bankC5_D000.asm
+$C5D2D8,.3,CODE_C5D2D8,new,"branch target only used in GetUserName",src/bankC5_D000.asm
+$C5D2E1,.rts,CODE_C5D2E1,new,"branch target only used in GetUserName",src/bankC5_D000.asm
+$C5D2F8,.loop,CODE_C5D2F8,new,"branch target only used in NextNameBits5",src/bankC5_D000.asm
 $C5D312,.1,CODE_C5D312,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
 $C5D322,.2,CODE_C5D322,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
 $C5D32D,.3,CODE_C5D32D,new,"branch target only used in CODE_C5D303",src/bankC5_D000.asm
@@ -6360,10 +6360,10 @@ $C5D6C4,.1,CODE_C5D6C4,new,"branch target only used in CODE_C5D6AA",src/bankC5_D
 $C5D6DB,.loop,CODE_C5D6DB,new,"branch target only used in CODE_C5D6D0",src/bankC5_D000.asm
 $C5D76A,.1,CODE_C5D76A,new,"branch target only used in CODE_C5D75C",src/bankC5_D000.asm
 $C5D776,.loop,CODE_C5D776,new,"branch target only used in CODE_C5D76E",src/bankC5_D000.asm
-$C5D798,.loop,CODE_C5D798,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
-$C5D7A8,.1,CODE_C5D7A8,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
-$C5D7C2,.2,CODE_C5D7C2,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
-$C5D7CB,.3,CODE_C5D7CB,new,"branch target only used in CODE_C5D794",src/bankC5_D000.asm
+$C5D798,.loop,CODE_C5D798,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
+$C5D7A8,.1,CODE_C5D7A8,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
+$C5D7C2,.2,CODE_C5D7C2,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
+$C5D7CB,.3,CODE_C5D7CB,new,"branch target only used in FindFreeAgent",src/bankC5_D000.asm
 $C5D7FB,.loop,CODE_C5D7FB,new,"branch target only used in NextSaveBits3",src/bankC5_D000.asm
 $C5D818,.loop,CODE_C5D818,new,"branch target only used in NextSaveBits5",src/bankC5_D000.asm
 $C5D836,.loop,CODE_C5D836,new,"branch target only used in NextSaveBits7",src/bankC5_D000.asm
@@ -8058,3 +8058,9 @@ $306040,SROptUserRec,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0
 $C5DAF3,TradeCursorUp,CODE_C5DAF3,code,"from the code; TradePlayers calls it on up",src/bankC5_D000.asm
 $C5DB9F,TradeCursorDown,CODE_C5DB9F,code,"from the code; TradePlayers calls it on down",src/bankC5_D000.asm
 $C5DA09,PlaceTradeCursors,CODE_C5DA09,code,"from the code: Y positions from $6F / $77 / $67, bit 0 of $22,x; TradePlayers calls it every frame",src/bankC5_D000.asm
+$C5D77F,ClearUserRecord,CODE_C5D77F,code,"from the code; EditUserName calls it for a new name",src/bankC5_D000.asm
+$C5D794,FindFreeAgent,CODE_C5D794,code,"from the code: the scan of the $27E player entries; the free agent rows and lists call it",src/bankC5_D000.asm
+$C5D2B4,GetUserName,CODE_C5D2B4,code,"from the code: the bit offset A * 60, NextNameBits5; DrawNameLog and EditUserName call it",src/bankC5_D000.asm
+$C5D2E2,NextNameBits5,CODE_C5D2E2,code,"from the code: as NextSaveBits5 on the user name array",src/bankC5_D000.asm
+$C5D5A5,PrintEditedName,CODE_C5D5A5,code,"from the code: ClearRAM7E, PrintBoldFixedLeftStr with A = 10",src/bankC5_D000.asm
+$3070D6,SRUserNames,,code,"RAM: from the code: GetUserName / NextNameBits5 read it, EditUserName writes it",src/ram95s.asm

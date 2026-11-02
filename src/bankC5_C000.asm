@@ -429,7 +429,7 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	sta.b $D1
 	ldy.b $6D
 	jsl.l PrintBoldCentred
-	jsr.w CODE_C5D794
+	jsr.w FindFreeAgent
 	cmp.w #$026A
 	bcs .4
 	asl a
@@ -612,10 +612,10 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	rts
 CODE_C5C4FC:						; from DrawFreeAgentsPage, SignFreeAgents
 	ldx.w #$0000
-.1:									; a3 = X, $65 = X, call CODE_C5D794, if A >= $026A go to .4, ...
+.1:									; a3 = X, $65 = X, call FindFreeAgent, if A >= $026A go to .4, ...
 	stx.b a3
 	stx.b $65
-	jsr.w CODE_C5D794
+	jsr.w FindFreeAgent
 	cmp.w #$026A
 	bcs .4
 	stz.b tmp0
@@ -703,7 +703,7 @@ CODE_C5C58A:						; from SignFreeAgents
 	lda.w $364E,x
 	bit.w #$0040
 	beq .1
-	jsr.w CODE_C5D794
+	jsr.w FindFreeAgent
 	sta.b tmp0
 	lsr a
 	bcc .3

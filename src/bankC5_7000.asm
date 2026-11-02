@@ -1602,11 +1602,11 @@ RecordHoldersScreen:				; pause menu Records: the user records (win percentages 
 	stz.b $7D
 	lda.w #$0000
 	tax
-.1:									; a4 = X, push A, $364E,x = A, call CODE_C5D2B4, ...
+.1:									; a4 = X, push A, $364E,x = A, call GetUserName, ...
 	stx.b a4
 	pha
 	sta.w $364E,x
-	jsr.w CODE_C5D2B4
+	jsr.w GetUserName
 	cpx.w #$0000
 	beq .2
 	ldy.w #$0000
