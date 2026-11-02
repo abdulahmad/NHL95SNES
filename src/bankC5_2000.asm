@@ -1578,11 +1578,11 @@ doinput:							; called from other segments
 LoadGameRostersLong:				; LoadGameRosters for long calls
 	jsr.w LoadGameRosters
 	rtl
-LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMode and $1872
+LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMode and OptRosters
 									; cleared around it (long calls)
-	ldx.w $1872
+	ldx.w OptRosters
 	phx
-	stz.w $1872
+	stz.w OptRosters
 	ldx.w OptPlayMode
 	phx
 	stz.w OptPlayMode
@@ -1590,7 +1590,7 @@ LoadDefaultRoster:					; LoadTeamRoster from the cartridge team data: OptPlayMod
 	pla
 	sta.w OptPlayMode
 	pla
-	sta.w $1872
+	sta.w OptRosters
 	rtl
 LoadGameRosters:					; LoadTeamRoster for both teams of the game: HomeTeam into $2DC9, VisTeam
 									; into $3207
@@ -1600,8 +1600,8 @@ LoadGameRosters:					; LoadTeamRoster for both teams of the game: HomeTeam into 
 	lda.w VisTeam
 	ldy.w #$3207
 LoadTeamRoster:						; builds team A's roster table at Y from its team data (from the season
-									; data in play modes 2 and 3 or with $1872 set): the player and goalie
-									; counts, the player ids, then the line data at +$6C
+									; data in play modes 2 and 3 or with OptRosters set): the player and
+									; goalie counts, the player ids, then the line data at +$6C
 	sta.b tmp0
 	sty.b tmp1
 	ldx.w $18E0
@@ -1617,8 +1617,8 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 .1:									; call LoadSeasonRoster, go to .3
 	jsr.w LoadSeasonRoster
 	bra .3
-.2:									; if $1872 is not 0 go to .1, A * 2, X = A, A = $C30000,x, ...
-	ldx.w $1872
+.2:									; if OptRosters is not 0 go to .1, A * 2, X = A, A = $C30000,x, ...
+	ldx.w OptRosters
 	bne .1
 	asl a
 	tax
@@ -1896,7 +1896,7 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	lda.w OptPlayMode
 	cmp.w #$0002
 	bcs .17
-	lda.w $1872
+	lda.w OptRosters
 	bne .17
 	jmp.w .29
 .17:								; if $003A,y >= $026A go to .18, go to .29
@@ -2067,8 +2067,8 @@ LoadTeamRoster:						; builds team A's roster table at Y from its team data (fro
 	cmp.b (tmp1)
 	beq .32
 	jmp.w .16
-.32:								; if $1872 is not 0 go to .33, if OptPlayMode is not $0002 go to .34
-	lda.w $1872
+.32:								; if OptRosters is not 0 go to .33, if OptPlayMode is not $0002 go to .34
+	lda.w OptRosters
 	bne .33
 	lda.w OptPlayMode
 	cmp.w #$0002

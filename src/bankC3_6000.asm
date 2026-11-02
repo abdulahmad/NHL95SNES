@@ -199,11 +199,11 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	cmp.w #$001C
 	bcc .2
 	lda.w #$001B
-.2:									; VisTeam = A, A = SRBestOfSeven, A and $0001, $190A = A, ...
+.2:									; VisTeam = A, A = SRBestOfSeven, A and $0001, OptPlayoffs = A, ...
 	sta.w VisTeam
 	lda.l SRBestOfSeven
 	and.w #$0001
-	sta.w $190A
+	sta.w OptPlayoffs
 	lda.l SROptperlen
 	and.w #$00FF
 	cmp.w #$0003
@@ -231,9 +231,9 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	lda.l SROptUserRec
 	and.w #$0001
 	sta.w OptUserRec
-	lda.l $30604F
+	lda.l SROptRosters
 	and.w #$0001
-	sta.w $1872
+	sta.w OptRosters
 	lda.l $306045
 	cmp.w #$0006
 	bcc .6

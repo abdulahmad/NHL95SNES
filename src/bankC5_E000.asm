@@ -546,63 +546,64 @@ CODE_C5E37E:						; called from other segments
 	stz.w $0002,x
 	jml.l MarkWorkBuf
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E3AE:						; no caller found (not traced)
+SaveOptPlayoffs:					; before the playoffs (SRPODay 0), stores OptPlayoffs as SRBestOfSeven
 	lda.l SRPODay
 	and.w #$00FF
 	beq .1
 	rts
-.1:									; A 8-bit, SRBestOfSeven = $190A, A 16-bit, return
+.1:									; A 8-bit, SRBestOfSeven = OptPlayoffs, A 16-bit, return
 	sep #$20
-	lda.w $190A
+	lda.w OptPlayoffs
 	sta.l SRBestOfSeven
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E3C6:						; no caller found (not traced)
+SaveOptLine:						; stores OptLine in save RAM (SROptLine)
 	sep #$20
 	lda.w OptLine
 	sta.l SROptLine
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E3D4:						; no caller found (not traced)
+SaveOptPen:							; stores OptPen in save RAM (SROptPen)
 	sep #$20
 	lda.w OptPen
 	sta.l SROptPen
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E3E2:						; no caller found (not traced)
+SaveOptperlen:						; stores Optperlen in save RAM (SROptperlen)
 	sep #$20
 	lda.w Optperlen
 	sta.l SROptperlen
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E3F0:						; no caller found (not traced)
+SaveOptGoalie:						; stores OptGoalie in save RAM (SROptGoalie)
 	sep #$20
 	lda.w OptGoalie
 	sta.l SROptGoalie
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E3FE:						; no caller found (not traced)
+SaveOptUserRec:						; stores OptUserRec in save RAM (SROptUserRec)
 	sep #$20
 	lda.w OptUserRec
 	sta.l SROptUserRec
 	rep #$20
 	rts
 	brk #$00						; a brk in the ROM, between routines
-CODE_C5E40C:						; no caller found (not traced)
+SaveOptRosters:						; stores OptRosters in save RAM, then with it set ClampRosterTeams
 	sep #$20
-	lda.w $1872
-	sta.l $30604F
+	lda.w OptRosters
+	sta.l SROptRosters
 	rep #$20
-	lda.w $1872
-	bne CODE_C5E41D
-CODE_C5E41C:						; from CODE_C5E41D
+	lda.w OptRosters
+	bne ClampRosterTeams
+CODE_C5E41C:						; from ClampRosterTeams
 	rts
-CODE_C5E41D:						; from CODE_C5E40C and other segments
+ClampRosterTeams:					; keeps HomeTeam and VisTeam among the 26 NHL teams (else $E / $17, saved
+									; and redrawn)
 	lda.w HomeTeam
 	cmp.w #$001A
 	bcc .1

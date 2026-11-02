@@ -393,7 +393,7 @@ CODE_C5A359:						; DATA8_C5A354 points here; no caller found (not traced)
 	lda.w #$0000
 	bra .4
 CODE_C5A397:						; from CODE_C5A359
-	lda.w $1872
+	lda.w OptRosters
 	bne .1
 	lda.w OptPlayMode
 	beq .rts
@@ -479,7 +479,7 @@ CODE_C5A402:						; DATA8_C5A3FD points here; no caller found (not traced)
 	lda.w #$0000
 	bra .4
 CODE_C5A440:						; from CODE_C5A402
-	lda.w $1872
+	lda.w OptRosters
 	bne .1
 	lda.w OptPlayMode
 	beq .rts

@@ -6432,8 +6432,8 @@ $C5E34D,.loop,CODE_C5E34D,new,"branch target only used in CODE_C5E336",src/bankC
 $C5E36F,.1,CODE_C5E36F,new,"branch target only used in CODE_C5E336",src/bankC5_E000.asm
 $C5E38C,.loop,CODE_C5E38C,new,"branch target only used in CODE_C5E37E",src/bankC5_E000.asm
 $C5E3A4,.1,CODE_C5E3A4,new,"branch target only used in CODE_C5E37E",src/bankC5_E000.asm
-$C5E3B8,.1,CODE_C5E3B8,new,"branch target only used in CODE_C5E3AE",src/bankC5_E000.asm
-$C5E432,.1,CODE_C5E432,new,"branch target only used in CODE_C5E41D",src/bankC5_E000.asm
+$C5E3B8,.1,CODE_C5E3B8,new,"branch target only used in SaveOptPlayoffs",src/bankC5_E000.asm
+$C5E432,.1,CODE_C5E432,new,"branch target only used in ClampRosterTeams",src/bankC5_E000.asm
 $C5E460,.loop,CODE_C5E460,new,"branch target only used in CODE_C5E447",src/bankC5_E000.asm
 $C5E467,.1,CODE_C5E467,new,"branch target only used in CODE_C5E447",src/bankC5_E000.asm
 $C5E47C,.loop,CODE_C5E47C,new,"branch target only used in CODE_C5E474",src/bankC5_E000.asm
@@ -8071,3 +8071,14 @@ $C5D567,UnhighlightGridCell,CODE_C5D567,code,"from the code",src/bankC5_D000.asm
 $C5D56F,SetGridCellPalette,CODE_C5D56F,code,"from the code: SetTilePalette on the four tiles",src/bankC5_D000.asm
 $C5D599,SetTilePalette,CODE_C5D599,code,"from the code: and #$E3FF, ora tmp0",src/bankC5_D000.asm
 $C5D54B,MoveGridCursor,CODE_C5D54B,code,"from the code; EditUserName and DrawNameGrid call it",src/bankC5_D000.asm
+$C5E3E2,SaveOptperlen,CODE_C5E3E2,code,"from the code; the Period Length row of the setup screen's option table (bank $C3) points at it",src/bankC5_E000.asm
+$C5E3F0,SaveOptGoalie,CODE_C5E3F0,code,"from the code; the Goalies row of the option table points at it",src/bankC5_E000.asm
+$C5E3FE,SaveOptUserRec,CODE_C5E3FE,code,"from the code; the User Records row of the option table points at it",src/bankC5_E000.asm
+$C5E3D4,SaveOptPen,CODE_C5E3D4,code,"from the code; the Penalties row of the option table points at it",src/bankC5_E000.asm
+$C5E3C6,SaveOptLine,CODE_C5E3C6,code,"from the code; the Line Changes row of the option table points at it",src/bankC5_E000.asm
+$C5E40C,SaveOptRosters,CODE_C5E40C,code,"from the code; the Rosters row of the option table points at it",src/bankC5_E000.asm
+$C5E3AE,SaveOptPlayoffs,CODE_C5E3AE,code,"from the code; the Playoffs row of the option table points at it",src/bankC5_E000.asm
+$C5E41D,ClampRosterTeams,CODE_C5E41D,code,"from the code: the $1A tests, SRHomeTeam / SRVisTeam, the two redraw routines; SaveOptRosters calls it",src/bankC5_E000.asm
+$1872,OptRosters,,code,"RAM: from the code: the Rosters row of the setup option table; with it set LoadTeamRoster takes the season data and SaveOptRosters keeps the teams below $1A",src/ram95s.asm
+$190A,OptPlayoffs,,code,"RAM: from the code: the Playoffs row of the setup option table; SaveOptPlayoffs stores it in SRBestOfSeven, LoadSavedGameOptions loads it",src/ram95s.asm
+$30604F,SROptRosters,,code,"RAM: from the code: LoadSavedGameOptions takes bit 0 into OptRosters, SaveOptRosters stores it",src/ram95s.asm

@@ -290,7 +290,7 @@ CODE_C592A9:						; from setoptions
 	beq .1
 	dec a
 	beq .1
-	jsr.w CODE_C5E41D
+	jsr.w ClampRosterTeams
 .1:									; if OptPlayMode is not $0003 go to .3, ...
 	lda.w OptPlayMode
 	cmp.w #$0003
