@@ -21,11 +21,12 @@ Washington:							; team record 24 (Washington): not traced; it holds licensed n
 	incbin "../Extracted/segments/bankC3_4000.bin":$3B8..$427
 DATA8_C34427:						; a team record not in TeamList (the same form; not traced)
 	incbin "../Extracted/segments/bankC3_4000.bin":$427..$499
-DATA8_C34499:						; not traced: read by SetPA2, AddPenalty2, CODE_C481D5, ...
+Penaltylist:						; the penalty names: a word per penalty number, the offset of its
+									; length-led text
 	db $00
 DATA8_C3449A:						; not traced: read by SetPA2
 	db $00
-DATA8_C3449B:						; not traced: read by SetPA2, CODE_C481D5
+DATA8_C3449B:						; not traced: read by SetPA2, prefmes
 	db $36,$00,$48,$00,$9F,$00,$9F,$00,$D5,$00,$78,$00,$58,$00,$60,$00
 	db $8A,$00,$3C,$01,$68,$00,$DB,$00,$FC,$00,$5B,$01,$9A,$01,$7A,$01
 	db $1D,$01,$C2,$00,$BE,$01,$D5,$01,$E7,$01,$ED,$01,$F3,$01,$AE,$00

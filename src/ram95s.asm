@@ -229,6 +229,7 @@ Penaltytimer		=	$113D		; frames to the next penalty clock second (updatepentime)
 PBnum				=	$113F		; players in the penalty boxes: home*16 + visitors
 RefCnt				=	$1145		; ref graphics control (negative = idle)
 RefStep				=	$1147		; step in the ref animation (SetPA / SetPA2; chkprogress)
+RefPen				=	$1149		; penalty number of the ref animation (SetPA)
 gsp					=	$114B		; game period
 gameclock			=	$114D		; game clock seconds; gameclock+2 = jiffies
 clockbcd			=	$1151		; the game clock as BCD: seconds (low byte) and minutes (high byte)
@@ -375,6 +376,7 @@ foy					=	$2036		; face off spot y: Stop4Pen sets it, puckfaceoff2 puts it in pu
 ScoreSumbytes		=	$2038		; Goal adds 6 per goal (to $258); the length of ScoreSum
 ScoreSum			=	$203A		; the goal log: 6 bytes per goal (Goal)
 refwindow			=	$2348		; PushRef sets 1 with a ref frame drawn and clears it; checkob reads it
+penmsgbox			=	$234A		; 1 while the penalty message box shows (prefmes)
 newperiod			=	$234C		; 1 at a period start: puckfaceoff opens no line change box and clears it
 pspuckback			=	$234E		; penalty shot: pucknorm_move counts frames; EndPenaltyShot at $30
 pausemenuon			=	$2372		; $FFFF from the pause menu setup; Pausemode / Intermission clear it

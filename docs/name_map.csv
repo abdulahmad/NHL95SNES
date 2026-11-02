@@ -1312,7 +1312,7 @@ $C342D7,Vancouver,,new,"team record 23 (Vancouver): not traced; it holds license
 $C3434B,Winnipeg,,new,"team record 25 (Winnipeg): not traced; it holds licensed names",src/bankC3_4000.asm
 $C343B8,Washington,,new,"team record 24 (Washington): not traced; it holds licensed names",src/bankC3_4000.asm
 $C34427,DATA8_C34427,,new,"a team record not in TeamList (the same form; not traced)",src/bankC3_4000.asm
-$C34499,DATA8_C34499,,new,"not traced: read by CODE_C38CAB, CODE_C4792C, CODE_C481E2, ...",src/bankC3_4000.asm
+$C34499,Penaltylist,DATA8_C34499,94S+purpose,"94S Penaltylist (the penalty name table prefmes reads); prefmes reads the offset by d0 and the text length at DATA8_C3449B",src/bankC3_4000.asm
 $C3449A,DATA8_C3449A,,new,"not traced: read by CODE_C38CAB",src/bankC3_4000.asm
 $C3449B,DATA8_C3449B,,new,"not traced: read by CODE_C38CAB, CODE_C481E2",src/bankC3_4000.asm
 $C30000,TeamList,,new,"a word per team (team number = index) to its team record, as 94S",src/bankC3_0000.asm
@@ -4039,11 +4039,11 @@ $C480E3,.rtl,CODE_C480E3,new,"branch target only used in PenShotChk",src/bankC4_
 $C48190,.loop,CODE_C48190,new,"branch target only used in ClearPenaltyBuffer",src/bankC4_8000.asm
 $C481AD,.1,CODE_C481AD,new,"branch target only used in checkagr",src/bankC4_8000.asm
 $C481D1,.2,CODE_C481D1,new,"branch target only used in checkagr",src/bankC4_8000.asm
-$C481DD,.1,CODE_C481DD,new,"branch target only used in CODE_C481D5",src/bankC4_8000.asm
-$C481E2,.2,CODE_C481E2,new,"branch target only used in CODE_C481D5",src/bankC4_8000.asm
-$C48218,.3,CODE_C48218,new,"branch target only used in CODE_C481D5",src/bankC4_8000.asm
-$C4822E,.4,CODE_C4822E,new,"branch target only used in CODE_C481D5",src/bankC4_8000.asm
-$C48240,.rtl,CODE_C48240,new,"branch target only used in CODE_C481D5",src/bankC4_8000.asm
+$C481DD,.1,CODE_C481DD,new,"branch target only used in prefmes",src/bankC4_8000.asm
+$C481E2,.2,CODE_C481E2,new,"branch target only used in prefmes",src/bankC4_8000.asm
+$C48218,.3,CODE_C48218,new,"branch target only used in prefmes",src/bankC4_8000.asm
+$C4822E,.4,CODE_C4822E,new,"branch target only used in prefmes",src/bankC4_8000.asm
+$C48240,.rtl,CODE_C48240,new,"branch target only used in prefmes",src/bankC4_8000.asm
 $C48249,.rtl,CODE_C48249,new,"branch target only used in CODE_C48241",src/bankC4_8000.asm
 $C48294,.1,CODE_C48294,new,"branch target only used in setInjuryType",src/bankC4_8000.asm
 $C482AA,.2,CODE_C482AA,new,"branch target only used in setInjuryType",src/bankC4_8000.asm
@@ -8627,3 +8627,6 @@ $C4CF7B,SetGoalieIndexes,CODE_C4CF7B,code,"from the code: $0A = 0, SetTeamGoalie
 $C4CF8F,SetTeamGoalieIndexes,CODE_C4CF8F,code,"from the code: A = $19 into NextTeamGoalieIndexes",src/bankC4_C000.asm
 $C4CF92,NextTeamGoalieIndexes,CODE_C4CF92,code,"from the code: the nibble count loop (the goalie count, as LoadTeamRoster) and the first player (record pointer / 2 - $1C); SetGoalieIndexRun comes back here for the next team",src/bankC4_C000.asm
 $C4CFBE,SetGoalieIndexRun,CODE_C4CFBE,code,"from the code: A * 9 bits, $0A shifted into place and ored in, inc $0A per player, then dec HomeTeam",src/bankC4_C000.asm
+$C481D5,prefmes,CODE_C481D5,94S+purpose,"94S prefmes (print penalty message d0, negative just clears) side by side: called where 94S SetPA calls it, the penmsgbox test and clear, the bpl on d0, the penalty name table, the frame and penmsgbox = 1; 95S drops the eraser and the per-penalty exceptions",src/bankC4_8000.asm
+$1149,RefPen,,94S+code,"RAM: 94S RefPen: SetPA stores d0 there and clears RefStep, the same code",src/ram95s.asm
+$234A,penmsgbox,,94S+purpose,"RAM: 94S penmsgbox: prefmes sets 1 after framing the message and clears it; the face off set-up clears it, ClearRefereeMessage runs while it is set",src/ram95s.asm

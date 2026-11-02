@@ -939,9 +939,9 @@ UpdatePA:							; advance the referee animation and penalty message timers
 	rtl
 SetPA:								; start the referee animation and message for penalty d0
 	lda.b d0
-	sta.w $1149
+	sta.w RefPen
 	stz.w RefStep
-	jsl.l CODE_C481D5
+	jsl.l prefmes
 	lda.b d0
 	cmp.w #$000E
 	bne .1
@@ -970,9 +970,9 @@ SetPA2:								; step the referee animation and draw its next frame
 	inc a
 	inc a
 	sta.w RefStep
-	ldx.w $1149
+	ldx.w RefPen
 	beq .4
-	lda.l DATA8_C34499,x
+	lda.l Penaltylist,x
 	tax
 	lda.l DATA8_C3449B,x
 	and.w #$00FF
@@ -1026,8 +1026,8 @@ PushRef:							; draw a referee frame or clear the referee window
 	lda.w #$0200
 	tsb.w sflags
 	rtl
-.2:									; if $234A = 0 go to .3, call ClearRefereeMessage
-	lda.w $234A
+.2:									; if penmsgbox = 0 go to .3, call ClearRefereeMessage
+	lda.w penmsgbox
 	beq .3
 	jsl.l ClearRefereeMessage
 .3:									; TransfersReady + 1, X = $001C, Y = $5842, ...

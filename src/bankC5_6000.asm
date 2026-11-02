@@ -1283,7 +1283,7 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w $115E,x
 	and.w #$00FF
 	tax
-	lda.l DATA8_C34499,x
+	lda.l Penaltylist,x
 	sec
 	adc.w #$4499
 	inc a
@@ -1366,9 +1366,9 @@ DrawPenaltyRow:						; draws row a3 of ShowPenaltySummary's scrolling list: a pe
 	lda.w $115E,x
 	and.w #$00FF
 	tax
-	lda.l DATA8_C34499,x
+	lda.l Penaltylist,x
 	tax
-	lda.l DATA8_C34499,x
+	lda.l Penaltylist,x
 	and.w #$00FF
 	jsr.w BCDText
 	ldx.w #mesarea

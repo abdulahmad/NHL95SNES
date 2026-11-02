@@ -970,7 +970,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	lda.w #$8200
 	trb.w sflags
 	stz.w refwindow
-	stz.w $234A
+	stz.w penmsgbox
 	lda.w #$0500
 	tsb.w sflags
 	jsl.l ClrHor

@@ -280,16 +280,18 @@ checkagr:							; called from other segments
 	lsr.b d0
 .2:									; go to randomd0
 	jml.l randomd0
-CODE_C481D5:						; called from other segments
-	lda.w $234A
+prefmes:							; the message for penalty d0 (negative: none): penmsgbox cleared, then its
+									; text from Penaltylist in a frame (with the player's short name in
+									; horizontal mode); penmsgbox = 1
+	lda.w penmsgbox
 	beq .1
-	stz.w $234A
+	stz.w penmsgbox
 .1:									; if d0 >= 0 go to .2, return
 	ldx.b d0
 	bpl .2
 	rtl
-.2:									; A = DATA8_C34499,x, X = A, A = DATA8_C3449B,x, A and $00FF, ...
-	lda.l DATA8_C34499,x
+.2:									; A = Penaltylist,x, X = A, A = DATA8_C3449B,x, A and $00FF, ...
+	lda.l Penaltylist,x
 	tax
 	lda.l DATA8_C3449B,x
 	and.w #$00FF
@@ -327,7 +329,7 @@ CODE_C481D5:						; called from other segments
 	ldx.w #$00C3
 	jsl.l QueueVRAMDMALen
 	lda.w #$0001
-	sta.w $234A
+	sta.w penmsgbox
 .rtl:								; return
 	rtl
 CODE_C48241:						; called from other segments
