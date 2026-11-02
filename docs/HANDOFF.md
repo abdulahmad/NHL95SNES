@@ -175,6 +175,10 @@
   is named (a Codex run, reviewed and cherry-picked: the assignment, collision, goal avoidance, penalty clock,
   goalie and text rendering helpers); still unnamed there: bankC4_0000 (46), B000 (48), C000 (12), D000 (29),
   E000 (18), F000 (15), mostly front-end tasks, season / save handling and scouting helpers.
+  Code that follows an exit (rtl, jml) with no label and no pointer to it can be a leftover 94S routine that the
+  trace never reached: ShootoutShooters (after ShootoutWonBy, labelled now) and 94S ShooterSelectList, still inline
+  after PickShooterRow's rtl. Several 94S calls became bare rtl stubs that keep the 94S name (eraser, StartBenchCheer,
+  InitScores, DoHiLights, printscores1 = ldx a3).
   Bank $C5: the front end's screen states 0-13 have named handlers (DATA8_C5967A); each scrolling list's row
   routine is Draw<Screen>Row; the map set unpackers, Framer and the screen set-ups are named. Still unnamed in
   bank $C5: much of the game side (bankC5_0000 / 1000 / 2000 / 3000 / 4000), the Edit Lines player list
