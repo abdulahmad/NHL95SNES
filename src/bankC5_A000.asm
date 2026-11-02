@@ -826,8 +826,8 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	lda.w #$0000
 .6:									; go to .10
 	bra .10
-.7:									; call CODE_C5A72D, if d0 is not 0 go to .8, d0 - 1, go to .11
-	jsr.w CODE_C5A72D
+.7:									; call PrintPlayerStatsHeadings, if d0 is not 0 go to .8, d0 - 1, ...
+	jsr.w PrintPlayerStatsHeadings
 	lda.b d0
 	bne .8
 	dec.b d0
@@ -853,7 +853,7 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	ldy.w #$0380
 	jsl.l ClearRAM7E
 	jsl.l SendTextMap
-	jsr.w CODE_C5BCD9
+	jsr.w DrawPlayerStatsTeam
 	jsr.w LoadGameRosters
 	lda.w $2DCB
 	sta.b a1
@@ -871,7 +871,8 @@ SeasonPlayerStatsInput:				; the Season Player Stats screen each frame (screen s
 	jsr.w StartScrollList
 	jsl.l SendTextMap
 	rts
-CODE_C5A72D:						; from SeasonPlayerStatsInput
+PrintPlayerStatsHeadings:			; Season Player Stats: the column headings (row 9) and the B hint (row
+									; $18) for the list d0 is switching to: goalies when d0 is 0, else players
 	pea.w $559D
 	pea.w $55BD
 	lda.b d0
@@ -931,11 +932,11 @@ StandingsInput:						; the NHL Standings screen each frame (screen state 11): up
 	cmp.w #$0004
 	bcc .3
 	lda.w #$0000
-.3:									; d1 = A, Y = $03F0, A = $0200, call CODE_C5A80E, ...
+.3:									; d1 = A, Y = $03F0, A = $0200, call ClearTextMapAt, ...
 	sta.b d1
 	ldy.w #$03F0
 	lda.w #$0200
-	jsr.w CODE_C5A80E
+	jsr.w ClearTextMapAt
 	bra .10
 .4:									; A = d1, A - 1, if the result >= 0 go to .3, A = $0003, ...
 	lda.b d1
@@ -976,7 +977,7 @@ StandingsInput:						; the NHL Standings screen each frame (screen state 11): up
 	jmp.w DrawStandings
 CODE_C5A80B:						; from StandingsInput
 	lda.w #$01D0
-CODE_C5A80E:						; from StandingsInput
+ClearTextMapAt:						; clears Y bytes of the text map from offset A
 	clc
 	adc.b $D3
 	jsl.l ClearRAM7E

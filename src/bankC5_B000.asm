@@ -168,7 +168,7 @@ SeasonPlayerStats:					; League Menu Player Stats: the season goals, assists and
 	ldy.w #$000B
 	jsr.w StartScrollList
 	stz.b d7
-	jsr.w CODE_C5BCD9
+	jsr.w DrawPlayerStatsTeam
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	sep #$20
@@ -201,8 +201,8 @@ StandingsScreen:					; League Menu NHL Standings: the teams of a division (pad u
 DrawStandings:						; draws the standings page: the teams of division d1 sorted by stat d0 as
 									; a scrolling list (DrawStandingsRow a row), the stat's title and the
 									; division's name; screen state 11
-	jsr.w CODE_C5C029
-	jsr.w CODE_C5BFE0
+	jsr.w SortStandingsByStat
+	jsr.w KeepDivisionTeams
 	stz.b $69
 	lda.w #DrawStandingsRow
 	ldx.w #$000D
@@ -583,7 +583,7 @@ FillLeaderEntry:					; fills the leader entry at Y for player A: number and team
 	jsr.w PlayerNumberTeam
 	sta.w $000E,y
 	lda.b $01,s
-	jsr.w CODE_C5B53D
+	jsr.w IsSkater
 	bcc .1
 	lda.b $01,s
 	jsr.w SeasonGoals
@@ -638,7 +638,8 @@ FillLeaderEntry:					; fills the leader entry at Y for player A: number and team
 	pla
 	sta.b tmp0
 	rts
-CODE_C5B53D:						; from FillLeaderEntry
+IsSkater:							; carry set when player A is a skater, clear for a goalie: a created
+									; player's position bits above 0, else PlayerList bits 14-15 not 0
 	cmp.w #$026A
 	bcc .1
 	phy
@@ -665,43 +666,46 @@ AddLeaderEntry:						; adds player tmp0 to the League Leaders list at d0: a 16-b
 	tax
 	jmp (DATA8_C5B56C,x)
 DATA8_C5B56C:						; jump table: the routine for each index
-	dw CODE_C5B59E,CODE_C5B572,CODE_C5B588
-CODE_C5B572:						; from DATA8_C5B56C
+	dw InsertByGoals,InsertByAssists,InsertByPoints
+InsertByAssists:					; AddLeaderEntry for category 1: links entry Y into the list at d0 in
+									; order of +$A (assists; a goalie's shots)
 	lda.w $000A,y
 	sta.b tmp1
 	lda.b d0
-.loop:								; loop: X = A, if $000A,x >= tmp1 go to CODE_C5B5D7, ...
+.loop:								; loop: X = A, if $000A,x >= tmp1 go to LinkLeaderBefore, ...
 	tax
 	lda.w $000A,x
 	cmp.b tmp1
-	bcs CODE_C5B5D7
+	bcs LinkLeaderBefore
 	lda.w $0000,x
 	bne .loop
-	bra CODE_C5B5B2
-CODE_C5B588:						; from DATA8_C5B56C
+	bra LinkLeaderLast
+InsertByPoints:						; AddLeaderEntry for category 2: links entry Y into the list at d0 in
+									; order of +$C (points; a goalie's save percentage)
 	lda.w $000C,y
 	sta.b tmp1
 	lda.b d0
-.loop:								; loop: X = A, if $000C,x >= tmp1 go to CODE_C5B5D7, ...
+.loop:								; loop: X = A, if $000C,x >= tmp1 go to LinkLeaderBefore, ...
 	tax
 	lda.w $000C,x
 	cmp.b tmp1
-	bcs CODE_C5B5D7
+	bcs LinkLeaderBefore
 	lda.w $0000,x
 	bne .loop
-	bra CODE_C5B5B2
-CODE_C5B59E:						; from DATA8_C5B56C
+	bra LinkLeaderLast
+InsertByGoals:						; AddLeaderEntry for category 0: links entry Y into the list at d0 in
+									; order of +8 (goals; a goalie's saves)
 	lda.w $0008,y
 	sta.b tmp1
 	lda.b d0
-.loop:								; loop: X = A, if $0008,x >= tmp1 go to CODE_C5B5D7, ...
+.loop:								; loop: X = A, if $0008,x >= tmp1 go to LinkLeaderBefore, ...
 	tax
 	lda.w $0008,x
 	cmp.b tmp1
-	bcs CODE_C5B5D7
+	bcs LinkLeaderBefore
 	lda.w $0000,x
 	bne .loop
-CODE_C5B5B2:						; from CODE_C5B572, CODE_C5B588
+LinkLeaderLast:						; links leader entry Y after X as the list's last ($81 = Y)
 	sty.b $81
 	tya
 	sta.w $0000,x
@@ -710,7 +714,7 @@ CODE_C5B5B2:						; from CODE_C5B572, CODE_C5B588
 	stz.w $0000,x
 	sta.w $0002,y
 	rts
-CODE_C5B5C1:						; from CODE_C5B5D7
+CODE_C5B5C1:						; from LinkLeaderBefore
 	lda.w $0002,x
 	sta.w $0002,y
 	sta.b tmp2
@@ -721,7 +725,8 @@ CODE_C5B5C1:						; from CODE_C5B5D7
 	ldx.b tmp2
 	sta.w $0000,x
 	rts
-CODE_C5B5D7:						; from CODE_C5B59E, CODE_C5B572, CODE_C5B588
+LinkLeaderBefore:					; links leader entry Y before entry X; at the head (X = d0) Y becomes the
+									; head
 	cpx.b d0
 	bne CODE_C5B5C1
 	sty.b d0
@@ -1013,19 +1018,19 @@ DrawSeasonTeamStats:				; draws the season stats of the current team (record, go
 	sta.b $18
 	lda.w #$0025
 	sta.b $1A
-	jsr.w CODE_C5BCE3
+	jsr.w DrawStatsTeam
 	lda.w #$000F
 	sta.b tmp0
 	clc
 	lda.b $D3
 	adc.w #$022C
-	jsr.w CODE_C5B96D
+	jsr.w ClearTextColumn
 	lda.w #$0001
 	sta.b tmp0
 	clc
 	lda.b $D3
 	adc.w #$0266
-	jsr.w CODE_C5B96D
+	jsr.w ClearTextColumn
 	jsl.l SendTextMap
 	jsl.l WaitTransfers
 	lda.w #$00F8
@@ -1171,7 +1176,8 @@ CODE_C5B95A:						; called from other segments
 	ply
 	jsl.l SendTextMap
 	rts
-CODE_C5B96D:						; from DrawSeasonTeamStats, CODE_C5B96D
+ClearTextColumn:					; clears 20 bytes at text map address A and at the same place on each of
+									; the next tmp0 rows
 	pha
 	ldy.w #$0014
 	jsl.l ClearRAM7E
@@ -1179,7 +1185,7 @@ CODE_C5B96D:						; from DrawSeasonTeamStats, CODE_C5B96D
 	clc
 	adc.w #$0040
 	dec.b tmp0
-	bpl CODE_C5B96D
+	bpl ClearTextColumn
 	rts
 BuildTeamSeasonRecordLong:			; BuildTeamSeasonRecord for long calls
 	jsr.w BuildTeamSeasonRecord
@@ -1503,7 +1509,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	jsr.w SeasonSaves
 	pei ($9F)
 	pha
-	jsr.w CODE_C5BCCC
+	jsr.w PrintRowBCD
 	lda.w #$00B5
 	sta.b $CF
 	lda.b $05,s
@@ -1513,7 +1519,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	sed
 	adc.b $03,s
 	cld
-	jsr.w CODE_C5BCCC
+	jsr.w PrintRowBCD
 	lda.w #$00D7
 	sta.b $CF
 	clc
@@ -1535,7 +1541,7 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	plx
 	plx
 	plx
-	jmp.w CODE_C5BCCC
+	jmp.w PrintRowBCD
 .3:									; A = $2DCB, A + a3, A * 2, X = A, ...
 	clc
 	lda.w $2DCB
@@ -1568,13 +1574,13 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	lda.b $01,s
 	jsr.w SeasonGoals
 	pha
-	jsr.w CODE_C5BCCC
+	jsr.w PrintRowBCD
 	lda.w #$00B5
 	sta.b $CF
 	lda.b $03,s
 	jsr.w SeasonAssists
 	pha
-	jsr.w CODE_C5BCCC
+	jsr.w PrintRowBCD
 	lda.w #$00D7
 	sta.b $CF
 	clc
@@ -1584,18 +1590,19 @@ DrawSeasonPlayerRow:				; draws row a3 of the Season Player Stats list: a player
 	cld
 	plx
 	plx
-CODE_C5BCCC:						; from DrawSeasonPlayerRow
+PrintRowBCD:						; BCDText of A printed bold at the list row $6D (x $CF)
 	jsr.w BCDText
 	ldx.w #mesarea
 	ldy.b $6D
 	jsl.l PrintBoldLeftStr
 	rts
-CODE_C5BCD9:						; from SeasonPlayerStats and other segments
+DrawPlayerStatsTeam:				; DrawStatsTeam with the logo at x $DE, y $25 (Season Player Stats)
 	lda.w #$00DE
 	sta.b $18
 	lda.w #$0025
 	sta.b $1A
-CODE_C5BCE3:						; from DrawSeasonTeamStats
+DrawStatsTeam:						; the stats screens' team: HomeTeam's logo sprite (d7) at $18 / $1A with
+									; its colours, its name thin and centred between x $40 and $88 on row 6
 	ldx.b d7
 	jsl.l DeleteSprite
 	stz.b d7
@@ -1879,9 +1886,10 @@ DrawStandingsRow:					; draws row a3 of the NHL Standings list: a team and its s
 	jsl.l PrintBoldRightStr
 	rts
 DATA8_C5BEDD:						; jump table: the routine for each index
-	dw CODE_C5BEED,CODE_C5BF1D,CODE_C5BF26,CODE_C5BF50
-	dw CODE_C5BF7A,CODE_C5BF83,CODE_C5BF8C,CODE_C5BFB6
-CODE_C5BEED:						; from DATA8_C5BEDD
+	dw TeamRecordText,TeamPointsText,TeamGoalsAvgText,TeamGoalsAllowedText
+	dw TeamSavePctText,TeamShootPctText,TeamShotsAvgText,TeamShotsAllowedText
+TeamRecordText:						; mesarea = team record Y's wins, losses and ties (+4, +6, +8), $3E
+									; between them
 	phy
 	lda.w $0004,y
 	jsr.w BinToBCD
@@ -1904,11 +1912,12 @@ CODE_C5BEED:						; from DATA8_C5BEDD
 	jsr.w BCDTextAt
 	ply
 	rts
-CODE_C5BF1D:						; from DATA8_C5BEDD
+TeamPointsText:						; mesarea = team record Y's points (+$A)
 	lda.w $000A,y
 	jsr.w BinToBCD
 	jmp.w BCDText
-CODE_C5BF26:						; from DATA8_C5BEDD
+TeamGoalsAvgText:					; mesarea = team record Y's goals a game (+$10, in hundredths) as a
+									; decimal
 	lda.w $0010,y
 	jsr.w BinToBCD
 	sta.b r2
@@ -1928,7 +1937,8 @@ CODE_C5BF26:						; from DATA8_C5BEDD
 	lda.b r2
 	and.w #$000F
 	jmp.w BCDTextAt
-CODE_C5BF50:						; from DATA8_C5BEDD
+TeamGoalsAllowedText:				; mesarea = team record Y's goals allowed a game (+$12, in hundredths) as
+									; a decimal
 	lda.w $0012,y
 	jsr.w BinToBCD
 	sta.b r2
@@ -1948,15 +1958,16 @@ CODE_C5BF50:						; from DATA8_C5BEDD
 	lda.b r2
 	and.w #$000F
 	jmp.w BCDTextAt
-CODE_C5BF7A:						; from DATA8_C5BEDD
+TeamSavePctText:					; mesarea = team record Y's save percentage (+$14)
 	lda.w $0014,y
 	jsr.w BinToBCD
 	jmp.w BCDText
-CODE_C5BF83:						; from DATA8_C5BEDD
+TeamShootPctText:					; mesarea = team record Y's shooting percentage (+$16)
 	lda.w $0016,y
 	jsr.w BinToBCD
 	jmp.w BCDText
-CODE_C5BF8C:						; from DATA8_C5BEDD
+TeamShotsAvgText:					; mesarea = team record Y's shots a game (+$1A, in hundredths) as a
+									; decimal
 	lda.w $001A,y
 	jsr.w BinToBCD
 	sta.b r2
@@ -1976,7 +1987,8 @@ CODE_C5BF8C:						; from DATA8_C5BEDD
 	lda.b r2
 	and.w #$000F
 	jmp.w BCDTextAt
-CODE_C5BFB6:						; from DATA8_C5BEDD
+TeamShotsAllowedText:				; mesarea = team record Y's shots allowed a game (+$30, in hundredths) as
+									; a decimal
 	lda.w $0030,y
 	jsr.w BinToBCD
 	sta.b r2

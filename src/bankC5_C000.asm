@@ -1,7 +1,9 @@
 ; Segment bankC5_C000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5BFE0
-CODE_C5BFE0:						; called from other segments
+KeepDivisionTeams:					; keeps only the teams of division d1 in the sorted list at $3E4E
+									; (DATA8_C40EDA by team against DATA8_C04CBF), a1 = the count from
+									; DATA8_C04CC3
 	ldx.b d1
 	lda.l DATA8_C04CBF,x
 	and.w #$00FF
@@ -38,7 +40,8 @@ CODE_C5BFE0:						; called from other segments
 	cpx.w #$0034
 	bcc .loop2
 	rts
-CODE_C5C029:						; called from other segments
+SortStandingsByStat:				; fills the list at $3E4E with the team records linked from $81, sorted by
+									; stat d0 (its compare routine from DATA8_C5C0AE)
 	ldx.w #$0032
 .loop:								; loop: $3E4E,x = 0, X - 1, X - 1, if the result >= 0 go to .loop, ...
 	stz.w $3E4E,x
@@ -56,7 +59,7 @@ CODE_C5C03F:						; from CODE_C5C05C
 	stx.b tmp1
 	ldy.w #$0000
 	bra CODE_C5C04A
-CODE_C5C047:						; from CODE_C5C068, CODE_C5C072, CODE_C5C07C, CODE_C5C086, ...
+CODE_C5C047:						; from SortByPoints, SortByGoalsAvg, SortByGoalsAllowed, ...
 	ply
 CODE_C5C048:						; from CODE_C5C054
 	iny
@@ -67,7 +70,7 @@ CODE_C5C04A:						; from CODE_C5C03F
 	phy
 	tay
 	jmp ($009F)
-CODE_C5C054:						; from CODE_C5C068, CODE_C5C072, CODE_C5C07C, CODE_C5C086, ...
+CODE_C5C054:						; from SortByPoints, SortByGoalsAvg, SortByGoalsAllowed, ...
 	txa
 	tyx
 	ply
@@ -80,44 +83,52 @@ CODE_C5C05C:						; from CODE_C5C04A
 	lda.w $0002,x
 	bne CODE_C5C03F
 	rts
-CODE_C5C068:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortByPoints:						; compare of SortStandingsByStat by points (+$A), highest first; back to
+									; the sort loop
 	lda.w $000A,y
 	cmp.w $000A,x
 	bcc CODE_C5C054
 	bra CODE_C5C047
-CODE_C5C072:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortByGoalsAvg:						; compare of SortStandingsByStat by goals a game (+$10), highest first;
+									; back to the sort loop
 	lda.w $0010,y
 	cmp.w $0010,x
 	bcc CODE_C5C054
 	bra CODE_C5C047
-CODE_C5C07C:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortByGoalsAllowed:					; compare of SortStandingsByStat by goals allowed a game (+$12), lowest
+									; first; back to the sort loop
 	lda.w $0012,x
 	cmp.w $0012,y
 	bcc CODE_C5C054
 	bra CODE_C5C047
-CODE_C5C086:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortBySavePct:						; compare of SortStandingsByStat by save percentage (+$14), highest first;
+									; back to the sort loop
 	lda.w $0014,y
 	cmp.w $0014,x
 	bcc CODE_C5C054
 	bra CODE_C5C047
-CODE_C5C090:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortByShootPct:						; compare of SortStandingsByStat by shooting percentage (+$16), highest
+									; first; back to the sort loop
 	lda.w $0016,y
 	cmp.w $0016,x
 	bcc CODE_C5C054
 	bra CODE_C5C047
-CODE_C5C09A:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortByShotsAvg:						; compare of SortStandingsByStat by shots a game (+$1A), highest first;
+									; back to the sort loop
 	lda.w $001A,y
 	cmp.w $001A,x
 	bcc CODE_C5C054
 	bra CODE_C5C047
-CODE_C5C0A4:						; a compare routine of the sort (DATA8_C5C0AE), back to the sort loop
+SortByShotsAllowed:					; compare of SortStandingsByStat by shots allowed a game (+$30), lowest
+									; first; back to the sort loop
 	lda.w $0030,x
 	cmp.w $0030,y
 	bcc CODE_C5C054
 	bra CODE_C5C047
-DATA8_C5C0AE:						; the compare routines of the sort in CODE_C5C029 (one per sort key)
-	dw CODE_C5C068,CODE_C5C068,CODE_C5C072,CODE_C5C07C
-	dw CODE_C5C086,CODE_C5C090,CODE_C5C09A,CODE_C5C0A4
+DATA8_C5C0AE:						; the compare routines of the sort in SortStandingsByStat (one per sort
+									; key)
+	dw SortByPoints,SortByPoints,SortByGoalsAvg,SortByGoalsAllowed
+	dw SortBySavePct,SortByShootPct,SortByShotsAvg,SortByShotsAllowed
 DrawSetupTeams:						; the setup screen's teams: both colour sets queued, two tile blocks, the
 									; home and visiting logo sprites (d7, $9D) and both names
 									; (PrintHomeTeamName, PrintVisTeamName)

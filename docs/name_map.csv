@@ -6031,7 +6031,7 @@ $C5A6D9,.9,CODE_C5A6D9,new,"branch target only used in SeasonPlayerStatsInput",s
 $C5A6E2,.10,CODE_C5A6E2,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
 $C5A6E5,.11,CODE_C5A6E5,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
 $C5A71A,.12,CODE_C5A71A,new,"branch target only used in SeasonPlayerStatsInput",src/bankC5_A000.asm
-$C5A73F,.1,CODE_C5A73F,new,"branch target only used in CODE_C5A72D",src/bankC5_A000.asm
+$C5A73F,.1,CODE_C5A73F,new,"branch target only used in PrintPlayerStatsHeadings",src/bankC5_A000.asm
 $C5A786,.1,CODE_C5A786,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
 $C5A7A2,.rts,CODE_C5A7A2,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
 $C5A7A3,.2,CODE_C5A7A3,new,"branch target only used in StandingsInput",src/bankC5_A000.asm
@@ -6118,10 +6118,10 @@ $C5B464,.4,CODE_C5B464,new,"branch target only used in DrawGameMarks",src/bankC5
 $C5B473,.5,CODE_C5B473,new,"branch target only used in DrawGameMarks",src/bankC5_B000.asm
 $C5B4F7,.1,CODE_C5B4F7,new,"branch target only used in FillLeaderEntry",src/bankC5_B000.asm
 $C5B533,.2,CODE_C5B533,new,"branch target only used in FillLeaderEntry",src/bankC5_B000.asm
-$C5B54E,.1,CODE_C5B54E,new,"branch target only used in CODE_C5B53D",src/bankC5_B000.asm
-$C5B579,.loop,CODE_C5B579,new,"branch target only used in CODE_C5B572",src/bankC5_B000.asm
-$C5B58F,.loop,CODE_C5B58F,new,"branch target only used in CODE_C5B588",src/bankC5_B000.asm
-$C5B5A5,.loop,CODE_C5B5A5,new,"branch target only used in CODE_C5B59E",src/bankC5_B000.asm
+$C5B54E,.1,CODE_C5B54E,new,"branch target only used in IsSkater",src/bankC5_B000.asm
+$C5B579,.loop,CODE_C5B579,new,"branch target only used in InsertByAssists",src/bankC5_B000.asm
+$C5B58F,.loop,CODE_C5B58F,new,"branch target only used in InsertByPoints",src/bankC5_B000.asm
+$C5B5A5,.loop,CODE_C5B5A5,new,"branch target only used in InsertByGoals",src/bankC5_B000.asm
 $C5B618,.1,CODE_C5B618,new,"branch target only used in PlayerNumberTeam",src/bankC5_B000.asm
 $C5B642,.1,CODE_C5B642,new,"branch target only used in PrintPlayerCategory",src/bankC5_B000.asm
 $C5B67E,.loop,CODE_C5B67E,new,"branch target only used in BinToBCD",src/bankC5_B000.asm
@@ -6165,11 +6165,11 @@ $C5BE56,.loop,CODE_C5BE56,new,"branch target only used in SeasonGoalsAgainst",sr
 $C5BEB3,.1,CODE_C5BEB3,new,"branch target only used in DrawStandingsRow",src/bankC5_B000.asm
 $C5BEBB,.2,CODE_C5BEBB,new,"branch target only used in DrawStandingsRow",src/bankC5_B000.asm
 $C5BEC6,.3,CODE_C5BEC6,new,"branch target only used in DrawStandingsRow",src/bankC5_B000.asm
-$C5BFF7,.loop,CODE_C5BFF7,new,"branch target only used in CODE_C5BFE0",src/bankC5_C000.asm
-$C5C00F,.1,CODE_C5C00F,new,"branch target only used in CODE_C5BFE0",src/bankC5_C000.asm
-$C5C017,.loop2,CODE_C5C017,new,"branch target only used in CODE_C5BFE0",src/bankC5_C000.asm
-$C5C021,.2,CODE_C5C021,new,"branch target only used in CODE_C5BFE0",src/bankC5_C000.asm
-$C5C02C,.loop,CODE_C5C02C,new,"branch target only used in CODE_C5C029",src/bankC5_C000.asm
+$C5BFF7,.loop,CODE_C5BFF7,new,"branch target only used in KeepDivisionTeams",src/bankC5_C000.asm
+$C5C00F,.1,CODE_C5C00F,new,"branch target only used in KeepDivisionTeams",src/bankC5_C000.asm
+$C5C017,.loop2,CODE_C5C017,new,"branch target only used in KeepDivisionTeams",src/bankC5_C000.asm
+$C5C021,.2,CODE_C5C021,new,"branch target only used in KeepDivisionTeams",src/bankC5_C000.asm
+$C5C02C,.loop,CODE_C5C02C,new,"branch target only used in SortStandingsByStat",src/bankC5_C000.asm
 $C5C117,.loop,CODE_C5C117,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
 $C5C15A,.1,CODE_C5C15A,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
 $C5C15F,.2,CODE_C5C15F,new,"branch target only used in SignFreeAgents",src/bankC5_C000.asm
@@ -8447,3 +8447,32 @@ $C5B499,WriteTiles4,CODE_C5B499,code,"from the code: stx $18 (VMDATA) 4 times, i
 $C5B4A1,WriteTiles9,CODE_C5B4A1,code,"from the code: stx $18 (VMDATA) 9 times, inx; DrawGameMarks' team bars",src/bankC5_B000.asm
 $C5B4AE,WriteBlanks4,CODE_C5B4AE,code,"from the code: stz $18 (VMDATA) 4 times; DrawGameMarks",src/bankC5_B000.asm
 $C5B4B6,WriteBlanks9,CODE_C5B4B6,code,"from the code: stz $18 (VMDATA) 9 times; DrawGameMarks",src/bankC5_B000.asm
+$C5A72D,PrintPlayerStatsHeadings,CODE_C5A72D,code,"from the code: the texts at $C355D7 / $C355AD (Player No. Svs. Sht. Pct., B: Switch to Linemen) when d0 = 0, else $C355BD / $C3559D (Player No. Gls. Ast. Pts.); SeasonPlayerStatsInput calls it on B before flipping d0",src/bankC5_A000.asm
+$C5A80E,ClearTextMapAt,CODE_C5A80E,code,"from the code: ClearRAM7E at $D3 + A; StandingsInput calls it",src/bankC5_A000.asm
+$C5B53D,IsSkater,CODE_C5B53D,code,"from the code: A from $26A is a created player (CreatedPlayerBits, NextSaveBits3, cmp #1), else PlayerList,x cmp #$4000; FillLeaderEntry takes clear as a goalie (saves, save percentage)",src/bankC5_B000.asm
+$C5B59E,InsertByGoals,CODE_C5B59E,code,"from the code: Y goes before the first entry X whose +8 is not below its own (LinkLeaderBefore), else last (LinkLeaderLast); DATA8_C5B56C entry 0; PrintPlayerCategory's names Goals / Saves",src/bankC5_B000.asm
+$C5B572,InsertByAssists,CODE_C5B572,code,"from the code: as InsertByGoals with +$A; DATA8_C5B56C entry 1; PrintPlayerCategory's names Assists / Shots",src/bankC5_B000.asm
+$C5B588,InsertByPoints,CODE_C5B588,code,"from the code: as InsertByGoals with +$C; DATA8_C5B56C entry 2; FillLeaderEntry's points / percentage",src/bankC5_B000.asm
+$C5B5B2,LinkLeaderLast,CODE_C5B5B2,code,"from the code: X +0 = Y, Y +0 = 0, Y +2 = X; DrawLeagueLeaders walks the list back from $81",src/bankC5_B000.asm
+$C5B5D7,LinkLeaderBefore,CODE_C5B5D7,code,"from the code: +0 the next entry, +2 the one before; the insert routines of AddLeaderEntry end here",src/bankC5_B000.asm
+$C5B96D,ClearTextColumn,CODE_C5B96D,code,"from the code: ClearRAM7E of $14 bytes, A + $40, tmp0 - 1 until negative; DrawSeasonTeamStats clears its value columns with it",src/bankC5_B000.asm
+$C5BCCC,PrintRowBCD,CODE_C5BCCC,code,"from the code: BCDText, PrintBoldLeftStr with Y = $6D; DrawSeasonPlayerRow's stat cells",src/bankC5_B000.asm
+$C5BCD9,DrawPlayerStatsTeam,CODE_C5BCD9,code,"from the code; SeasonPlayerStats and SeasonPlayerStatsInput call it",src/bankC5_B000.asm
+$C5BCE3,DrawStatsTeam,CODE_C5BCE3,code,"from the code: DeleteSprite, QueueHomePalette, CreateSprite, RefreshSprites, ClearRAM7E at $D3 + $180, DATA8_C3585C, PrintThinCentred; DrawSeasonTeamStats calls it",src/bankC5_B000.asm
+$C5BEED,TeamRecordText,CODE_C5BEED,code,"from the code: BinToBCD / BCDTextAt three times; DATA8_C5BEDD entry 0, the stat StandingsStatTitles calls Wins / Losses / Ties; DrawStandingsRow calls it",src/bankC5_B000.asm
+$C5BF1D,TeamPointsText,CODE_C5BF1D,code,"from the code: BinToBCD, BCDText; DATA8_C5BEDD entry 1 (Points); BuildTeamSeasonRecord sets +$A = wins * 2 + ties",src/bankC5_B000.asm
+$C5BF26,TeamGoalsAvgText,CODE_C5BF26,code,"from the code: the BCD high byte, $3D, two digits; DATA8_C5BEDD entry 2 (Goals Scored Avg.); BuildTeamSeasonRecord sets +$10 = +$E * 100 / games",src/bankC5_B000.asm
+$C5BF50,TeamGoalsAllowedText,CODE_C5BF50,code,"from the code: as TeamGoalsAvgText; DATA8_C5BEDD entry 3 (Goals Allowed Avg.); +$12 = +$2A * 100 / games",src/bankC5_B000.asm
+$C5BF7A,TeamSavePctText,CODE_C5BF7A,code,"from the code: BinToBCD, BCDText; DATA8_C5BEDD entry 4 (Save %); +$14 = (+$2E - +$2A) * 100 / +$2E",src/bankC5_B000.asm
+$C5BF83,TeamShootPctText,CODE_C5BF83,code,"from the code: BinToBCD, BCDText; DATA8_C5BEDD entry 5 (Shooting Pct.); +$16 = +$E * 100 / +$18",src/bankC5_B000.asm
+$C5BF8C,TeamShotsAvgText,CODE_C5BF8C,code,"from the code: as TeamGoalsAvgText; DATA8_C5BEDD entry 6 (Shots Per Game); +$1A = +$18 * 100 / games",src/bankC5_B000.asm
+$C5BFB6,TeamShotsAllowedText,CODE_C5BFB6,code,"from the code: as TeamGoalsAvgText; DATA8_C5BEDD entry 7 (Shots Allowed); +$30 = +$2E * 100 / games",src/bankC5_B000.asm
+$C5BFE0,KeepDivisionTeams,CODE_C5BFE0,code,"from the code: entries whose team (+$C) is in another division are zeroed, then the list closed up; DrawStandings calls it after SortStandingsByStat; DivisionNames is read by the same d1",src/bankC5_C000.asm
+$C5C029,SortStandingsByStat,CODE_C5C029,code,"from the code: an insertion pass per record (+2 links the next), jmp ($9F) to the compare routine; DrawStandings calls it; CODE_C5E37E builds the records (BuildTeamSeasonRecord)",src/bankC5_C000.asm
+$C5C068,SortByPoints,CODE_C5C068,code,"from the code: lda +$A of entry Y, cmp record X's; DATA8_C5C0AE entries 0 and 1 (Wins / Losses / Ties, Points)",src/bankC5_C000.asm
+$C5C072,SortByGoalsAvg,CODE_C5C072,code,"from the code; DATA8_C5C0AE entry 2 (Goals Scored Avg.)",src/bankC5_C000.asm
+$C5C07C,SortByGoalsAllowed,CODE_C5C07C,code,"from the code: record X's +$12 against entry Y's; DATA8_C5C0AE entry 3 (Goals Allowed Avg.)",src/bankC5_C000.asm
+$C5C086,SortBySavePct,CODE_C5C086,code,"from the code; DATA8_C5C0AE entry 4 (Save %)",src/bankC5_C000.asm
+$C5C090,SortByShootPct,CODE_C5C090,code,"from the code; DATA8_C5C0AE entry 5 (Shooting Pct.)",src/bankC5_C000.asm
+$C5C09A,SortByShotsAvg,CODE_C5C09A,code,"from the code; DATA8_C5C0AE entry 6 (Shots Per Game)",src/bankC5_C000.asm
+$C5C0A4,SortByShotsAllowed,CODE_C5C0A4,code,"from the code: record X's +$30 against entry Y's; DATA8_C5C0AE entry 7 (Shots Allowed)",src/bankC5_C000.asm
