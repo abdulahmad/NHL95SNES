@@ -6212,31 +6212,31 @@ $C5C478,.14,CODE_C5C478,new,"branch target only used in DrawFreeAgentRow",src/ba
 $C5C4B5,.loop4,CODE_C5C4B5,new,"branch target only used in DrawFreeAgentRow",src/bankC5_C000.asm
 $C5C4C7,.15,CODE_C5C4C7,new,"branch target only used in DrawFreeAgentRow",src/bankC5_C000.asm
 $C5C4D7,.16,CODE_C5C4D7,new,"branch target only used in DrawFreeAgentRow",src/bankC5_C000.asm
-$C5C4FF,.1,CODE_C5C4FF,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C51E,.2,CODE_C5C51E,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C527,.3,CODE_C5C527,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C530,.4,CODE_C5C530,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C53F,.5,CODE_C5C53F,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C548,.6,CODE_C5C548,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C54D,.7,CODE_C5C54D,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C556,.8,CODE_C5C556,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C55D,.9,CODE_C5C55D,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C56A,.10,CODE_C5C56A,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C581,.11,CODE_C5C581,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C589,.rts,CODE_C5C589,new,"branch target only used in CODE_C5C4FC",src/bankC5_C000.asm
-$C5C595,.1,CODE_C5C595,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C59B,.2,CODE_C5C59B,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C5C5,.3,CODE_C5C5C5,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C5D9,.4,CODE_C5C5D9,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C5EE,.5,CODE_C5C5EE,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C602,.loop,CODE_C5C602,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C616,.6,CODE_C5C616,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C637,.7,CODE_C5C637,new,"branch target only used in CODE_C5C58A",src/bankC5_C000.asm
-$C5C65C,.loop,CODE_C5C65C,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
-$C5C678,.1,CODE_C5C678,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
-$C5C695,.2,CODE_C5C695,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
-$C5C69E,.3,CODE_C5C69E,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
-$C5C6A0,.4,CODE_C5C6A0,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
+$C5C4FF,.1,CODE_C5C4FF,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C51E,.2,CODE_C5C51E,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C527,.3,CODE_C5C527,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C530,.4,CODE_C5C530,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C53F,.5,CODE_C5C53F,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C548,.6,CODE_C5C548,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C54D,.7,CODE_C5C54D,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C556,.8,CODE_C5C556,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C55D,.9,CODE_C5C55D,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C56A,.10,CODE_C5C56A,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C581,.11,CODE_C5C581,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C589,.rts,CODE_C5C589,new,"branch target only used in MarkFreeAgentLimits",src/bankC5_C000.asm
+$C5C595,.1,CODE_C5C595,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C59B,.2,CODE_C5C59B,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C5C5,.3,CODE_C5C5C5,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C5D9,.4,CODE_C5C5D9,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C5EE,.5,CODE_C5C5EE,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C602,.loop,CODE_C5C602,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C616,.6,CODE_C5C616,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C637,.7,CODE_C5C637,new,"branch target only used in SignMarkedAgents",src/bankC5_C000.asm
+$C5C65C,.loop,CODE_C5C65C,new,"branch target only used in JerseyNumberTaken",src/bankC5_C000.asm
+$C5C678,.1,CODE_C5C678,new,"branch target only used in JerseyNumberTaken",src/bankC5_C000.asm
+$C5C695,.2,CODE_C5C695,new,"branch target only used in JerseyNumberTaken",src/bankC5_C000.asm
+$C5C69E,.3,CODE_C5C69E,new,"branch target only used in JerseyNumberTaken",src/bankC5_C000.asm
+$C5C6A0,.4,CODE_C5C6A0,new,"branch target only used in JerseyNumberTaken",src/bankC5_C000.asm
 $C5C6C3,.1,CODE_C5C6C3,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
 $C5C6CA,.loop,CODE_C5C6CA,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
 $C5C6E3,.2,CODE_C5C6E3,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
@@ -6270,9 +6270,9 @@ $C5C967,.4,CODE_C5C967,new,"branch target only used in DrawReleaseRow",src/bankC
 $C5C976,.5,CODE_C5C976,new,"branch target only used in DrawReleaseRow",src/bankC5_C000.asm
 $C5C9A0,.6,CODE_C5C9A0,new,"branch target only used in DrawReleaseRow",src/bankC5_C000.asm
 $C5C9AC,.7,CODE_C5C9AC,new,"branch target only used in DrawReleaseRow",src/bankC5_C000.asm
-$C5CA2A,.1,CODE_C5CA2A,new,"branch target only used in CODE_C5CA27",src/bankC5_C000.asm
-$C5CA32,.2,CODE_C5CA32,new,"branch target only used in CODE_C5CA27",src/bankC5_C000.asm
-$C5CA59,.3,CODE_C5CA59,new,"branch target only used in CODE_C5CA27",src/bankC5_C000.asm
+$C5CA2A,.1,CODE_C5CA2A,new,"branch target only used in ReleaseMarkedPlayers",src/bankC5_C000.asm
+$C5CA32,.2,CODE_C5CA32,new,"branch target only used in ReleaseMarkedPlayers",src/bankC5_C000.asm
+$C5CA59,.3,CODE_C5CA59,new,"branch target only used in ReleaseMarkedPlayers",src/bankC5_C000.asm
 $C5CA7A,.1,CODE_C5CA7A,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
 $C5CA97,.2,CODE_C5CA97,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
 $C5CA9A,.3,CODE_C5CA9A,new,"branch target only used in TradePlayers",src/bankC5_C000.asm
@@ -8476,3 +8476,8 @@ $C5C086,SortBySavePct,CODE_C5C086,code,"from the code; DATA8_C5C0AE entry 4 (Sav
 $C5C090,SortByShootPct,CODE_C5C090,code,"from the code; DATA8_C5C0AE entry 5 (Shooting Pct.)",src/bankC5_C000.asm
 $C5C09A,SortByShotsAvg,CODE_C5C09A,code,"from the code; DATA8_C5C0AE entry 6 (Shots Per Game)",src/bankC5_C000.asm
 $C5C0A4,SortByShotsAllowed,CODE_C5C0A4,code,"from the code: record X's +$30 against entry Y's; DATA8_C5C0AE entry 7 (Shots Allowed)",src/bankC5_C000.asm
+$C5C1F6,SetupFreeAgentsScreen,CODE_C5C1F6,code,"from the code: DMAEnShadow $8000, QueueClearVRAM $5000, ClearVRAM $5C00, BG3VScroll = $FFFF, WaitTransfers, then it falls into DrawFreeAgentsPage; SignFreeAgents calls it first",src/bankC5_C000.asm
+$C5C4FC,MarkFreeAgentLimits,CODE_C5C4FC,code,"from the code: the position (0 goalie, 1-2 defense, 3-5 forwards) from PlayerList bits 14-15 or a created player's bits, kept in the low bits of the flags; DrawFreeAgentsPage and SignFreeAgents (after a mark) call it",src/bankC5_C000.asm
+$C5C58A,SignMarkedAgents,CODE_C5C58A,code,"from the code: the 12-bit entries at SRPlayerTeams (team 5 bits, number 7 bits), the number from the player record or a created player's save bits (+$5D), stepped up (99 wraps to 0) while JerseyNumberTaken",src/bankC5_C000.asm
+$C5C658,JerseyNumberTaken,CODE_C5C658,code,"from the code: the $27E 12-bit entries, team 5 bits and number 7 bits each; SignMarkedAgents steps the number on while it is set",src/bankC5_C000.asm
+$C5CA27,ReleaseMarkedPlayers,CODE_C5CA27,code,"from the code: the player numbers at $3241 + 2 * row, and #$FE0F / ora #$01A0 or and #$FFE0 / ora #$001A; DrawLeaderRow prints free for team $1A and above",src/bankC5_C000.asm

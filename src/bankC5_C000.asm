@@ -159,10 +159,10 @@ DrawSetupTeams:						; the setup screen's teams: both colour sets queued, two ti
 	jsr.w PrintHomeTeamName
 	jmp.w PrintVisTeamName
 SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, B marks one);
-									; start hires them (CODE_C5C58A), X leaves
+									; start hires them (SignMarkedAgents), X leaves
 	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
-	jsr.w CODE_C5C1F6
+	jsr.w SetupFreeAgentsScreen
 	stz.w fadestep
 .loop:								; loop: TransfersReady + 1, call ReadMenuPads, $26 + 1, ...
 	inc.w TransfersReady
@@ -191,7 +191,7 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	beq .1
 	lda.b a1
 	beq .2
-	jmp.w CODE_C5C58A
+	jmp.w SignMarkedAgents
 .1:									; if $0040 bits clear go to .3
 	bit.w #$0040
 	beq .3
@@ -267,14 +267,15 @@ SignFreeAgents:						; the Hire Free Agents screen: the free agents (up / down, 
 	bra .14
 .13:								; $81 - 1
 	dec.b $81
-.14:								; call CODE_C5C4FC, call PrintPositionCounts, call CODE_C55C12, ...
-	jsr.w CODE_C5C4FC
+.14:								; call MarkFreeAgentLimits, call PrintPositionCounts, ...
+	jsr.w MarkFreeAgentLimits
 	jsr.w PrintPositionCounts
 	jsr.w CODE_C55C12
 	jsl.l SendTextMap
 .15:								; go to .loop
 	jmp.w .loop
-CODE_C5C1F6:						; from SignFreeAgents
+SetupFreeAgentsScreen:				; SignFreeAgents' screen: VRAM cleared, the BG3 scroll reset, then
+									; DrawFreeAgentsPage
 	lda.w #$8000
 	sta.w DMAEnShadow
 	ldy.w #$5000
@@ -405,7 +406,7 @@ DrawFreeAgentsPage:					; draws the Hire Free Agents page and starts its scrolli
 	dex
 	stz.w $364E,x
 	bne .loop2
-	jsr.w CODE_C5C4FC
+	jsr.w MarkFreeAgentLimits
 	lda.w #DrawFreeAgentRow
 	ldx.w #$0008
 	ldy.w #$000E
@@ -623,7 +624,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C5C4FC:						; from DrawFreeAgentsPage, SignFreeAgents
+MarkFreeAgentLimits:				; sets bit $80 in the flags ($364E) of each free agent whose group is full
+									; (3 goalies, 15 defense or forwards, 25 players: d0, d1, $81) and clears
+									; it on the others
 	ldx.w #$0000
 .1:									; a3 = X, $65 = X, call FindFreeAgent, if A >= $026A go to .4, ...
 	stx.b a3
@@ -698,7 +701,9 @@ CODE_C5C4FC:						; from DrawFreeAgentsPage, SignFreeAgents
 	jmp.w .1
 .rts:								; return
 	rts
-CODE_C5C58A:						; from SignFreeAgents
+SignMarkedAgents:					; start on Hire Free Agents: each marked free agent ($364E bit $40) goes
+									; to VisTeam in SRPlayerTeams with the first number from its own up that
+									; VisTeam has free; then GameSetUp
 	lda.w VisTeam
 	asl a
 	asl a
@@ -757,9 +762,9 @@ CODE_C5C58A:						; from SignFreeAgents
 	tax
 	lda.l $C30000,x
 	and.w #$00FF
-.loop:								; loop: tmp2 = A, call CODE_C5C658, if carry clear go to .6, A = tmp2, ...
+.loop:								; loop: tmp2 = A, call JerseyNumberTaken, if carry clear go to .6, ...
 	sta.b tmp2
-	jsr.w CODE_C5C658
+	jsr.w JerseyNumberTaken
 	bcc .6
 	lda.b tmp2
 	inc a
@@ -802,7 +807,8 @@ CODE_C5C58A:						; from SignFreeAgents
 	jmp.w .1
 DATA8_C5C655:						; not traced: data between routines
 	db $4C,$32,$8D
-CODE_C5C658:						; from CODE_C5C58A
+JerseyNumberTaken:					; carry set when a player of VisTeam in SRPlayerTeams already has number
+									; tmp2 (tmp1 = VisTeam * 16)
 	ldx.w #$0000
 	txy
 .loop:								; loop: A = SRPlayerTeams,x, A and $001F, ...
@@ -923,7 +929,7 @@ RecordOverall:						; A = the overall rating (25-100) of the player record in me
 .rts:								; return
 	rts
 ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B marks a
-									; player); start releases them (CODE_C5CA27), X leaves
+									; player); start releases them (ReleaseMarkedPlayers), X leaves
 	jsl.l CheckTradesFrozen
 	jsl.l FadeOutWait
 	jsr.w DrawReleasePage
@@ -953,7 +959,7 @@ ReleasePlayers:						; the Release Players screen: a team's roster (up / down, B
 	lda.w padchangeany
 	bit.w #$1000
 	beq .1
-	jmp.w CODE_C5CA27
+	jmp.w ReleaseMarkedPlayers
 .1:									; if $0040 bits clear go to .2, go to GameSetUp
 	bit.w #$0040
 	beq .2
@@ -1269,7 +1275,8 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	lda.w #$2000
 	sta.b $D5
 	rts
-CODE_C5CA27:						; from ReleasePlayers
+ReleaseMarkedPlayers:				; start on Release Players: each marked player ($364E bit 0) gets team $1A
+									; (free agent) in SRPlayerTeams; then GameSetUp
 	ldy.w #$FFFF
 .1:									; Y + 1, if Y is not a1 go to .2, go to GameSetUp
 	iny
