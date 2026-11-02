@@ -5377,11 +5377,11 @@ $C54BA3,.1,CODE_C54BA3,new,"branch target only used in lcfound_close",src/bankC5
 $C54BCA,.1,CODE_C54BCA,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
 $C54BE1,.2,CODE_C54BE1,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
 $C54BE7,.rtl,CODE_C54BE7,new,"branch target only used in CloseLCBoxes",src/bankC5_4000.asm
-$C54C13,.1,CODE_C54C13,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
-$C54C23,.loop,CODE_C54C23,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
-$C54C38,.2,CODE_C54C38,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
-$C54C45,.3,CODE_C54C45,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
-$C54C5F,.4,CODE_C54C5F,new,"branch target only used in CODE_C54BE8",src/bankC5_4000.asm
+$C54C13,.1,CODE_C54C13,new,"branch target only used in BuildMesareaBar",src/bankC5_4000.asm
+$C54C23,.loop,CODE_C54C23,new,"branch target only used in BuildMesareaBar",src/bankC5_4000.asm
+$C54C38,.2,CODE_C54C38,new,"branch target only used in BuildMesareaBar",src/bankC5_4000.asm
+$C54C45,.3,CODE_C54C45,new,"branch target only used in BuildMesareaBar",src/bankC5_4000.asm
+$C54C5F,.4,CODE_C54C5F,new,"branch target only used in BuildMesareaBar",src/bankC5_4000.asm
 $C54CCA,.1,CODE_C54CCA,new,"branch target only used in getlinee",src/bankC5_4000.asm
 $C54CD5,.loop,CODE_C54CD5,new,"branch target only used in getlinee",src/bankC5_4000.asm
 $C54CEA,.2,CODE_C54CEA,new,"branch target only used in getlinee",src/bankC5_4000.asm
@@ -8553,3 +8553,6 @@ $C53984,InitGameSprites,CODE_C53984,code,"from the code: ResetSprites, CreateSpr
 $C53980,InitGameSpritesLong,CODE_C53980,code,"jsr InitGameSprites, rtl",src/bankC5_3000.asm
 $C53A75,PackTeamSecondText,CODE_C53A75,code,"from the code: TeamList, the record's +2 word, UnpackText of the first string, the next byte when bits remain ($0A), UnpackText of the second, then falls into PackShortText; the score box code queues it to VRAM",src/bankC5_3000.asm
 $C53A71,PackTeamSecondTextLong,CODE_C53A71,code,"jsr PackTeamSecondText, rtl",src/bankC5_3000.asm
+$C54114,setlccords,CODE_C54114,94S+purpose,"94S input/setlccords (callers SetLCmode2 and lcfound_close in both): team 0 or the gmdir bit ($0002) flips the side, getlchoice 2 sets the height (6 / 5 in 94S), the width is fixed ($C in 94S); 95 returns a map address for Framer instead of printx / printy: lower box $5AB5 ($5AD5 when tmap and tmap+2 differ, where 94S moves a row down when choice 2 has no line), upper box $5855 ($5995 when $18AA is set); the ROM bytes at $C54120 are ldy #$5AB5 (A0 B5 5A, reached by the fall-through and the beq at $C54133), so the old phy entry at $C54122 was an operand byte and its other-segment caller a raw match inside sta $22,x / jsl $C4C541 at $C4E452",src/bankC5_4000.asm
+$C54BE8,BuildMesareaBar,CODE_C54BE8,code,"the same code as the unreferenced routine after 94S lcfound_close's jml (its .t1, a local label only): printa $2000, seven lsr capped at $1F, mesarea length 6, the four cell loop with -1 / 0-7 + d1, $0C00 when d1 is set, printx - $B, the $4000 mirror bit set then cleared, mesarea+2 / +5 and +3 / +4 swapped; 95 saves d0-d7 and a1 with pei; no caller in either game",src/bankC5_4000.asm
+$C54D70,LineBarQueue,CODE_C54D70,code,"from the code: LineBarLow falls into it, LineBarMiddle and LineBarHigh bra to it; the tile byte at Y, then the transfer record (3 bytes, $1800, bank $7E, the work buffer) pushed on the VRAM queue",src/bankC5_4000.asm

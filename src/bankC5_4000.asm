@@ -67,7 +67,7 @@ SetLCmode:							; opens the line change box for player X's team when line chang
 SetLCmode2:							; draws the line change box of team a2: the frame, then a row per line
 									; choice (getlchoice) with its button letter (DATA8_C5410E)
 	phx
-	jsr.w CODE_C54114
+	jsr.w setlccords
 	sta.b d0
 	sty.b $81
 	jsl.l Framer
@@ -145,30 +145,31 @@ SetLCmode2:							; draws the line change box of team a2: the frame, then a row 
 	rtl
 DATA8_C5410E:						; not traced: a table read by SetLCmode2
 	db $D9,$A0,$C2,$A0,$C1,$A0
-CODE_C54114:						; from SetLCmode2, lcfound_close
+setlccords:							; team a2's line change box: A = its map address (the side by team and the
+									; gmode direction bit), X = the width $B, Y = the height 5, or 4 when
+									; getlchoice 2 has no line
 	lda.w gmode
 	ldx.b a2
 	beq CODE_C54130
 	bit.w #$0002
 	beq CODE_C54135
-CODE_C54120:						; not traced: data between routines
-	db $A0,$B5
-CODE_C54122:						; called from other segments
-	phy
+CODE_C54120:						; the lower box: Y = $5AB5, or $5AD5 (a row down) when tmap and tmap+2
+									; differ
+	ldy.w #$5AB5
 	lda.w tmap
 	cmp.w $12C9
 	beq CODE_C54140
 	ldy.w #$5AD5
 	bra CODE_C54140
-CODE_C54130:						; from CODE_C54114
+CODE_C54130:						; from setlccords
 	bit.w #$0002
 	beq CODE_C54120
-CODE_C54135:						; from CODE_C54114
+CODE_C54135:						; from setlccords
 	ldy.w #$5855
 	lda.w $18AA
 	beq CODE_C54140
 	ldy.w #$5995
-CODE_C54140:						; from CODE_C54122, CODE_C54135
+CODE_C54140:						; from CODE_C54120, CODE_C54135
 	phy
 	lda.w #$0002
 	jsr.w getlchoice
@@ -1409,7 +1410,7 @@ RestoreBenchEnergyReturn:			; the rtl RestoreBenchEnergy's early branches leave 
 lcfound_close:						; closes team a2's line change box: its six rows overwritten from
 									; TextMapFill through the transfer queue, then the score box (when the
 									; box was over it) and the clock redrawn
-	jsr.w CODE_C54114
+	jsr.w setlccords
 	pha
 	tay
 	jsl.l WaitTransfers
@@ -1473,7 +1474,9 @@ CloseLCBoxes:						; closes each team's open line change box (tmflags bit 3, onl
 	inc.w $18AA
 .rtl:								; return
 	rtl
-CODE_C54BE8:						; no caller found (not traced)
+BuildMesareaBar:					; no caller found: a four cell bar of d0 in mesarea (d0 / 128 capped at
+									; 31, 8 a cell, tiles from d1, a 0 tile a space), the printa bits set, the
+									; cells reversed
 	pei ($7F)
 	pei ($81)
 	pei ($83)
@@ -1664,7 +1667,7 @@ LineBarHigh:						; fills two energy bar tiles and selects the third tile remain
 	sbc.w #$2000
 	iny
 	iny
-	bra CODE_C54D70
+	bra LineBarQueue
 LineBarMiddle:						; fills the first energy bar tile and selects the second tile remainder
 	lda.w #$0091
 	sta.w $0000,y
@@ -1674,12 +1677,13 @@ LineBarMiddle:						; fills the first energy bar tile and selects the second til
 	sec
 	sbc.w #$1000
 	iny
-	bra CODE_C54D70
+	bra LineBarQueue
 LineBarLow:							; selects the first energy bar tile from the scaled energy
 	lda.w #$0092
 	sta.b d1
 	lda.b $85
-CODE_C54D70:						; from LineBarMiddle, LineBarHigh
+LineBarQueue:						; the end of linebar's three fill cases: the last bar tile (the energy
+									; left / $200 + d1), then the three tiles queued to VRAM at d0 + 6
 	and.w #$FE00
 	xba
 	lsr a
