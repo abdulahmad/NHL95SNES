@@ -794,10 +794,10 @@ AnswerNameOk:						; start on Is the player name ok: No (d6 not 0) starts over
 	beq .1
 	pla
 	jmp.w CreatePlayer
-.1:									; call FadeOutWait, $99 + 1, A = $4672, A and $00FF, ...
+.1:									; call FadeOutWait, $99 + 1, A = CreateFirstName, A and $00FF, ...
 	jsl.l FadeOutWait
 	inc.b $99
-	lda.w $4672
+	lda.w CreateFirstName
 	and.w #$00FF
 	dec a
 	ldx.w #$4673
@@ -807,7 +807,7 @@ AnswerNameOk:						; start on Is the player name ok: No (d6 not 0) starts over
 	sta.w $0000,y
 	iny
 	ldx.w #$467D
-	lda.w $467C
+	lda.w CreateLastName
 	and.w #$00FF
 	mvn $7E,$7E
 	lda.b $D3
@@ -964,7 +964,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	tyx
 	stz.w mesarea,x
 	tya
-	sta.w $4672
+	sta.w CreateFirstName
 	ldx.w #mesarea
 	ldy.w #$4673
 	mvn $7E,$7E
@@ -992,7 +992,7 @@ NameEntry:							; Create Player name entry, screen states 0 and 1 (first and la
 	tyx
 	stz.w mesarea,x
 	tya
-	sta.w $467C
+	sta.w CreateLastName
 	ldx.w #mesarea
 	ldy.w #$467D
 	mvn $7E,$7E
@@ -1150,8 +1150,8 @@ SkaterRatingsInput:					; the skater ratings page's keys: the cursor on rating d
 	jmp.w SaveCreatedPlayer
 .rts:								; return
 	rts
-EditRatingLeft:						; rating d6 ($0527 + 2 * d6) one step down to at least 0, its 5 points
-									; back in d2, then the value printed (RatingText) and the overall
+EditRatingLeft:						; rating d6 (CreateRatings + 2 * d6) one step down to at least 0, its 5
+									; points back in d2, then the value printed (RatingText) and the overall
 									; (PrintCreatedOverall)
 	lda.b d6
 	xba
@@ -1173,7 +1173,7 @@ EditRatingLeft:						; rating d6 ($0527 + 2 * d6) one step down to at least 0, i
 	lda.b d6
 	asl a
 	tax
-	lda.w $0527,x
+	lda.w CreateRatings,x
 	dec a
 	bpl .2
 	sec
@@ -1181,8 +1181,8 @@ EditRatingLeft:						; rating d6 ($0527 + 2 * d6) one step down to at least 0, i
 	sbc.w #$0005
 	sta.b d2
 	lda.w #$0000
-.2:									; $0527,x = A, push A, call RatingText, pull A, ...
-	sta.w $0527,x
+.2:									; CreateRatings,x = A, push A, call RatingText, pull A, ...
+	sta.w CreateRatings,x
 	pha
 	jsr.w RatingText
 	pla
@@ -1227,7 +1227,7 @@ EditRatingRight:					; rating d6 one step up while below 15 and d2 has 5 points 
 	lda.b d6
 	asl a
 	tax
-	lda.w $0527,x
+	lda.w CreateRatings,x
 	cmp.w #$000F
 	bcs .2
 	asl a
@@ -1240,12 +1240,12 @@ EditRatingRight:					; rating d6 one step up while below 15 and d2 has 5 points 
 	lda.b d6
 	asl a
 	tax
-	inc.w $0527,x
-.2:									; A = d6, A * 2, X = A, A = $0527,x, ...
+	inc.w CreateRatings,x
+.2:									; A = d6, A * 2, X = A, A = CreateRatings,x, ...
 	lda.b d6
 	asl a
 	tax
-	lda.w $0527,x
+	lda.w CreateRatings,x
 	jsr.w RatingText
 	lda.b d6
 	clc
@@ -1396,8 +1396,8 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	sta.b tmp2
 	jsr.w WriteSaveBits3
 	ldx.w #$0000
-.loop2:								; loop: A = $4673,x, if the result = 0 go to .5, ...
-	lda.w $4673,x
+.loop2:								; loop: A = CreateFirstName+1,x, if the result = 0 go to .5, ...
+	lda.w CreateFirstName+1,x
 	and.w #$00FF
 	beq .5
 	cmp.w #$003D
@@ -1422,8 +1422,8 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	adc.w #$002B
 	tay
 	ldx.w #$0000
-.loop3:								; loop: A = $467D,x, if the result = 0 go to .8, ...
-	lda.w $467D,x
+.loop3:								; loop: A = CreateLastName+1,x, if the result = 0 go to .8, ...
+	lda.w CreateLastName+1,x
 	and.w #$00FF
 	beq .8
 	cmp.w #$003D
@@ -1453,70 +1453,70 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	lda.b d0
 	bne .10
 	jmp.w .11
-.10:								; A = $0529, call RatingNibble, tmp2 = A, call WriteSaveBits4, ...
-	lda.w $0529
+.10:								; A = CreateRatings+$2, call RatingNibble, tmp2 = A, ...
+	lda.w CreateRatings+$2
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $81
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $052D
+	lda.w CreateRatings+$6
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0527
+	lda.w CreateRatings
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0533
+	lda.w CreateRatings+$C
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $052F
+	lda.w CreateRatings+$8
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $85
 	sta.b tmp2
 	jsr.w WriteSaveBit
-	lda.w $053D
+	lda.w CreateRatings+$16
 	jsr.w RatingNibble
 	lsr a
 	sta.b tmp2
 	jsr.w WriteSaveBits3
-	lda.w $053B
+	lda.w CreateRatings+$14
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0535
+	lda.w CreateRatings+$E
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0531
+	lda.w CreateRatings+$A
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $26
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $052B
+	lda.w CreateRatings+$4
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0539
+	lda.w CreateRatings+$12
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0537
+	lda.w CreateRatings+$10
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $A5
 	jsr.w ClearPlayerGoals
 	jmp.w ExitCreatePlayer3
-.11:								; A = $0529, call RatingNibble, tmp2 = A, call WriteSaveBits4, ...
-	lda.w $0529
+.11:								; A = CreateRatings+$2, call RatingNibble, tmp2 = A, ...
+	lda.w CreateRatings+$2
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
@@ -1525,15 +1525,15 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	jsr.w WriteSaveBits4
 	stz.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0527
+	lda.w CreateRatings
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $052D
+	lda.w CreateRatings+$6
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $052B
+	lda.w CreateRatings+$4
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
@@ -1545,19 +1545,19 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	stz.b tmp2
 	jsr.w WriteSaveBits4
 	jsr.w WriteSaveBits4
-	lda.w $052F
+	lda.w CreateRatings+$8
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0531
+	lda.w CreateRatings+$A
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0533
+	lda.w CreateRatings+$C
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
-	lda.w $0535
+	lda.w CreateRatings+$E
 	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
@@ -1742,10 +1742,10 @@ PlayerInfoInput:					; EditPlayerInfo's keys: up / down pick line d6 (position, 
 	lda.w #$0145
 	sta.b d2
 	lda.w #$0003
-	sta.w $0527
+	sta.w CreateRatings
 	lda.w #$0027
-	ldx.w #$0527
-	ldy.w #$0529
+	ldx.w #CreateRatings
+	ldy.w #CreateRatings+2
 	mvn $7E,$7E
 	lda.w #$00E8
 	sta.b $D1
@@ -1758,8 +1758,8 @@ PlayerInfoInput:					; EditPlayerInfo's keys: up / down pick line d6 (position, 
 .10:								; tmp0 = X, X = $0000
 	stx.b tmp0
 	ldx.w #$0000
-.loop:								; loop: A = $0527,x, push X, push Y, tmp1 = A, ...
-	lda.w $0527,x
+.loop:								; loop: A = CreateRatings,x, push X, push Y, tmp1 = A, ...
+	lda.w CreateRatings,x
 	phx
 	phy
 	sta.b tmp1

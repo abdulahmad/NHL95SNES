@@ -983,15 +983,15 @@ RankScoutingHotColdPlayers:			; ranks a roster's three hottest and coldest playe
 	ldy.w #$F0C9
 	sty.b d4
 	ldy.w #$0010
-.2:									; $91 = Y, d0 = A, $24DC = 0, call CalcRosterAttribLong, ...
+.2:									; $91 = Y, d0 = A, RatingMode = 0, call CalcRosterAttribLong, ...
 	sty.b $91
 	sta.b d0
-	stz.w $24DC
+	stz.w RatingMode
 	jsl.l CalcRosterAttribLong
 	pha
 	lda.b $05,s
 	sta.b d0
-	inc.w $24DC
+	inc.w RatingMode
 	jsl.l CalcRosterAttribLong
 	sec
 	sbc.b $01,s

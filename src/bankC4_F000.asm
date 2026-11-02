@@ -5,7 +5,7 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 									; value (RecordOverallLong), then the line slots filled position by
 									; position
 	sty.b tmp0
-	stz.w $24DC
+	stz.w RatingMode
 	lda.w $0000,y
 	sta.b tmp1
 .loop:								; loop: if zero go to .1, A - 1, tmp1 = A, A * 2, ...

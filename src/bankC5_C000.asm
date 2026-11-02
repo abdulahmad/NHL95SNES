@@ -609,8 +609,8 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	and.w #$000F
 	bne .16
 	ldy.w #$0010
-.16:								; $24DC = Y, call RecordOverall, call BinToBCD, call BCDText, ...
-	sty.w $24DC
+.16:								; RatingMode = Y, call RecordOverall, call BinToBCD, call BCDText, ...
+	sty.w RatingMode
 	jsr.w RecordOverall
 	jsr.w BinToBCD
 	jsr.w BCDText
@@ -866,8 +866,8 @@ RecordOverallLong:					; RecordOverall for long calls, tmp0, $A5 and $0A kept
 	stx.b tmp0
 	rtl
 RecordOverall:						; A = the overall rating (25-100) of the player record in mesarea: its
-									; attribute nibbles weighted (DATA8_C57309, the set by $24DC), at most
-									; 100, below 50 made 25 + A / 2
+									; attribute nibbles weighted (DATA8_C57309, the set by RatingMode), at
+									; most 100, below 50 made 25 + A / 2
 	ldx.w #$5DF9
 	lda.l $7E24DC
 	beq .1
@@ -912,8 +912,8 @@ RecordOverall:						; A = the overall rating (25-100) of the player record in me
 	lda.b $A5
 	bpl .4
 	lda.w #$0000
-.4:									; if $24DC = 0 go to .5, A / 2
-	ldx.w $24DC
+.4:									; if RatingMode = 0 go to .5, A / 2
+	ldx.w RatingMode
 	beq .5
 	lsr a
 .5:									; if A < $0065 go to .6, A = $0064
@@ -1168,8 +1168,8 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	cmp.w #$0003
 	bne .2
 	bra .4
-.1:									; $24DC = 0, X = $4CF6, A - $0004,y, if the result >= 0 go to .3, ...
-	stz.w $24DC
+.1:									; RatingMode = 0, X = $4CF6, A - $0004,y, if the result >= 0 go to .3, ...
+	stz.w RatingMode
 	ldx.w #$4CF6
 	sbc.w $0004,y
 	bpl .3
@@ -1520,7 +1520,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	sec
 	sbc.w $0002,y
 	bmi .1
-	stz.w $24DC
+	stz.w RatingMode
 	ldx.w #$4CF6
 	sbc.w $0004,y
 	bmi .1

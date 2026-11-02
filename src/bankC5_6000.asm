@@ -1728,7 +1728,7 @@ PauseGoalieMode:					; pause menu Mnual Goalie / Auto Goalie: switches the goali
 TeamRoster:							; pause menu Team Roster: the roster of team a2 (ShowRosterLine prints its
 									; page: Goalies, Line, Stat); the pad pages through it, start returns
 	lda.w #$0001
-	sta.w $24DC
+	sta.w RatingMode
 	jsl.l FadeOutWait
 	jsl.l WaitTransfers
 	jsr.w SetupScreen

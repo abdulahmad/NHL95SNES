@@ -370,10 +370,10 @@ CalcRosterAttrib:					; the rating of roster player d0 of team a2 for the attrib
 	lsr a
 	lsr a
 	lsr a
-.6:									; A and $000F, d3 = A, if $24DC = 0 go to .9, A = d2, ...
+.6:									; A and $000F, d3 = A, if RatingMode = 0 go to .9, A = d2, ...
 	and.w #$000F
 	sta.b d3
-	lda.w $24DC
+	lda.w RatingMode
 	beq .9
 	lda.b d2
 	dec a
@@ -808,7 +808,7 @@ SelectLinePlayer:					; picks a player for the line slot: a scrolling list of th
 	stz.b $7B
 	stz.b $91
 	lda.w #$0001
-	sta.w $24DC
+	sta.w RatingMode
 	ldx.b a0
 	lda.b $69
 	cmp.w #$0002
@@ -1348,7 +1348,7 @@ Pausemode_gnum:						; PauseGoalie's goalie list: 'Player' and the title of stat
 	lda.w #$0010
 	sta.b $91
 	lda.w #$0001
-	sta.w $24DC
+	sta.w RatingMode
 GoalieListRowNext:					; Pausemode_gnum's row loop: goalie a3's row (the cursor row $69 in
 									; palette 1) and his stat column (RosterColumnTable), returning to
 									; GoalieListRowDone

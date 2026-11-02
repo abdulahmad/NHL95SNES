@@ -17,7 +17,7 @@ TradeValue:							; one side of a trade: the value of its chosen players (from t
 	beq .5
 	tya
 	ldx.b a4
-	stz.w $24DC
+	stz.w RatingMode
 	cmp.w $0002,x
 	bcc .3
 	sbc.w $0002,x
@@ -28,10 +28,10 @@ TradeValue:							; one side of a trade: the value of its chosen players (from t
 .2:									; $81 + 1, go to .4
 	inc.b $81
 	bra .4
-.3:									; d0 + 1, $24DC = $0010
+.3:									; d0 + 1, RatingMode = $0010
 	inc.b d0
 	ldx.w #$0010
-	stx.w $24DC
+	stx.w RatingMode
 .4:									; A = Y, A * 2, A * 2, A * 2, ...
 	tya
 	asl a
@@ -131,8 +131,8 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 									; pad on the home team, then for the first on the away team, keeping each
 									; one's name
 	lda.w #$FFFF
-	sta.w $4688
-	sta.w $468A
+	sta.w HomeUserRec
+	sta.w VisUserRec
 	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rts
@@ -160,21 +160,21 @@ UserNameEntry:						; with user records on (not in practice): NameEntryScreen fo
 	bne .loop2
 .rts:								; return
 	rts
-.2:									; a2 = HomeTeam, pausepad = Y, call NameEntryScreen, $4688 = $65, ...
+.2:									; a2 = HomeTeam, pausepad = Y, call NameEntryScreen, ...
 	lda.w HomeTeam
 	sta.b a2
 	sty.w pausepad
 	jsr.w NameEntryScreen
 	lda.b $65
-	sta.w $4688
+	sta.w HomeUserRec
 	bra .1
-.3:									; a2 = VisTeam, pausepad = Y, call NameEntryScreen, $468A = $65, ...
+.3:									; a2 = VisTeam, pausepad = Y, call NameEntryScreen, VisUserRec = $65, ...
 	lda.w VisTeam
 	sta.b a2
 	sty.w pausepad
 	jsr.w NameEntryScreen
 	lda.b $65
-	sta.w $468A
+	sta.w VisUserRec
 	rts
 NameEntryScreen:					; the Name Entry screen of a pad: the 8 user names (up / down), B edits
 									; one (EditUserName), start takes it
@@ -739,7 +739,8 @@ PrintEditedName:					; prints the name being edited (mesarea) on row $65 + 6 in 
 	jsl.l PrintBoldFixedLeftStr
 	rts
 UpdateRecords:						; after a game, outside play mode 1 and with user records on (OptUserRec):
-									; the user record of each team that has a user name ($4688 / $468A)
+									; the user record of each team that has a user name (HomeUserRec /
+									; VisUserRec)
 	lda.w OptPlayMode
 	cmp.w #$0001
 	beq .rtl
@@ -749,12 +750,12 @@ UpdateRecords:						; after a game, outside play mode 1 and with user records on
 	sta.w $12AF
 	lda.w VisTeam
 	sta.w $12B1
-	lda.w $4688
+	lda.w HomeUserRec
 	bmi .1
 	ldx.w #$0000
 	jsr.w UpdateUserRecord
-.1:									; if $468A < 0 go to .rtl, X = $0002, call UpdateUserRecord
-	lda.w $468A
+.1:									; if VisUserRec < 0 go to .rtl, X = $0002, call UpdateUserRecord
+	lda.w VisUserRec
 	bmi .rtl
 	ldx.w #$0002
 	jsr.w UpdateUserRecord

@@ -1,9 +1,9 @@
 ; Segment bankC5_A000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), two jump tables and the data tables the code reads with long addresses.
 org $C59F79
-PrintCreatedOverall:				; packs the created player's ratings ($0527 on; the skater or goalie
-									; layout by d0) as the nibbles of a player record in mesarea, then prints
-									; its overall rating (RecordOverall) and d2
+PrintCreatedOverall:				; packs the created player's ratings (CreateRatings on; the skater or
+									; goalie layout by d0) as the nibbles of a player record in mesarea, then
+									; prints its overall rating (RecordOverall) and d2
 	stz.w mesarea
 	stz.w mesarea+2
 	stz.w mesarea+4
@@ -11,65 +11,65 @@ PrintCreatedOverall:				; packs the created player's ratings ($0527 on; the skat
 	lda.b d0
 	bne .1
 	lda.w #$0010
-	sta.w $24DC
-	lda.w $0527
+	sta.w RatingMode
+	lda.w CreateRatings
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+2
-	lda.w $0529
+	lda.w CreateRatings+$2
 	jsr.w RatingNibble
 	tsb.w mesarea+1
-	lda.w $052B
+	lda.w CreateRatings+$4
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+3
-	lda.w $052D
+	lda.w CreateRatings+$6
 	jsr.w RatingNibble
 	tsb.w mesarea+3
-	lda.w $052F
+	lda.w CreateRatings+$8
 	jsr.w RatingNibble
 	tsb.w mesarea+6
-	lda.w $0531
+	lda.w CreateRatings+$A
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+6
-	lda.w $0533
+	lda.w CreateRatings+$C
 	jsr.w RatingNibble
 	tsb.w mesarea+7
-	lda.w $0535
+	lda.w CreateRatings+$E
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+7
 	jmp.w .2
-.1:									; $24DC = 0, A = $0527, call RatingNibbleHigh, A = $0529, ...
-	stz.w $24DC
-	lda.w $0527
+.1:									; RatingMode = 0, A = CreateRatings, call RatingNibbleHigh, ...
+	stz.w RatingMode
+	lda.w CreateRatings
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+2
-	lda.w $0529
+	lda.w CreateRatings+$2
 	jsr.w RatingNibble
 	tsb.w mesarea+1
-	lda.w $052B
+	lda.w CreateRatings+$4
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+6
-	lda.w $052D
+	lda.w CreateRatings+$6
 	jsr.w RatingNibble
 	tsb.w mesarea+2
-	lda.w $052F
+	lda.w CreateRatings+$8
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+3
-	lda.w $0531
+	lda.w CreateRatings+$A
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+5
-	lda.w $0533
+	lda.w CreateRatings+$C
 	jsr.w RatingNibble
 	tsb.w mesarea+3
-	lda.w $0535
+	lda.w CreateRatings+$E
 	jsr.w RatingNibble
 	tsb.w mesarea+5
-	lda.w $0537
+	lda.w CreateRatings+$10
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+7
-	lda.w $0539
+	lda.w CreateRatings+$12
 	jsr.w RatingNibble
 	tsb.w mesarea+7
-	lda.w $053B
+	lda.w CreateRatings+$14
 	jsr.w RatingNibbleHigh
 	tsb.w mesarea+4
 .2:									; call RecordOverall, call BinToBCD, call BCDText, Y = $0015, ...

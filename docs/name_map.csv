@@ -8772,3 +8772,9 @@ $DBE8,SimPickTotal,,code,"RAM: from the code: BuildSimPickTable adds each weight
 $DBEA,SimPickIndex,,code,"RAM: from the code: BuildSimPickTable clears it and moves it on per player",src/ram95s.asm
 $2CE3,ScoringLeaders,,code,"RAM: from the code: ShowScoringLeaders clears the three words, InsertScoringLeader tests (minus = free) and shifts them",src/ram95s.asm
 $2CE9,LeaderStats,,code,"RAM: from the code: InsertScoringLeader compares goals + assists, then goals, against each pair and shifts them with the indices",src/ram95s.asm
+$0527,CreateRatings,,code,"RAM: from the code: EditRatingLeft / Right step one by index, PlayerInfoInput sets the first, PrintCreatedOverall and SaveCreatedPlayer read them all",src/ram95s.asm
+$24DC,RatingMode,,code,"RAM: from the code: CalcRosterAttrib adds the HotColdTable change when it is not 0 (RankScoutingHotColdPlayers reads 0 then 1); RecordOverall offsets its weights by it and halves the sum when set ($10 for goalies)",src/ram95s.asm
+$4672,CreateFirstName,,code,"RAM: from the code: NameEntry stores it, AnswerNameOk tests it, SaveCreatedPlayer packs the letters from +1",src/ram95s.asm
+$467C,CreateLastName,,code,"RAM: from the code: NameEntry stores it, AnswerNameOk tests it, SaveCreatedPlayer packs the letters from +1",src/ram95s.asm
+$4688,HomeUserRec,,code,"RAM: from the code: UserNameEntry sets $FFFF, then the home pad's NameEntryScreen result ($65); UpdateRecords reads it",src/ram95s.asm
+$468A,VisUserRec,,code,"RAM: from the code: UserNameEntry sets $FFFF, then the visiting pad's NameEntryScreen result; UpdateRecords reads it",src/ram95s.asm
