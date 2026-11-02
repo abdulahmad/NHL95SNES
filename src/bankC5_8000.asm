@@ -174,7 +174,7 @@ Reset_Fast:							; the rest of the reset: CPU and PPU registers, RAM, the hooks
 	db $58,$51,$5C,$5C,$02,$43		; inline parameters
 	lda.w #$0000
 	tcd
-	jsl.l CODE_C4CEF5
+	jsl.l InitSaveRAM
 	lda.w #$548B
 	sta.w BlockMove
 	lda.w #$6BAB

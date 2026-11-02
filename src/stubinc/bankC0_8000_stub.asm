@@ -8,7 +8,7 @@ incsrc "../ram95s.asm"
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 SendQueuedSoundCmd = $CF00FE		; sound routine in bankCF_0000
 Multi5Bios = $C36D3A
-CODE_C4C58B = $C4C58B
+ProcessQueuedTransfers = $C4C58B
 SpritePalettes = $C10000
 DATA8_C104E0 = $C104E0
 LogoANHTiles = $C10533

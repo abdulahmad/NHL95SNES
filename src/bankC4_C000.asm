@@ -827,7 +827,8 @@ ResetTransferQueues:				; empties the transfer queues: their stack pointers $00 
 	sta.b $04
 	stz.b QueueBusy
 	rtl
-CODE_C4C58B:						; called from other segments
+ProcessQueuedTransfers:				; runs queued VRAM and palette DMA, resets the queues and uploads sprite
+									; OAM
 	ldx.b $02
 	dex
 	stz.b $00,x
@@ -1864,17 +1865,18 @@ CODE_C4CEE0:						; no caller found (not traced)
 	stx.b $00
 	stz.b QueueBusy
 	rtl
-CODE_C4CEF5:						; called from other segments
+InitSaveRAM:						; checks the save signatures and initializes save RAM and defaults on
+									; mismatch
 	pea.w $7E30
 	plb
 	ldy.w #$6000
-	jsr.w CODE_C4CF64
+	jsr.w CompareSaveSignature
 	bne .1
 	ldy.w #$6A16
-	jsr.w CODE_C4CF64
+	jsr.w CompareSaveSignature
 	bne .1
 	ldy.w #$790D
-	jsr.w CODE_C4CF64
+	jsr.w CompareSaveSignature
 	beq .2
 .1:									; A = $1FFE, $6000 = 0, X = $6000, Y = X, ...
 	lda.w #$1FFE
@@ -1884,11 +1886,11 @@ CODE_C4CEF5:						; called from other segments
 	iny
 	mvn $30,$30
 	ldy.w #$6000
-	jsr.w CODE_C4CF5A
+	jsr.w WriteSaveSignature
 	ldy.w #$6A16
-	jsr.w CODE_C4CF5A
+	jsr.w WriteSaveSignature
 	ldy.w #$790D
-	jsr.w CODE_C4CF5A
+	jsr.w WriteSaveSignature
 	jsl.l CODE_C4CF75
 	lda.w #$0101
 	sta.l SROptperlen
@@ -1906,12 +1908,12 @@ CODE_C4CEF5:						; called from other segments
 .2:									; return
 	plb
 	rtl
-CODE_C4CF5A:						; from CODE_C4CEF5
+WriteSaveSignature:					; copies the cartridge header and vectors into a save signature slot
 	ldx.w #$FFC0
 	lda.w #$003F
 	mvn $30,$C0
 	rts
-CODE_C4CF64:						; from CODE_C4CEF5
+CompareSaveSignature:				; compares the save signature at Y against the cartridge header mirror
 	ldx.w #$FFC0
 .loop:								; loop: if $00,x is not $0000,y go to .rts, Y + 1, Y + 1, X + 1, ...
 	lda.b $00,x
@@ -1924,7 +1926,7 @@ CODE_C4CF64:						; from CODE_C4CEF5
 	bne .loop
 .rts:								; return
 	rts
-CODE_C4CF75:						; from CODE_C4CEF5 and other segments
+CODE_C4CF75:						; from InitSaveRAM and other segments
 	jsr.w CODE_C4D05B
 	jsr.w CODE_C4D0D5
 CODE_C4CF7B:						; from CODE_C4D051 and other segments

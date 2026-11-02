@@ -1065,7 +1065,7 @@ NMI_HookReturn:						; NMI after the hook: IRQ timers, BG scroll, queued transfe
 	bit.b QueueBusy
 	bmi .1
 	stz.w MDMAEN
-	jsl.l CODE_C4C58B
+	jsl.l ProcessQueuedTransfers
 	stz.w TransfersReady
 .1:									; DMA and HDMA enables
 	lda.w DMAEnShadow

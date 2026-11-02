@@ -151,7 +151,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	sta.b d3
 	ldx.b a0
 	ldy.b $65
-	jsr.w CODE_C4B36A
+	jsr.w PrepareIntroMode7Sprite
 	lda.w #IntroStartALogo
 	ldx.w #IntroStartALogo>>16
 	ldy.w #$0001
@@ -184,10 +184,10 @@ IntroStartALogo:					; waits for unit scale, then starts the A logo animation
 	cmp.w #$0100
 	beq .1
 	jmp.w CODE_C4B27F
-.1:									; X = a1, Y = $69, call CODE_C4B36A, A = a1, ...
+.1:									; X = a1, Y = $69, call PrepareIntroMode7Sprite, A = a1, ...
 	ldx.b a1
 	ldy.b $69
-	jsr.w CODE_C4B36A
+	jsr.w PrepareIntroMode7Sprite
 	lda.b a1
 	ldx.w #$0001
 	jsr.w StartIntroScaleTask
@@ -199,10 +199,10 @@ IntroStartSportsWord:				; waits for unit scale, then starts the Sports word ani
 	cmp.w #$0100
 	beq .1
 	jmp.w CODE_C4B27F
-.1:									; X = a2, Y = $6D, call CODE_C4B36A, A = a2, ...
+.1:									; X = a2, Y = $6D, call PrepareIntroMode7Sprite, A = a2, ...
 	ldx.b a2
 	ldy.b $6D
-	jsr.w CODE_C4B36A
+	jsr.w PrepareIntroMode7Sprite
 	lda.b a2
 	ldx.w #$0000
 	jsr.w StartIntroScaleTask
@@ -215,7 +215,7 @@ IntroStartElectronicWord:			; waits for unit scale, then starts the Electronic w
 	bne CODE_C4B27F
 	ldx.b a3
 	ldy.b $71
-	jsr.w CODE_C4B36A
+	jsr.w PrepareIntroMode7Sprite
 	lda.b a3
 	ldx.w #$0000
 	jsr.w StartIntroScaleTask
@@ -356,7 +356,8 @@ IntroColourFlashTask:				; plays the intro fixed-colour flash and removes itself
 	jmp.w RemoveTask
 DATA8_C4B35D:						; not traced: a table read by IntroColourFlashTask
 	db $64,$68,$6C,$70,$74,$78,$7C,$7F,$78,$70,$68,$64,$00
-CODE_C4B36A:						; from CODE_C4B10D, IntroStartElectronicWord, IntroStartALogo, ...
+PrepareIntroMode7Sprite:			; converts the sprite pixels and builds its Mode 7 tile map and
+									; positioning
 	lda.b $34,x
 	and.w #$FF00
 	lsr a
@@ -384,110 +385,110 @@ CODE_C4B36A:						; from CODE_C4B10D, IntroStartElectronicWord, IntroStartALogo,
 	sep #$20
 	lda.b #$08
 	sta.b $75
-.loop:								; loop: A = $0000,y, A and $80, call CODE_C4B669, A = $0001,y, ...
+.loop:								; loop: A = $0000,y, A and $80, call MergeIntroPixelRotate2, ...
 	lda.w $0000,y
 	and.b #$80
-	jsr.w CODE_C4B669
+	jsr.w MergeIntroPixelRotate2
 	lda.w $0001,y
 	and.b #$80
-	jsr.w CODE_C4B668
+	jsr.w MergeIntroPixelRotate3
 	lda.w $0010,y
 	and.b #$80
-	jsr.w CODE_C4B667
+	jsr.w MergeIntroPixelRotate4
 	lda.w $0011,y
 	and.b #$80
-	jsr.w CODE_C4B660
+	jsr.w MergeIntroPixelShift4
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$40
-	jsr.w CODE_C4B668
+	jsr.w MergeIntroPixelRotate3
 	lda.w $0001,y
 	and.b #$40
-	jsr.w CODE_C4B667
+	jsr.w MergeIntroPixelRotate4
 	lda.w $0010,y
 	and.b #$40
-	jsr.w CODE_C4B660
+	jsr.w MergeIntroPixelShift4
 	lda.w $0011,y
 	and.b #$40
-	jsr.w CODE_C4B661
+	jsr.w MergeIntroPixelShift3
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$20
-	jsr.w CODE_C4B667
+	jsr.w MergeIntroPixelRotate4
 	lda.w $0001,y
 	and.b #$20
-	jsr.w CODE_C4B660
+	jsr.w MergeIntroPixelShift4
 	lda.w $0010,y
 	and.b #$20
-	jsr.w CODE_C4B661
+	jsr.w MergeIntroPixelShift3
 	lda.w $0011,y
 	and.b #$20
-	jsr.w CODE_C4B662
+	jsr.w MergeIntroPixelShift2
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$10
-	jsr.w CODE_C4B660
+	jsr.w MergeIntroPixelShift4
 	lda.w $0001,y
 	and.b #$10
-	jsr.w CODE_C4B661
+	jsr.w MergeIntroPixelShift3
 	lda.w $0010,y
 	and.b #$10
-	jsr.w CODE_C4B662
+	jsr.w MergeIntroPixelShift2
 	lda.w $0011,y
 	and.b #$10
-	jsr.w CODE_C4B663
+	jsr.w MergeIntroPixelShift1
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$08
-	jsr.w CODE_C4B661
+	jsr.w MergeIntroPixelShift3
 	lda.w $0001,y
 	and.b #$08
-	jsr.w CODE_C4B662
+	jsr.w MergeIntroPixelShift2
 	lda.w $0010,y
 	and.b #$08
-	jsr.w CODE_C4B663
+	jsr.w MergeIntroPixelShift1
 	lda.w $0011,y
 	and.b #$08
 	tsb.b a4
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$04
-	jsr.w CODE_C4B662
+	jsr.w MergeIntroPixelShift2
 	lda.w $0001,y
 	and.b #$04
-	jsr.w CODE_C4B663
+	jsr.w MergeIntroPixelShift1
 	lda.w $0010,y
 	and.b #$04
 	tsb.b a4
 	lda.w $0011,y
 	and.b #$04
-	jsr.w CODE_C4B66A
+	jsr.w MergeIntroPixelRotate1
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$02
-	jsr.w CODE_C4B663
+	jsr.w MergeIntroPixelShift1
 	lda.w $0001,y
 	and.b #$02
 	tsb.b a4
 	lda.w $0010,y
 	and.b #$02
-	jsr.w CODE_C4B66A
+	jsr.w MergeIntroPixelRotate1
 	lda.w $0011,y
 	and.b #$02
-	jsr.w CODE_C4B669
+	jsr.w MergeIntroPixelRotate2
 	jsr.w StoreIntroPixel
 	lda.w $0000,y
 	and.b #$01
 	tsb.b a4
 	lda.w $0001,y
 	and.b #$01
-	jsr.w CODE_C4B66A
+	jsr.w MergeIntroPixelRotate1
 	lda.w $0010,y
 	and.b #$01
-	jsr.w CODE_C4B669
+	jsr.w MergeIntroPixelRotate2
 	lda.w $0011,y
 	and.b #$01
-	jsr.w CODE_C4B668
+	jsr.w MergeIntroPixelRotate3
 	jsr.w StoreIntroPixel
 	iny
 	iny
@@ -726,23 +727,23 @@ StoreIntroPixel:					; stores the assembled intro pixel with its palette base un
 	inx
 	stz.b a4
 	rts
-CODE_C4B660:						; from CODE_C4B36A
+MergeIntroPixelShift4:				; shifts A right four times and merges the bits into the intro pixel
 	lsr a
-CODE_C4B661:						; from CODE_C4B36A
+MergeIntroPixelShift3:				; shifts A right three times and merges the bits into the intro pixel
 	lsr a
-CODE_C4B662:						; from CODE_C4B36A
+MergeIntroPixelShift2:				; shifts A right twice and merges the bits into the intro pixel
 	lsr a
-CODE_C4B663:						; from CODE_C4B36A
+MergeIntroPixelShift1:				; shifts A right once and merges the bits into the intro pixel
 	lsr a
 	tsb.b a4
 	rts
-CODE_C4B667:						; from CODE_C4B36A
+MergeIntroPixelRotate4:				; rotates A left four times and merges the bits into the intro pixel
 	rol a
-CODE_C4B668:						; from CODE_C4B36A
+MergeIntroPixelRotate3:				; rotates A left three times and merges the bits into the intro pixel
 	rol a
-CODE_C4B669:						; from CODE_C4B36A
+MergeIntroPixelRotate2:				; rotates A left twice and merges the bits into the intro pixel
 	rol a
-CODE_C4B66A:						; from CODE_C4B36A
+MergeIntroPixelRotate1:				; rotates A left once and merges the bits into the intro pixel
 	rol a
 	tsb.b a4
 	rts
