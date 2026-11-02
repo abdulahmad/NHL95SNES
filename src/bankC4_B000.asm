@@ -89,7 +89,7 @@ IntroSequence:						; the power-on animation: the EA Sports logo from its sprite
 	jsr.w CODE_C4B1D6
 	jsl.l SetupMode7Screen
 	lda.w #$7FFF
-	jsl.l CODE_C58B2E
+	jsl.l SetBackdropColour
 	lda.b $08
 	sta.b $65
 	lda.w #$0021
@@ -1181,7 +1181,7 @@ DeveloperCredits:					; the developer credits: HIGH SCORE PRODUCTIONS AND / VISU
 	jsl.l InitTasks
 	jsl.l SetupMode1Screen
 	jsl.l ResetPPURegs
-	jsl.l CODE_C58B2B
+	jsl.l BlackBackdrop
 	lda.w #$5900
 	sta.b tmp0
 	stz.b tmp1

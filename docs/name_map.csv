@@ -8041,3 +8041,5 @@ $C5852B,MapSetToVRAMBody,CODE_C5852B,code,"from the code: MapSetToVRAM is jsr to
 $C586B6,NextMapSetChunk,CODE_C586B6,code,"from the code; the map set layout in HANDOFF (each chunk a length word, then its bytes)",src/bankC5_8000.asm
 $C58874,NextMapSetChunkWRAM,CODE_C58874,code,"from the code; MapSetToWRAM's form of NextMapSetChunk",src/bankC5_8000.asm
 $C58467,DecompressLZSSHere,CODE_C58467,code,"from the code: DecompressLZSS sets WMADDL / WMADDH and falls into it; MapSetToWRAM calls it for the chunks after the first",src/bankC5_8000.asm
+$C58B2E,SetBackdropColour,CODE_C58B2E,code,"from the code: CGADD 0, the two bytes of A to CGDATA",src/bankC5_8000.asm
+$C58B2B,BlackBackdrop,CODE_C58B2B,code,"from the code: lda #0, falls into SetBackdropColour",src/bankC5_8000.asm

@@ -1438,9 +1438,10 @@ ClearRAM7E:							; clears Y bytes at A in bank $7E: a zero, then a block move t
 	pla
 	dec a
 	jml.l BlockMove
-CODE_C58B2B:						; called from other segments
+BlackBackdrop:						; SetBackdropColour with colour 0 (black)
 	lda.w #$0000
-CODE_C58B2E:						; called from other segments
+SetBackdropColour:					; writes colour A to CGRAM entry 0 (the backdrop), with QueueBusy set
+									; around it
 	inc.b QueueBusy
 	pha
 	sep #$20

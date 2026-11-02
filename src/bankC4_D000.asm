@@ -254,7 +254,7 @@ TitleScreen:						; the title screen: TitleLogoMap, TitleGoalieMap, TitlePlayers
 	db $00,$0C,$03,$D1,$C4,$7E		; inline parameters
 	lda.w #$8000
 	sta.w DMAEnShadow
-	jsl.l CODE_C58B2B
+	jsl.l BlackBackdrop
 	jsl.l InitTasks
 	lda.w #$0010
 	sta.b $7D
