@@ -5449,17 +5449,17 @@ $C55BF5,.1,CODE_C55BF5,new,"branch target only used in ScrollListArrows",src/ban
 $C55BF8,.2,CODE_C55BF8,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
 $C55C0C,.3,CODE_C55C0C,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
 $C55C0F,.4,CODE_C55C0F,new,"branch target only used in ScrollListArrows",src/bankC5_5000.asm
-$C55C2F,.loop,CODE_C55C2F,new,"branch target only used in CODE_C55C25",src/bankC5_5000.asm
-$C55C37,.1,CODE_C55C37,new,"branch target only used in CODE_C55C25",src/bankC5_5000.asm
+$C55C2F,.loop,CODE_C55C2F,new,"branch target only used in RedrawScrollRowNext",src/bankC5_5000.asm
+$C55C37,.1,CODE_C55C37,new,"branch target only used in RedrawScrollRowNext",src/bankC5_5000.asm
 $C55C70,.loop,CODE_C55C70,new,"branch target only used in ScrollListDown",src/bankC5_5000.asm
 $C55C78,.1,CODE_C55C78,new,"branch target only used in ScrollListDown",src/bankC5_5000.asm
-$C55C98,.loop,CODE_C55C98,new,"branch target only used in CODE_C55C93",src/bankC5_5000.asm
-$C55CBB,.1,CODE_C55CBB,new,"branch target only used in CODE_C55C93",src/bankC5_5000.asm
+$C55C98,.loop,CODE_C55C98,new,"branch target only used in ScrollListDownAnim",src/bankC5_5000.asm
+$C55CBB,.1,CODE_C55CBB,new,"branch target only used in ScrollListDownAnim",src/bankC5_5000.asm
 $C55CFA,.loop,CODE_C55CFA,new,"branch target only used in ScrollListUp",src/bankC5_5000.asm
 $C55D02,.1,CODE_C55D02,new,"branch target only used in ScrollListUp",src/bankC5_5000.asm
-$C55D17,.loop,CODE_C55D17,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
-$C55D54,.1,CODE_C55D54,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
-$C55D64,.2,CODE_C55D64,new,"branch target only used in CODE_C55D14",src/bankC5_5000.asm
+$C55D17,.loop,CODE_C55D17,new,"branch target only used in ScrollListUpAnim",src/bankC5_5000.asm
+$C55D54,.1,CODE_C55D54,new,"branch target only used in ScrollListUpAnim",src/bankC5_5000.asm
+$C55D64,.2,CODE_C55D64,new,"branch target only used in ScrollListUpAnim",src/bankC5_5000.asm
 $C55D81,.loop,CODE_C55D81,new,"branch target only used in ClearTextRow",src/bankC5_5000.asm
 $C55E14,.1,CODE_C55E14,new,"branch target only used in DrawTeamStatPercent",src/bankC5_5000.asm
 $C55E2A,.2,CODE_C55E2A,new,"branch target only used in DrawTeamStatPercent",src/bankC5_5000.asm
@@ -8679,3 +8679,13 @@ $C5BB88,StatBitsShift3,CODE_C5BB88,code,"from the code: entry 3 of StatBitsShift
 $C5BB8B,StatBitsShift2,CODE_C5BB8B,code,"from the code: entry 2 of StatBitsShiftTable",src/bankC5_B000.asm
 $C5BB8E,StatBitsShift1,CODE_C5BB8E,code,"from the code: entry 1 of StatBitsShiftTable",src/bankC5_B000.asm
 $C5BB91,StatBitsMask,CODE_C5BB91,code,"from the code: the and with the mask word for r1 bits; entry 0 of StatBitsShiftTable and the end of the shifts",src/bankC5_B000.asm
+$C55BC8,StartScrollRowNext,CODE_C55BC8,code,"from the code: ClearTextRow, pea of the return point, jmp ($75)",src/bankC5_5000.asm
+$C55BD1,StartScrollRowDrawn,CODE_C55BD1,code,"from the code: the return address StartScrollRowNext pushes; inc $6D / a3 against a1 and the window ($71)",src/bankC5_5000.asm
+$C55C25,RedrawScrollRowNext,CODE_C55C25,code,"from the code: the stacked limit and a1 tests, the wrap by $71 + 2, ClearTextRow, jmp ($75) returning to RedrawScrollRowDrawn",src/bankC5_5000.asm
+$C55C45,RedrawScrollRowDrawn,CODE_C55C45,code,"from the code: the return address RedrawScrollRowNext pushes",src/bankC5_5000.asm
+$C55C52,RedrawScrollListDone,CODE_C55C52,code,"from the code: pla / rts",src/bankC5_5000.asm
+$C55C86,ScrollDownRowDrawn,CODE_C55C86,code,"from the code: the return address ScrollListDown pushes before its row routine",src/bankC5_5000.asm
+$C55C93,ScrollListDownAnim,CODE_C55C93,code,"from the code: inc $69, 8 wai frames stepping the scroll entries, the split entry when the count runs out",src/bankC5_5000.asm
+$C55C8C,ScrollListDownDone,CODE_C55C8C,code,"from the code: stz padlast / padchangeany, falls into the rts",src/bankC5_5000.asm
+$C55D10,ScrollUpRowDrawn,CODE_C55D10,code,"from the code: the return address ScrollListUp pushes before its row routine",src/bankC5_5000.asm
+$C55D14,ScrollListUpAnim,CODE_C55D14,code,"from the code: 8 wai frames stepping the scroll entries the other way, the split entry when the window is full",src/bankC5_5000.asm

@@ -1492,11 +1492,13 @@ StartScrollList:					; starts a scrolling list: X rows shown from text row Y, ea
 	stz.b a3
 	lda.b a4
 	sta.b $6D
-CODE_C55BC8:						; from CODE_C55BD1
+StartScrollRowNext:					; StartScrollList's row loop: text row $6D cleared, then the row routine
+									; at $75 (returning to StartScrollRowDrawn)
 	jsr.w ClearTextRow
-	pea.w CODE_C55BD1-1
+	pea.w StartScrollRowDrawn-1
 	jmp ($0075)
-CODE_C55BD1:						; from CODE_C55BC8
+StartScrollRowDrawn:				; a row drawn for StartScrollList: WaitTransfers, RestoreWorkBuf, the next
+									; row while rows and window last, then ScrollListArrows
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	inc.b $6D
@@ -1506,7 +1508,7 @@ CODE_C55BD1:						; from CODE_C55BC8
 	bcs ScrollListArrows
 	dec a
 	cmp.b $71
-	bcc CODE_C55BC8
+	bcc StartScrollRowNext
 ScrollListArrows:					; a scrolling list each frame: its up arrow sprite shown when rows are
 									; above, the down arrow when rows are below
 	ldx.b $77
@@ -1545,13 +1547,15 @@ RedrawScrollList:					; redraws the visible scrolling list and its adjacent buff
 	adc.b $69
 	pha
 	lda.b $69
-	beq CODE_C55C25
+	beq RedrawScrollRowNext
 	dec a
-CODE_C55C25:						; from RedrawScrollList, CODE_C55C45
+RedrawScrollRowNext:				; RedrawScrollList's loop: row A (from the one above the window) while
+									; below both limits, on its wrapped text row through the row routine at
+									; $75
 	cmp.b $01,s
-	bcs CODE_C55C52
+	bcs RedrawScrollListDone
 	cmp.b a1
-	bcs CODE_C55C52
+	bcs RedrawScrollListDone
 	sta.b a3
 .loop:								; loop: if A < tmp1 go to .1, A - tmp2, if the result >= 0 go to .loop
 	cmp.b tmp1
@@ -1563,15 +1567,16 @@ CODE_C55C25:						; from RedrawScrollList, CODE_C55C45
 	adc.b a4
 	sta.b $6D
 	jsr.w ClearTextRow
-	pea.w CODE_C55C45-1
+	pea.w RedrawScrollRowDrawn-1
 	jmp ($0075)
-CODE_C55C45:						; from CODE_C55C25
+RedrawScrollRowDrawn:				; a row drawn for RedrawScrollList: WaitTransfers, RestoreWorkBuf, the
+									; next row
 	jsl.l WaitTransfers
 	jsl.l RestoreWorkBuf
 	lda.b a3
 	inc a
-	bra CODE_C55C25
-CODE_C55C52:						; from CODE_C55C25
+	bra RedrawScrollRowNext
+RedrawScrollListDone:				; RedrawScrollList's end: its pushed limit dropped
 	pla
 	rts
 ScrollListDownLong:					; calls ScrollListDown for long callers
@@ -1590,7 +1595,7 @@ ScrollListDown:						; scrolls a scrolling list down a row (the pad's down) when
 	bcs ScrollListDownReturn
 	inc a
 	cmp.b a1
-	bcs CODE_C55C93
+	bcs ScrollListDownAnim
 	sta.b a3
 .loop:								; loop: if A < tmp1 go to .1, A - tmp2, if the result >= 0 go to .loop
 	cmp.b tmp1
@@ -1602,22 +1607,25 @@ ScrollListDown:						; scrolls a scrolling list down a row (the pad's down) when
 	adc.b a4
 	sta.b $6D
 	jsr.w ClearTextRow
-	pea.w CODE_C55C86-1
+	pea.w ScrollDownRowDrawn-1
 	jmp ($0075)
-CODE_C55C86:						; from ScrollListDown
+ScrollDownRowDrawn:					; ScrollListDown's new bottom row drawn: SendTextMap, then
+									; ScrollListDownAnim
 	jsl.l SendTextMap
-	bra CODE_C55C93
-CODE_C55C8C:						; from CODE_C55C93
+	bra ScrollListDownAnim
+ScrollListDownDone:					; the end of a list scroll: padlast and padchangeany cleared, then
+									; ScrollListDownReturn
 	stz.w padlast
 	stz.w padchangeany
 ScrollListDownReturn:				; the rts ScrollListDown leaves through when the list is at its end
 	rts
-CODE_C55C93:						; from ScrollListDown, CODE_C55C86
+ScrollListDownAnim:					; scrolls the list down a row over 8 frames by the BG3 scroll HDMA entries
+									; ($4692 on), then ScrollListDownDone
 	inc.b $69
 	ldx.w #$0008
-.loop:								; loop: X - 1, if the result < 0 go to CODE_C55C8C, $4693 + 1, ...
+.loop:								; loop: X - 1, if the result < 0 go to ScrollListDownDone, $4693 + 1, ...
 	dex
-	bmi CODE_C55C8C
+	bmi ScrollListDownDone
 	wai
 	inc.w $4693
 	sep #$20
@@ -1663,7 +1671,7 @@ ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows 
 	dec a
 	sta.b $69
 	dec a
-	bmi CODE_C55D14
+	bmi ScrollListUpAnim
 	sta.b a3
 .loop:								; loop: if A < tmp1 go to .1, A - tmp2, if the result >= 0 go to .loop
 	cmp.b tmp1
@@ -1675,11 +1683,12 @@ ScrollListUp:						; scrolls a scrolling list up a row (the pad's up) when rows 
 	adc.b a4
 	sta.b $6D
 	jsr.w ClearTextRow
-	pea.w CODE_C55D10-1
+	pea.w ScrollUpRowDrawn-1
 	jmp ($0075)
-CODE_C55D10:						; from ScrollListUp
+ScrollUpRowDrawn:					; ScrollListUp's new top row drawn: SendTextMap, then ScrollListUpAnim
 	jsl.l SendTextMap
-CODE_C55D14:						; from ScrollListUp
+ScrollListUpAnim:					; scrolls the list up a row over 8 frames by the BG3 scroll HDMA entries
+									; ($4692 on)
 	ldx.w #$0008
 .loop:								; loop: X - 1, if the result < 0 go to .2, A 8-bit, A = tmp2, ...
 	dex
