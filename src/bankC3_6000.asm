@@ -254,7 +254,7 @@ LoadSavedGameOptions:				; load and clamp the saved game options
 	sta.w homepracplayers
 .rtl:								; return
 	rtl
-CODE_C36C2C:						; called from other segments
+CheckPAL:							; an rtl: called where 94S sets the frame time step for a 50 Hz console
 	rtl
 ReadMenuPads:						; the buttons of all 5 pads ORed into the menu pad word; repeatdelayframes
 									; counts the frames they stay the same (0 on a change)

@@ -25,7 +25,7 @@ Opening:							; the cold start that Reset_Fast jumps to (94S Opening)
 	jsl.l CopyrightScreen
 	jsl.l TitleScreen
 	jsl.l forceblack
-	jsl.l CODE_C36C2C
+	jsl.l CheckPAL
 	jsl.l GetMenuPadButtons
 	jsl.l LoadSavedGameOptions
 QuitGame:							; the quit prompt's Quit Game: the pad read (GetMenuPadButtons),
@@ -44,7 +44,7 @@ Restart:							; starts over at the setup screen: the stack reset, StartMenuMusi
 	sta.w jmlvector
 	lda.w #$C08B
 	sta.w jmlvector+2
-	jsl.l CODE_C36C2C
+	jsl.l CheckPAL
 	jsl.l GameSetUp
 	lda.w #$007E
 	sta.b $71
