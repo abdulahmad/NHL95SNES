@@ -1080,8 +1080,8 @@ updatefaceoff:						; the face off countdown (temp1): the ref's drop frame from 
 	cmp.w #$0004
 	bcc .1
 	lda.w #$0003
-.1:									; call CODE_C52008, pull Y, pull X
-	jsl.l CODE_C52008
+.1:									; call QueueFaceoffBox, pull Y, pull X
+	jsl.l QueueFaceoffBox
 	ply
 	plx
 .2:									; A = d0, A xor $FFFF, A + 1, A + $000A, ...

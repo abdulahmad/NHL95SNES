@@ -5035,11 +5035,11 @@ $C52822,.10,CODE_C52822,new,"branch target only used in CODE_C52794",src/bankC5_
 $C52827,.11,CODE_C52827,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
 $C5282E,.12,CODE_C5282E,new,"branch target only used in CODE_C52794",src/bankC5_2000.asm
 $C52839,.1,CODE_C52839,new,"branch target only used in CODE_C52832",src/bankC5_2000.asm
-$C528AC,.1,CODE_C528AC,new,"branch target only used in CODE_C52898",src/bankC5_2000.asm
-$C528BF,.2,CODE_C528BF,new,"branch target only used in CODE_C52898",src/bankC5_2000.asm
-$C528C2,.3,CODE_C528C2,new,"branch target only used in CODE_C52898",src/bankC5_2000.asm
-$C528C7,.4,CODE_C528C7,new,"branch target only used in CODE_C52898",src/bankC5_2000.asm
-$C528CE,.5,CODE_C528CE,new,"branch target only used in CODE_C52898",src/bankC5_2000.asm
+$C528AC,.1,CODE_C528AC,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
+$C528BF,.2,CODE_C528BF,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
+$C528C2,.3,CODE_C528C2,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
+$C528C7,.4,CODE_C528C7,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
+$C528CE,.5,CODE_C528CE,new,"branch target only used in PutTagChar",src/bankC5_2000.asm
 $C528EC,.1,CODE_C528EC,new,"branch target only used in updatescroll_rows",src/bankC5_2000.asm
 $C52911,.2,CODE_C52911,new,"branch target only used in updatescroll_rows",src/bankC5_2000.asm
 $C52926,.3,CODE_C52926,new,"branch target only used in updatescroll_rows",src/bankC5_2000.asm
@@ -8164,3 +8164,6 @@ $C5230F,PadArrow4,CODE_C5230F,code,"from the code",src/bankC5_2000.asm
 $C52327,PadArrow5,CODE_C52327,code,"from the code",src/bankC5_2000.asm
 $C5233F,PadArrowsDone,CODE_C5233F,code,"from the code",src/bankC5_2000.asm
 $C52348,DrawPadArrow,CODE_C52348,code,"from the code: Xpos / Ypos against Hpos / Vpos, the edge cases, jmp ($A5)",src/bankC5_2000.asm
+$C526FB,DrawPlayerTags,CODE_C526FB,code,"from the code: the loop over the objects in PadControlObj, Xpos / Ypos against Hpos / Vpos, rostnum's two nibbles, PutTagChar; setvideo and RenderReplayFrame call it",src/bankC5_2000.asm
+$C52898,PutTagChar,CODE_C52898,code,"from the code: the range tests, the OAM entry at $2A, jmp ($A5)",src/bankC5_2000.asm
+$C52008,QueueFaceoffBox,CODE_C52008,code,"from the code: the transfer record pushed on the VRAM queue; puckfaceoff2 and updatefaceoff call it",src/bankC5_2000.asm

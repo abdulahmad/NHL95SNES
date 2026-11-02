@@ -1711,7 +1711,7 @@ RenderReplayFrame:					; build the replay frame sprites and queue display update
 	sta.b $48
 	sta.b $26
 	jsl.l updatescroll
-	jsl.l CODE_C526FB
+	jsl.l DrawPlayerTags
 	lda.w frame+$1E
 	cmp.w $0894
 	beq .1

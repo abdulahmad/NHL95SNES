@@ -1,7 +1,8 @@
 ; Segment bankC5_2000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C52008
-CODE_C52008:						; called from other segments
+QueueFaceoffBox:					; queues face off box frame A to VRAM: $280 bytes from the box buffer
+									; ($2024 + DATA8_C5202F by frame) to the box's address ($2026)
 	asl a
 	tax
 	lda.l $7E2024
@@ -23,7 +24,7 @@ CODE_C52008:						; called from other segments
 	stx.b $00
 	stz.b QueueBusy
 	rtl
-DATA8_C5202F:						; not traced: a table read by CODE_C52008
+DATA8_C5202F:						; not traced: a table read by QueueFaceoffBox
 	db $00,$00,$80,$02,$00,$05,$80,$07
 setupice:							; sets up the rink screen: the rink map set (IceRinkMap), the tiles and
 									; the scoreboard
@@ -299,7 +300,7 @@ setvideo:							; once per game frame: the sprite table built for the next vblan
 									; rink rows
 	jsl.l AnimateSprites
 	jsl.l updatescroll
-	jsl.l CODE_C526FB
+	jsl.l DrawPlayerTags
 	jsl.l UpdateGameObjectSprites
 	jsl.l DrawPadArrows
 	jsl.l BuildSpriteOAM
@@ -831,7 +832,9 @@ updatescroll:						; sets the rink scroll from the camera position: Hscroll = Hp
 	sbc.b Vpos
 	sta.w Vscroll
 	rtl
-CODE_C526FB:						; from setvideo and other segments
+DrawPlayerTags:						; for each pad's controlled player (PadControlObj), sprite tags near him
+									; straight into the OAM buffer: his two roster number digits (tiles from
+									; $2436) and a marker
 	dec.b QueueBusy
 	tsc
 	sta.b $1C
@@ -887,8 +890,8 @@ CODE_C52706:						; from CODE_C52832
 	sta.b tmp2
 	lda.w #CODE_C52766
 	sta.b $A5
-	jmp.w CODE_C52898
-CODE_C52766:						; a continuation: CODE_C52898 jumps back here through a pointer
+	jmp.w PutTagChar
+CODE_C52766:						; a continuation: PutTagChar jumps back here through a pointer
 	clc
 	lda.b $0A
 	adc.w #$0008
@@ -897,8 +900,8 @@ CODE_C52766:						; a continuation: CODE_C52898 jumps back here through a pointe
 	sta.b tmp1
 	lda.w #CODE_C5277A
 	sta.b $A5
-	jmp.w CODE_C52898
-CODE_C5277A:						; a continuation: CODE_C52898 jumps back here through a pointer
+	jmp.w PutTagChar
+CODE_C5277A:						; a continuation: PutTagChar jumps back here through a pointer
 	clc
 	lda.b $0A
 	adc.w #$0008
@@ -909,8 +912,8 @@ CODE_C5277A:						; a continuation: CODE_C52898 jumps back here through a pointe
 	sta.b tmp1
 	lda.w #CODE_C52794
 	sta.b $A5
-	jmp.w CODE_C52898
-CODE_C52794:						; a continuation: CODE_C52898 jumps back here through a pointer
+	jmp.w PutTagChar
+CODE_C52794:						; a continuation: PutTagChar jumps back here through a pointer
 	sec
 	lda.b $0C
 	sbc.w #$0014
@@ -1045,7 +1048,8 @@ DATA8_C52880:						; not traced: a table read by CODE_C52794
 	db $88,$25,$8C,$25,$8E,$25,$8A,$25,$8C,$27
 DATA8_C5288A:						; not traced: a table read by CODE_C5277A
 	db $8E,$27,$40,$24,$40,$24,$41,$24,$42,$24,$43,$24,$44,$24
-CODE_C52898:						; from CODE_C52766, CODE_C5277A, CODE_C52706
+PutTagChar:							; writes one 8 x 8 tag sprite (tile tmp1) at screen x $0A, y $0C into the
+									; OAM buffer (skipped off screen), then on to the continuation in $A5
 	ldy.b $2A
 	pei ($A1)
 	ldx.w #$0000

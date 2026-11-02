@@ -1386,7 +1386,7 @@ puckfaceoff2:						; assignment: the face off and the setup for play; on a new a
 	bpl .loop5
 	lda.w #$0000
 	sta.w $2014
-	jsl.l CODE_C52008
+	jsl.l QueueFaceoffBox
 	dec.b QueueBusy
 	lda.b $00
 	tsx
