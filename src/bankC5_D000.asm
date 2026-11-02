@@ -471,35 +471,35 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	lda.w padchangeany
 	bit.w #$0200
 	beq .1
-	jsr.w CODE_C5D56C
+	jsr.w HighlightGridCell
 	dec.b a1
 	bpl .5
 	lda.w #$001A
 	bra .4
-.1:									; if $0100 bits clear go to .2, call CODE_C5D56C, A = a1, A + 1, ...
+.1:									; if $0100 bits clear go to .2, call HighlightGridCell, A = a1, A + 1, ...
 	bit.w #$0100
 	beq .2
-	jsr.w CODE_C5D56C
+	jsr.w HighlightGridCell
 	lda.b a1
 	inc a
 	cmp.w #$001B
 	bcc .4
 	stz.b a1
 	bra .5
-.2:									; if $0800 bits clear go to .3, call CODE_C5D56C, A = a1, A - $0009, ...
+.2:									; if $0800 bits clear go to .3, call HighlightGridCell, A = a1, ...
 	bit.w #$0800
 	beq .3
-	jsr.w CODE_C5D56C
+	jsr.w HighlightGridCell
 	lda.b a1
 	sec
 	sbc.w #$0009
 	bpl .4
 	adc.w #$001B
 	bra .4
-.3:									; if $0400 bits clear go to .6, call CODE_C5D56C, A = a1, A + $0009, ...
+.3:									; if $0400 bits clear go to .6, call HighlightGridCell, A = a1, ...
 	bit.w #$0400
 	beq .6
-	jsr.w CODE_C5D56C
+	jsr.w HighlightGridCell
 	lda.b a1
 	clc
 	adc.w #$0009
@@ -508,8 +508,8 @@ EditUserName:						; edits the chosen user name on the letter grid (DrawNameGrid
 	sbc.w #$001B
 .4:									; a1 = A
 	sta.b a1
-.5:									; call CODE_C5D54B, go to .11
-	jsr.w CODE_C5D54B
+.5:									; call MoveGridCursor, go to .11
+	jsr.w MoveGridCursor
 	bra .11
 .6:									; if $8080 bits clear go to .8, X = a1, A = DATA8_C598FA,x, Y = $69, ...
 	bit.w #$8080
@@ -662,10 +662,11 @@ DrawNameGrid:						; draws the letter grid and its keys for EditUserName
 	lda.w #$0000
 	jsl.l SetSpriteAnim
 	stz.b a1
-	jsr.w CODE_C5D54B
+	jsr.w MoveGridCursor
 	rts
-CODE_C5D54B:						; from EditUserName, DrawNameGrid
-	jsr.w CODE_C5D567
+MoveGridCursor:						; unhighlights letter grid cell a1 and moves the cursor sprite (a0) onto
+									; it (x and y from DATA8_C5A225 / DATA8_C5A25B)
+	jsr.w UnhighlightGridCell
 	ldy.b a0
 	lda.b a1
 	asl a
@@ -677,12 +678,13 @@ CODE_C5D54B:						; from EditUserName, DrawNameGrid
 	adc.w #$0018
 	sta.w $0008,y
 	rts
-CODE_C5D567:						; from CODE_C5D54B
+UnhighlightGridCell:				; puts palette 0 back on letter grid cell a1 (SetGridCellPalette 0)
 	lda.w #$0000
-	bra CODE_C5D56F
-CODE_C5D56C:						; from EditUserName
+	bra SetGridCellPalette
+HighlightGridCell:					; puts palette 3 on letter grid cell a1 (SetGridCellPalette $0C00)
 	lda.w #$0C00
-CODE_C5D56F:						; from CODE_C5D567
+SetGridCellPalette:					; puts palette bits tmp0 on the 2 x 2 tiles of letter grid cell a1 (its
+									; position from DATA8_C5A1D7), then SendTextMap
 	sta.b tmp0
 	lda.b a1
 	asl a
@@ -691,20 +693,21 @@ CODE_C5D56F:						; from CODE_C5D567
 	adc.l DATA8_C5A1D7,x
 	adc.w #$00C0
 	tay
-	jsr.w CODE_C5D599
+	jsr.w SetTilePalette
 	iny
 	iny
-	jsr.w CODE_C5D599
+	jsr.w SetTilePalette
 	tya
 	adc.w #$003E
 	tay
-	jsr.w CODE_C5D599
+	jsr.w SetTilePalette
 	iny
 	iny
-	jsr.w CODE_C5D599
+	jsr.w SetTilePalette
 	jsl.l SendTextMap
 	rts
-CODE_C5D599:						; from CODE_C5D56F
+SetTilePalette:						; puts palette bits tmp0 on the text map tile at Y (its palette bits
+									; cleared first)
 	lda.w $0000,y
 	and.w #$E3FF
 	ora.b tmp0
