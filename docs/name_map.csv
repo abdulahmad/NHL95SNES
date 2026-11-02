@@ -8770,3 +8770,5 @@ $DBE4,SimGiveLater,,code,"RAM: from the code: SimPlayerStats splits the count (M
 $DBE6,SimGiveCount,,code,"RAM: from the code: SimPlayerStats sets it, the give loops count it down",src/ram95s.asm
 $DBE8,SimPickTotal,,code,"RAM: from the code: BuildSimPickTable adds each weight, SimGiveGoals / SimGiveAssists take RandomBelowA7E of it",src/ram95s.asm
 $DBEA,SimPickIndex,,code,"RAM: from the code: BuildSimPickTable clears it and moves it on per player",src/ram95s.asm
+$2CE3,ScoringLeaders,,code,"RAM: from the code: ShowScoringLeaders clears the three words, InsertScoringLeader tests (minus = free) and shifts them",src/ram95s.asm
+$2CE9,LeaderStats,,code,"RAM: from the code: InsertScoringLeader compares goals + assists, then goals, against each pair and shifts them with the indices",src/ram95s.asm

@@ -119,7 +119,7 @@ ShowScoringLeaders:					; display the three leading scorers with their team and 
 	cmp.w #$0001
 	bne .1
 	rtl
-.1:									; push X, push Y, $2CE3 = $FFFF, $2CE5 = A
+.1:									; push X, push Y, ScoringLeaders = $FFFF, ScoringLeaders+$2 = A
 	phx
 	phy
 	pei ($81)
@@ -131,9 +131,9 @@ ShowScoringLeaders:					; display the three leading scorers with their team and 
 	pei ($6D)
 	pei ($6B)
 	lda.w #$FFFF
-	sta.w $2CE3
-	sta.w $2CE5
-	sta.w $2CE7
+	sta.w ScoringLeaders
+	sta.w ScoringLeaders+$2
+	sta.w ScoringLeaders+$4
 	jsr.w FindScoringLeaders
 	ldy.w gsp
 	lda.w #$584C
@@ -164,15 +164,15 @@ ShowScoringLeaders:					; display the three leading scorers with their team and 
 	ldy.w gameclock
 	beq .4
 	lda.w #$59ED
-.4:									; a0 = A, if $2CE3 < 0 go to .5, call PrintScoringLeader, ...
+.4:									; a0 = A, if ScoringLeaders < 0 go to .5, call PrintScoringLeader, ...
 	sta.b a0
-	ldx.w $2CE3
+	ldx.w ScoringLeaders
 	bmi .5
 	jsr.w PrintScoringLeader
-	ldx.w $2CE5
+	ldx.w ScoringLeaders+$2
 	bmi .5
 	jsr.w PrintScoringLeader
-	ldx.w $2CE7
+	ldx.w ScoringLeaders+$4
 	bmi .5
 	jsr.w PrintScoringLeader
 .5:									; pull A, a2 = A, pull A, $6D = A, ...
@@ -268,81 +268,81 @@ InsertScoringLeader:				; insert a player into the top three by points then goal
 	clc
 	adc.b tmp0
 	sta.b tmp2
-	lda.w $2CE3
+	lda.w ScoringLeaders
 	bmi .3
 	clc
-	lda.w $2CE9
-	adc.w $2CEB
+	lda.w LeaderStats
+	adc.w LeaderStats+$2
 	cmp.b tmp2
 	bcc .3
 	bne .1
-	lda.w $2CE9
+	lda.w LeaderStats
 	cmp.b tmp0
 	bcc .3
-.1:									; if $2CE5 < 0 go to .4, A = $2CED, A + $2CEF, if A < tmp2 go to .4, ...
-	lda.w $2CE5
+.1:									; if ScoringLeaders+$2 < 0 go to .4, A = LeaderStats+$4, ...
+	lda.w ScoringLeaders+$2
 	bmi .4
 	clc
-	lda.w $2CED
-	adc.w $2CEF
+	lda.w LeaderStats+$4
+	adc.w LeaderStats+$6
 	cmp.b tmp2
 	bcc .4
 	bne .2
-	lda.w $2CED
+	lda.w LeaderStats+$4
 	cmp.b tmp0
 	bcc .4
-.2:									; if $2CE7 < 0 go to .5, A = $2CF1, A + $2CF3, if A < tmp2 go to .5, ...
-	lda.w $2CE7
+.2:									; if ScoringLeaders+$4 < 0 go to .5, A = LeaderStats+$8, ...
+	lda.w ScoringLeaders+$4
 	bmi .5
 	clc
-	lda.w $2CF1
-	adc.w $2CF3
+	lda.w LeaderStats+$8
+	adc.w LeaderStats+$A
 	cmp.b tmp2
 	bcc .5
 	bne .rts
-	lda.w $2CF1
+	lda.w LeaderStats+$8
 	cmp.b tmp0
 	bcc .5
 .rts:								; return
 	rts
-.3:									; $2CE7 = $2CE5, $2CE5 = $2CE3, $2CF1 = $2CED, $2CED = $2CE9, ...
-	lda.w $2CE5
-	sta.w $2CE7
-	lda.w $2CE3
-	sta.w $2CE5
-	lda.w $2CED
-	sta.w $2CF1
-	lda.w $2CE9
-	sta.w $2CED
-	lda.w $2CEF
-	sta.w $2CF3
-	lda.w $2CEB
-	sta.w $2CEF
-	sty.w $2CE3
+.3:									; ScoringLeaders+$4 = ScoringLeaders+$2, ...
+	lda.w ScoringLeaders+$2
+	sta.w ScoringLeaders+$4
+	lda.w ScoringLeaders
+	sta.w ScoringLeaders+$2
+	lda.w LeaderStats+$4
+	sta.w LeaderStats+$8
+	lda.w LeaderStats
+	sta.w LeaderStats+$4
+	lda.w LeaderStats+$6
+	sta.w LeaderStats+$A
+	lda.w LeaderStats+$2
+	sta.w LeaderStats+$6
+	sty.w ScoringLeaders
 	lda.b tmp0
-	sta.w $2CE9
+	sta.w LeaderStats
 	lda.b tmp1
-	sta.w $2CEB
+	sta.w LeaderStats+$2
 	rts
-.4:									; $2CE7 = $2CE5, $2CF1 = $2CED, $2CF3 = $2CEF, $2CE5 = Y, ...
-	lda.w $2CE5
-	sta.w $2CE7
-	lda.w $2CED
-	sta.w $2CF1
-	lda.w $2CEF
-	sta.w $2CF3
-	sty.w $2CE5
+.4:									; ScoringLeaders+$4 = ScoringLeaders+$2, ...
+	lda.w ScoringLeaders+$2
+	sta.w ScoringLeaders+$4
+	lda.w LeaderStats+$4
+	sta.w LeaderStats+$8
+	lda.w LeaderStats+$6
+	sta.w LeaderStats+$A
+	sty.w ScoringLeaders+$2
 	lda.b tmp0
-	sta.w $2CED
+	sta.w LeaderStats+$4
 	lda.b tmp1
-	sta.w $2CEF
+	sta.w LeaderStats+$6
 	rts
-.5:									; $2CE7 = Y, $2CF1 = tmp0, $2CF3 = tmp1, return
-	sty.w $2CE7
+.5:									; ScoringLeaders+$4 = Y, LeaderStats+$8 = tmp0, LeaderStats+$A = tmp1, ...
+	sty.w ScoringLeaders+$4
 	lda.b tmp0
-	sta.w $2CF1
+	sta.w LeaderStats+$8
 	lda.b tmp1
-	sta.w $2CF3
+	sta.w LeaderStats+$A
 	rts
 StartBenchCheer:					; an rtl: called where 94S starts the bench cheer
 	rtl
