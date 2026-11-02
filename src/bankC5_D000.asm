@@ -2,7 +2,7 @@
 ; their callers), jump tables and the data tables the code reads with long addresses.
 org $C5D00D
 TradeValue:							; one side of a trade: the value of its chosen players (from their
-									; ratings, CODE_C5C6B7) into (tmp1), and how many goalies (d0), forwards
+									; ratings, RecordOverall) into (tmp1), and how many goalies (d0), forwards
 									; and defencemen (d1) it gives
 	stz.b d0
 	stz.b $81
@@ -49,7 +49,7 @@ TradeValue:							; one side of a trade: the value of its chosen players (from t
 	sta.w mesarea+4
 	lda.w $0116,x
 	sta.w mesarea+6
-	jsr.w CODE_C5C6B7
+	jsr.w RecordOverall
 	clc
 	adc.b (tmp1)
 	sta.b (tmp1)

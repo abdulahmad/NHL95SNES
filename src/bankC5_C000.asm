@@ -595,9 +595,9 @@ DrawFreeAgentRow:					; draws row a3 of the Hire Free Agents list: a free agent,
 	and.w #$000F
 	bne .16
 	ldy.w #$0010
-.16:								; $24DC = Y, call CODE_C5C6B7, call BinToBCD, call BCDText, ...
+.16:								; $24DC = Y, call RecordOverall, call BinToBCD, call BCDText, ...
 	sty.w $24DC
-	jsr.w CODE_C5C6B7
+	jsr.w RecordOverall
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$00C8
@@ -832,12 +832,12 @@ CODE_C5C658:						; from CODE_C5C58A
 .4:									; return
 	sec
 	rts
-CODE_C5C6A2:						; called from other segments
+RecordOverallLong:					; RecordOverall for long calls, tmp0, $A5 and $0A kept
 	pei ($9F)
 	pei ($A5)
 	pei ($0A)
 	phy
-	jsr.w CODE_C5C6B7
+	jsr.w RecordOverall
 	ply
 	plx
 	stx.b $0A
@@ -846,7 +846,9 @@ CODE_C5C6A2:						; called from other segments
 	plx
 	stx.b tmp0
 	rtl
-CODE_C5C6B7:						; from CODE_C5C6A2, DrawTradeRow, DrawFreeAgentRow, DrawReleaseRow, ...
+RecordOverall:						; A = the overall rating (25-100) of the player record in mesarea: its
+									; attribute nibbles weighted (DATA8_C57309, the set by $24DC), at most
+									; 100, below 50 made 25 + A / 2
 	ldx.w #$5DF9
 	lda.l $7E24DC
 	beq .1
@@ -1241,7 +1243,7 @@ DrawReleaseRow:						; draws row a3 of the Release Players list: a player, his p
 	sta.w mesarea+4
 	lda.w $331D,x
 	sta.w mesarea+6
-	jsr.w CODE_C5C6B7
+	jsr.w RecordOverall
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$00C8
@@ -1590,7 +1592,7 @@ DrawTradeRow:						; draws a row of the Trade Players lists: a player, his posit
 	sta.w mesarea+4
 	lda.w $0116,x
 	sta.w mesarea+6
-	jsr.w CODE_C5C6B7
+	jsr.w RecordOverall
 	jsr.w BinToBCD
 	jsr.w BCDText
 	lda.w #$00C8

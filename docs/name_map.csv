@@ -5960,8 +5960,8 @@ $C59EAB,.10,CODE_C59EAB,new,"branch target only used in CODE_C59DBE",src/bankC5_
 $C59EB0,.loop,CODE_C59EB0,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
 $C59EDA,.loop2,CODE_C59EDA,new,"branch target only used in CODE_C59DBE",src/bankC5_9000.asm
 $C59F5D,.1,CODE_C59F5D,new,"branch target only used in CODE_C59F51",src/bankC5_9000.asm
-$C59FDA,.1,CODE_C59FDA,new,"branch target only used in CODE_C59F79",src/bankC5_A000.asm
-$C5A040,.2,CODE_C5A040,new,"branch target only used in CODE_C59F79",src/bankC5_A000.asm
+$C59FDA,.1,CODE_C59FDA,new,"branch target only used in PrintCreatedOverall",src/bankC5_A000.asm
+$C5A040,.2,CODE_C5A040,new,"branch target only used in PrintCreatedOverall",src/bankC5_A000.asm
 $C5A175,.1,CODE_C5A175,new,"branch target only used in CODE_C5A164",src/bankC5_A000.asm
 $C5A2FC,.1,CODE_C5A2FC,new,"branch target only used in CODE_C5A2EC",src/bankC5_A000.asm
 $C5A368,.1,CODE_C5A368,new,"branch target only used in CODE_C5A359",src/bankC5_A000.asm
@@ -6218,14 +6218,14 @@ $C5C678,.1,CODE_C5C678,new,"branch target only used in CODE_C5C658",src/bankC5_C
 $C5C695,.2,CODE_C5C695,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
 $C5C69E,.3,CODE_C5C69E,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
 $C5C6A0,.4,CODE_C5C6A0,new,"branch target only used in CODE_C5C658",src/bankC5_C000.asm
-$C5C6C3,.1,CODE_C5C6C3,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C6CA,.loop,CODE_C5C6CA,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C6E3,.2,CODE_C5C6E3,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C6FD,.3,CODE_C5C6FD,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C709,.4,CODE_C5C709,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C70F,.5,CODE_C5C70F,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C717,.6,CODE_C5C717,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
-$C5C721,.rts,CODE_C5C721,new,"branch target only used in CODE_C5C6B7",src/bankC5_C000.asm
+$C5C6C3,.1,CODE_C5C6C3,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C6CA,.loop,CODE_C5C6CA,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C6E3,.2,CODE_C5C6E3,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C6FD,.3,CODE_C5C6FD,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C709,.4,CODE_C5C709,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C70F,.5,CODE_C5C70F,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C717,.6,CODE_C5C717,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
+$C5C721,.rts,CODE_C5C721,new,"branch target only used in RecordOverall",src/bankC5_C000.asm
 $C5C730,.loop,CODE_C5C730,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
 $C5C76F,.1,CODE_C5C76F,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
 $C5C777,.2,CODE_C5C777,new,"branch target only used in ReleasePlayers",src/bankC5_C000.asm
@@ -8024,3 +8024,8 @@ $3075A4,SRPOTeams,,code,"RAM: from the code: SetupPlayoffs fills it once, Playof
 $3075B4,SRPODay,,genesis+purpose,"RAM: 95 Genesis SRPODay's job (the playoff day); RecordPlayoffDay counts it up",src/ram95s.asm
 $307865,SRPOWins,,code,"RAM: from the code: RecordPlayoffDay adds +1 / +$10, BuildPlayoffDay and BracketMarkSeries test 4 wins",src/ram95s.asm
 $307874,SRPOTeamRounds,,code,"RAM: from the code: AdvancePlayoffTeam adds 1, PlayoffTeamAtRound finds the team of a round",src/ram95s.asm
+$C5C6B7,RecordOverall,CODE_C5C6B7,code,"from the code; halved when $24DC is set; the trade, free agent and release rows, BuildTeamLines and the create player screen use it",src/bankC5_C000.asm
+$C5C6A2,RecordOverallLong,CODE_C5C6A2,code,"from the code",src/bankC5_C000.asm
+$C5A07A,RatingNibble,CODE_C5A07A,code,"from the code: DATA8_C5A08B (0 0 1 1 2 2 3 3 3 3 4 4 4 5 5 6); the created player's ratings go through it into their record",src/bankC5_A000.asm
+$C5A083,RatingNibbleHigh,CODE_C5A083,code,"from the code",src/bankC5_A000.asm
+$C59F79,PrintCreatedOverall,CODE_C59F79,code,"from the code: RatingNibble / RatingNibbleHigh into mesarea, RecordOverall, two right-aligned prints; ModifyRatings calls it",src/bankC5_A000.asm

@@ -7,6 +7,6 @@ incsrc "../ram95s.asm"
 
 ; External addresses outside, read from the ROM. Equates only (the full build has the labels).
 LoadDefaultRoster = $C52CA7
-CODE_C5C6A2 = $C5C6A2
+RecordOverallLong = $C5C6A2
 
 incsrc "../bankC4_F000.asm"

@@ -1,7 +1,9 @@
 ; Segment bankC5_A000: game code (not traced to a job yet: the routines keep their address as a name, with
 ; their callers), two jump tables and the data tables the code reads with long addresses.
 org $C59F79
-CODE_C59F79:						; called from other segments
+PrintCreatedOverall:				; packs the created player's ratings ($0527 on; the skater or goalie
+									; layout by d0) as the nibbles of a player record in mesarea, then prints
+									; its overall rating (RecordOverall) and d2
 	stz.w mesarea
 	stz.w mesarea+2
 	stz.w mesarea+4
@@ -11,67 +13,67 @@ CODE_C59F79:						; called from other segments
 	lda.w #$0010
 	sta.w $24DC
 	lda.w $0527
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+2
 	lda.w $0529
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+1
 	lda.w $052B
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+3
 	lda.w $052D
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+3
 	lda.w $052F
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+6
 	lda.w $0531
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+6
 	lda.w $0533
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+7
 	lda.w $0535
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+7
 	jmp.w .2
-.1:									; $24DC = 0, A = $0527, call CODE_C5A083, A = $0529, ...
+.1:									; $24DC = 0, A = $0527, call RatingNibbleHigh, A = $0529, ...
 	stz.w $24DC
 	lda.w $0527
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+2
 	lda.w $0529
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+1
 	lda.w $052B
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+6
 	lda.w $052D
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+2
 	lda.w $052F
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+3
 	lda.w $0531
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+5
 	lda.w $0533
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+3
 	lda.w $0535
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+5
 	lda.w $0537
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+7
 	lda.w $0539
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	tsb.w mesarea+7
 	lda.w $053B
-	jsr.w CODE_C5A083
+	jsr.w RatingNibbleHigh
 	tsb.w mesarea+4
-.2:									; call CODE_C5C6B7, call BinToBCD, call BCDText, Y = $0015, ...
-	jsr.w CODE_C5C6B7
+.2:									; call RecordOverall, call BinToBCD, call BCDText, Y = $0015, ...
+	jsr.w RecordOverall
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.w #$0015
@@ -80,7 +82,7 @@ CODE_C59F79:						; called from other segments
 	jsr.w BinToBCD
 	jsr.w BCDText
 	ldy.w #$0016
-CODE_C5A05A:						; from CODE_C59F79
+CODE_C5A05A:						; from PrintCreatedOverall
 	lda.w mesarea+4
 	sta.w mesarea+6
 	lda.w mesarea+2
@@ -92,19 +94,19 @@ CODE_C5A05A:						; from CODE_C59F79
 	ldx.w #mesarea+1
 	jsl.l PrintBoldRightStr
 	rts
-CODE_C5A07A:						; from CODE_C59F79, CODE_C5A083 and other segments
+RatingNibble:						; A = the 0-6 rating of value A (0-15), from the table after it
 	tax
 	lda.l DATA8_C5A08B,x
 	and.w #$00FF
 	rts
-CODE_C5A083:						; from CODE_C59F79
-	jsr.w CODE_C5A07A
+RatingNibbleHigh:					; RatingNibble * 16 (for the high nibble of a record byte)
+	jsr.w RatingNibble
 	asl a
 	asl a
 	asl a
 	asl a
 	rts
-DATA8_C5A08B:						; not traced: a table read by CODE_C5A07A
+DATA8_C5A08B:						; not traced: a table read by RatingNibble
 	db $00,$00,$01,$01,$02,$02,$03,$03,$03,$03,$04,$04,$04,$05,$05,$06
 DrawNameEntry:						; draws the Create Player page: First Name, Last Name, the letter grid and
 									; its keys; the screen state goes to 0 (NameEntry)

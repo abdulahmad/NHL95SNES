@@ -2,7 +2,8 @@
 ; sample 2 and zeros to the end of the bank.
 org $C4F01E
 BuildTeamLines:						; builds the line data of roster table Y from its players: each player's
-									; value (CODE_C5C6A2), then the line slots filled position by position
+									; value (RecordOverallLong), then the line slots filled position by
+									; position
 	sty.b tmp0
 	stz.w $24DC
 	lda.w $0000,y
@@ -27,7 +28,7 @@ BuildTeamLines:						; builds the line data of roster table Y from its players: 
 	sta.w mesarea+4
 	lda.w $0116,x
 	sta.w mesarea+6
-	jsl.l CODE_C5C6A2
+	jsl.l RecordOverallLong
 	sta.w $364E,y
 	lda.b tmp1
 	sta.w $368E,y

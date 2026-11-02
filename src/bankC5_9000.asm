@@ -1159,10 +1159,10 @@ CODE_C599E7:						; from CODE_C59ADD, CODE_C59998
 	lda.b d0
 	bne .3
 	iny
-.3:									; X = mesarea, call PrintBoldRightStr, go to CODE_C59F79
+.3:									; X = mesarea, call PrintBoldRightStr, go to PrintCreatedOverall
 	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
-	jmp.w CODE_C59F79
+	jmp.w PrintCreatedOverall
 DATA8_C59A4A:						; not reached by the traced code (data or unused code)
 	db $60
 CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
@@ -1213,10 +1213,10 @@ CODE_C59A4B:						; from CODE_C59ADD, CODE_C59998
 	lda.b d0
 	bne .3
 	iny
-.3:									; X = mesarea, call PrintBoldRightStr, go to CODE_C59F79
+.3:									; X = mesarea, call PrintBoldRightStr, go to PrintCreatedOverall
 	ldx.w #mesarea
 	jsl.l PrintBoldRightStr
-	jmp.w CODE_C59F79
+	jmp.w PrintCreatedOverall
 CODE_C59AB0:						; from CODE_C599E7, CODE_C59A4B
 	sta.b tmp1
 	asl a
@@ -1410,71 +1410,71 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	lda.b d0
 	bne .10
 	jmp.w .11
-.10:								; A = $0529, call CODE_C5A07A, tmp2 = A, call WriteSaveBits4, ...
+.10:								; A = $0529, call RatingNibble, tmp2 = A, call WriteSaveBits4, ...
 	lda.w $0529
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $81
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $052D
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0527
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0533
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $052F
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $85
 	sta.b tmp2
 	jsr.w WriteSaveBit
 	lda.w $053D
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	lsr a
 	sta.b tmp2
 	jsr.w WriteSaveBits3
 	lda.w $053B
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0535
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0531
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $26
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $052B
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0539
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0537
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $A5
 	jsr.w CODE_C5E447
 	jmp.w CODE_C59D39
-.11:								; A = $0529, call CODE_C5A07A, tmp2 = A, call WriteSaveBits4, ...
+.11:								; A = $0529, call RatingNibble, tmp2 = A, call WriteSaveBits4, ...
 	lda.w $0529
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $81
@@ -1483,15 +1483,15 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	stz.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0527
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $052D
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $052B
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.b $85
@@ -1503,19 +1503,19 @@ SaveCreatedPlayer:					; saves the created player in the first free one of 20 sa
 	jsr.w WriteSaveBits4
 	jsr.w WriteSaveBits4
 	lda.w $052F
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0531
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0533
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 	lda.w $0535
-	jsr.w CODE_C5A07A
+	jsr.w RatingNibble
 	sta.b tmp2
 	jsr.w WriteSaveBits4
 CODE_C59D39:						; from CODE_C59998, CODE_C59ADD, SaveCreatedPlayer
@@ -1731,7 +1731,7 @@ CODE_C59DBE:						; from EditPlayerInfo
 	inx
 	cpx.b tmp0
 	bcc .loop
-	jsr.w CODE_C59F79
+	jsr.w PrintCreatedOverall
 	lda.w #$0008
 .loop2:								; loop: push A, call CODE_C5909D, pull A, A + 1, ...
 	pha
