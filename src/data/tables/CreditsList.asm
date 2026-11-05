@@ -1,4 +1,4 @@
-CreditsList:						; the title screen's credit pages: per page a count, then that many packed
+CreditsPages:						; the title screen's credit pages: per page a count, then that many packed
 									; text addresses (bank $C3), a line each; a 0 count ends
 	db $03,$E4,$50,$F2,$50,$FE,$50,$03,$08,$51,$11,$51,$1B,$51,$03,$26
 	db $51,$2D,$51,$34,$51,$03,$26,$51,$41,$51,$4A,$51,$03,$26,$51,$55

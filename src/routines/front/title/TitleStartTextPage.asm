@@ -38,7 +38,7 @@ TitleFadeTextOut:					; fades out the text and selects the next page or the fina
 	jsr.w QueueFadeStep
 	bne TitleEndDelayReturn
 	ldx.b d5+2
-	lda.l CreditsList,x
+	lda.l CreditsPages,x
 	and.w #$00FF
 	bne .1
 	ldx.b d1

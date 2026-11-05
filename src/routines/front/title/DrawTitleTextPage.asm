@@ -17,7 +17,7 @@ DrawTitleTextPage:					; draws the next centred title text page and starts its p
 	ldy.w #$0700
 	jsl.l ClearRAM7E
 	ldx.b d5+2
-	lda.l CreditsList,x
+	lda.l CreditsPages,x
 	and.w #$00FF
 	sta.b d6+2
 	lda.w #$0010
@@ -28,9 +28,9 @@ DrawTitleTextPage:					; draws the next centred title text page and starts its p
 	lda.w #$2400
 	sta.b $D5
 	inx
-.loop:								; loop: d5+2 = X, A = CreditsList,x, X = A, Y = d6, ...
+.loop:								; loop: d5+2 = X, A = CreditsPages,x, X = A, Y = d6, ...
 	stx.b d5+2
-	lda.l CreditsList,x
+	lda.l CreditsPages,x
 	tax
 	ldy.b d6
 	jsl.l PrintBoldCentred
