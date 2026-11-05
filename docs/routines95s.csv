@@ -2345,7 +2345,7 @@ $C4D05B,122,code,InitPlayerTeams,InitPlayerTeams,2,code,front/season,plurality,1
 $C4D0D5,44,code,ClearCreatedPlayerTeams,ClearCreatedPlayerTeams,2,code,front/season,plurality,1 of 2 placed callers in sram; kept in front/season (plurality changed)
 $C4D101,2,data,TitleMapFill,TitleMapFill,0,code,data,data,
 $C4D103,7,data,TitleBG34HDMA,TitleBG34HDMA,0,code,data,data,
-$C4D10A,137,data,CreditsList,CreditsList,0,genesis+purpose,data,data,
+$C4D10A,137,data,CreditsPages,CreditsPages,0,genesis+purpose,data,data,
 $C4D193,484,code,TitleScreen,TitleScreen,1,94S+purpose,front/title,95G,TitleScreen in 95G front/title
 $C4D377,17,code,TitleWaitForSlide,TitleWaitForSlide,0,code,front/title,callers,1 of 1 placed refs in front/title
 $C4D388,16,code,TitleWaitForSlide,TitleFadeAndSlide,,code,front/title,,

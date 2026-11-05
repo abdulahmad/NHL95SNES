@@ -49,3 +49,4 @@ rule in the same commit as the fix that confirmed it, newest last: `- YYYY-MM-DD
 - 2026-11-03 placement: a 94S name gives a 95S routine its name, not its folder, unless the job is SNES-only; DrawPeriodStats had taken 94S's `period/` folder. (phase 6 review)
 - 2026-11-03 names: a shared name that differs from the earliest game's (93S / 94S waitxsr where 93G and 94G have waitx) is fixed in the earliest repo that differs, then down the lineage. (phase 6 review; done in 93S and 94S)
 - 2026-11-04 contributing: CONTRIBUTING.md must not contradict History: lineage lives only in the name history file, never in source comments. (CONTRIBUTING rewrite vs RULES History row)
+- 2026-11-05 names: CreditsList is 93G CreditsPages (same title-screen credit pages as 95G, packed pointers). File kept CreditsList.asm (rename lens, no move). (owner)

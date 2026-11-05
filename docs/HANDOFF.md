@@ -3,7 +3,9 @@
 ## Now (alignment)
 
 - Plan: the 95S alignment plan (`alignment-plan/95s_alignment_plan.md` in the Code Cleanup project files). Rules: `docs/RULES.md`.
-- Branch: `claude/project-thread-ggw7zu`
+- Stage / unit: rename CreditsList → CreditsPages (93G name; same title-screen credit pages as 95G). File `CreditsList.asm` kept (rename only).
+- Branch: `cursor/creditspages-399a`
+- Last check: `./build.sh` MATCH; `python3 tools/check_comments.py` comment layout OK; `python3 tools/check_scope.py` scope OK (2026-11-05).
 - Phase: 0 done (kit). 1 done (95S in the report on nhl-disasm-report's `claude/project-thread-ggw7zu`: segment-layout
   reader, counts `95S~95G` and `95S~94S` at 0, 699 95S known pairs then, 752 now; `tools/gate.sh` PAIRING OK). 2 done: `tools/inventory95.py`
   wrote `docs/routines95s.csv` (4,470 labels, 1,348 routines, 2,809 data runs; rules: 95G 283, family 158, 94S 95,
