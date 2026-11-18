@@ -8,6 +8,7 @@ incsrc "inc/snes_regs.asm"
 incsrc "inc/spc_regs.asm"
 incsrc "ram95s.asm"
 incsrc "frames95s.asm"
+incsrc "data/gfx/frametiles95s.asm"
 
 incsrc "banks/bC0_gfx_sound.asm"
 incsrc "banks/bC1_gfx.asm"
