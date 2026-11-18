@@ -51,3 +51,4 @@ rule in the same commit as the fix that confirmed it, newest last: `- YYYY-MM-DD
 - 2026-11-04 contributing: CONTRIBUTING.md must not contradict History: lineage lives only in the name history file, never in source comments. (CONTRIBUTING rewrite vs RULES History row)
 - 2026-11-05 names: CreditsList is 93G CreditsPages (same title-screen credit pages as 95G, packed pointers). File kept CreditsList.asm (rename lens, no move). (owner)
 - 2026-11-05 files: CreditsList.asm follows the label to CreditsPages.asm (include + name_map file column). (owner)
+- 2026-11-18 data: the team database's licensed text (player names, team nicknames) stays out of the source: placeholders of the same packed length, put back from the ROM by `tools/names95.py` at build. City, abbreviation and arena text is the game's own and is packed from the source. (owner: NHL/NHLPA data comes from the game data, as 93G / 94G)
