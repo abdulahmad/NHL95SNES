@@ -6,14 +6,14 @@ file, then `SEGMENT_AGENT.md` (rules, queue and history), `CONTRIBUTING.md` and 
 ## Hard rules
 
 - Never change a ROM byte. Every commit must build to MATCH (SHA-1 `0b939f267377801d2c805b05c06a7ee6c880c5fc`).
-- The ROM in `lst/` is committed for now (temporary). Never commit anything else derived from the game: no `Extracted/`, no `output/`, no patches, no other dumps.
+- The ROM is not in the repo: you put your own dump at `lst/nhl95snes.sfc` (gitignored). Never commit it or anything else derived from the game: no `Extracted/`, no `output/`, no patches, no other dumps.
 - Never force-push, never rewrite pushed history, never push a commit that does not MATCH.
 - Small commits: one segment (or one file group) per commit.
 - No macros. No address where a label works.
 
 ## 1. Setup (fresh clone)
 
-- `lst/nhl95snes.sfc` is in the repo. If it is ever missing, `./build.sh` tells you the exact path, SHA-1, CRC32 and size it needs.
+- Copy your own headerless dump of the cartridge to `lst/nhl95snes.sfc` (not in the repo). If it is missing or a different dump, `./build.sh` tells you the exact path, SHA-1, CRC32 and size it needs.
 - Linux / macOS: `sh tools/setup.sh` builds asar 1.91 into `tools/bin/asar`. Windows: `powershell -ExecutionPolicy Bypass -File tools\setup.ps1`.
 - Python 3 for the prebuild check, the extractor and the verify scripts.
 

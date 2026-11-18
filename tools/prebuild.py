@@ -25,7 +25,7 @@ def stop(lines):
     print('*** BUILD STOPPED: ROM file needed ***', file=sys.stderr)
     print('\n'.join(lines), file=sys.stderr)
     print('', file=sys.stderr)
-    print(f'lst/ holds a copy of the ROM for now (temporary). When it is gone, use your own dump of the {GAME} cartridge,', file=sys.stderr)
+    print(f'ROMs are not included in the repo. Use your own dump of the {GAME} cartridge,', file=sys.stderr)
     print('saved under exactly that file name (no copier header), then run the build again. The', file=sys.stderr)
     print('segment files in Extracted/ are then extracted from it automatically.', file=sys.stderr)
     print('', file=sys.stderr)

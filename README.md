@@ -2,7 +2,7 @@
 
 > **🤝 Making a mod, hack, port or other derivative work from this repo? You must credit me and everyone credited in this repo, clearly, in your own repo and in every release. See [Credits and derivative works](#credits-and-derivative-works).**
 
-> **Temporary:** the retail ROM is committed in `lst/` for convenience while the repo is young. It will be removed as the repo gets closer to final; after that you supply your own copy (the build finds it by SHA-1 and size, any file name, and tells you exactly what it needs when it is missing). Patch files are never committed.
+> **📀 Game data is not included.** This repository has the assembly code only. Put your own dump of the cartridge (headerless) at `lst/nhl95snes.sfc` (gitignored); the build checks its SHA-1 and size and tells you exactly what it needs when it is missing. The graphics and the player names are extracted from it when you build. ROMs and patch files are never committed.
 
 ## 🚧 Current Status
 
