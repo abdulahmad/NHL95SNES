@@ -34,7 +34,7 @@ None: all 256 segments (banks $C0-$CF) are source and build to MATCH. <- CURRENT
 
 ## Sources
 
-- Reference ROM: `lst/nhl95snes.sfc` (committed for now, temporary; `tools/prebuild.py` says what it must be).
+- Reference ROM: `lst/nhl95snes.sfc` (your own dump, not in the repo; `tools/prebuild.py` says what it must be).
 - Each segment `src/bankXX_YYYY.asm` starts as an `org` plus an `incbin` of its 4 KB from `Extracted/segments/` (cut from the ROM by
   `tools/extract.py`, run automatically by the prebuild check).
 - Names: NHL94SNES (https://github.com/abdulahmad/NHL94SNES) for code that matches 94S, NHL95Genesis

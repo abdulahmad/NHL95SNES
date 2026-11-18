@@ -307,7 +307,7 @@
 ## Setup notes
 
 - asar 1.91 on PATH or in `tools/bin/` (`tools/setup.sh`). Python 3.
-- ROM at `lst/nhl95snes.sfc` (committed for now, temporary). `Extracted/` and `output/` are generated and gitignored.
+- ROM at `lst/nhl95snes.sfc` (your own dump, gitignored, not in the repo). `Extracted/` and `output/` are generated and gitignored.
 - `python3 tools/disasm65816.py lst/nhl95snes.sfc output/quickpass` is the quick-pass disassembler (NHL94SNES's, ported to HiROM).
   It starts at the vectors only; reset and NMI soon reach indirect jumps (`jml [$04AA]`) and inline-parameter calls, so add
   `--entry ADDR:M:X` for the routines you work on. It also writes `xref.txt` (every long operand into the ROM).

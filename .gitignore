@@ -1,11 +1,10 @@
 output/
 Extracted/
-# Only the retail ROM in lst/ is committed (temporary, for convenience: ROMs leave the repo later). No other dumps, no patches.
+# The retail ROM goes in lst/nhl95snes.sfc (your own dump) and is never committed. No other dumps, no patches.
 /*.sfc
 /*.smc
 /*.bin
 lst/*
-!lst/nhl95snes.sfc
 *.ips
 *.bps
 *.log
