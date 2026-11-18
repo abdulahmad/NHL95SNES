@@ -63,10 +63,18 @@ if sha1_of(data) != ROM['sha1'] or len(data) != ROM['size']:
           '    (a bad dump, a hack, another revision, or a file with a 512-byte copier header)',
           'This build needs this ROM, exactly the version shown:'] + block)
 
+def names():
+    # 3. The licensed names (players, team nicknames) are not in the source: put them back from the ROM.
+    r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'names95.py')], cwd=ROOT, capture_output=True, text=True)
+    if r.returncode:
+        print(r.stdout + r.stderr, file=sys.stderr)
+        print('*** BUILD STOPPED: tools/names95.py failed ***', file=sys.stderr); sys.exit(1)
+    for l in r.stdout.splitlines(): print('prebuild: ' + l)
+
 # 2. Extracted/ segments: extract again if missing or incomplete.
 why = extracted_state()
 if not why:
-    print('prebuild: ROM OK, Extracted/ complete.'); sys.exit(0)
+    print('prebuild: ROM OK, Extracted/ complete.'); names(); sys.exit(0)
 print(f'prebuild: {why}; extracting from {ROM["file"]} ...')
 r = subprocess.run([sys.executable, os.path.join(ROOT, EXTRACTOR), rom_path], cwd=ROOT, capture_output=True, text=True)
 after = extracted_state() if r.returncode == 0 else 'the extractor failed'
@@ -75,3 +83,4 @@ if after:
     print(f'*** BUILD STOPPED: extraction failed ({after}) ***', file=sys.stderr); sys.exit(1)
 for l in r.stdout.splitlines(): print('prebuild: ' + l)
 print('prebuild: Extracted/ complete.')
+names()
