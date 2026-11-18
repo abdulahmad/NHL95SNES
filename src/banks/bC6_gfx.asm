@@ -8,5 +8,4 @@ incsrc "../data/gfx/FrameOffsetX.asm"
 incsrc "../data/gfx/FrameOffsetY.asm"
 incsrc "../data/gfx/FrameOffsetXFlip.asm"
 %FrameTilesC6()
-incsrc "../data/gfx/VezinaPicMap.asm"
-incsrc "../data/gfx/VezinaPicTiles.asm"
+incsrc "../data/gfx/VezinaPic.asm"

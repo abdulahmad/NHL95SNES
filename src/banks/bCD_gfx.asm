@@ -1,6 +1,5 @@
 ; Bank $CD. Files in ROM order.
 
-incsrc "../data/gfx/IceRinkPalette.asm"
 incsrc "../data/gfx/PhotoPalettesWSH.asm"
 incsrc "../data/gfx/PlayerPhotosWSH.asm"
 incsrc "../data/gfx/PhotoPalettesWPG.asm"
@@ -23,7 +22,5 @@ incsrc "../data/gfx/PhotoPalettesEDM.asm"
 incsrc "../data/gfx/PlayerPhotosEDM.asm"
 incsrc "../data/gfx/PhotoPalettesFLA.asm"
 incsrc "../data/gfx/PlayerPhotosFLA.asm"
-incsrc "../data/gfx/HartPicMap.asm"
-incsrc "../data/gfx/HartPicTiles.asm"
-incsrc "../data/gfx/HartPicPalette.asm"
+incsrc "../data/gfx/HartPic.asm"
 incsrc "../data/gfx/FrameHotX.asm"
