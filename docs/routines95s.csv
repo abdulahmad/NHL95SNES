@@ -1628,26 +1628,26 @@ $C35F60,372,data,SeasonDates,SeasonDates,0,code,data,data,
 $C360D4,2735,data,SeasonSchedule,SeasonSchedule,0,genesis+purpose,data,data,
 $C36B83,169,code,LoadSavedGameOptions,LoadSavedGameOptions,2,code,engine/setup,plurality,1 of 2 placed callers in hockey; kept in engine/setup (plurality changed)
 $C36C2C,1,code,CheckPAL,CheckPAL,1,code,main,94S,CheckPAL in 94S routines/main
-$C36C2D,28,code,ReadMenuPads,ReadMenuPads,25,code,control,family,pads family
-$C36C49,118,code,ReadActiveMenuPad,ReadActiveMenuPad,1,code,control,family,pads family
-$C36CBF,107,code,ReadPads,ReadPads,6,94S+code,control,family,pads family
+$C36C2D,28,code,ReadMenuPads,ReadMenuPads,25,code,engine/control,family,pads family
+$C36C49,118,code,ReadActiveMenuPad,ReadActiveMenuPad,1,code,engine/control,family,pads family
+$C36CBF,107,code,ReadPads,ReadPads,6,94S+code,engine/control,family,pads family
 $C36D2A,16,data,PadDirection,PadDirection,0,94S+code,data,data,
 $C36D3A,515,code,Multi5Bios,Multi5Bios,2,94S+code,engine/middle,94S,Multi5Bios in 94S routines/middle
 $C36F3D,75,code,Multi5Init,Multi5Init,1,94S+purpose,engine/middle,94S,Multi5Init in 94S routines/middle
 $C36F88,106,code,Multi5ConnectCheck,Multi5ConnectCheck,2,94S+code,engine/middle,94S,Multi5ConnectCheck in 94S routines/middle
 $C36FF2,91,code,GetNewPresses,GetNewPresses,1,94S+code,engine/middle,94S,GetNewPresses in 94S routines/middle
 $C3704D,24,code,ReadjoyA,ReadjoyA,3,94S+code,engine/middle,94S,ReadjoyA in 94S routines/middle
-$C37065,24,code,ReadPauseMenuPad,ReadPauseMenuPad,2,code,control,family,pads family
+$C37065,24,code,ReadPauseMenuPad,ReadPauseMenuPad,2,code,engine/control,family,pads family
 $C3707D,20,code,ReadJoy1,ReadJoy1,1,94S+code,engine/video,95G,ReadJoy1 in 95G engine/video
 $C37091,20,code,ReadJoy2,ReadJoy2,0,code,engine/video,95G,ReadJoy2 in 95G engine/video
-$C370A5,7,code,ReadPausePad,ReadPausePad,4,94S+code,control,family,pads family
-$C370AC,6,code,GetMenuPadButtons,GetMenuPadButtons,1,code,hockey,callers,1 of 1 placed callers in hockey
+$C370A5,7,code,ReadPausePad,ReadPausePad,4,94S+code,engine/control,family,pads family
+$C370AC,6,code,GetMenuPadButtons,GetMenuPadButtons,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $C370B2,31,code,ProcessInputWithRepeat,ProcessInputWithRepeat,2,94S+code,engine/video,95G,ProcessInputWithRepeat in 95G engine/video
 $C370D1,120,code,remap,remap,0,94S+code+align,engine/video,95G,remap in 95G engine/video
-$C37149,12,code,WaitPausePadRelease,WaitPausePadRelease,0,code,control,family,pads family
-$C37155,24,code,WaitPadsRelease,WaitPadsRelease,0,94S+purpose,control,family,pads family
-$C3716D,4,code,UpdateMenuSpritesTwice,UpdateMenuSpritesTwice,3,code,display,family,sprites family
-$C37171,28,code,UpdateMenuSpritesTwice,UpdateMenuSprites,,code,display,,
+$C37149,12,code,WaitPausePadRelease,WaitPausePadRelease,0,code,engine/control,family,pads family
+$C37155,24,code,WaitPadsRelease,WaitPadsRelease,0,94S+purpose,engine/control,family,pads family
+$C3716D,4,code,UpdateMenuSpritesTwice,UpdateMenuSpritesTwice,3,code,engine/display,family,sprites family
+$C37171,28,code,UpdateMenuSpritesTwice,UpdateMenuSprites,,code,engine/display,,
 $C3718D,30,code,InitCrowdExcite,InitCrowdExcite,1,94S+purpose,front/crowd,94S,InitCrowdExcite in 94S routines/crowd
 $C371AB,78,code,updatecrowdf,updatecrowdf,1,94S+purpose,front/crowd,95G,updatecrowdf in 95G front/crowd
 $C371F9,370,code,updatereplay,updatereplay,1,94S+code,engine/replay,95G,updatereplay in 95G engine/replay
@@ -1672,7 +1672,7 @@ $C37F6D,79,code,vtoa,vtoa,26,94S+code,engine/middle,95G,vtoa in 95G engine/middl
 $C37FBC,38,code,SuperAdd,SuperAdd,0,94S+code,engine/setup,95G,SuperAdd in 95G engine/setup
 $C37FE2,45,code,GetHot,GetHot,10,94S+purpose+align,engine/middle,95G,GetHot in 95G engine/middle
 $C3800F,52,code,projxy,projxy,0,94S+purpose,engine/logic,follows,unreferenced; after GetFrameHot
-$C38043,10,code,setpads,setpads,3,94S+code,control,95G,setpads in 95G control
+$C38043,10,code,setpads,setpads,3,94S+code,engine/control,95G,setpads in 95G control
 $C3804D,40,code,SetupScrollIRQ,SetupScrollIRQ,0,94S+code,engine/video,94S,SetupScrollIRQ in 94S routines/video
 $C38075,35,code,IRQ_StatsScroll1,IRQ_StatsScroll1,0,94S+code,engine/video,family,interrupts family
 $C38098,32,code,IRQ_StatsScroll2,IRQ_StatsScroll2,0,94S+code,engine/video,family,interrupts family
@@ -1683,15 +1683,15 @@ $C381D5,31,code,FindScoringLeaders,FindScoringLeaders,1,code,engine/goal,callers
 $C381F4,194,code,InsertScoringLeader,InsertScoringLeader,1,code,engine/goal,callers,1 of 1 placed callers in engine/goal
 $C382B6,1,code,StartBenchCheer,StartBenchCheer,3,94S+code,front/crowd,94S,StartBenchCheer in 94S routines/crowd
 $C382B7,1,code,UpdateBenchCheer,UpdateBenchCheer,1,94S+code,front/crowd,94S,UpdateBenchCheer in 94S routines/crowd
-$C382B8,349,code,UpdateGameObjectSprites,UpdateGameObjectSprites,2,code,display,family,sprites family
-$C38415,87,code,UpdateGameObjectSprites,DrawSortedGameObject,,code,display,,
-$C3846C,16,code,NextSortedGameObject,NextSortedGameObject,1,code,display,family,sprites family
+$C382B8,349,code,UpdateGameObjectSprites,UpdateGameObjectSprites,2,code,engine/display,family,sprites family
+$C38415,87,code,UpdateGameObjectSprites,DrawSortedGameObject,,code,engine/display,,
+$C3846C,16,code,NextSortedGameObject,NextSortedGameObject,1,code,engine/display,family,sprites family
 $C3847C,32,data,ObjSmallTiles,ObjSmallTiles,0,code,data,data,
 $C3849C,32,data,ObjBigTiles,ObjBigTiles,0,code,data,data,
 $C384BC,32,data,ObjSmallTilesFlip,ObjSmallTilesFlip,0,code,data,data,
 $C384DC,32,data,ObjBigTilesFlip,ObjBigTilesFlip,0,code,data,data,
-$C384FC,114,code,SprSort,SprSort,4,94S+code,display,95G,SprSort in 95G display
-$C3856E,234,code,defaultsprites_0,defaultsprites_0,1,94S+purpose,display,95G,defaultsprites_0 in 95G display
+$C384FC,114,code,SprSort,SprSort,4,94S+code,engine/display,95G,SprSort in 95G display
+$C3856E,234,code,defaultsprites_0,defaultsprites_0,1,94S+purpose,engine/display,95G,defaultsprites_0 in 95G display
 $C38658,288,data,SortObjInitTable,SortObjInitTable,0,94S+purpose,data,data,
 $C38778,33,code,ApproxLength,ApproxLength,14,94S+code,engine/middle,94S,ApproxLength in 94S routines/middle
 $C38799,63,code,CalcPuckDistances,CalcPuckDistances,1,94S+purpose,engine/logic,94S,CalcPuckDistances in 94S routines/logic
@@ -1758,8 +1758,8 @@ $C4097B,10,code,ToggleTeamBarHighlight,ToggleTeamBarHighlight,2,code,front/seaso
 $C40985,20,code,ToggleTeamBarHighlight,ToggleTeamBarRow,,code,front/season,,
 $C40999,74,code,PopulateBracketTeams,PopulateBracketTeams,1,code,front/season,callers,1 of 1 placed callers in front/season
 $C409E3,31,code,RebuildBracketTeams,RebuildBracketTeams,2,code,front/season,callers,2 of 2 placed callers in front/season
-$C40A02,94,code,AddIntermissionGoals,AddIntermissionGoals,1,code,hockey,callers,1 of 1 placed callers in hockey
-$C40A60,13,code,RandomIntermissionGoal,RandomIntermissionGoal,1,code,hockey,callers,1 of 1 placed callers in hockey
+$C40A02,94,code,AddIntermissionGoals,AddIntermissionGoals,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
+$C40A60,13,code,RandomIntermissionGoal,RandomIntermissionGoal,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $C40A6D,52,code,AddGamePlayerStats,AddGamePlayerStats,2,code,front/season,callers,1 of 1 placed callers in front/season
 $C40AA1,171,code,AddPlayerSeasonStats,AddPlayerSeasonStats,1,genesis+purpose,front/stats,95G,AddPlayerSeasonStats in 95G front/stats
 $C40B4C,53,code,SetSeasonGoals,SetSeasonGoals,1,code,front/stats,callers,1 of 1 placed callers in front/stats
@@ -1853,7 +1853,7 @@ $C42A64,122,data,SPAboardleft,SPAboardleft,0,94S+code,data,data,
 $C42ADE,58,data,SPAbenchcheckr,SPAbenchcheckr,0,94S+code,data,data,
 $C42B18,13,code,GlideBack,GlideBack,3,94S+code,engine/logic,94S,GlideBack in 94S routines/logic
 $C42B25,491,code,assnearest,assnearest,0,94S+code,engine/logic,95G,assnearest in 95G engine/logic
-$C42D10,136,code,burst,burst,2,94S+code,control,95G,burst in 95G control
+$C42D10,136,code,burst,burst,2,94S+code,engine/control,95G,burst in 95G control
 $C42D98,10,code,chkpk,chkpk,2,94S+code,engine/middle,95G,chkpk in 95G engine/middle
 $C42DA2,22,code,chkpk2,chkpk2,2,94S+code,engine/middle,95G,chkpk2 in 95G engine/middle
 $C42DB8,14,code,asspuckc,asspuckc,0,94S+code,engine/logic,95G,asspuckc in 95G engine/logic
@@ -1925,13 +1925,13 @@ $C453E6,307,code,CCStart,CCStart,1,code+align,engine/collide,95G,CCStart in 95G 
 $C45519,16,data,CheckAnimByDir,CheckAnimByDir,0,code,data,data,
 $C45529,221,code,check4check,check4check,2,94S+code,engine/logic,95G,check4check in 95G engine/logic
 $C45606,10,code,Sweepcheck,Sweepcheck,2,94S+code,engine/collide,95G,Sweepcheck in 95G engine/collide
-$C45610,127,code,Holdplayer,Holdplayer,2,94S+code,control,95G,Holdplayer in 95G control
-$C4568F,38,code,Holdplayer,Acheck,,94S+code,control,,
+$C45610,127,code,Holdplayer,Holdplayer,2,94S+code,engine/control,95G,Holdplayer in 95G control
+$C4568F,38,code,Holdplayer,Acheck,,94S+code,engine/control,,
 $C456B5,236,code,holdcheck,holdcheck,1,94S+code,engine/collide,95G,holdcheck in 95G engine/collide
 $C457A1,20,code,SetSPA,SetSPA,9,94S+code,engine/skate,95G,SetSPA in 95G engine/skate
 $C457B5,18,code,SetSPAFromA,SetSPAFromA,22,94S+code,engine/logic,94S,SetSPAFromA in 94S routines/logic
 $C457C7,22,code,SetSPAUpdate,SetSPAUpdate,3,94S+code,engine/logic,94S,SetSPAUpdate in 94S routines/logic
-$C457DD,197,code,updateanim,updateanim,4,94S+code,display,95G,updateanim in 95G display
+$C457DD,197,code,updateanim,updateanim,4,94S+code,engine/display,95G,updateanim in 95G display
 $C458A2,66,code,dostop,dostop,4,94S+code,engine/skate,95G,dostop in 95G engine/skate
 $C458E4,108,code,dostop,stopna,,94S+code,engine/skate,,
 $C45950,247,code,skateto,skateto,14,94S+code,engine/logic,95G,skateto in 95G engine/logic
@@ -2219,11 +2219,11 @@ $C4B8D1,105,code,StartColourFade,StartColourFade,6,code,engine/video,family,fade
 $C4B93A,27,code,FadeDelta,FadeDelta,1,code,engine/video,family,fades family
 $C4B955,27,code,SetFadeTables,SetFadeTables,3,code,engine/video,family,fades family
 $C4B970,14,code,FillWords7E,FillWords7E,6,code,front/title,callers,1 of 1 placed callers in front/title
-$C4B97E,233,code,DeveloperCredits,DeveloperCredits,1,code,hockey,callers,1 of 1 placed callers in hockey
-$C4BA67,14,code,CreditsWaitForFade,CreditsWaitForFade,0,code,hockey,callers,1 of 1 placed refs in hockey
-$C4BA75,83,code,CreditsWaitForFade,CreditsFadePalettes,,code,hockey,,
-$C4BAC8,13,code,CreditsWaitForFade,CreditsEndDelay,,code,hockey,,
-$C4BAD5,1,code,CreditsWaitForFade,CreditsEndDelayReturn,,code,hockey,,
+$C4B97E,233,code,DeveloperCredits,DeveloperCredits,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
+$C4BA67,14,code,CreditsWaitForFade,CreditsWaitForFade,0,code,engine/hockey,callers,1 of 1 placed refs in hockey
+$C4BA75,83,code,CreditsWaitForFade,CreditsFadePalettes,,code,engine/hockey,,
+$C4BAC8,13,code,CreditsWaitForFade,CreditsEndDelay,,code,engine/hockey,,
+$C4BAD5,1,code,CreditsWaitForFade,CreditsEndDelayReturn,,code,engine/hockey,,
 $C4BAD6,32,data,TextPalettes,TextPalettes,0,code,data,data,
 $C4BAF6,77,code,InitTextMap,InitTextMap,19,code,engine/middle,family,print family
 $C4BB43,23,code,CopyBankC3String,CopyBankC3String,0,code,engine/middle,family,print family
@@ -2369,7 +2369,7 @@ $C4D52B,93,code,CreateTitleFadingSprite,CreateTitleFadingSprite,2,code,front/tit
 $C4D588,36,code,QueueFadeStep,QueueFadeStep,4,code,engine/video,family,fades family
 $C4D5AC,138,code,DrawTitleTextPage,DrawTitleTextPage,1,code,front/title,callers,1 of 1 placed refs in front/title
 $C4D636,33,code,GetMapSetPalettePointer,GetMapSetPalettePointer,1,code,front/title,callers,1 of 1 placed callers in front/title
-$C4D657,284,code,CopyrightScreen,CopyrightScreen,1,code,hockey,callers,1 of 1 placed callers in hockey
+$C4D657,284,code,CopyrightScreen,CopyrightScreen,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $C4D773,165,code,InitAwardScreen,InitAwardScreen,2,code,front/awards,plurality,1 of 2 placed callers in front/awards
 $C4D818,297,code,SeasonAwards,SeasonAwards,1,genesis+code,front/awards,95G,SeasonAwards in 95G front/awards
 $C4D941,276,code,DrawAward,DrawAward,1,code,front/awards,callers,1 of 1 placed callers in front/awards
@@ -2433,15 +2433,15 @@ $C4F240,63,code,InsertRankedLineDefenceman,InsertRankedLineDefenceman,1,code,fro
 $C4F27F,47,code,RosterDiffers,RosterDiffers,1,code,front/scout,callers,1 of 1 placed callers in front/scout
 $C4F2AE,78,code,RebuildChangedLines,RebuildChangedLines,1,code,front/scout,callers,1 of 1 placed callers in front/scout
 $C4F2FC,3332,data,Sample02,Sample02,0,new,data,data,
-$C50000,78,code,Opening,Opening,6,94S,hockey,95G,Opening in 95G hockey
-$C5004E,8,code,Opening,QuitGame,,code,hockey,,
-$C50056,69,code,Opening,Restart,,94S+purpose,hockey,,
-$C5009B,210,code,Opening,StartGame_go,,94S+code,hockey,,
-$C5016D,174,code,StartPer,StartPer,3,94S+code,hockey,95G,StartPer in 95G hockey
-$C5021B,290,code,Gameloop,Gameloop,1,94S+code,hockey,95G,Gameloop in 95G hockey
-$C5033D,39,code,DoGameFrame,DoGameFrame,1,94S+code,hockey,95G,DoGameFrame in 95G hockey
-$C50364,47,code,periodicevents,periodicevents,1,94S+code,hockey,94S,periodicevents in 94S routines/hockey
-$C50393,1645,code,updateplayers,updateplayers,1,94S+code,hockey,95G,updateplayers in 95G hockey
+$C50000,78,code,Opening,Opening,6,94S,engine/hockey,95G,Opening in 95G hockey
+$C5004E,8,code,Opening,QuitGame,,code,engine/hockey,,
+$C50056,69,code,Opening,Restart,,94S+purpose,engine/hockey,,
+$C5009B,210,code,Opening,StartGame_go,,94S+code,engine/hockey,,
+$C5016D,174,code,StartPer,StartPer,3,94S+code,engine/hockey,95G,StartPer in 95G hockey
+$C5021B,290,code,Gameloop,Gameloop,1,94S+code,engine/hockey,95G,Gameloop in 95G hockey
+$C5033D,39,code,DoGameFrame,DoGameFrame,1,94S+code,engine/hockey,95G,DoGameFrame in 95G hockey
+$C50364,47,code,periodicevents,periodicevents,1,94S+code,engine/hockey,94S,periodicevents in 94S routines/hockey
+$C50393,1645,code,updateplayers,updateplayers,1,94S+code,engine/hockey,95G,updateplayers in 95G hockey
 $C50A00,20,data,FrictionFactors,FrictionFactors,0,code,data,data,
 $C50A14,201,code,clockcont_0,clockcont_0,2,94S+code,engine/goal,95G,clockcont_0 in 95G engine/goal
 $C50ADD,271,code,PeriodOver,PeriodOver,1,94S+code,engine/goal,95G,PeriodOver in 95G engine/goal
@@ -2455,7 +2455,7 @@ $C50D29,253,code,Pausemode,Pausemode,1,94S+purpose,engine/pause,95G,Pausemode in
 $C50E26,103,code,demoread,demoread,1,94S+code,front/season,95G,demoread in 95G front/season
 $C50E8D,7,code,FadeStep5Unused,FadeStep5Unused,0,code,engine/video,family,fades family
 $C50E94,7,code,FadeOut,FadeOut,2,94S+code,engine/video,family,fades family
-$C50E9B,61,code,GameClockTick,GameClockTick,1,code,hockey,callers,1 of 1 placed callers in hockey
+$C50E9B,61,code,GameClockTick,GameClockTick,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $C50ED8,48,code,UpdateScores,UpdateScores,0,94S+code,engine/faceoff,95G,UpdateScores in 95G engine/faceoff
 $C50F08,1,code,GetNameandAttrib,GetNameandAttrib,1,code,engine/setup,95G,GetNameandAttrib in 95G engine/setup
 $C50F09,422,code,CalcAttrib,CalcAttrib,0,94S+code,engine/middle,95G,CalcAttrib in 95G engine/middle
@@ -2477,8 +2477,8 @@ $C513F4,137,code,USBoard,USBoard,1,94S+purpose,engine/penalty,94S,USBoard in 94S
 $C5147D,1,code,USBoard,USBoard_rtl,,94S+code,engine/penalty,,
 $C5147E,102,code,DispPen,DispPen,1,94S+code,engine/penalty,94S,DispPen in 94S routines/penalty
 $C514E4,63,code,pplpen,pplpen,1,94S+code,engine/penalty,94S,pplpen in 94S routines/penalty
-$C51523,324,code,Intermission,Intermission,1,94S+code,hockey,95G,Intermission in 95G hockey
-$C51667,1,code,Intermission,Intermission_rtl,,94S+code,hockey,,
+$C51523,324,code,Intermission,Intermission,1,94S+code,engine/hockey,95G,Intermission in 95G hockey
+$C51667,1,code,Intermission,Intermission_rtl,,94S+code,engine/hockey,,
 $C51668,24,code,Intermission_ticker,Intermission_ticker,1,94S+code,engine/penalty,94S,Intermission_ticker in 94S routines/penalty
 $C51680,38,code,Intermission_tick,Intermission_tick,0,94S+code,engine/penalty,94S,Intermission_tick in 94S routines/penalty
 $C516A6,4,code,Intermission_tick,IntermissionTick_done,,94S+code,engine/penalty,,
@@ -2521,26 +2521,26 @@ $C51FBA,78,code,LimitPenaltyFaceoff,LimitPenaltyFaceoff,1,code,engine/faceoff,ca
 $C52008,39,code,QueueFaceoffBox,QueueFaceoffBox,2,code,engine/faceoff,callers,2 of 2 placed callers in engine/faceoff
 $C5202F,8,data,FaceoffBoxFrameOffsets,FaceoffBoxFrameOffsets,0,code,data,data,
 $C52037,496,code,setupice,setupice,1,94S+code,engine/middle,95G,setupice in 95G engine/middle
-$C52227,61,code,setupice_reset,setupice_reset,1,94S+code,hockey,callers,1 of 1 placed callers in hockey
+$C52227,61,code,setupice_reset,setupice_reset,1,94S+code,engine/hockey,callers,1 of 1 placed callers in hockey
 $C52264,6,code,ClrHor,ClrHor,4,94S+code,engine/middle,95G,ClrHor in 95G engine/middle
 $C5226A,26,code,SetHor,SetHor,4,94S+code,engine/penalty,94S,SetHor in 94S routines/penalty
 $C52284,17,code,freezewindow,freezewindow,3,94S+code,engine/goal,95G,freezewindow in 95G engine/goal
-$C52295,42,code,setvideo,setvideo,3,94S+purpose,display,95G,setvideo in 95G display
-$C522BF,18,code,DrawPadArrows,DrawPadArrows,1,code,display,callers,1 of 1 placed callers in display
+$C52295,42,code,setvideo,setvideo,3,94S+purpose,engine/display,95G,setvideo in 95G display
+$C522BF,18,code,DrawPadArrows,DrawPadArrows,1,code,engine/display,callers,1 of 1 placed callers in display
 $C522D1,14,data,PadArrow1Data,PadArrow1Data,0,code,data,data,
-$C522DF,10,code,PadArrow2,PadArrow2,0,code,display,callers,1 of 1 placed refs in display
+$C522DF,10,code,PadArrow2,PadArrow2,0,code,engine/display,callers,1 of 1 placed refs in display
 $C522E9,14,data,PadArrow2Data,PadArrow2Data,0,code,data,data,
-$C522F7,10,code,PadArrow3,PadArrow3,0,code,display,callers,1 of 1 placed refs in display
+$C522F7,10,code,PadArrow3,PadArrow3,0,code,engine/display,callers,1 of 1 placed refs in display
 $C52301,14,data,PadArrow3Data,PadArrow3Data,0,code,data,data,
-$C5230F,10,code,PadArrow4,PadArrow4,0,code,display,callers,1 of 1 placed refs in display
+$C5230F,10,code,PadArrow4,PadArrow4,0,code,engine/display,callers,1 of 1 placed refs in display
 $C52319,14,data,PadArrow4Data,PadArrow4Data,0,code,data,data,
-$C52327,10,code,PadArrow5,PadArrow5,0,code,display,callers,1 of 1 placed refs in display
+$C52327,10,code,PadArrow5,PadArrow5,0,code,engine/display,callers,1 of 1 placed refs in display
 $C52331,14,data,PadArrow5Data,PadArrow5Data,0,code,data,data,
-$C5233F,9,code,PadArrowsDone,PadArrowsDone,0,code,display,callers,1 of 1 placed refs in display
-$C52348,736,code,DrawPadArrow,DrawPadArrow,0,code,display,callers,5 of 5 placed refs in display
-$C52628,62,code,QueuePadArrowVert,QueuePadArrowVert,1,code,display,callers,1 of 1 placed refs in display
-$C52666,65,code,QueuePadArrowCorner,QueuePadArrowCorner,1,code,display,callers,1 of 1 placed refs in display
-$C526A7,65,code,QueuePadArrowSide,QueuePadArrowSide,1,code,display,callers,1 of 1 placed refs in display
+$C5233F,9,code,PadArrowsDone,PadArrowsDone,0,code,engine/display,callers,1 of 1 placed refs in display
+$C52348,736,code,DrawPadArrow,DrawPadArrow,0,code,engine/display,callers,5 of 5 placed refs in display
+$C52628,62,code,QueuePadArrowVert,QueuePadArrowVert,1,code,engine/display,callers,1 of 1 placed refs in display
+$C52666,65,code,QueuePadArrowCorner,QueuePadArrowCorner,1,code,engine/display,callers,1 of 1 placed refs in display
+$C526A7,65,code,QueuePadArrowSide,QueuePadArrowSide,1,code,engine/display,callers,1 of 1 placed refs in display
 $C526E8,19,code,updatescroll,updatescroll,2,94S+code,engine/video,95G,updatescroll in 95G engine/video
 $C526FB,11,code,DrawPlayerTags,DrawPlayerTags,3,code,engine/replay,plurality,1 of 2 placed callers in engine/replay
 $C52706,96,code,DrawPlayerTags,DrawPadTag,,code,engine/replay,,
@@ -2585,7 +2585,7 @@ $C53488,45,code,ConvertByteToDigits,ConvertByteToDigits,1,94S+code+align,engine/
 $C534B5,51,code,PushNumber,PushNumber,0,94S+code,engine/middle,95G,PushNumber in 95G engine/middle
 $C534E8,77,code,PushNumberWidth,PushNumberWidth,1,94S+purpose+align,engine/middle,95G,PushNumberWidth in 95G engine/middle
 $C53535,63,code,ResetClock,ResetClock,2,94S+code,engine/middle,95G,ResetClock in 95G engine/middle
-$C53574,75,code,clearTeamStats,clearTeamStats,1,94S+code,control,95G,clearTeamStats in 95G control
+$C53574,75,code,clearTeamStats,clearTeamStats,1,94S+code,engine/control,95G,clearTeamStats in 95G control
 $C535BF,11,code,restoreteams,restoreteams,1,94S+code,engine/players,95G,restoreteams in 95G engine/players
 $C535CA,37,code,restoreteams,BenchTeamRoster,,code,engine/players,,
 $C535EF,39,code,GetPlayerNamePointer,GetPlayerNamePointer,1,94S+code+align,engine/middle,95G,GetPlayerNamePointer in 95G engine/middle
@@ -2669,13 +2669,13 @@ $C54DDF,28,code,SetupTeamForIntermission,SetupTeamForIntermission,1,94S+code,eng
 $C54DFB,44,code,SetupTeamForIntermission,SetupTeamLine,,genesis+purpose,engine/lines,,
 $C54E27,50,code,Create_HotCold_Table,Create_HotCold_Table,2,94S+code,engine/players,95G,Create_HotCold_Table in 95G engine/players
 $C54E59,20,code,GetTeamLines,GetTeamLines,2,94S+code,front/stats,94S,GetTeamLines in 94S routines/stats
-$C54E6D,152,code,Pausemode_menu,Pausemode_menu,2,94S+purpose,hockey,94S,Pausemode_menu in 94S routines/hockey
-$C54F05,50,code,PauseMenuInput,PauseMenuInput,1,code,hockey,callers,1 of 1 placed callers in hockey
-$C54F37,1,code,PauseMenuInput,PauseMenuReturn,,code,hockey,,
-$C54F38,64,code,RunPauseItem,RunPauseItem,0,code,hockey,callers,1 of 1 placed refs in hockey
-$C54F78,9,code,PauseItemUp,PauseItemUp,0,code,hockey,callers,1 of 1 placed refs in hockey
-$C54F81,5,code,PauseItemUp,RedrawPauseTab,,code,hockey,,
-$C54F86,14,code,PauseItemDown,PauseItemDown,0,code,hockey,callers,1 of 1 placed refs in hockey
+$C54E6D,152,code,Pausemode_menu,Pausemode_menu,2,94S+purpose,engine/hockey,94S,Pausemode_menu in 94S routines/hockey
+$C54F05,50,code,PauseMenuInput,PauseMenuInput,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
+$C54F37,1,code,PauseMenuInput,PauseMenuReturn,,code,engine/hockey,,
+$C54F38,64,code,RunPauseItem,RunPauseItem,0,code,engine/hockey,callers,1 of 1 placed refs in hockey
+$C54F78,9,code,PauseItemUp,PauseItemUp,0,code,engine/hockey,callers,1 of 1 placed refs in hockey
+$C54F81,5,code,PauseItemUp,RedrawPauseTab,,code,engine/hockey,,
+$C54F86,14,code,PauseItemDown,PauseItemDown,0,code,engine/hockey,callers,1 of 1 placed refs in hockey
 $C54F94,21,code,SetPauseTab,SetPauseTab,4,code,engine/pause,callers,2 of 3 placed callers in engine/pause
 $C54FA9,89,code,SetPauseTab,DrawPauseTab,,code,engine/pause,,
 $C55002,8,data,PauseTabLists,PauseTabLists,0,code,data,data,
@@ -2713,12 +2713,12 @@ $C5547C,78,code,PauseScoresClock,PauseScoresClock,1,code,engine/pause,callers,1 
 $C554CA,19,code,PutPauseScore,PutPauseScore,1,code,engine/middle,95G,PutClockDigit in 95G engine/middle
 $C554DD,54,code,PutPauseScore,PutClockDigit,,genesis+purpose,engine/middle,,
 $C55513,907,code,RestoreGameScreen,RestoreGameScreen,2,genesis+purpose,engine/pause,95G,RestoreGameScreen in 95G engine/pause
-$C5589E,46,code,QueueSavedTextMap,QueueSavedTextMap,2,code,hockey,plurality,1 of 2 placed callers in hockey
-$C558CC,11,code,FreePauseBuffers,FreePauseBuffers,4,code,hockey,callers,2 of 3 placed callers in hockey
-$C558D7,122,code,FreePauseBuffers,RestorePauseBuffers,,code,hockey,,
+$C5589E,46,code,QueueSavedTextMap,QueueSavedTextMap,2,code,engine/hockey,plurality,1 of 2 placed callers in hockey
+$C558CC,11,code,FreePauseBuffers,FreePauseBuffers,4,code,engine/hockey,callers,2 of 3 placed callers in hockey
+$C558D7,122,code,FreePauseBuffers,RestorePauseBuffers,,code,engine/hockey,,
 $C55951,184,code,SetupScreen,SetupScreen,9,94S+purpose,front/records,95G,SetupScreen in 95G front/records
 $C55A09,55,code,ExitToPauseMenu,ExitToPauseMenu,10,code,front/records,plurality,4 of 9 placed callers in front/stats; kept in front/records (plurality changed)
-$C55A40,120,code,SetupStatsPage,SetupStatsPage,4,code,hockey,plurality,2 of 4 placed callers in front/stats; kept in hockey (plurality changed)
+$C55A40,120,code,SetupStatsPage,SetupStatsPage,4,code,engine/hockey,plurality,2 of 4 placed callers in front/stats; kept in hockey (plurality changed)
 $C55AB8,4,code,StartScrollListLong,StartScrollListLong,1,code,front/scout,callers,1 of 1 placed callers in front/scout
 $C55ABC,268,code,StartScrollList,StartScrollList,13,code,front/stats,callers,5 of 9 placed callers in front/stats
 $C55BC8,9,code,StartScrollList,StartScrollRowNext,,code,front/stats,,
@@ -2744,7 +2744,7 @@ $C55D8A,34,code,DrawTeamStatNumber,DrawTeamStatNumber,0,code,front/stats,callers
 $C55DAC,67,code,DrawTeamStatPair,DrawTeamStatPair,0,code,front/stats,callers,1 of 1 placed refs in front/stats
 $C55DEF,78,code,DrawTeamStatPercent,DrawTeamStatPercent,0,code,front/stats,callers,1 of 1 placed refs in front/stats
 $C55E3D,26,code,DrawTeamStatTime,DrawTeamStatTime,0,code,front/stats,callers,1 of 1 placed refs in front/stats
-$C55E57,108,code,TeamLogoSprite,TeamLogoSprite,4,code,hockey,plurality,2 of 4 placed callers in front/stats; kept in hockey (plurality changed)
+$C55E57,108,code,TeamLogoSprite,TeamLogoSprite,4,code,engine/hockey,plurality,2 of 4 placed callers in front/stats; kept in hockey (plurality changed)
 $C55EC3,4,code,BCDTextLong,BCDTextLong,2,code,front/season,plurality,1 of 2 placed callers in front/season
 $C55EC7,3,code,BCDText,BCDText,41,code,engine/lines,plurality,2 of 6 placed callers in engine/setup; kept in engine/lines (plurality changed)
 $C55ECA,85,code,BCDText,BCDTextAt,,code,engine/lines,,
@@ -2807,10 +2807,10 @@ $C56989,10,data,StatColumnNames,StatColumnNames,0,code,data,data,
 $C56993,216,code,PenaltySummaryScreen,PenaltySummaryScreen,0,94S+purpose+align,front/summary,95G,PenaltySummaryScreen in 95G front/summary
 $C56A6B,12,code,PrintPenaltyHead,PrintPenaltyHead,1,code,front/summary,callers,1 of 1 placed callers in front/summary
 $C56A77,260,code,DrawPenaltyRow,DrawPenaltyRow,0,code,front/summary,callers,1 of 1 placed refs in front/summary
-$C56B7B,5,code,ResumeFromQuit,ResumeFromQuit,0,code,hockey,callers,1 of 1 placed refs in hockey
-$C56B80,3,code,ShowQuitPrompt,ShowQuitPrompt,0,code,hockey,callers,3 of 4 placed refs in hockey
-$C56B83,9,code,ShowQuitPrompt,ShowPauseTab,,code,hockey,,
-$C56B8C,4,code,QuitGameJump,QuitGameJump,0,code,hockey,callers,1 of 1 placed refs in hockey
+$C56B7B,5,code,ResumeFromQuit,ResumeFromQuit,0,code,engine/hockey,callers,1 of 1 placed refs in hockey
+$C56B80,3,code,ShowQuitPrompt,ShowQuitPrompt,0,code,engine/hockey,callers,3 of 4 placed refs in hockey
+$C56B83,9,code,ShowQuitPrompt,ShowPauseTab,,code,engine/hockey,,
+$C56B8C,4,code,QuitGameJump,QuitGameJump,0,code,engine/hockey,callers,1 of 1 placed refs in hockey
 $C56B90,188,code,TimeoutMenu,TimeoutMenu,0,94S+purpose+align,engine/pause,95G,TimeoutMenu in 95G engine/pause
 $C56C4C,30,code,PutPauseText,PutPauseText,1,code,engine/pause,callers,1 of 1 placed callers in engine/pause
 $C56C6A,205,code,ScoringSummaryScreen,ScoringSummaryScreen,0,94S+purpose+align,front/summary,95G,ScoringSummaryScreen in 95G front/summary
@@ -2833,7 +2833,7 @@ $C571B4,19,code,AttribRating,AttribRating,0,code+align,engine/setup,95G,AttribRa
 $C571C7,4,code,CalcRosterAttribLong,CalcRosterAttribLong,2,code,front/scout,callers,2 of 2 placed callers in front/scout
 $C571CB,318,code,CalcRosterAttrib,CalcRosterAttrib,4,code,engine/setup,callers,2 of 3 placed callers in engine/setup
 $C57309,32,data,RosterAttribWeights,RosterAttribWeights,0,code,data,data,
-$C57329,56,code,PauseReplay,PauseReplay,0,94S+purpose,hockey,94S,PauseReplay in 94S routines/hockey
+$C57329,56,code,PauseReplay,PauseReplay,0,94S+purpose,engine/hockey,94S,PauseReplay in 94S routines/hockey
 $C57361,323,code,LineEditor,LineEditor,0,94S+purpose+align,front/stats,95G,LineEditor in 95G front/stats
 $C574A4,101,code,PrintLineNames,PrintLineNames,1,94S+purpose,front/stats,94S,PrintLineNames in 94S routines/stats
 $C57509,83,code,PrintLineSlot,PrintLineSlot,1,code,front/stats,callers,1 of 1 placed callers in front/stats
@@ -2891,7 +2891,7 @@ $C583C0,51,code,UnpackFormat8,UnpackFormat8,0,code,decompress,callers,1 of 1 pla
 $C583F3,101,code,UnpackFormat8Step,UnpackFormat8Step,1,code,decompress,callers,1 of 1 placed refs in decompress
 $C58458,15,code,DecompressLZSS,DecompressLZSS,4,code,engine/pause,callers,1 of 1 placed callers in engine/pause
 $C58467,192,code,DecompressLZSS,DecompressLZSSHere,,code,engine/pause,,
-$C58527,4,code,MapSetToVRAM,MapSetToVRAM,5,code,hockey,plurality,2 of 5 placed callers in hockey
+$C58527,4,code,MapSetToVRAM,MapSetToVRAM,5,code,engine/hockey,plurality,2 of 5 placed callers in hockey
 $C5852B,395,code,MapSetToVRAMBody,MapSetToVRAMBody,3,code,engine/setup,plurality,1 of 3 placed callers in front/records; kept in engine/setup (plurality changed)
 $C586B6,20,code,NextMapSetChunk,NextMapSetChunk,2,code,front/records,callers,1 of 1 placed callers in front/records
 $C586CA,328,code,MapSetMode7ToVRAM,MapSetMode7ToVRAM,1,code,front/records,callers,1 of 1 placed callers in front/records
@@ -2918,7 +2918,7 @@ $C58B2B,3,code,BlackBackdrop,BlackBackdrop,3,code,engine/video,family,fades fami
 $C58B2E,26,code,BlackBackdrop,SetBackdropColour,,code,engine/video,,
 $C58B48,113,code,SetupMode7Screen,SetupMode7Screen,1,code,engine/setup,callers,1 of 1 placed callers in engine/setup
 $C58BB9,43,code,CopyFlipString2,CopyFlipString2,1,code,front/summary,callers,1 of 1 placed refs in front/summary
-$C58BE4,82,code,SetupMode1Screen,SetupMode1Screen,1,code,hockey,callers,1 of 1 placed callers in hockey
+$C58BE4,82,code,SetupMode1Screen,SetupMode1Screen,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $C58C36,151,code,Framer,Framer,10,94S+purpose,engine/video,95G,Framer in 95G engine/video
 $C58CCD,56,code,RandomBelowA,RandomBelowA,6,code,sound,plurality,1 of 2 placed callers in sound
 $C58D05,45,code,SeedRandom,SeedRandom,1,code,engine/setup,callers,1 of 1 placed callers in engine/setup
@@ -3309,67 +3309,67 @@ $C5E4D2,60,code,UpdateDayPlayed,UpdateDayPlayed,1,code,engine/goal,callers,1 of 
 $C5E50E,14,code,ResetSprites,ResetSprites,14,code,engine/setup,plurality,3 of 13 placed callers in front/season; kept in engine/setup (plurality changed)
 $C5E51C,122,code,ResetSpritesAt,ResetSpritesAt,1,code,front/season,callers,1 of 1 placed callers in front/season
 $C5E596,148,code,DeleteSprite,DeleteSprite,26,code,front/create,plurality,5 of 22 placed callers in front/create
-$C5E62A,6,code,RemoveSpriteSlot0,RemoveSpriteSlot0,0,code,display,family,sprites family
-$C5E630,6,code,RemoveSpriteSlot0,RemoveSpriteSlot1,,code,display,,
-$C5E636,6,code,RemoveSpriteSlot0,RemoveSpriteSlot2,,code,display,,
-$C5E63C,6,code,RemoveSpriteSlot0,RemoveSpriteSlot3,,code,display,,
-$C5E642,6,code,RemoveSpriteSlot0,RemoveSpriteSlot4,,code,display,,
-$C5E648,6,code,RemoveSpriteSlot0,RemoveSpriteSlot5,,code,display,,
-$C5E64E,6,code,RemoveSpriteSlot0,RemoveSpriteSlot6,,code,display,,
-$C5E654,1,code,RemoveSpriteSlot0,RemoveSpriteSlot7,,code,display,,
+$C5E62A,6,code,RemoveSpriteSlot0,RemoveSpriteSlot0,0,code,engine/display,family,sprites family
+$C5E630,6,code,RemoveSpriteSlot0,RemoveSpriteSlot1,,code,engine/display,,
+$C5E636,6,code,RemoveSpriteSlot0,RemoveSpriteSlot2,,code,engine/display,,
+$C5E63C,6,code,RemoveSpriteSlot0,RemoveSpriteSlot3,,code,engine/display,,
+$C5E642,6,code,RemoveSpriteSlot0,RemoveSpriteSlot4,,code,engine/display,,
+$C5E648,6,code,RemoveSpriteSlot0,RemoveSpriteSlot5,,code,engine/display,,
+$C5E64E,6,code,RemoveSpriteSlot0,RemoveSpriteSlot6,,code,engine/display,,
+$C5E654,1,code,RemoveSpriteSlot0,RemoveSpriteSlot7,,code,engine/display,,
 $C5E655,16,data,RemoveSpriteSlotTable,RemoveSpriteSlotTable,0,code,data,data,
 $C5E665,492,code,CreateSprite,CreateSprite,24,trace,engine/setup,plurality,4 of 22 placed callers in front/stats; kept in engine/setup (plurality changed)
 $C5E851,30,code,AllocSpriteTiles,AllocSpriteTiles,2,code,front/stats,callers,1 of 1 placed callers in front/stats
 $C5E86F,54,code,AllocLargeSpriteTiles,AllocLargeSpriteTiles,2,code,front/stats,callers,1 of 1 placed callers in front/stats
-$C5E8A5,290,code,UploadSpriteFrame,UploadSpriteFrame,2,trace,display,plurality,1 of 2 placed callers in hockey; kept in display (plurality changed)
-$C5E9C7,14,code,AnimateSprites,AnimateSprites,37,trace,display,plurality,8 of 37 placed callers in display
-$C5E9D5,21,code,AnimateSprites,AnimateSpriteObject,,code,display,,
-$C5E9EA,5,code,AnimateSprites,AnimateNextSprite,,code,display,,
-$C5E9EF,7,code,BeginSpriteAnimStep,BeginSpriteAnimStep,20,code,display,family,sprites family
-$C5E9F6,51,code,BeginSpriteAnimStep,ReadSpriteAnim,,code,display,,
-$C5EA29,104,code,BeginSpriteAnimStep,UploadSpriteAnimFrame,,code,display,,
-$C5EA91,17,code,CopySpriteFrameUnused,CopySpriteFrameUnused,0,code,display,family,sprites family
-$C5EAA2,13,code,ClearSpriteFrameUnused,ClearSpriteFrameUnused,0,code,display,family,sprites family
-$C5EAAF,11,code,DispatchSpriteAnim,DispatchSpriteAnim,1,code,display,family,sprites family
+$C5E8A5,290,code,UploadSpriteFrame,UploadSpriteFrame,2,trace,engine/display,plurality,1 of 2 placed callers in hockey; kept in display (plurality changed)
+$C5E9C7,14,code,AnimateSprites,AnimateSprites,37,trace,engine/display,plurality,8 of 37 placed callers in display
+$C5E9D5,21,code,AnimateSprites,AnimateSpriteObject,,code,engine/display,,
+$C5E9EA,5,code,AnimateSprites,AnimateNextSprite,,code,engine/display,,
+$C5E9EF,7,code,BeginSpriteAnimStep,BeginSpriteAnimStep,20,code,engine/display,family,sprites family
+$C5E9F6,51,code,BeginSpriteAnimStep,ReadSpriteAnim,,code,engine/display,,
+$C5EA29,104,code,BeginSpriteAnimStep,UploadSpriteAnimFrame,,code,engine/display,,
+$C5EA91,17,code,CopySpriteFrameUnused,CopySpriteFrameUnused,0,code,engine/display,family,sprites family
+$C5EAA2,13,code,ClearSpriteFrameUnused,ClearSpriteFrameUnused,0,code,engine/display,family,sprites family
+$C5EAAF,11,code,DispatchSpriteAnim,DispatchSpriteAnim,1,code,engine/display,family,sprites family
 $C5EABA,60,data,SpriteAnimCommands,SpriteAnimCommands,0,code,data,data,
-$C5EAF6,9,code,SpriteAnimHold,SpriteAnimHold,3,code,display,family,sprites family
-$C5EAFF,7,code,SpriteAnimRestart,SpriteAnimRestart,0,code,display,family,sprites family
-$C5EB06,15,code,SpriteAnimJumpRelative,SpriteAnimJumpRelative,0,code,display,family,sprites family
-$C5EB15,30,code,SpriteAnimSelectScript,SpriteAnimSelectScript,0,code,display,family,sprites family
-$C5EB33,3,code,SpriteAnimHold84,SpriteAnimHold84,0,code,display,family,sprites family
-$C5EB36,14,code,SpriteAnimSetReload,SpriteAnimSetReload,0,code,display,family,sprites family
-$C5EB44,14,code,SpriteAnimSetSpeed,SpriteAnimSetSpeed,0,code,display,family,sprites family
-$C5EB52,45,code,SpriteAnimSetFrames,SpriteAnimSetFrames,0,code,display,family,sprites family
-$C5EB7F,9,code,SpriteAnimSetFrames,UploadSpriteAnimFrames,,code,display,,
-$C5EB88,38,code,CopySpriteFramesUnused,CopySpriteFramesUnused,0,code,display,family,sprites family
-$C5EBAE,10,code,SpriteAnimDelete,SpriteAnimDelete,0,code,display,family,sprites family
-$C5EBB8,30,code,SpriteAnimIncWordUnused,SpriteAnimIncWordUnused,0,code,display,family,sprites family
-$C5EBD6,12,code,SpriteAnimSkipByteAlt,SpriteAnimSkipByteAlt,0,code,display,family,sprites family
-$C5EBE2,16,code,SpriteAnimSkipByte,SpriteAnimSkipByte,0,code,display,family,sprites family
-$C5EBF2,11,code,SpriteAnimToggleHFlip,SpriteAnimToggleHFlip,0,code,display,family,sprites family
-$C5EBFD,11,code,SpriteAnimToggleVFlip,SpriteAnimToggleVFlip,0,code,display,family,sprites family
-$C5EC08,11,code,SpriteAnimToggleFlips,SpriteAnimToggleFlips,0,code,display,family,sprites family
-$C5EC13,7,code,SpriteAnimYield,SpriteAnimYield,0,code,display,family,sprites family
-$C5EC1A,23,code,SpriteAnimCallUnused,SpriteAnimCallUnused,0,code,display,family,sprites family
-$C5EC31,3,code,SpriteAnimHold8F,SpriteAnimHold8F,0,code,display,family,sprites family
-$C5EC34,30,code,SpriteAnimRestoreScript,SpriteAnimRestoreScript,0,code,display,family,sprites family
-$C5EC52,11,code,SpriteAnimSetHFlip,SpriteAnimSetHFlip,0,code,display,family,sprites family
-$C5EC5D,11,code,SpriteAnimClearHFlip,SpriteAnimClearHFlip,0,code,display,family,sprites family
-$C5EC68,11,code,SpriteAnimSetVFlip,SpriteAnimSetVFlip,0,code,display,family,sprites family
-$C5EC73,11,code,SpriteAnimClearVFlip,SpriteAnimClearVFlip,0,code,display,family,sprites family
-$C5EC7E,11,code,SpriteAnimClearFlag4000,SpriteAnimClearFlag4000,0,code,display,family,sprites family
-$C5EC89,28,code,SpriteAnimBranchIfFlagClear,SpriteAnimBranchIfFlagClear,0,code,display,family,sprites family
-$C5ECA5,24,code,StartSpriteAnimUnused,StartSpriteAnimUnused,0,code,display,family,sprites family
-$C5ECBD,52,code,SetSpriteAnim,SetSpriteAnim,14,code,display,family,sprites family
-$C5ECF1,331,code,UploadSpriteFrames,UploadSpriteFrames,1,code,display,family,sprites family
-$C5EE3C,48,code,FreeSpritePaletteUnused,FreeSpritePaletteUnused,0,code,display,family,sprites family
-$C5EE6C,47,code,UseSpritePalette,UseSpritePalette,4,code,display,family,sprites family
-$C5EE9B,75,code,UseSpritePalette,QueueSpritePalette,,code,display,,
-$C5EEE6,13,code,ReuseSpritePalette,ReuseSpritePalette,0,code,display,family,sprites family
+$C5EAF6,9,code,SpriteAnimHold,SpriteAnimHold,3,code,engine/display,family,sprites family
+$C5EAFF,7,code,SpriteAnimRestart,SpriteAnimRestart,0,code,engine/display,family,sprites family
+$C5EB06,15,code,SpriteAnimJumpRelative,SpriteAnimJumpRelative,0,code,engine/display,family,sprites family
+$C5EB15,30,code,SpriteAnimSelectScript,SpriteAnimSelectScript,0,code,engine/display,family,sprites family
+$C5EB33,3,code,SpriteAnimHold84,SpriteAnimHold84,0,code,engine/display,family,sprites family
+$C5EB36,14,code,SpriteAnimSetReload,SpriteAnimSetReload,0,code,engine/display,family,sprites family
+$C5EB44,14,code,SpriteAnimSetSpeed,SpriteAnimSetSpeed,0,code,engine/display,family,sprites family
+$C5EB52,45,code,SpriteAnimSetFrames,SpriteAnimSetFrames,0,code,engine/display,family,sprites family
+$C5EB7F,9,code,SpriteAnimSetFrames,UploadSpriteAnimFrames,,code,engine/display,,
+$C5EB88,38,code,CopySpriteFramesUnused,CopySpriteFramesUnused,0,code,engine/display,family,sprites family
+$C5EBAE,10,code,SpriteAnimDelete,SpriteAnimDelete,0,code,engine/display,family,sprites family
+$C5EBB8,30,code,SpriteAnimIncWordUnused,SpriteAnimIncWordUnused,0,code,engine/display,family,sprites family
+$C5EBD6,12,code,SpriteAnimSkipByteAlt,SpriteAnimSkipByteAlt,0,code,engine/display,family,sprites family
+$C5EBE2,16,code,SpriteAnimSkipByte,SpriteAnimSkipByte,0,code,engine/display,family,sprites family
+$C5EBF2,11,code,SpriteAnimToggleHFlip,SpriteAnimToggleHFlip,0,code,engine/display,family,sprites family
+$C5EBFD,11,code,SpriteAnimToggleVFlip,SpriteAnimToggleVFlip,0,code,engine/display,family,sprites family
+$C5EC08,11,code,SpriteAnimToggleFlips,SpriteAnimToggleFlips,0,code,engine/display,family,sprites family
+$C5EC13,7,code,SpriteAnimYield,SpriteAnimYield,0,code,engine/display,family,sprites family
+$C5EC1A,23,code,SpriteAnimCallUnused,SpriteAnimCallUnused,0,code,engine/display,family,sprites family
+$C5EC31,3,code,SpriteAnimHold8F,SpriteAnimHold8F,0,code,engine/display,family,sprites family
+$C5EC34,30,code,SpriteAnimRestoreScript,SpriteAnimRestoreScript,0,code,engine/display,family,sprites family
+$C5EC52,11,code,SpriteAnimSetHFlip,SpriteAnimSetHFlip,0,code,engine/display,family,sprites family
+$C5EC5D,11,code,SpriteAnimClearHFlip,SpriteAnimClearHFlip,0,code,engine/display,family,sprites family
+$C5EC68,11,code,SpriteAnimSetVFlip,SpriteAnimSetVFlip,0,code,engine/display,family,sprites family
+$C5EC73,11,code,SpriteAnimClearVFlip,SpriteAnimClearVFlip,0,code,engine/display,family,sprites family
+$C5EC7E,11,code,SpriteAnimClearFlag4000,SpriteAnimClearFlag4000,0,code,engine/display,family,sprites family
+$C5EC89,28,code,SpriteAnimBranchIfFlagClear,SpriteAnimBranchIfFlagClear,0,code,engine/display,family,sprites family
+$C5ECA5,24,code,StartSpriteAnimUnused,StartSpriteAnimUnused,0,code,engine/display,family,sprites family
+$C5ECBD,52,code,SetSpriteAnim,SetSpriteAnim,14,code,engine/display,family,sprites family
+$C5ECF1,331,code,UploadSpriteFrames,UploadSpriteFrames,1,code,engine/display,family,sprites family
+$C5EE3C,48,code,FreeSpritePaletteUnused,FreeSpritePaletteUnused,0,code,engine/display,family,sprites family
+$C5EE6C,47,code,UseSpritePalette,UseSpritePalette,4,code,engine/display,family,sprites family
+$C5EE9B,75,code,UseSpritePalette,QueueSpritePalette,,code,engine/display,,
+$C5EEE6,13,code,ReuseSpritePalette,ReuseSpritePalette,0,code,engine/display,family,sprites family
 $C5EEF3,382,code,CreateSpriteSharePal,CreateSpriteSharePal,3,trace,engine/goal,plurality,1 of 3 placed callers in engine/faceoff; kept in engine/goal (plurality changed)
-$C5F071,38,code,UnpackStream0,UnpackStream0,2,trace,display,plurality,1 of 2 placed callers in hockey; kept in display (plurality changed)
-$C5F097,2,code,UnpackStream0Next,UnpackStream0Next,1,code,hockey,callers,1 of 1 placed callers in hockey
-$C5F099,56,code,UnpackStream0Next,UnpackStream0Loop,,code,hockey,,
+$C5F071,38,code,UnpackStream0,UnpackStream0,2,trace,engine/display,plurality,1 of 2 placed callers in hockey; kept in display (plurality changed)
+$C5F097,2,code,UnpackStream0Next,UnpackStream0Next,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
+$C5F099,56,code,UnpackStream0Next,UnpackStream0Loop,,code,engine/hockey,,
 $C5F0D1,663,code,BuildSpriteOAM,BuildSpriteOAM,32,trace,front/create,plurality,6 of 31 placed callers in front/stats; kept in front/create (plurality changed)
 $C5F368,115,code,QueueFrameTiles,QueueFrameTiles,5,code,engine/pause,plurality,1 of 5 placed callers in engine/replay; kept in engine/pause (plurality changed)
 $C5F3DB,3109,code,PackOAMHigh,PackOAMHigh,33,code,front/create,plurality,6 of 32 placed callers in front/stats; kept in front/create (plurality changed)
@@ -4215,8 +4215,8 @@ $CEF3C2,39,data,PresidentsPicPalette,PresidentsPicPalette,0,render+genesis+code,
 $CEF3E9,222,data,StanleyCupMap,StanleyCupMap,0,render+94S+code,data,data,
 $CEF4C7,2441,data,StanleyCupTiles,StanleyCupTiles,0,render+94S+code,data,data,
 $CEFE50,432,data,StanleyCupPalette,StanleyCupPalette,0,render+94S+code,data,data,
-$CF0000,26,code,InitSoundSystem,InitSoundSystem,1,code,hockey,callers,1 of 1 placed callers in hockey
-$CF001A,49,code,UploadSoundDriver,UploadSoundDriver,1,code,hockey,callers,1 of 1 placed callers in hockey
+$CF0000,26,code,InitSoundSystem,InitSoundSystem,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
+$CF001A,49,code,UploadSoundDriver,UploadSoundDriver,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $CF004B,30,code,SPCUpload,SPCUpload,1,94S+code,sound,94S,SPCUpload in 94S routines/sound
 $CF0069,34,code,SPCUploadBlockBytes,SPCUploadBlockBytes,0,code,sound,callers,1 of 1 placed refs in sound
 $CF008B,13,code,SPCUploadBlockBytes,SPCUploadNextBlock,,code,sound,,
@@ -4231,11 +4231,11 @@ $CF0101,51,code,SendQueuedSoundCmd,SendSoundCmdAtTail,,code,engine/video,,
 $CF0134,46,code,LoadSounds,LoadSounds,7,code,sound,span,between SPCUpload and PlayTeamSong (sound); callers said hockey
 $CF0162,38,code,LoadSounds,AppendSounds,,code,sound,,
 $CF0188,88,code,LoadSounds,UploadSoundTables,,code,sound,,
-$CF01E0,89,code,LoadSample,LoadSample,2,code,hockey,callers,1 of 1 placed callers in hockey
-$CF0239,82,code,LoadSample,LoadSampleEnvelopeAndData,,code,hockey,,
-$CF028B,26,code,LoadSample,AppendSoundData,,code,hockey,,
-$CF02A5,110,code,LoadSample,UploadSoundData,,code,hockey,,
-$CF0313,123,code,LoadSequence,LoadSequence,1,code,hockey,callers,1 of 1 placed callers in hockey
+$CF01E0,89,code,LoadSample,LoadSample,2,code,engine/hockey,callers,1 of 1 placed callers in hockey
+$CF0239,82,code,LoadSample,LoadSampleEnvelopeAndData,,code,engine/hockey,,
+$CF028B,26,code,LoadSample,AppendSoundData,,code,engine/hockey,,
+$CF02A5,110,code,LoadSample,UploadSoundData,,code,engine/hockey,,
+$CF0313,123,code,LoadSequence,LoadSequence,1,code,engine/hockey,callers,1 of 1 placed callers in hockey
 $CF038E,16,code,StartCrowdSound,StartCrowdSound,2,code,sound,span,between SPCUpload and PlayTeamSong (sound); callers said engine/faceoff
 $CF039E,50,code,SoundVolumeDown,SoundVolumeDown,6,code,sound,span,between SPCUpload and PlayTeamSong (sound); callers said engine/goal
 $CF03D0,50,code,SoundVolumeUp,SoundVolumeUp,7,code,sound,span,between SPCUpload and PlayTeamSong (sound); callers said hockey
@@ -4302,28 +4302,28 @@ $CFAAAD,6069,data,Sample31,Sample31,0,new,data,data,
 $CFC262,767,data,Sequence34,Sequence34,0,code,data,data,
 $CFC561,3387,data,Sample23,Sample23,0,new,data,data,
 $CFD29C,7041,data,Sample06,Sample06,0,new,data,data,
-$CFEE1D,4,code,NextSortedGameObjectJump,NextSortedGameObjectJump,0,code,display,callers,1 of 1 placed refs in display
+$CFEE1D,4,code,NextSortedGameObjectJump,NextSortedGameObjectJump,0,code,engine/display,callers,1 of 1 placed refs in display
 $CFEE21,4,code,PadTagFrameDoneJump,PadTagFrameDoneJump,0,code,engine/replay,callers,1 of 1 placed refs in engine/replay
-$CFEE25,71,code,DrawFrameLayoutFlip,DrawFrameLayoutFlip,1,code,display,callers,1 of 1 placed callers in display
-$CFEE6C,66,code,DrawFrameLayout,DrawFrameLayout,2,code,display,plurality,1 of 2 placed callers in engine/replay; kept in display (plurality changed)
+$CFEE25,71,code,DrawFrameLayoutFlip,DrawFrameLayoutFlip,1,code,engine/display,callers,1 of 1 placed callers in display
+$CFEE6C,66,code,DrawFrameLayout,DrawFrameLayout,2,code,engine/display,plurality,1 of 2 placed callers in engine/replay; kept in display (plurality changed)
 $CFEEAE,10,data,LayoutBigPieces,LayoutBigPieces,0,code,data,data,
-$CFEEB8,23,code,BigPieces1,BigPieces1,0,code,display,callers,1 of 1 placed refs in display
-$CFEECF,47,code,BigPieces2,BigPieces2,0,code,display,callers,1 of 1 placed refs in display
-$CFEEFE,67,code,BigPieces3,BigPieces3,0,code,display,callers,1 of 1 placed refs in display
-$CFEF41,144,code,BigPieces4,BigPieces4,3,code,display,callers,4 of 4 placed refs in display
-$CFEFD1,62,code,BigPieces4,PutBigPiece3,,code,display,,
-$CFF00F,62,code,BigPieces4,PutBigPiece2,,code,display,,
-$CFF04D,57,code,BigPieces4,PutBigPiece1,,code,display,,
-$CFF086,36,code,BigPieces4,LayoutSmallNext,,code,display,,
+$CFEEB8,23,code,BigPieces1,BigPieces1,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFEECF,47,code,BigPieces2,BigPieces2,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFEEFE,67,code,BigPieces3,BigPieces3,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFEF41,144,code,BigPieces4,BigPieces4,3,code,engine/display,callers,4 of 4 placed refs in display
+$CFEFD1,62,code,BigPieces4,PutBigPiece3,,code,engine/display,,
+$CFF00F,62,code,BigPieces4,PutBigPiece2,,code,engine/display,,
+$CFF04D,57,code,BigPieces4,PutBigPiece1,,code,engine/display,,
+$CFF086,36,code,BigPieces4,LayoutSmallNext,,code,engine/display,,
 $CFF0AA,10,data,LayoutSmallPieces,LayoutSmallPieces,0,code,data,data,
-$CFF0B4,23,code,SmallPieces1,SmallPieces1,0,code,display,callers,1 of 1 placed refs in display
-$CFF0CB,43,code,SmallPieces2,SmallPieces2,0,code,display,callers,1 of 1 placed refs in display
-$CFF0F6,65,code,SmallPieces3,SmallPieces3,0,code,display,callers,1 of 1 placed refs in display
-$CFF137,143,code,SmallPieces4,SmallPieces4,3,code,display,callers,4 of 4 placed refs in display
-$CFF1C6,61,code,SmallPieces4,PutSmallPiece3,,code,display,,
-$CFF203,61,code,SmallPieces4,PutSmallPiece2,,code,display,,
-$CFF240,57,code,SmallPieces4,PutSmallPiece1,,code,display,,
-$CFF279,3,code,SmallPieces4,LayoutDone,,code,display,,
+$CFF0B4,23,code,SmallPieces1,SmallPieces1,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFF0CB,43,code,SmallPieces2,SmallPieces2,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFF0F6,65,code,SmallPieces3,SmallPieces3,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFF137,143,code,SmallPieces4,SmallPieces4,3,code,engine/display,callers,4 of 4 placed refs in display
+$CFF1C6,61,code,SmallPieces4,PutSmallPiece3,,code,engine/display,,
+$CFF203,61,code,SmallPieces4,PutSmallPiece2,,code,engine/display,,
+$CFF240,57,code,SmallPieces4,PutSmallPiece1,,code,engine/display,,
+$CFF279,3,code,SmallPieces4,LayoutDone,,code,engine/display,,
 $CFF27C,294,data,LayoutSizes,LayoutSizes,0,code,data,data,
 $CFF3A2,292,data,LayoutPointers,LayoutPointers,0,code,data,data,
 $CFF4C6,18,data,Layout000,Layout000,0,code,data,data,
@@ -4467,5 +4467,5 @@ $CFFD6A,18,data,Layout138,Layout138,0,code,data,data,
 $CFFD7C,18,data,Layout139,Layout139,0,code,data,data,
 $CFFD8E,8,data,Layout140,Layout140,0,code,data,data,
 $CFFD96,8,data,Layout141,Layout141,0,code,data,data,
-$CFFD9E,490,code,GoalFrameLayout,GoalFrameLayout,0,code,display,callers,1 of 1 placed refs in display
-$CFFF88,,code,PuckFrameLayout,PuckFrameLayout,0,code,display,callers,1 of 1 placed refs in display
+$CFFD9E,490,code,GoalFrameLayout,GoalFrameLayout,0,code,engine/display,callers,1 of 1 placed refs in display
+$CFFF88,,code,PuckFrameLayout,PuckFrameLayout,0,code,engine/display,callers,1 of 1 placed refs in display
