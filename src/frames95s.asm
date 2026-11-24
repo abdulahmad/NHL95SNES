@@ -26,11 +26,11 @@ SPFpuck				=	$1B3		; 11 frames: +0 the puck shadow, +1 to +10 the flipping puck 
 									; drawn by layout code)
 SPFgoal				=	$1BE		; 2 frames: the two nets (setupice, RestoreGameScreen)
 SPFswing			=	$1C0		; 48 frames: shot and pass swings, 6 a direction (SPAshotf, SPApassf,
-									; SPAonetimerf, SPAshotb)
+									; SPAonetimef, SPAshotb)
 SPFskateb			=	$1F0		; 48 frames: skating backwards, 6 a direction (SPAskateback, SPAglideback)
 SPFstumble			=	$220		; 32 frames: stumbling, 4 a direction (SPAstumble)
 SPFswingb			=	$240		; 24 frames: the backhand pass and shot, 3 a direction (SPApassb,
-									; SPAshotb, SPAonetimerb)
+									; SPAshotb, SPAonetimeb)
 SPFflip				=	$258		; 6 frames: flipping over (SPAflip)
 SPFGoalie			=	$25E		; 40 frames: the goalie, 5 runs of 8 (one a direction): +0 SPAgready2, +8
 									; SPAgglovel, +16 SPAgglover, +24 SPAgstickl, +32 SPAgstickr

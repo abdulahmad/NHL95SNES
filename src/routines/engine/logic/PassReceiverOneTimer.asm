@@ -1,8 +1,8 @@
 PassReceiverOneTimer:				; animate and time the pass receiver one-timer attempt
 	lda.w SPA,x
-	cmp.w #SPAonetimerf&$FFFF
+	cmp.w #SPAonetimef&$FFFF
 	beq .7
-	cmp.w #SPAonetimerb&$FFFF
+	cmp.w #SPAonetimeb&$FFFF
 	beq .7
 	phy
 	ldy.w #$0000
@@ -34,10 +34,10 @@ PassReceiverOneTimer:				; animate and time the pass receiver one-timer attempt
 	jsl.l vtoa
 	jsl.l Findhittype
 	beq .4
-	lda.w #SPAonetimerb&$FFFF
+	lda.w #SPAonetimeb&$FFFF
 	bra .5
-.4:									; A = SPAonetimerf
-	lda.w #SPAonetimerf&$FFFF
+.4:									; A = SPAonetimef
+	lda.w #SPAonetimef&$FFFF
 .5:									; call SetSPAFromA, go to PassReceiverReturn
 	jsl.l SetSPAFromA
 	jmp.w PassReceiverReturn

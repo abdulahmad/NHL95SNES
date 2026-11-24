@@ -1,4 +1,4 @@
-SPAonetimerf:						; per direction (facedir & 7, * 2): the one-timer forehand animation:
+SPAonetimef:						; per direction (facedir & 7, * 2): the one-timer forehand animation:
 									; (frame, time) pairs, the last time negative
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
