@@ -44,7 +44,7 @@ SPFgstack			=	$2CB		; 40 frames: the goalie: +0 stacking left, +12 stacking righ
 									; stick swing (SPAgstackl, SPAgstackr, SPAgswing)
 SPFcrosscheck		=	$32A		; 8 frames: cross check, one a direction (SPAcrosscheck)
 SPFcatch			=	$332		; 16 frames: catching a pass, 2 a direction (SPAcatch)
-SPFshoulder2		=	$342		; 4 frames: hip checks: +0 / +2 left (SPAhipchkl), +1 / +3 right
+SPFhip				=	$342		; 4 frames: hip checks: +0 / +2 left (SPAhipchkl), +1 / +3 right
 									; (SPAhipchkr)
 SPFcelebrate		=	$346		; 16 frames: celebrating a goal, 2 a direction (SPAcelebrate)
 SPFgskate			=	$356		; 32 frames: the goalie skating, 4 a direction (SPAgskate; SPAgpoke,
