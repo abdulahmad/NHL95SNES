@@ -9352,7 +9352,7 @@ $2BD,SPFSiren,,94S+purpose,frames $2BD-$2CA; used by SPAsiren; 94S SPFSiren is t
 $2CB,SPFgstack,,genesis+purpose,"frames $2CB-$2F2; used by SPAgstackl, SPAgstackr, SPAgswing; 95 Genesis has SPFgstack at 712 (+3 here)",src/frames95s.asm,
 $32A,SPFcrosscheck,,94S+purpose,frames $32A-$331; used by SPAcrosscheck; 94S SPFcrosscheck is the group of the same job (518 there),src/frames95s.asm,
 $332,SPFcatch,,94S+purpose,frames $332-$341; used by SPAcatch; 94S SPFcatch is the group of the same job (497 there); 95 Genesis has SPFcatch at 816 (+2 here),src/frames95s.asm,
-$342,SPFshoulder2,,genesis+purpose,"frames $342-$345; used by SPAhipchkl, SPAhipchkr; 95 Genesis has SPFshoulder2 at 832 (+2 here)",src/frames95s.asm,
+$342,SPFhip,,genesis+purpose,"frames $342-$345; used by SPAhipchkl, SPAhipchkr; 95 Genesis has SPFhip at 832 (+2 here); 94S splits them as SPFhipl, SPFhipr",src/frames95s.asm,SPFshoulder2
 $346,SPFcelebrate,,94S+purpose,frames $346-$355; used by SPAcelebrate; 94S SPFcelebrate is the group of the same job (185 there); 95 Genesis has SPFcelebrate at 836 (+2 here),src/frames95s.asm,
 $356,SPFgskate,,genesis+purpose,"frames $356-$375; used by SPAgbutterfly, SPAgpoke, SPAgskate, SPAgsprawlr; 95 Genesis has SPFgskate at 852 (+2 here)",src/frames95s.asm,
 $376,SPFgbutterfly,,94S+purpose,"frames $376-$377; used by SPAgbutterfly, SPAgcover; 94S SPFgbutterfly is the group of the same job (718 there)",src/frames95s.asm,
