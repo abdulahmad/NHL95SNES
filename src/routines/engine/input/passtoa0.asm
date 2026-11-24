@@ -33,11 +33,11 @@ passtoa0:							; from dopass and other segments
 	bra .3
 .2:									; A = facedir,y
 	lda.w facedir,y
-.3:									; A and $0007, A * 2, X = A, A = SPAonetimerf,x, ...
+.3:									; A and $0007, A * 2, X = A, A = SPAonetimef,x, ...
 	and.w #$0007
 	asl a
 	tax
-	lda.l SPAonetimerf,x
+	lda.l SPAonetimef,x
 	tax
 	lda.l $C40000,x
 	ldx.b a3

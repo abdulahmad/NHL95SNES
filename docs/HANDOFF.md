@@ -480,7 +480,7 @@
     sequence for every direction, forward going into the bench or penalty box, reversed coming out, and neither
     94S's nor 95 Genesis's left / right users match. The lists are dw rows as in 94S (.d0-.d7 direction labels, the
     flag, then SPFgroup+n / time pairs). The code's SPA immediates read #SPAname&$FFFF, range bounds stay numbers
-    as in 94S. FrictionFactors has 94S updateplayers' bytes but no 95
+    as in 94S. `SPAonetimef` / `SPAonetimeb` were renamed from 94S's `SPAonetimerf` / `SPAonetimerb` to match the 95PC retail HOCKEY.EXE debug string table (`onetimef` / `onetimeb` at file offsets 0x10930C / 0x109315; also listed in bcrt2000's 12 May 2025 post on the nhl94.com thread "New NHL95 PC tools for extracting in-game sprites, music, sounds…"). Routine and RAM names such as `PassReceiverOneTimer`, `onetimer`, and `onetimerreq` are unchanged. FrictionFactors has 94S updateplayers' bytes but no 95
     reader.
 - No CODE_ labels are left. Code that nothing reaches is named from what it does with an Unused suffix (94S's style,
   as GoalieUnused): SetTasksDoneUnused, SendTextMapPartUnused, TransferQueueStubUnused, FadeStep5Unused,

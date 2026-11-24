@@ -108,10 +108,10 @@ BreakawayFollowPath:				; follow the computer breakaway path and choose when to 
 	jsl.l vtoa
 	jsl.l Findhittype
 	beq .11
-	lda.w #SPAonetimerb&$FFFF
+	lda.w #SPAonetimeb&$FFFF
 	bra .12
-.11:								; A = SPAonetimerf
-	lda.w #SPAonetimerf&$FFFF
+.11:								; A = SPAonetimef
+	lda.w #SPAonetimef&$FFFF
 .12:								; call SetSPAFromA, call updateanim, SPAcnt,x = $0002, go to doshot
 	jsl.l SetSPAFromA
 	jsl.l updateanim

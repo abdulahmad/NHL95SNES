@@ -1,4 +1,4 @@
-SPAonetimerb:						; per direction (facedir & 7, * 2): the backhand one-timer
+SPAonetimeb:						; per direction (facedir & 7, * 2): the backhand one-timer
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:								; direction 0
